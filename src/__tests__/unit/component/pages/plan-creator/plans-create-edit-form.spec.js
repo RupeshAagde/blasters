@@ -8,7 +8,6 @@ import { plan_list_res } from './mocks'
 import { PageHeader } from '@/components/common/'
 import URLS from '@/services//domain.service';
 import flushPromises from "flush-promises";
-import { form_data,components ,daytrader_components,companies} from "./mocks";
 
 describe('Plans create form', () => {
 	let wrapper;
@@ -35,9 +34,6 @@ describe('Plans create form', () => {
                 }]
             }
         });
-        mock.onGet(URLS.FETCH_SUBSCRIPTION_COMPONENTS()).reply(200, components);
-        mock.onGet(URLS.FETCH_DAYTRADER_COMPONENT()).reply(200, daytrader_components);
-        mock.onGet(URLS.GET_COMPANY_LIST()).reply(200, companies);
 
 		wrapper = shallowMount(PlansForm, {
                 localVue,
@@ -82,18 +78,18 @@ describe('Plans create form', () => {
         expect(showErrorMethod).toHaveBeenCalled();
     });
 
-    // test('Edit plan successfully', async () => {
-    //     mock.onPut(URLS.FETCH_PLANS_LIST('test-plan')).reply(200, {"data": {"_id": "test-plan", "name": "teest2"}, "message": "success"});
-    //     wrapper.vm.$set(wrapper.vm.formData, 'name', 'test2');
-    //     let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');cc
-    //     let createBtn = wrapper.find('.createBtn');
-    //     createBtn.vm.$emit('click');
-    //     await wrapper.vm.$nextTick();
-    //     await flushPromises();
-    //     expect(showSuccessMethod).toHaveBeenCalled();
-    //     expect(router.currentRoute.fullPath).toBe('/administrator/subscription-plans/edit/test-plan');
-    //     expect(wrapper.vm.saveInProgress).toBe(false);
-    // });
+    test('Edit plan successfully', async () => {
+        mock.onPut(URLS.FETCH_PLANS_LIST('test-plan')).reply(200, {"data": {"_id": "test-plan", "name": "teest2"}, "message": "success"});
+        wrapper.vm.$set(wrapper.vm.formData, 'name', 'test2');
+        let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');
+        let createBtn = wrapper.find('.createBtn');
+        createBtn.vm.$emit('click');
+        await wrapper.vm.$nextTick();
+        await flushPromises();
+        expect(showSuccessMethod).toHaveBeenCalled();
+        expect(router.currentRoute.fullPath).toBe('/administrator/subscription-plans/edit/test-plan');
+        expect(wrapper.vm.saveInProgress).toBe(false);
+    });
 
     test('Clone plan', async () => {
         let showSuccessMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showSuccess');

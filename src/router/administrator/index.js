@@ -9,15 +9,6 @@ import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main
 import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
-import EventSubscription from './../../pages/communication/event_subscription.vue';
-import GlobalVariables from './../../pages/communication/global-variables.vue';
-import Provider from './../../pages/communication/provider/listing.vue';
-import ProviderDefault from './../../pages/communication/provider/set-default.vue';
-import ProviderMain from './../../pages/communication/provider/provider-main.vue';
-import SmsTemplateMain from './../../pages/communication/sms/sms-templates.vue';
-import SmsTemplateForm from './../../pages/communication/sms/sms-template-form.vue';
-import EmailTemplateForm from './../../pages/communication/email/email-template-form.vue';
-import EmailTemplateMain from './../../pages/communication/email/email-templates.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
 import Tickets from './../../pages/tickets/index.vue';
@@ -125,7 +116,7 @@ export default [
                 path: 'report-history',
                 component: ReportHistory,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['webhook']);
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
 
             },
@@ -134,7 +125,7 @@ export default [
                 path: 'report-history/:subscriberId',
                 component: ReportHistory,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['webhook']);
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
 
             },
@@ -151,7 +142,7 @@ export default [
                 path: 'webhook-report/:subscriberId',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['webhook']);
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             {
@@ -177,113 +168,37 @@ export default [
                 }
             },
             {
-                name: 'variables',
-                path: 'communication/global-variables',
-                component: GlobalVariables,
+                name: 'coupons',
+                path: 'subscription/coupons',
+                component: CouponListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
-                name: 'providerList',
-                path: 'communication/provider',
-                component: Provider,
+                name: 'couponType',
+                path: 'subscription/coupons/create/:couponType',
+                component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
-                name: 'providerDefault',
-                path: 'communication/provider/default',
-                component: ProviderDefault,
+                name: 'couponType',
+                path: 'subscription/coupons/edit/:couponType/:couponId',
+                component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['plans']);
                 }
             },
             {
-                name: 'providerMain',
-                path: 'communication/provider/:providerType/:mode',
-                component: ProviderMain,
+                name: 'reports',
+                path: 'communication/reports',
+                component: ReportListingMain,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
                         'communication'
                     ]);
-                }
-            },
-            {
-                name: 'providerMain',
-                path: 'communication/provider/:providerType/:mode/:providerId',
-                component: ProviderMain,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['plans']);
-                }
-            },
-            {
-                name: 'smstemplateMain',
-                path: 'communication/sms/templates',
-                component: SmsTemplateMain,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['company']);
-                }
-            },
-            {
-                name: 'smstemplateCreate',
-                path: 'communication/sms/templates/create',
-                component: SmsTemplateForm,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
-                }
-            },
-            {
-                name: 'smstemplateCreate',
-                path: 'communication/sms/templates/edit/:templateId',
-                component: SmsTemplateForm,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['company']);
-                }
-            },
-            {
-                name: 'emailtemplateMain',
-                path: 'communication/email/templates',
-                component: EmailTemplateMain,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
-                }
-            },
-            {
-                name: 'emailtemplateCreate',
-                path: 'communication/email/templates/create',
-                component: EmailTemplateForm,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
-                }
-            },
-            {
-                name: 'emailtemplateEdit',
-                path: 'communication/email/templates/edit/:templateId',
-                component: EmailTemplateForm,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(
-                        to,
-                        from,
-                        next,
-                        ['company']
-                    );
                 }
             },
             {
@@ -827,7 +742,7 @@ export default [
                 component: PackagingHome,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
@@ -838,7 +753,7 @@ export default [
                 component: PackagingCreate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
@@ -848,7 +763,7 @@ export default [
                 component: CategoryConfig,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },
@@ -859,7 +774,7 @@ export default [
                 component: CreateCategory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'packaging'
+                        'admin-access'
                     ]);
                 }
             },

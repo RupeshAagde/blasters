@@ -3,63 +3,32 @@
         <div class="page-header-position">
             <page-header
                 :title="`${isEditOnly ? 'Edit' : 'Create'} Subscription Plan`"
-                :contextMenuItems="
-                    isEditOnly
-                        ? contextMenu.filter(({ action }) =>
-                              !formData.hasActiveSubscription
-                                  ? action != 'agreement'
-                                  : true
-                          )
-                        : undefined
-                "
+                :contextMenuItems="isEditOnly ? contextMenu : undefined"
                 @backClick="onCancel"
                 @clone="onMenuAction('clone')"
-                @subscribe="onMenuAction('subscribe')"
-                @agreement="onMenuAction('agreement')"
             >
                 <div class="button-box">
                     <span
-                        v-if="mapPlanType[formData.plan.type]"
-                        class="plan-type-badge bold-xs"
-                        :title="`${mapPlanType[formData.plan.type]} plan`"
-                        >{{ mapPlanType[formData.plan.type] }}</span
-                    >
-                    <span
                         class="bold-xs clickable-label"
                         :class="{
-                            'cl-DustyGray2': !formData.plan.is_active,
-                            'cl-RoyalBlue': formData.plan.is_active
+                            'cl-DustyGray2': !formData.is_active,
+                            'cl-RoyalBlue': formData.is_active
                         }"
                         @click="
-                            toggleState
+                            () => {
+                                formData.is_active = !formData.is_active;
+                            }
                         "
+                        >{{ formData.is_active ? 'Active' : 'Inactive' }}</span
                     >
-                        {{ formData.plan.is_active ? 'Active' : 'Inactive' }}
-                    </span>
                     <nitrozen-toggle
                         class="pad-right"
                         v-model="formData.is_active"
                     ></nitrozen-toggle>
                     <nitrozen-button
-                        ref="previewPlan"
-                        class="createBtn mr-1"
+                        class="createBtn"
                         :theme="'secondary'"
-                        @click="previewPlan"
-                        v-strokeBtn
-                        >Preview Plan</nitrozen-button
-                    >
-                    <nitrozen-button
-                     ref="createButton"
-                        :disabled="formData.hasActiveSubscription"
-                        :title="
-                            `${
-                                formData.hasActiveSubscription
-                                    ? 'Plan has active subscriptions'
-                                    : ''
-                            }`
-                        "
-                        :theme="'secondary'"
-                        @click="previewAgreement"
+                        @click="savePlan"
                         v-flatBtn
                         >{{
                             `${isEditOnly ? 'Save' : 'Create'}`
@@ -68,162 +37,41 @@
                 </div>
             </page-header>
         </div>
-        <loader
-            v-if="loading"
-            style="display: flex; justify-content:center;"
-        ></loader>
+        <loader v-if="loading"></loader>
         <div v-else class="main-container">
             <div class="subscription-plan-form-container">
                 <main-section
-                    :ref="'main'"
                     class="subscription-plan-section main-section"
                     :formData="formData"
-                    :dtOptions="daytraderConfigMap"
-                    :dtComponents="dtComponents"
-                    :allComponents="allComponents"
+                    :errors="errors"
+                    :pageOptions="pageOptions"
                 />
-                <!-- <detail-section
+                <detail-section
                     class="subscription-plan-section detail-section"
                     :formData="formData"
                     :errors="errors"
-                />-->
+                />
             </div>
         </div>
-        <preview-modal
-            v-if="showPreview"
-            :isOpen="showPreview"
-            :plans="[previewData]"
-            @closeSubscribePlanModal="showPreview = false"
-        ></preview-modal>
-        <nitrozen-dialog
-            class="subscribe-modal"
-            :ref="'subscribe-modal'"
-            :title="'Select Company'"
-            @close="() => (copyDisplay = 'COPY LINK')"
-        >
-            <template slot="body">
-                <nitrozen-dropdown
-                    style="margin-bottom: 24px"
-                    :label="'Company*'"
-                    :searchable="true"
-                    @searchInputChange="companySearch"
-                    v-model="selectedCompany"
-                    @input="() => (copyDisplay = 'COPY LINK')"
-                    :items="
-                        companies.map((item) => {
-                            return {
-                                text: `${item.name} (${item.uid})`,
-                                value: item.uid
-                            };
-                        })
-                    "
-                ></nitrozen-dropdown>
-            </template>
-            <template slot="footer">
-                <input
-                    class="share-links"
-                    ref="share-text"
-                    readonly
-                    tabindex="-1"
-                    :value="customPlanLink"
-                    type="text"
-                />
-                <div class="ukt-links" @click="copyText">{{ copyDisplay }}</div>
-            </template>
-        </nitrozen-dialog>
-
-        <nitrozen-dialog
-            :ref="'agreement-modal'"
-            :title="'Plan Subscription Agreement Sample'"
-            @close="() => (agreementUrl = '')"
-        >
-            <template slot="body">
-                <iframe
-                    style="width: 100%; height: 100%;"
-                    name="agreementIframe"
-                    id="agreementIframe"
-                ></iframe>
-            </template>
-            <template slot="footer">
-                <nitrozen-button
-                ref="savePlan"
-                    :theme="'secondary'"
-                    @click="
-                        () => {
-                            if (formData.hasActiveSubscription) {
-                                $refs['agreement-modal'].close();
-                            } else {
-                                savePlan();
-                            }
-                        }
-                    "
-                    v-flatBtn
-                    >{{
-                        formData.hasActiveSubscription
-                            ? 'Close'
-                            : 'Confirm & Save'
-                    }}</nitrozen-button
-                >
-            </template>
-        </nitrozen-dialog>
     </div>
 </template>
 
 <style lang="less" scoped>
 // @import '../../less/page-ui.less';
 // @import '../../less/page-header.less';
-::v-deep .disabled-ctrl {
-    opacity: 0.5;
-}
 .page-header-position {
     margin-bottom: 60px;
-}
-.mr-1 {
-        margin-right: 10px;
-}
-.subscribe-modal {
-    ::v-deep .nitrozen-dialog-body {
-        overflow: inherit;
-    }
 }
 .subscription-plan {
     ::v-deep .button-box {
         display: flex;
         align-items: center;
-        width: 100%;
-        justify-content: flex-end;
-        position: relative;
-
-        .plan-type-badge {
-            display: flex;
-            cursor: default;
-            padding: 5px;
-            position: absolute;
-            left: 10px;
-            background-color: @RoyalBlue;
-            color: @White;
-            border-radius: @BorderRadius;
-        }
     }
     ::v-deep .pad-right {
         margin-right: 16px;
     }
-
-    ::v-deep .clickable-label {
+    .clickable-label {
         cursor: pointer;
-    }
-
-    .share-links {
-        flex: 1;
-        border: 1px solid #a9a9a9;
-        + .ukt-links {
-            color: @Mako;
-            border: 1px solid #a9a9a9;
-            align-items: center;
-            border-left: 0;
-            display: inline-flex;
-            padding: 5px;
-        }
     }
 
     .schedule-btn {
@@ -242,10 +90,7 @@
 
             .top-headers {
                 line-height: 27px;
-                margin-top: 12px;
-                &:first-child {
-                    margin-top: 0;
-                }
+                margin-bottom: 12px;
             }
 
             .custom-label {
@@ -256,6 +101,9 @@
                 display: flex;
                 padding: 8px 0;
                 margin: 0;
+                label > span {
+                    margin-bottom: 2px;
+                }
                 .form-item {
                     width: 100%;
                     .custom-checkbox {
@@ -268,10 +116,6 @@
                     margin-left: 20px;
                 }
 
-                &.no-pad {
-                    padding-bottom: 0;
-                }
-
                 &.form-compact-items {
                     flex-wrap: wrap;
                     .form-item {
@@ -281,6 +125,7 @@
             }
             .nitrozen-error-visible {
                 visibility: hidden;
+                margin-bottom: 7px;
             }
             .nitrozen-error-visible.visible {
                 visibility: visible;
@@ -301,16 +146,11 @@
 import mainSection from './form-sections/main.vue';
 import detailSection from './form-sections/details.vue';
 import BillingService from '../../services/billing.service';
-import CompanyService from '../../services/company-admin.service';
-import previewModal from '../../components/plan-creator/preview-plan-modal.vue';
-import daytraderJsonData from '@/static/daytrader_dummy.json'
 import {
     NitrozenButton,
     NitrozenMenu,
     NitrozenMenuItem,
     NitrozenToggleBtn,
-    NitrozenDialog,
-    NitrozenDropdown,
     flatBtn,
     strokeBtn
 } from '@gofynd/nitrozen-vue';
@@ -318,10 +158,6 @@ import { Loader, PageHeader } from '../../components/common/';
 
 import _ from 'lodash';
 import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
-const channels = ['uniket', 'fynd', 'ecomm', 'marketplace', 'fynd_store'];
-import root from 'window-or-global';
-const config = root.env || {};
-import URLS from '../../services/domain.service';
 
 export default {
     name: 'subscription-plan-form',
@@ -333,10 +169,7 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-menu': NitrozenMenu,
         'nitrozen-menu-item': NitrozenMenuItem,
-        'nitrozen-toggle': NitrozenToggleBtn,
-        'nitrozen-dialog': NitrozenDialog,
-        'nitrozen-dropdown': NitrozenDropdown,
-        'preview-modal': previewModal
+        'nitrozen-toggle': NitrozenToggleBtn
     },
     directives: {
         flatBtn,
@@ -344,13 +177,14 @@ export default {
     },
     mixins: [dirtyCheckMixin],
     created() {
+        let promises = [];
         let planId = this.$route.params.planId;
-        let planPromise = Promise.resolve();
-        if (planId) {   
+        if (planId) {
             this.loading = true;
-            planPromise = BillingService.getPlans({}, planId)
+            BillingService.getPlans({}, planId)
                 .then((response) => {
                     _.merge(this.formData, response.data);
+                    this.originalData = _.cloneDeep(this.formData);
                     this.loading = false;
                 })
                 .catch((err) => {
@@ -363,128 +197,22 @@ export default {
                     );
                 });
         }
-        let compPromise = BillingService.getComponents({ limit: 100 })
-            .then(({ data }) => {
-                let validComponents = []
-                data.docs.forEach( comp => {
-                    if(!this.ignoreCompponents.includes(comp.name)) {
-                       validComponents.push(comp)
-                    }
-                })
-                
-                this.allComponents = validComponents;
-                if (!planId) {
-                    this.formData.components = validComponents.map((doc) => {
-                        return this.getCreateComponentData(doc);
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-// uncomment this code once the daytrader api is working
-
-        // let pArr = [];
-        // channels.forEach((channel) => {
-        //     let payload = {
-        //         data: { table_name: 'settlement_rule', channels: [channel] }
-        //     };
-        //     pArr.push(BillingService.getDaytraderConfig(payload));
-        // });
-        // let dtCompPromise = Promise.all(pArr)
-        //     .then((resArr) => {
-        //         resArr.forEach(({ data }, index) => {
-        //             this.$set(
-        //                 this.daytraderConfigMap,
-        //                 channels[index],
-        //                 data.data
-        //             );
-        //         });
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
-        
-        // ends here
-
-        //  remove this code once above is uncommented 
-         let dtCompPromise = daytraderJsonData
-         daytraderJsonData.forEach(({ data }, index) => {
-                    this.$set(
-                        this.daytraderConfigMap,
-                        channels[index],
-                        data
-                    );
-                });
-        // ends here 
-        
-
-        let dtPlanCompPromise = BillingService.getDaytraderComponents()
-            .then(({ data }) => {
-                this.dtComponents = data.docs;
-                if (!planId) {
-                    this.formData.dayTraderComponents = data.docs.map((doc) => {
-                        return this.getCreateDayTraderCompData(doc);
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        // let dtPlanCompPromise = daytraderComponentsJson
-        // this.dtComponents = daytraderComponentsJson.docs;
-        //         if (!planId) {
-        //             this.formData.dayTraderComponents = daytraderComponentsJson.docs.map((doc) => {
-        //                 return this.getCreateDayTraderCompData(doc);
-        //             });
-        //         }
-        this.fetchCompany();
-
-        Promise.all([
-            planPromise,
-            compPromise,
-            dtCompPromise,
-            dtPlanCompPromise
-        ])
-            .then(() => {
-                this.originalData = _.cloneDeep(this.formData);
-            })
-            .catch((err) => console.log(err));
     },
     data() {
         return {
-            ignoreCompponents: ['Pixel Integration','Abandoned Cart','Analytics Integration','Online Store Front','Coupons and Discounts','Number of Brands'],
             loading: false,
             pageOptions: [],
-            allComponents: [],
-            dtComponents: [],
-            companies: [],
-            selectedCompany: -1,
-            daytraderConfigMap: {},
             saveInProgress: false,
             originalData: {},
-            agreementUrl: '',
             formData: this.getCreateData(),
-            previewData: null,
-            showPreview: false,
-            mapPlanType: {
-                private: 'Private',
-                public: 'Public',
-                'company-specific': 'Company Specific'
-            },
-            copyDisplay: 'COPY LINK',
             contextMenu: [
                 {
                     text: 'Clone',
                     action: 'clone'
                 },
                 {
-                    text: 'Subscribe',
-                    action: 'subscribe'
-                },
-                {
-                    text: 'View Agreement',
-                    action: 'agreement'
+                    text: 'Delete',
+                    action: 'delete'
                 }
             ],
             errors: {
@@ -497,9 +225,6 @@ export default {
         planId() {
             return this.isClone ? '' : this.$route.params.planId;
         },
-        planType() {
-            return this.$route.query.plan_type;
-        },
         editMode() {
             return this.$route.params.planId ? true : false;
         },
@@ -511,177 +236,30 @@ export default {
         },
         isEditOnly() {
             return this.editMode && !this.isClone;
-        },
-        customPlanLink() {
-            return `https://platform.${config.FYND_PLATFORM_DOMAIN}/company/${this.selectedCompany}/billing/custom-plan/${this.planId}`;
-        },
-        pdfUrl() {
-            return URLS.AGREEMENT_PDF();
         }
     },
     methods: {
-        toggleState () {
-            console.log('formData.is_active',this.formData.is_active);
-            this.formData.is_active = !this.formData.is_active;
-                            
-        },
-        copyText() {
-            var copyText = this.$refs['share-text'];
-            if (copyText) {
-                copyText.select();
-                document.execCommand('copy');
-                this.copyDisplay = 'LINK COPIED';
-            }
-        },
         getCreateData() {
             return {
-                plan: {
-                    recurring: {
-                        interval: 'month',
-                        interval_count: 1
-                    },
-                    is_trial_plan: false,
-                    plan_group: 'default',
-                    tagLines: [],
-                    currency: 'INR',
-                    is_active: true,
-                    is_visible: this.$route.query.plan_type === 'public',
-                    trial_period: 0,
-                    addons: [],
-                    tags: [],
-                    type: this.$route.query.plan_type,
-                    company: -1,
-                    country: 'IN',
-                    name: '',
-                    description: '',
-                    amount: 0
+                recurring: {
+                    interval: 'month',
+                    interval_count: 1
                 },
-                product_suite: 'fynd-platform',
-                components: [],
-                dayTraderComponents: [],
-                hasActiveSubscription: false
+                is_trial_plan: false,
+                plan_group: 'default',
+                tagLines: [],
+                currency: 'INR',
+                is_active: true,
+                is_visible: false,
+                trial_period: 7,
+                addons: [],
+                tags: [],
+                name: '',
+                description: '',
+                amount: 0,
+                product_suite_id: '5ef19d324a4a8700353a9e7a',
+                plan_components: []
             };
-        },
-        getCreateComponentData(baseComponent) {
-            if (
-                baseComponent.component_price_config.type === 'feature_config'
-            ) {
-                let feature_config = Object.keys(
-                    baseComponent.component_price_config.feature_config
-                ).reduce((map, item) => {
-                    map[item] =
-                        baseComponent.component_price_config.feature_config[
-                            item
-                        ].default;
-                    return map;
-                }, {});
-                return {
-                    is_active: true,
-                    display_text: null,
-                    component_id: baseComponent._id,
-                    component_price: {
-                        display_text: '',
-                        is_default: false,
-                        is_active: true,
-                        processing_type: 'feature_config',
-                        feature_config: feature_config,
-                        component_id: baseComponent._id
-                    }
-                };
-            } else if (
-                baseComponent.component_price_config.type === 'revenue'
-            ) {
-                let compnentData = {
-                    is_active: true,
-                    display_text:
-                        baseComponent.component_price_config.display_text,
-                    component_id: baseComponent._id,
-                    component_price: {
-                        price_ui_type: 'standard',
-                        recurring: {
-                            aggregate_usage: 'sum',
-                            usage_type: 'licensed',
-                            interval_count: 1,
-                            interval: 'month'
-                        },
-                        transform_quantity: {
-                            divide_by: 1,
-                            round: 'up'
-                        },
-                        free_tier: {
-                            type: '',
-                            value: 0
-                        },
-                        unit_amount: 0,
-                        price_type: 'static',
-                        bill_type: 'one_time',
-                        billing_scheme: 'per_unit',
-                        display_text: '',
-                        is_default: false,
-                        is_active: true,
-                        processing_type: 'revenue',
-                        currency: 'INR',
-                        component_id: baseComponent._id,
-                        tiers: []
-                    }
-                };
-                _.merge(
-                    compnentData,
-                    baseComponent.component_price_config.price_meta
-                );
-                return compnentData;
-            } else {
-                return {
-                    is_active: true,
-                    display_text: null,
-                    component_id: baseComponent._id,
-                    component_price: {
-                        display_text: '',
-                        is_default: false,
-                        is_active: true,
-                        processing_type: 'display',
-                        component_id: baseComponent._id
-                    }
-                };
-            }
-        },
-        getCreateDayTraderCompData(dtCompConfig) {
-            let dtCompData = {
-                component_id: dtCompConfig._id,
-                shallow_rules: [
-                    {
-                        name: 'Default Rule',
-                        auto_verify: true,
-                        is_active: true,
-                        component_id: dtCompConfig._id,
-                        data: {
-                            slug_values: {
-                                channel: {}
-                            },
-                            rule_end_date: null,
-                            rule_start_date: null,
-                            transactional_components: {
-                                is_tp: false,
-                                defaults: {
-                                    commission: 0,
-                                    rto_comm_reversal: 0,
-                                    return_comm_reversal: 0
-                                },
-                                source_components: [],
-                                transaction_component: {}
-                            },
-                            settle_cycle_period: {
-                                mall: 0,
-                                warehouse: 0,
-                                high_street: 0
-                            },
-                            settlement_type: 'weekly'
-                        }
-                    }
-                ]
-            };
-            _.merge(dtCompData.shallow_rules[0].data, dtCompConfig.data);
-            return dtCompData;
         },
         isFormDirty() {
             if (this.saveInProgress) {
@@ -698,84 +276,22 @@ export default {
                     .join('')
             );
         },
-        previewPlan() {
-            let compMap = this.formData.components.reduce((map, comp) => {
-                map[comp.component_id] = comp.component_price;
-                return map;
-            }, {});
-            this.previewData = _.cloneDeep(this.formData.plan);
-            this.previewData.components = this.allComponents.map((comp) => {
-                comp.enabled = compMap[comp._id].is_active;
-                return comp;
-            });
-            this.showPreview = true;
-        },
-        previewAgreement() {
-            if (!this.validateData()) {
-                this.$snackbar.global.showError(
-                    'Invalid data entered. Please enter valid data.'
-                );
-                return;
-            }
-            try {
-                var f = document.createElement('form');
-                f.setAttribute('method', 'post');
-                f.setAttribute('action', this.pdfUrl);
-                f.setAttribute('target', 'agreementIframe');
-                var input = document.createElement('input');
-                input.setAttribute('name', 'plan_data');
-                input.setAttribute('value', JSON.stringify(this.formData));
-                f.appendChild(input);
-                document.body.appendChild(f);
-                f.submit();
-                f.parentElement.removeChild(f);
-                this.$nextTick(() => {
-                    this.$refs['agreement-modal'].open({
-                        width: 'calc(90% - 20px)',
-                        height: 'calc(100% - 20px)',
-                        dismissible: true,
-                        showCloseButton: true,
-                        positiveButtonLabel: false,
-                        negativeButtonLabel: false,
-                        neutralButtonLabel: false
-                    });
-                });
-            } catch (err) {
-                console.log(err);
-                this.$snackbar.global.showError(
-                    'Failed to generate Agreement PDF'
-                );
-            }
-        },
-
         savePlan() {
             this.saveInProgress = true;
             if (this.validateData()) {
                 if (!this.isEditOnly) {
-                    this.formData.components.forEach((comp) => {
-                        if (
-                            comp.component_price.free_tier &&
-                            !comp.component_price.free_tier.type
-                        ) {
-                            delete comp.component_price.free_tier;
-                        }
-                    });
                     BillingService.createPlan(this.formData)
                         .then(({ data }) => {
-                            
-                            this.$snackbar.global.showSuccess(
-                                'Created successfully'
-                            );
+                            this.$snackbar.global.showSuccess(data.message);
 
                             this.$router.push({
-                                path: `/administrator/subscription-plans/edit/${data.plan._id}/`,
+                                path: `/administrator/subscription-plans/edit/${data.data._id}/`,
                                 query: {}
                             });
 
-                            this.originalData = _.cloneDeep(data);
-                            this.formData = data;
+                            this.originalData = _.cloneDeep(data.data);
+                            this.formData = data.data;
                             this.saveInProgress = false;
-                            this.$refs['agreement-modal'].close();
                         })
                         .catch((err) => {
                             this.saveInProgress = false;
@@ -788,13 +304,10 @@ export default {
                             );
                         });
                 } else {
-                    BillingService.createPlan(this.formData)
+                    BillingService.updatePlan(this.formData, this.planId)
                         .then(({ data }) => {
-                            this.$snackbar.global.showSuccess(
-                                'Updated successfully'
-                            );
+                            this.$snackbar.global.showSuccess(data.message);
                             this.saveInProgress = false;
-                            this.$refs['agreement-modal'].close();
                         })
                         .catch((err) => {
                             this.saveInProgress = false;
@@ -811,15 +324,21 @@ export default {
                 this.$snackbar.global.showError(
                     'Invalid data entered. Please enter valid data.'
                 );
-                this.saveInProgress = false;
             }
         },
 
         validateData() {
-            if (!this.formData.plan.name) {
+            this.clearErrors();
+            let isValid = true;
+            if (!this.formData.name) {
                 this.errors['name'] = 'Required Field';
+                isValid = false;
             }
-            return this.$refs['main'].validateData();
+            return isValid;
+        },
+
+        clearErrors() {
+            this.errors = {};
         },
 
         onMenuAction(action) {
@@ -835,63 +354,12 @@ export default {
                 this.formData.plan = oldFormData.plan;
                 this.originalData = {};
                 this.$snackbar.global.showSuccess('Subscription Plan cloned');
-            } else if (action == 'delete') {
-                BillingService.deletePlan(this.planId)
-                    .then(({ data }) => {
-                        this.$snackbar.global.showSuccess(data.message);
-                        this.$router.push({
-                            path: `/administrator/subscription-plans`
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        this.$snackbar.global.showError(
-                            'Failed to delete Subscription Plan'
-                        );
-                    });
-            } else if (action == 'subscribe') {
-                this.$refs['subscribe-modal'].open({
-                    width: '550px',
-                    dismissible: true,
-                    showCloseButton: true,
-                    positiveButtonLabel: false,
-                    negativeButtonLabel: false,
-                    neutralButtonLabel: false
-                });
-            } else if (action == 'agreement') {
-                this.previewAgreement();
             }
         },
         onCancel() {
             this.$router.push({
                 path: `/administrator/subscription-plans`
             });
-        },
-        companySearch(e) {
-            _.debounce((text) => {
-                this.fetchCompany(text);
-            }, 600)(e.text);
-        },
-        fetchCompany(searchCompany) {
-            const query = {
-                page_no: 0,
-                page_size: 10
-            };
-
-            if (searchCompany) {
-                query.name = searchCompany;
-            }
-            return CompanyService.getCompanyList(query)
-                .then(({ data }) => {
-                    this.companies = data.items;
-                    if (this.selectedCompany === -1) {
-                        this.selectedCompany = this.companies[0].uid;
-                    }
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError('Failed to load companies');
-                    console.log(err);
-                });
         }
     }
 };

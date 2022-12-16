@@ -17,7 +17,7 @@ let wrapper, router
 
 
 
-xdescribe('apply-coupon', () => {
+describe('apply-coupon', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);

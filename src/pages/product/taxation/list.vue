@@ -269,7 +269,7 @@ export default {
             const { current, limit } = filter;
 
             this.pagination = Object.assign({}, this.pagination, filter);
-            let pageQuery = { pageNo: current, limit };
+            let pageQuery = { pageId: current, limit };
             this.setRouteQuery(pageQuery);
             this.getHSNCodes();
         },
@@ -286,7 +286,7 @@ export default {
             if (query.search) {
                 // clear pagination if search or filter applied
                 this.pagination = { ...PAGINATION };
-                query.pageNo = undefined;
+                query.pageId = undefined;
                 query.limit = PAGINATION.limit;
             }
             this.$router.push({

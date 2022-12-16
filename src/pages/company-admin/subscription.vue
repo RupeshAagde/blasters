@@ -510,10 +510,6 @@ export default {
             selectedForChangeError:false,
             planChangeComment:"",
             isLoading:false,
-            currentPlan:"",
-            plansList: [],
-            slectedForChange:"",
-            planChangeComment:"",
             currentPlanDetailed: null,
             company_id: this.$route.params.companyId,
             collection_method: null,
@@ -549,7 +545,6 @@ export default {
         if(this.$route.query && this.$route.query.subscriptionFilters){
             this.filters = JSON.parse(this.$route.query.subscriptionFilters)
         }
-        this.fetchPlans("");
         pArr.push(
             BillingSubscriptionService.getAvailablePlansDetailed(
                 'fynd-platform'
@@ -687,19 +682,6 @@ export default {
         onCloseCancelSubscription(optionSelected) {
             if (optionSelected == 'Yes') {
                 this.cancelSubscription(this.company_id);
-            }
-        },
-        onCloseChangePlan(optionSelected){
-            if(optionSelected.toLowerCase().includes('activate')){
-                if(this.currentPlan.plan_id===this.slectedForChange){
-                    this.slectedForChange="";
-                    this.planChangeComment="";
-                    return this.$snackbar.global.showError(`You are already subsribed to ${this.currentPlan.plan_data.name}`,{duration: 2000});
-                }
-                this.activatePlan(this.slectedForChange);    
-            }else{
-                this.slectedForChange="";
-                this.planChangeComment="";
             }
         },
         cancelSubscription(company_id){
