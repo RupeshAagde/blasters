@@ -268,14 +268,6 @@ describe('RMA Global Edit Component', () => {
         await new Promise((resolve) => setTimeout(resolve, 600));
         await wrapperGlobalEdit.vm.$nextTick();
         await flushPromises();
-        let noQcFn = jest.spyOn(wrapperGlobalEdit.vm, 'handleNoQC');
-        let radioBtn = wrapperGlobalEdit.findAllComponents(NitrozenRadio);
-        radioBtn = radioBtn.at(2);
-        await radioBtn.vm.$emit('change');
-        await new Promise((resolve) => setTimeout(resolve, 600));
-        await wrapperGlobalEdit.vm.$nextTick();
-        await flushPromises();
-        expect(noQcFn).toHaveBeenCalled();
         let deleteFn = jest.spyOn(wrapperGlobalEdit.vm, 'deleteSubReason');
         let deleteButton = wrapperGlobalEdit.findAll('.collapse-button');
         deleteButton = deleteButton.at(2);

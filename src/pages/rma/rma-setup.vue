@@ -272,6 +272,34 @@
                                                             class="qc-type-container"
                                                         >
                                                             <div
+                                                                class="quality-check-caption"
+                                                            >
+                                                                Quality Check
+                                                            </div>
+                                                            <nitrozen-toggle-btn
+                                                                :disabled="
+                                                                    childReason.storedVal.includes(
+                                                                        'defaultStoredVal'
+                                                                    )
+                                                                "
+                                                                v-model="
+                                                                    childReason.showQC
+                                                                "
+                                                                @change="
+                                                                    handleShowChildQC(
+                                                                        parentReason.storedVal,
+                                                                        childReason.storedVal
+                                                                    )
+                                                                "
+                                                            ></nitrozen-toggle-btn>
+                                                        </div>
+                                                        <div
+                                                            class="qc-type-container"
+                                                            v-show="
+                                                                childReason.showQC
+                                                            "
+                                                        >
+                                                            <div
                                                                 class="qc-type-element"
                                                                 :class="
                                                                     childReason.qc_type ===
@@ -283,7 +311,7 @@
                                                                 <nitrozen-radio
                                                                     :disabled="
                                                                         childReason.storedVal.includes(
-                                                                            'default'
+                                                                            'defaultStoredVal'
                                                                         )
                                                                     "
                                                                     :name="
@@ -301,6 +329,51 @@
                                                                     Door Quality
                                                                     Check</nitrozen-radio
                                                                 >
+                                                                <nitrozen-tooltip
+                                                                    :position="
+                                                                        'top'
+                                                                    "
+                                                                    class="qc-tooltip qc-tooltip-details"
+                                                                >
+                                                                    <span
+                                                                        class="desc"
+                                                                        >As part
+                                                                        of the
+                                                                        return
+                                                                        process,
+                                                                        uploading
+                                                                        product
+                                                                        images
+                                                                        before
+                                                                        initiating
+                                                                        the
+                                                                        return
+                                                                        request
+                                                                        is
+                                                                        mandatory
+                                                                        for the
+                                                                        customer.
+                                                                        Additionally,
+                                                                        the
+                                                                        Delivery
+                                                                        Partner
+                                                                        will
+                                                                        perform
+                                                                        a
+                                                                        doorstep
+                                                                        quality
+                                                                        check
+                                                                        based on
+                                                                        a list
+                                                                        of
+                                                                        pre-defined
+                                                                        questions
+                                                                        when
+                                                                        picking
+                                                                        the
+                                                                        product.</span
+                                                                    >
+                                                                </nitrozen-tooltip>
                                                             </div>
                                                             <div
                                                                 class="qc-type-element"
@@ -314,7 +387,7 @@
                                                                 <nitrozen-radio
                                                                     :disabled="
                                                                         childReason.storedVal.includes(
-                                                                            'default'
+                                                                            'defaultStoredVal'
                                                                         )
                                                                     "
                                                                     :name="
@@ -332,52 +405,51 @@
                                                                     Quality
                                                                     Check</nitrozen-radio
                                                                 >
-                                                            </div>
-                                                            <div
-                                                                class="qc-type-element"
-                                                                :class="
-                                                                    childReason.qc_type ===
-                                                                    'no_qc'
-                                                                        ? 'selected'
-                                                                        : ''
-                                                                "
-                                                            >
-                                                                <nitrozen-radio
-                                                                    :disabled="
-                                                                        childReason.storedVal.includes(
-                                                                            'default'
-                                                                        )
+                                                                <nitrozen-tooltip
+                                                                    :position="
+                                                                        'top'
                                                                     "
-                                                                    :name="
-                                                                        'no_qc' +
-                                                                            parentReason.id +
-                                                                            childReason.id
-                                                                    "
-                                                                    :radioValue="
-                                                                        'no_qc'
-                                                                    "
-                                                                    @change="
-                                                                        handleNoQC(
-                                                                            parentReason.id,
-                                                                            childReason.id
-                                                                        )
-                                                                    "
-                                                                    v-model="
-                                                                        childReason.qc_type
-                                                                    "
-                                                                    >No Quality
-                                                                    Check</nitrozen-radio
+                                                                    class="qc-tooltip"
                                                                 >
+                                                                    <span
+                                                                        class="desc"
+                                                                        >As part
+                                                                        of the
+                                                                        return
+                                                                        process,
+                                                                        the
+                                                                        Delivery
+                                                                        Partner
+                                                                        will
+                                                                        only
+                                                                        perform
+                                                                        a
+                                                                        doorstep
+                                                                        quality
+                                                                        check
+                                                                        based on
+                                                                        a list
+                                                                        of
+                                                                        pre-defined
+                                                                        questions
+                                                                        when
+                                                                        picking
+                                                                        the
+                                                                        product.</span
+                                                                    >
+                                                                </nitrozen-tooltip>
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <nitrozen-dropdown
                                                                 :disabled="
-                                                                    childReason.qc_type ===
-                                                                        'no_qc' ||
-                                                                        childReason.storedVal.includes(
-                                                                            'default'
-                                                                        )
+                                                                    childReason.storedVal.includes(
+                                                                        'defaultStoredVal'
+                                                                    )
+                                                                "
+                                                                v-show="
+                                                                    childReason.qc_type !==
+                                                                        'no_qc'
                                                                 "
                                                                 :multiple="true"
                                                                 label="Questions"
@@ -445,7 +517,8 @@ import {
     NitrozenToggleBtn,
     NitrozenRadio,
     NitrozenInput,
-    NitrozenCheckBox
+    NitrozenCheckBox,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import uktinlinesvg from '@/components/common/ukt-inline-svg.vue';
@@ -465,6 +538,7 @@ export default {
         NitrozenDropdown,
         NitrozenToggleBtn,
         NitrozenInput,
+        NitrozenTooltip,
         NitrozenRadio,
         Draggable,
         AdmPageHeader,
@@ -544,7 +618,10 @@ export default {
             } else if (this.chosenParentReasonsList.length) {
                 for (let parentRes of this.chosenParentReasonsList) {
                     for (let childRes of parentRes.reasons) {
-                        if (childRes.storedVal.length === 0) {
+                        if (
+                            childRes.storedVal.length === 0 ||
+                            childRes.storedVal.includes('defaultStoredVal')
+                        ) {
                             return true;
                         } else if (
                             (childRes.qc_type === 'pre_qc' ||
@@ -629,6 +706,7 @@ export default {
                             return {
                                 id: sub.display_name,
                                 display_name: sub.display_name,
+                                showQC: sub.qc_type.length !== 0,
                                 qc_type: sub.qc_type.length
                                     ? sub.qc_type.length === 2
                                         ? 'pre_qc'
@@ -756,12 +834,12 @@ export default {
             );
             let dummySubReason = [
                 {
-                    id: 'default' + Math.random(),
+                    id: 'defaultStoredVal' + Math.random(),
                     display_name: null,
-                    qc_type: 'doorstep_qc',
+                    qc_type: 'no_qc',
                     question_set: [],
                     meta: {},
-                    storedVal: 'default' + Math.random()
+                    storedVal: 'defaultStoredVal' + Math.random()
                 }
             ];
             if (display_name.toLowerCase() === 'others') {
@@ -770,6 +848,7 @@ export default {
             this.chosenParentReasonsList.push({
                 storedVal: selectedRes,
                 id: parseInt(id),
+                showQC: false,
                 display_name,
                 meta: JSON.parse(meta),
                 is_active: is_active === 'true' ? true : false,
@@ -811,25 +890,41 @@ export default {
                 (res) => res.id === reasonId
             );
             this.chosenParentReasonsList[index].reasons.push({
-                id: 'default' + Math.random(),
+                id: 'defaultStoredVal' + Math.random(),
                 display_name: null,
-                qc_type: 'doorstep_qc',
+                qc_type: 'no_qc',
+                showQC: false,
                 question_set: [],
                 meta: {},
-                storedVal: 'default' + Math.random()
+                storedVal: 'defaultStoredVal' + Math.random()
             });
             this.fetchReasonsList(['child']);
         },
-        handleNoQC(parentReasonId, childReasonId) {
-            const parentIndex = this.chosenParentReasonsList.findIndex(
-                (parent) => parent.id === parentReasonId
+        handleShowChildQC(parentReasonStoredVal, childReasonStoredVal) {
+            const parentReasonIndex = this.chosenParentReasonsList.findIndex(
+                (res) => res.storedVal === parentReasonStoredVal
             );
             let childIndex = this.chosenParentReasonsList[
-                parentIndex
-            ].reasons.findIndex((res) => res.id === childReasonId);
-            this.chosenParentReasonsList[parentIndex].reasons[
-                childIndex
-            ].question_set = [];
+                parentReasonIndex
+            ].reasons.findIndex(
+                (res) => res.storedVal === childReasonStoredVal
+            );
+            if (
+                !this.chosenParentReasonsList[parentReasonIndex].reasons[
+                    childIndex
+                ].showQC
+            ) {
+                this.chosenParentReasonsList[parentReasonIndex].reasons[
+                    childIndex
+                ].question_set = [];
+                this.chosenParentReasonsList[parentReasonIndex].reasons[
+                    childIndex
+                ].qc_type = 'no_qc';
+            } else {
+                this.chosenParentReasonsList[parentReasonIndex].reasons[
+                    childIndex
+                ].qc_type = 'doorstep_qc';
+            }
         },
         handleChildReasonsDropdown(
             selectedRes,
@@ -1311,18 +1406,44 @@ export default {
                         box-sizing: border-box;
                         margin-right: 25px;
                         display: flex;
-                        flex-direction: column;
-                        justify-content: center;
+                        justify-content: space-between;
                         align-items: flex-start;
-                        padding: 0 16px;
+                        padding: 8px 16px;
                         background: #ffffff;
                         border: 1px solid @Iron;
                         border-radius: 4px;
+                        .desc {
+                            width: 400px;
+                            margin-top: 0px;
+                            font-size: 10px;
+                            line-height: 16px;
+                            font-weight: 400;
+                        }
+                        .qc-tooltip {
+                            margin-top: 5px;
+                        }
+                        .qc-tooltip-details {
+                            ::v-deep .nitrozen-tooltiptext {
+                                min-width: 300px;
+                            }
+                            ::v-deep .nitrozen-tooltip-top {
+                                bottom: 150%;
+                                left: 50%;
+                                margin-left: -85px;
+                            }
+                        }
                     }
                     .selected {
                         background: #e7eeff;
                         border: 1px solid #2e31be;
                         border-radius: 4px;
+                    }
+                    .quality-check-caption {
+                        width: 100px;
+                        height: 40px;
+                        text-align: center;
+                        display: flex;
+                        align-items: center;
                     }
                 }
                 .add-rule-option {
