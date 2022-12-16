@@ -1581,6 +1581,7 @@
 
             // method to get Fee invoice details
             async getFeeInvoiceDetails() { 
+                this.feeInvoiceDetails = [];
                 let res;
                 const params = {
                     "data":{
@@ -1873,7 +1874,7 @@
                         })
                     })
                     .catch((err) => {
-                        console.error(err);
+                        //console.error(err);
                         this.$snackbar.global.showError(err);
                     })
                     /* .finally(() => {

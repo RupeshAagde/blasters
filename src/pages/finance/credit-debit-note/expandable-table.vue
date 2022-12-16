@@ -81,7 +81,7 @@
               </nitrozen-input>
             </td>
             <td>
-              <nitrozen-input :disabled="true" class="search filter-input-lg" type="number" :placeholder="`Amount`"
+              <nitrozen-input :disabled="true" class="search filter-input-lg total-amt" type="number" :placeholder="`Amount`"
                 v-model="totalAmount[index]">
               </nitrozen-input>
               <!--v-model="grossAmount" <span>{{ componentDataList[index].amount}}</span> -->
@@ -577,6 +577,10 @@
       margin-bottom: 24px;
       font-family: Inter, sans-serif;
       font-size: 14px;
+
+      .total-amt{
+        width: 90px;
+      }
       
       tr:first-child {
         background: @Alabaster2;
