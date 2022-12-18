@@ -100,15 +100,26 @@ describe('RulesListing', () => {
     it('Delete rule', async () => {
         let deletRuleMock = jest.spyOn(wrapper.vm, "deleteRule");
         let loadRulesMock = jest.spyOn(wrapper.vm, "loadRules");
-        wrapper.find('.row-cta.delete').trigger('click');
+        const row = wrapper.vm.tableData[0]
+        const deleteRuleData = {
+            ...row,
+            is_deleted: true
+        }
+        wrapper.vm.openDeleteModal()
         wrapper.find('.delete-yes').trigger('click');
-        sleep(1000).then(() => {
-            expect(deletRuleMock).toHaveBeenCalled();
-            expect(loadRulesMock).toHaveBeenCalled();
+        // if (wrapper.vm.tableData.length > 0){
+        // }
+        wrapper.vm.deleteRule()
+        sleep(300).then(() => {
+            mock.onPut(
+                URLS.RMA_DELETE_RULE(deleteRuleData)
+            )
+            .reply(200, mocks.delete_rule_data);
+            mock.onPost(
+                URLS.RMA_RULES_LIST()
+            )
+            .reply(200, mocks.global_rules_list);
         })
-        expect(wrapper.find('.delete-channel-dialog').exists()).toBe(true);
-        wrapper.find('.delete-no').trigger('click');
-        expect(wrapper.find('.delete-channel-dialog').element.style.display).toBe('none');
     });
     it('Table headings', () => {
         wrapper.vm.isGlobal = true;
@@ -147,14 +158,49 @@ describe('RulesListing', () => {
             }
         ])
     })
-    it('Rules listing search', () => {
-        wrapper.vm.searchInput = '';
-        wrapper.vm.showCustom = false;
-        wrapper.vm.filterRulesList({searchById: false});
-        expect(wrapper.vm.departmentIds).toStrictEqual([]);
-        expect(wrapper.vm.channelIds).toStrictEqual([]);
-        expect(wrapper.vm.ruleIds).toStrictEqual([]);
-        expect(wrapper.vm.pagination.current).toBe(1);
+
+    it('Search', () => {
+        wrapper.vm.searchInput = 'test'
+        wrapper.vm.filterRulesList({searchById: false})
+        mock.onGet(
+            URLS.GET_DEPARTMENTS({
+                page_no: 1,
+                page_size: 9999,
+                search: wrapper.vm.searchInput
+            })
+        )
+        .reply(200, mocks.departments_list)
+        mock.onPost(
+            URLS.RMA_RULES_LIST()
+        )
+        .reply(200, mocks.global_rules_list);
+        wrapper.vm.searchInput = ''
+        const result = wrapper.vm.filterRulesList({searchById: false})
+        sleep(200).then(() => {
+            expect(wrapper.vm.departmentIds).toBe([])
+            expect(wrapper.vm.ruleIds).toBe([])
+            expect(wrapper.vm.pagination.current).toBe(1)
+            mock.onPost(
+                URLS.RMA_RULES_LIST()
+            )
+            .reply(200, mocks.global_rules_list);
+            expect(result).toBe(undefined)
+        })
+        wrapper.vm.searchInput = 'asdasfaedcaxadad habsdkhjbadk habsdksahdbask'
+        const result2 = wrapper.vm.filterRulesList({searchById: false})
+        mock.onGet(
+            URLS.GET_DEPARTMENTS({
+                page_no: 1,
+                page_size: 9999,
+                search: wrapper.vm.searchInput
+            })
+        )
+        .reply(200, mocks.departments_list)
+        sleep(200).then(() => {
+            expect(wrapper.vm.tableData).toBe([])
+            expect(wrapper.vm.showLoader).toBe(false)
+            expect(result2).toBe(undefined)
+        })
     })
 
     // it('Checks Default Path', () => {
@@ -208,12 +254,12 @@ describe('RulesListing', () => {
             }
         });
         let btnClick = jest.spyOn(headerWrapper.vm, "btnClick");
-        let toggleClick = jest.spyOn(headerWrapper.vm, "toggleClick");
+        // let toggleClick = jest.spyOn(headerWrapper.vm, "toggleClick");
         expect(headerWrapper.exists()).toBeTruthy();
         headerWrapper.find('.jumbotron-btns button').trigger('click');
         sleep(100).then(expect(btnClick).toHaveBeenCalled);
         //headerWrapper.find('.jumbotron-btns input').trigger('change');
-        sleep(100).then(expect(toggleClick).toHaveBeenCalled);
+        // sleep(100).then(expect(toggleClick).toHaveBeenCalled);
     })
     it('Breadcrumb Component', () => {
         const breadcrumbWrapper = mount(Breadcrumb, {
@@ -249,4 +295,26 @@ describe('RulesListing', () => {
     //     wrapper.vm.$route.params.sales_channel = 123;
     //     expect(wrapper.vm.getChannelId()).toBe('123');
     // })
+
+    it('search By ID', () => {
+        let paramsMock = jest.spyOn(wrapper.vm, "updateRuleParams")
+        let loadRulesMock = jest.spyOn(wrapper.vm, "loadRules")
+        wrapper.vm.searchInput = "24"
+        wrapper.vm.filterRulesList({searchById: true})
+        sleep(100).then(() => {
+            expect(paramsMock).toHaveBeenCalled()
+            expect(loadRulesMock).toHaveBeenCalled()
+        })
+        mock.onPost(
+            URLS.RMA_RULES_LIST()
+        )
+        .reply(200, mocks.global_rules_list);
+    })
+
+    it('redirects to edit localstorage', () => {
+        if (wrapper.vm.tableData.length > 0){
+            wrapper.vm.redirectToEdit(wrapper.vm.tableData[0])
+            expect(global.Storage.prototype.setItem).toHaveBeenCalled();
+        }
+    })
 })

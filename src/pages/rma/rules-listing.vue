@@ -21,13 +21,20 @@
                         :btnDisabled="tableData.length >= 1"
                         @btnClick="redirectTo('setup')"
                     ></jumbotron>
-                    <custom-rules-header
+                    <!-- <custom-rules-header
                         v-if="!isGlobal"
                         :title="channelName ? channelName : ''"
                         btnLabel="Add Rule"
                         :toggleValue="showCustom"
                         @btnClick="redirectTo('setup')"
                         @onToggleClick="customListing"
+                    ></custom-rules-header> -->
+                    <custom-rules-header
+                        v-if="!isGlobal"
+                        :title="channelName ? channelName : ''"
+                        btnLabel="Add Rule"
+                        :toggleValue="showCustom"
+                        @btnClick="redirectTo('setup')"
                     ></custom-rules-header>
                     <search-container
                         :placeholder="'Search by ID or Department'"
@@ -170,7 +177,6 @@ export default {
                 channel: data.channel, 
                 meta: data.meta
             })
-            localStorage.getItem('rma_rule_data') && localStorage.removeItem('rma_rule_data')
             localStorage.setItem('rma_rule_data', rmaRuleData)
             this.redirectTo('edit')
         },
@@ -194,21 +200,21 @@ export default {
         closeDeleteModal(){
             this.$refs['delete-rule-dialog'].close()
         },
-        customListing(isEnabled){
-            this.showLoader = true
-            this.channelIds = isEnabled ? [this.getChannelId()] : []
-            RMAService.toggleRulesType(this.channelData.id, {
-                ...this.channelData,
-                qc_config: isEnabled ? 'custom' : 'global'
-            })
-            .then(() => {
-                this.showCustom = isEnabled
-                this.updateLocalStorage()
-                this.updateRuleParams() 
-                this.setCustomTableHeader()
-                this.loadRules()
-            })
-        },
+        // customListing(isEnabled){
+        //     this.showLoader = true
+        //     this.channelIds = isEnabled ? [this.getChannelId()] : []
+        //     RMAService.toggleRulesType(this.channelData.id, {
+        //         ...this.channelData,
+        //         qc_config: isEnabled ? 'custom' : 'global'
+        //     })
+        //     .then(() => {
+        //         this.showCustom = isEnabled
+        //         this.updateLocalStorage()
+        //         this.updateRuleParams() 
+        //         this.setCustomTableHeader()
+        //         this.loadRules()
+        //     })
+        // },
         setChannelData(){
             if (this.isGlobal) { return }
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))

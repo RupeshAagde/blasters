@@ -55,9 +55,9 @@ export default {
         btnLabel: {
             type: String
         },
-        onToggleClick: {
-            type: Function
-        },
+        // onToggleClick: {
+        //     type: Function
+        // },
         toggleValue: {
             type: Boolean,
             default: false
@@ -72,9 +72,9 @@ export default {
         btnClick() {
             this.$emit('btnClick');
         },
-        toggleClick(){
-            this.$emit('onToggleClick', !this.toggleValue);
-        }
+        // toggleClick(){
+        //     this.$emit('onToggleClick', !this.toggleValue);
+        // }
     }
 };
 </script>

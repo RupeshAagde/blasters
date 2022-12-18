@@ -1166,5 +1166,61 @@
             "value": null,
             "message": null
         }
+    },
+    "departments_list": {
+        "page": {
+            "current": 1,
+            "type": "number",
+            "size": 1,
+            "has_previous": false,
+            "has_next": false,
+            "item_total": 2
+        },
+        "items": [
+            {
+                "priority_order": 5,
+                "_id": "5cddad00ef44852d38f5d685",
+                "is_active": true,
+                "_cls": "Department",
+                "synonyms": [
+                    ""
+                ],
+                "uid": 5,
+                "logo": "https://hdn-1.addsale.com/x0/department/pictures/square-logo/original/UlhuahG3o-department.png",
+                "slug": "home-living",
+                "name": "Home & Living",
+                "modified_by": {
+                    "username": "aniljainapur_fynd_external_com_18038",
+                    "user_id": "b527aad94fad6eaca32aea5a"
+                },
+                "modified_on": "2022-12-14T08:01:46.878000",
+                "id": "5cddad00ef44852d38f5d685"
+            },
+            {
+                "created_on": "2020-09-09T07:14:14.295000",
+                "priority_order": 13,
+                "_id": "5f5880c6f78e4767e32816b2",
+                "is_active": true,
+                "_cls": "Department",
+                "synonyms": [
+                    ""
+                ],
+                "created_by": {
+                    "username": "meghanakate@gofynd.com",
+                    "user_id": "6682"
+                },
+                "uid": 16,
+                "logo": "https://hdn-1.fynd.com/department/pictures/square-logo/original/baHoRNiZ6-https/hdn-1.fynd.com/media/logo/department/original/18749_1b871f699a6d49d6a1e39819d571ba8f.jpg.jpeg",
+                "slug": "home-kitchen-appliances",
+                "name": "Home & Kitchen Appliances",
+                "modified_by": {
+                    "username": "aniljainapur_fynd_external_com_18038",
+                    "user_id": "b527aad94fad6eaca32aea5a"
+                },
+                "_custom_json": {},
+                "modified_on": "2022-12-14T08:01:47.070000",
+                "id": "5f5880c6f78e4767e32816b2"
+            }
+        ]
     }
 }
