@@ -6,10 +6,14 @@
                     {{heading}}
                 </td>
             </tr>
-            <tr v-for="(tableRow, index) of tableData" :key="index">
+            <tr v-for="(tableRow, index) of tableData"
+                :key="index" :class="{'global-rule': !showCustom && !isGlobal}"
+                @click="(function(){
+                    !showCustom && !isGlobal && ($emit('onEdit', tableRow))
+                })()">
                 <td>{{tableRow.id}}</td>
                 <td>{{tableRow.meta.department ? tableRow.meta.department ? tableRow.meta.department.display_name ? tableRow.meta.department.display_name : 'All' : '' : 'All'}}</td>
-                <td>{{tableRow.meta.l2 ? tableRow.meta.l2.display_name : 'All'}}</td>
+                <td>{{tableRow.meta.l3 ? tableRow.meta.l3.display_name : 'All'}}</td>
                 <td>
                     <nitrozen-badge :state="tableRow.qc_enabled ? 'success' : 'warn'">
                         {{tableRow.qc_enabled ? 'Active' : 'Inactive'}}
@@ -73,7 +77,7 @@ export default {
         border: 1px solid #8F8F8F;
         height: 29px;
         width: 29px;
-        background: none;
+        background: white;
         border-radius: 4px;
         outline: none;
         cursor: pointer;
@@ -90,6 +94,11 @@ export default {
     tr:first-child{
         border-top: none;
         border-inline: none;
+    }
+    .global-rule{
+        transition: 0.2s;
+        position: relative;
+        cursor: pointer;
     }
     tr:last-child{
         border-bottom: none;
