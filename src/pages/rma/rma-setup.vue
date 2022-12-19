@@ -1058,7 +1058,10 @@ export default {
             }
             RMAService.getReasons(query_params)
                 .then((res) => {
-                    let list = res.data.items.map((reason) => {
+                    let filteredList = res.data.items.filter(
+                        (reason) => reason.category === 'return_reason'
+                    );
+                    let list = filteredList.map((reason) => {
                         return {
                             value: `${reason.id}-|-${reason.display_name}-|-${
                                 reason.is_active
