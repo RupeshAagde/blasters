@@ -148,44 +148,15 @@
                             <inline-svg :src="'cloud_download'"></inline-svg>
                         </a>
                         <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
-                        <p class="darker-xxxs cl-RoyalBlue " v-if="history.tracking_url">Source File</p>
+                        <p
+                            class="darker-xxxs cl-RoyalBlue "
+                            v-if="history.tracking_url"
+                        >
+                            Source File
+                        </p>
                     </div>
                 </template>
                 <template slot="body">
-                    <!-- <div class="upload-summary">
-                        <div class="title">
-                            <p class="cl-Mako darker-sm">Upload Summary</p>
-                            <nitrozen-badge
-                                v-if="history.stage"
-                                :state="getBadgeState(history.stage)"
-                            >
-                                {{ history.stage }}
-                            </nitrozen-badge>
-                        </div>
-                        <div class="summary">
-                            <div>
-                                <div class="header">Total Records</div>
-                                <div class="value">
-                                    {{ history.stats.total }}
-                                </div>
-                            </div>
-                            <div>
-                                <div class="header">Valid Records</div>
-                                <div class="value">
-                                    {{ history.stats.succeed }}
-                                </div>
-                            </div>
-                            <div>
-                                <div class="header">Error Records</div>
-                                <div class="value">
-                                    {{ history.stats.failed }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="divider"></div> -->
-
                     <div class="batch-details">
                         <p class="cl-Mako darker-sm">Batch Details</p>
 
@@ -232,31 +203,6 @@
         color: @DustyGray2;
     }
 }
-// .batch-details {
-//     margin: 15px;
-//     display: flex;
-//     justify-content: space-between;
-//     flex-wrap: wrap;
-
-//     .header {
-//         font-family: 'Inter';
-//         font-style: normal;
-//         font-weight: 400;
-//         font-size: 12px;
-//         line-height: 160%;
-//         color: #9b9b9b;
-//     }
-//     .value {
-//         font-weight: 400;
-//         font-size: 14px;
-//         line-height: 140%;
-//         color: #41434c;
-//     }
-//     > div {
-//         margin: 5px;
-//         flex-basis: 48%;
-//     }
-// }
 .svg-icons {
     display: inline-flex;
     span {
@@ -536,8 +482,6 @@
 </style>
 <script>
 import Jumbotron from '@/components/common/jumbotron';
-// import InlineSvg from '@/components/common/inline-svg.vue';
-
 import CatalogService from '@/services/catalog.service';
 import AdmSidebar from '../components/side-bar.vue';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
@@ -590,22 +534,9 @@ export default {
         title: {
             type: String,
             default: 'Export History'
-        },
-        templateTag: {
-            type: String,
-            default: undefined
-        },
-        customTemplateTag: {
-            type: String,
-            default: undefined
         }
     },
-    computed: {
-        setPlaceholder: function() {
-            let text = 'Search by Batch ID';
-            return this.type === 'catalogue' ? `${text} or Template` : text;
-        }
-    },
+    computed: {},
     data() {
         return {
             isSidebarTogle: false,
@@ -613,15 +544,10 @@ export default {
             searchText: '',
             isLoading: false,
             pageError: false,
-            departmentList: [],
             pagination: {
                 ...PAGINATION
             },
             filter: FILTER,
-            selectedFilter: 'all',
-            selectedAction: '',
-            tempList: [],
-            userObj: {},
             inProgress: false,
             isError: false,
             companyId: this.$route.params.company_id,
@@ -674,7 +600,6 @@ export default {
             this.$router.go(-1);
         },
         openSidebar(history) {
-            console.log('hist', history);
             if (history) {
                 this.history = history;
             }
@@ -763,7 +688,6 @@ export default {
             this.setRouteQuery(pageQuery);
             this.loadHistory();
         },
-
         getBadgeState(stage) {
             const states = {
                 running: 'info',
@@ -782,39 +706,6 @@ export default {
         },
         getFormattedDate(date) {
             return moment(date).format('Do MMM, YYYY, HH:mm:ss');
-        },
-        successCountMessage(history) {
-            console.log('path', history.file_path);
-            // NOTE: history messages.
-            const pending = () => {
-                return (
-                    history.total -
-                    history.succeed -
-                    history.failed -
-                    history.cancelled
-                );
-            };
-            if (history.succeed === history.total) {
-                return `All  ${history.total} successful`;
-            }
-            let message = `Total: ${history.total} | `;
-            const subMessage = [];
-
-            if (history.succeed) {
-                subMessage.push(` Success: ${history.succeed} |`);
-            }
-            if (pending()) {
-                subMessage.push(` ${history.stage}: ${pending()}  |`);
-            }
-            if (history.failed) {
-                subMessage.push(` Failed: ${history.failed} |`);
-            }
-            if (history.cancelled) {
-                subMessage.push(`Cancelled : ${history.cancelled} |`);
-            }
-            let str = message + subMessage.join(', ');
-            if (str.charAt(str.length - 1) == '|') str = str.replace(/.$/, '');
-            return str;
         },
         capitalize(str) {
             return (

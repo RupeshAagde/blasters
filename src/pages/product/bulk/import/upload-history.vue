@@ -115,12 +115,9 @@
                                 {{
                                     `${history.stats.succeed}/${history.stats.total}`
                                 }}
-                                records is being processed
+                                records are being processed
                             </p>
                         </div>
-                        <!-- <div  class="card-content-line-2 line-2">
-                            {{ successCountMessage(history) }} 
-                        </div> -->
                         <div v-else class="job-status">
                             <p class="cl-DustyGray2 regular-xxs total">
                                 Total:
@@ -183,26 +180,6 @@
                                 <inline-svg src="close_gray"></inline-svg>
                             </div>
                         </div>
-                        <!-- <div
-                            class="notify ml-16"
-                            @click.stop="notifyByEmail(history)"
-                            v-if="
-                                history.stage === 'running'
-                            "
-                        >
-                            <img
-                                src="/public/assets/admin/pngs/notification.png"
-                            />
-                        </div>
-                        <div
-                            class="cancel ml-16"
-                            @click.stop="cancelImport(history)"
-                            v-if="
-                                history.stage === 'running'
-                            "
-                        >
-                            CANCEL
-                        </div> -->
                     </div>
                 </div>
                 <nitrozen-pagination
@@ -334,7 +311,6 @@
                 </template>
             </adm-sidebar>
         </div>
-        <!-- <csv-view ref="errors-preview"></csv-view> -->
     </div>
 </template>
 <style lang="less" scoped>
@@ -717,8 +693,6 @@
 </style>
 <script>
 import Jumbotron from '@/components/common/jumbotron';
-// import InlineSvg from '@/components/common/inline-svg.vue';
-
 import CatalogService from '@/services/catalog.service';
 import AdmSidebar from '../components/side-bar.vue';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
@@ -789,10 +763,6 @@ export default {
         }
     },
     computed: {
-        setPlaceholder: function() {
-            let text = 'Search by Batch ID';
-            return this.type === 'catalogue' ? `${text} or Template` : text;
-        },
         ...mapGetters({
             userData: GET_USER_INFO
         })
@@ -804,12 +774,10 @@ export default {
             searchText: '',
             isLoading: false,
             pageError: false,
-            departmentList: [],
             pagination: {
                 ...PAGINATION
             },
             filter: FILTER,
-            selectedFilter: 'all',
             selectedAction: '',
             tempList: [],
             userObj: {},
@@ -976,7 +944,6 @@ export default {
             this.setRouteQuery(pageQuery);
             this.loadHistory();
         },
-
         getBadgeState(stage) {
             const states = {
                 running: 'info', // if not need now, remove it
@@ -995,38 +962,6 @@ export default {
         },
         getFormattedDate(date) {
             return moment(date).format('Do MMM, YYYY, HH:mm:ss');
-        },
-        successCountMessage(history) {
-            // NOTE: history messages.
-            const pending = () => {
-                return (
-                    history.total -
-                    history.succeed -
-                    history.failed -
-                    history.cancelled
-                );
-            };
-            if (history.succeed === history.total) {
-                return `All  ${history.total} successful`;
-            }
-            let message = `Total: ${history.total} | `;
-            const subMessage = [];
-
-            if (history.succeed) {
-                subMessage.push(` Success: ${history.succeed} |`);
-            }
-            if (pending()) {
-                subMessage.push(` ${history.stage}: ${pending()}  |`);
-            }
-            if (history.failed) {
-                subMessage.push(` Failed: ${history.failed} |`);
-            }
-            if (history.cancelled) {
-                subMessage.push(`Cancelled : ${history.cancelled} |`);
-            }
-            let str = message + subMessage.join(', ');
-            if (str.charAt(str.length - 1) == '|') str = str.replace(/.$/, '');
-            return str;
         },
         getFileType(url) {
             const fileExtension = url && url.split('.').pop();
@@ -1088,7 +1023,9 @@ export default {
             CatalogService.bulkUpdate(payload, history.id, this.productType)
                 .then((res) => {
                     // console.log(res);
-                    this.$snackbar.global.showSuccess('Notified');
+                    this.$snackbar.global.showSuccess(
+                        'You’ll be notified on email'
+                    );
                     this.loadHistory();
                 })
                 .catch((err) => {
@@ -1111,7 +1048,7 @@ export default {
             CatalogService.bulkUpdate(payload, history.id, this.productType)
                 .then((res) => {
                     // console.log(res);
-                    this.$snackbar.global.showError('Cancelled');
+                    this.$snackbar.global.showSuccess('Import Cancelled');
                     this.loadHistory();
                 })
                 .catch((err) => {

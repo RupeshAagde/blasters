@@ -384,19 +384,14 @@ import {
     NitrozenCheckBox
 } from '@gofynd/nitrozen-vue';
 
-// import BulkHistory from './bulk-history.vue';
 import PageError from '@/components/common/page-error';
 import loader from '@/components/common/loader';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
 import LearnMore from '../components/learn-more.vue';
 import sidebar from '../components/side-bar.vue';
 import exportHistory from './export-history.vue';
-// import CsvView from '@/components/common/adm-csv-viewer.vue';
-// import XLSX from 'xlsx';
-// import { CatalogueSchemaService } from '@/services/bulk-upload.service';
 import GrindorService from '@/services/grindor.service';
 import CompanyService from '@/services/company-admin.service';
-// import { saveAs } from 'file-saver';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import mapValues from 'lodash/mapValues';
@@ -483,45 +478,7 @@ export default {
             sidebarToggle: false,
             selectedFileType: null,
             fileTypes: FILE_TYPES,
-            highlight: false,
-            label: 'CSV file',
-            file: null,
-            acceptedMIMETypesString: [
-                'text/csv',
-                'application/vnd.ms-excel',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            ],
-            errorMessage: '',
-            inputFileMeta: {},
-            productsTable: {
-                meta: { fields: [] },
-                data: []
-            },
-            templateSchema: null,
-            templateDetails: null,
-            productsImages: {},
             companyId: this.$route.params.company_id,
-            productsArray: [],
-            showErrorsTable: false,
-            errorsArray: [],
-            validSchema: false,
-            item_type: '',
-            productTypeList: [],
-            departmentsList: [],
-            templates: [],
-            selectedTemplate: null,
-            isSet: false,
-            categoriesList: [
-                { value: 'l1_l2', text: 'Level 1 and Level 2 Categories' },
-                { value: 'l3', text: 'Level 3 Category' }
-            ],
-            templatesList: [
-                { value: 'update_delete_hsn', text: 'Update HSN Codes' },
-                { value: 'create_hsn', text: 'Add New HSN Codes' }
-            ],
-            selectedCategory: null,
-            brandsList: [],
-            selectedBrands: [],
             notifyByEmail: true,
             categories: [],
             templateCategories: [],
@@ -658,9 +615,12 @@ export default {
                 payload.filters.categories = this.selectedCategories;
             }
             payload.file_type = type;
-            if (this.getUserEmail()) {
-                payload.notification_emails = [this.getUserEmail()];
+            if (this.notifyByEmail) {
+                if (this.getUserEmail()) {
+                    payload.notification_emails = [this.getUserEmail()];
+                }
             }
+
             return CatalogService.bulkRequest(
                 this.productType,
                 payload,

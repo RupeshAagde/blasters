@@ -159,8 +159,6 @@
             </div>
         </div>
         <div class="validation-summary">
-            <!-- <validation-summary :productsTable="productsTable">
-            </validation-summary> -->
             <div class="summary">
                 <div class="record-summary">
                     <div>
@@ -595,14 +593,12 @@ import {
     strokeBtn
 } from '@gofynd/nitrozen-vue';
 
-// import BulkHistory from './bulk-history.vue';
 import PageError from '@/components/common/page-error';
 import loader from '@/components/common/loader';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
 import ConfirmationDialogBox from '@/components/common/confirmation-dialog.vue';
 import LearnMore from '../components/learn-more.vue';
 import sidebar from '../components/side-bar.vue';
-import validationSummary from './validation-summary.vue';
 import NoRecords from '../components/no-records.vue';
 import InfoBar from '../components/info-bar.vue';
 import CsvView from '@/components/common/adm-csv-viewer.vue';
@@ -665,7 +661,6 @@ export default {
         'adm-inline-svg': InlineSvg,
         'side-bar': sidebar,
         'learn-more': LearnMore,
-        'validation-summary': validationSummary,
         loader,
         PageError,
         'no-records': NoRecords,
@@ -716,14 +711,12 @@ export default {
             selectedFileType: null,
             fileTypes: FILE_TYPES,
             highlight: false,
-            label: 'CSV file',
             file: null,
             acceptedMIMETypesString: [
                 'text/csv',
                 'application/vnd.ms-excel',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             ],
-            errorMessage: '',
             inputFileMeta: {},
             productsTable: {
                 meta: { fields: [] },
@@ -731,18 +724,13 @@ export default {
             },
             templateSchema: null,
             templateDetails: null,
-            productsImages: {},
             companyId: this.$route.params.company_id,
             productsArray: [],
             showErrorsTable: false,
             errorsArray: [],
             validSchema: false,
-            item_type: '',
-            productTypeList: [],
-            departmentsList: [],
             templates: [],
             selectedTemplate: null,
-            isSet: false,
             categoriesList: [
                 { value: 'l1_l2', text: 'Level 1 and Level 2 Categories' },
                 { value: 'l3', text: 'Level 3 Category' }
@@ -752,8 +740,6 @@ export default {
                 { value: 'create', text: 'Add New HSN Codes' }
             ],
             selectedCategory: null,
-            brandsList: [],
-            selectedBrands: [],
             isUploading: false,
             isCompleted: false,
             isTableLoaded: false,
@@ -777,12 +763,6 @@ export default {
                 }`
             );
         },
-        // $openDownloadContextMenu() {
-        //     this.$nextTick(() => {
-        //         this.$refs.downloadMenu.toggleMenu = !this.$refs.downloadMenu
-        //             .toggleMenu;
-        //     });
-        // },
         capitalize(str) {
             return str && str.charAt(0).toUpperCase() + str.slice(1);
         },
@@ -836,9 +816,6 @@ export default {
                 this.uploadBulkProducts();
             }
         },
-        // closeConfirmationDialogBox(e) {
-        //     this.clearInputFile();
-        // },
         navigateToHistory() {
             this.$router.push({
                 path: `/administrator/product/${this.productType}/import/upload-history`
@@ -852,14 +829,12 @@ export default {
                     return;
                 }
                 filter = this.selectedCategory;
-                // this.fetchTemplate(filter);
             } else if (this.productType === 'hsn') {
                 if (!this.selectedTemplate) {
                     this.$snackbar.global.showError('Select template');
                     return;
                 }
                 filter = this.selectedTemplate;
-                // this.fetchTemplate(filter);
             }
             return CatalogService.sampleBulkTemplateLink(
                 this.productType,
@@ -1071,7 +1046,6 @@ export default {
                 );
                 return;
             }
-            // this.getFileType();
             //map values
             let result = [];
             try {
@@ -1340,11 +1314,6 @@ export default {
                 'import'
             )
                 .then(({ data }) => {
-                    // if (data && data.batch_id) {
-                    //     this.$refs.uploadHistory.loadHistory(true);
-                    //     return data.batch_id;
-                    // } else return false;
-
                     this.navigateToHistory();
                     this.$snackbar.global.showSuccess('File import started');
                     this.pageLoading = false;
@@ -1368,11 +1337,18 @@ export default {
                     file_name: file.name,
                     content_type: file.type,
                     size: file.size,
-                    params: { company_id: this.companyId || '1' }
+                    params: {
+                        company_id: this.companyId || '1',
+                        type: this.productType
+                    }
                 };
                 let request = { body };
                 this.loading = true;
-                return GrindorService.upload('test', body, file)
+                return GrindorService.upload(
+                    'admin-catalogue-import-export',
+                    body,
+                    file
+                )
                     .then(({ data }) => {
                         if (data && data.cdn && data.cdn.url) {
                             return data.cdn.url;
