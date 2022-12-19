@@ -579,7 +579,7 @@ export default {
                     name:
                         this.$route.name === 'rma-global-rule-setup' ||
                         this.$route.name === 'rma-global-rule-edit'
-                            ? 'Global Rules'
+                            ? 'Global Rule'
                             : this.editRuleData
                             ? this.channel.name
                             : 'Sales Channel',

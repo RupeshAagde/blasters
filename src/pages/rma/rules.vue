@@ -16,7 +16,7 @@
                         :theme="'secondary'"
                         v-flatBtn
                         @click="redirectToGlobalRuleList"
-                        >Global Rules</nitrozen-button
+                        >Global Rule</nitrozen-button
                     >
                 </div>
                 <div class="search-container">
@@ -25,7 +25,7 @@
                         class="search-input"
                         :showSearchIcon="true"
                         type="search"
-                        placeholder="Search by ID or Department"
+                        placeholder="Search by Channel Name"
                         v-model="optInSearchValue"
                         @input="searchPlatforms"
                     />

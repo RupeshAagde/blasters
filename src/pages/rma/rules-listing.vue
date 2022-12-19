@@ -16,7 +16,7 @@
                     />
                     <jumbotron
                         v-if="isGlobal"
-                        title="Global Rules"
+                        title="Global Rule"
                         btnLabel="Add Rule"
                         :btnDisabled="tableData.length >= 1"
                         @btnClick="redirectTo('setup')"
@@ -289,7 +289,7 @@ export default {
                     path: '/administrator/orders/rma/rules'
                 },
                 {
-                    name: this.isGlobal ? 'Global Rules' : this.channelName,
+                    name: this.isGlobal ? 'Global Rule' : this.channelName,
                     path: ''
                 }
             ]
