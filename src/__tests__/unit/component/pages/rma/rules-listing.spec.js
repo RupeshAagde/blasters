@@ -140,7 +140,7 @@ describe('RulesListing', () => {
                 path: '/administrator/orders/rma/rules'
             },
             {
-                name: 'Global Rules',
+                name: 'Global Rule',
                 path: ''
             }
         ])
@@ -243,7 +243,7 @@ describe('RulesListing', () => {
         // expect(wrapper.find('.nitrozen-switch input').value).toBe('true');
         // expect(wrapper.find('.jumbotron-title').textContent).toBe('Test name');
         expect(wrapper.find('.jumbotron-container').exists()).toBeTruthy();
-        expect(wrapper.find('.jumbotron-title').text()).toContain('Global Rules');
+        expect(wrapper.find('.jumbotron-title').text()).toContain('Global Rule');
     })
     it('Tests custom rules header', () => {
         const headerWrapper = mount(CustomRulesHeader, {
