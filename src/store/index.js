@@ -7,6 +7,7 @@ import { createBillingStore } from './modules/billing.module.js';
 import { createPackagingStore } from './modules/packaging.module';
 import { createVariantStore } from './modules/variants.module'
 import {createAdminWebhookStore} from "./modules/admin-webhook.module";
+import { createAdminAnalyticsStore} from './modules/admin-analytics.module'
 
 Vue.use(Vuex);
 export function createStore() {
@@ -17,6 +18,7 @@ export function createStore() {
     const packaging = createPackagingStore();
     const variants = createVariantStore();
     const webhook = createAdminWebhookStore();
+    const analytics = createAdminAnalyticsStore()
     return new Vuex.Store({
         modules: {
             auth,
@@ -25,7 +27,8 @@ export function createStore() {
             billing,
             packaging,
             webhook,
-            variants
+            variants,
+            analytics
         }
     });
 }

@@ -1,8 +1,9 @@
-import { isBrowser, isNode } from 'browser-or-node';
+import {isBrowser} from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
-import { Array, console } from 'window-or-global';
+import {Array, console} from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
-import { getNavigations } from '../pages/administrator/navigations';
+import {getNavigations} from '../pages/administrator/navigations';
+import get from "lodash/get";
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -655,6 +656,10 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+
+export const  pickValues = function (obj, keys) {
+    return get(obj, keys.join('.'));
+};
 
 export const detectFPApp = () => {
     if (isBrowser) {

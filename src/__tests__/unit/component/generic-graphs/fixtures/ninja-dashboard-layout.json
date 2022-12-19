@@ -1,0 +1,569 @@
+{
+  "dlayout": {
+    "panels": [
+      {
+        "cards": [
+          {
+            "id": "panel_filter_card",
+            "hidden": false,
+            "pinned": true,
+            "heading": "",
+            "position": {
+              "h": 4,
+              "w": 12,
+              "x": 0,
+              "y": 0
+            },
+            "graphInfo": {
+              "statusCode": 200,
+              "graphType": "bar",
+              "dataSource": "dashboard/line/sales",
+              "xAxes": [
+                "25 Oct",
+                "26 Oct",
+                "27 Oct",
+                "28 Oct",
+                "29 Oct",
+                "30 Oct",
+                "31 Oct",
+                "01 Nov"
+              ],
+              "yAxes": [
+                {
+                  "label": "In Rupees",
+                  "backgroundColor": "#E7EEFF",
+                  "borderColor": "#2E31BE",
+                  "fill": true,
+                  "data": [
+                    32,
+                    118,
+                    0,
+                    0,
+                    0,
+                    60,
+                    20,
+                    78
+                  ],
+                  "valueFormatter": {
+                    "prefixSymbol": "₹",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                }
+              ]
+            },
+            "extraProps": {
+              "height": 300,
+              "hideGraphOptions": {
+                "display": true,
+                "navLink": "",
+                "timeFilters": {
+                  "values": [
+                    {
+                      "id": "daily",
+                      "name": "daily",
+                      "text": "Daily"
+                    },
+                    {
+                      "id": "monthly",
+                      "name": "monthly",
+                      "text": "Monthly"
+                    }
+                  ],
+                  "default": "daily"
+                }
+              }
+            },
+            "isClosable": false,
+            "toolTipInfo": "Tooltip info"
+          }
+        ],
+        "margin": 5,
+        "boxCount": 4,
+        "bubbleUp": true,
+        "gridClasses": "header-grid-box",
+        "maxRowCount": 1,
+        "dragSelector": "div.card-header",
+        "resizeVisible": false,
+        "containerClass": "header",
+        "maxColumnCount": 12,
+        "fixLayoutOnLoad": true
+      },
+      {
+        "cards": [
+          {
+            "id": "card_total_lists",
+            "hidden": false,
+            "pinned": false,
+            "seedFilters": [
+              {
+                "filter_name": "Date Created",
+                "values": [
+                  {
+                    "text": "Last 24 hrs",
+                    "value":"Last 24 hrs"
+                  },
+                  {
+                    "text": "Last 2 days",
+                    "value":"Last 2 days"
+                  },
+                  {
+                    "text": "Last 7 days",
+                    "value":"Last 7 days"
+                  },
+                  {
+                    "text": "Last 15 days",
+                    "value":"Last 15 days"
+                  },
+                  {
+                    "text": "Last 1 Months",
+                    "value":"Last 1 Months"
+                  },
+                  {
+                    "text": "Last 6 Months",
+                    "value":"Last 6 Months"
+                  }
+                ],
+                "multiple":false
+              },
+              {
+                "filter_name": "Status",
+                "values": [
+                  {
+                    "text": "Delivery done",
+                    "value":"Delivered"
+                  },
+                  {
+                    "text": "Out For Delivery",
+                    "value":"Under Delivery"
+                  },
+                  {
+                    "text": "Refund Completed",
+                    "value":"Refund"
+                  },
+                  {
+                    "text": "Credit note generated",
+                    "value":"Credit not generated"
+                  },
+                  {
+                    "text": "RTO bag delivered",
+                    "value":"rto bag delivered"
+                  },
+                  {
+                    "text": "RTO in transit",
+                    "value":"Rto in transit"
+                  }
+                ],
+                "multiple":true
+              }
+            ],
+            "heading": "Total Lists",
+            "position": {
+              "h": 3,
+              "w": 5.5,
+              "x": 5.5,
+              "y": 3
+            },
+            "graphInfo": {
+              "statusCode": 200,
+              "columns": [
+                {
+                  "id": "total_list_channel_name",
+                  "type": "string",
+                  "field": "channel name",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "normal",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Channel Name",
+                  "isExpandable": true,
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": false
+                  }
+                },
+                {
+                  "id": "total_list_shipment_id",
+                  "type": "string",
+                  "field": "shipment id",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "normal",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Shipment Id",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": false
+                  }
+                },
+                {
+                  "id": "total_list_store_details",
+                  "type": "string",
+                  "field": "store details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Store Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_customer_details",
+                  "type": "string",
+                  "field": "customer details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Customer Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_customer_details",
+                  "type": "string",
+                  "field": "customer details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Customer Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_rider_details",
+                  "type": "COLLAPSE",
+                  "field": "rider details",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Rider Details",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_state",
+                  "type": "string",
+                  "field": "in state since",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "In State Since",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_status",
+                  "type": "status",
+                  "field": "status",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Status",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                },
+                {
+                  "id": "total_table_track",
+                  "type": "icon",
+                  "field": "track",
+                  "cellStyle": {
+                    "color": "#41434C",
+                    "font-size": "11px",
+                    "font-style": "normal",
+                    "font-family": "Inter",
+                    "font-weight": "500",
+                    "line-height": "17px"
+                  },
+                  "headerName": "Track",
+                  "valueFormatter": {
+                    "prefixSymbol": "",
+                    "suffixSymbol": "",
+                    "enableDynamicSuffix": true
+                  }
+                }
+              ],
+              "rows": [
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+91 6361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"success",
+                    "name": "Delivery done",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+916361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"default",
+                    "name": "Credit note generated",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "class":"collapse1",
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+916361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"default",
+                    "name": "Refund Completed",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "class":"collapse2",
+                  "track": {
+                    "url": "www.google.com",
+                    "icon": "track"
+                  }
+                },
+                {
+                  "channel name": "Fynd",
+                  "shipment id": [
+                    "16645101948401757414",
+                    "Sep 30, 2022, 02:05 AM"
+                  ],
+                  "store details": "2380",
+                  "customer details": "Bipin shinde",
+                  "rider details": [
+                    "Dil Bahadur",
+                    "+91 6361699614"
+                  ],
+                  "in state since": "00:28 hrs",
+                  "status": {
+                    "state":"failed",
+                    "name": "RTO IN TRANSIT",
+                    "time": "Sep 30, 2022, 04:54 PM"
+                  },
+                  "track": {
+                    "url": "https://www.google.co.in/",
+                    "icon": "track"
+                  },
+                  "collapseModel": {
+                    "collapse":true,
+                    "class":"collapse2",
+                    "fields": [
+                      {
+                        "name": "Reference ID",
+                        "value": "564d0592-405d-41c9-ba41 9294eb89a3d7"
+                      },
+                      {
+                        "name": "OTP",
+                        "value": "{'drop': '1261', 'pick': '3193'}"
+                      },
+                      {
+                        "name": "Other Rider Details",
+                        "value": "Siva +91 6361699614"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "graphType": "table-v2",
+              "dataSource": "dashboard_dunzo/table/delivery_lists",
+              "showPagination": false
+            },
+            "resizable": false,
+            "extraProps": {
+              "height": 200
+            },
+            "isClosable": true,
+            "toolTipInfo": "Details about the top-selling products"
+          }
+        ],
+        "margin": 5,
+        "boxCount": 4,
+        "bubbleUp": false,
+        "gridClasses": "sub-panel-grid-box",
+        "maxRowCount": null,
+        "dragSelector": "div",
+        "resizeVisible": false,
+        "containerClass": "",
+        "maxColumnCount": 11,
+        "fixLayoutOnLoad": false
+      }
+    ]
+  },
+  "isDefault": true,
+  "seedFilters": [
+    {
+      "id": "status",
+      "name": "Status",
+      "closed": true,
+      "values": [
+        "Active",
+        "Closed/RTO"
+      ],
+      "priority": 1,
+      "filterType": "SINGLE_SELECT_DROPDOWN",
+      "defaultValue": "Active",
+      "hasClearOption": false
+    },
+    {
+      "id": "company_id",
+      "name": "Company",
+      "closed": true,
+      "values": [
+        "Default company 1",
+        "Default company 2",
+        "Default company 3"
+      ],
+      "priority": 2,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
+    },
+    {
+      "id": "stores",
+      "name": "Store",
+      "closed": true,
+      "values": [
+        "5386",
+        "5410",
+        "5411",
+        "5415",
+        "5429",
+        "5437",
+        "5581",
+        "5630",
+        "5727",
+        "5773",
+        "5865",
+        "5918",
+        "5955",
+        "9564",
+        "9688",
+        "T599",
+        "T773",
+        "T813",
+        "T873",
+        "TB52",
+        "TC66",
+        "TC92",
+        "TCD9",
+        "TE82",
+        "TFM1",
+        "TI01",
+        "TIV0",
+        "TJB7",
+        "TJE8",
+        "TJG7",
+        "TJT8",
+        "TKE3",
+        "TLU0",
+        "TLW5",
+        "TM62",
+        "TO56",
+        "TPL7",
+        "TS80",
+        "TTX1",
+        "TU26",
+        "TUB8",
+        "TX15",
+        "TXEJ",
+        "TY45",
+        "TZ51",
+        "TZTK"
+      ],
+      "priority": 3,
+      "filterType": "MULTI_SELECT_DROPDOWN",
+      "defaultValue": "",
+      "hasClearOption": true
+    }
+  ]
+}

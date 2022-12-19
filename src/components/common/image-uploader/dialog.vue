@@ -66,7 +66,7 @@
                     </div>
                     <div class="footer-saperator"></div>
                     <nitrozen-button
-                        v-show="!isHDNImage || isEmpty || isCropped"
+                        v-show="(!isHDNImage && !isEmpty) || isCropped"
                         theme="secondary"
                         :disabled="edit || loading || isEmpty"
                         v-flat-btn
