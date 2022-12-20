@@ -54,6 +54,7 @@
                         :tableHeadings="tableHeadings"
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
+                        @onRuleClick="openSidePanel"
                     />
                     <div class="pagination-parent" v-if="(tableData.length > 0 && !showLoader && !isGlobal)">
                         <nitrozen-pagination
@@ -180,6 +181,9 @@ export default {
             localStorage.setItem('rma_rule_data', rmaRuleData)
             this.redirectTo('edit')
         },
+        openSidePanel(ruleData){
+            console.log(ruleData)
+        },
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
             .then(() => {
@@ -220,7 +224,6 @@ export default {
             this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
             this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
             !this.channelName && (this.channelName = this.channelData.name)
-            this.showCustom && this.setCustomTableHeader()
         },
         updateLocalStorage(){
             localStorage.getItem(this.localStorageKey) && localStorage.removeItem(this.localStorageKey)
@@ -267,9 +270,6 @@ export default {
                 this.updateRuleParams()
                 this.loadRules()
             })
-        },
-        setCustomTableHeader(){
-            this.showCustom ? this.tableHeadings.push('Action') : this.tableHeadings.pop()
         },
         searchChannels: debounce(function(input){
             this.searchInput = input

@@ -7,9 +7,9 @@
                 </td>
             </tr>
             <tr v-for="(tableRow, index) of tableData"
-                :key="index" :class="{'global-rule': !showCustom && !isGlobal}"
+                :key="index" :class="{'custom-rule': !isGlobal}"
                 @click="(function(){
-                    !showCustom && !isGlobal && ($emit('onEdit', tableRow))
+                    !isGlobal && ($emit('onRuleClick', tableRow))
                 })()">
             <!-- <tr v-for="(tableRow, index) of tableData" :key="index"> -->
                 <td>{{tableRow.id}}</td>
@@ -20,7 +20,7 @@
                         {{tableRow.qc_enabled ? 'Active' : 'Inactive'}}
                     </nitrozen-badge>
                 </td>
-                <td class="table-ctas" v-if="isGlobal || showCustom">
+                <td class="table-ctas" v-if="isGlobal">
                     <button class="row-cta delete" @click="$emit('onDelete', tableRow)">
                         <img src="/public/assets/svgs/delete_outline.svg"/>
                     </button>
@@ -96,8 +96,18 @@ export default {
         border-top: none;
         border-inline: none;
     }
-    .global-rule{
+    .custom-rule{
         cursor: pointer;
+        transition: 0.2s;
+        box-shadow: none;
+
+        &:hover{
+            box-shadow: 0px 0px 10px inset rgba(0, 0, 0, 0.07);
+        }
+
+        &:active{
+            box-shadow: 0px 0px 15px inset rgba(0, 0, 0, 0.1);
+        }
     }
     tr:last-child{
         border-bottom: none;
