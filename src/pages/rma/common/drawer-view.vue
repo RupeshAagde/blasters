@@ -1,5 +1,5 @@
 <template>
-    <div class="drawer-container">
+    <div class="drawer-container" @click="stopClick($event)">
         <div class="header">
             <h4 class="header-caption">Rule Details</h4>
             <ukt-inline-svg
@@ -17,8 +17,8 @@
                 <h4>Category</h4>
                 <span>{{ category }}</span>
             </div>
+            <h4>Reasons</h4>
             <div class="reasons-container">
-                <h4>Reasons</h4>
                 <div
                     v-for="(reason, reasonIndex) of reasons"
                     :key="reason.id"
@@ -213,6 +213,10 @@ export default {
         toggleParentReason(reasonIndex) {
             this.reasons[reasonIndex].collapse = !this.reasons[reasonIndex]
                 .collapse;
+        },
+
+        stopClick(event) {
+            event.stopPropagation();
         }
     }
 };
@@ -226,12 +230,15 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+    z-index: 999;
     .header {
         height: 7.5%;
-        width: 100%;
+        width: 70%;
         border-bottom: 1px solid @Iron;
         display: flex;
         justify-content: space-between;
+        position: fixed;
+        background-color: @White;
         .header-caption {
             font-weight: 600;
             margin: 1.75vh 0 0 1.5vw;
@@ -242,12 +249,11 @@ export default {
         }
     }
     .content {
+        margin-top: 7.5%;
         height: 92.5%;
-        display: flex;
-        flex-direction: column;
         padding: 1.75vh 0 0 1.5vw;
         .group {
-            height: 10vh;
+            height: 80px;
             width: 100%;
             span {
                 color: #9b9b9b;
@@ -259,6 +265,9 @@ export default {
             margin-bottom: 10px;
         }
         .reasons-container {
+            height: fit-content;
+            margin: 10px 0;
+            padding-bottom: 16px;
             .reason-item-container {
                 display: flex;
                 width: 95%;

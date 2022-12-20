@@ -390,7 +390,7 @@ export default {
         width: 70%;
         height: 100%;
         background: @White;
-        overflow-y: scroll;
+        overflow-y: auto;
         box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
         &::-webkit-scrollbar {
             display: none;
