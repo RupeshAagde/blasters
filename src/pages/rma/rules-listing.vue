@@ -1,6 +1,9 @@
 <!-- SHOWS GLOBAL AND CUSTOM RULES -->
 <template>
     <div class="panel">
+        <drawer :direction="'right'" :exist="true" ref="RightDrawer">
+            <drawer-view :data="drawerData"></drawer-view>
+        </drawer>
         <div class="breadcrumb-parent">
             <breadcrumb
                 :routes="breadcrumbRoutes"
@@ -54,7 +57,7 @@
                         :tableHeadings="tableHeadings"
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
-                        @onRuleClick="openSidePanel"
+                        @onRuleClick="openDrawer"
                     />
                     <div class="pagination-parent" v-if="(tableData.length > 0 && !showLoader && !isGlobal)">
                         <nitrozen-pagination
@@ -83,6 +86,7 @@ import CustomRulesHeader from './rules-components/custom-rules-header'
 import RMAService from '@/services/rma.service'
 import inlineSvgVue from '@/components/common/inline-svg'
 import loader from '@/components/common/loader'
+import Drawer from '@/components/common/drawer'
 import AdmNoContent from '@/components/common/adm-no-content.vue'
 import SearchContainer from '@/components/packaging/common/search-container.vue'
 import DeleteRuleDialog from './rules-components/delete-rule-dialog.vue'
@@ -106,6 +110,7 @@ export default {
         'rules-table': RulesTable,
         'breadcrumb': Breadcrumb,
         'jumbotron': Jumbotron,
+        'drawer': Drawer,
     },
     data(){
         return {
@@ -131,7 +136,8 @@ export default {
             departmentIds: [],
             channelId: '',
             channelIds: [],
-            ruleIds: []
+            ruleIds: [],
+            drawerData: {}
         }
     },
     methods:{
@@ -181,8 +187,13 @@ export default {
             localStorage.setItem('rma_rule_data', rmaRuleData)
             this.redirectTo('edit')
         },
-        openSidePanel(ruleData){
-            console.log(ruleData)
+        openDrawer(ruleData){
+            if (this.$refs.RightDrawer.active) {
+                this.$refs.RightDrawer.close();
+            } else {
+                this.$refs.RightDrawer.open();
+            }
+            this.drawerData = ruleData;
         },
         deleteRule(){
             RMAService.deleteRule(this.deleteRuleData)
