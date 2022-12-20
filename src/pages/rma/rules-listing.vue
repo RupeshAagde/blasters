@@ -1,13 +1,20 @@
 <!-- SHOWS GLOBAL AND CUSTOM RULES -->
 <template>
     <div class="panel">
-        <drawer :direction="'right'" :exist="true" ref="RightDrawer">
-            <drawer-view :data="drawerData"></drawer-view>
-        </drawer>
+        <transition name="slide">
+            <template v-if="isDrawerOpen">
+                <div class="slide-fade" ref="slide-fade" @click="close($event)">
+                    <div class="container">
+                        <drawer-view
+                            :drawerData="drawerData"
+                            :close="close"
+                        ></drawer-view>
+                    </div>
+                </div>
+            </template>
+        </transition>
         <div class="breadcrumb-parent">
-            <breadcrumb
-                :routes="breadcrumbRoutes"
-            />
+            <breadcrumb :routes="breadcrumbRoutes" />
         </div>
         <div class="main-container">
             <div class="page-container">
@@ -46,8 +53,11 @@
                         :handleChange="searchChannels"
                         :disabled="false"
                     />
-                    <div class="loader-parent" v-if="tableData.length === 0 && showLoader">
-                        <loader/>
+                    <div
+                        class="loader-parent"
+                        v-if="tableData.length === 0 && showLoader"
+                    >
+                        <loader />
                     </div>
                     <rules-table
                         :tableData="tableData"
@@ -57,9 +67,12 @@
                         :tableHeadings="tableHeadings"
                         @onDelete="openDeleteModal"
                         @onEdit="redirectToEdit"
-                        @onRuleClick="openDrawer"
+                        @onRuleClick="handleDrawer"
                     />
-                    <div class="pagination-parent" v-if="(tableData.length > 0 && !showLoader && !isGlobal)">
+                    <div
+                        class="pagination-parent"
+                        v-if="tableData.length > 0 && !showLoader && !isGlobal"
+                    >
                         <nitrozen-pagination
                             v-model="pagination"
                             @change="paginationChange"
@@ -68,7 +81,11 @@
                     </div>
                     <adm-no-content
                         v-if="tableData.length === 0 && !showLoader"
-                        :helperText="`No ${isGlobal ? 'Global' : 'Custom'} Rules found ${!isGlobal ? `in ${channelName}` : ''}`"
+                        :helperText="
+                            `No ${isGlobal ? 'Global' : 'Custom'} Rules found ${
+                                !isGlobal ? `in ${channelName}` : ''
+                            }`
+                        "
                     ></adm-no-content>
                 </div>
             </div>
@@ -80,20 +97,20 @@
 import {
     NitrozenInput,
     NitrozenPagination,
-    NitrozenBadge,
-} from '@gofynd/nitrozen-vue'
-import CustomRulesHeader from './rules-components/custom-rules-header'
-import RMAService from '@/services/rma.service'
-import inlineSvgVue from '@/components/common/inline-svg'
-import loader from '@/components/common/loader'
-import Drawer from '@/components/common/drawer'
-import AdmNoContent from '@/components/common/adm-no-content.vue'
-import SearchContainer from '@/components/packaging/common/search-container.vue'
-import DeleteRuleDialog from './rules-components/delete-rule-dialog.vue'
-import RulesTable from './rules-components/rules-table.vue'
-import { debounce } from '@/helper/utils'
-import Breadcrumb from './common/breadcrumb.vue'
-import Jumbotron from '@/components/common/jumbotron'
+    NitrozenBadge
+} from '@gofynd/nitrozen-vue';
+import CustomRulesHeader from './rules-components/custom-rules-header';
+import RMAService from '@/services/rma.service';
+import inlineSvgVue from '@/components/common/inline-svg';
+import loader from '@/components/common/loader';
+import AdmNoContent from '@/components/common/adm-no-content.vue';
+import SearchContainer from '@/components/packaging/common/search-container.vue';
+import DeleteRuleDialog from './rules-components/delete-rule-dialog.vue';
+import RulesTable from './rules-components/rules-table.vue';
+import DrawerView from './common/drawer-view.vue';
+import { debounce } from '@/helper/utils';
+import Breadcrumb from './common/breadcrumb.vue';
+import Jumbotron from '@/components/common/jumbotron';
 
 export default {
     name: 'custom-rules',
@@ -102,17 +119,17 @@ export default {
         'custom-rules-header': CustomRulesHeader,
         'nitrozen-pagination': NitrozenPagination,
         'inline-svg': inlineSvgVue,
-        'loader': loader,
+        loader: loader,
         'adm-no-content': AdmNoContent,
         'nitrozen-badge': NitrozenBadge,
         'search-container': SearchContainer,
         'delete-rule-dialog': DeleteRuleDialog,
         'rules-table': RulesTable,
-        'breadcrumb': Breadcrumb,
-        'jumbotron': Jumbotron,
-        'drawer': Drawer,
+        breadcrumb: Breadcrumb,
+        jumbotron: Jumbotron,
+        DrawerView
     },
-    data(){
+    data() {
         return {
             isGlobal: false,
             localStorageKey: 'rma_sales_channel_data',
@@ -137,21 +154,21 @@ export default {
             channelId: '',
             channelIds: [],
             ruleIds: [],
-            drawerData: {}
-        }
+            drawerData: {},
+            isDrawerOpen: false
+        };
     },
-    methods:{
-        loadRules(params = this.rulesParams){
+    methods: {
+        loadRules(params = this.rulesParams) {
             this.tableData = [];
-            this.showLoader = true
-            RMAService.getRulesList(params)
-            .then((result) => {
-                this.tableData = result.data.items
-                this.showLoader = false
-                this.pagination.total = result.data.page.item_total
-            })
+            this.showLoader = true;
+            RMAService.getRulesList(params).then((result) => {
+                this.tableData = result.data.items;
+                this.showLoader = false;
+                this.pagination.total = result.data.page.item_total;
+            });
         },
-        updateRuleParams(){
+        updateRuleParams() {
             this.rulesParams = {
                 page_size: this.pagination.limit,
                 page_no: this.pagination.current,
@@ -160,60 +177,61 @@ export default {
                 department: this.departmentIds,
                 id: this.ruleIds,
                 rule_type: this.isGlobal ? 'global' : 'custom'
-            }
+            };
         },
-        paginationChange(paginationData){
-            this.pagination.current = paginationData.current
-            this.pagination.limit = paginationData.limit
+        paginationChange(paginationData) {
+            this.pagination.current = paginationData.current;
+            this.pagination.limit = paginationData.limit;
             this.loadRules({
                 ...this.rulesParams,
                 page_no: paginationData.current,
-                page_size: paginationData.limit,
-            })
+                page_size: paginationData.limit
+            });
         },
         redirectTo(to = 'edit') {
-            this.isGlobal ?
-                this.$router.push({ path: `${this.defaultPath}/${to}`})
-                :
-                this.$router.push({ path: `${this.defaultPath}/${this.getChannelId()}/${to}`})
+            this.isGlobal
+                ? this.$router.push({ path: `${this.defaultPath}/${to}` })
+                : this.$router.push({
+                      path: `${this.defaultPath}/${this.getChannelId()}/${to}`
+                  });
         },
         redirectToEdit(data) {
             const rmaRuleData = JSON.stringify({
                 actions: data.actions,
                 id: data.id,
-                channel: data.channel, 
+                channel: data.channel,
                 meta: data.meta
-            })
-            localStorage.setItem('rma_rule_data', rmaRuleData)
-            this.redirectTo('edit')
+            });
+            localStorage.setItem('rma_rule_data', rmaRuleData);
+            this.redirectTo('edit');
         },
-        openDrawer(ruleData){
-            if (this.$refs.RightDrawer.active) {
-                this.$refs.RightDrawer.close();
-            } else {
-                this.$refs.RightDrawer.open();
-            }
+        handleDrawer(ruleData) {
             this.drawerData = ruleData;
+            this.isDrawerOpen = true;
         },
-        deleteRule(){
+        close(e) {
+            e.stopPropagation();
+            this.isDrawerOpen = false;
+        },
+        deleteRule() {
             RMAService.deleteRule(this.deleteRuleData)
-            .then(() => {
-                this.$snackbar.global.showSuccess('Rule Deleted')
-                this.$refs['delete-rule-dialog'].close()
-                this.loadRules()
-            })
-            .catch((err) => {
-                const msg = 'Rule Couldn\'t be deleted'
-                this.$snackbar.global.showError(msg)
-                this.$refs['delete-rule-dialog'].close()
-            })
+                .then(() => {
+                    this.$snackbar.global.showSuccess('Rule Deleted');
+                    this.$refs['delete-rule-dialog'].close();
+                    this.loadRules();
+                })
+                .catch((err) => {
+                    const msg = "Rule Couldn't be deleted";
+                    this.$snackbar.global.showError(msg);
+                    this.$refs['delete-rule-dialog'].close();
+                });
         },
-        openDeleteModal(data){
-            this.deleteRuleData = {...data, is_deleted: true}
-            this.$refs['delete-rule-dialog'].open()
+        openDeleteModal(data) {
+            this.deleteRuleData = { ...data, is_deleted: true };
+            this.$refs['delete-rule-dialog'].open();
         },
-        closeDeleteModal(){
-            this.$refs['delete-rule-dialog'].close()
+        closeDeleteModal() {
+            this.$refs['delete-rule-dialog'].close();
         },
         // customListing(isEnabled){
         //     this.showLoader = true
@@ -225,75 +243,84 @@ export default {
         //     .then(() => {
         //         this.showCustom = isEnabled
         //         this.updateLocalStorage()
-        //         this.updateRuleParams() 
+        //         this.updateRuleParams()
         //         this.setCustomTableHeader()
         //         this.loadRules()
         //     })
         // },
-        setChannelData(){
-            if (this.isGlobal) { return }
-            this.channelData = JSON.parse(localStorage.getItem(this.localStorageKey))
-            this.channelData && (this.showCustom = this.channelData.qc_config === 'custom')
-            !this.channelName && (this.channelName = this.channelData.name)
+        setChannelData() {
+            if (this.isGlobal) {
+                return;
+            }
+            this.channelData = JSON.parse(
+                localStorage.getItem(this.localStorageKey)
+            );
+            this.channelData &&
+                (this.showCustom = this.channelData.qc_config === 'custom');
+            !this.channelName && (this.channelName = this.channelData.name);
         },
-        updateLocalStorage(){
-            localStorage.getItem(this.localStorageKey) && localStorage.removeItem(this.localStorageKey)
+        updateLocalStorage() {
+            localStorage.getItem(this.localStorageKey) &&
+                localStorage.removeItem(this.localStorageKey);
             const updatedJSON = JSON.stringify({
                 ...this.channelData,
                 qc_config: this.showCustom ? 'custom' : 'global'
             });
-            localStorage.setItem(this.localStorageKey, updatedJSON)
+            localStorage.setItem(this.localStorageKey, updatedJSON);
         },
-        getChannelId(){
-            return this.$route.params.sales_channel ? this.$route.params.sales_channel.toString() : ''
+        getChannelId() {
+            return this.$route.params.sales_channel
+                ? this.$route.params.sales_channel.toString()
+                : '';
         },
-        filterRulesList({searchById = false}){
+        filterRulesList({ searchById = false }) {
             if (this.searchInput === '') {
-                this.departmentIds = []
-                this.ruleIds = []
-                this.pagination.current = 1
-                this.updateRuleParams()
-                this.loadRules()
-                return
+                this.departmentIds = [];
+                this.ruleIds = [];
+                this.pagination.current = 1;
+                this.updateRuleParams();
+                this.loadRules();
+                return;
             }
             if (searchById) {
-                this.ruleIds = [parseInt(this.searchInput)]
-                this.updateRuleParams()
-                this.loadRules()
-                return
+                this.ruleIds = [parseInt(this.searchInput)];
+                this.updateRuleParams();
+                this.loadRules();
+                return;
             }
             RMAService.getDepartments({
                 page_no: 1,
                 page_size: 9999,
                 search: this.searchInput
             })
-            .then(result => {
-                const items = result.data.items
-                return items.map(item => item.uid.toString())
-            })
-            .then((departmentUids) => {
-                if (departmentUids.length === 0) {
-                    this.tableData = []
-                    this.showLoader = false
-                    return
-                }
-                this.departmentIds = departmentUids
-                this.updateRuleParams()
-                this.loadRules()
-            })
+                .then((result) => {
+                    const items = result.data.items;
+                    return items.map((item) => item.uid.toString());
+                })
+                .then((departmentUids) => {
+                    if (departmentUids.length === 0) {
+                        this.tableData = [];
+                        this.showLoader = false;
+                        return;
+                    }
+                    this.departmentIds = departmentUids;
+                    this.updateRuleParams();
+                    this.loadRules();
+                });
         },
-        searchChannels: debounce(function(input){
-            this.searchInput = input
-            this.pagination.current = 1
-            const inputStartsWithNumber = input.length >= 1 && !isNaN(parseInt(input.charAt(0)))
-            if (inputStartsWithNumber){
-                this.filterRulesList({searchById: true})
-                return
+        searchChannels: debounce(function(input) {
+            this.searchInput = input;
+            this.pagination.current = 1;
+            const inputStartsWithNumber =
+                input.length >= 1 && !isNaN(parseInt(input.charAt(0)));
+            if (inputStartsWithNumber) {
+                this.filterRulesList({ searchById: true });
+                return;
             }
-            this.showLoader = true
-            this.filterRulesList({})
+            this.showLoader = true;
+            this.filterRulesList({});
         }, 300),
-        setBreadcrumbRoutes(){
+        setBreadcrumbRoutes() {
             this.breadcrumbRoutes = [
                 {
                     name: 'Return Merchandise Authorisation',
@@ -303,36 +330,81 @@ export default {
                     name: this.isGlobal ? 'Global Rule' : this.channelName,
                     path: ''
                 }
-            ]
+            ];
         }
     },
     mounted() {
-        this.isGlobal = this.$route.name === 'rma-global-rules'
-        this.tableHeadings = this.isGlobal ? [
-            'ID',
-            'Department',
-            'Category',
-            'Quality Check',
-            'Actions'
-        ] : [
-            'ID',
-            'Department',
-            'Category',
-            'Quality Check',
-        ]
-        this.setChannelData()
-        this.defaultPath = `/administrator/orders/rma/rules/${this.isGlobal ? 'global' : 'custom'}`
-        this.channelId = this.getChannelId()
-        this.channelIds = this.channelId ? [this.channelId] : []
-        this.updateRuleParams()
-        this.loadRules()
-        this.setBreadcrumbRoutes()
+        this.isGlobal = this.$route.name === 'rma-global-rules';
+        this.tableHeadings = this.isGlobal
+            ? ['ID', 'Department', 'Category', 'Quality Check', 'Actions']
+            : ['ID', 'Department', 'Category', 'Quality Check'];
+        this.setChannelData();
+        this.defaultPath = `/administrator/orders/rma/rules/${
+            this.isGlobal ? 'global' : 'custom'
+        }`;
+        this.channelId = this.getChannelId();
+        this.channelIds = this.channelId ? [this.channelId] : [];
+        this.updateRuleParams();
+        this.loadRules();
+        this.setBreadcrumbRoutes();
     }
-}
+};
 </script>
 
 <style lang="less" scoped>
-    @import './../less/page-header.less';
-    @import './../less/page-ui.less';
-    @import './rules-components/rules-listing.less';
+@import './../less/page-header.less';
+@import './../less/page-ui.less';
+@import './rules-components/rules-listing.less';
+
+.slide-leave-active,
+.slide-enter-active {
+    transition: all 0.3s ease;
+}
+.slide-enter,
+.slide-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.overlay {
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 320px;
+    width: 100%;
+    z-index: @dialog;
+    background-color: rgba(82, 78, 78, 0.52);
+}
+
+.slide-fade {
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    background-color: rgba(82, 78, 78, 0.52);
+    z-index: @shipmentDrawer;
+    .container {
+        position: absolute;
+        right: 0px;
+        width: 70%;
+        height: 100%;
+        background: @White;
+        overflow-y: scroll;
+        box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        @media @mobile {
+            position: fixed;
+            width: 100%;
+        }
+        .cancel-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+        }
+    }
+}
 </style>
