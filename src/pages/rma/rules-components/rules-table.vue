@@ -6,11 +6,12 @@
                     {{heading}}
                 </td>
             </tr>
-            <tr v-for="(tableRow, index) of tableData"
+            <!-- <tr v-for="(tableRow, index) of tableData"
                 :key="index" :class="{'global-rule': !showCustom && !isGlobal}"
                 @click="(function(){
                     !showCustom && !isGlobal && ($emit('onEdit', tableRow))
-                })()">
+                })()"> -->
+            <tr v-for="(tableRow, index) of tableData" :key="index">
                 <td>{{tableRow.id}}</td>
                 <td>{{tableRow.meta.department ? tableRow.meta.department ? tableRow.meta.department.display_name ? tableRow.meta.department.display_name : 'All' : '' : 'All'}}</td>
                 <td>{{tableRow.meta.l3 ? tableRow.meta.l3.display_name : 'All'}}</td>
@@ -96,8 +97,6 @@ export default {
         border-inline: none;
     }
     .global-rule{
-        transition: 0.2s;
-        position: relative;
         cursor: pointer;
     }
     tr:last-child{
