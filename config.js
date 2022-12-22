@@ -424,7 +424,13 @@ const conf = convict({
             env: 'FRENZY_ADMIN_URL',
             args: 'frenzy_admin_url'
         },
-
+        DAYTRADER_ADMIN_URL: {
+            doc: "Daytrader Admin URL",
+            format: String,
+            default: '',
+            env: "DAYTRADER_ADMIN_URL",
+            arg: "daytrader_admin_url"
+        }
     },
 
     // Sentry
