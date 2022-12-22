@@ -32,7 +32,7 @@
                         :disabled="editMode"
                         required
                         :type="'text'"
-                        :maxlength="8"
+                        :maxlength="11"
                         placeholder="For eg. 61152010"
                         :value="hsn_code.value"
                         v-model="hsn_code.value"
