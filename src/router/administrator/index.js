@@ -738,6 +738,7 @@ export default [
                         }
                     }
                 ]
+            },
             // Category
             {
                 name: 'category',
