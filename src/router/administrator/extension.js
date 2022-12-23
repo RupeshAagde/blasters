@@ -11,7 +11,14 @@ export default [
         path: 'extensions/review',
         component: ExtensionReviewList,
         beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, ['extension']);
+            return checkUserPermission(to, from, next, ['extension/review']);
+        }
+    },
+    {
+        path: 'extensions/review/:review_id',
+        component: ExtensionReview,
+        beforeEnter: (to, from, next) => {
+            return checkUserPermission(to, from, next, ['extension/review']);
         }
     },
     {
@@ -31,13 +38,6 @@ export default [
     {
         path: 'extensions/collection/edit/:collection_id',
         component: ExtensionCollectionForm,
-        beforeEnter: (to, from, next) => {
-            return checkUserPermission(to, from, next, ['extension']);
-        }
-    },
-    {
-        path: 'extensions/review/:review_id',
-        component: ExtensionReview,
         beforeEnter: (to, from, next) => {
             return checkUserPermission(to, from, next, ['extension']);
         }

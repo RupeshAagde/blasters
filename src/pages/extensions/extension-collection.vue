@@ -276,11 +276,6 @@ export default {
             this.$router.push({
                 path: `/administrator/extensions/collection/edit/${id}`
             });
-        },
-        onCancel() {
-            this.$router
-                .push(`/administrator/extensions/review`)
-                .catch(() => {});
         }
     }
 };

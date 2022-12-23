@@ -401,3 +401,14 @@ p.content-desc {
         padding: 18px 16px;
     }
 }
+/*
+  use this class on elements where you need to show ellipses on elements.
+  Note: please give a max-width along with this class for the overflow to take effect.
+  By default it takes 70% width
+ */
+.limit-chars {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+  }

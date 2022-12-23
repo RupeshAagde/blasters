@@ -114,8 +114,25 @@ export const getNavigations = () => {
                     highlightedIcon: 'home-highlighted',
                     active: false,
                     permission: 'order'
+                },
+                {
+                    display: 'Hyperlocal Tracking',
+                    link: '/administrator/orders/hyperlocal-tracking',
+                    title: 'hyperlocal-tracking',
+                    icon: 'home',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
                 }
             ]
+            //     {
+            //         display: 'Orders',
+            //         link: '/administrator/orders/list',
+            //         title: 'orders',
+            //         icon: 'orders-bag',
+            //         highlightedIcon: 'orders-highlighted',
+            //         active: false
+            //     }
+            // ]
         },
         {
             display: 'Integrations',
@@ -204,7 +221,7 @@ export const getNavigations = () => {
         },
         {
             display: 'Extension',
-            link: '/administrator/extensions/review',
+            link: '/administrator/extensions',
             title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
@@ -216,6 +233,7 @@ export const getNavigations = () => {
                     link: '/administrator/extensions/review',
                     title: 'review',
                     icon: 'settings',
+                    permission: 'extension/review',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 },

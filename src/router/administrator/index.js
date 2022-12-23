@@ -1,5 +1,5 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
-import PlanCreator from './plan-creator';
+import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
@@ -16,6 +16,9 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from '../../pages/tickets/configuration/add-category.vue';
 import Configuration from './../../pages/tickets/configuration/configuration.vue';
+import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
+import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
+import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -55,19 +58,22 @@ import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
 import CreateWebhooks from './../../pages/webhook/index.vue';
 import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
+import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
-const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import RMAPage from '@/pages/rma';
 import RMARulesListing from '@/pages/rma/rules-listing';
 import RMASetup from '@/pages/rma/rma-setup.vue';
 import Rules from '@/pages/rma/rules';
+const OrdersNinjaPage = () => import('@/pages/orders/ninja')
+const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
 import CategoryConfig from '@/pages/packaging/category-config.vue';
 import PackagingCreate from '@/pages/packaging/create-packaging.vue';
 import CreateCategory from '@/pages/packaging/create-category-home.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
+import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {
@@ -75,7 +81,7 @@ export default [
         beforeEnter: authenticatedUser,
         component: AdministratorBaseViewVue,
         children: [
-            // ...PlanCreator,
+            ...PlanCreatorRoutes,
             ...ExtensionRoutes,
             {
                 name: 'company-list',
@@ -91,7 +97,7 @@ export default [
                 component: ListWebhooks,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['webhook']);
-                }
+                },
             },
             {
                 name: 'create-webhook',
@@ -110,11 +116,37 @@ export default [
                 }
             },
             {
+                name: 'report-history',
+                path: 'report-history',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
+                name: 'report-history',
+                path: 'report-history/:subscriberId',
+                component: ReportHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+
+            },
+            {
                 name: 'webhook-report',
                 path: 'webhook-report',
                 component: WebhookReport,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['webhook']);
+                }
+            },
+            {
+                name: 'webhook-report',
+                path: 'webhook-report/:subscriberId',
+                component: WebhookReport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             {
@@ -243,6 +275,30 @@ export default [
                 name: 'support-configuration',
                 path: 'support/configuration',
                 component: Configuration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-kapture',
+                path: 'support/configuration/integration/kapture',
+                component: kaptureIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-freshdesk',
+                path: 'support/configuration/integration/freshdesk',
+                component: freshdeskIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-default',
+                path: 'support/configuration/integration/default',
+                component: fyndPlatformIndex,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
@@ -682,7 +738,6 @@ export default [
                         }
                     }
                 ]
-            },
             // Category
             {
                 name: 'category',
@@ -719,7 +774,15 @@ export default [
                 }
             },
             {
-                name: 'application-order-details',
+                name: 'orders-hyperlocal-tracking',
+            path: 'orders/hyperlocal-tracking',
+            component: OrdersNinjaPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['order']);
+            }
+        },
+        {
+            name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
@@ -799,7 +862,7 @@ export default [
                         'admin-access'
                     ]);
                 }
-            }
+            },
         ]
     },
     {
