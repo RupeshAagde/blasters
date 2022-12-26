@@ -1,0 +1,62 @@
+[
+    {
+        "filter_name": "Date Created",
+        "values": [
+            {
+                "text": "Last 24 hrs",
+                "value":"Last 24 hrs"
+            },
+            {
+                "text": "Last 2 days",
+                "value":"Last 2 days"
+            },
+            {
+                "text": "Last 7 days",
+                "value":"Last 7 days"
+            },
+            {
+                "text": "Last 15 days",
+                "value":"Last 15 days"
+            },
+            {
+                "text": "Last 1 Months",
+                "value":"Last 1 Months"
+            },
+            {
+                "text": "Last 6 Months",
+                "value":"Last 6 Months"
+            }
+        ],
+        "multiple":false
+    },
+    {
+        "filter_name": "Status",
+        "values": [
+            {
+                "text": "Delivery done",
+                "value":"Delivered"
+            },
+            {
+                "text": "Out For Delivery",
+                "value":"Under Delivery"
+            },
+            {
+                "text": "Refund Completed",
+                "value":"Refund"
+            },
+            {
+                "text": "Credit note generated",
+                "value":"Credit not generated"
+            },
+            {
+                "text": "RTO bag delivered",
+                "value":"rto bag delivered"
+            },
+            {
+                "text": "RTO in transit",
+                "value":"Rto in transit"
+            }
+        ],
+        "multiple":true
+    }
+]

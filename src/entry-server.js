@@ -8,7 +8,9 @@ const {
     BROWSER_CONFIG,
     SENTRY_DSN,
     SENTRY_ENVIRONMENT,
-    CDN_ITEM_DOMAINS
+    CDN_ITEM_DOMAINS,
+    CDN_ITEM_BASE_PATH,
+    OLD_CDN_BASE_URLS
 } = envVars;
 
 // entry-server.js
@@ -103,7 +105,9 @@ const getAppEnv = () => {
             INVITE: {
                 PLATFORM: 'administrator'
             },
-            CDN_ITEM_DOMAINS: CDN_ITEM_DOMAINS
+            CDN_ITEM_DOMAINS: CDN_ITEM_DOMAINS,
+            CDN_ITEM_BASE_PATH: CDN_ITEM_BASE_PATH,
+            OLD_CDN_BASE_URLS: OLD_CDN_BASE_URLS
         };
         strEnvs += `<script>window.env = ${JSON.stringify(
             { ...BROWSER_CONFIG, ...commonEnvs },

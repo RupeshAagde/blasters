@@ -111,10 +111,8 @@
                                 placeholder="Enter Seller ID"
                                 v-model="sellerId.value"
                                 :required="isRequired"
+                                @keyup.enter="getSellerDetails"
                                 @blur="getSellerDetails"
-                                @input="validateForm('sellerId')"
-                                @keyup.enter.tab="getSellerDetails"
-                                @keyup.delete.backspace="resetSellerName"
                                 :disabled="readOnlyMode || editingMode"
                             ></nitrozen-input>
                             <nitrozen-error v-if="sellerId.errorMessage">{{ sellerId.errorMessage }}</nitrozen-error>
@@ -151,8 +149,7 @@
                                 placeholder="Enter Shipment ID"
                                 :disabled="readOnlyMode"
                                 v-model="shipmentIdCommercial.value"
-                                :required="isRequired"
-                                @input="validateForm('shipmentIdCommercial')"
+                                @input="validateForm('shipmentIdCommercial', false)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="shipmentIdCommercial.errorMessage">{{ shipmentIdCommercial.errorMessage }}</nitrozen-error>
                         </div>
@@ -164,6 +161,8 @@
                                 :disabled="readOnlyMode"
                                 v-model="invoiceNumber.value"
                                 :required="isRequired"
+                                @keyup.enter.tab="validateServiceInvoice"
+                                @blur="validateServiceInvoice"
                                 @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
@@ -176,15 +175,17 @@
 
                     <div class="row-1">
                         <div class="fee-type">
-
-                            <nitrozen-input
+                            <nitrozen-dropdown
                                 label="Fee Component Type"
-                                placeholder="Enter Fee Component Type"
-                                :required="isRequired"
-                                :disabled="readOnlyMode"
                                 v-model="feeType.value"
-                                @input="validateForm('feeType')"
-                            ></nitrozen-input>
+                                :items="FeeComponentTypeList"
+                                :disabled="readOnlyMode"
+                                :required="isRequired"
+                                :searchable="true"
+                                @change="validateForm('feeType')"
+                                
+                            ></nitrozen-dropdown>
+                            <!-- @searchInputChange="changePurposeType($event)" -->
                             <nitrozen-error v-if="feeType.errorMessage">{{ feeType.errorMessage }}</nitrozen-error>
                         </div>
 
@@ -258,10 +259,11 @@
                             :required="isRequired"
                             :disabled="readOnlyMode || editingMode"
                             v-model="invoiceNumber.value"
-                            @keyup.enter.tab="getFeeInvoiceDetails"
-                            @blur="getFeeInvoiceDetails"
+                            
+                            @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
+                        <!-- @keyup.enter.tab="validateServiceInvoice" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -443,14 +445,6 @@
                                 @disable-save="ChildToParent($event)"
                             ></expandable-table>
                         </accordion>
-                        <!-- <expandable-table 
-                            v-if="componentList && purposeList" 
-                            :componentList="componentList" 
-                            :purpose="purposeList"
-                            :bagData="bag"
-                            :readOnly="readOnlyMode"
-                            @selected-component="ChildToParent($event)"
-                        ></expandable-table> -->
                     </div>
                 </div>
             </div>
@@ -510,6 +504,7 @@
     import ApproverDrawer from './approver-drawer.vue';
     import { GET_USER_INFO } from '@/store/getters.type';
     import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
+    import loader from '@/components/common/loader';
     import moment from 'moment';
     import {
         NitrozenInput,
@@ -553,7 +548,8 @@
             NitrozenChips,
             MirageAlert,
             NitrozenInline,
-            'adm-inline-svg': admInlineSVG
+            'adm-inline-svg': admInlineSVG,
+            loader
         },
         directives: {
             flatBtn,
@@ -591,8 +587,8 @@
                 isPreview: false,
                 purposeList: [],    
                 filteredPurposeList : [],
+                FeeComponentTypeList: [],
                 noteDetailsMap: {},
-                //purposeTypeReadOnly: [],
                 purposeType: {
                     value: '',
                     errorMessage: '',
@@ -676,15 +672,14 @@
         computed: {
             ...mapGetters({
                 userData: GET_USER_INFO,
-                aclPermissions: ADMIN_PERMISSIONS,
-                //isLoggedIn: IS_LOGGED_IN,
-                //currentUserPermissions: GET_USER_PERMISSIONS
+                aclPermissions: ADMIN_PERMISSIONS
             }),
         },
 
         mounted() {
             this.isApprover = this.$route.params.isApprover;
             this.getNoteType();
+            this.getCommercialFeeType();
             this.getSellerDetails();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
@@ -769,12 +764,13 @@
             },
 
             resetForm() {
-                this.sellerId.value = '';
+                this.sellerId.value = '1';
                 this.sellerName = '';
                 this.purposeType.value = '';
                 this.shipmentId.value = [];
                 this.invoiceNumber.value = '';
                 this.feeType.value = '';
+                this.invoiceNumber.errorMessage = '';
                 this.creditDebitNoteAmount.value = '';
                 this.kaptureId.value = '';
                 this.remarks.value = '';
@@ -790,6 +786,7 @@
                 this.purposeList = [];
                 this.setPurposeList();
                 this.showTicks = [];
+                this.getSellerDetails();
             },
             resetSellerName() {
                 if(this.sellerId.value.trim() === ''){
@@ -1014,13 +1011,12 @@
                 if(Object.values(this.isValidForm).includes(false)){
                     return true;
                 }
-
                 switch (this.selectedType) {
                     case 'commercial':
                         if(Object.keys(this.isValidForm).length === 8) return false;
                         break;
                     case 'gst_fee':
-                        if(Object.keys(this.isValidForm).length === 2) {
+                        if(Object.keys(this.isValidForm).length > 3) {
                             if (!this.calledFromChild) {
                                 return true;
                             }
@@ -1028,7 +1024,7 @@
                         }
                         break;
                     case 'gst_service':
-                        if(Object.keys(this.isValidForm).length === 3 && this.calledFromChild) return false;
+                        if(Object.keys(this.isValidForm).length > 3 && this.calledFromChild) return false;
                         break;
                 }
                 return true;
@@ -1226,10 +1222,9 @@
                         }
                     })
                     .catch((err) => {
-                        //console.error(err);
-                        /* this.$snackbar.global.showError(
-                            `Failed due to ${err?.message}`
-                        ); */
+                        this.$snackbar.global.showError(
+                            `Failed due to ${err.message}`
+                        );
                     })
                     .finally(() => {
                         //this.inProgress = false;
@@ -1611,6 +1606,7 @@
 
             // method to get user name from user id
             async getSellerDetails() {
+                this.sellerId.errorMessage = (this.sellerId.value.length == 0) ? 'Seller ID is required' : '';
                 const params = {
                     "data": {
                         "seller_id": this.sellerId.value
@@ -1618,9 +1614,14 @@
                 }
                 try {
                     const res = await CreditDebitNoteServices.getSellerDetails(params);
-                    this.sellerName = res.data.data.seller_name;
-                    this.isValidForm["sellerName"] =  true;
-                    this.isValidForm["sellerId"] = true;
+
+                    if(this.sellerId.value.length == 0){
+                        this.sellerName = '';
+                    }else{
+                        this.sellerName = res.data.data.seller_name;
+                        this.isValidForm["sellerName"] =  true;
+                        this.isValidForm["sellerId"] = true;
+                    }
                 } catch (error) {
                     this.$snackbar.global.showError('Invalid user name');
                     this.sellerName = ''
@@ -1631,6 +1632,7 @@
 
             // method to get Fee invoice details
             async getFeeInvoiceDetails() { 
+                this.feeInvoiceDetails = [];
                 let res;
                 const params = {
                     "data":{
@@ -1681,9 +1683,6 @@
                         this.shipmentId.errorMessage = 'Incorrect Shipment ID';
                     }
                 })
-                // if(!flag) {
-                //     this.shipmentId.errorMessage = ''
-                // }
                 let data = res.data.items.map( i =>  {
                     return {
                         "shipment_id": i.shipment_id,
@@ -1717,22 +1716,32 @@
             // method to validate  service invoice number 
             async validateServiceInvoice(){
                 let res;
-                const params = {
-                    "data":{
-                        "invoice_number": this.invoiceNumber.value
-                    }
-                }
-                try {
-                    if (!this.readOnlyMode) {
-                        res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
-                        this.invoiceNumber.isValid = res.data.valid;
-                        if (!this.invoiceNumber.isValid) {
-                            this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";
+                if(this.invoiceNumber.value.length != 0){
+                    const params = {
+                        "data":{
+                            "invoice_number": this.invoiceNumber.value
                         }
                     }
-                } catch(error) {
-                    this.$snackbar.global.showError('Something went wrong');
-                    return;
+                    try {
+                        if (!this.readOnlyMode) {
+                            res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
+                            this.invoiceNumber.isValid = res.data.success;
+                            if(this.selectedType === 'gst_fee'){
+                                this.getFeeInvoiceDetails();
+                            }
+                            /* if (!this.invoiceNumber.isValid) {
+                                this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";
+                            } */
+                        }
+                    } catch(error) {
+                        console.log(error);
+                        this.invoiceNumber.isValid = error.response.data.success;
+                        if (!this.invoiceNumber.isValid) {
+                            this.invoiceNumber.errorMessage = error.response.data.reason;
+                        }
+                        this.$snackbar.global.showError(error.response.data.reason);
+                        return;
+                    }
                 }
             },
 
@@ -1859,7 +1868,6 @@
                 }
                 else this.calledFromChild = false; 
             },
-
             close: function (e) {
                 e.stopPropagation();
                 this.quickApproveView = false;
@@ -1877,19 +1885,14 @@
             },
 
             getSearchText(event) {
-            if (
-                event.keyCode === 32 ||
-                event.keyCode === 13 ||
-                event.keyCode === 188 ||
-                event.keyCode === 9
-            ) {
-                this.addSearchText();
-            }
-            // if (event.keyCode == 8 && this.shipmentId.value) {
-            //     if (this.shipmentId.value.length) {
-            //         this.shipmentId.value.pop();
-            //     }
-            // }
+                if (
+                    event.keyCode === 32 ||
+                    event.keyCode === 13 ||
+                    event.keyCode === 188 ||
+                    event.keyCode === 9
+                ) {
+                    this.addSearchText();
+                }
             },
 
             addSearchText() {
@@ -1908,6 +1911,38 @@
             selectShipment() {
                 this.shipmentSelected = 'You have added '+ this.shipmentId.value.length + '/' + '10 permitted Shipment IDs (Use comma to add multiple Shipment IDs)'
                 this.bagSelected = 'You\'ll see Bag IDs corresponding to ' + this.shipmentId.value.length + ' selected Shipment IDs'
+            },
+
+            getCommercialFeeType() {
+                let params = {
+                    data: {
+                        table_name: "reporting_variables",
+                        filters: {
+                            type:"tenant"
+                        },
+                        project: [
+                            "variable"
+                        ]
+                    }
+                }
+                const getFeeType = CreditDebitNoteServices.getListData(params);
+                return getFeeType
+                    .then(( res ) => {
+                        //console.log(res.data.items[0].variable['cn-dn|commercial'].fynd);
+                        this.FeeComponentTypeList = res.data.items[0].variable['cn-dn|commercial'].fynd.map((item) => {
+                            return {
+                                text: item.display_name,
+                                value: item.type
+                            };
+                        })
+                    })
+                    .catch((err) => {
+                        //console.error(err);
+                        this.$snackbar.global.showError(err);
+                    })
+                    /* .finally(() => {
+                        //this.inProgress = false;
+                    }); */
             }
         }
     };

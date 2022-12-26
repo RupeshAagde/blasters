@@ -1,11 +1,5 @@
 <template>
     <div class="panel">
-        <!-- <page-header
-            title="Credit Note"
-        >
-        @backClick="$router.push({ name: 'settings' })"
-        @click="save"
-        </page-header> -->
         <div class="jumbotron-container">
             <jumbotron
                 :title="'Credit/Debit Note Issuance'"
@@ -30,7 +24,6 @@
                     <credit-note-component note-type = "debit" :key="1"  @is-bulk-upload-open="handleBulkUpload($event)" :isBulkUpload="isBulkUpload"></credit-note-component>
                 </div>
             </div>
-            <!-- <credit-note-component></credit-note-component> -->
         </div>
     </div>
 </template>
@@ -39,52 +32,25 @@
 import PageEmpty from '@/components/common/page-empty';
 import Jumbotron from '@/components/common/jumbotron';
 import PageError from '@/components/common/page-error';
-/* import InlineSvg from '@/components/common/inline-svg';
-import AdmInlineSvg from '@/components/common/inline-svg'; */
-//import InternalSettingsService from '@/services/internal-settings.service';
 import { Loader, PageHeader } from '@/components/common/';
-//import { validUrl } from '@/helper/utils';
 import CreditNoteComponent from './cn-dn-home.vue';
 import {
-    //NitrozenInput,
-    //NitrozenError,
-    //NitrozenButton,
-    //NitrozenDropdown,
-    //strokeBtn,
-    //flatBtn,
-    //NitrozenBadge,
-    //NitrozenDialog,
-    //NitrozenCheckBox,
     NitrozenTab
 } from '@gofynd/nitrozen-vue';
 export default {
     name: 'credit-note',
     components: {
         PageEmpty,
-        //InlineSvg,
         PageError,
-        //NitrozenInput,
-        //NitrozenBadge,
-        //NitrozenDialog,
-        //NitrozenError,
-        //NitrozenDropdown,
-        //NitrozenButton,
         PageHeader,
         Loader,
-        //AdmInlineSvg,
-        //NitrozenCheckBox,
         CreditNoteComponent,
         'nitrozen-tab': NitrozenTab,
         Jumbotron,
     },
-    /* directives: {
-        strokeBtn,
-        flatBtn
-    }, */
     data() {
         return {
             activeGroupIndex: Number(this.$route.query.activeTab) ?  Number(this.$route.query.activeTab) : 0,
-            //componentKey: 0,
             tabs: [{ name: 'Credit Note' }, {name: 'Debit Note'}],
             isBulkUpload : false,
         };

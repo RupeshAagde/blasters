@@ -9,12 +9,6 @@
         </tr>
         <template>
           <tr v-for="(index) in tableSize" :key="'col-' + index">
-            <!-- <td
-              v-for="(col, index) in tableColumns"
-              :key="'col-' + index"
-            >
-              {{ col }}
-            </td> -->
             <td>
               <nitrozen-dropdown
                 class="filter-type filter-input-sm"
@@ -87,7 +81,7 @@
               </nitrozen-input>
             </td>
             <td>
-              <nitrozen-input :disabled="true" class="search filter-input-lg" type="number" :placeholder="`Amount`"
+              <nitrozen-input :disabled="true" class="search filter-input-lg total-amt" type="number" :placeholder="`Amount`"
                 v-model="totalAmount[index]">
               </nitrozen-input>
               <!--v-model="grossAmount" <span>{{ componentDataList[index].amount}}</span> -->
@@ -245,7 +239,6 @@
           this.makeChargeComponents();
         }
       };
-      // this.consoleAllProperties();
     },
   
     methods: {
@@ -262,7 +255,7 @@
       checkRequiredFields(index) {
         if(this.componentSelected.value[index] && this.purposeSelected.value[index] && this.amount.value[index] && this.remark.value[index]){
           let id;
-          if(!this.bagData.bag_id) {
+          if(!this.bagData.row) {
             id = this.bagData.id
           }
           if (this.bagData.row && index <= this.bagData.row.length) {
@@ -296,7 +289,7 @@
       },
   
       populateFromProp() {
-        if (!this.bagData.bag_id) {
+        if (!this.bagData.row) {
           // console.log('in fee type bag', this.bagData.fee_type, this.tableSize)
           this.componentDataList.push({
             text: this.bagData.fee_type_display_name,
@@ -365,20 +358,6 @@
         }
       },
   
-      /* consoleAllProperties() {
-        console.log(this.componentDataList);
-        console.log(this.componentSelected);
-        console.log(this.purposeSelected);
-        console.log(this.amount);
-        console.log(this.sacCode);
-        console.log(this.sgst);
-        console.log(this.igst);
-        console.log(this.cgst);
-        console.log(this.totalAmount);
-        console.log(this.remark);
-        console.log(this.kaptureId);  
-      }, */
-  
       spliceAllFields(index) {  
         this.componentSelected.value.splice(index, 1);
         this.componentSelected.errorMsg.splice(index, 1);
@@ -412,7 +391,11 @@
               break;
             case 'amount':
               this.$set(this.amount.errorMsg,index,false);
-              this.validateAmount(index);
+              if(this.$route.params.noteType == 'credit'){
+                this.validateAmount(index);
+              }else{
+                this.totalAmount[index] = this.setTotalAmount(index);
+              }
               break;
             case 'remark':
               this.$set(this.remark.errorMsg,index,false);
@@ -448,9 +431,7 @@
       },
   
       validateAmount(index) {
-        //console.log('componentDataList', this.componentDataList)
         let key = this.component === '' ? this.componentDataList[index-1].value : this.component;
-        //console.log('comp selected', key);
         if(this.amount.value.length < 1 ){
           this.$set(this.amount.errorMsg,index,true);
         }
@@ -464,19 +445,11 @@
             this.amount.validationError = 'Only 2 digits allowed after decimal';
           } else {
             this.amount.validationError = '';
-            // this.$set(this.sacCode,index,this.componentDataList[index].sacCode);
-            // this.$set(this.sgst,index,this.componentDataList[index].sgst);
-            // this.$set(this.cgst,index,this.componentDataList[index].cgst);
-            // this.$set(this.igst,index,this.componentDataList[index].igst);
             this.totalAmount[index] = this.setTotalAmount(index);
           }
         } else {
           this.validateErrIndex = index;
-          /*this.$set(this.sacCode,index,'');
-          this.$set(this.sgst,index,0);
-          this.$set(this.cgst,index,0);
-          this.$set(this.igst,index,0);
-          */this.amount.validationError = 'Amount should be less than or equal to the gross amount';
+          this.amount.validationError = `Amount should be less than or equal the gross amount: ${this.chargeComponents[key]['amount']}`;
         }
       },
   
@@ -541,32 +514,16 @@
               `Can't be deleted. Minimum 1 row required`
             );
         } else {
-          
-          // console.log('event',e)
-          // console.log('component data list', this.componentDataList, this.componentDataList[index-1], index-1)
           this.componentDataList.splice(index-1, 1);
-          //console.log('component data list', this.componentDataList, this.componentDataList[index-1], index-1)
           this.tableSize--;
           let id;
           
           if(!this.bagData.bag_id) {
             id = this.bagData.id
           }
-          // console.log('this.bagData',this.bagData,id,index,this.bagData.row.length)
           if (this.bagData.row && index <= this.bagData.row.length) {
             id = this.bagData.row[index-1].id ;
           }
-          // console.log('this.bagData id is',id)
-          // console.log('index is',index)
-          // console.log('this.componentSelected is',this.componentSelected)
-          // console.log('this.purposeSelected is',this.purposeSelected)
-          // console.log('this.amount is',this.amount)
-          // console.log('this.sacCode is',this.sacCode)
-          // console.log('this.sgst is',this.sgst)
-          // console.log('this.cgst is',this.cgst)
-          // console.log('this.igst is',this.igst)
-          // console.log('this.remark.value is',this.remark)
-          // console.log('this.kaptureId is',this.kaptureId)
           this.$emit('row-data', {
             index: index,
             fee_type: this.componentSelected.value[index],
@@ -589,7 +546,6 @@
             is_active: false
           })
            this.spliceAllFields(index);
-          //  console.log('console all properties after')
         }
       },
   
@@ -625,6 +581,10 @@
       margin-bottom: 24px;
       font-family: Inter, sans-serif;
       font-size: 14px;
+
+      .total-amt{
+        width: 90px;
+      }
       
       tr:first-child {
         background: @Alabaster2;
