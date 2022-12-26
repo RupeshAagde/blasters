@@ -97,7 +97,24 @@ export const getNavigations = () => {
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: []
+            children: [
+                {
+                    display: 'List Orders',
+                    link: '/administrator/orders/list',
+                    title: 'list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Hyperlocal Tracking',
+                    link: '/administrator/orders/hyperlocal-tracking',
+                    title: 'hyperlocal-tracking',
+                    icon: 'home',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                }
+            ]
             //     {
             //         display: 'Orders',
             //         link: '/administrator/orders/list',
@@ -197,7 +214,7 @@ export const getNavigations = () => {
         },
         {
             display: 'Extension',
-            link: '/administrator/extensions/review',
+            link: '/administrator/extensions',
             title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
@@ -209,6 +226,7 @@ export const getNavigations = () => {
                     link: '/administrator/extensions/review',
                     title: 'review',
                     icon: 'settings',
+                    permission: 'extension/review',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 },

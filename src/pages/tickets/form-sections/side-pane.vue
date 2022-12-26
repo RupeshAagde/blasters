@@ -31,15 +31,14 @@
             ></nitrozen-dropdown>
         </div>
         <div class="mt-sm" v-if="isPlatformTicket && filters">
-            <nitrozen-dropdown
-                :searchable="true"
+            <recursive-dropdown
                 class="type-filter"
                 :label="'Category'"
                 v-model="category"
-                :items="filteredCategory"
-                @searchInputChange="categorySearch"
+                :integration = "integration"
+                :allCategories="allCategories"
                 @change="somethingChanged"
-            ></nitrozen-dropdown>
+                ></recursive-dropdown>
         </div>
         <div class="mt-sm" v-if="isPlatformTicket && subCategoryList && subCategoryList.length > 0">
             <nitrozen-dropdown
@@ -267,6 +266,7 @@ import {
 import { getRoute } from '@/helper/get-route';
 import attachment from './attachment.vue';
 // import datePicker from '@/components/admin/common/date-picker.vue';
+import RecursiveDropdown from './recursive-dropdown.vue';
 import addAttachmentDialogue from './add-attachment.vue';
 import { display } from '@/auto_gen/admin-svgs.js';
 
@@ -283,7 +283,8 @@ export default {
         // 'adm-date-picker': datePicker,
         // 'mirage-image-uploader': mirageimageuploader,
         'add-attachment-dialog': addAttachmentDialogue,
-        attachment: attachment
+        attachment: attachment,
+       'recursive-dropdown':RecursiveDropdown
     },
     props: {
         filters: {
@@ -311,7 +312,10 @@ export default {
             filteredStaff: [],
             subCategoryList: [],
             name: this.getInitialValue(),
-            filteredCategory: this.filters.categories
+            filteredCategory: this.filters.categories,
+            allCategories : this.filters.all_categories,
+            integration : this.ticket.integration,
+            isCategoryEditable : false,
         };
     },
     computed: {
@@ -332,13 +336,16 @@ export default {
         const selectedCategory = this.filters.categories.find((el) => {
             return (el.key == this.category);
         });
-        this.subCategoryList = selectedCategory.sub_categories;
+        this.subCategoryList = (selectedCategory && selectedCategory.sub_categories)?selectedCategory.sub_categories:[];
         this.priority = this.ticket.priority;
         this.attachments = this.ticket.content.attachments;
         this.tags = this.ticket.tags || [];
 
         if (this.ticket.assigned_to && this.ticket.assigned_to.agent_id) {
             this.agentID = this.ticket.assigned_to.agent_id;
+        }
+        if(this.isEditOnly){
+            this.isCategoryEditable = true
         }
     },
     methods: {
@@ -391,7 +398,7 @@ export default {
             const selectedCategory = this.filters.categories.find((el) => {
                 return (el.key == this.category);
             });
-            this.subCategoryList = selectedCategory.sub_categories;
+            this.subCategoryList = selectedCategory && selectedCategory.sub_categories ? selectedCategory.sub_categories : [];
             if (this.subCategoryList && this.subCategoryList.length  > 0) {
                 var present = this.subCategoryList.find((el) => {
                     return (el.key == this.sub_category);

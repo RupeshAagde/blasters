@@ -16,6 +16,9 @@ import CreateTicket from './../../pages/tickets/create-ticket.vue';
 import VideoRoom from './../../pages/tickets/video-call/video-room.vue';
 import AddCategory from '../../pages/tickets/configuration/add-category.vue';
 import Configuration from './../../pages/tickets/configuration/configuration.vue';
+import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
+import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
+import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -60,6 +63,7 @@ import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-d
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
+const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue';
 import CategoryConfig from '@/pages/packaging/category-config.vue';
@@ -269,6 +273,30 @@ export default [
                 name: 'support-configuration',
                 path: 'support/configuration',
                 component: Configuration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-kapture',
+                path: 'support/configuration/integration/kapture',
+                component: kaptureIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-freshdesk',
+                path: 'support/configuration/integration/freshdesk',
+                component: freshdeskIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-default',
+                path: 'support/configuration/integration/default',
+                component: fyndPlatformIndex,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
@@ -663,7 +691,15 @@ export default [
                 }
             },
             {
-                name: 'application-order-details',
+                name: 'orders-hyperlocal-tracking',
+            path: 'orders/hyperlocal-tracking',
+            component: OrdersNinjaPage,
+            beforeEnter: (to, from, next) => {
+                return checkUserPermission(to, from, next, ['order']);
+            }
+        },
+        {
+            name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
