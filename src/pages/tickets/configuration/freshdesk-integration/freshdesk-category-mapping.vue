@@ -35,7 +35,7 @@
                                 <transition-group>
                                     <div
                                         v-for="(item, index) in categoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                         :class="{
                                             active_list_category:
@@ -249,7 +249,7 @@
                                     <div
                                         v-for="(item,
                                         index) in levelTwoCategoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                         :class="{
                                             active_list_category:
@@ -358,7 +358,7 @@
                                     <div
                                         v-for="(item,
                                         index) in levelThreeCategoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                     >
                                         <!-- @click="openLevelThreeCategory(item)" -->

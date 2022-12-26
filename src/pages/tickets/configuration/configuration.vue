@@ -61,7 +61,7 @@
                                 <div
                                     v-for="(item,
                                     index) in supportCommunication"
-                                    :key="index"
+                                    :key="`${index}`"
                                     class="contact-container"
                                 >
                                     <!-- <div> -->
