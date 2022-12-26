@@ -146,7 +146,7 @@ import UserService from './../../services/user-access.service';
 import SupportService from './../../services/support.service';
 
 const PAGINATION = {
-    limit: 40,
+    limit: 1000,
     total: 0,
     current: 1
 };
@@ -190,10 +190,6 @@ export default {
             filters: undefined,
             feedbackList: [],
             contextMenu: [
-                // {
-                //     text: 'Delete',
-                //     action: 'delete'
-                // }
             ]
         };
     },
@@ -286,10 +282,6 @@ export default {
                     this.filters.categories.forEach((element) => {
                         element.text = element.display;
                         element.value = element.key;
-                        element.sub_categories.forEach((item) => {
-                            item.text = item.display;
-                            item.value = item.key;
-                        });
                     });
 
                     if (this.ticketID) {
@@ -317,6 +309,7 @@ export default {
                         this.ticket.history = ticket.history;
                         this.ticket.time_slot = ticket.time_slot;
                         this.ticket.created_on = ticket.created_on;
+                        this.ticket.integration = ticket.integration;
                         this.ticket.context = ticket.context;
 
                         res = responses[2];
@@ -371,7 +364,6 @@ export default {
                                 )
                             );
                         }
-                        // Handle collection n brand too
                     });
 
                     Promise.all(promises)

@@ -60,6 +60,27 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  downloadWebhookReport(query_param) {
+    const axiosOption = Object.assign(
+      { data: query_param },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.DOWNLOAD_WEBHOOK_REPORT(),
+      axiosOption
+    );
+  },
+  checkWebhookReport(fileName) {
+    const axiosOption = Object.assign(
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.get(
+      URLS.CHECK_STATUS_WEBHOOK_REPORT(fileName),
+      axiosOption
+    );
+  },
   registerSubscriber(request) {
     const axiosOption = Object.assign(
       { data: request },
@@ -92,6 +113,40 @@ const AdminWebhookService = {
       axiosOption
     );
   },
+  postFilterList(query_param) {
+    const axiosOption = Object.assign(
+      { data: query_param },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.GET_FILTER_LIST(),
+      axiosOption
+    );
+  },
+  getReportHistories(subscriberIds, page = { page_size: 10, page_no: 1 }, type = 'admin') {
+    page = { ...(page && { ...page }), ...(subscriberIds && subscriberIds.length > 0 && { subscriber_ids: subscriberIds }) }
+    const axiosOption = Object.assign(
+      { data: { type, ...page } },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.post(
+      URLS.REPORT_HISTORY_URL(),
+      axiosOption
+    );
+  },
+  cancelWebhookReport(filename, type = 'admin') {
+    const axiosOption = Object.assign(
+      { data: {} },
+      { params: {} },
+      getCommonHeaderOptions()
+    );
+    return ApiService.get(
+      URLS.REPORT_HISTORY_URL('cancel/file/' + filename),
+      axiosOption
+    );
+  }
 };
 
 export default AdminWebhookService;

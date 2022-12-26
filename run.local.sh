@@ -59,6 +59,7 @@ export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/pa
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
+export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
 
 #ENV's
 export SENTRY_DSN=''
@@ -66,5 +67,8 @@ export SENTRY_ENVIRONMENT=development
 export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
+export CDN_ITEM_BASE_PATH=https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/
+export OLD_CDN_BASE_URLS=hdn-1.addsale.com
+
 npm run start
 #node --inspect-brk server/index.js --env production
