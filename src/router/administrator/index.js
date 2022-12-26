@@ -28,6 +28,7 @@ import TagsInjectVue from './../../pages/settings/tags-inject.vue';
 import TagsCreateUpdateVue from '../../pages/settings/tags-create-update.vue';
 import CreateCustomVue from './../../pages/settings/page-editor/create.vue';
 import NavbarSettingsVue from './../../pages/settings/navbar';
+import SellerPanelSettingsVue from './../../pages/settings/seller-panel.vue';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
 import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
@@ -617,6 +618,14 @@ export default [
                 name: 'navbar-setting',
                 path: 'settings/platform/navbar',
                 component: NavbarSettingsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'seller-panel',
+                path: 'settings/platform/seller-panel',
+                component: SellerPanelSettingsVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
                 }
