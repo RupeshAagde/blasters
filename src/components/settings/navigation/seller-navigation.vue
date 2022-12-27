@@ -15,12 +15,13 @@
         </div>
         <hr class="line">
         <div>
-            <draggable :list="myArray" v-model="myArray">
-                <transition-group>
-                    <seller-navigation-list v-for="element in myArray" :key="element.id" :name="element.name" ></seller-navigation-list>
-                </transition-group>
-            </draggable>
-
+            <div v-if="channelSettings">
+                <draggable :list="channelSettings" v-model="channelSettings">
+                    <transition-group>
+                        <seller-navigation-list v-for="element in channelSettings" :key="element.title" :name="element.title" :subMenu="getSubMenu(element.child)" :icon="element.icon" :move="onListChange()" :type="'company'" @toggle-list="toggleList" @seller-panel-show="showPanel"></seller-navigation-list>
+                    </transition-group>
+                </draggable>
+            </div>
         </div>
             
     </div>
@@ -37,8 +38,10 @@ import {
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import SellerNavigationList from './seller-navigation-list.vue';
 import draggable from 'vuedraggable';
+
 export default {
     name: 'seller-navigation',
+    props: ['settings'],
     components: {
         NitrozenButton,
         'inline-svg': inlineSvgVue,
@@ -49,23 +52,43 @@ export default {
     directives: {
         strokeBtn
     },
+    mounted() {
+        this.channelSettings = this.settings
+    },
     methods: {
+        onListChange() {
+            this.$emit('change-list', {type: 'company', data: this.channelSettings})
+        },
+        getSubMenu(subMenu) {
+            let subMenuStr = ''
+            for (let index = 0; index < subMenu.length; index++) {
+               subMenuStr = subMenuStr + subMenu[index].title  + ", " 
+            }
+            return subMenuStr
+        },
+        toggleList(payload) {
+            if (payload.type == 'company') {
+                let obj = {}
+                obj['is_disabled'] =  payload.isDisable
+                this.updateData(payload.id, obj)
+            }
+        },
+        showPanel(payload) {
+            this.$emit('seller-panel-show', payload)
+        },
+        updateData(key, obj) {
+            for (let index = 0; index < this.channelSettings.length; index++) {
+                if (key == this.channelSettings[index].title) {
+                    this.channelSettings[index] = {...this.channelSettings[index], ...obj};
+                    break;
+                }
+            }
+            this.$emit('change-list',{type: 'company', data: this.channelSettings})
+        }
     },
     data() {
         return {
-            myArray: [
-                {
-                    name : "pratik",
-                    id : 1,
-                    fixed : false
-                },
-                {
-                    name : "rajkotiya",
-                    id : 2,
-                    fixed : false
-                }
-
-            ]
+            channelSettings: []
         }
     }
 };

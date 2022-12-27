@@ -1,0 +1,223 @@
+<template>
+    <div class="sub-item-form">
+        <div class="sub-menu-title">
+            <div class="title">
+                Sub Menu
+            </div>
+            <div class="sub-title">
+                Create a sub menu under current navigation item
+            </div>
+        </div>
+
+        <div class="sub-menu">
+
+            <div class="sub-menu-input-title">
+                <div class="title-grp">
+                    <div class="drag">
+                            <inline-svg :src="'drag'" class="icon"></inline-svg>
+                    </div>
+                    <div class="item-title">
+                        Sub Item 1
+                    </div>
+                </div>
+
+                <div class="icon-grp">
+                    <div class="item-dlt">
+                        <inline-svg :src="'delete'" class="icon"></inline-svg>
+                    </div>
+                    <div class="arrow">
+                        <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="line">
+
+            <div class="sub-menu-input">
+                <div class="form-item">
+                    <div class="form-title">
+                        Title
+                    </div>
+                    <nitrozen-input type="text" placeholder="Give a title to the sub item"></nitrozen-input>
+                </div>
+                <div class="form-item">
+                    <div class="form-title">
+                        Navigation Link
+                    </div>
+                    <nitrozen-input type="text" placeholder="Paste a link to the page"></nitrozen-input>
+                </div>
+                <div class="form-title">
+                    Visible On
+                </div>
+                <div class="visible-grp">
+                    <div class="item">
+                        <div class="check">
+                            <nitrozen-checkbox></nitrozen-checkbox>
+                        </div>
+                        <div>
+                            <inline-svg :src="'android'" class="icon"></inline-svg>
+                        </div>
+                        <div class="des">
+                            Android
+                        </div>                   
+                    </div>
+                    <div class="item">
+                        <div class="check">
+                            <nitrozen-checkbox></nitrozen-checkbox>
+                        </div>
+                        <div class="des">
+                            <inline-svg :src="'ios'" class="icon"></inline-svg>
+                        </div>
+                        <div class="des">
+                            IOS
+                        </div>                   
+                    </div>
+                    <div class="item">
+                        <div class="check">
+                            <nitrozen-checkbox></nitrozen-checkbox>
+                        </div>
+                        <div>
+                            <inline-svg :src="'web'" class="icon"></inline-svg>
+                        </div>
+                        <div class="des">
+                            Web
+                        </div>                   
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="add-sub-menu-btn">
+            <nitrozen-button :theme="'secondary'" >+ Add Sub Item</nitrozen-button>
+        </div>
+    </div>
+</template>
+
+<script>
+/* Component imports */
+import inlineSvgVue from '@/components/common/inline-svg.vue';
+import { NitrozenInput, NitrozenCheckBox, NitrozenButton} from '@gofynd/nitrozen-vue';
+
+export default {
+    name: 'sub-menu',
+    components: {
+        'inline-svg': inlineSvgVue,
+        "nitrozen-input": NitrozenInput,
+        "nitrozen-checkbox": NitrozenCheckBox,
+        "nitrozen-button": NitrozenButton
+    },
+    mounted() {
+        
+    },
+    methods: {
+        edit () {
+        }
+    },
+    directives: {
+    },
+}
+</script>
+
+
+<style lang="less" scoped>
+    .sub-item-form {
+        .sub-menu-title {
+            display: flex;
+            flex-direction: column;
+            
+            .title {
+                font-weight: 600;
+                font-size: 16px;
+                color: #41434C;
+                margin-top: 10px;
+            }
+
+            .sub-title {
+                font-weight: 400;
+                font-size: 12px;
+                color: #9B9B9B;
+                margin-top: 10px;
+            }
+        }
+        .add-sub-menu-btn {
+                margin-top: 15px;
+        }
+        .sub-menu {
+            margin-top: 15px;
+            border: 1px solid #E4E5E6;
+
+            .sub-menu-input-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 55px;
+
+                .title-grp {
+                    display: flex;
+                    .item-title {
+                        margin-left: 15px;
+                        font-weight: 600;
+                        font-size: 16px;
+                        color: #41434C;
+                    }
+
+                    .drag {
+                        margin-left: 15px;
+                    }
+                }
+
+                .icon-grp {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-right: 15px;
+
+                    .item-dlt {
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            .sub-menu-input {
+                margin: 20px 15px 20px 15px;
+                    .visible-grp {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 15px;
+                    .item {
+                        display: flex;
+                        align-items: center;
+                        border: 0.5px solid #E0E0E0;
+                        height: 45px;
+                        width: 120px;
+                        font-weight: 400;
+                        font-size: 12px;
+                        color: #41434C;
+
+                        .des {
+                            margin-left: 8px;
+                        }
+
+                        .check {
+                            margin-left: 10px;
+                            margin-bottom: 15px;
+                        }
+                    }
+
+                }
+                
+            }
+        }
+
+    }
+    .form-title {
+        margin-top: 10px;
+        font-weight: 400;
+        font-size: 12px;
+        color: #9B9B9B;
+        margin-bottom: 10px;
+    }
+
+</style>

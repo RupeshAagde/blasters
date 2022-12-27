@@ -6,26 +6,26 @@
                             <inline-svg :src="'drag'" class="icon"></inline-svg>
                     </div>
                     <div class="company-icon"> 
-                        <img src="https://hdn-1.fynd.com/platform/pictures/feature-image/original/DXwhELtRew-Home.png"> 
+                        <img :src="icon"> 
                     </div>
                     <div class="company-info">
                             <div class="item"> {{ name }} </div>
-                            <div class="sub-item"> 
+                            <div class="sub-item" v-if="subMenu.length > 0"> 
                             <span id="p1">
                                 Sub Menu:&nbsp; 
                             </span>
-                            <div id="p2">
-                                all prodhhhhhhhhhhuct
+                            <div  id="p2">
+                                {{ modifySubMenuTitle() }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="group2" >
-                    <div class="company-edit" @click.stop="$root.$emit('seller-panel-navigation')" >
+                    <div class="company-edit" @click.stop="$emit('seller-panel-show',{id: name, type: type})" >
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
                     <div class="company-toggle">
-                        <nitrozen-toggle-btn> </nitrozen-toggle-btn>
+                        <nitrozen-toggle-btn v-model="isDisable" @change="toggle"> </nitrozen-toggle-btn>
                     </div>
                 </div>
             </div>
@@ -42,16 +42,46 @@ import {
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 export default {
     name: 'seller-navigation-list',
-    props: ['name'],
+    props: ['name', 'subMenu', 'icon', 'isDisabled', 'type'],
     components: {
         'inline-svg': inlineSvgVue,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
     },
     mounted() {
-        
+       
     },
     methods: {
-        edit () {
+        modifySubMenuTitle () {
+           let subMenuTitle = this.subMenu
+            if (subMenuTitle.length < 49) {
+                subMenuTitle = subMenuTitle.slice(0,-2)
+                return subMenuTitle;
+            }    
+            else {
+                subMenuTitle = subMenuTitle.split(',')
+                subMenuTitle.pop()
+                let str = ''
+                let more = 0
+                for (let index = 0; index < subMenuTitle.length; index++) {
+                    str = str + subMenuTitle[index] + ','
+                    more = subMenuTitle.length - index - 1;
+                    if (str.length > 49) {
+                        break;
+                    }
+                }
+                str = str.slice(0,-1)
+                subMenuTitle = str + (more > 0 ? ".." : "")
+                subMenuTitle = subMenuTitle + (more > 0 ? '+' + more + ' More' : '')
+                return subMenuTitle
+            }
+        },
+        toggle() {
+            this.$emit('toggle-list',  {id: this.name, type: this.type, isDisable: this.isDisable})
+        }
+    },
+    data() {
+        return {
+            isDisable: this.isDisabled
         }
     },
     directives: {

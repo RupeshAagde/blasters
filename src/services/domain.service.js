@@ -713,6 +713,12 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
+    },
+
+    //Panel settings
+
+    GET_PANEL_SETTINGS: () => {
+        return urlJoin(INTERNAL_SETTINGS, '/menu')
     }
 };
 

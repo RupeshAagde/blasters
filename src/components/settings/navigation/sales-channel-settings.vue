@@ -22,9 +22,12 @@
             </div>
         </div>
         <hr class="line">
-        <div>
-            <seller-navigation-list></seller-navigation-list>
-            <seller-navigation-list></seller-navigation-list>
+        <div v-if="channelSettings">
+            <draggable :list="channelSettings" v-model="channelSettings">
+                <transition-group>
+                    <seller-navigation-list v-for="element in channelSettings" :key="element.title" :name="element.title" :subMenu="getSubMenu(element.child)" :icon="element.icon" :type="'sales-channel'" :move="onListChange()" @toggle-list="toggleList" @seller-panel-show="showPanel"></seller-navigation-list>
+                </transition-group>
+            </draggable>
         </div>
     </div>
 </template>
@@ -40,19 +43,61 @@ import {
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import SellerNavigationList from './seller-navigation-list.vue'
+import draggable from 'vuedraggable';
 
 export default {
     name: 'seller-channel-settings',
+    props: ['settings'],
     components: {
         NitrozenButton,
         'inline-svg': inlineSvgVue,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
         'seller-navigation-list': SellerNavigationList,
-        'nitrozen-checkbox': NitrozenCheckBox
+        'nitrozen-checkbox': NitrozenCheckBox,
+        draggable,
     },
     directives: {
         strokeBtn
     },
+    mounted() {
+        this.channelSettings = this.settings
+    },
+    data() {
+        return {
+            channelSettings: []
+        }
+    },
+    methods: {
+        onListChange() {
+            this.$emit('change-list', {type: 'sales-channel', data: this.channelSettings})
+        },
+        getSubMenu(subMenu) {
+            let subMenuStr = ''
+            for (let index = 0; index < subMenu.length; index++) {
+               subMenuStr = subMenuStr + subMenu[index].title  + ", " 
+            }
+            return subMenuStr
+        },
+        toggleList(payload) {
+            if (payload.type == 'sales-channel') {
+                let obj = {}
+                obj['is_disabled'] =  payload.isDisable
+                this.updateData(payload.id, obj)
+            }
+        },
+        showPanel(payload) {
+            this.$emit('seller-panel-show', payload)
+        },
+        updateData(key, obj) {
+            for (let index = 0; index < this.channelSettings.length; index++) {
+                if (key == this.channelSettings[index].title) {
+                    this.channelSettings[index] = {...this.channelSettings[index], ...obj};
+                    break;
+                }
+            }
+            this.$emit('change-list',{type: 'sales-channel', data: this.channelSettings})
+        }
+    }
 };
 </script>
 

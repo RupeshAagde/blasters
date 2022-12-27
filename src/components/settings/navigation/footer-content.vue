@@ -45,7 +45,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: 'seller-navigation',
+    name: 'footer-content',
     components: {
         NitrozenButton,
         'nitrozen-toggle-btn': NitrozenToggleBtn,

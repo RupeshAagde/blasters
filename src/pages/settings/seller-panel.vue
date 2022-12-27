@@ -13,13 +13,13 @@
                         :desc="'Arrange, add, edit navigation menu items'"                  
                     ></jumbotron>
                 </div>
-                <seller-navigation></seller-navigation>
-                <sales-channel-settings></sales-channel-settings>
+                <seller-navigation v-if="settingsObj" :settings="settingsObj[deviceType].menu.company_level" @change-list="updateList" @seller-panel-show="editPanel"></seller-navigation>
+                <sales-channel-settings v-if="settingsObj" :settings="settingsObj[deviceType].menu.application_level" @change-list="updateList" @seller-panel-show="editPanel"></sales-channel-settings>
                 <other-sellers></other-sellers>
                 <footer-content></footer-content>
             </div>
             <div class="side-bar">
-                <side-panel > </side-panel>
+                <side-panel> </side-panel>
             </div>
             <div class="preview">
                 preview
@@ -38,6 +38,7 @@ import SalesChannelSetting from '@/components/settings/navigation/sales-channel-
 import OtherSellers from '@/components/settings/navigation/other-sellers.vue';
 import footerContentVue from '@/components/settings/navigation/footer-content.vue';
 import sidePanelVue from '@/components/settings/navigation/side-panel.vue';
+import SellerPanleService from '@/services/seller-panel.service.js';
 
 import {
     NitrozenButton,
@@ -56,13 +57,37 @@ export default {
         'footer-content': footerContentVue,
         'side-panel': sidePanelVue
     },
+    mounted() {
+        this.fetchSettings();
+    },
     data() {
         return {
-
+            deviceType: 'desktop',
+            settingsObj: null,
         }
     },
     methods: {
-     },
+        async fetchSettings() {
+            const { data } = await SellerPanleService.getPanelSettings()
+            this.settingsObj = data
+        },
+        updateList(payload) {
+            
+            this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level'] = payload.data
+            console.log(this.settingsObj);
+        },
+        editPanel(payload) {
+            console.log(payload);
+            let arr = this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level']
+            for (let index = 0; index < arr.length; index++) {
+                if (arr[index]['title'] === payload.id) {
+                    this.$root.$emit('seller-panel-navigation', arr[index]);
+                    break;
+                }
+            }   
+        },
+        
+    },
     directives: {
         flatBtn
     },
