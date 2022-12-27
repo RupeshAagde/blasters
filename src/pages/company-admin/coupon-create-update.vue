@@ -884,10 +884,10 @@
     }
 }
 .desc-dialog {
-    ::v-deep.nitrozen-dialog-body {
+    ::v-deep .nitrozen-dialog-body {
         padding: 0px;
     }
-    ::v-deep.nitrozen-dialog-header {
+    ::v-deep .nitrozen-dialog-header {
         margin-bottom: 0px;
     }
 }

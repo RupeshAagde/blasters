@@ -498,6 +498,16 @@ const URLS = {
     GENERAL_CONGIF: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
+    CATEGORY_SYNC: (type) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/integration-config/${type}/category-sync`);
+    },
+    TEST_API_KEY: (type) => {
+        console.log(">>domain")
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/integration-config/${type}/test`);
+    },
+    INTEGRATION_DETAILS: (type) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/integration-config/${type}`);
+    },
     PRODUCT: ({ companyId, itemId }) => {
         let url = `v1.0/company/${companyId}/products/`
         if (itemId) {

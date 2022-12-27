@@ -66,7 +66,7 @@
                     </div>
                     <div class="footer-saperator"></div>
                     <nitrozen-button
-                        v-show="!isHDNImage || isEmpty || isCropped"
+                        v-show="(!isHDNImage && !isEmpty) || isCropped"
                         theme="secondary"
                         :disabled="edit || loading || isEmpty"
                         v-flat-btn
@@ -74,6 +74,15 @@
                     >
                         Upload
                     </nitrozen-button>
+                    <nitrozen-button
+                            v-show="(isHDNImage || isEmpty) && !isCropped"
+                            theme="secondary"
+                            :disabled="edit || loading"
+                            v-flat-btn
+                            @click="$selectImage"
+                        >
+                            Select
+                        </nitrozen-button>
                 </template>
             </nitrozen-dialog>
         </div>
@@ -276,6 +285,23 @@ export default {
             };
             image.src = imagePath;
             // image.src = this.getNonCORSHDNURL(imagePath);
+        },
+         $selectImage() {
+            const imagePath =
+                this.$refs.imageuploaderpanel.croppedImageFile || this.imageURL;
+            if (this.initialImageURL == imagePath) {
+                this.$emit('save', imagePath);
+                this.close();
+                return;
+            }
+            if (imagePath == '') {
+                this.$emit('delete', imagePath);
+                this.close('delete');
+                return;
+            }
+            // select image
+            this.$emit('save', this.imageURL);
+            this.close('save');
         },
         dataURItoFile(dataURI) {
             try {

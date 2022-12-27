@@ -1542,7 +1542,7 @@ export default {
                 '/docs/company-settings/webhook/webhook-events/',
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
-                '/docs/company-settings/webhook/webhook',
+                '/docs/company-settings/webhook/',
             startLoader: false,
             urlTriggeredStatus: false,
             isOrganisationUser: [],
