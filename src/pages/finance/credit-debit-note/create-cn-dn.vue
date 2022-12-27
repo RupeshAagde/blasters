@@ -637,7 +637,6 @@
         mounted() {
             this.getNoteType();
             this.getCommercialFeeType();
-            this.getSellerDetails();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
                 this.dropdownLabel = 'Credit Note Type *';
@@ -660,6 +659,7 @@
                 this.title = this.$route.params.documentNo;
             }
             this.filteredCnTypes = this.cnTypes;
+            this.getSellerDetails();
         },
 
         methods: {
@@ -1168,6 +1168,7 @@
                             this.remarks.value = this.tab.note_details[0].remark;
                             this.noteNarration.value = this.tab.note_narration;
                             this.purposeType.value = this.tab.purpose_id;
+                            this.getSellerDetails();
                         }
                     })
                     .catch((err) => {
@@ -1572,7 +1573,7 @@
                         this.isValidForm["sellerId"] = true;
                     }
                 } catch (error) {
-                    this.$snackbar.global.showError('Invalid user name');
+                    this.$snackbar.global.showError('Invalid Seller ID');
                     this.sellerName = ''
                     this.isValidForm["sellerName"] =  false;
                     this.isValidForm["sellerId"] = false;
