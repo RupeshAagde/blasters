@@ -218,7 +218,7 @@ export default {
             return arrPages;
         },
         previewUrl() {
-            return `${env.BOMBSHELL_MAIN_DOMAIN}/extension-home`;
+            return `${env.BRAINSTORM_EXTENSION_DOMAIN}`;
         },
     },
     methods: {
