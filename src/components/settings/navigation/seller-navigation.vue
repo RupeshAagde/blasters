@@ -6,7 +6,7 @@
             </div>
             <div class="grp-btn-close">
                 <div class="add-menu-btn">
-                    <nitrozen-button  v-strokeBtn size:='small' theme="secondary"> Add Menu Item </nitrozen-button>
+                    <nitrozen-button  v-strokeBtn size:='small' theme="secondary" @click.stop="$root.$emit('seller-panel-navigation',{ data: getSettings(), edit: false, type: 'company', permissions: permissions})"> Add Menu Item </nitrozen-button>
                 </div>
                 <div class="menu-close">
                     <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
@@ -41,7 +41,7 @@ import draggable from 'vuedraggable';
 
 export default {
     name: 'seller-navigation',
-    props: ['settings'],
+    props: ['settings', 'permissions'],
     components: {
         NitrozenButton,
         'inline-svg': inlineSvgVue,
@@ -65,6 +65,21 @@ export default {
                subMenuStr = subMenuStr + subMenu[index].title  + ", " 
             }
             return subMenuStr
+        },
+        getSettings() {
+            return {
+                    "visible_on": {
+                        "web": false,
+                        "ios": false,
+                        "android": false
+                    },
+                    "display": "",
+                    "permissions": [],
+                    "title": "",
+                    "link": "",
+                    "icon": "",
+                    "child": []
+                }
         },
         toggleList(payload) {
             if (payload.type == 'company') {

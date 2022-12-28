@@ -9,88 +9,92 @@
             </div>
         </div>
 
-        <div class="sub-menu">
+        <draggable :list="subMenu" v-model="subMenu">
+                <transition-group>
+                    <div class="sub-menu" v-for="(item, index) in subMenu" :key="item.title" >
+                        <div class="sub-menu-input-title">
+                            <div class="title-grp">
+                                <div class="drag">
+                                        <inline-svg :src="'drag'" class="icon"></inline-svg>
+                                </div>
+                                <div class="item-title">
+                                    Sub Item {{ index + 1}}
+                                </div>
+                            </div>
 
-            <div class="sub-menu-input-title">
-                <div class="title-grp">
-                    <div class="drag">
-                            <inline-svg :src="'drag'" class="icon"></inline-svg>
-                    </div>
-                    <div class="item-title">
-                        Sub Item 1
-                    </div>
-                </div>
+                            <div class="icon-grp">
+                                <div class="item-dlt">
+                                    <inline-svg :src="'delete'" class="icon"></inline-svg>
+                                </div>
+                                <div class="arrow">
+                                    <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="icon-grp">
-                    <div class="item-dlt">
-                        <inline-svg :src="'delete'" class="icon"></inline-svg>
-                    </div>
-                    <div class="arrow">
-                        <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
-                    </div>
-                </div>
-            </div>
+                        <hr class="line">
 
-            <hr class="line">
+                        <div class="sub-menu-input">
+                            <div class="form-item">
+                                <div class="form-title">
+                                    Title
+                                </div>
+                                <!-- <nitrozen-input v-model="item.title" type="text" placeholder="Give a title to the sub item"></nitrozen-input> -->
+                                <nitrozen-input  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
+                                {{ item.title }}
+                            </div>
+                            <div class="form-item">
+                                <div class="form-title">
+                                    Navigation Link
+                                </div>
+                                <nitrozen-input v-model="item.link" type="text" placeholder="Paste a link to the page"></nitrozen-input>
+                            </div>
+                            <div class="form-title">
+                                Visible On
+                            </div>
+                            <div class="visible-grp">
+                                <div class="item">
+                                    <div class="check">
+                                        <nitrozen-checkbox v-model="item.visible_on.android"></nitrozen-checkbox>
+                                    </div>
+                                    <div>
+                                        <inline-svg :src="'android'" class="icon"></inline-svg>
+                                    </div>
+                                    <div class="des">
+                                        Android
+                                    </div>                   
+                                </div>
+                                <div class="item">
+                                    <div class="check">
+                                        <nitrozen-checkbox v-model="item.visible_on.ios"></nitrozen-checkbox>
+                                    </div>
+                                    <div class="des">
+                                        <inline-svg :src="'ios'" class="icon"></inline-svg>
+                                    </div>
+                                    <div class="des">
+                                        IOS
+                                    </div>                   
+                                </div>
+                                <div class="item">
+                                    <div class="check">
+                                        <nitrozen-checkbox v-model="item.visible_on.web"></nitrozen-checkbox>
+                                    </div>
+                                    <div>
+                                        <inline-svg :src="'web'" class="icon"></inline-svg>
+                                    </div>
+                                    <div class="des">
+                                        Web
+                                    </div>                   
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="sub-menu-input">
-                <div class="form-item">
-                    <div class="form-title">
-                        Title
                     </div>
-                    <nitrozen-input type="text" placeholder="Give a title to the sub item"></nitrozen-input>
-                </div>
-                <div class="form-item">
-                    <div class="form-title">
-                        Navigation Link
-                    </div>
-                    <nitrozen-input type="text" placeholder="Paste a link to the page"></nitrozen-input>
-                </div>
-                <div class="form-title">
-                    Visible On
-                </div>
-                <div class="visible-grp">
-                    <div class="item">
-                        <div class="check">
-                            <nitrozen-checkbox></nitrozen-checkbox>
-                        </div>
-                        <div>
-                            <inline-svg :src="'android'" class="icon"></inline-svg>
-                        </div>
-                        <div class="des">
-                            Android
-                        </div>                   
-                    </div>
-                    <div class="item">
-                        <div class="check">
-                            <nitrozen-checkbox></nitrozen-checkbox>
-                        </div>
-                        <div class="des">
-                            <inline-svg :src="'ios'" class="icon"></inline-svg>
-                        </div>
-                        <div class="des">
-                            IOS
-                        </div>                   
-                    </div>
-                    <div class="item">
-                        <div class="check">
-                            <nitrozen-checkbox></nitrozen-checkbox>
-                        </div>
-                        <div>
-                            <inline-svg :src="'web'" class="icon"></inline-svg>
-                        </div>
-                        <div class="des">
-                            Web
-                        </div>                   
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+                </transition-group>
+        </draggable>
 
         <div class="add-sub-menu-btn">
-            <nitrozen-button :theme="'secondary'" >+ Add Sub Item</nitrozen-button>
+            <nitrozen-button :theme="'secondary'" @click.stop="addSubMenu" >+ Add Sub Item</nitrozen-button>
         </div>
     </div>
 </template>
@@ -99,21 +103,50 @@
 /* Component imports */
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import { NitrozenInput, NitrozenCheckBox, NitrozenButton} from '@gofynd/nitrozen-vue';
+import draggable from 'vuedraggable';
 
 export default {
     name: 'sub-menu',
+    props: ['menuSettings'],
     components: {
         'inline-svg': inlineSvgVue,
         "nitrozen-input": NitrozenInput,
         "nitrozen-checkbox": NitrozenCheckBox,
-        "nitrozen-button": NitrozenButton
+        "nitrozen-button": NitrozenButton,
+        draggable
     },
     mounted() {
-        
+        this.subMenu = this.menuSettings
+        this.$root.$on('get-sub-menu-data', () => {
+            console.log('here-->');
+            this.$emit('subMenuData', this.subMenu)
+        })
+    },
+    data() {
+        return {
+            subMenu : null
+        }
     },
     methods: {
-        edit () {
+        addSubMenu () {
+            this.subMenu.push({               
+                 "visible_on": {
+                    "web": false,
+                    "ios": false,
+                    "android": false
+                },
+                "display": "",
+                "permissions": [],
+                "title": "",
+                "link": "",
+                "icon": "",
+                "is_disabled": false,
+                "child": []
+            })
         }
+    },
+    watch: {
+
     },
     directives: {
     },
@@ -165,6 +198,7 @@ export default {
 
                     .drag {
                         margin-left: 15px;
+                        cursor: pointer;
                     }
                 }
 

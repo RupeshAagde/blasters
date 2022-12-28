@@ -47,21 +47,21 @@
                                         <div class="form-title">
                                             Title
                                         </div>
-                                        <nitrozen-input type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
+                                        <nitrozen-input v-model="menuSettings.title" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
                                     </div>
 
                                     <div class="form-item">
                                         <div class="form-title">
                                             Navigation Link
                                         </div>
-                                        <nitrozen-input type="text" placeholder="Paste a link to the page here"></nitrozen-input>
+                                        <nitrozen-input v-model="menuSettings.link" type="text" placeholder="Paste a link to the page here"></nitrozen-input>
                                     </div>
 
                                     <div class="form-item">
                                         <div class="form-title">
                                             Permission
                                         </div>
-                                        <nitrozen-dropdown ></nitrozen-dropdown>
+                                        <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions" :multiple="true"></nitrozen-dropdown>
                                     </div>
 
                                     <div class="form-item">
@@ -71,7 +71,7 @@
                                         <div class="visible-grp">
                                             <div class="item">
                                                 <div class="check">
-                                                    <nitrozen-checkbox></nitrozen-checkbox>
+                                                    <nitrozen-checkbox v-model="menuSettings.visible_on.android"></nitrozen-checkbox>
                                                 </div>
                                                 <div>
                                                     <inline-svg :src="'android'" class="icon"></inline-svg>
@@ -82,7 +82,7 @@
                                             </div>
                                             <div class="item">
                                                 <div class="check">
-                                                    <nitrozen-checkbox></nitrozen-checkbox>
+                                                    <nitrozen-checkbox v-model="menuSettings.visible_on.ios" ></nitrozen-checkbox>
                                                 </div>
                                                 <div class="des">
                                                     <inline-svg :src="'ios'" class="icon"></inline-svg>
@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="item">
                                                 <div class="check">
-                                                    <nitrozen-checkbox></nitrozen-checkbox>
+                                                    <nitrozen-checkbox v-model="menuSettings.visible_on.web" ></nitrozen-checkbox>
                                                 </div>
                                                 <div>
                                                     <inline-svg :src="'web'" class="icon"></inline-svg>
@@ -103,31 +103,20 @@
                                                 </div>                   
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
 
                             </div>
                             <hr class="line">
-                            <sub-menu></sub-menu>
-
-                            <div class="default-page">
-                                <div class="form-title">
-                                    Default Page
-                                </div>
-                                <div>
-                                    <nitrozen-dropdown ></nitrozen-dropdown>
-                                </div>
-                            </div>
+                            <sub-menu v-if="menuSettings" :menuSettings="menuSettings.child" @subMenuData="subMenuData"></sub-menu>
 
                         </div>
                         <div class="add-cancle-btn">
                                 <div class="cancle-btn">
-                                    <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small'> Cancle </nitrozen-button>
-                                    
+                                    <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small'> Cancle </nitrozen-button>          
                                 </div>
                                 <div class="add-btn">
-                                    <nitrozen-button :theme="'secondary'" v-flatBtn> Add </nitrozen-button>
+                                    <nitrozen-button :theme="'secondary'" @click.stop="$root.$emit('get-sub-menu-data')"  v-flatBtn> Add </nitrozen-button>
                                 </div>
                         </div>
                     </div>
@@ -160,14 +149,22 @@ export default {
     data() {
         return {
             showNavigation : false,
-            menuSettings: null
-            
+            menuSettings: null,
+            permissions: [],
+            type: '',
+            id: null,
         }
     },
     mounted() {
-        this.$root.$on('seller-panel-navigation', (data) => {
-            console.log(data);
-           this.showNavigationSection()
+        this.$root.$on('seller-panel-navigation', (settings) => {
+            settings =  JSON.parse(JSON.stringify(settings))
+            this.menuSettings = settings.data;
+            this.type = settings.type;
+            if (settings.title) {
+                this.id = settings.title
+            }
+            this.setPermission(settings.permissions.permissions)
+            this.showNavigationSection()
         });
     },
     methods: {
@@ -176,6 +173,17 @@ export default {
         },
         close () {
             this.showNavigation = false;
+        },
+        setPermission(permissions) {
+            for (let index = 0; index < permissions.length; index++) {
+                this.permissions[index] = {
+                    text: permissions[index].title,
+                    value: permissions[index].key
+                }
+            }
+        },
+        subMenuData(data) {
+            console.log(data);
         }
      },
 };

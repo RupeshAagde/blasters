@@ -3,10 +3,13 @@ import URLS from './domain.service';
 
 const SellerPanleService = {
     getPanelSettings() {
-        let axiosOption = {};
         // console.log(typeof URLS.GET_PANEL_SETTINGS );
-        return ApiService.get(URLS.GET_PANEL_SETTINGS(), axiosOption);
+        return ApiService.get(URLS.GET_PANEL_SETTINGS());
     },
+
+    getPermission() {
+        return ApiService.get(URLS.GET_PERMISSION());
+    }
     // updateMarketplaceWorker( payload) {
     //     let axiosOption = {
     //         data: payload

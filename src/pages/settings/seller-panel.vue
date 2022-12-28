@@ -13,8 +13,8 @@
                         :desc="'Arrange, add, edit navigation menu items'"                  
                     ></jumbotron>
                 </div>
-                <seller-navigation v-if="settingsObj" :settings="settingsObj[deviceType].menu.company_level" @change-list="updateList" @seller-panel-show="editPanel"></seller-navigation>
-                <sales-channel-settings v-if="settingsObj" :settings="settingsObj[deviceType].menu.application_level" @change-list="updateList" @seller-panel-show="editPanel"></sales-channel-settings>
+                <seller-navigation v-if="settingsObj" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @change-list="updateList" @seller-panel-show="editPanel"></seller-navigation>
+                <sales-channel-settings v-if="settingsObj" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @change-list="updateList" @seller-panel-show="editPanel"></sales-channel-settings>
                 <other-sellers></other-sellers>
                 <footer-content></footer-content>
             </div>
@@ -64,24 +64,27 @@ export default {
         return {
             deviceType: 'desktop',
             settingsObj: null,
+            permissionObj: null
         }
     },
     methods: {
         async fetchSettings() {
-            const { data } = await SellerPanleService.getPanelSettings()
-            this.settingsObj = data
+           const [settings, permission] = await Promise.all([SellerPanleService.getPanelSettings(), SellerPanleService.getPermission()])
+            this.settingsObj = settings.data
+            this.permissionObj = permission.data
         },
         updateList(payload) {
-            
+            console.log(payload);
             this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level'] = payload.data
             console.log(this.settingsObj);
+
         },
         editPanel(payload) {
             console.log(payload);
             let arr = this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level']
             for (let index = 0; index < arr.length; index++) {
                 if (arr[index]['title'] === payload.id) {
-                    this.$root.$emit('seller-panel-navigation', arr[index]);
+                    this.$root.$emit('seller-panel-navigation',{ data: arr[index], edit: true, type: 'company', permissions: this.permissionObj});
                     break;
                 }
             }   
