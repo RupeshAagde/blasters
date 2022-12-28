@@ -146,7 +146,8 @@
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
                     > -->
-                    <nitrozen-button
+
+                    <!-- <nitrozen-button
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
@@ -155,7 +156,7 @@
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
-                    >
+                    > -->
                 </div>
             </div>
         </div>
