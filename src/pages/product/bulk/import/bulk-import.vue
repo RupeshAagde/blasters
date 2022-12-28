@@ -1102,7 +1102,8 @@ export default {
                             priority: item['Priority'],
                             is_active: this.parseBoolean(item['Active']),
                             hierarchy: item['Hierarchy'],
-                            tryouts: item['Tryouts']
+                            tryouts: item['Tryouts'],
+                            command: item['COMMAND'],
                         });
                     } else if (this.productType === 'product-template') {
                         result.push({

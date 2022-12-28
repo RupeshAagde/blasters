@@ -170,7 +170,7 @@
                                 :state="getBadgeState(history.stage)"
                                 :class="{ gray: history.stage === 'running' }"
                             >
-                                {{ history.stage }}
+                                {{ history.stage === 'running' ? 'In Process' : history.stage  }}
                             </nitrozen-badge>
                             <div
                                 class="close-box"
@@ -205,15 +205,16 @@
                     <div class="download-container">
                         <a
                             v-if="history.tracking_url"
-                            class="download-source-file"
+                            class="download-source-file download-file"
                             :href="history.tracking_url"
                             download
                             @click.stop=""
                         >
                             <inline-svg :src="'cloud_download'"></inline-svg>
+                            <span class="darker-xxxs cl-RoyalBlue ml-5"
+                                >Source File</span
+                            >
                         </a>
-                        <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
-                        <p class="darker-xxxs cl-RoyalBlue ">Source File</p>
                     </div>
                 </template>
                 <template slot="body">
@@ -224,7 +225,7 @@
                                 v-if="history.stage"
                                 :state="getBadgeState(history.stage)"
                             >
-                                {{ history.stage }}
+                                {{ history.stage === 'running' ? 'In Process' : history.stage }}
                             </nitrozen-badge>
                         </div>
                         <div class="summary">
@@ -426,9 +427,7 @@
     border: 1px solid @WhiteSmoke;
     border-radius: 8px;
     background-color: #ffffff;
-    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
-        opacity: 0.5 !important;
-    }
+
     .title-row {
         display: flex;
         justify-content: space-between;
@@ -455,6 +454,12 @@
             .stage-dropdown {
                 width: 150px;
                 margin-left: 12px;
+            }
+            ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+                opacity: 0.5 !important;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 23px;
             }
         }
     }
@@ -677,6 +682,11 @@
     border-radius: 2px;
 }
 
+.download-file {
+    display: flex;
+    align-items: center;
+}
+
 .ml-16 {
     margin-left: 16px;
 }
@@ -787,7 +797,7 @@ export default {
             stages: [
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
-                { text: 'Running', value: 'running' },
+                { text: 'In Process', value: 'running' },
                 { text: 'Failed', value: 'failed' },
                 { text: 'Terminated', value: 'terminated' },
                 { text: 'Cancelled', value: 'cancelled' },
@@ -948,7 +958,7 @@ export default {
             const states = {
                 running: 'info', // if not need now, remove it
                 completed: 'success',
-                cancelled: 'info',
+                cancelled: 'error',
                 terminated: 'error',
                 failed: 'error',
                 partial: 'warn'
@@ -961,7 +971,7 @@ export default {
             else return '';
         },
         getFormattedDate(date) {
-            return moment(date).format('Do MMM, YYYY, HH:mm:ss');
+            return moment(date).format('MMMM Do YYYY, h:mm:ss a');
         },
         getFileType(url) {
             const fileExtension = url && url.split('.').pop();

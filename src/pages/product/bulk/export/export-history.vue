@@ -113,7 +113,11 @@
                             v-if="history.stage"
                             :state="getBadgeState(history.stage)"
                         >
-                            {{ history.stage }}
+                            {{
+                                history.stage === 'running'
+                                    ? 'In Process'
+                                    : history.stage
+                            }}
                         </nitrozen-badge>
                     </div>
                 </div>
@@ -140,29 +144,36 @@
                     <div class="download-container">
                         <a
                             v-if="history.tracking_url"
-                            class="download-source-file"
+                            class="download-source-file download-file"
                             :href="history.tracking_url"
                             download
                             @click.stop=""
                         >
                             <inline-svg :src="'cloud_download'"></inline-svg>
+                            <span class="darker-xxxs cl-RoyalBlue ml-5"
+                                >Source File</span
+                            >
                         </a>
-                        <!-- <inline-svg :src="'cloud_download'"></inline-svg> -->
-                        <p
-                            class="darker-xxxs cl-RoyalBlue "
-                            v-if="history.tracking_url"
-                        >
-                            Source File
-                        </p>
                     </div>
                 </template>
                 <template slot="body">
                     <div class="batch-details">
-                        <p class="cl-Mako darker-sm">Batch Details</p>
-
+                        <div class="batch-details-header">
+                            <p class="cl-Mako darker-sm">Batch Details</p>
+                            <nitrozen-badge
+                                v-if="history.stage"
+                                :state="getBadgeState(history.stage)"
+                            >
+                                {{
+                                    history.stage === 'running'
+                                        ? 'In Process'
+                                        : history.stage
+                                }}
+                            </nitrozen-badge>
+                        </div>
                         <div class="batch">
                             <div class="header column-1">Imported By:</div>
-                            <div class="value colum-2n">
+                            <div class="value column-2">
                                 {{ history.created_by.username }}
                             </div>
                         </div>
@@ -182,6 +193,23 @@
                             <div class="header column-1">Processing Time:</div>
                             <div class="value column-2">
                                 {{ getProcessingTime(history) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider" v-if="!isEmpty(history.filters)"></div>
+                    <div class="batch-details" v-if="!isEmpty(history.filters)">
+                        <div class="batch-details-header">
+                            <p class="cl-Mako darker-sm">Export Criteria</p>
+                        </div>
+                        <div
+                            class="batch"
+                            v-for="(filter, type) in history.filters"
+                        >
+                            <div class="header column-1">
+                                {{ capitalize(type) }}:
+                            </div>
+                            <div class="value column-2">
+                                {{ filter.join(', ') }}
                             </div>
                         </div>
                     </div>
@@ -226,9 +254,7 @@
     border: 1px solid @WhiteSmoke;
     border-radius: 8px;
     background-color: #ffffff;
-    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
-        opacity: 0.5 !important;
-    }
+
     .title-row {
         display: flex;
         justify-content: space-between;
@@ -253,6 +279,12 @@
             .stage-dropdown {
                 width: 150px;
                 margin-left: 12px;
+            }
+            ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+                opacity: 0.5 !important;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 23px;
             }
         }
     }
@@ -354,6 +386,13 @@
         }
     }
 }
+.download-file {
+    display: flex;
+    align-items: center;
+}
+.ml-5 {
+    margin-left: 5px;
+}
 .divider {
     border: 1px solid #e0e0e0;
     margin: 24px;
@@ -371,6 +410,11 @@
     // display: flex;
     // justify-content: space-between;
     // flex-wrap: wrap;
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
     .batch {
         display: flex;
@@ -382,6 +426,7 @@
             width: 25%;
         }
         .column-2 {
+            width: 75%;
         }
     }
 
@@ -493,6 +538,8 @@ import userInfoTooltip from '@/components/common/feedback/userInfo-tooltip.vue';
 import moment from 'moment';
 import NoContent from '@/components/common/adm-no-content.vue';
 import admpageheader from '@/components/common/layout/page-header';
+import isEmpty from 'lodash/isEmpty';
+import capitalize from 'lodash/capitalize';
 
 import {
     NitrozenInput,
@@ -554,7 +601,7 @@ export default {
             stages: [
                 { text: 'All', value: 'all' },
                 { text: 'Completed', value: 'completed' },
-                { text: 'Running', value: 'running' },
+                { text: 'In Process', value: 'running' },
                 { text: 'Failed', value: 'failed' },
                 { text: 'Terminated', value: 'terminated' },
                 { text: 'Cancelled', value: 'cancelled' },
@@ -593,6 +640,8 @@ export default {
         this.loadHistory(true);
     },
     methods: {
+        capitalize,
+        isEmpty,
         closeOverlay: function(index) {
             this.isSidebarTogle = !this.isSidebarTogle;
         },
@@ -692,7 +741,7 @@ export default {
             const states = {
                 running: 'info',
                 completed: 'success',
-                cancelled: 'info',
+                cancelled: 'error',
                 terminated: 'error',
                 failed: 'error',
                 partial: 'warn'
@@ -705,7 +754,7 @@ export default {
             else return '';
         },
         getFormattedDate(date) {
-            return moment(date).format('Do MMM, YYYY, HH:mm:ss');
+            return moment(date).format('MMMM Do YYYY, h:mm:ss a');
         },
         capitalize(str) {
             return (
