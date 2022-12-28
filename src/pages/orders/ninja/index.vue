@@ -81,7 +81,7 @@
 .left-panel > .n-button-stroke-secondary {
   border: 1px solid #e0e0e0;
   color: #666666;
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -311,7 +311,7 @@
 
 .date-text {
   align-self: center;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;

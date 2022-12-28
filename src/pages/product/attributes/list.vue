@@ -214,7 +214,7 @@
         align-items: center;
     }
     .label {
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;

@@ -1,7 +1,6 @@
 
 import combineURLs from 'axios/lib/helpers/combineURLs'
 import isAbsoluteURL from "axios/lib/helpers/isAbsoluteURL"
-import urlJoin from 'url-join';
 import { transformRequestOptions } from './../../../helper/utils';
 import { sign } from './signature'
 

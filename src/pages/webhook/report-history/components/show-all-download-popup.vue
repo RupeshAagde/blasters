@@ -115,7 +115,7 @@ export default {
     border-spacing: 0 1em;
 }
 .bolden {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;

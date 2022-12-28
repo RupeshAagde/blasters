@@ -1,7 +1,5 @@
 import ApiService from './api.service';
 import URLS from './domain.service';
-import root from 'window-or-global';
-const envVars = root.env || {};
 
 const SupportService = {
     fetchTickets(params) {
@@ -88,7 +86,6 @@ const SupportService = {
         }); 
     },
     testApiKey(data,type){
-        console.log(">>support_details")
         let axiosOption = { data: data };
         return ApiService.post(URLS.TEST_API_KEY(type), axiosOption);
     },

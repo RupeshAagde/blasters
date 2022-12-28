@@ -900,7 +900,7 @@ export default {
     border-radius: 4px;
     margin: 30px 24px 24px 24px !important;
     padding: 24px 24px 0px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 .form-head {
     margin-bottom: 15px;
@@ -926,7 +926,7 @@ export default {
 .char-count {
     float: right;
     color: #9b9b9b;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -936,7 +936,7 @@ export default {
     border-radius: 4px;
     margin: 24px 24px 24px 24px !important;
     padding: 24px 24px 4px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 
     .datedtax-div {
         box-sizing: border-box;

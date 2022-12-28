@@ -16,7 +16,9 @@
         "build:serverprod": "webpack --config build/webpack.server.config.js --progress --env=production",
         "pretty": "./node_modules/.bin/prettier --config ./.prettierrc --write",
         "precommit": "lint-staged",
-        "test": "jest --updateSnapshot --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json"
+        "test": "jest --updateSnapshot --projects  src server --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json",
+        "lint:check": "eslint . --ext .js",
+        "lint:fix": "eslint --fix ."
     },
     "jest": {
         "projects": [
@@ -125,6 +127,8 @@
         "css-loader": "3.6.0",
         "css-minimizer-webpack-plugin": "1.1.5",
         "cssnano": "^5.1.14",
+        "eslint": "^8.30.0",
+        "eslint-plugin-vue": "^9.8.0",
         "file-loader": "6.2.0",
         "flush-promises": "^1.0.2",
         "jest": "26.6.3",

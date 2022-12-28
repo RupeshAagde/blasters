@@ -341,7 +341,7 @@ const actions = {
             .then(res => {
                 setDashboardData(res, commit);
                 // console.log('state: ', state);
-            }).catch(err => {
+            }).catch(() => {
                 commit(ADMIN_SET_DASHBOARD_DATA, null);
                 let screen_width = screen.width;
                 if (screen_width < 1050) {
@@ -361,7 +361,7 @@ const actions = {
                 const {rlayout: data, seedFilters} = res.data;
                 const tabName = state[ANALYTICS_STATE.REPORTS_SELECTED_TAB] || Object.keys(data)[0];
                 const selectedGraphFilter = state[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.GRAPH_FILTERS] || '';
-                const selectedTimeFilter = state[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TIME_FILTERS];
+                // const selectedTimeFilter = state[ANALYTICS_STATE.REPORT_FILTERS][FILTER_TYPES.TIME_FILTERS];
                 const {
                     reportData,
                     stages,
@@ -488,14 +488,11 @@ const actions = {
         if (dashboardCards) {
             commit(SAVE_DASHBOARD_GRID_ORDER, dashboardCards);
         }
-        if (filterCards) {
-           
-        }
         if (closeCards) {
             commit(CLOSE_THE_CARD, closeCards);
         }
         commit(SET_IS_DEFAULT_LAYOUT, {page: ANALYTICS_PAGES.DASHBOARD, value: false});
-        AdminAnalyticsService.saveLayout(email, mobileNumber, filterDataPoints(state[ANALYTICS_STATE.DASHBOARD_DATA]), appId).then(x => {
+        AdminAnalyticsService.saveLayout(email, mobileNumber, filterDataPoints(state[ANALYTICS_STATE.DASHBOARD_DATA]), appId).then(() => {
 
         });
     },
@@ -833,7 +830,7 @@ const mutations = {
         }
     }, [RESET_INDIVIDUAL_GRAPH_DATA](state, {panelIndex, cardIndex, graphData, pageName}) {
         switch (pageName) {
-            case ANALYTICS_PAGES.DASHBOARD:
+            case ANALYTICS_PAGES.DASHBOARD: {
                 let cleaningObject = {
                     xAxes: null, yAxes: null, statusCode: null
                 };
@@ -847,7 +844,8 @@ const mutations = {
                     ...state[ANALYTICS_STATE.DASHBOARD_DATA][panelIndex].cards[cardIndex].graphInfo, ...cleaningObject
                 };
                 break;
-            case ANALYTICS_PAGES.REPORTS:
+            }
+            case ANALYTICS_PAGES.REPORTS: {
                 if (panelIndex === REPORT_PAGE_PANELS.HEADER_GRAPH) {
                     state[ANALYTICS_STATE.REPORT_DATA].headerGraph.graphInfo = {
                         ...state[ANALYTICS_STATE.REPORT_DATA].headerGraph.graphInfo,
@@ -862,6 +860,7 @@ const mutations = {
                     };
                 }
                 break;
+            }
         }
     }, [LOAD_INDIVIDUAL_FILTER_CARD_DATA](state, {
         graphData: graphStats = {value: "", changeInValue: ""}, panelId, cardIndex
@@ -962,7 +961,7 @@ const mutations = {
             [PAGINATION_MODEL.HAS_PREV]: has_previous,
         };
     }, [NAVIGATE_PAGE](state, {graphId, current, panelIndex = null, cardIndex = null}) {
-        console.log('graphId: ', graphId, ' and refreshToken: ', state);
+        // console.log('graphId: ', graphId, ' and refreshToken: ', state);
         if (current) {
             state[ANALYTICS_STATE.PAGINATION][graphId][PAGINATION_MODEL.CURRENT] = current;
             if (panelIndex === null && cardIndex === null) {
