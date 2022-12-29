@@ -1043,7 +1043,6 @@ export default {
     position: relative;
     margin: 24px;
     padding: 24px;
-    border-radius: 12px;
     top: 56.5px;
     background: #ffffff;
     border-radius: 12px;

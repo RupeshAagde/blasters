@@ -774,10 +774,7 @@ export default {
             );
         },
         deliveryEstimatedDate() {
-            return (
-                this.shipment.estimated_delivery_date &&
-                this.shipment.estimated_delivery_date
-            );
+            return this.shipment.estimated_delivery_date;
         },
         dueDate(){
             // return "due date"//this.shipment?.affiliate_details?.affiliate_meta?.due_date;
