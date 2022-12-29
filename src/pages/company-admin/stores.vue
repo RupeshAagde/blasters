@@ -26,13 +26,14 @@
             <div class="filter-dropdown">
                 <nitrozen-dropdown
                     :items="choiceType"
-                    class="stage-dropdown"
+                    class="stage-dropdown filter-box"
                     v-model="selectedChoice"
                     :label="'Stage'"
                     @change="changeStage"
                 ></nitrozen-dropdown>
                 <nitrozen-dropdown
                     :items="storeType"
+                    class="filter-box"
                     v-model="selectedStoreType"
                     :label="'Type'"
                     @change="changeStore"
@@ -418,6 +419,9 @@
             display: flex;
             .stage-dropdown {
                 margin-right: 12px;
+            }
+            .filter-box{
+                min-width: 140px;
             }
         }
     }
