@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="icon-grp">
-                                <div class="item-dlt">
+                                <div class="item-dlt" @click="onDeleteMenu(index)">
                                     <inline-svg :src="'delete'" class="icon"></inline-svg>
                                 </div>
                                 <div class="arrow">
@@ -39,15 +39,20 @@
                                 <div class="form-title">
                                     Title
                                 </div>
-                                <!-- <nitrozen-input v-model="item.title" type="text" placeholder="Give a title to the sub item"></nitrozen-input> -->
-                                <nitrozen-input v-model="item.title"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
 
+                                <nitrozen-input v-model="item.title"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
+                                <nitrozen-error v-bind:class="{ visible: errors[index]['title'] }">
+                                                {{ errors[index]['title'] }}
+                                </nitrozen-error>
                             </div>
                             <div class="form-item">
                                 <div class="form-title">
                                     Navigation Link
                                 </div>
                                 <nitrozen-input v-model="item.link" type="text" placeholder="Paste a link to the page"></nitrozen-input>
+                                <nitrozen-error v-bind:class="{ visible: errors[index]['link'] }">
+                                                {{ errors[index]['link'] }}
+                                </nitrozen-error>
                             </div>
                             <div class="form-title">
                                 Visible On
@@ -102,8 +107,14 @@
 <script>
 /* Component imports */
 import inlineSvgVue from '@/components/common/inline-svg.vue';
-import { NitrozenInput, NitrozenCheckBox, NitrozenButton} from '@gofynd/nitrozen-vue';
+import { NitrozenInput, NitrozenCheckBox, NitrozenButton, NitrozenError} from '@gofynd/nitrozen-vue';
 import draggable from 'vuedraggable';
+import isEmpty from 'lodash/isEmpty';
+
+const REQUIRED_FIELDS = [
+    'title',
+    'link'
+];
 
 export default {
     name: 'sub-menu',
@@ -113,14 +124,17 @@ export default {
         "nitrozen-input": NitrozenInput,
         "nitrozen-checkbox": NitrozenCheckBox,
         "nitrozen-button": NitrozenButton,
+        'nitrozen-error': NitrozenError,
         draggable
     },
     mounted() {
         this.subMenu = this.menuSettings
+        this.clearErrors()
     },
     data() {
         return {
-            subMenu : null
+            subMenu : null,
+            errors: []
         }
     },
     methods: {
@@ -139,13 +153,47 @@ export default {
                 "is_disabled": false,
                 "child": []
             })
-        }
-    },
-    watch: {
+            this.errors.push({
+                title: '',
+                link: ''
+            })
+        },
+        onDeleteMenu(index) {
+            this.subMenu.splice(index, 1)
+            this.errors.splice(index, 1)
+        },
+        validateRequiredFormFields() {
+            let value = '';
+            let isVaild = true;
+            for (let index = 0; index < this.errors.length; index++) {
 
-    },
-    directives: {
-    },
+                REQUIRED_FIELDS.forEach(key => {
+                    value = this.subMenu[index][key]
+                
+                if (isEmpty(value)) {
+                    this.errors[index][key] = '* Required field';
+                    isVaild = false;
+                }
+                });
+            }
+
+            return isVaild
+
+        },
+        clearErrors() {
+            this.errors = [];
+            for (let index = 0; index < this.subMenu.length; index++) {
+                this.errors.push({
+                    title: '',
+                    link: ''
+                })
+            }
+        },  
+        validateForm() {
+            this.clearErrors()
+            return this.validateRequiredFormFields()
+        },
+    }
 }
 </script>
 
@@ -159,14 +207,14 @@ export default {
             .title {
                 font-weight: 600;
                 font-size: 16px;
-                color: #41434C;
+                color: @Mako;
                 margin-top: 10px;
             }
 
             .sub-title {
                 font-weight: 400;
                 font-size: 12px;
-                color: #9B9B9B;
+                color: @Mako;
                 margin-top: 10px;
             }
         }
@@ -175,7 +223,7 @@ export default {
         }
         .sub-menu {
             margin-top: 15px;
-            border: 1px solid #E4E5E6;
+            border: 0.5px solid @LightGray;
 
             .sub-menu-input-title {
                 display: flex;
@@ -189,7 +237,7 @@ export default {
                         margin-left: 15px;
                         font-weight: 600;
                         font-size: 16px;
-                        color: #41434C;
+                        color: @Mako;
                     }
 
                     .drag {
@@ -206,6 +254,7 @@ export default {
 
                     .item-dlt {
                         margin-right: 10px;
+                        cursor: pointer;
                     }
                 }
             }
@@ -219,12 +268,12 @@ export default {
                     .item {
                         display: flex;
                         align-items: center;
-                        border: 0.5px solid #E0E0E0;
+                        border: 0.5px solid @LightGray;
                         height: 45px;
                         width: 120px;
                         font-weight: 400;
                         font-size: 12px;
-                        color: #41434C;
+                        color: @Mako;
 
                         .des {
                             margin-left: 8px;
@@ -246,7 +295,7 @@ export default {
         margin-top: 10px;
         font-weight: 400;
         font-size: 12px;
-        color: #9B9B9B;
+        color: @Mako;
         margin-bottom: 10px;
     }
 

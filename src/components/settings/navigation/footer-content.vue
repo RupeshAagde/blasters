@@ -56,7 +56,7 @@ export default {
 
 <style lang="less" scoped>
     .company {
-        border: 1px solid #E4E5E6;
+        border: 1px solid @Gray;
         border-radius: 3px;
         margin-top: 22px;
         .company-title {
@@ -76,7 +76,7 @@ export default {
             display: flex;
             font-weight: 400;
             font-size: 12px;
-            color: #9B9B9B;
+            color: @DarkGray;
             justify-content: space-between;
             margin-bottom: 5px;
         }
@@ -84,7 +84,7 @@ export default {
             margin: 20px 20px 20px 20px;;
         }
         .line {
-            border: 0.5px solid #E4E5E6;
+            border: 0.5px solid @Gray;
             margin: 0px;
         }
 

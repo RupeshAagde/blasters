@@ -17,9 +17,7 @@
                         </div>
                         <hr class="line">
                         <div class="forms">
-                            <!-- @delete="feature.image = ''"
-                                @save="feature.image = $event"
-                                v-model="feature.image" -->
+
         
                             <div class="item-form">
                                 <div class="image-upload">
@@ -30,15 +28,20 @@
                                             :fileName="'platform feature'"
                                             namespace="platform-feature-image"
                                             v-model="menuSettings.icon"
+                                            @delete="menuSettings.icon = ''"
+                                            @save="menuSettings.icon = $event"
                                         ></image-uploader-tile>
+                                        <nitrozen-error v-bind:class="{ visible: errors['icon'] }">
+                                                {{ errors['icon'] }}
+                                        </nitrozen-error>
                                     </div>
                                     <div class="form-item">
                                         <div class="form-title">
                                             Title
                                         </div>
                                         <nitrozen-input v-model="menuSettings.title" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
-                                        <nitrozen-error v-if="errors['title']">
-                                            {{ errors['title'] || '-' }}
+                                        <nitrozen-error v-bind:class="{ visible: errors['title'] }">
+                                                {{ errors['title'] }}
                                         </nitrozen-error>
                                     </div>
 
@@ -47,6 +50,9 @@
                                             Navigation Link
                                         </div>
                                         <nitrozen-input v-model="menuSettings.link" type="text" placeholder="Paste a link to the page here"></nitrozen-input>
+                                        <nitrozen-error v-bind:class="{ visible: errors['link'] }">
+                                                {{ errors['link'] }}
+                                        </nitrozen-error>
                                     </div>
 
                                     <div class="form-item">
@@ -100,7 +106,7 @@
 
                             </div>
                             <hr class="line">
-                            <sub-menu v-if="menuSettings" :menuSettings="menuSettings.child" @subMenuData="subMenuData"></sub-menu>
+                            <sub-menu ref="subMenu" v-if="menuSettings" :menuSettings="menuSettings.child"></sub-menu>
 
                         </div>
                         <div class="add-cancle-btn">
@@ -124,7 +130,6 @@ const REQUIRED_FIELDS = [
     'link',
     'icon'
 ];
-
 import { NitrozenInput, NitrozenDropdown, NitrozenCheckBox, NitrozenButton, strokeBtn, flatBtn, NitrozenError } from '@gofynd/nitrozen-vue';
 import SubMenu from './sub-menu-form.vue'
 import { cloneDeep } from "lodash";
@@ -156,8 +161,7 @@ export default {
             type: '',
             index: null,
             isEdit: false,
-            errors: {
-            },
+            errors: {},
         }
     },
     methods: {
@@ -183,34 +187,35 @@ export default {
             if (settings.isEdit) {
                 this.index = settings.index
             }
-            console.log(settings);
             this.setPermission(settings.permissions.permissions)
             this.showNavigationSection()
         },
-        validateRequiredFields() {
+        validateRequiredFormFields() {
             let value = '';
             let isVaild = true;
             REQUIRED_FIELDS.forEach(key => {
                 value = this.menuSettings[key]
                
                if (isEmpty(value)) {
-                   this.errors[key] = 'Required field';
+                   this.errors[key] = '* Required field';
                    isVaild = false;
                }
             });
-            console.log(this.errors);
+
             return isVaild
         },
-        validate() {
-            console.log(this.validateRequiredFields());
-            
+        validateForm() {
+            this.clearError()
+            return this.validateRequiredFormFields() && this.$refs['subMenu'].validateForm()
+        },
+        clearError() {
+            this.errors = {}
         },
         onSave() {
-            this.validate()
-            this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit})
-        },
-        subMenuData(data) {
-            console.log(data);
+            if (this.validateForm()){
+                this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit});
+                this.showNavigationSection()
+            }
         }
      },
 };
@@ -230,7 +235,7 @@ export default {
             right: 0px;
             width: 506px;
             height: 100%;
-            background: white;
+            background: @White;
             overflow-y: scroll;
             box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
             &::-webkit-scrollbar {
@@ -248,7 +253,7 @@ export default {
             height: 72px;
             align-items: center;
             .line {
-                border: 0.5px solid #E0E0E0;
+                border: 0.5px solid @LightGray;
                 margin: 0px;
             }
             
@@ -257,7 +262,7 @@ export default {
                 font-weight: 700;
                 font-size: 20px;
                 margin-left: 24px;
-                color: #41434C;
+                color: @Mako;
             }
 
             .cancel-btn {
@@ -282,12 +287,12 @@ export default {
                     .item {
                         display: flex;
                         align-items: center;
-                        border: 0.5px solid #E0E0E0;
+                        border: 0.5px solid @LightGray;
                         height: 45px;
                         width: 140px;
                         font-weight: 400;
                         font-size: 12px;
-                        color: #41434C;
+                        color: @Mako;
 
                         .des {
                             margin-left: 8px;
@@ -301,71 +306,18 @@ export default {
 
                 }
 
-                .image-upload {
-                    
-                    .image-grp {
-                        display: flex;
-                        height: 100px;
-                        .item {
-                            width: 100px;
-                            height: 45px;
-                            border: 1px solid #E4E5E6;
-                        }
-                    }
-                    .image-upload-space {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        background: #dae0f0;
-                        width: 100px;
-                        height: 100px;
-                        .upload-des {
-                            margin-top: 5px;
-                            color: #2E31BE;
-                            font-style: normal;
-                            font-weight: 500;
-                            font-size: 12px;
-                        }
-                    }
-
-                    .image-guidelines {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-evenly;
-                        margin-left: 16px;
-                        border: 1px solid #E4E5E6;
-                        font-style: normal;
-                        padding-left: 10px;
-                        width: 342px;
-                        .title {
-                            font-weight: 700;
-                            font-size: 12px;
-                            color: #2E31BE;
-                        }
-
-                        .description {
-                            font-weight: 400;
-                            font-size: 12px;
-                            color: #41434C;
-                        }
-                    }
-                }
-
-
             }
-
 
             .form-title {
                 margin-top: 10px;
                 font-weight: 400;
                 font-size: 12px;
-                color: #9B9B9B;
+                color: @DarkGray;
                 margin-bottom: 10px;
             }
 
             .line {
-                border: 0.5px solid #E4E5E6;
+                border: 0.5px solid @LightGray;
                 margin: 0px;
             }
         }
@@ -376,7 +328,7 @@ export default {
             align-items: center;
             height: 72px;
             justify-content: right;
-            color: white;
+            color: @White;
             box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.06);
 
             .cancle-btn {

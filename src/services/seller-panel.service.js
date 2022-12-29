@@ -9,12 +9,11 @@ const SellerPanleService = {
 
     getPermission() {
         return ApiService.get(URLS.GET_PERMISSION());
+    },
+
+    savePanelSettings(payload) {
+        return ApiService.put(URLS.SAVE_PANEL_SETTINGS(), payload);
     }
-    // updateMarketplaceWorker( payload) {
-    //     let axiosOption = {
-    //         data: payload
-    //     };
-    //     return ApiService.post(URLS.UPDATE_MARKETPLACE_WORKERS(compId, mkp), axiosOption);
-    // }
+
 };
 export default SellerPanleService;

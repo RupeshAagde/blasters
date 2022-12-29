@@ -67,7 +67,7 @@ export default {
                     }
                 }
                 str = str.slice(0,-1)
-                subMenuTitle = str + (more > 0 ? ".." : "")
+                subMenuTitle = str + (more > 0 ? "..." : "")
                 subMenuTitle = subMenuTitle + (more > 0 ? '+' + more + ' More' : '')
                 return subMenuTitle
             }
@@ -85,7 +85,7 @@ export default {
                 align-items: center;
                 justify-content:space-between;
                 padding: 30px 20px;
-                border: 1px solid #E4E5E6;
+                border: 1px solid @LightGray;
                 margin: 20px 20px 20px 20px;
                 .group1{
                     display: flex;
@@ -97,13 +97,10 @@ export default {
                     display: flex;
                     align-items: center;
                 }
-                .drag-icon{
-                    
-                }
                 .company-icon{
                     width: 40px;
                     height: 40px;
-                    background: #dae0f0;
+                    background: @LinkWater;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -125,7 +122,7 @@ export default {
                     }
 
                     .sub-item #p1 {
-                        color: #9B9B9B;
+                        color: @DarkGray;
                         font-size: 12px;
                         font-weight: 400;
                     }

@@ -43,7 +43,7 @@ import {
     NitrozenButton,
     flatBtn,
 } from '@gofynd/nitrozen-vue';
-
+import { cloneDeep } from "lodash";
 export default {
     name: 'seller-panel',
     components: {
@@ -80,14 +80,22 @@ export default {
             }
         },
 
-        onSave(payload) {
-            if (payload.isEdit) 
-                this.settingsObj[this.deviceType]['menu'][payload.type][payload.index] = payload.data;
-            else
-                this.settingsObj[this.deviceType]['menu'][payload.type].push(payload.data)
+        saveSettings(payload) {
+            SellerPanleService.savePanelSettings(payload).then(()=>{
+                this.fetchSettings()
+                this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
+            })
         },
-        validate() {
-            
+
+        onSave(payload) {
+            const data = cloneDeep(this.settingsObj)
+
+            if (payload.isEdit) 
+                data[this.deviceType]['menu'][payload.type][payload.index] = payload.data;
+            else
+                data[this.deviceType]['menu'][payload.type].push(payload.data)
+
+            this.saveSettings(data)
         }
     },
     directives: {

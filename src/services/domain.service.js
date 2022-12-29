@@ -721,6 +721,10 @@ const URLS = {
         return urlJoin(INTERNAL_SETTINGS, '/menu')
     },
 
+    SAVE_PANEL_SETTINGS: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/menu')
+    },
+
     GET_PERMISSION: () => {
         return urlJoin(SKYWARP_PNL_URL, '/v1.0/permissions')
     }

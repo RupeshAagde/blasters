@@ -93,7 +93,7 @@ export default {
     .company {
         margin-top: 22px;
         border-radius: 3px;
-        border: 1px solid #E4E5E6;
+        border: 1px solid @LightGray;
         .company-title {
             display: flex;
             align-content: center;
@@ -123,7 +123,7 @@ export default {
 
         }
         .line {
-            border: 0.5px solid #E4E5E6;
+            border: 0.5px solid @LightGray;
             margin: 0px;
         }
 
