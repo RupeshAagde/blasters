@@ -44,7 +44,7 @@
                     :label="'Template'"
                     :items="filteredTemplates"
                     v-model="selectedTemplate"
-                    placeholder="template"
+                    placeholder="Template"
                     :searchable="true"
                     :multiple="true"
                     :enable_select_all="true"
@@ -56,7 +56,7 @@
                 <nitrozen-dropdown
                     :items="filter"
                     v-model="selectedFilter"
-                    placeholder="status"
+                    placeholder="Status"
                     :searchable="true"
                     @change="getVariants"
                     @searchInputChange="resetStatus"
@@ -82,14 +82,10 @@
                             {{ item.display }}
                         </div>
                         <div class="card-content-line-2 mb-s">
-                            <div class="mr-xxl" v-if="item.created_on">
+                            <div class="mr-xl" v-if="item.created_on">
                                 <span class="label">Created</span>
                                 <div class="label-data">
-                                    {{
-                                        new Date(
-                                            item.created_on
-                                        ).toLocaleString()
-                                    }}
+                                    {{ formatDate(item.created_on) }}
                                 </div>
                             </div>
 
@@ -106,22 +102,27 @@
                                         )
                                     }}
                                     on
-                                    {{
-                                        new Date(
-                                            item.modified_on
-                                        ).toLocaleString()
-                                    }}
+                                    {{ formatDate(item.modified_on) }}
                                 </div>
                             </div>
                         </div>
                         <div class="card-content-line-3" v-if="item.templates">
                             <span class="label">Templates</span>
                             <div class="label-data">
-                                <span
-                                    v-for="(dep, ind) of item.templates"
-                                    class="chips mr-s mb-s"
-                                >
-                                    {{ dep }}
+                                <span v-for="(dep, ind) of item.templates">
+                                    <span
+                                        v-if="ind < 8"
+                                        class="chips mr-xs mb-xs"
+                                        >{{ dep }}
+                                    </span>
+                                    <span
+                                        class="plusMoreBtn mr-xs mb-xs"
+                                        v-else-if="
+                                            ind >= 8 &&
+                                                ind == item.templates.length - 1
+                                        "
+                                        >+{{ ind + 1 - 8 }} More</span
+                                    >
                                 </span>
                             </div>
                         </div>
@@ -175,6 +176,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
+import dateFormat from 'dateformat';
 import { FETCH_VARIANTS, FETCH_TEMPLATES } from '@/store/action.type.js';
 import {
     NitrozenInput,
@@ -289,8 +291,6 @@ export default {
             this.filteredTemplates = [];
             if (!e || !e.text) {
                 this.filteredTemplates = cloneDeep(this.templateList);
-                // this.selectedTemplate = [];
-                this.getVariants();
                 return;
             }
             this.templateList.forEach((temp) => {
@@ -301,7 +301,8 @@ export default {
                 ) {
                     this.filteredTemplates.push({
                         text: temp.text,
-                        value: temp.uid
+                        value: temp.value,
+                        id: temp.id
                     });
                 }
             });
@@ -380,6 +381,13 @@ export default {
                 );
             } else {
                 return username;
+            }
+        },
+        formatDate(d) {
+            try {
+                return dateFormat(d, 'mmm dd, yyyy HH:MM:ss TT');
+            } catch (err) {
+                console.log(err);
             }
         }
     }

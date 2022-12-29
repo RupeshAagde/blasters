@@ -109,14 +109,14 @@
             </td>
           </tr>
         </template>
-        <template v-if="!readOnly">
+        <!-- <template v-if="!readOnly">
           <td colspan="11" class="add-line">
             <span class="clickable" :class="{ 'cursor-pointer': !disableAddLine }" @click="addLine()"
               :disabled="disableAddLine">
               Add Another Line
             </span>
           </td>
-        </template>
+        </template> -->
       </table>
     </div>
   </template>
