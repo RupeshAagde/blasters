@@ -21,11 +21,8 @@
                     </div>
                 </div>
                 <div class="group2" >
-                    <div class="company-edit" @click.stop="$emit('seller-panel-show',{id: name, type: type})" >
+                    <div class="company-edit" @click.stop="$emit('seller-panel-show')" >
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
-                    </div>
-                    <div class="company-toggle">
-                        <nitrozen-toggle-btn v-model="isDisable" @change="toggle"> </nitrozen-toggle-btn>
                     </div>
                 </div>
             </div>
@@ -42,7 +39,7 @@ import {
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 export default {
     name: 'seller-navigation-list',
-    props: ['name', 'subMenu', 'icon', 'isDisabled', 'type'],
+    props: ['name', 'subMenu', 'icon'],
     components: {
         'inline-svg': inlineSvgVue,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
@@ -74,18 +71,8 @@ export default {
                 subMenuTitle = subMenuTitle + (more > 0 ? '+' + more + ' More' : '')
                 return subMenuTitle
             }
-        },
-        toggle() {
-            this.$emit('toggle-list',  {id: this.name, type: this.type, isDisable: this.isDisable})
         }
-    },
-    data() {
-        return {
-            isDisable: this.isDisabled
-        }
-    },
-    directives: {
-    },
+    }
 }
 </script>
 

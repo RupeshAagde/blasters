@@ -11,7 +11,7 @@
 
         <draggable :list="subMenu" v-model="subMenu">
                 <transition-group>
-                    <div class="sub-menu" v-for="(item, index) in subMenu" :key="item.title" >
+                    <div class="sub-menu" v-for="(item, index) in subMenu" :key="index" >
                         <div class="sub-menu-input-title">
                             <div class="title-grp">
                                 <div class="drag">
@@ -40,8 +40,8 @@
                                     Title
                                 </div>
                                 <!-- <nitrozen-input v-model="item.title" type="text" placeholder="Give a title to the sub item"></nitrozen-input> -->
-                                <nitrozen-input  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
-                                {{ item.title }}
+                                <nitrozen-input v-model="item.title"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
+
                             </div>
                             <div class="form-item">
                                 <div class="form-title">
@@ -117,10 +117,6 @@ export default {
     },
     mounted() {
         this.subMenu = this.menuSettings
-        this.$root.$on('get-sub-menu-data', () => {
-            console.log('here-->');
-            this.$emit('subMenuData', this.subMenu)
-        })
     },
     data() {
         return {

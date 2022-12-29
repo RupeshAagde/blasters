@@ -5,7 +5,10 @@
                 <div class="slide-fade" ref="slide-fade">
                     <div class="container" v-click-outside="showNavigationSection">
                         <div class="header">
-                            <div class="title">
+                            <div v-if="isEdit" class="title">
+                                Edit Navigation Item
+                            </div>
+                            <div v-else class="title">
                                 Add Navigation Item
                             </div>
                             <div class="cancel-btn" @click="showNavigationSection">
@@ -14,40 +17,29 @@
                         </div>
                         <hr class="line">
                         <div class="forms">
+                            <!-- @delete="feature.image = ''"
+                                @save="feature.image = $event"
+                                v-model="feature.image" -->
+        
                             <div class="item-form">
                                 <div class="image-upload">
-                                    <div class="form-title">
-                                        Image
-                                    </div>
                                     <div class="form-item">
-                                        <div class="image-grp">
-                                            <div class="image-upload-space">
-                                                <div class="plus">
-                                                    <inline-svg :src="'plus-blue'" class="icon"></inline-svg>
-                                                </div>
-                                                <div class="upload-des">
-                                                    Upload
-                                                </div>
-                                            </div>
-                                            <div class="image-guidelines">
-                                                <div class="title">
-                                                    Image Guidelines:
-                                                </div>
-                                                <div class="description">
-                                                    &#x2022; Accepted icon types: SVG, File Size &lt 2MB
-                                                </div>
-                                                <div class="description">
-                                                    &#x2022; Dimensions: 100px(W) * 100px(H), Aspect Ratio: 1:1
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <image-uploader-tile
+                                           label="Feature Image"
+                                            aspectRatio="*"
+                                            :fileName="'platform feature'"
+                                            namespace="platform-feature-image"
+                                            v-model="menuSettings.icon"
+                                        ></image-uploader-tile>
                                     </div>
-
                                     <div class="form-item">
                                         <div class="form-title">
                                             Title
                                         </div>
                                         <nitrozen-input v-model="menuSettings.title" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
+                                        <nitrozen-error v-if="errors['title']">
+                                            {{ errors['title'] || '-' }}
+                                        </nitrozen-error>
                                     </div>
 
                                     <div class="form-item">
@@ -113,10 +105,10 @@
                         </div>
                         <div class="add-cancle-btn">
                                 <div class="cancle-btn">
-                                    <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small'> Cancle </nitrozen-button>          
+                                    <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small' @click.stop="showNavigationSection"> Cancel </nitrozen-button>          
                                 </div>
                                 <div class="add-btn">
-                                    <nitrozen-button :theme="'secondary'" @click.stop="$root.$emit('get-sub-menu-data')"  v-flatBtn> Add </nitrozen-button>
+                                    <nitrozen-button :theme="'secondary'" @click.stop="onSave"  v-flatBtn> Save </nitrozen-button>
                                 </div>
                         </div>
                     </div>
@@ -127,18 +119,28 @@
 </template>
 
 <script>
-import inlineSvgVue from '@/components/common/inline-svg.vue';
-import { NitrozenInput, NitrozenDropdown, NitrozenCheckBox, NitrozenButton, strokeBtn, flatBtn } from '@gofynd/nitrozen-vue';
+const REQUIRED_FIELDS = [
+    'title',
+    'link',
+    'icon'
+];
+
+import { NitrozenInput, NitrozenDropdown, NitrozenCheckBox, NitrozenButton, strokeBtn, flatBtn, NitrozenError } from '@gofynd/nitrozen-vue';
 import SubMenu from './sub-menu-form.vue'
+import { cloneDeep } from "lodash";
+import isEmpty from 'lodash/isEmpty';
+import { ImageUploaderTile, InlineSvg } from '@/components/common/';
 export default {
     name: 'side-panel',
     components: {
-        'inline-svg': inlineSvgVue,
+        'inline-svg': InlineSvg,
         "nitrozen-input": NitrozenInput,
         "nitrozen-dropdown": NitrozenDropdown,
         "nitrozen-checkbox": NitrozenCheckBox,
         "nitrozen-button": NitrozenButton,
-        "sub-menu": SubMenu
+        "sub-menu": SubMenu,
+        'nitrozen-error': NitrozenError,
+        'image-uploader-tile': ImageUploaderTile
     },
     directives: {
         strokeBtn,
@@ -152,20 +154,11 @@ export default {
             menuSettings: null,
             permissions: [],
             type: '',
-            id: null,
+            index: null,
+            isEdit: false,
+            errors: {
+            },
         }
-    },
-    mounted() {
-        this.$root.$on('seller-panel-navigation', (settings) => {
-            settings =  JSON.parse(JSON.stringify(settings))
-            this.menuSettings = settings.data;
-            this.type = settings.type;
-            if (settings.title) {
-                this.id = settings.title
-            }
-            this.setPermission(settings.permissions.permissions)
-            this.showNavigationSection()
-        });
     },
     methods: {
         showNavigationSection () {
@@ -182,6 +175,40 @@ export default {
                 }
             }
         },
+        openSidePanel(settings) {
+            settings = cloneDeep(settings)
+            this.menuSettings = settings.data;
+            this.type = settings.type;
+            this.isEdit = settings.isEdit
+            if (settings.isEdit) {
+                this.index = settings.index
+            }
+            console.log(settings);
+            this.setPermission(settings.permissions.permissions)
+            this.showNavigationSection()
+        },
+        validateRequiredFields() {
+            let value = '';
+            let isVaild = true;
+            REQUIRED_FIELDS.forEach(key => {
+                value = this.menuSettings[key]
+               
+               if (isEmpty(value)) {
+                   this.errors[key] = 'Required field';
+                   isVaild = false;
+               }
+            });
+            console.log(this.errors);
+            return isVaild
+        },
+        validate() {
+            console.log(this.validateRequiredFields());
+            
+        },
+        onSave() {
+            this.validate()
+            this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit})
+        },
         subMenuData(data) {
             console.log(data);
         }
@@ -197,7 +224,7 @@ export default {
         right: 0px;
         width: 100%;
         background-color: rgba(82, 78, 78, 0.52);
-        z-index: +45;
+        z-index: @menu;
         .container {
             position: absolute;
             right: 0px;

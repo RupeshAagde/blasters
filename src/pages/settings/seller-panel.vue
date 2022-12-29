@@ -13,13 +13,13 @@
                         :desc="'Arrange, add, edit navigation menu items'"                  
                     ></jumbotron>
                 </div>
-                <seller-navigation v-if="settingsObj" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @change-list="updateList" @seller-panel-show="editPanel"></seller-navigation>
-                <sales-channel-settings v-if="settingsObj" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @change-list="updateList" @seller-panel-show="editPanel"></sales-channel-settings>
+                <sales-channel-settings v-if="settingsObj" :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
+                <sales-channel-settings v-if="settingsObj" :type="'application_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @seller-panel-show="editPanel"></sales-channel-settings>
                 <other-sellers></other-sellers>
                 <footer-content></footer-content>
             </div>
             <div class="side-bar">
-                <side-panel> </side-panel>
+                <side-panel ref='sidePanel' @onSave="onSave"> </side-panel>
             </div>
             <div class="preview">
                 preview
@@ -33,7 +33,6 @@
 
 import { PageHeader } from '@/components/common/';
 import  Jumbotron from '@/components/common/jumbotron';
-import SellerNavigation from '@/components/settings/navigation/seller-navigation.vue';
 import SalesChannelSetting from '@/components/settings/navigation/sales-channel-settings.vue';
 import OtherSellers from '@/components/settings/navigation/other-sellers.vue';
 import footerContentVue from '@/components/settings/navigation/footer-content.vue';
@@ -51,7 +50,6 @@ export default {
         NitrozenButton,
         PageHeader,
         Jumbotron,
-        'seller-navigation': SellerNavigation,
         'sales-channel-settings': SalesChannelSetting,
         'other-sellers': OtherSellers,
         'footer-content': footerContentVue,
@@ -73,23 +71,24 @@ export default {
             this.settingsObj = settings.data
             this.permissionObj = permission.data
         },
-        updateList(payload) {
-            console.log(payload);
-            this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level'] = payload.data
-            console.log(this.settingsObj);
-
-        },
-        editPanel(payload) {
-            console.log(payload);
-            let arr = this.settingsObj[this.deviceType][payload.type === 'company' ? 'menu.company_level' : 'menu.application_level']
-            for (let index = 0; index < arr.length; index++) {
-                if (arr[index]['title'] === payload.id) {
-                    this.$root.$emit('seller-panel-navigation',{ data: arr[index], edit: true, type: 'company', permissions: this.permissionObj});
-                    break;
-                }
-            }   
-        },
         
+        editPanel(payload) {
+            if (payload.isEdit) 
+                this.$refs['sidePanel'].openSidePanel({ data: this.settingsObj[this.deviceType]['menu'][payload.type][payload.index], isEdit: true, type: payload.type, index: payload.index, permissions: this.permissionObj})
+            else {
+                this.$refs['sidePanel'].openSidePanel({ data: payload.data, isEdit: false, type: payload.type, permissions: this.permissionObj })
+            }
+        },
+
+        onSave(payload) {
+            if (payload.isEdit) 
+                this.settingsObj[this.deviceType]['menu'][payload.type][payload.index] = payload.data;
+            else
+                this.settingsObj[this.deviceType]['menu'][payload.type].push(payload.data)
+        },
+        validate() {
+            
+        }
     },
     directives: {
         flatBtn
