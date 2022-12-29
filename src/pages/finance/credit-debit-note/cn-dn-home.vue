@@ -660,7 +660,7 @@ export default {
         async downloadNote(item) {
             let param = {
                 data:{
-                    note_id: item.id,
+                    note_id: [item.id],
                 }
             }
             
