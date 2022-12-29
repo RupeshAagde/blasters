@@ -1119,8 +1119,9 @@ export default {
                             err &&
                                 err.response &&
                                 err.response.data &&
-                                err.response.data.message
-                                ? err.response.data.message
+                                err.response.data.error &&
+                                err.response.data.error.message
+                                ? err.response.data.error.message
                                 : err
                         );
                     });
