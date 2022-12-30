@@ -2,7 +2,7 @@
     <div class="container">
         <div>
             <page-header title="Seller Navigation" @backClick="$router.push({ name: 'settings' })">
-                <nitrozen-button  v-flatBtn theme="secondary" @click.stop="showNavigationSection"> Save </nitrozen-button>
+                <nitrozen-button  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
             </page-header>
         </div>
         <div class="customise-container">
@@ -22,7 +22,22 @@
                 <side-panel ref='sidePanel' @onSave="onSave"> </side-panel>
             </div>
             <div class="preview">
-                preview
+                <div class="heading">
+                    <div class="title">
+                        Preview
+                    </div>
+                    <div class="subtitle">
+                        Preview of seller navigation panel
+                    </div>
+                </div>
+                <div class="preview-setting">
+                    <preview-setting v-if="settingsObj" :settings="settingsObj[deviceType].menu.company_level"></preview-setting>
+                </div>
+
+                <div class="preview-setting">
+                    <preview-setting v-if="settingsObj" :settings="settingsObj[deviceType].menu.application_level"></preview-setting>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -34,6 +49,7 @@
 import { PageHeader } from '@/components/common/';
 import  Jumbotron from '@/components/common/jumbotron';
 import SalesChannelSetting from '@/components/settings/navigation/sales-channel-settings.vue';
+import PreviewSetting from '@/components/settings/navigation/preview-settings.vue';
 import OtherSellers from '@/components/settings/navigation/other-sellers.vue';
 import footerContentVue from '@/components/settings/navigation/footer-content.vue';
 import sidePanelVue from '@/components/settings/navigation/side-panel.vue';
@@ -53,7 +69,8 @@ export default {
         'sales-channel-settings': SalesChannelSetting,
         'other-sellers': OtherSellers,
         'footer-content': footerContentVue,
-        'side-panel': sidePanelVue
+        'side-panel': sidePanelVue,
+        'preview-setting': PreviewSetting
     },
     mounted() {
         this.fetchSettings();
@@ -95,7 +112,7 @@ export default {
             else
                 data[this.deviceType]['menu'][payload.type].push(payload.data)
 
-            this.saveSettings(data)
+             this.saveSettings(data)
         }
     },
     directives: {
@@ -112,7 +129,7 @@ export default {
     display: flex;
     .customise-title {
         cursor: pointer;
-        background-color: white;
+        background-color: @White;
         margin-left: 22px;
         margin-right: 22px;
         margin-top: 80px;
@@ -127,7 +144,7 @@ export default {
 
 .preview {
     cursor: pointer;
-    background-color: white;
+    background-color: @White;
     margin-right: 22px;
     margin-top: 80px;
     padding: 24px;
@@ -135,5 +152,19 @@ export default {
     min-height: 400px;
     border-radius: 10px;
     width: 25%;
+
+    .heading {
+        .title {
+            font-weight: 700;
+            font-size: 24px;
+        }
+        .subtitle {
+            margin-top: 14px;
+            font-weight: 400;
+            font-size: 12px;
+            color: @DarkGray;
+        }
+
+    }
 }
 </style>

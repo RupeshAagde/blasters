@@ -12,7 +12,7 @@ const SellerPanleService = {
     },
 
     savePanelSettings(payload) {
-        return ApiService.put(URLS.SAVE_PANEL_SETTINGS(), payload);
+        return ApiService.put(URLS.SAVE_PANEL_SETTINGS(), { data: payload });
     }
 
 };

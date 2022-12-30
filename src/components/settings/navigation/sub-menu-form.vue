@@ -26,21 +26,27 @@
                                 <div class="item-dlt" @click="onDeleteMenu(index)">
                                     <inline-svg :src="'delete'" class="icon"></inline-svg>
                                 </div>
-                                <div class="arrow">
-                                    <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
+                                <div class="arrow" @click="toggleMenu(index)">
+                                    <inline-svg
+                                        src="arrow-dropdown-black"
+                                        class="dropdown-icon"
+                                        :class="{
+                                            'rotate-arrow': toggleSubMenu[index],
+                                        }"
+                                    ></inline-svg>
                                 </div>
                             </div>
                         </div>
 
-                        <hr class="line">
+                        <hr class="line" v-if="toggleSubMenu[index]">
 
-                        <div class="sub-menu-input">
+                        <div class="sub-menu-input" v-if="toggleSubMenu[index]">
                             <div class="form-item">
                                 <div class="form-title">
                                     Title
                                 </div>
 
-                                <nitrozen-input v-model="item.title"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
+                                <nitrozen-input v-model="item.title" v-on:keyup="item.display = $event.target.value"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
                                 <nitrozen-error v-bind:class="{ visible: errors[index]['title'] }">
                                                 {{ errors[index]['title'] }}
                                 </nitrozen-error>
@@ -134,7 +140,9 @@ export default {
     data() {
         return {
             subMenu : null,
-            errors: []
+            selectedMenuIndex: -1,
+            errors: [],
+            toggleSubMenu: []
         }
     },
     methods: {
@@ -153,6 +161,7 @@ export default {
                 "is_disabled": false,
                 "child": []
             })
+            this.toggleSubMenu.push(true)
             this.errors.push({
                 title: '',
                 link: ''
@@ -161,6 +170,7 @@ export default {
         onDeleteMenu(index) {
             this.subMenu.splice(index, 1)
             this.errors.splice(index, 1)
+            this.toggleSubMenu.splice(index, 1)
         },
         validateRequiredFormFields() {
             let value = '';
@@ -182,17 +192,25 @@ export default {
         },
         clearErrors() {
             this.errors = [];
+            this.toggleSubMenu =[]
             for (let index = 0; index < this.subMenu.length; index++) {
                 this.errors.push({
                     title: '',
                     link: ''
                 })
+                this.toggleSubMenu.push(true)
             }
         },  
         validateForm() {
             this.clearErrors()
             return this.validateRequiredFormFields()
         },
+        updateDisplay(index) {
+            this.subMenu[index].display = this.subMenu[index].title
+        },
+        toggleMenu(index) {
+            this.$set(this.toggleSubMenu, index, !this.toggleSubMenu[index])
+        }
     }
 }
 </script>
@@ -252,6 +270,13 @@ export default {
                     align-items: center;
                     margin-right: 15px;
 
+                    .arrow {
+                        cursor: pointer;
+                        .rotate-arrow {
+                             transform: rotate(180deg);
+                        }
+                    }
+
                     .item-dlt {
                         margin-right: 10px;
                         cursor: pointer;
@@ -286,7 +311,6 @@ export default {
                     }
 
                 }
-                
             }
         }
 
@@ -297,6 +321,9 @@ export default {
         font-size: 12px;
         color: @Mako;
         margin-bottom: 10px;
+    }
+    .dropdown-icon {
+        transition: all 0.5s ease;
     }
 
 </style>

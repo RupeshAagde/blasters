@@ -39,7 +39,7 @@
                                         <div class="form-title">
                                             Title
                                         </div>
-                                        <nitrozen-input v-model="menuSettings.title" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
+                                        <nitrozen-input v-model="menuSettings.title" v-on:keyup="menuSettings.display = $event.target.value" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
                                         <nitrozen-error v-bind:class="{ visible: errors['title'] }">
                                                 {{ errors['title'] }}
                                         </nitrozen-error>
@@ -217,7 +217,7 @@ export default {
                 this.showNavigationSection()
             }
         }
-     },
+    }
 };
 </script>
 

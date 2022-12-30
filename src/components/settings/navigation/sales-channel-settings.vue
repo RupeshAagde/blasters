@@ -19,13 +19,19 @@
                 <div class="add-menu-btn">
                     <nitrozen-button  v-strokeBtn size:='small' theme="secondary" @click.stop="$emit('seller-panel-show', { data: getSettings(), type: type, isEdit: false})"> Add Menu Item </nitrozen-button>
                 </div>
-                <div class="menu-close">
-                    <inline-svg :src="'arrow_down'" class="icon"></inline-svg>
+                <div class="menu-close" @click="toggleMenu">
+                    <inline-svg
+                            src="arrow_down"
+                            class="dropdown-icon"
+                            :class="{
+                                'rotate-arrow': show,
+                            }"
+                    ></inline-svg>
                 </div>
             </div>
         </div>
         <hr class="line">
-        <div v-if="settings">
+        <div class="navigation-list" v-if="settings && show">
             <draggable :list="settings" v-model="settings">
                 <transition-group>
                     <seller-navigation-list v-for="(element, index) in settings" :key="index" :name="element.title" :subMenu="getSubMenu(element.child)" :icon="element.icon" @seller-panel-show="$emit('seller-panel-show', { type: type, index: index, isEdit: true})"></seller-navigation-list>
@@ -62,6 +68,11 @@ export default {
     directives: {
         strokeBtn
     },
+    data() {
+        return {
+            show: true
+        }
+    },
     methods: {
         getSubMenu(subMenu) {
             let subMenuStr = ''
@@ -69,6 +80,9 @@ export default {
                subMenuStr = subMenuStr + subMenu[index].title  + ", " 
             }
             return subMenuStr
+        },
+        toggleMenu() {
+            this.show = !this.show
         },
         getSettings() {
             return {
@@ -114,6 +128,12 @@ export default {
                 align-items: center;
                 .menu-close{
                     padding-left: 25px;
+                    .dropdown-icon {
+                        transition: all 0.5s ease;
+                    }
+                    .rotate-arrow {
+                        transform: rotate(180deg);
+                    }
                 }
             }
 
