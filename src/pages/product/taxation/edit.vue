@@ -206,7 +206,7 @@
                 </div>
             </div>
             <div v-if="!editMode && !taxes.value.length">
-                <adm-no-content :helperText="''"></adm-no-content>
+                <adm-no-content helperText="No GST Rate Configuration found"></adm-no-content>
             </div>
         </div>
 
@@ -325,7 +325,6 @@ export default {
         return {
             countryCodeList: [],
             filteredCountries: [],
-            countrySearchInputText: '',
             isSearchable: false,
             pageLoading: true,
             inProgress: false,
@@ -412,26 +411,8 @@ export default {
             });
         },
     },
-    watch: {
-        value() {
-            if (this.value) {
-                if (this.value.country) {
-                    if (this.filteredCountries.length) {
-                        let data = this.filteredCountries.filter((ele) => {
-                            return this.value.country
-                                .toLowerCase()
-                                .includes(ele.name.toLowerCase());
-                        })[0];
-                        this.country.value = data.uid || '';
-                        this.$countryChange(this.country.value);
-                    }
-                }
-            }
-        },
-    },
     methods: {
         pageTitle() {
-            // console.log(this.editMode);
             if (!this.editMode) {
                 return 'Add Tax Rate';
             } else {
@@ -456,16 +437,16 @@ export default {
         getCountryList() {
             LocationService.getCountries()
                 .then(({ data }) => {
-                    this.countryCodeList = data.items;
-                    this.filteredCountries = data.items.map((country) => {
+                    this.countryCodeList = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2,
+                            value: country.iso2
                         };
                     });
-                    this.filteredCountries.sort((a, b) =>
+                    this.countryCodeList.sort((a, b) =>
                         a.text.localeCompare(b.text)
                     );
+                    this.filteredCountries = cloneDeep(this.countryCodeList);
                 })
                 .catch((err) => {});
         },
@@ -473,20 +454,15 @@ export default {
             this.isSearchable = true;
         },
         $countrySearchInputChange(e) {
-            this.countrySearchInputText = e.text;
             this.filteredCountries = [];
-            for (let i = 0; i < this.countryCodeList.length; i++) {
-                if (
-                    this.countryCodeList[i].name
-                        .toLowerCase()
-                        .includes(this.countrySearchInputText.toLowerCase())
-                ) {
-                    this.countryCodeList[i].text = this.countryCodeList[i].name;
-                    this.countryCodeList[i].value =
-                        this.countryCodeList[i].iso2;
-                    this.filteredCountries.push(this.countryCodeList[i]);
-                }
+            if (!e || !e.text) {
+                this.filteredCountries = cloneDeep(this.countryCodeList);
+                return;
             }
+            this.countryCodeList.forEach((country) => {
+                if (country.text.toLowerCase().includes(e.text.toLowerCase()))
+                    this.filteredCountries.push(country);
+            });
         },
         getHSN() {
             const reporting_hsn = this.reporting_hsn;
