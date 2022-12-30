@@ -275,6 +275,7 @@ import { debounce } from '@/helper/utils.js';
 // import _ from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import {
     NitrozenToggleBtn,
     NitrozenButton,
@@ -333,7 +334,7 @@ export default {
             soloHsn: {},
             reporting_hsn: '',
             saveText: '',
-            formSaved: false,
+            originalData: {},
             hsn_code: {
                 value: '',
                 showerror: false,
@@ -422,6 +423,7 @@ export default {
         isEmpty: isEmpty,
         init() {
             if (!this.editMode) {
+                this.originalData = this.getDataForDirtyCheck()
                 return;
             }
             this.pageLoading = true;
@@ -478,6 +480,7 @@ export default {
                         this.taxes.value.sort(
                             (current, next) => current.rate - next.rate
                         );
+                        this.originalData = this.getDataForDirtyCheck()
                         this.getDatedTax();
                         resolve();
                     })
@@ -719,14 +722,22 @@ export default {
         redirectBack() {
             this.$goBack('/administrator/product/taxation');
         },
+        getDataForDirtyCheck() {
+            return {
+                hsncode: this.hsn_code.value,
+                type: this.type.value,
+                countrycode: this.country_code.value,
+                desc: this.description.value,
+                taxrates: this.taxes.value
+            };
+        },
         isFormDirty() {
-            if (this.formSaved) {
-                return false;
+            try {
+                return !isEqual(this.originalData, this.getDataForDirtyCheck());
+            } catch (err) {
+                console.log(err);
+                return true;
             }
-
-            let isClean = true;
-
-            return !isClean;
         },
         format_date(value) {
             if (value) {
