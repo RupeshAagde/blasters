@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog ref="dialog" title="Edit GST">
+    <nitrozen-dialog ref="dialog" title="Edit GST" @close="resetOnDismiss">
         <template slot="body">
             <div>
                 <div
@@ -513,7 +513,8 @@ export default {
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
-                height: '80%'
+                height: '80%',
+                showCloseButton: true,
             });
         },
         close(action) {
@@ -534,6 +535,12 @@ export default {
                 this.clearFieldOnCancelOrSave();
                 this.$refs['dialog'].close();
                 this.$emit('close', action);
+            }
+        },
+        resetOnDismiss($event){
+            if ($event==='close'){
+                this.clearFieldOnCancelOrSave()
+                this.$emit('close', 'Cancelled');
             }
         },
         addRate() {

@@ -1,5 +1,5 @@
 <template>
-    <nitrozen-dialog ref="dialog" title="Add GST">
+    <nitrozen-dialog ref="dialog" title="Add GST" @close="resetOnDismiss">
         <template slot="body">
             <div>
                 <div class="dialog-container firstSlab">
@@ -322,6 +322,7 @@ export default {
             this.$refs.dialog.open({
                 width: '600px',
                 height: '80%',
+                showCloseButton: true,
             });
         },
         validate(data) {
@@ -394,6 +395,16 @@ export default {
 
                 this.$refs['dialog'].close();
                 this.$emit('close', action, objectData);
+            }
+        },
+        resetOnDismiss($event){
+            if($event==='close') {
+                let objectData = [];
+                this.resetSlab2();
+                this.resetSlab1();
+                this.datedTax = {};
+                this.isSlab2 = false;
+                this.$emit('close', 'Cancelled', objectData);
             }
         },
         checkFirstSlab(data) {
