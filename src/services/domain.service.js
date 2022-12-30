@@ -435,6 +435,26 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-data`);
     },
 
+    GET_DOWNLOAD_FORMAT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report/sample-file`);
+    },
+
+    GET_PRESIGNED_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-s3-presigned-url`);
+    },
+
+    CALL_PRESIGNED_URL: (url) => {
+        return url;
+    },
+
+    GET_UPLOAD_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
+    },
+
+
+   
+
+
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

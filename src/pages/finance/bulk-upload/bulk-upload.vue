@@ -7,15 +7,16 @@
                 :desc="'Upload Data Portal'"
             ></jumbotron>
         </div>
-        <div class="main_container">
+        <div class="main-file-container">
           <div class="header">
             <div class="header_content">
               <div class="title">Upload Data Portal</div>
-              <div class="desc">Need help in importing? <span class="desc-link">Learn Here</span></div>
+              <div class="desc">Need help in importing? <span class="desc-link" @click="handleOpenDrawer">Learn Here</span></div>
             </div>
             <div class="header-btns">
               <nitrozen-dropdown
                   id="file-type"
+                  v-if="this.toggleUpload"
                   :searchable="true"
                   :items="fileType"
                   v-model="selectedFileType"
@@ -23,6 +24,7 @@
                   :required="true"
               ></nitrozen-dropdown>
               <nitrozen-button
+              v-if="this.toggleUpload"
               class="download-fbtn"
               :theme="'secondary'"
               v-strokeBtn
@@ -30,8 +32,23 @@
               @click="downloadFormat"
               >Download Sample</nitrozen-button>
             </div>
+            <div class="arrow-wrap" @click="toggleUploadSection">
+              <div class="open-arrow" v-if="this.toggleUpload">
+                <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.77 11.8848L-7.73692e-08 10.1148L10 0.114766L20 10.1148L18.23 11.8848L10 3.65477L1.77 11.8848Z" fill="#8F8F8F"/>
+                </svg>
+              </div>
+              <div class="close-arrow" v-else>
+                  <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.77 0.115234L-7.73692e-08 1.88523L10 11.8852L20 1.88523L18.23 0.115234L10 8.34523L1.77 0.115234Z" fill="#8F8F8F"/>
+                  </svg>
+              </div>
+            </div>
           </div>
-          <div class="upload-container">
+          <div class="learn-drawer-container" v-if="drawerOpen">
+                <learn-drawer @closeDrawer="handleCloseDrawer"></learn-drawer>
+            </div>
+          <div class="upload-container" v-if="this.toggleUpload">
             <div class="upload-header">
               <div class="title">Upload File</div>
               <div class="upload-history-btn">
@@ -54,14 +71,160 @@
               <div class="desc">Drag and drop a file here(max. file size: 5MB)</div>
               <div class="condition">Accepted File Type:  .csv</div>
             </div>
+            <div class="file-loading-container"  v-if="this.fileSelected">
+              <div class="icon"><svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24.5" r="24" fill="#E7EEFF"/>
+              <path d="M31 17.5V31.5H17V17.5H31ZM31 15.5H17C15.9 15.5 15 16.4 15 17.5V31.5C15 32.6 15.9 33.5 17 33.5H31C32.1 33.5 33 32.6 33 31.5V17.5C33 16.4 32.1 15.5 31 15.5Z" fill="#5C5C5C"/>
+              <path d="M26 29.5H19V27.5H26V29.5ZM29 25.5H19V23.5H29V25.5ZM29 21.5H19V19.5H29V21.5Z" fill="#5C5C5C"/>
+              </svg></div>
+              <div class="file-loading">
+                <div class="file-top-section">
+                  <div class="file-name"> {{ fileDetails.fileName }}</div>
+                  <div class="progress-close-btn" @click="fileSelected = false">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.66659 1.27398L8.72659 0.333984L4.99992 4.06065L1.27325 0.333984L0.333252 1.27398L4.05992 5.00065L0.333252 8.72732L1.27325 9.66732L4.99992 5.94065L8.72659 9.66732L9.66659 8.72732L5.93992 5.00065L9.66659 1.27398Z" fill="#8F8F8F"/>
+                    </svg>
+                  </div>
+                </div>
+              
+              <div class="progress-bar" v-if="this.fileUploading">
+                <div ref="progressbar" class="progress-speed" v-bind:style="{ 'width': width+'%'}"></div>
+              </div>
+              <div class="progress-info">
+                <div class="filesize" v-if="this.fileUploading">
+                  <span class="initial">{{ this.fileDetails.fileMbSize }}</span><span class="final">/ {{this.fileDetails.fileMbSize}} MB</span>
+                </div>
+
+                <div class="progress-percent" :class="[isUploaded ? 'uploaded' : '']">
+                  <span class="progress-percent-value" v-if="this.fileUploading">{{ this.width }} %</span>
+                  <span v-else>
+                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8.5" r="8" fill="#0A5F23"/>
+                    <path d="M4.5 9L6.5 11L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Import
+                  </span>
+                  <span> Complete</span>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="main-validation-container">
+          <div class="data-container">
+            <div class="left-content">
+            <div class="title">Validation Summary</div>
+              <div class="status">
+                <div class="record">
+                  <span class="txt">Total Record : </span>
+                  <span class="val">{{this.parsedData.totalRecords}}</span>
+                </div>
+                <div class="record-success" v-if="validationCompleted">
+                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8.5" r="8" fill="#0A5F23"/>
+                <path d="M4.5 9L6.5 11L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                  <span class="txt">Success: </span>
+                  <span class="val">{{this.parsedData.success}}</span>
+                </div>
+                <div class="record-error" v-if="validationCompleted">
+                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8.5" r="8" fill="#CD0909"/>
+                  <path d="M8 10.5C8.55212 10.5 9 10.0733 9 9.54456V4.45455C9 3.92752 8.55118 3.5 8 3.5C7.44882 3.5 7 3.92756 7 4.45455V9.54456C7 10.0733 7.44882 10.5 8 10.5Z" fill="white"/>
+                  <path d="M8 13.5C8.55212 13.5 9 13.0873 9 12.5768V12.4232C9 11.9135 8.55118 11.5 8 11.5C7.44882 11.5 7 11.9127 7 12.4232V12.5768C7 13.0873 7.44882 13.5 8 13.5Z" fill="white"/>
+                  </svg>
+                  <span class="txt">Errors: </span>
+                  <span class="val">{{this.parsedData.errors}}</span>
+                </div>
+              </div>
+              <div class="payout-sum" v-if="validationCompleted">
+                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8.5" r="8" fill="#2E31BE"/>
+                  <path d="M8 10.5C8.55212 10.5 9 10.0733 9 9.54456V4.45455C9 3.92752 8.55118 3.5 8 3.5C7.44882 3.5 7 3.92756 7 4.45455V9.54456C7 10.0733 7.44882 10.5 8 10.5Z" fill="white"/>
+                  <path d="M8 13.5C8.55212 13.5 9 13.0873 9 12.5768V12.4232C9 11.9135 8.55118 11.5 8 11.5C7.44882 11.5 7 11.9127 7 12.4232V12.5768C7 13.0873 7.44882 13.5 8 13.5Z" fill="white"/>
+                  </svg>
+                  <span class="txt">Payout Amount Sum: </span>
+                  <span class="val">{{this.parsedData.payout_amount}}</span>
+              </div>
+          </div>
+          <div class="right-content" v-if="validationCompleted">
+            <nitrozen-button
+              class="cancel-btn"
+              :theme="'secondary'"
+              v-strokeBtn
+              @click="cancelValidation"
+              >Cancel</nitrozen-button>
+              <nitrozen-button
+              class="cancel-btn"
+              :theme="'secondary'"
+              v-flatBtn
+              @click="confirmValidation"
+              >Confirm</nitrozen-button>
+          </div>
+          </div>
+          <mirage-alert
+                    :dismissible="true"
+                    ref="intro"
+                    v-if="validationCompleted"
+                    class="info"
+                    type="info"
+                    v-show="true"
+                >
+                    <div class="alert-content">
+                        <span>
+                          Validate and confirm to save your import progress
+                        </span>
+                    </div>
+          </mirage-alert>
+
+          <div class="snapshot-table-conatiner" v-if="validationCompleted">
+            <table
+                class="snapshot-table"
+                v-if="tableData">
+                <tr>
+                    <th
+                        v-for="(col, index) in tableData.headers"
+                        :key="'col-' + index"
+                    >
+                        {{ col }}
+                    </th>
+                </tr>
+                <tr v-for="(tab, index) in tableData.items"
+                    :key="'tab-' + index"> 
+                    <td v-for="(tabItem,key,index) in tab" :key="'tabitem-' + index">
+                        {{ tabItem }}
+                    </td>
+                </tr>
+                
+            </table>
+          </div>
+
+          <div class="validate-loader" v-if="startLoader">
+            <no-content
+                :icon="'/public/assets/pngs/upload-loader.png'"
+                :helperText="''"
+            />
+            <div class="txt">Please hold on while the records are being fetched...</div>
+          </div>
+          <div class="validate-img-wrap" ref="validateImg"> 
+            <no-content
+                :icon="'/public/assets/pngs/validate-bulk-upload-finance.png'"
+                :helperText="''"
+            />
+            <div class="txt">No departmental data uploaded,</div>
+            <div class="txt">Upload departmental data</div>
           </div>
 
         </div>
     </div>
 </template>
 <script>
+import NoContent from '../../../components/common/adm-no-content.vue';
 import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
+import MirageAlert from '@/components/orders/alert.vue';
+import learnDrawer from './learn-drawer.vue';
 import {
     NitrozenButton,
     NitrozenRadio,
@@ -76,6 +239,9 @@ export default {
       'nitrozen-button': NitrozenButton,
       'nitrozen-radio' : NitrozenRadio,
       'nitrozen-dropdown':  NitrozenDropdown,
+      'no-content' : NoContent,
+      'mirage-alert' : MirageAlert,
+      'learn-drawer' : learnDrawer
     },
     directives: {
         flatBtn,
@@ -84,8 +250,54 @@ export default {
     data() {
     return {
       selectedFileType: '',
+      fileDetails: {
+        fileName: 'cod_payouts_2.csv',
+        fileInitialSize:0,
+        fileMbSize:0,
+      },
       fileType: [],
-      uploadedFileName: '',
+      startLoader:false,
+      drawerOpen:false,
+      toggleUpload: true,
+      fileSelected:false,
+      fileUploading:true,
+      intervalId:'',
+      width:0,
+      isUploaded:false,
+      presignedUrl: '',
+      validationCompleted: false,
+      file: '',
+      parsedData:{
+        totalRecords: 0,
+        success:0,
+        errors:0,
+        payout_amount:0,
+      },
+      tableData:{
+        headers:[],
+        items:[],
+
+      },
+      validatedData: {
+          "success": true,
+          "data": {
+              "report_upload_id": 'ad6dd60d-110a-4a53-904c-b9196b4a7008',
+              "status": "PreProcess",
+              "json":{"headers": ["column1", "column1"],
+                          
+                      "rows": {"1": ["cell(1,1)", "cell(2,1)"],
+                              "2": ["cell(1,2)", "cell(2,1)"],   
+                              "3": ["cell(1,3)", "cell(2,3)"]
+                              } 
+                      },
+              "total": 2,
+              "summary":[
+                  {
+                    "payoutsum": 456.6
+                    }
+                ]
+          }
+      }
     }
   },
   mounted(){
@@ -93,7 +305,43 @@ export default {
 
   },
   methods: {
+    handleOpenDrawer(){
+        this.drawerOpen = true;
+    },
+    handleCloseDrawer(){
+        this.drawerOpen = false;
+    },
       downloadFormat(){
+
+      if(!this.selectedFileType){
+        this.$snackbar.global.showError(
+            `Please select option from dropdown`
+        );
+      }   
+      
+      const params = {   
+        "data": {
+            "report_id": this.selectedFileType 
+        }
+      }
+
+      const caller = FinanceService.getDownloadFormat(params);
+            caller
+                .then(( res ) => {
+                    const url = res.data.data.url;
+                    const link = document.createElement('a');
+                    link.href = url;
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                    
+       });
 
       },
       getFileType() {
@@ -114,10 +362,8 @@ export default {
                         }
             
             const caller = FinanceService.getFileType(params);
-            console.log(caller);
             caller
                 .then(( res ) => {
-                  console.log(res);
                     this.fileType = res.data.items.map((item) => {
                         return {
                             text: item.display_name,
@@ -131,13 +377,29 @@ export default {
                     );
                 })
                 .finally(() => {
-                  console.log("in finally")
                     
                 });
         },
 
-        onFileUpload(event) {
-            let file = event.target.files[0];
+        frame() {
+          this.fileDetails.fileInitialSize = this.fileDetails.fileMbSize / 100;
+          if (this.width >= 100) {
+            clearInterval(this.intervalId);            
+            setTimeout(() => {
+              this.showValidateScreen();
+            }, 1000);
+
+          } else {
+            this.width++;
+            this.fileDetails.fileInitialSize++;
+          }
+        },
+
+        onFileUpload(event) {  
+          this.fileUploading = true;
+          this.fileSelected = true;
+            let file = event.target.files[0];    
+            this.file = event.target.files[0];        
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`
@@ -149,25 +411,149 @@ export default {
                 );
             }
             else if(file.name.slice(-4) == ".csv") {
-                this.uploadedFileName = file.name;
-                // this.$emit('upload', event.target.files[0]);
+              this.fileDetails.fileName = file.name;
+              this.fileDetails.fileMbSize = (file.size / 1000000).toFixed(2);
+              this.width = 0;
+              this.intervalId = setInterval(this.frame, 10);
             }
             else {
-                this.uploadedFileName = null;
+                this.fileDetails.fileName = null;
                 this.$snackbar.global.showError(
                     `You have cancelled the file upload`
                 );
             }
         },
+        validateData(){
+          this.getPreSignedUrl();
+        },
 
-        /**
-         * Function to call file upload method when user clicks on the button.
-         * 
-         * @author: Rushabh Mulraj Shah
-         */
+        toggleUploadSection(){
+          this.toggleUpload = !this.toggleUpload;
+        },
+
+        showValidateScreen(){
+          this.fileUploading = false;
+          this.isUploaded = true; 
+          this.validationCompleted = false;
+          this.$refs.validateImg.style.display = "none";
+          this.startLoader = true;
+          this.validateData();
+        },
+
+        getPreSignedUrl(){
+          const params = {
+              "data": {
+                  "report_id": this.selectedFileType ,
+                  "file_name": this.fileDetails.fileName + ".gz",
+              }
+          }
+            const caller = FinanceService.getPreSignedUrl(params);
+            caller
+                .then(( res ) => {
+                    let data = new FormData;
+                    let url = res.data.data.url;
+                    this.presignedUrl = res.data.data.presigned_url;
+                    for (let prop in res.data.data.fields) {
+                      data.append(prop, res.data.data.fields[prop]);
+                    }
+                    data.append("file", this.file);                    
+                    this.callPresignedUrl(url,data);
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                    // this.callPreSignedUrl();
+                });
+        },
+
+        callPresignedUrl(url,data){
+          const caller = FinanceService.callPresignedUrl(url, data);
+          caller
+                .then(( res ) => {
+                      
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                  // this.getValidatedFileInfo(data.get('file'));
+                });
+
+                this.getValidatedFileInfo(data.get('file'));
+        },
+
+        getValidatedFileInfo(){
+    
+          let data = new FormData;
+          data.append("url", this.presignedUrl);
+          data.append("report_id", this.selectedFileType);
+          data.append("report_file", this.file);
+          // data.append("source", "S3");
+          data.append("is_gzip", "true");
+          data.append("action", "preprocess");
+
+          const caller = FinanceService.validateFile(data);
+            caller
+                .then(( res ) => {
+                  console.log(res);
+                    
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                    // this.callPreSignedUrl();
+                });
+
+
+                setTimeout(() => {
+                  this.showValidatedScreen();
+                }, 3000);
+                
+
+        },
+
+        showValidatedScreen(){
+
+          this.validationCompleted = true;
+          this.toggleUpload = false;
+          this.startLoader = false;
+
+          this.parsedData.totalRecords = this.validatedData.data.total;
+          this.parsedData.success = this.validatedData.data.total;
+          this.parsedData.payout_amount = this.validatedData.data.summary[0].payoutsum;
+
+          this.tableData.headers = this.validatedData.data.json.headers;
+          this.tableData.items = this.validatedData.data.json.rows;
+          // this.validateData.errors = this.validatedData.total;
+
+
+        },
+
         onUploadClick() {
+          if(this.selectedFileType){
             this.$refs.fileUpload.click();
-        }
+          }
+          else{
+            this.$snackbar.global.showError(
+                  `Please Select value from dropdown`
+              );
+          }
+            
+        },
+        cancelValidation(){
+
+        },
+        confirmValidation(){
+
+        },
      
     }
 
@@ -176,7 +562,12 @@ export default {
 
 <style lang="less" scoped>
 
-.main_container{
+@keyframes load {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.main-file-container{
   background: #FFFFFF;
 border-radius: 4px;
 margin: 24px 24px 0;
@@ -190,8 +581,13 @@ padding: 24px ;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .desc-link{
+    cursor: pointer;
+  }
 }
 .header_content{
+  flex: 1;
 
   .title{
     font-size: 18px;
@@ -216,11 +612,12 @@ padding: 24px ;
 
 .header-btns{
   display: flex;
-  width: 50%;
-  max-width: 50%;
+  width: 46%;
+  max-width: 46%;
+  margin-right: 20px;
 
   .download-fbtn{
-    margin-left: 40px;
+    margin-left: 20px;
     max-width: 222px;
     width: 100%;
   }
@@ -300,5 +697,186 @@ padding: 24px ;
     width: 100%;
     visibility: hidden;
   }
+
+.file-loading-container{
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+
+  .file-loading{
+    flex: 1;
+  }
+
+  .icon{
+    padding-right: 10px;
+  }
+
+  .file-name{
+    color: #41434C;
+    font-size: 12px;
+    line-height: 17px;
+    font-weight: 600;
+  }
+  .progress-bar{
+    height: 6px;
+    width: 100%;
+    background: #F2F2F2;
+  border-radius: 37px;
+  overflow: hidden;
+  margin: 4px 0;
+  
+
+  .progress-speed{
+    background: #2E31BE;
+    height: 6px;
+  }
+  }
+
+.progress-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filesize{
+font-weight: 400;
+font-size: 12px;
+color: #9B9B9B;
+line-height: 17px;
+}
+
+.progress-percent{
+font-weight: 600;
+font-size: 12px;
+line-height: 17px;
+color: #2E31BE;
+
+svg{
+  vertical-align: middle;
+}
+}
+
+.file-top-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+}
+
+.main-validation-container{
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 24px 0;
+
+  .data-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #E0E0E0;
+  padding-bottom: 16px;
+  }
+
+.title{
+  font-size: 18px;
+  line-height: 22px;
+  color: #41434C;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.txt{
+  font-size: 14px;
+  color: #9B9B9B;
+  font-weight: 400;
+}
+
+.val{
+  color: #41434C;
+  font-size: 14px;
+  line-height: 19px;
+  margin-right: 16px;
+}
+
+.status{
+  display: flex;
+  align-items: center;
+}
+
+svg{ 
+  vertical-align: middle;
+}
+
+.payout-sum{
+  padding-top: 16px;
+}
+
+}
+
+.arrow-wrap{
+  cursor: pointer;
+}
+
+.progress-close-btn{
+  cursor: pointer;
+}
+
+.progress-percent.uploaded{
+  .progress-percent{
+    color: #0A5F23;
+  }
+  span{
+    color: #0A5F23;
+    line-height: 17px;
+  }
+}
+
+.validate-img-wrap, .validate-loader{
+  .txt{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 17px;
+    color: #9B9B9B;
+    text-align: center;
+  }
+  .page-error {
+  padding: 2% 0 0%;
+}
+
+}
+
+.snapshot-table {
+        width: 100%;
+        margin-bottom: 24px;
+        font-family: Inter, sans-serif;
+        font-size: 14px;
+        overflow-x: auto;
+        margin-top: 24px;
+        border: 1px solid #E0E0E0;
+        text-align: center;
+
+        tr:first-child {
+            border-bottom: 1px solid @Iron;
+            background: @Alabaster2;
+            color: @Black;
+        }
+        tr:not(:first-child) {
+            border-bottom: 1px solid @Iron;
+        }
+        th{
+            padding: 16px 24px;
+            text-align: center;
+        }
+        td {
+            text-align: center;
+            padding: 16px 24px;
+            vertical-align: middle;
+            max-width: 120px;
+        }
+    }
+
+
 
 </style>
