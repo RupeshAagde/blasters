@@ -72,7 +72,7 @@
         "moment": "^2.29.4",
         "newrelic": "^9.5.0",
         "node-cache": "^5.1.2",
-        "pdfmake": "^0.2.6",
+        "pdfmake": "^0.2.7",
         "query-string": "^6.14.1",
         "slugify": "^1.6.5",
         "snyk": "^1.1060.0",
