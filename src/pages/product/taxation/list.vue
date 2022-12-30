@@ -26,7 +26,9 @@
                         <nitrozen-input
                             :showSearchIcon="true"
                             type="search"
-                            :placeholder="'Search by HSN, Reporting HSN, Description'"
+                            :placeholder="
+                                'Search by HSN, Reporting HSN, Description'
+                            "
                             v-model="searchText"
                             @input="searchHSN"
                         ></nitrozen-input>
@@ -102,7 +104,7 @@ import {
     NitrozenPagination,
     NitrozenBadge,
     NitrozenDropdown,
-    NitrozenButton,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 // import _ from 'lodash';
@@ -110,12 +112,12 @@ import moment from 'moment';
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1,
+    current: 1
 };
 const TYPE = [
     { value: 'all', text: 'All' },
     { value: 'goods', text: 'Goods' },
-    { value: 'services', text: 'Services' },
+    { value: 'services', text: 'Services' }
 ];
 const SPECIAL_CHARS = [
     '+',
@@ -139,7 +141,7 @@ const SPECIAL_CHARS = [
 export default {
     name: 'Taxation',
     props: {
-        msg: String,
+        msg: String
     },
     components: {
         PageError,
@@ -153,15 +155,15 @@ export default {
         NitrozenInput,
         NitrozenPagination,
         NitrozenBadge,
-        NitrozenDropdown,
+        NitrozenDropdown
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     computed: {
         ...mapGetters({
-            helpData: GET_HELP_SECTION_DATA,
+            helpData: GET_HELP_SECTION_DATA
         }),
         jumbotronData() {
             if (this.helpData && this.helpData.length) {
@@ -172,7 +174,7 @@ export default {
         },
         getHSNType() {
             return TYPE;
-        },
+        }
     },
     data() {
         return {
@@ -192,9 +194,9 @@ export default {
                 'Slab #1',
                 'Slab #2',
                 'Country',
-                'Action',
+                'Action'
             ],
-            countryList: [],
+            countryList: []
         };
     },
     mounted() {
@@ -220,7 +222,7 @@ export default {
         getHSNCodes() {
             const params = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit,
+                page_size: this.pagination.limit
             };
             if (this.searchText) {
                 if (/[^a-zA-Z0-9\-\/]/.test(this.searchText)) {
@@ -259,10 +261,10 @@ export default {
             // LocalStorageService.addOrUpdateItem('uid',code)
             let redirectPath = '/add';
             this.$router.push({
-                path: path.join(this.$route.path, redirectPath),
+                path: path.join(this.$route.path, redirectPath)
             });
         },
-        debounceredirectEdit: debounce(function (e) {
+        debounceredirectEdit: debounce(function(e) {
             this.redirectEdit();
         }, 800),
         paginationChange(filter, action) {
@@ -292,11 +294,11 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    ...query,
-                },
+                    ...query
+                }
             });
         },
-        searchHSN: debounce(function () {
+        searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {
@@ -310,13 +312,13 @@ export default {
                     this.countryList = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2,
+                            value: country.iso2
                         };
                     });
                 })
                 .catch((err) => {});
-        },
-    },
+        }
+    }
 };
 </script>
 

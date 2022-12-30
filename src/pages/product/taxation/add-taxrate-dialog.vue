@@ -163,7 +163,7 @@ const RATE_LIST = [
     { text: '10%', value: 10 },
     { text: '12%', value: 12 },
     { text: '18%', value: 18 },
-    { text: '28%', value: 28 },
+    { text: '28%', value: 28 }
 ];
 import { debounce } from '@/helper/utils';
 import cloneDeep from 'lodash/cloneDeep';
@@ -176,7 +176,7 @@ import {
     NitrozenError,
     NitrozenDialog,
     flatBtn,
-    strokeBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 export default {
@@ -188,21 +188,21 @@ export default {
         NitrozenError,
         NitrozenDialog,
         AdmDatePicker,
-        UktInlineSvg,
+        UktInlineSvg
     },
     props: {
         description: {
             type: String,
-            default: 'Add GST',
+            default: 'Add GST'
         },
         taxes: Object,
         selectedDates: {
-            type: Array,
-        },
+            type: Array
+        }
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     computed: {},
     watch: {
@@ -223,10 +223,10 @@ export default {
                         }
                     }
                 }
-            },
-        },
+            }
+        }
     },
-    data: function () {
+    data: function() {
         return {
             datedTax: {},
             rateList1: [
@@ -236,7 +236,7 @@ export default {
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 },
+                { text: '28%', value: 28 }
             ],
             rateList2: [
                 { text: '0%', value: '0' },
@@ -245,53 +245,53 @@ export default {
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 },
+                { text: '28%', value: 28 }
             ],
             slab1: {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 rate: {
                     value: '0',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
-                },
+                    errortext: ''
+                }
             },
             slab2: {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 rate: {
                     value: '0',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
-                },
+                    errortext: ''
+                }
             },
-            isSlab2: false,
+            isSlab2: false
         };
     },
     mounted() {},
@@ -305,24 +305,25 @@ export default {
                 date1WithoutTime.setUTCHours(0, 0, 0, 0);
                 date2WithoutTime.setUTCHours(0, 0, 0, 0);
                 if (date1WithoutTime.getTime() === date2WithoutTime.getTime()) {
-                    this.$snackbar.global.showError('Slab already exist for selected effective date');
-                    this.slab1.effective_date.value = ""
+                    this.$snackbar.global.showError(
+                        'Slab already exist for selected effective date'
+                    );
+                    this.slab1.effective_date.value = '';
                     return;
                 }
             });
         },
         checkHighestValue(value) {
             const rateList = cloneDeep(RATE_LIST);
-            const highest = rateList
-                .sort((a, b) => a.value - b.value)
-                .pop().value;
+            const highest = rateList.sort((a, b) => a.value - b.value).pop()
+                .value;
             return highest === value;
         },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
                 height: '80%',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         validate(data) {
@@ -349,11 +350,11 @@ export default {
                 { text: '10%', value: 10 },
                 { text: '12%', value: 12 },
                 { text: '18%', value: 18 },
-                { text: '28%', value: 28 },
+                { text: '28%', value: 28 }
             ];
             this.rateList2 = tempList.filter((rate) => rate.value > data);
-            if(data == 28){
-                this.removeRate()
+            if (data == 28) {
+                this.removeRate();
             }
         },
         getFormValues() {
@@ -362,14 +363,14 @@ export default {
                 threshold: this.slab1.threshold.value,
                 rate: this.slab1.rate.value,
                 effective_date: this.slab1.effective_date.value,
-                cess: this.slab1.cess.value,
+                cess: this.slab1.cess.value
             });
             if (this.isSlab2) {
                 objData.push({
                     threshold: this.slab2.threshold.value,
                     rate: this.slab2.rate.value,
                     effective_date: this.slab2.effective_date.value,
-                    cess: this.slab2.cess.value,
+                    cess: this.slab2.cess.value
                 });
             }
             return objData;
@@ -397,8 +398,8 @@ export default {
                 this.$emit('close', action, objectData);
             }
         },
-        resetOnDismiss($event){
-            if($event==='close') {
+        resetOnDismiss($event) {
+            if ($event === 'close') {
                 let objectData = [];
                 this.resetSlab2();
                 this.resetSlab1();
@@ -573,8 +574,7 @@ export default {
                     }
                 } else {
                     if (this.isSlab2) {
-                        this.slab2.effective_date.value =
-                            this.slab1.effective_date.value;
+                        this.slab2.effective_date.value = this.slab1.effective_date.value;
                     }
                     return true;
                 }
@@ -595,23 +595,23 @@ export default {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 rate: {
                     value: '0',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
-                },
+                    errortext: ''
+                }
             };
         },
         resetSlab2() {
@@ -619,26 +619,26 @@ export default {
                 cess: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 effective_date: {
                     value: '',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 rate: {
                     value: '0',
                     showerror: false,
-                    errortext: '',
+                    errortext: ''
                 },
                 threshold: {
                     value: 0,
                     showerror: false,
-                    errortext: '',
-                },
+                    errortext: ''
+                }
             };
-        },
-    },
+        }
+    }
 };
 </script>
 

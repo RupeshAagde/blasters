@@ -207,7 +207,9 @@
                 </div>
             </div>
             <div v-if="!editMode && !taxes.value.length">
-                <adm-no-content helperText="No GST Rate Configuration found"></adm-no-content>
+                <adm-no-content
+                    helperText="No GST Rate Configuration found"
+                ></adm-no-content>
             </div>
         </div>
 
@@ -289,7 +291,7 @@ import {
     NitrozenDialog,
     NitrozenTooltip,
     flatBtn,
-    strokeBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
@@ -316,11 +318,11 @@ export default {
         loader,
         AddTaxrateDailog,
         EditTaxrateDailog,
-        NitrozenDialog,
+        NitrozenDialog
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     mixins: [dirtyCheckMixin],
     data() {
@@ -338,28 +340,28 @@ export default {
             hsn_code: {
                 value: '',
                 showerror: false,
-                errortext: 'HSN code is required',
+                errortext: 'HSN code is required'
             },
             type: {
                 value: '',
                 showerror: false,
-                errortext: 'Type is required',
+                errortext: 'Type is required'
             },
             country_code: {
                 value: '',
                 showerror: false,
-                errortext: 'Country is required',
+                errortext: 'Country is required'
             },
             description: {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 4 to 500 characters",
+                    "Description is required and it's length should be between 4 to 500 characters"
             },
             taxes: {
                 value: [],
                 showerror: false,
-                errortext: 'Tax rate is required',
+                errortext: 'Tax rate is required'
             },
             datedTax: {},
             // selectedRate: {
@@ -373,19 +375,19 @@ export default {
                 cess: 0,
                 effective_date: '',
                 rate: 0,
-                threshold: 0,
+                threshold: 0
             },
             newRates: [
                 {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0,
-                },
+                    threshold: 0
+                }
             ],
             markedForDelete: [],
             errors: {},
-            selectedDates: [],
+            selectedDates: []
         };
     },
     mounted() {
@@ -407,10 +409,10 @@ export default {
             return HSN_TYPE.map((type) => {
                 return {
                     text: type,
-                    value: type.toLowerCase(),
+                    value: type.toLowerCase()
                 };
             });
-        },
+        }
     },
     methods: {
         pageTitle() {
@@ -423,7 +425,7 @@ export default {
         isEmpty: isEmpty,
         init() {
             if (!this.editMode) {
-                this.originalData = this.getDataForDirtyCheck()
+                this.originalData = this.getDataForDirtyCheck();
                 return;
             }
             this.pageLoading = true;
@@ -480,7 +482,7 @@ export default {
                         this.taxes.value.sort(
                             (current, next) => current.rate - next.rate
                         );
-                        this.originalData = this.getDataForDirtyCheck()
+                        this.originalData = this.getDataForDirtyCheck();
                         this.getDatedTax();
                         resolve();
                     })
@@ -669,15 +671,15 @@ export default {
                 );
             }
         },
-        debounceSaveForm: debounce(function () {
+        debounceSaveForm: debounce(function() {
             this.saveForm();
         }, 800),
         validateNumber(input) {
-            if(input.includes("+") || input.includes("-")){
+            if (input.includes('+') || input.includes('-')) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
-            }else if (!Number(input) && Number(input) !== 0) {
+            } else if (!Number(input) && Number(input) !== 0) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
@@ -763,8 +765,8 @@ export default {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0,
-                },
+                    threshold: 0
+                }
             ];
         },
         clearSelectedRate() {
@@ -843,8 +845,9 @@ export default {
                     'HSN has only one tax slab, it should not be deleted'
                 );
             } else {
-                let tempdate =
-                    this.markedForDelete[0].effective_date.split('T')[0];
+                let tempdate = this.markedForDelete[0].effective_date.split(
+                    'T'
+                )[0];
                 this.taxes.value = this.taxes.value.filter((rate) => {
                     let efdate = rate.effective_date.split('T')[0];
                     if (efdate == tempdate) {
@@ -863,14 +866,14 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         closeConfirmationDialog() {
             this.markedForDelete = [];
             this.$refs['confirm-dialog'].close();
-        },
-    },
+        }
+    }
 };
 </script>
 

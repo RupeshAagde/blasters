@@ -311,7 +311,7 @@ export default {
     props: {
         taxes: Object,
         selectedRate: Array,
-        selectedDates: Array,
+        selectedDates: Array
     },
     directives: {
         flatBtn,
@@ -437,7 +437,7 @@ export default {
                     }
                 }
             ],
-            editableRateszCopy :[],
+            editableRateszCopy: []
         };
     },
     mounted() {},
@@ -479,7 +479,7 @@ export default {
                             .replace(' ', 'T');
                     }
                 }
-                this.editableRateszCopy = cloneDeep(this.editableRate)
+                this.editableRateszCopy = cloneDeep(this.editableRate);
             }
         }
     },
@@ -493,28 +493,29 @@ export default {
                 date1WithoutTime.setUTCHours(0, 0, 0, 0);
                 date2WithoutTime.setUTCHours(0, 0, 0, 0);
                 if (date1WithoutTime.getTime() === date2WithoutTime.getTime()) {
-                    this.$snackbar.global.showError('Slab already exist for selected effective date');
+                    this.$snackbar.global.showError(
+                        'Slab already exist for selected effective date'
+                    );
                     this.editableRate[0].effective_date = this.editableRateszCopy[0].effective_date;
                     return;
                 }
             });
         },
         checkHighestValue() {
-            let value = ""
-            if(this.editableRate[0] && this.editableRate[0].rate){
-                value = this.editableRate[0].rate
+            let value = '';
+            if (this.editableRate[0] && this.editableRate[0].rate) {
+                value = this.editableRate[0].rate;
             }
             const rateList = cloneDeep(RATE_LIST);
-            const highest = rateList
-                .sort((a, b) => a.value - b.value)
-                .pop().value;
+            const highest = rateList.sort((a, b) => a.value - b.value).pop()
+                .value;
             return highest === value;
         },
         open(data) {
             this.$refs.dialog.open({
                 width: '600px',
                 height: '80%',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         close(action) {
@@ -537,9 +538,9 @@ export default {
                 this.$emit('close', action);
             }
         },
-        resetOnDismiss($event){
-            if ($event==='close'){
-                this.clearFieldOnCancelOrSave()
+        resetOnDismiss($event) {
+            if ($event === 'close') {
+                this.clearFieldOnCancelOrSave();
                 this.$emit('close', 'Cancelled');
             }
         },
@@ -576,8 +577,8 @@ export default {
                 { text: '28%', value: 28 }
             ];
             this.rateList2 = tempList.filter((rate) => rate.value > data);
-            if(data == 28){
-                this.removeRate()
+            if (data == 28) {
+                this.removeRate();
             }
         },
         checkFirstSlab(data) {
