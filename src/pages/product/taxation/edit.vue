@@ -95,6 +95,7 @@
                         required
                         placeholder="Description of product"
                         v-model="description.value"
+                        @keypress="restrictInput"
                         @input="validateDescription"
                     ></nitrozen-input>
                     <nitrozen-error v-if="description.showerror">
@@ -353,7 +354,7 @@ export default {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 4 to 500 chars",
+                    "Description is required and it's length should be between 4 to 500 characters",
             },
             taxes: {
                 value: [],
@@ -707,13 +708,20 @@ export default {
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 4 to 500 chars";
+                    "Description is required and it's length should be between 4 to 500 characters";
             }
             return isValid;
         },
+        restrictInput($event) {
+            if (
+                this.description.value &&
+                this.description.value.length >= 500
+            ) {
+                $event.preventDefault();
+            }
+        },
         redirectBack() {
             this.$goBack('/administrator/product/taxation');
-            //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
         },
         isFormDirty() {
             if (this.formSaved) {
