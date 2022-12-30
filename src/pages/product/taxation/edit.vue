@@ -195,7 +195,10 @@
                                     "
                                 ></ukt-inline-svg>
                                 <ukt-inline-svg
-                                    v-if="tax[0].state != 'Active'"
+                                    v-if="
+                                        tax[0].state != 'Active' &&
+                                            taxes.value.length !== 1
+                                    "
                                     class="dlt-btn"
                                     title="delete rate"
                                     src="delete-red"
