@@ -64,6 +64,7 @@
                         placeholder="Choose Type"
                         :items="getHSNType"
                         v-model="type.value"
+                        @change="type.showerror = false"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="type.showerror">
                         {{ type.errortext }}
@@ -77,6 +78,7 @@
                         :items="filteredCountries"
                         v-model="country_code.value"
                         :searchable="true"
+                        @change="country_code.showerror = false"
                         @searchInputChange="$countrySearchInputChange"
                     ></nitrozen-dropdown>
                     <nitrozen-error v-if="country_code.showerror">

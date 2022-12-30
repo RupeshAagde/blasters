@@ -16,7 +16,10 @@
                                 class="st-date"
                                 v-model="editableRate[0].effective_date"
                                 :useNitrozenTheme="true"
-                                @input="checkExistigDate($event)"
+                                @input="
+                                    clearError(slabOneErr.effective_date);
+                                    checkExistigDate($event);
+                                "
                             />
                             <nitrozen-error
                                 v-if="slabOneErr.effective_date.showerror"
@@ -30,6 +33,7 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[0].cess"
+                                @input="clearError(slabOneErr.cess)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabOneErr.cess.showerror">
                                 {{ slabOneErr.cess.errortext }}
@@ -49,10 +53,7 @@
                                 :custom="true"
                                 :showPrefix="true"
                             >
-                                <div
-                                    class=".
-                            custom-label"
-                                >
+                                <div class="custom-label">
                                     &#62;
                                 </div>
                             </nitrozen-input>
@@ -68,7 +69,10 @@
                                 required
                                 placeholder="Choose Rate"
                                 :items="rateList1"
-                                @change="getRateList2(editableRate[0].rate)"
+                                @change="
+                                    clearError(slabOneErr.rate);
+                                    getRateList2(editableRate[0].rate);
+                                "
                                 v-model="editableRate[0].rate"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slabOneErr.rate.showerror">
@@ -89,28 +93,13 @@
                         @click.stop.native="removeRate()"
                     ></ukt-inline-svg>
                     <div class="row">
-                        <!--<div class="input-box">
-                            <adm-date-picker
-                                label="Effective date *"
-                                required
-                                date_format="YYYY-MM-DD"
-                                :picker_type="'date'"
-                                class="st-date"
-                                v-model="editableRate[0].effective_date"
-                                :useNitrozenTheme="true"
-                            />
-                            <nitrozen-error
-                                v-if="slabTwoErr.effective_date.showerror"
-                            >
-                                {{ slabTwoErr.effective_date.errortext }}
-                            </nitrozen-error>
-                        </div> -->
                         <div class="input-box2">
                             <nitrozen-input
                                 label="Cess"
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="editableRate[1].cess"
+                                @input="clearError(slabTwoErr.cess)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="slabTwoErr.cess.showerror">
                                 {{ slabTwoErr.cess.errortext }}
@@ -128,11 +117,9 @@
                                 v-model="editableRate[1].threshold"
                                 :custom="true"
                                 :showPrefix="true"
+                                @input="clearError(slabTwoErr.threshold)"
                             >
-                                <div
-                                    class=".
-                            custom-label"
-                                >
+                                <div class="custom-label">
                                     &#62;
                                 </div>
                             </nitrozen-input>
@@ -149,6 +136,7 @@
                                 placeholder="Choose Rate"
                                 :items="rateList2"
                                 v-model="editableRate[1].rate"
+                                @change="clearError(slabTwoErr.rate)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slabTwoErr.rate.showerror">
                                 {{ slabTwoErr.rate.errortext }}
@@ -772,6 +760,9 @@ export default {
                 date_dict[key] = item;
             }
             return date_dict;
+        },
+        clearError(obj) {
+            obj.showerror = false;
         },
         clearFieldOnCancelOrSave() {
             this.editableRate = [];

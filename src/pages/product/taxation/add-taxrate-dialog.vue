@@ -13,7 +13,10 @@
                                 class="st-date"
                                 v-model="slab1.effective_date.value"
                                 :useNitrozenTheme="true"
-                                @input="checkExistigDate($event)"
+                                @input="
+                                    clearError(slab1.effective_date);
+                                    checkExistigDate($event);
+                                "
                             />
                             <nitrozen-error
                                 v-if="slab1.effective_date.showerror"
@@ -27,6 +30,7 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab1.cess.value"
+                                @input="clearError(slab1.cess)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab1.cess.showerror">
                                 {{ slab1.cess.errortext }}
@@ -46,7 +50,7 @@
                                 :custom="true"
                                 :showPrefix="true"
                             >
-                                <div class=". custom-label">&#62;</div>
+                                <div class="custom-label">&#62;</div>
                             </nitrozen-input>
                             <nitrozen-error v-if="slab1.threshold.showerror">
                                 {{ slab1.threshold.errortext }}
@@ -58,7 +62,10 @@
                                 required
                                 placeholder="Choose Rate"
                                 :items="rateList1"
-                                @change="getRateList2(slab1.rate.value)"
+                                @change="
+                                    clearError(slab1.rate);
+                                    getRateList2(slab1.rate.value);
+                                "
                                 v-model="slab1.rate.value"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slab1.rate.showerror">
@@ -82,6 +89,7 @@
                                 type="number"
                                 placeholder="cess value (optional)"
                                 v-model="slab2.cess.value"
+                                @input="clearError(slab2.cess)"
                             ></nitrozen-input>
                             <nitrozen-error v-if="slab2.cess.showerror">
                                 {{ slab2.cess.errortext }}
@@ -99,8 +107,9 @@
                                 v-model="slab2.threshold.value"
                                 :custom="true"
                                 :showPrefix="true"
+                                @input="clearError(slab2.threshold)"
                             >
-                                <div class=". custom-label">&#62;</div>
+                                <div class="custom-label">&#62;</div>
                             </nitrozen-input>
                             <nitrozen-error v-if="slab2.threshold.showerror">
                                 {{ slab2.threshold.errortext }}
@@ -113,6 +122,7 @@
                                 placeholder="Choose Rate"
                                 :items="rateList2"
                                 v-model="slab2.rate.value"
+                                @change="clearError(slab2.rate)"
                             ></nitrozen-dropdown>
                             <nitrozen-error v-if="slab2.rate.showerror">
                                 {{ slab2.rate.errortext }}
@@ -589,6 +599,9 @@ export default {
                 date_dict[key] = item;
             }
             return date_dict;
+        },
+        clearError(obj) {
+            obj.showerror = false;
         },
         resetSlab1() {
             this.slab1 = {
