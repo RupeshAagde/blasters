@@ -626,6 +626,7 @@ export default {
                         this.$snackbar.global.showSuccess('Saved successfully');
                     }
                     this.clearSelectedRate();
+                    this.originalData = this.getDataForDirtyCheck();
                     if (this.markedForDelete.length <= 0) {
                         !this.editMode && this.redirectBack();
                         this.markedForDelete = [];

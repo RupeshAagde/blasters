@@ -118,11 +118,9 @@ const URLS = {
 
     //Create Hsn codes
     HSN_CODE_LIST_CREATE: () => {
-        console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
     },
     HSN_CODE_RETRIVE_UPDATE_DELETE: (reporting_hsn) => {
-        console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
     },
     //fetchVariant
