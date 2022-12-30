@@ -500,6 +500,7 @@ import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
 import { debounce } from '@/helper/utils';
+import get from 'lodash/get';
 
 import {
     NitrozenButton,
@@ -795,13 +796,16 @@ export default {
                         this.show_verify_button = true;
                     })
                     .catch((error) => {
-                        console.error(error);
                         this.$snackbar.global.showError(
-                            `${
-                                error.response.data
-                                    ? JSON.stringify(error.response.data.errors)
-                                    : ''
-                            }`,
+                            get(
+                                error,
+                                'response.data.message',
+                                get(
+                                    error,
+                                    'response.data.error.errors',
+                                    'Failed to process'
+                                )
+                            ),
                             {
                                 duration: 2000,
                             }
