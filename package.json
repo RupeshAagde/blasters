@@ -45,6 +45,7 @@
         "@gofynd/nitrozen-vue": "0.0.37",
         "@google/model-viewer": "^1.4.1",
         "@sentry/node": "^5.27.3",
+        "ag-grid-community": "^23.1.1",
         "@xmldom/xmldom": "^0.8.6",
         "ajv": "^6.12.6",
         "axios": "^0.27.2",
@@ -62,6 +63,7 @@
         "dateformat": "3.0.3",
         "dedent": "^0.7.0",
         "email-validator": "^2.0.4",
+        "file-saver": "^2.0.2",
         "express": "^4.18.2",
         "hammerjs": "2.0.8",
         "humanize-duration": "^3.27.0",
@@ -70,6 +72,7 @@
         "jsondiffpatch": "^0.4.1",
         "lodash": "4.17.21",
         "lru-cache": "^5.1.1",
+        "papaparse": "^5.3.0",
         "mavon-editor": "^2.10.4",
         "moment": "^2.29.4",
         "newrelic": "^9.5.0",
@@ -106,7 +109,8 @@
         "vuex": "3.5.1",
         "vuex-router-sync": "5.0.0",
         "window-or-global": "1.0.1",
-        "winston": "3.3.3"
+        "winston": "3.3.3",
+        "xlsx": "^0.16.2"
     },
     "devDependencies": {
         "@babel/core": "7.14.0",
