@@ -451,10 +451,6 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
     },
 
-
-   
-
-
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

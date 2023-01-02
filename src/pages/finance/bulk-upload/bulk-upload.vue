@@ -34,14 +34,13 @@
             </div>
             <div class="arrow-wrap" @click="toggleUploadSection">
               <div class="open-arrow" v-if="this.toggleUpload">
-                <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.77 11.8848L-7.73692e-08 10.1148L10 0.114766L20 10.1148L18.23 11.8848L10 3.65477L1.77 11.8848Z" fill="#8F8F8F"/>
-                </svg>
+                <inline-svg :src="'upward-arrow-finance'"></inline-svg>
           </div>
               <div class="close-arrow" v-else>
-                  <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1.77 0.115234L-7.73692e-08 1.88523L10 11.8852L20 1.88523L18.23 0.115234L10 8.34523L1.77 0.115234Z" fill="#8F8F8F"/>
-                  </svg>
+                  </svg> -->
+                  <inline-svg :src="'downward-arrow-finance'"></inline-svg>
               </div>
             </div>
           </div>
@@ -52,9 +51,7 @@
             <div class="upload-header">
               <div class="title">Upload File</div>
               <div class="upload-history-btn">
-                <span class="icon"><svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 0.5C4.68667 0.5 2 3.18667 2 6.5H0L2.59333 9.09333L2.64 9.18667L5.33333 6.5H3.33333C3.33333 3.92 5.42 1.83333 8 1.83333C10.58 1.83333 12.6667 3.92 12.6667 6.5C12.6667 9.08 10.58 11.1667 8 11.1667C6.71333 11.1667 5.54667 10.64 4.70667 9.79333L3.76 10.74C4.84667 11.8267 6.34 12.5 8 12.5C11.3133 12.5 14 9.81333 14 6.5C14 3.18667 11.3133 0.5 8 0.5ZM7.33333 3.83333V7.16667L10.1667 8.84667L10.68 7.99333L8.33333 6.6V3.83333H7.33333Z" fill="#2E31BE"/>
-                </svg></span>
+                <span class="icon"><inline-svg :src="'upload-history-finance'"></inline-svg></span>
                 <span class="txt">Upload History</span>
               </div>
             </div>
@@ -62,9 +59,7 @@
               <div class="select-file" @click="onUploadClick">
                 <input type="file" accept=".csv" ref="fileUpload" @change="onFileUpload" class="fileUploadInput"  />
                 <div class="plus-sign">
-                  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.8337 11.3327H10.8337V19.3327H8.16699V11.3327H0.166992V8.66602H8.16699V0.666016H10.8337V8.66602H18.8337V11.3327Z" fill="#2E31BE"/>
-                  </svg>
+                  <inline-svg :src="'plus-sign-finance'"></inline-svg>
                 </div>
                 <div class="upload-file-title">Choose File</div>
               </div>
@@ -72,11 +67,7 @@
               <div class="condition">Accepted File Type:  .csv</div>
             </div>
             <div class="file-loading-container"  v-if="this.fileSelected">
-              <div class="icon"><svg width="48" height="49" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24.5" r="24" fill="#E7EEFF"/>
-              <path d="M31 17.5V31.5H17V17.5H31ZM31 15.5H17C15.9 15.5 15 16.4 15 17.5V31.5C15 32.6 15.9 33.5 17 33.5H31C32.1 33.5 33 32.6 33 31.5V17.5C33 16.4 32.1 15.5 31 15.5Z" fill="#5C5C5C"/>
-              <path d="M26 29.5H19V27.5H26V29.5ZM29 25.5H19V23.5H29V25.5ZM29 21.5H19V19.5H29V21.5Z" fill="#5C5C5C"/>
-              </svg></div>
+              <div class="icon"><inline-svg :src="'file-upload-finance'"></inline-svg></div>
               <div class="file-loading">
                 <div class="file-top-section">
                   <div class="file-name"> {{ fileDetails.fileName }}</div>
@@ -98,10 +89,7 @@
                 <div class="progress-percent" :class="[isUploaded ? 'uploaded' : '']">
                   <span class="progress-percent-value" v-if="this.fileUploading">{{ this.width }} %</span>
                   <span v-else>
-                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="8" cy="8.5" r="8" fill="#0A5F23"/>
-                    <path d="M4.5 9L6.5 11L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <inline-svg :src="'success-icon-finance'"></inline-svg>
                     Import
                   </span>
                   <span> Complete</span>
@@ -121,29 +109,18 @@
                   <span class="val">{{this.parsedData.totalRecords}}</span>
                 </div>
                 <div class="record-success" v-if="validationCompleted">
-                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="8" cy="8.5" r="8" fill="#0A5F23"/>
-                <path d="M4.5 9L6.5 11L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
+                  <inline-svg :src="'success-icon-finance'"></inline-svg>
                   <span class="txt">Success: </span>
                   <span class="val">{{this.parsedData.success}}</span>
                 </div>
                 <div class="record-error" v-if="validationCompleted">
-                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8.5" r="8" fill="#CD0909"/>
-                  <path d="M8 10.5C8.55212 10.5 9 10.0733 9 9.54456V4.45455C9 3.92752 8.55118 3.5 8 3.5C7.44882 3.5 7 3.92756 7 4.45455V9.54456C7 10.0733 7.44882 10.5 8 10.5Z" fill="white"/>
-                  <path d="M8 13.5C8.55212 13.5 9 13.0873 9 12.5768V12.4232C9 11.9135 8.55118 11.5 8 11.5C7.44882 11.5 7 11.9127 7 12.4232V12.5768C7 13.0873 7.44882 13.5 8 13.5Z" fill="white"/>
-                  </svg>
+                  <inline-svg :src="'error-icon-finance'"></inline-svg>
                   <span class="txt">Errors: </span>
                   <span class="val">{{this.parsedData.errors}}</span>
                 </div>
               </div>
               <div class="payout-sum" v-if="validationCompleted">
-                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8.5" r="8" fill="#2E31BE"/>
-                  <path d="M8 10.5C8.55212 10.5 9 10.0733 9 9.54456V4.45455C9 3.92752 8.55118 3.5 8 3.5C7.44882 3.5 7 3.92756 7 4.45455V9.54456C7 10.0733 7.44882 10.5 8 10.5Z" fill="white"/>
-                  <path d="M8 13.5C8.55212 13.5 9 13.0873 9 12.5768V12.4232C9 11.9135 8.55118 11.5 8 11.5C7.44882 11.5 7 11.9127 7 12.4232V12.5768C7 13.0873 7.44882 13.5 8 13.5Z" fill="white"/>
-                  </svg>
+                <inline-svg :src="'payout-icon-finance'"></inline-svg>
                   <span class="txt">Payout Amount Sum: </span>
                   <span class="val">{{this.parsedData.payout_amount}}</span>
               </div>
@@ -225,6 +202,7 @@ import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
 import MirageAlert from '@/components/orders/alert.vue';
 import learnDrawer from './learn-drawer.vue';
+import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import {
     NitrozenButton,
     NitrozenRadio,
@@ -241,7 +219,8 @@ export default {
       'nitrozen-dropdown':  NitrozenDropdown,
       'no-content' : NoContent,
       'mirage-alert' : MirageAlert,
-      'learn-drawer' : learnDrawer
+      'learn-drawer' : learnDrawer,
+      'inline-svg': inlineSvgVue
     },
     directives: {
         flatBtn,
@@ -754,6 +733,11 @@ font-size: 12px;
 line-height: 17px;
 color: #2E31BE;
 
+.inline-svg{
+  display: inline-block;
+    vertical-align: middle;
+}
+
 svg{
   vertical-align: middle;
 }
@@ -780,7 +764,13 @@ svg{
   justify-content: space-between;
   border-bottom: 1px solid #E0E0E0;
   padding-bottom: 16px;
+.left-content{
+  .inline-svg{
+    display: inline-block;
+    vertical-align: middle;
   }
+}
+}
 
 .title{
   font-size: 18px;
@@ -879,6 +869,15 @@ svg{
             max-width: 120px;
         }
     }
+
+.upload-history-btn{
+  display: flex;
+  align-items: center;
+
+  .icon{
+    margin-right: 3px;
+  }
+}
 
 
 
