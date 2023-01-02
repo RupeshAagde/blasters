@@ -5,6 +5,12 @@
           <div class="page-nav">
             <div class="page-title">
               <span>Hyperlocal Tracking</span>
+              <nitrozen-button  
+                v-strokeBtn
+                @click="refreshBtn"
+                :theme="'secondary'">
+                  <inline-svg :src="'refresh_regular'" class="refresh_icon"></inline-svg>
+              </nitrozen-button>
             </div>
           </div>
         </div>
@@ -379,7 +385,9 @@
   }
 }
 
-
+.refresh_icon {
+  transform: scale(1.5);
+}
 .page-header {
   display: flex;
   align-items: center;
@@ -531,6 +539,7 @@ import AdmLoader from "@/components/common/loader";
 import {ANALYTICS_STATE} from "@/store/modules/admin-analytics.module";
 import DashboardGridHeader from "@/pages/overview/dashboard/dashboard-grid/dashboard-grid-header.vue";
 import {HTTP_STATUS_CODES} from "../../../components/generic-graphs/data/constants";
+import inlineSvgVue from '@/components/common/inline-svg.vue';
 
 export default {
   name: 'adm-orders-ninja',
@@ -546,6 +555,23 @@ export default {
   methods: {
     cardExists(card) {
       return card.graphInfo.statusCode !== HTTP_STATUS_CODES.NO_CONTENT
+    },
+    fetchData() {
+      this.isDataLoading = false;
+        this.$store
+          .dispatch(ADMIN_FETCH_DASHBOARD_DATA, {
+            appId: this.appId,
+            emailId: this.emailId,
+            mobileNumber: this.mobileNumber,
+            pageName: ANALYTICS_PAGES.NINJA
+          })
+            .then()
+            .finally((x) => {
+                this.isDataLoading = false;
+            });
+    },
+    refreshBtn() {
+     location.reload();
     }
   },
   mixins: [
@@ -577,6 +603,7 @@ export default {
     'graph-loading-controller': GraphLoadingController,
     'error-handlers': ErrorHandlers,
     'adm-loader': AdmLoader,
+    'inline-svg': inlineSvgVue,
     DashboardGridHeader
   },
     computed: {
@@ -598,18 +625,7 @@ export default {
       }
     },
     mounted() {
-        this.isDataLoading = false;
-      this.$store
-          .dispatch(ADMIN_FETCH_DASHBOARD_DATA, {
-            appId: this.appId,
-            emailId: this.emailId,
-            mobileNumber: this.mobileNumber,
-            pageName: ANALYTICS_PAGES.NINJA
-          })
-            .then()
-            .finally((x) => {
-                this.isDataLoading = false;
-            });
+        this.fetchData();
     },
 };
 </script>

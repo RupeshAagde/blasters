@@ -8,6 +8,7 @@
           class="shimmer-wrapper"
       ></adm-shimmer>
     </div>
+
     <generic-graph v-if="!isLoading && hasGraphInfo"
                    :x-axes="item.graphInfo.xAxes"
                    :y-axes="item.graphInfo.yAxes"
@@ -37,14 +38,16 @@ import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.m
 import {DashboardCommonMixins} from "../mixins/dashboard-common.mixins";
 import {graphLoadingCondition} from "../utils/graph-loading.utils";
 import admshimmer from "@/components/common/shimmer.vue";
-
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue'
 export default {
   name: "graph-loading-controller",
   mixins: [loadingMixins, DashboardCommonMixins],
   provide() {
     return {CHART_ID: this.item.id}
   },
-  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,},
+  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,
+    SlaIndicator
+  },
   props: {
     item: {type: Object, default: null, required: true},
     disabled: {
