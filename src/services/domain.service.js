@@ -713,33 +713,7 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    },
-
-    // bulk import export
-    DOWNLOAD_SAMPLE_BULK_TEMPLATE: (job_type) => {
-        return urlJoin(
-            SILVERBOLT_ACAT_URL,
-            `v1.0/bulk/${job_type}/import/download`
-        );
-    },
-    BULK_HISTORY_REQUEST: (job_type, action) => {
-        return urlJoin(
-            SILVERBOLT_ACAT_URL,
-            `v1.0/bulk/${job_type}/${action}`
-        );
-    },
-    BULK_TEMPLATE_VALIDATION: (job_type) => {
-        return urlJoin(
-            SILVERBOLT_ACAT_URL,
-            `/v1.0/bulk/${job_type}/import/validation/schema/`
-        );
-    },
-    BULK_SEND: (job_type) => {
-        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/import`);
-    },
-    BULK_REQUEST: (job_type, action) => {
-        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/${action}`);
-    },
+    }
 };
 
 export default URLS;
