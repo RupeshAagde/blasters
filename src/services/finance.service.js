@@ -5,6 +5,7 @@ import {getCompInfo, getCommonHeaderOptions } from '@/services/utils.service';
 
 const FinanceService = {
    getFileType(data) {
+    console.log(data);
       let axiosOption = Object.assign({}, { data });
       return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
    },

@@ -37,7 +37,7 @@
                 <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.77 11.8848L-7.73692e-08 10.1148L10 0.114766L20 10.1148L18.23 11.8848L10 3.65477L1.77 11.8848Z" fill="#8F8F8F"/>
                 </svg>
-              </div>
+          </div>
               <div class="close-arrow" v-else>
                   <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1.77 0.115234L-7.73692e-08 1.88523L10 11.8852L20 1.88523L18.23 0.115234L10 8.34523L1.77 0.115234Z" fill="#8F8F8F"/>
@@ -362,8 +362,10 @@ export default {
                         }
             
             const caller = FinanceService.getFileType(params);
+            console.log(caller);
             caller
                 .then(( res ) => {
+                  console.log(res);
                     this.fileType = res.data.items.map((item) => {
                         return {
                             text: item.display_name,
@@ -377,6 +379,7 @@ export default {
                     );
                 })
                 .finally(() => {
+                  console.log("in finally")
                     
                 });
         },
@@ -395,10 +398,10 @@ export default {
           }
         },
 
-        onFileUpload(event) {  
+        onFileUpload(event) {
           this.fileUploading = true;
           this.fileSelected = true;
-            let file = event.target.files[0];    
+            let file = event.target.files[0];
             this.file = event.target.files[0];        
             if(file.size == 0) {
                 this.$snackbar.global.showError(
@@ -540,7 +543,7 @@ export default {
         onUploadClick() {
           if(this.selectedFileType){
             this.$refs.fileUpload.click();
-          }
+        }
           else{
             this.$snackbar.global.showError(
                   `Please Select value from dropdown`
