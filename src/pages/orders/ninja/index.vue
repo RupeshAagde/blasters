@@ -9,6 +9,7 @@
                 v-strokeBtn
                 @click="refreshBtn"
                 :theme="'secondary'">
+                  
                   <inline-svg :src="'refresh_regular'" class="refresh_icon"></inline-svg>
               </nitrozen-button>
             </div>
@@ -386,7 +387,7 @@
 }
 
 .refresh_icon {
-  transform: scale(1.5);
+  transform: scale(1.3);
 }
 .page-header {
   display: flex;
