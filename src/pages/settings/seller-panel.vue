@@ -86,7 +86,7 @@ export default {
             deviceType: 'desktop',
             settingsObj: null,
             permissionObj: null,
-            tabs : ['desktop', 'mobile']
+            tabs : ['Desktop', 'Mobile']
         }
     },
     methods: {
@@ -111,7 +111,7 @@ export default {
             })
         },
         tabChange(data) {
-            this.deviceType = data.item
+            this.deviceType = data.item === 'Desktop' ? 'desktop' : 'mobile';
         },
         onSave(payload) {
             if (payload.isEdit)
