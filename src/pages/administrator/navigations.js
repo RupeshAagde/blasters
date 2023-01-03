@@ -91,7 +91,7 @@ export const getNavigations = () => {
         },
         {
             display: 'Orders',
-            link: '/administrator/orders/list',
+            link: '/administrator/orders/',
             title: 'orders',
             icon: 'orders-cart',
             highlightedIcon: 'orders-cart-highlighted',
@@ -101,6 +101,30 @@ export const getNavigations = () => {
                 {
                     display: 'List Orders',
                     link: '/administrator/orders/list',
+                    title: 'list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Orders',
+                    link: '/administrator/orders/',
+                    title: 'list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Manifest',
+                    link: '/administrator/orders/manifest',
+                    title: 'list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Bulk Actions',
+                    link: '/administrator/orders/bulk',
                     title: 'list',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',

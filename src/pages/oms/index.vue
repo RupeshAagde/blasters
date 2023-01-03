@@ -1,6 +1,5 @@
 <template>
     <div class="panel panel-oms">
-        <announcer :announcements="announcements" :delayInMilliseconds="5000"/>
         <adm-page-header
             :class="announcements && announcements.length ? 'titlize oms-page-header' : 'titlize'"
             :showBackButton="isFPApp"
@@ -367,7 +366,6 @@ import OrderBulkPicklist from '@/pages/oms/bulk/picklist.vue';
 import AdvancedFilter from './advanced-filter-drawer.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
 import ActionCentreItem from '@/pages/oms/action-centre-item.vue';
-import Announcer from '@/pages/oms/announcer';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -385,12 +383,9 @@ import { returnNextStates } from '@/pages/oms/fixtures/dropdown-items.js';
 /* Store imports */
 import {
     GET_USER_INFO,
-    GET_COMPANY_APPLICATIONS,
     GET_EMPLOYEE_ACCESS_DETAIL,
+    GET_USER_PERMISSIONS
 } from '@/store/getters.type';
-import {
-    GET_ORDER_ROLES
-} from '@/store/admin/getters.type';
 
 /* Mock imports */
 import mockMetricsCount from '@/pages/oms/mocks/metrics-count.json';
@@ -427,8 +422,6 @@ const LANE_MAPPER = {
 export default {
     components: {
         'adm-coming-soon': admncomingsoon,
-        'adm-help-section': admhelpsection,
-        'ukt-infinite-scrolling': uktinfinitescrolling,
         'advanced-filter-drawer': AdvancedFilter,
         AdmShimmer,
         AdmNoContent,
@@ -454,8 +447,7 @@ export default {
         NitrozenBadge,
         SideDrawer,
         ActionCentreItem,
-        NitrozenTabItem,
-        Announcer
+        NitrozenTabItem
     },
     directives: { flatBtn, strokeBtn, clickOutside },
 
@@ -559,11 +551,12 @@ export default {
         };
     },
     computed: {
+        /** As of January 3, 2023, we are currently keeping access full open to all users */
         ...mapGetters({
             userinfo: GET_USER_INFO,
-            apps: GET_COMPANY_APPLICATIONS,
-            accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
-            orderRoles:GET_ORDER_ROLES
+            // accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
+            accessDetail: {},
+            currentUserPermission: GET_USER_PERMISSIONS
         }),
         isFPApp() {
             if (detectFPApp()) {
@@ -602,7 +595,6 @@ export default {
         }
         this.populateFromURL();
         this.getMetricsCount();
-        this.getAlerts();
         this.fetchActionCentreItems();
     },
     methods: {
@@ -672,27 +664,6 @@ export default {
                 }
             })
         },
-        getAlerts() {
-            // const alerts_promise = new Promise(resolve => {
-            //     setTimeout(() => {
-            //         resolve(cloneDeep(mockOMSAlert));
-            //     }, 500);
-            // });
-            const get_announcement_alerts = OrderService.fetchAnnouncementAlerts()
-            return get_announcement_alerts
-                .then(({data}) => {
-                    if(data.announcements && data.announcements.length) {
-                        setTimeout(() => {
-                              this.announcements = data.announcements;
-                        }, 3000);
-
-                    }
-                })
-                .catch((error) => {
-                    this.$snackbar.global.showError('Unable to fetch alerts/announcements');
-                    console.error("Error in fetching the alerts and announcements:   ", error);
-                })
-        },
         getFulfillmentCenter() {
             let centerOfFulfillment = [];
             let params = {
@@ -702,9 +673,14 @@ export default {
             OrderService.getFulfillmentCenterV2(params)
                 .then(({ data }) => {
                     centerOfFulfillment = data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
-                    if(this.accessDetail.store_access.values.length > 0){
+                    if(
+                        this.accessDetail && 
+                        this.accessDetail.store_access &&
+                        this.accessDetail.store_access.values &&
+                        this.accessDetail.store_access.values.length > 0
+                    ) {
                         centerOfFulfillment = centerOfFulfillment.filter((item)=>  this.accessDetail.store_access.values.includes(item.value))
-                        }
+                    }
                     this.filteredStores = centerOfFulfillment;
                     this.fulfillingStoreFilter = centerOfFulfillment;
                 })

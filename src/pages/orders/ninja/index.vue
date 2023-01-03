@@ -18,7 +18,7 @@
             :page-name="ANALYTICS_PAGES.DASHBOARD"
         ></tags-container>
         <div class="main-wrapper">
-            <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper">
+            <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper" :key="index">
               <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"
                                      :card-index="0"></dashboard-grid-header>
               <graph-loading-controller

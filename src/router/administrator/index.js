@@ -68,6 +68,13 @@ import CategoryConfig from '@/pages/packaging/category-config.vue';
 import PackagingCreate from '@/pages/packaging/create-packaging.vue';
 import CreateCategory from '@/pages/packaging/create-category-home.vue';
 
+/** OMSv2.1 */
+const Orders = () => import('@/pages/oms/index.vue');
+const OrderDetailsV2 = () => import('@/pages/oms/order-details/index.vue');
+const OrdersBulk = () => import('@/pages/oms/bulk-actions/index.vue');
+const OrdersManifest = () => import('@/pages/oms/manifest/index.vue');
+/** OMSv2.1 --END */
+
 import { authenticatedUser, checkUserPermission } from './../guards';
 import { children } from 'cheerio/lib/api/traversing';
 
@@ -690,14 +697,14 @@ export default [
             },
             {
                 name: 'orders-hyperlocal-tracking',
-            path: 'orders/hyperlocal-tracking',
-            component: OrdersNinjaPage,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['order']);
-            }
-        },
-        {
-            name: 'application-order-details',
+                path: 'orders/hyperlocal-tracking',
+                component: OrdersNinjaPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
@@ -707,6 +714,59 @@ export default [
                     name: 'Application Order Details'
                 }
             },
+            // =============================================================
+            /** OMSv2.1 */
+            {
+                name: 'company-orders-v2',
+                path: 'orders/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: Orders,
+                meta: {
+                    name: 'Company Orders'
+                }
+            },
+            {
+                name: 'company-order-details-v2',
+                path: 'orders/:orderId/details',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: OrderDetailsV2,
+                meta: {
+                    name: 'Company Order Details'
+                }
+            },
+            {
+                name: 'company-order-bulk-v2',
+                path: 'orders/bulk',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersBulk,
+                meta: {
+                    name: 'Company Order Bulk Actions'
+                }
+            },
+            {
+                name: 'company-order-manifest',
+                path: 'orders/manifest/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifest,
+                meta: {
+                    name: 'Company Order manifest'
+                }
+            },
+
             // =============================================================
 
             {
