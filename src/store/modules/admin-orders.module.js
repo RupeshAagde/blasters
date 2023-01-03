@@ -1,4 +1,4 @@
-import OrderService from '../../../services/orders.service';
+import OrderService from '../../services/orders.service';
 import { FETCH_ORDER_ROLES } from '../action.type';
 import { GET_ORDER_ROLES } from '../getters.type';
 import { SET_ORDER_ROLES } from '../mutation.type';
