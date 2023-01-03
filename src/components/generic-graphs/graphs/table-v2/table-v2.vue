@@ -28,6 +28,7 @@
                 <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
                 ></ukt-inline-svg>
                 <span class="first-arrow-content">{{ row[column.field] }}</span>
+                  <!-- <generic-tooltip :text="'some sample'">Some data ty[e]</generic-tooltip> -->
                 <!--              If  has more details let this be collapsable-->
               </div>
 
@@ -61,7 +62,7 @@
   
     
               </div>
-              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" :class="['icon']" class="table-content-content"
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" class="table-content-content icon" :class="{'disable-icon': !row[column.field].url}"
                    @click="redirectHyperlocal(row[column.field].url, row)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                 <!--              If  has more details let this be collapsable-->
@@ -217,8 +218,7 @@ export default {
       return displaySlaHoursLeft(sla_time);
     },
     redirectHyperlocal(url,row) {
-
-      console.log(hyperlocalHelpers.hyperlocalIsClose(row.status.name));
+      if(!url) return;
       window.open(`${url}`, '_blank');
     },
     toggleRow(rowIndex) {
@@ -403,8 +403,13 @@ td:last-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transform: translateY(10px);
 }
 .sla_field .sla_value {
   margin-top: 5px;
+}
+.disable-icon {
+  opacity: 0.4;
+  cursor: default;
 }
 </style>

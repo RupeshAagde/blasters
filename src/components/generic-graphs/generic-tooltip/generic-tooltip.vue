@@ -3,6 +3,7 @@
       <slot />
       <div
         class="tooltip"
+        v-if="text"
       >
         <span
           class="text"
@@ -40,7 +41,7 @@
     border-radius: 4px;
     
     width: 120px;
-    bottom: 100%;
+    bottom: 150%;
     left: 50%;
     margin-left: -60px;
   

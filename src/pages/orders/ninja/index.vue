@@ -8,7 +8,6 @@
               <nitrozen-button  
                 @click="refreshBtn"
                 :theme="'secondary'" class="refresh_button">
-                  
                   <inline-svg :src="'refresh_regular'" class="refresh_icon"></inline-svg>
               </nitrozen-button>
             </div>
@@ -388,6 +387,8 @@
 
 .refresh_icon {
   transform: scale(1.3);
+  max-height: 24px;
+  max-width: 24px;
 }
 .page-header {
   display: flex;
@@ -496,8 +497,11 @@ canvas {
     z-index: 10;
   }
 }
+.refresh_button {
+  transition: all 0.4s ease-out;
+}
 .refresh_button:hover {
-  transition: 0.9s;
+  transition: 0.4s;
   transform: rotate(180deg)
 }
 .sales-dump-progress-panel {
