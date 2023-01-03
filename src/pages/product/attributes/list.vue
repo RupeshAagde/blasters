@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <div class="jumbotron-container jumbo-wrapper">
+        <div class="jumbotron-container">
             <jumbotron
                 :title="'Attributes'"
                 :desc="
@@ -9,16 +9,6 @@
                 btnLabel="Create"
                 @btnClick="redirectEdit"
             >
-                <div class="bulk-action-dropdown">
-                    <nitrozen-dropdown
-                        label=" "
-                        :placeholder="'Bulk Action'"
-                        class="button"
-                        :items="bulkAction"
-                        v-model="selectedAction"
-                        @change="navigateToBulkAction"
-                    ></nitrozen-dropdown>
-                </div>
                 <nitrozen-button
                     theme="secondary"
                     class="ml-sm"
@@ -49,9 +39,7 @@
                             (selectedDepartment == '' &&
                                 attributes.length > 0) ||
                             searchText == '' ||
-                            (selectedDepartment == '' &&
-                                attributes.length > 0) ||
-                            searchText
+                            (selectedDepartment == '' && attributes.length > 0) || searchText
                                 ? debounceInput({ search: searchText })
                                 : ''
                         "
@@ -120,8 +108,8 @@
                                                 attribute.modified_by.username
                                         "
                                     >
-                                        <span>Modified On : </span>
-                                        <!-- <span class="cb-lm">
+                                        <span>Modified By :</span>
+                                        <span class="cb-lm">
                                             <user-info-tooltip
                                                 :userId="
                                                     userObj[
@@ -135,7 +123,7 @@
                                             class="cb-lm"
                                             v-if="attribute.modified_on"
                                             >On</span
-                                        > -->
+                                        >
                                         <span
                                             class="cb-lm"
                                             v-if="attribute.modified_on"
@@ -198,43 +186,12 @@
 .cb-lm {
     margin-left: 6px;
 }
-.jumbo-wrapper {
-    /deep/.jumbotron-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .txt-box + div {
-            width: 54%;
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-start;
-            button {
-                margin-left: 10px;
-                // width: 100%;
-            }
-        }
-    }
-}
 .main-container {
     width: 100%;
     background-color: white;
     margin: 24px;
     padding: 24px;
     padding-bottom: 0;
-}
-.bulk-action-dropdown {
-    width: 130px;
-    margin-left: 10px;
-    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 140%;
-        color: #2e31be;
-    }
-
-    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
-        border: 1px solid #2e31be;
-    }
 }
 .second-container {
     margin: 24px 0px;
@@ -307,7 +264,7 @@
         }
 
         .txt-company-heading {
-            color: #2e31be;
+            color: #2E31BE;
             font-weight: 600;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
@@ -398,11 +355,6 @@ const PAGINATION = {
     current: 1
 };
 
-const BULK_ACTION = [
-    { value: 'import', text: 'Import' },
-    { value: 'export', text: 'Export' }
-];
-
 const PROPERTY_TYPES = {
     str: 'Text',
     int: 'Number',
@@ -451,9 +403,7 @@ export default {
             departments: [],
             selectedDepartment: '',
             tempList: [],
-            userObj: {},
-            bulkAction: BULK_ACTION,
-            selectedAction: ''
+            userObj: {}
         };
     },
     mounted() {
@@ -535,9 +485,9 @@ export default {
         fetchDepartments() {
             return new Promise((resolve, reject) => {
                 const query = {
-                    page_size: 9999,
-                    page_no: 1
-                };
+                    "page_size":9999,
+                    "page_no":1,
+                }
                 CompanyService.fetchDepartments(query)
                     .then(({ data }) => {
                         this.departments = data.items;
@@ -615,22 +565,21 @@ export default {
                 query.pageId = undefined;
                 query.limit = PAGINATION.limit;
             }
-            this.$router
-                .push({
-                    path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        ...query
-                    }
-                })
-                .catch((error) => {
-                    this.$router.push({
-                        path: this.$route.path,
-                        query: {
-                            ...query
-                        }
-                    });
-                });
+            this.$router.push({
+                path: this.$route.path,
+                query: {
+                    ...this.$route.query,
+                    ...query
+                }
+            })
+            .catch((error) => {
+                this.$router.push({
+                path: this.$route.path,
+                query: {
+                    ...query
+                }
+            });
+            });
         },
         $openGroupDialog() {
             this.$refs.groupAndOrderDialog.open();
@@ -647,11 +596,6 @@ export default {
             if (entity === 'filters') action = 'sequence';
             this.$router.push({
                 path: path.join(this.$route.path, action, entity)
-            });
-        },
-        navigateToBulkAction() {
-            this.$router.push({
-                path: `/administrator/product/attribute/${this.selectedAction}`
             });
         }
     }
