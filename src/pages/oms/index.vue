@@ -360,7 +360,6 @@ import DatePicker from '@/components/common/date-picker.vue';
 import AdmPageHeader from '@/components/common/layout/adm-page-header.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
-
 import BagsDialog from '@/pages/oms/bags-dialog/index.vue';
 import OrderBulkPicklist from '@/pages/oms/bulk/picklist.vue';
 import AdvancedFilter from './advanced-filter-drawer.vue';
