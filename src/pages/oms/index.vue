@@ -363,7 +363,6 @@ import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import BagsDialog from '@/pages/oms/bags-dialog/index.vue';
 import AdvancedFilter from './advanced-filter-drawer.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
-import ActionCentreItem from '@/pages/oms/action-centre-item.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -443,7 +442,6 @@ export default {
         BagsDialog,
         NitrozenBadge,
         SideDrawer,
-        ActionCentreItem,
         NitrozenTabItem
     },
     directives: { flatBtn, strokeBtn, clickOutside },
@@ -592,7 +590,6 @@ export default {
         }
         this.populateFromURL();
         this.getMetricsCount();
-        this.fetchActionCentreItems();
     },
     methods: {
         numberToThousandString,
@@ -642,24 +639,6 @@ export default {
         },
         onKeyUpForwardShipmentID(event) {
             this.emptyForwardShipmentId = event.target.value.length > 0 ? true : false;
-        },
-        fetchActionCentreItems() {
-            const action_centre_promise = new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(cloneDeep(mockActionCentreData));
-                }, 500);
-            });
-
-            action_centre_promise.then(({data}) => {
-                if(data.items) {
-                    this.actionCentreData = cloneDeep(data.items);
-                    this.pagination = {
-                        limit: data.page ? data.page.size : 10,
-                        current: data.page ? data.page.current : 1,
-                        total: data.page.total,
-                    };
-                }
-            })
         },
         getFulfillmentCenter() {
             let centerOfFulfillment = [];
