@@ -6,7 +6,7 @@
             </div>
             <div class="grp-btn-close">
                 <div class="add-menu-btn">
-                    <nitrozen-toggle-btn> </nitrozen-toggle-btn>
+                    <nitrozen-toggle-btn v-model="settings.is_visible"> </nitrozen-toggle-btn>
                 </div>
             </div>
         </div> 
@@ -15,19 +15,17 @@
             <div class="input">
                 <div class="intput-des">
                     <div> Line 1 </div>
-                    <div> 21/36</div>
                 </div>
                 <div>
-                    <nitrozen-input type="text"></nitrozen-input>
+                    <nitrozen-input :maxlength="36" type="text" v-model="settings.line_one"></nitrozen-input>
                 </div>
             </div>
             <div class="input">
                 <div class="intput-des">
                     <div> Line 2 </div>
-                    <div> 21/36</div>
                 </div>
                 <div>
-                    <nitrozen-input type="text"></nitrozen-input>
+                    <nitrozen-input :maxlength="36" type="text" v-model="settings.line_two"></nitrozen-input>
                 </div>
             </div>
         </div>
@@ -46,6 +44,7 @@ import {
 
 export default {
     name: 'footer-content',
+    props: ['settings'],
     components: {
         NitrozenButton,
         'nitrozen-toggle-btn': NitrozenToggleBtn,

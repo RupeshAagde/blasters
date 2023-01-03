@@ -13,10 +13,13 @@
                         :desc="'Arrange, add, edit navigation menu items'"                  
                     ></jumbotron>
                 </div>
+                <div class="tabs">
+                    <nitrozen-tab @tab-change="tabChange" :tabItem="tabs"></nitrozen-tab>
+                </div>
                 <sales-channel-settings :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
                 <sales-channel-settings :type="'application_level'" :appSettings="settingsObj[deviceType].menu.sales_channel" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @seller-panel-show="editPanel"></sales-channel-settings>
                 <other-sellers :settings="settingsObj[deviceType].menu.other_seller"></other-sellers>
-                <footer-content></footer-content>
+                <footer-content :settings="settingsObj[deviceType].menu.footer_content" ></footer-content>
             </div>
             <div class="side-bar">
                 <side-panel ref='sidePanel' @onSave="onSave"> </side-panel>
@@ -59,12 +62,14 @@ import SellerPanleService from '@/services/seller-panel.service.js';
 import {
     NitrozenButton,
     flatBtn,
+    NitrozenTab
 } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'seller-panel',
     components: {
         NitrozenButton,
+        NitrozenTab,
         PageHeader,
         Jumbotron,
         'sales-channel-settings': SalesChannelSetting,
@@ -80,7 +85,8 @@ export default {
         return {
             deviceType: 'desktop',
             settingsObj: null,
-            permissionObj: null
+            permissionObj: null,
+            tabs : ['desktop', 'mobile']
         }
     },
     methods: {
@@ -104,7 +110,9 @@ export default {
                 this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
             })
         },
-
+        tabChange(data) {
+            this.deviceType = data.item
+        },
         onSave(payload) {
             if (payload.isEdit)
                 this.$set(this.settingsObj[this.deviceType]['menu'][payload.type], payload.index, payload.data)   
@@ -134,6 +142,10 @@ export default {
         position: relative;
         min-height: 400px;
         width: 75%;
+
+        .tabs  {
+            margin: 20px 0px 10px 0px;
+        }
     }
 
 
