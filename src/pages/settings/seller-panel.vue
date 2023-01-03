@@ -60,7 +60,7 @@ import {
     NitrozenButton,
     flatBtn,
 } from '@gofynd/nitrozen-vue';
-import { cloneDeep } from "lodash";
+
 export default {
     name: 'seller-panel',
     components: {
