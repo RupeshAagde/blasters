@@ -73,6 +73,8 @@ const Orders = () => import('@/pages/oms/index.vue');
 const OrderDetailsV2 = () => import('@/pages/oms/order-details/index.vue');
 const OrdersBulk = () => import('@/pages/oms/bulk-actions/index.vue');
 const OrdersManifest = () => import('@/pages/oms/manifest/index.vue');
+const OrdersManifestDetails = () => import('@/pages/oms/manifest/manifest-details/manifest-details.vue');
+const OrdersManifestGenerate = () => import('@/pages/oms/manifest/manifest-generate.vue');
 /** OMSv2.1 --END */
 
 import { authenticatedUser, checkUserPermission } from './../guards';
@@ -764,6 +766,32 @@ export default [
                 component: OrdersManifest,
                 meta: {
                     name: 'Company Order manifest'
+                }
+            },
+            {
+                name: 'company-manifest-detail',
+                path: 'orders/manifest/:manifestId/',  //need at aadd a storng 
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestDetails,
+                meta: {
+                    name: 'Manifest Detail'
+                }
+            },
+            {
+                name: 'company-manifest-generate',
+                path: 'orders/manifest/generate/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestGenerate,
+                meta: {
+                    name: 'Company Manifest Grenerate'
                 }
             },
 
