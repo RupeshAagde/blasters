@@ -100,7 +100,7 @@ import AdmNoContent from '@/components/common/adm-no-content.vue';
 
 /* Services imports */
 import OrderService from '@/services/orders.service';
-import GrindorService from '@/services/admin/grindor.service';
+import GrindorService from '@/services/grindor.service';
 
 const FAILED_RECORDS_COLUMNS = [
     {

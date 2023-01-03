@@ -103,17 +103,27 @@ export default {
                 store_id: 357,
                 ...newParams
             };
-            let bulkActionListing = OrderService.fetchBulkActionList(finalParams)
+            let bulkActionListing = OrderService.fetchBulkActionList(finalParams);
             bulkActionListing
             .then(({data}) => {
-                this.invoicesLoading = false;
-                this.invoicesList = data.data;
-                this.paginationObj = {
-                    ...data.page,
-                    limit: data.page.size
-                };
+                if(data.success) {
+                    this.invoicesLoading = false;
+                    this.invoicesList = data.data;
+                    this.paginationObj = {
+                        ...data.page,
+                        limit: data.page.size
+                    };
+                } else {
+                    console.error("Error in fetching invoices list:  ", data.message);
+                    this.$snackbar.global.showError(
+                        'We are facing some issues in fetching your invoices',
+                        2000
+                    );
+                    this.invoicesLoading = false;
+                }
             })
             .catch(error => {
+                this.invoicesLoading = false;
                 console.error("Error in fetching invoices list:  ", error);
                 this.$snackbar.global.showError(
                     'We are facing some issues in fetching your invoices',

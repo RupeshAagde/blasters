@@ -87,9 +87,9 @@ import AdmPageHeader from '@/components/common/layout/adm-page-header.vue';
 import AdvancedFilters from '@/pages/oms/bulk-actions/advanced-filters.vue'; 
 import BulkDetails from '@/pages/oms/bulk-actions/bulk-details/index.vue'; 
 import BulkDetailsHeader from '@/pages/oms/bulk-actions/bulk-details/header.vue'; 
-import BulkList from '@/pages/oms/bulk-actions/bulk-list/index.vue'; /** Yet */
-import BulkUploadDownloadContainer from '@/pages/oms/bulk-actions/bulk-upload-download-container/index.vue'; /** Yet */
-import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue'; /** Yet */
+import BulkList from '@/pages/oms/bulk-actions/bulk-list/index.vue';
+import BulkUploadDownloadContainer from '@/pages/oms/bulk-actions/bulk-upload-download-container/index.vue';
+import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -148,7 +148,7 @@ export default {
                 this.globalFilters = cloneDeep(data.global)
             })
             .catch((error) => {
-                this.$snackbar.global.showError('Unable to fetch Filters');
+                this.$snackbar.global.showError('Unable to fetch filters');
                 console.error("error:   ", error);
             })
         },
@@ -262,7 +262,7 @@ export default {
                     this.displayDetails = true;
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError('Unable to fetch Details of file');
+                    this.$snackbar.global.showError('Unable to fetch the details of the file');
                     console.error(err);
                 })
         },
