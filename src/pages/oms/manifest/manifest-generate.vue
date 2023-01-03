@@ -320,9 +320,9 @@
 </template>
 
 <script>
-import AdmInlineSVG from '@/components/admin/common/adm-inline-svg';
-import AdmPageHeader from '@/components/admin/common/layout/adm-page-header.vue';
-import AdmNoContent from '@/components/admin/common/adm-no-content.vue';
+import AdmInlineSVG from '@/components/common/inline-svg';
+import AdmPageHeader from '@/components/common/layout/adm-page-header.vue';
+import AdmNoContent from '@/components/common/adm-no-content.vue';
 import MirageAlert from '@/components/alert/index.vue';
 import debounce from 'lodash/debounce';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
@@ -331,7 +331,7 @@ import OrderService from '@/services/orders.service';
 import moment from 'moment';
 import { convertToOMSDate } from '@/helper/utils.js';
 import isEmpty from 'lodash/isEmpty';
-import Shimmer from '@/components/admin/common/adm-shimmer';
+import Shimmer from '@/components/common/shimmer';
 import {
     NitrozenButton,
     flatBtn,

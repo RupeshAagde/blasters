@@ -726,8 +726,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../less/page-header.less';
-@import '../../less/page-ui.less';
+@import '../../../less/page-header.less';
+@import '../../../less/page-ui.less';
 
 .slide-fade-upload {
     height: 100%;

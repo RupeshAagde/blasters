@@ -98,14 +98,14 @@ export const getNavigations = () => {
             active: false,
             permission: 'order',
             children: [
-                {
-                    display: 'List Orders',
-                    link: '/administrator/orders/list',
-                    title: 'list',
-                    icon: 'orders-cart',
-                    highlightedIcon: 'orders-cart-highlighted',
-                    active: false
-                },
+                // {
+                //     display: 'List Orders',
+                //     link: '/administrator/orders/list',
+                //     title: 'list',
+                //     icon: 'orders-cart',
+                //     highlightedIcon: 'orders-cart-highlighted',
+                //     active: false
+                // },
                 {
                     display: 'Orders',
                     link: '/administrator/orders/',
@@ -117,7 +117,7 @@ export const getNavigations = () => {
                 {
                     display: 'Manifest',
                     link: '/administrator/orders/manifest',
-                    title: 'list',
+                    title: 'manifest',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
@@ -125,7 +125,7 @@ export const getNavigations = () => {
                 {
                     display: 'Bulk Actions',
                     link: '/administrator/orders/bulk',
-                    title: 'list',
+                    title: 'bulk-actions',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false

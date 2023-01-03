@@ -96,8 +96,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../less/page-header.less';
-@import '../../less/page-ui.less';
+@import '../../../less/page-header.less';
+@import '../../../less/page-ui.less';
 
 ::v-deep .page-header {
     padding: 6px 0;
