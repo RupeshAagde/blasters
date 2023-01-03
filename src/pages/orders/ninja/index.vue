@@ -7,7 +7,7 @@
               <span>Hyperlocal Tracking</span>
               <nitrozen-button  
                 @click="refreshBtn"
-                :theme="'secondary'">
+                :theme="'secondary'" class="refresh_button">
                   
                   <inline-svg :src="'refresh_regular'" class="refresh_icon"></inline-svg>
               </nitrozen-button>
@@ -496,7 +496,10 @@ canvas {
     z-index: 10;
   }
 }
-
+.refresh_button:hover {
+  transition: 0.9s;
+  transform: rotate(180deg)
+}
 .sales-dump-progress-panel {
   margin-block: 0 1rem;
 }

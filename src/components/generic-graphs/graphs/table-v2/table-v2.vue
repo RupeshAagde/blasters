@@ -47,8 +47,9 @@
 
               </div>
               <!--Sla type-->
-              <div v-else-if="column.type == TABLE_COLUMN_TYPES.SLA">
-               <p> {{ row[column.field] }}</p>
+              <div v-else-if="column.type == TABLE_COLUMN_TYPES.SLA" class=" table-content-content sla_field">
+                <sla-indicator :sla_percent="calculateSlaPercentage(row[column.field])"/>
+               <p class="sla_value"> {{ calculateSLAHours(row[column.field]) }}</p>
 
               </div>
               <!--              icon type             -->
@@ -113,7 +114,8 @@ import {ANALYTICS_PAGES} from "../../data/constants";
 import OtherRiders from "./other-riders";
 import {hyperlocalHelpers} from '@/components/generic-graphs/utils/hyperlocal-helper.js';
 import GenericTooltip from '../../generic-tooltip/generic-tooltip.vue';
-
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue';
+import {displaySlaHoursLeft, displaySlaPercentage} from '@/components/generic-graphs/sla/helper.js'
 export default {
   name: "table-component",
   mixins: [analyticsTablePropsMixins],
@@ -138,6 +140,7 @@ export default {
     uktInlineSvg,
     "nitrozen-pagination": NitrozenPagination,
     'adm-no-content': admnocontent,
+    SlaIndicator
   },
   filters: {
     valueDisplayFormatter(value) {
@@ -206,6 +209,12 @@ export default {
     linkTodirect(event) {
 
       window.open(`${event}`, '_blank');
+    },
+    calculateSlaPercentage(sla_time) {
+      return displaySlaPercentage(sla_time)
+    },
+    calculateSLAHours(sla_time) {
+      return displaySlaHoursLeft(sla_time);
     },
     redirectHyperlocal(url,row) {
 
@@ -385,5 +394,13 @@ td:last-child {
 
 .hidden {
   display: none;
+}
+.sla_field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sla_field .sla_value {
+  margin-top: 5px;
 }
 </style>
