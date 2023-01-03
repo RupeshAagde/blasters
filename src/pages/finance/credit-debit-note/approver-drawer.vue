@@ -355,7 +355,6 @@
                      this.$snackbar.global.showSuccess('Note status successfully changed');
                  })
                  .catch(err => {
-                     console.log(err);
                      this.$snackbar.global.showError('Error in updating status of note', err); 
                  })
                  .finally(() => {

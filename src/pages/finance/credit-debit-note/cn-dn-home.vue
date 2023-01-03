@@ -344,7 +344,6 @@ export default {
         }),
     },
     mounted() {
-        console.log(this.currentUserPermissions);
         if (this.currentUserPermissions.permissions.includes('credit-debit-note-create') && this.currentUserPermissions.permissions.includes('credit-debit-note-approve')) {
             this.isApprover = true;
         } else {
@@ -441,7 +440,11 @@ export default {
                     status: ''
                 };
                 this.tab = [];
-                this.getListData();
+                this.inProgress = true;
+                setTimeout(() => {
+                    this.getListData();
+                    this.inProgress = false;
+                }, 2000);
             }
         },
         searchByInput: debounce(function (e) {
@@ -663,15 +666,28 @@ export default {
                     note_id: [item.id],
                 }
             }
-            
-            const res = await CreditDebitNoteServices.downloadNote(param);
-            if(res.data.data.url === false) {
+            try {
+                const res = await CreditDebitNoteServices.downloadNote(param);
+                if(res.data.data[0].url) {
+                    window.open(res.data.data[0].url);
+                } else {
+                    this.$snackbar.global.showError(
+                        'PDF does not exist'
+                    );
+                }
+            } catch (error) {
+                this.$snackbar.global.showError(
+                    'Something Went Wrong'
+                );
+            }
+            /* const res = await CreditDebitNoteServices.downloadNote(param);
+            if(res.data.data[0].url === false) {
                 this.$snackbar.global.showError(
                     'PDF does not exist'
                 );
             } else {
-                window.open(res.data.data.url)
-            }
+                window.open(res.data.data[0].url)
+            } */
         },
         routeNoteCheck(action){
             if(action ===  "BULK_UPLOAD"){

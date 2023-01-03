@@ -161,10 +161,10 @@
                                 :disabled="readOnlyMode"
                                 v-model="invoiceNumber.value"
                                 :required="isRequired"
-                                @keyup.enter.tab="validateServiceInvoice"
                                 @blur="validateServiceInvoice"
                                 @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
+                            <!-- @keyup.enter.tab="validateServiceInvoice" -->
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                         </div>
                     </div>
@@ -1251,7 +1251,6 @@
             // method to get payload for Commercial CN/DN
             getCommercialPayload(action) {
                 if (action === 'edit_entity') {
-                    // console.log('value of invoice number', this.invoiceNumber.value)
                     return {
                         data: {
                             "type_of_request":action,
@@ -1334,7 +1333,6 @@
 
             // method to construct service invoice payload
             getServiceInvoicePayload(action) {
-                //console.log("inside getServiceInvoicePayload",this.noteDetailsMap)
                 if (action === 'edit_entity') {
                     //let newNotes = [];
                     if (this.bagsRemoved.length !== 0) {
@@ -1622,6 +1620,7 @@
                         this.sellerName = res.data.data.seller_name;
                         this.isValidForm["sellerName"] =  true;
                         this.isValidForm["sellerId"] = true;
+                        this.validateServiceInvoice();
                     }
                 } catch (error) {
                     this.$snackbar.global.showError('Invalid Seller ID');
@@ -1720,13 +1719,14 @@
                 if(this.invoiceNumber.value.length != 0){
                     const params = {
                         "data":{
-                            "invoice_number": this.invoiceNumber.value
+                            "invoice_number": this.invoiceNumber.value,
                         }
                     }
                     try {
                         if (!this.readOnlyMode) {
-                            res = await CreditDebitNoteServices.validateServiceInvoiceNumber(params);
+                            res = await CreditDebitNoteServices.validateServiceInvoiceNumber(this.selectedType === 'commercial' ? { data: {...params.data, seller_id: this.sellerId.value } } : params );
                             this.invoiceNumber.isValid = res.data.success;
+                            this.invoiceNumber.errorMessage = '';
                             if(this.selectedType === 'gst_fee'){
                                 this.getFeeInvoiceDetails();
                             }
@@ -1735,7 +1735,6 @@
                             } */
                         }
                     } catch(error) {
-                        console.log(error);
                         this.invoiceNumber.isValid = error.response.data.success;
                         if (!this.invoiceNumber.isValid) {
                             this.invoiceNumber.errorMessage = error.response.data.reason;
@@ -1842,7 +1841,6 @@
             },
 
             ChildToParent(e){
-                //  console.log("inside ChildToParent",e)
                 if (e === false) {
                     this.disableEdit();
                 }
@@ -1929,7 +1927,6 @@
                 const getFeeType = CreditDebitNoteServices.getListData(params);
                 return getFeeType
                     .then(( res ) => {
-                        //console.log(res.data.items[0].variable['cn-dn|commercial'].fynd);
                         this.FeeComponentTypeList = res.data.items[0].variable['cn-dn|commercial'].fynd.map((item) => {
                             return {
                                 text: item.display_name,
@@ -1938,7 +1935,6 @@
                         })
                     })
                     .catch((err) => {
-                        //console.error(err);
                         this.$snackbar.global.showError(err);
                     })
                     /* .finally(() => {
