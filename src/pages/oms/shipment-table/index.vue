@@ -51,7 +51,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 
 /* Component imports */
-import ShipmentTable from './table.vue'; /** Yet */
+import ShipmentTable from './table.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import ConfirmCancelDrawer from '@/pages/oms/confirm-cancel-drawer/index.vue';
 import Loader from '@/components/common/loader.vue';

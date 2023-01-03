@@ -466,7 +466,7 @@ import { mapGetters } from 'vuex';
 
 /* Component imports */
 import ShipmentInfoHeader from './header.vue';
-import ShipmentTracker from '@/pages/oms/shipment-tracker/index.vue'; /** Yet */
+import ShipmentTracker from '@/pages/oms/shipment-tracker/index.vue'; 
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';

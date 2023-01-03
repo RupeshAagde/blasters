@@ -165,13 +165,13 @@ import isEmpty from 'lodash/isEmpty';
 
 /* Component imports */
 import ActivityLogs from '@/pages/oms/shipment-info/activity-logs.vue';
-import ShipmentActivityDialog from '@/pages/oms/shipment-activity-dialog.vue'; /** Yet */
-import ShipmentIssueListDialog from '@/pages/oms/shipment-issue-list-dialog.vue'; /** Yet */
+import ShipmentActivityDialog from '@/pages/oms/shipment-activity-dialog.vue'; 
+import ShipmentIssueListDialog from '@/pages/oms/shipment-issue-list-dialog.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
 import SlaIndicator from '@/pages/oms/sla/sla-indicator.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import WarnIcon from '@/pages/oms/warn-icon.vue';
-import DeliveryLogs from '@/pages/oms/shipment-info/delivery-logs.vue'; /** Yet */
+import DeliveryLogs from '@/pages/oms/shipment-info/delivery-logs.vue';
 
 /* Helper imports*/
 import {

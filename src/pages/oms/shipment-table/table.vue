@@ -547,7 +547,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 
 /* Component imports */
-import ShipmentDetails from '@/pages/oms/shipment-details/index.vue'; /** Yet */
+import ShipmentDetails from '@/pages/oms/shipment-details/index.vue';
 import ShipmentActions from './actions.vue';
 import AdmInlineSvg from '@/components/common/inline-svg.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';

@@ -19,8 +19,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 /* Component imports */
-import ShipmentInfo from '@/pages/oms/shipment-info/index.vue'; /** Yet */
-import BagsList from '@/pages/oms/bags-list/index.vue'; /** Yet */
+import ShipmentInfo from '@/pages/oms/shipment-info/index.vue';
+import BagsList from '@/pages/oms/bags-list/index.vue';
 
 /* Mock imports */
 import { orderDetailsMock } from '@/pages/oms/mocks/order-details.js';

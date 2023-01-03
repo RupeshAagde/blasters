@@ -39,7 +39,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 /* Component imports */
 import AlertBox from '@/pages/oms/common/alert-box.vue'; 
-import ShipmentItems from '@/pages/oms/shipment-table/index.vue'; /** Yet */
+import ShipmentItems from '@/pages/oms/shipment-table/index.vue';
 import WarnAlert from '@/pages/oms/common/warn-alert.vue';
 import AdmInlineSvg from '@/components/common/inline-svg.vue';
 

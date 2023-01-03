@@ -50,7 +50,7 @@ import DetailsInfoSection from '@/pages/oms/order-details/info-section.vue';
 import Loader from '@/components/common/loader';
 import DetailsHeader from './header.vue';
 import UktInlineSvg from '@/components/common/inline-svg.vue';
-import ShipmentsList from '@/pages/oms/shipments-list/index.vue'; /** Yet */
+import ShipmentsList from '@/pages/oms/shipments-list/index.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service.js';
