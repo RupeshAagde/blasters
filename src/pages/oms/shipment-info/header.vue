@@ -178,7 +178,7 @@ import {
     displaySlaPercentage,
     displaySlaHoursLeft,
     displaySlaTooltip,
-} from '@/pages/admin/oms/sla/helper.js';
+} from '@/pages/oms/sla/helper.js';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -186,10 +186,9 @@ import SupportService from '@/services/support.service';
 
 /* Store imports */
 import {
-    GET_EMPLOYEE_ACCESS_DETAIL,
     GET_USER_INFO,
 } from '@/store/getters.type';
-import { ADMIN_GET_SELLER_SUPPORT_CONFIG } from '@/store/admin/getters.type';
+// import { ADMIN_GET_SELLER_SUPPORT_CONFIG } from '@/store/getters.type';
 
 
 export default {
@@ -248,9 +247,11 @@ export default {
     },
     computed: {
         ...mapGetters({
-            accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
+            // accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
+            accessDetail: {},
             userinfo: GET_USER_INFO,
-            support_config: ADMIN_GET_SELLER_SUPPORT_CONFIG,
+            // support_config: ADMIN_GET_SELLER_SUPPORT_CONFIG,
+            support_config: {},
         }),
         checkReadRole() {
             const role =

@@ -170,23 +170,25 @@ export default {
 
             return request
             .then((response) => {
-                let data = response.data?.results;
-                if(data && !isEmpty(data)) {
-                    this.dpActivity = cloneDeep(data);
-                    this.noData = false;
-
-                    this.newParsedArr = data.map((item) => {
-                        item['dateInMilli'] = Date.parse(item.updated_time);
-                        if (item.meta && item.meta.pod) {
-                            delete item.meta.pod;
-                        }
-                        return item;
-                    });
-
-                    this.sortByDateTime(data);
-                } else {
-                    this.dpActivity = [];
-                    this.noData = true;
+                if(response.data && response.data.results) {
+                    let data = response.data.results;
+                    if(data && !isEmpty(data)) {
+                        this.dpActivity = cloneDeep(data);
+                        this.noData = false;
+    
+                        this.newParsedArr = data.map((item) => {
+                            item['dateInMilli'] = Date.parse(item.updated_time);
+                            if (item.meta && item.meta.pod) {
+                                delete item.meta.pod;
+                            }
+                            return item;
+                        });
+    
+                        this.sortByDateTime(data);
+                    } else {
+                        this.dpActivity = [];
+                        this.noData = true;
+                    }
                 }
             })
             .catch((error) => {

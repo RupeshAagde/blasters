@@ -34,7 +34,7 @@
 /* Component imports */
 import ShipmentInfoHeader from './header.vue';
 import DetailsSection from './details-section.vue'; 
-import ShipmentTracker from '@/pages/admin/oms/shipment-tracker/index.vue';
+import ShipmentTracker from '@/pages/oms/shipment-tracker/index.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 
 /* Helper imports */

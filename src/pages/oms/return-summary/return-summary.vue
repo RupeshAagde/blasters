@@ -66,8 +66,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 /* Component imports */
-import BagItemDetails from '@/pages/admin/oms/return-summary/bag-item-details.vue';
-import ReturnReasons from '@/pages/admin/oms/return-summary/return-reasons.vue';
+import BagItemDetails from '@/pages/oms/return-summary/bag-item-details.vue';
+import ReturnReasons from '@/pages/oms/return-summary/return-reasons.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg';
 
 export default {

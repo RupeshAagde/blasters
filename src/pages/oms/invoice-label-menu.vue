@@ -96,7 +96,7 @@ import MirageAlert from '@/components/alert/index.vue';
 import { downloadFile } from '@/helper/utils';
 
 /* Service imports */
-import GrindorService from '@/services/admin/grindor.service';
+import GrindorService from '@/services/grindor.service';
 
 
 export default {

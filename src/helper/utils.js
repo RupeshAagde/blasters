@@ -678,4 +678,16 @@ export const numberToThousandString = (num)=> {
     let val = Number(num)/1000;
     return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
 }
+
+export const downloadFile = path => {
+    //creating an invisible element
+    let element = document.createElement('a');
+    element.setAttribute('href', path);
+    element.setAttribute('download', path);
+    element.setAttribute('target', '_self');
+    // element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+};
 /** OMS v2.1 --END */
