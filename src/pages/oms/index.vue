@@ -220,7 +220,7 @@
                             :readOnlyMode="!!isApplicationLevel">
                         </shipment-list-item>
                     </div>
-                    <div v-else-if="selectedView == 'bulk' && shipmentData && shipmentData.length" class="empty-state">
+                    <!-- <div v-else-if="selectedView == 'bulk' && shipmentData && shipmentData.length" class="empty-state">
                         <order-bulk-picklist
                             ref="order-bulk-picklist"
                             :activeLane="orderLaneData && orderLaneData[selectedStageTabIndex].options[activeLaneIndex] || {}"
@@ -230,7 +230,7 @@
                             :selectedStageTab="selectedStageTab"
                             @refreshView="changeView('bulk')"
                         ></order-bulk-picklist>
-                    </div>
+                    </div> -->
                     <div class="empty-state" v-if="selectedView == 'orders' ? orders && !orders.length && !inProgress && !pageError : shipmentData && !shipmentData.length && !inProgress && !pageError">
                         <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'Orders' : 'Shipments'} found`" />
                     </div>
@@ -361,7 +361,6 @@ import AdmPageHeader from '@/components/common/layout/adm-page-header.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import BagsDialog from '@/pages/oms/bags-dialog/index.vue';
-import OrderBulkPicklist from '@/pages/oms/bulk/picklist.vue';
 import AdvancedFilter from './advanced-filter-drawer.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
 import ActionCentreItem from '@/pages/oms/action-centre-item.vue';
@@ -442,7 +441,6 @@ export default {
         UktInlineSvg,
         NitrozenToggleBtn,
         BagsDialog,
-        OrderBulkPicklist,
         NitrozenBadge,
         SideDrawer,
         ActionCentreItem,

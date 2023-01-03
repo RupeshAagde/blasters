@@ -238,7 +238,9 @@ export default {
         },
         getSelectedFilterText(tag, i){
             // Used for Text Normalization and Display 
-            return this.advancedFilterOptions[i].options.find(ele => ele.value == tag)?.text || ''
+            if(this.advancedFilterOptions[i].options.find(ele => ele.value == tag)) {
+                return this.advancedFilterOptions[i].options.find(ele => ele.value == tag).text;
+            } return '';
         },
         resetFilters(e) {
             e.stopPropagation()
