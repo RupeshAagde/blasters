@@ -729,7 +729,140 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
-    }
+    },
+
+    /** OMSv2.1 */
+    CREATE_S3_INVOICE:()=>{
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/generate-single-shipment-invoice-frontend`)
+    },
+    ORDER_ROLE: function () {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/roles`);
+    },
+    ORDER_DETAILS_V2:() =>{
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/order-details`);
+    },
+    ORDER_APPLICATION_DETAILS_V2:() =>{
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/application/${getAppInfo()._id}/order-details`);
+    },
+    SHIPMENT_V2_LIST: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/shipments-listing`);
+    },
+    SHIPMENT_APPLICATION_V2_LIST: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/application/${getAppInfo()._id}/shipments-listing`);
+    },
+
+    ORDERS_V2_LISTING: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/orders-listing`);
+    },
+
+    ORDERS_APPLICATION_V2_LISTING: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/application/${getAppInfo()._id}/orders-listing`);
+    },
+
+    LANE_CONFIG_V2: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/lane-config`);
+    },
+    LANE_APPLICATION_CONFIG_V2: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/application/${getAppInfo()._id}/lane-config`);
+    },
+
+    FILTERS_V2: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/filter-listing`);
+    },
+    FILTERS_APPLICATION_V2: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/application/${getAppInfo()._id}/filter-listing`);
+    },
+    GET_FULFILLMENT_CENTER: () => {
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${getCompInfo()}/location`);
+    },
+    FETCH_MANIFEST_LIST: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/generated-manifests`);
+    },
+    FETCH_PICKUP_SLOT:()=>{
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/pickup-slots`)
+    },
+    FETCH_ANNOUNCEMENT_NOTE: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/announcements`);
+    },
+    PROCESS_MANIFESTS: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/process-manifest`);
+    },
+    MANIFEST_DISPATCH:()=>{
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/manifest/dispatch`)
+    },
+    FETCH_MANIFEST_DETAILS: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/manifest-details`);
+    },
+    FETCH_ANNOUNCEMENT_NOTE: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/announcements`);
+    },
+    UPDATE_SHIPMENT_STATUS: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/shipment/status-internal`);
+    },
+    FETCH_V2_BULK_GENERATE_EXCEL: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/generate/file`);
+    },
+    POST_V2_LINK_BULK_ACTION: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action`);
+    },
+    UPLOAD_CONSENT:() => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/manifest/uploadConsent`);
+    },
+    GET_SHIPMENT_ACTIVITY_LOGS: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/shipment/history`);
+    },
+    GET_DP_ACTIVITY_LOGS:()=>{
+      return urlJoin(HEDWIG_MAIN_URL,  `/v1.0/company/${getCompInfo()}/tracking`)
+    },
+    GET_BULK_ACTION_LIST: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action/listing`)
+    },
+    FETCH_BULK_LIST_DETAILED_DATA: (data) => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action-get-data/${data}`)
+    },
+    FETCH_BULK_ACTION_FAILED_REPORT: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action-failed-report`)
+    },
+    PROCESS_BULK_ACTION_INVOICE: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action/invoice`)
+    },
+    FETCH_BULK_INVOICE_REPORT: () => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/bulk-action/download/invoice-label`)
+    },
+    SAVE_PROCESS_MANIFEST: ()=>{
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/process-manifest`);
+    },
+    UPDATE_PACKAGE_DIMENSION: ()=>{
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/update-packaging-dimension`);
+    },
+    POST_V2_SELECTED_DELIVERY_PARTNER: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/oms/manual-place-shipment`);
+    },
+    FETCH_QC_REASONS: (shipmentId, bagId) => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/shipments/${shipmentId}/bags/${bagId}/state/return_initiated/reasons`);
+    },
+    GENERATE_PRESIGNED_URL: () => {
+        return urlJoin(ENIGMA_PLTM_BASE, `/v1.0/company/${getCompInfo()}/get-single-presigned-url`);
+    },
+    LOCK_MANAGER_URL : () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/entity/lock-manager`);
+    },
+    SEND_SMS: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/ninja/send-sms`);
+    },
+    FETCH_REASONS: (shipmentId, bagId, state) => {
+        return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/company/${getCompInfo()}/shipments/${shipmentId}/bags/${bagId}/state/${state}/reasons`);
+    },
+    GET_STORES: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/store/reassign`);
+    },
+    CHANGE_STORE: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/store/reassign`)
+    },
+    HIT_E_INVOICE: () => {
+        return urlJoin(AVIS_PLTM_URL, `/v1.0/company/${getCompInfo()}/virtual-invoice-dp-assign`)
+    },
+    /** OMSv2.1 -- END */
 };
 
 export default URLS;
