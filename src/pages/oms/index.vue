@@ -380,13 +380,11 @@ import { returnNextStates } from '@/pages/oms/fixtures/dropdown-items.js';
 /* Store imports */
 import {
     GET_USER_INFO,
-    GET_EMPLOYEE_ACCESS_DETAIL,
     GET_USER_PERMISSIONS
 } from '@/store/getters.type';
 
 /* Mock imports */
 import mockMetricsCount from '@/pages/oms/mocks/metrics-count.json';
-import mockActionCentreData from '@/pages/oms/mocks/action-centre-listing.json';
 
 const PAGINATION = {
     limit: 10,
