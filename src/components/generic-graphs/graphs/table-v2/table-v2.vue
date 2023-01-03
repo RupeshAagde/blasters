@@ -284,6 +284,10 @@ td {
     padding: 1rem 0rem;
 }
 
+.table-content-content.icon {
+    padding-top: 0.4rem;
+}
+
 .table-head-content {
     font-family: 'Inter';
     font-style: normal;
