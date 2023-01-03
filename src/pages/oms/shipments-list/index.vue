@@ -27,7 +27,6 @@
                 :readOnlyMode="readOnlyMode"
                 :shipmentProcessing="shipmentProcessing"
                 @updateOrderDetails="() => $emit('updateOrderDetails')"
-                :orderRoles="orderRoles"
             ></shipment-items>
         </div>
     </div>
@@ -66,10 +65,6 @@ export default {
         shipmentProcessing:{
             type: Boolean,
             default: false
-        },
-        orderRoles:{
-            type: Array,
-            default: []
         }
     },
     mounted() {
