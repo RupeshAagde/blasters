@@ -3,18 +3,21 @@
         <div class="company-title">
             <div class="company-menu">
                 <div  v-if="type==='application_level'">
-                    Seller Channel Settings
+                    <div>
+                        {{ appSettings.title }}
+                    </div>
+                    <edit-header ref="editPopUp" :title="appSettings.title" @saveTitle="appSettings.title = $event"></edit-header>
                 </div>
                 <div  v-else>
                     Company Menu
                 </div>
-                <div id="company-setting" v-if="type==='application_level'">
+                <div id="company-setting" v-if="type==='application_level'" @click="editHeader">
                     <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                 </div>
             </div>
             <div class="grp-btn-close">
                 <div class="check" v-if="type==='application_level'">
-                    <nitrozen-checkbox> Show Create Button </nitrozen-checkbox>
+                    <nitrozen-checkbox  v-model="appSettings.can_add" > Show Create Button </nitrozen-checkbox>
                 </div>
                 <div class="add-menu-btn">
                     <nitrozen-button  v-strokeBtn size:='small' theme="secondary" @click.stop="$emit('seller-panel-show', { data: getSettings(), type: type, isEdit: false})"> Add Menu Item </nitrozen-button>
@@ -48,18 +51,20 @@ import {
     NitrozenButton,
     strokeBtn,
     NitrozenToggleBtn,
-    NitrozenCheckBox
+    NitrozenCheckBox,
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import SellerNavigationList from './seller-navigation-list.vue'
+import EditHeader from './edit-header.vue'
 import draggable from 'vuedraggable';
 
 export default {
     name: 'seller-channel-settings',
-    props: ['settings', 'permissions', 'type'],
+    props: ['settings', 'permissions', 'type', 'appSettings'],
     components: {
         NitrozenButton,
         'inline-svg': inlineSvgVue,
+        'edit-header': EditHeader,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
         'seller-navigation-list': SellerNavigationList,
         'nitrozen-checkbox': NitrozenCheckBox,
@@ -70,7 +75,7 @@ export default {
     },
     data() {
         return {
-            show: true
+            show: true,
         }
     },
     methods: {
@@ -83,6 +88,9 @@ export default {
         },
         toggleMenu() {
             this.show = !this.show
+        },
+        editHeader() {
+            this.$refs["editPopUp"].open(this.appSettings.title)
         },
         getSettings() {
             return {
@@ -118,6 +126,9 @@ export default {
                 font-weight: 600;
                 font-size: 18px;
                 display: flex;
+                .title-edit .input {
+                    outline: none !important;
+                }
             }
 
             .company-menu #company-setting {

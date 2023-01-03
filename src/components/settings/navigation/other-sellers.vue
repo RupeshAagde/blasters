@@ -1,17 +1,17 @@
 <template>
-
         <div class="company-title">
             <div class="company-menu">
                     <div class="company-name">
-                        Other Sellers
+                        {{ settings.title }}
                     </div>
-                    <div class="company-edit">
+                    <edit-header ref="editPopUp" :title="settings.title" @saveTitle="settings.title = $event"></edit-header>
+                    <div class="company-edit" @click="editHeader">
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
             </div>
             <div class="grp-btn-close">
                 <div class="add-menu-btn">
-                    <nitrozen-toggle-btn> </nitrozen-toggle-btn>
+                    <nitrozen-toggle-btn v-model="settings.is_visible"> </nitrozen-toggle-btn>
                 </div>
             </div>
         </div>
@@ -27,15 +27,25 @@ import {
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import SellerNavigationList from './seller-navigation-list.vue'
+import EditHeader from './edit-header.vue'
+
 
 export default {
     name: 'other-seller',
+    props: ['settings'],
     components: {
         NitrozenButton,
         'inline-svg': inlineSvgVue,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
-        'seller-navigation-list': SellerNavigationList
+        'seller-navigation-list': SellerNavigationList,
+        'edit-header': EditHeader, 
     },
+    methods: {
+        editHeader() {
+            this.$refs["editPopUp"].open(this.settings.title)
+        },
+    },
+
     directives: {
         strokeBtn
     },

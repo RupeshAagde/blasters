@@ -5,7 +5,7 @@
                 <nitrozen-button  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
             </page-header>
         </div>
-        <div class="customise-container">
+        <div class="customise-container" v-if="settingsObj">
             <div class="customise-title">
                 <div class="jumbotron-container">
                     <jumbotron
@@ -13,9 +13,9 @@
                         :desc="'Arrange, add, edit navigation menu items'"                  
                     ></jumbotron>
                 </div>
-                <sales-channel-settings v-if="settingsObj" :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
-                <sales-channel-settings v-if="settingsObj" :type="'application_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @seller-panel-show="editPanel"></sales-channel-settings>
-                <other-sellers></other-sellers>
+                <sales-channel-settings :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
+                <sales-channel-settings :type="'application_level'" :appSettings="settingsObj[deviceType].menu.sales_channel" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @seller-panel-show="editPanel"></sales-channel-settings>
+                <other-sellers :settings="settingsObj[deviceType].menu.other_seller"></other-sellers>
                 <footer-content></footer-content>
             </div>
             <div class="side-bar">
@@ -30,14 +30,15 @@
                         Preview of seller navigation panel
                     </div>
                 </div>
-                <div class="preview-setting">
-                    <preview-setting v-if="settingsObj" :settings="settingsObj[deviceType].menu.company_level"></preview-setting>
-                </div>
+                <div class="preview-container">
+                    <div class="preview-setting">
+                        <preview-setting :type="'company_level'" :settings="settingsObj[deviceType].menu.company_level"></preview-setting>
+                    </div>
 
-                <div class="preview-setting">
-                    <preview-setting v-if="settingsObj" :settings="settingsObj[deviceType].menu.application_level"></preview-setting>
+                    <div class="preview-setting">
+                        <preview-setting :type="'application_level'" :appSettings="settingsObj[deviceType].menu.sales_channel" :settings="settingsObj[deviceType].menu.application_level"></preview-setting>
+                    </div>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -105,14 +106,10 @@ export default {
         },
 
         onSave(payload) {
-            const data = cloneDeep(this.settingsObj)
-
-            if (payload.isEdit) 
-                data[this.deviceType]['menu'][payload.type][payload.index] = payload.data;
+            if (payload.isEdit)
+                this.$set(this.settingsObj[this.deviceType]['menu'][payload.type], payload.index, payload.data)   
             else
-                data[this.deviceType]['menu'][payload.type].push(payload.data)
-
-             this.saveSettings(data)
+                this.settingsObj[this.deviceType]['menu'][payload.type].push(payload.data)                
         }
     },
     directives: {
@@ -152,6 +149,11 @@ export default {
     min-height: 400px;
     border-radius: 10px;
     width: 25%;
+
+    .preview-container{
+        border: 1px solid @LightGray;
+        margin-top: 24px;
+    }
 
     .heading {
         .title {
