@@ -98,6 +98,22 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
+const PLATFORM_ORDERS_V2_BASE = isNode ?
+    envVars.BROWSER_CONFIG.COMPUTRON_PLTM_SVC :
+    envVars.COMPUTRON_PLTM_URL;
+
+const AVIS_PLTM_URL = isNode ?
+    envVars.BROWSER_CONFIG.AVIS_PLTM_URL :
+    envVars.AVIS_PLTM_URL;
+
+const HEDWIG_MAIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.HEDWIG_MAIN_URL :
+    envVars.HEDWIG_MAIN_URL;
+
+const ENIGMA_PLTM_BASE = isNode ?
+    envVars.BROWSER_CONFIG.ENIGMA_PLTM_SVC :
+    envVars.ENIGMA_PLTM_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
