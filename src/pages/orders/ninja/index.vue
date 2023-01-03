@@ -6,7 +6,6 @@
             <div class="page-title">
               <span>Hyperlocal Tracking</span>
               <nitrozen-button  
-                v-strokeBtn
                 @click="refreshBtn"
                 :theme="'secondary'">
                   
@@ -31,6 +30,7 @@
               <graph-loading-controller
                   :item="card"
                   :page-name="ANALYTICS_PAGES.DASHBOARD"
+                  :hyperlocal-page="true"
                   :panel-index="index"
               ></graph-loading-controller>
             </div>

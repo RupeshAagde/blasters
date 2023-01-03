@@ -46,7 +46,7 @@ export default {
           pageName: this.pageName,
           panelIndex: 1,
           cardIndex: 0,
-          filterIndex: 2,
+          filterIndex: this.filterIndex,
           dependency: this.seedData.dependency.clearFilters,
           chartId: this.chartId
         });

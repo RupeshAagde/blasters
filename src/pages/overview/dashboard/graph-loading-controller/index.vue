@@ -8,12 +8,12 @@
           class="shimmer-wrapper"
       ></adm-shimmer>
     </div>
-
     <generic-graph v-if="!isLoading && hasGraphInfo"
                    :x-axes="item.graphInfo.xAxes"
                    :y-axes="item.graphInfo.yAxes"
                    :showPagination="item.graphInfo.showPagination"
                    :columns="item.graphInfo.columns"
+                   :hyperlocal-page="hyperlocalPage"
                    :rows="item.graphInfo.rows"
                    :type="item.graphInfo.graphType"
                    :chart-id="getRandomId(item.id)"
@@ -53,6 +53,7 @@ export default {
     disabled: {
       type: Boolean, default: false
     },
+    hyperlocalPage: {type: Boolean, default: false},
     panelIndex: {type: Number, default: 0},
     cardIndex: {type: Number, default: 0},
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}

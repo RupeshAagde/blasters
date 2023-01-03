@@ -1,6 +1,7 @@
 <template>
     <div class="table-top">
         <table>
+  
           <tr class="table-head">
             <th v-for="(column, columnIndex) in columns" :key="columnIndex" scope="col">
               <div class="table-head-content">
@@ -45,13 +46,27 @@
                 <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
 
               </div>
+              <!--Sla type-->
+              <div v-else-if="column.type == TABLE_COLUMN_TYPES.SLA">
+               <p> {{ row[column.field] }}</p>
 
+              </div>
               <!--              icon type             -->
-              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON" :class="['icon']" class="table-content-content"
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && !hyperlocalPage" :class="['icon']" class="table-content-content"
                    @click="linkTodirect(row[column.field].url)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                 <!--              If  has more details let this be collapsable-->
                 <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
+  
+    
+              </div>
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" :class="['icon']" class="table-content-content"
+                   @click="redirectHyperlocal(row[column.field].url, row)">
+                <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
+                <!--              If  has more details let this be collapsable-->
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
+  
+    
               </div>
 
 
@@ -96,6 +111,8 @@ import {ADMIN_SAVE_PAGINATION_CHANGE} from "@/store/action.type";
 import {TABLE_COLUMN_TYPES} from "@/components/generic-graphs/data/constants"
 import {ANALYTICS_PAGES} from "../../data/constants";
 import OtherRiders from "./other-riders";
+import {hyperlocalHelpers} from '@/components/generic-graphs/utils/hyperlocal-helper.js';
+import GenericTooltip from '../../generic-tooltip/generic-tooltip.vue';
 
 export default {
   name: "table-component",
@@ -117,6 +134,7 @@ export default {
   components: {
     OtherRiders,
     NitrozenBadge,
+    GenericTooltip,
     uktInlineSvg,
     "nitrozen-pagination": NitrozenPagination,
     'adm-no-content': admnocontent,
@@ -186,7 +204,13 @@ export default {
   },
   methods: {
     linkTodirect(event) {
+
       window.open(`${event}`, '_blank');
+    },
+    redirectHyperlocal(url,row) {
+
+      console.log(hyperlocalHelpers.hyperlocalIsClose(row.status.name));
+      window.open(`${url}`, '_blank');
     },
     toggleRow(rowIndex) {
       this.rowMap = rowIndex;
