@@ -361,10 +361,10 @@ import isEmpty from 'lodash/isEmpty';
 /* Component imports */
 import AdmInputWithButton from '@/components/common/adm-input-with-button.vue';
 import AdmInlineSvg from '@/components/common/inline-svg.vue';
-import InvoiceLabelMenu from '@/pages/admin/oms/invoice-label-menu.vue'; /** Yet */
+import InvoiceLabelMenu from '@/pages/admin/oms/invoice-label-menu.vue';
 import OrderConfirmPopup from './order-confirm-popup.vue';
-import ReturnSummary from '@/pages/oms/return-summary/return-summary.vue'; /** Yet */
-import ShipmentTracking from './../shipment-dp-tracking-dialog.vue'; /** Yet */
+import ReturnSummary from '@/pages/oms/return-summary/return-summary.vue';
+import ShipmentTracking from '@/pages/oms/shipment-dp-tracking-dialog.vue';
 import SideDrawer from '@/pages/admin/oms/bulk-actions/side-drawer.vue';
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 
