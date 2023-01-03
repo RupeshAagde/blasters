@@ -660,34 +660,31 @@ export default {
                 });
 
         },
-        async downloadNote(item) {
+        downloadNote(item) {
             let param = {
                 data:{
                     note_id: [item.id],
                 }
             }
-            try {
-                const res = await CreditDebitNoteServices.downloadNote(param);
-                if(res.data.data[0].url) {
-                    window.open(res.data.data[0].url);
-                } else {
+            const caller = CreditDebitNoteServices.downloadNote(param); //api integretion
+            caller
+                .then((res) => {
+                    if(res.data.data[0].pdf_s3_url) {
+                        window.open(res.data.data[0].pdf_s3_url);
+                    } else {
+                        this.$snackbar.global.showError(
+                            'PDF does not exist'
+                        );
+                    }
+                })
+                .catch((err) => {
                     this.$snackbar.global.showError(
-                        'PDF does not exist'
+                        'PDF is not generated for this Note ID'
                     );
-                }
-            } catch (error) {
-                this.$snackbar.global.showError(
-                    'Something Went Wrong'
-                );
-            }
-            /* const res = await CreditDebitNoteServices.downloadNote(param);
-            if(res.data.data[0].url === false) {
-                this.$snackbar.global.showError(
-                    'PDF does not exist'
-                );
-            } else {
-                window.open(res.data.data[0].url)
-            } */
+                })
+                .finally(() => {
+                    this.inProgress = false;
+                });
         },
         routeNoteCheck(action){
             if(action ===  "BULK_UPLOAD"){
