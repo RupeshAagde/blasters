@@ -1,0 +1,45 @@
+{
+    "data": {
+        "items": [
+            {
+                "options": [
+                    {
+                        "text": "COD",
+                        "value": 0
+                    },
+                    {
+                        "text": "Prepaid",
+                        "value": 0
+                    }
+                ],
+                "text": "Acceptance Pending",
+                "value": 0,
+                "key": "pending_acceptance"
+            },
+            {
+                "options": [],
+                "text": "RTD pending",
+                "value": 0,
+                "key": "pending_rtd"
+            },
+            {
+                "options": [],
+                "text": "Pickup pending",
+                "value": 0,
+                "key": "pending_pickup"
+            },
+            {
+                "options": [],
+                "text": "Return",
+                "value": 0,
+                "key": "returned"
+            },
+            {
+                "options": [],
+                "text": "Cancel",
+                "value": 0,
+                "key": "cancelled"
+            }
+        ]
+    }
+}
