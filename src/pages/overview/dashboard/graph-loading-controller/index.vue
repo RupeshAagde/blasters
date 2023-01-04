@@ -13,6 +13,7 @@
                    :y-axes="item.graphInfo.yAxes"
                    :showPagination="item.graphInfo.showPagination"
                    :columns="item.graphInfo.columns"
+                   :hyperlocal-page="hyperlocalPage"
                    :rows="item.graphInfo.rows"
                    :type="item.graphInfo.graphType"
                    :chart-id="getRandomId(item.id)"
@@ -37,19 +38,22 @@ import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.m
 import {DashboardCommonMixins} from "../mixins/dashboard-common.mixins";
 import {graphLoadingCondition} from "../utils/graph-loading.utils";
 import admshimmer from "@/components/common/shimmer.vue";
-
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue'
 export default {
   name: "graph-loading-controller",
   mixins: [loadingMixins, DashboardCommonMixins],
   provide() {
     return {CHART_ID: this.item.id}
   },
-  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,},
+  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,
+    SlaIndicator
+  },
   props: {
     item: {type: Object, default: null, required: true},
     disabled: {
       type: Boolean, default: false
     },
+    hyperlocalPage: {type: Boolean, default: false},
     panelIndex: {type: Number, default: 0},
     cardIndex: {type: Number, default: 0},
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}

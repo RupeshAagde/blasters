@@ -16,6 +16,7 @@ const filterMixin = {
     props: {
         pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD},
         chartId: {type: String, default: null},
+        
     },
     data: () => ({
         ANALYTICS_FILTER_TYPES: ANALYTICS_FILTER_TYPES,
@@ -57,6 +58,8 @@ const filterComponentSharedProps = {
         showClear: {type: Boolean, default: false},
         applyFilter: {type: Boolean, default: true},
         collapsed: {type: Boolean, default: false},
+        filterIndex: {type: Number, default: null}
+       
     },
 };
 const filtersSharedValueMixins = {
@@ -122,9 +125,10 @@ const filtersSharedValueMixins = {
                             pageName: this.pageName,
                             panelIndex: 1,
                             cardIndex: 0,
-                            filterIndex: 2,
+                            filterIndex: this.filterIndex,
                             dependency: this.seedData.dependency.clearFilters,
-                            chartId: this.chartId
+                            chartId: this.chartId,
+                            values: this.seedData.values && !this.seedData.dataSource ? this.seedData.values: null
                         });
                     }
                     if (this.chartId) {
