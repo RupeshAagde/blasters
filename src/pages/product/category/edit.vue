@@ -63,8 +63,19 @@
                     }}</nitrozen-error>
                 </div>
 
-                <div class="input-box left-space-txb">
-                    <div>
+                <div class="input-box left-space-txb flex-spc-btw">
+                    <div class="input-box">
+                        <nitrozen-input
+                            label="Slug *"
+                            pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
+                            v-model="slug.value"
+                            :disabled="isEdit"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="slug.showerror">{{
+                            slug.errortext
+                        }}</nitrozen-error>
+                    </div>
+                    <div class="width47">
                         <nitrozen-dropdown
                             class="input w-l"
                             label="Level"
@@ -84,7 +95,7 @@
             </div>
             <div class="row-2">
                 <div class="dept">
-                    <div class="dept-input">
+                    <div>
                         <nitrozen-dropdown
                             class="input w-l"
                             label="Departments"
@@ -485,6 +496,14 @@
         max-width: 30%;
     }
 }
+.flex-spc-btw {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.width47 {
+    width: 47%;
+}
 </style>
 <script>
 import CompanyService from '@/services/company-admin.service';
@@ -540,6 +559,7 @@ export default {
             this.saveText = 'Category updated successfully';
             this.isEdit = this.$route.params.id ? true : false;
         }
+        this.attachNameWatcher();
         this.init();
     },
     data() {
@@ -588,6 +608,11 @@ export default {
                 value: '',
                 showerror: false,
                 errortext: 'Name is required'
+            },
+            slug: {
+                value: '',
+                showerror: false,
+                errortext: 'Slug is required'
             },
             levelList: {
                 levels: [
@@ -775,6 +800,7 @@ export default {
             this.is_active = data.is_active;
             this.level.value = data.level ? data.level : '';
             this.name.value = data.name ? data.name : '';
+            this.slug.value = data.slug ? data.slug : '';
             this.logo.value =
                 data.media && data.media.logo ? data.media.logo : '';
             this.landscape =
@@ -806,6 +832,17 @@ export default {
             this.initialSelectedDepartments = data.departments
                 ? this.initDepartment(data.departments)
                 : [];
+        },
+        attachNameWatcher() {
+            if (!this.isEdit) {
+                this.$watch(
+                    'name',
+                    function handler(val) {
+                        this.slug.value = convertToSlug(this.name.value.trim());
+                    },
+                    { deep: true }
+                );
+            }
         },
         searchDepartment(e) {
             this.setDepartmentList(this.departmentsList, e);
@@ -968,6 +1005,14 @@ export default {
             } else {
                 this.name.showerror = true;
             }
+            if (!this.isEdit){
+                if (this.slug.value !== '') {
+                    this.slug.showerror = false;
+                    postdata.slug = this.slug.value;
+                } else {
+                    this.slug.showerror = true;
+                }
+            }
 
             postdata['tryouts'] = this.tryouts ? this.tryouts : [];
             postdata['synonyms'] = this.synonym.value ? this.synonym.value : [];
@@ -1046,6 +1091,7 @@ export default {
 
             if (
                 !this.name.showerror &&
+                !this.slug.showerror &&
                 !this.logo.showerror &&
                 !this.level.showerror &&
                 !this.selectedDepartments.showerror &&
@@ -1073,8 +1119,9 @@ export default {
                             err &&
                                 err.response &&
                                 err.response.data &&
-                                err.response.data.message
-                                ? err.response.data.message
+                                err.response.data.error &&
+                                err.response.data.error.message
+                                ? err.response.data.error.message
                                 : err
                         );
                     });
