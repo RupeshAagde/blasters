@@ -2,7 +2,7 @@
     <div class="container">
         <div>
             <page-header title="Seller Navigation" @backClick="$router.push({ name: 'settings' })">
-                <nitrozen-button  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
+                <nitrozen-button ref="save-settings"  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
             </page-header>
         </div>
         <div class="customise-container" v-if="settingsObj">
@@ -14,9 +14,9 @@
                     ></jumbotron>
                 </div>
                 <div class="tabs">
-                    <nitrozen-tab @tab-change="tabChange" :tabItem="tabs"></nitrozen-tab>
+                    <nitrozen-tab ref="tab" @tab-change="tabChange" :tabItem="tabs"></nitrozen-tab>
                 </div>
-                <sales-channel-settings :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
+                <sales-channel-settings ref="settings" :type="'company_level'" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.company_level" @seller-panel-show="editPanel"></sales-channel-settings>
                 <sales-channel-settings :type="'application_level'" :appSettings="settingsObj[deviceType].menu.sales_channel" :permissions="permissionObj" :settings="settingsObj[deviceType].menu.application_level" @seller-panel-show="editPanel"></sales-channel-settings>
                 <other-sellers :settings="settingsObj[deviceType].menu.other_seller"></other-sellers>
                 <footer-content :settings="settingsObj[deviceType].menu.footer_content" ></footer-content>
