@@ -59,7 +59,9 @@ export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
 
 export AVIS_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
+export AVIS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
 export COMPUTRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
+export COMPUTRON_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export HEDWIG_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
 
 #ENV's

@@ -472,6 +472,13 @@ const conf = convict({
             format: String,
             default: '',
             env: 'COMPUTRON_ADMIN_SVC',
+            arg: 'computron_admin_svc'
+        },
+        COMPUTRON_ADMIN_URL: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_URL',
             arg: 'computron_admin_url'
         },
         HEDWIG_ADMIN_SVC: {
