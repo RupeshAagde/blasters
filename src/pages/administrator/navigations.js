@@ -241,6 +241,25 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Finance',
+            link: '/administrator/finance/bulk-upload',
+            title: 'finance',
+            icon: 'kycdetails',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: [
+                {
+                    display: 'Upload Data Portal',
+                    link: '/administrator/finance/bulk-upload',
+                    title: 'bulk-upload',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+            ]
+        },
+        {
             display: 'Support Center',
             link: '/administrator/support/configuration',
             title: 'support',

@@ -98,6 +98,10 @@ const EXTENSION_PAGE_URL = isNode ?
     envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
     envVars.EXTENSION_PAGE_URL;
 
+const DAYTRADER_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL : 
+    envVars.DAYTRADER_ADMIN_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -424,6 +428,27 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
+    },
+
+    //for bulk upload
+    GET_FILE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-data`);
+    },
+
+    GET_DOWNLOAD_FORMAT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report/sample-file`);
+    },
+
+    GET_PRESIGNED_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-s3-presigned-url`);
+    },
+
+    CALL_PRESIGNED_URL: (url) => {
+        return url;
+    },
+
+    GET_UPLOAD_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
     },
 
     //#########Tickets########
