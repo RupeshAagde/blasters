@@ -467,6 +467,20 @@ const conf = convict({
             env: 'COMPUTRON_PLTM_URL',
             arg: 'computron_pltm_url'
         },
+        HEDWIG_PLTM_URL: {
+            doc: 'Shipment DP Tracking API URL',
+            format: String,
+            default: '',
+            env: 'HEDWIG_PLTM_URL',
+            arg: 'hedwig_pltm_url'
+        },
+        HEDWIG_PLTM_SVC: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_PLTM_SVC',
+            arg: 'hedwig_pltm_svc'
+        },
         ENIGMA_PLTM_URL: {
             doc: 'Enigma Pltm URL',
             format: String,

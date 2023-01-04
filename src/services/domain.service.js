@@ -117,6 +117,10 @@ const WHEELJACK_PCPR_URL = isNode ?
     envVars.BROWSER_CONFIG.WHEELJACK_PCPR_URL :
     envVars.WHEELJACK_PCPR_URL;
 
+const HEDWIG_PLTM_URL = isNode ?
+    envVars.BROWSER_CONFIG.HEDWIG_PLTM_URL :
+    envVars.HEDWIG_PLTM_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -814,8 +818,8 @@ const URLS = {
     GET_SHIPMENT_ACTIVITY_LOGS: () => {
         return urlJoin(AVIS_PLTM_URL, `/v1.0/shipment/history`);
     },
-    GET_DP_ACTIVITY_LOGS:()=>{
-      return urlJoin(HEDWIG_MAIN_URL,  `/v1.0/tracking`)
+    GET_DP_ACTIVITY_LOGS: () => {
+        return urlJoin(HEDWIG_PLTM_URL, `/v1.0/tracking`);
     },
     GET_BULK_ACTION_LIST: () => {
         return urlJoin(PLATFORM_ORDERS_V2_BASE, `/v1.0/bulk-action/listing`)

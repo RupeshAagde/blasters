@@ -387,7 +387,8 @@ export default {
             .user{
                 font-weight: 300;
                 text-align: end;
-                padding-right: 15px;
+                // padding-right: 15px;
+                background-color: initial;
             }
         }
     }

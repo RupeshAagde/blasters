@@ -68,8 +68,8 @@ export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administ
 export AVIS_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
 export COMPUTRON_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export COMPUTRON_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
-export HEDWIG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
-export HEDWIG_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
+export HEDWIG_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
+export HEDWIG_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
 export ENIGMA_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/invoice/
 export ENIGMA_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/invoice/
 
