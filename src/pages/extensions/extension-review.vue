@@ -125,7 +125,7 @@
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="`${fynd_partners_domain}/extensions/preview/${extension_id}`"
+                    :href="`${extension_domain}/extensions/preview/${extension_id}`"
                     target="_blank"
                     >Link to extension</a
                 >
@@ -394,7 +394,10 @@ export default {
                     this.extension_info.listing_info.name) ||
                 'Extension Name'
             );
-        }
+        },
+        extension_domain() {
+            return env.BRAINSTORM_EXTENSION_DOMAIN;
+        },
     },
     mounted() {
         this.fetchExtension();
