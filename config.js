@@ -453,40 +453,33 @@ const conf = convict({
             env: 'ARK_PLTM_SVC',
             arg: 'ark_pltm_svc'
         },
-        AVIS_PLTM_URL: {
+        AVIS_ADMIN_URL: {
             doc: 'Platform Order Management URL',
             format: String,
             default: '',
-            env: 'AVIS_PLTM_URL',
-            arg: 'avis_pltm_url'
+            env: 'AVIS_ADMIN_URL',
+            arg: 'avis_admin_url'
         },
-        COMPUTRON_PLTM_URL: {
-            doc: 'Service Platform Orders URL',
+        AVIS_ADMIN_SVC: {
+            doc: 'Platform Order Management Service',
             format: String,
             default: '',
-            env: 'COMPUTRON_PLTM_URL',
-            arg: 'computron_pltm_url'
+            env: 'AVIS_ADMIN_SVC',
+            arg: 'avis_admin_svc'
         },
-        HEDWIG_PLTM_URL: {
-            doc: 'Shipment DP Tracking API URL',
+        COMPUTRON_ADMIN_SVC: {
+            doc: 'Service Platform Orders Service',
             format: String,
             default: '',
-            env: 'HEDWIG_PLTM_URL',
-            arg: 'hedwig_pltm_url'
+            env: 'COMPUTRON_ADMIN_SVC',
+            arg: 'computron_admin_url'
         },
-        HEDWIG_PLTM_SVC: {
+        HEDWIG_ADMIN_SVC: {
             doc: 'Shipment DP Tracking API Service',
             format: String,
             default: '',
-            env: 'HEDWIG_PLTM_SVC',
-            arg: 'hedwig_pltm_svc'
-        },
-        ENIGMA_PLTM_URL: {
-            doc: 'Enigma Pltm URL',
-            format: String,
-            default: '',
-            env: 'ENIGMA_PLTM_URL',
-            arg: 'enigma_pltm_url'
+            env: 'HEDWIG_ADMIN_SVC',
+            arg: 'hedwig_admin_svc'
         }
         /** OMS v2.1 -- END */
     },

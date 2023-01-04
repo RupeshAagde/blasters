@@ -456,10 +456,6 @@ const OrderService = {
         );
         return ApiService.get(URLS.FILTERS_V2(), axiosOption);
     },
-    generatePresignedURL(params) {
-        let axiosOption = Object.assign({},getCommonHeaderOptions(false), { data:params });
-        return ApiService.post(URLS.GENERATE_PRESIGNED_URL(params),axiosOption);
-    },
     generateManifestList(){
         let axiosOption = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.MANIFEST_LISTING(), axiosOption);

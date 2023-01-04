@@ -431,23 +431,6 @@ export default {
         //         .finally(() => {
         //             this.inProgress = false;
         //         });
-        // },
-        // fetchDocumentURL(doc_type){
-        //     let presigned_url = '';
-        //     const params = {
-        //         entity_id:this.shipment.shipment_id,
-        //         document_type:doc_type
-        //     }
-        //     return OrderService.generatePresignedURL(params)
-        //         .then(({data})=>{
-        //             this.document_url[doc_type]= data;
-        //             presigned_url = data.url;
-        //             return presigned_url;   
-        //         }).catch(err => {
-        //             this.$snackbar.global.showError(
-        //                 'Invoice is not available for this shipment currently'
-        //             );
-        //         })
         // }
     },
 }

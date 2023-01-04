@@ -60,21 +60,12 @@ export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
-# OMS v2.1
-# export AVIS_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/order-manage/
-# export COMPUTRON_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/orders/
-# export COMPUTRON_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/orders/
-# export HEDWIG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
-# export HEDWIG_MAIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
-# export ENIGMA_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/invoice/
-# export ENIGMA_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/invoice/
-export AVIS_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
-export COMPUTRON_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
-export COMPUTRON_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
-export HEDWIG_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
-export HEDWIG_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
-export ENIGMA_PLTM_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/invoice/
-export ENIGMA_PLTM_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/invoice/
+
+export DAYTRADER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/finance
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
+export AVIS_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
+export COMPUTRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
+export HEDWIG_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/platform/dp/
 
 #ENV's
 export SENTRY_DSN=''
