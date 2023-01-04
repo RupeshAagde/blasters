@@ -54,8 +54,12 @@
                                         v-if="
                                             status.meta &&
                                             status.meta.channel_type && 
-                                            (status.meta.channel_type == 'sms' || status.meta.channel_type == 'email')
+                                            (status.meta.channel_type == 'sms' || status.meta.channel_type == 'email') ||
+                                            (status.meta.reason && status.meta.reason.display_name && status.meta.reason.text)
                                         ">
+                                        <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name && status.meta.reason.text"> 
+                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }}({{ status.meta.reason.text }})
+                                        </div>
                                         <div v-if="status.meta && status.meta.slug"> 
                                             <span class="message-label"> Event Name: </span> {{ status.meta.slug }}
                                         </div>

@@ -208,7 +208,6 @@ import loader from '@/components/common/loader.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
-import GrindorService from '@/services//grindor.service';
 
 export default {
     name: 'manifest-detail-page',

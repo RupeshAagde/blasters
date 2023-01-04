@@ -84,6 +84,7 @@ export default {
                 bag_invoiced: { message: 'Wait, we are assigning a delivery partner for your shipment.',  icon: 'alerts-blue-icon' },
                 ready_for_dp_assignment: { message: 'Wait, we are assigning a delivery partner for your shipment.',  icon: 'blue-circle-icon' },
                 dp_assigned: { message: 'Download invoice, label then pack your shipment.',  icon: 'alerts-blue-icon' },
+                bag_packed: {message: 'Proceed further by dispatching shipments from the Manifest section', icon: 'alerts-blue-icon' }
             }
             for(let shipment of this.data.shipments) {
                 let status = shipment.status.current_shipment_status
@@ -110,7 +111,7 @@ export default {
     computed: {
         showAlert() {
             if(this.activeShipment) {
-                let showAlertStates = ['placed', 'bag_confirmed', 'bag_invoiced', 'ready_for_dp_assignment', 'dp_assigned'];
+                let showAlertStates = ['placed', 'bag_confirmed', 'bag_invoiced', 'ready_for_dp_assignment', 'dp_assigned', 'bag_packed'];
                 return showAlertStates.includes(this.activeShipment.status.status);
             }
             return false;

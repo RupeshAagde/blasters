@@ -15,7 +15,7 @@
             <template #header>
                 <p>
                     <span class="bold-text">3. Upload</span> the updated file
-                    once it is filled with all the required fields.
+                    once it is filled with all the required fields. {{ status }}
                 </p>
             </template>
             <template #content>

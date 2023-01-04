@@ -5,7 +5,10 @@
             v-for="(info, index) in store_info"
             :key="index"
         >
-            <span class="sub-heading" v-if="emptyCheck(info.value)"> <span class="title-background">{{ info.display_name }}</span>: </span>{{ info.value }}
+            <span class="sub-heading" v-if="emptyCheck(info.value) && emptyCheck(info.display_name)"> 
+                <span class="title-background">{{ info.display_name }}</span>: 
+            </span>
+            {{ info.value }}
         </div>
     </div>
 </template>

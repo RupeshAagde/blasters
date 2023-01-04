@@ -38,7 +38,9 @@
                                         <img :src="item.item.images[0]" class="item-logo" />
                                     </div>
                                     <div class="item-primary-information" v-if="item.item && item.item.brand && item.item.name">
-                                        <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
+                                        <div class="tooltip-top" :data-tooltip="item.item.name">
+                                            <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
+                                        </div>
                                         <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">

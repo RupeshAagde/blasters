@@ -909,7 +909,7 @@ export default {
             this.pagination.current = 1;
             this.lane = "new";
             this.selectedStageTab = "unfulfilled";
-            this.applyAdvancedFilters({closeDrawer: true}, {lane: "new", super_lane: "unfulfilled", page: 1});
+            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "new", super_lane: "unfulfilled", page: 1});
         },
         searchStore(text) {
             text = text ? text.toLowerCase() : text;

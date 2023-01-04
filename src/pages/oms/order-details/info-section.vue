@@ -114,7 +114,9 @@
                         <span
                             v-for="(value, key) in orderData.order.payment_methods"
                             :key="key"
-                            ><span class="title-background">{{ key }}</span> :
+                            class="content-item"
+                        >
+                            <span class="title-background">{{ value.name }}</span> :
                             ₹{{ value.amount.toFixed(2) }}</span
                         >
                     </div>
@@ -398,6 +400,9 @@ export default {
             }
             .title-background {
                 color: #9b9b9b;
+            }
+            .content-item {
+                margin-right: 10px;
             }
         }
 

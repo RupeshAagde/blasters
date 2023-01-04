@@ -1102,7 +1102,7 @@ export default {
             if(this.isAnySelected){
                 this.disableManifestGeneration = false;
             }else{
-               this.disableManifestGeneration = true
+               this.disableManifestGeneration = true;
             }
         }
     },

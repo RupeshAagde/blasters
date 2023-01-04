@@ -65,16 +65,6 @@
                     <td>
                         <div tabindex="0" @blur="handleMenuBlur"> 
                             <nitrozen-menu class="advanced-menu" mode="vertical" ref="menu" v-if="advancedMenuItems && advancedMenuItems.length" @click="closeMenu()">
-                                <nitrozen-menu-item v-if="activeShipmentDetails &&
-                                    activeShipmentDetails.einvoice_info && 
-                                    activeShipmentDetails.einvoice_info.invoice &&
-                                    activeShipmentDetails.einvoice_info.invoice.message &&
-                                    activeShipmentDetails.einvoice_info.invoice.message[0] &&
-                                    activeShipmentDetails.einvoice_info.invoice.message[0].ErrorCode &&
-                                    activeShipmentDetails.einvoice_info.invoice.message[0].ErrorMessage" 
-                                    @click="generateEInvoice">
-                                    Generate E-invoice  
-                                </nitrozen-menu-item>
                                 <nitrozen-menu-item 
                                     class="advanced-menu-item"
                                     v-for="menu_item in advancedMenuItems" 
@@ -89,8 +79,6 @@
                                     ></adm-inline-svg>
                                     <div class="item-text">{{menu_item.text}}</div>
                                 </nitrozen-menu-item>
-                                <nitrozen-menu-item v-if="activeShipmentDetails.status.status == 'return_initiated'" @click="markReturnDelivered">Mark Return Delivered</nitrozen-menu-item>
-                                <nitrozen-menu-item @click="openHelpPage">Help</nitrozen-menu-item>
                             </nitrozen-menu>
                         </div>
                     </td>
@@ -572,19 +560,22 @@ const BASE_MENU_ITEMS = [
         id:1,
         text:"Create Invoice (S3)",
         value:"create_invoice_s3",
-        icon:"create-invoice"
+        icon:"create-invoice",
+        forceDisplay: false
     },
     // {
     //     id:2,
     //     text:"Call",
     //     value:"call",
-    //     icon:"call-icon"
+    //     icon:"call-icon",
+    //     forceDisplay: false
     // },
     {
         id:3,
         text:"SMS",
         value:"sms",
-        icon:"sms-logo"
+        icon:"sms-logo",
+        forceDisplay: false
     },
     // {
     //     id:4,
@@ -620,7 +611,8 @@ const BASE_MENU_ITEMS = [
         id:9,
         text:"Reassign Store",
         value:"reassign_store",
-        icon:"store-assign"
+        icon:"store-assign",
+        forceDisplay: false
     },
     // {
     //     id:10,
@@ -633,7 +625,24 @@ const BASE_MENU_ITEMS = [
     //     text:"Change Address",
     //     value:"change_address",
     // },
-
+    {
+        id: 12,
+        text: "Generate E-invoice ",
+        value: "generate_e_invoice",
+        forceDisplay: false
+    },
+    {
+        id: 13,
+        text: "Mark Return Delivered",
+        value: "mark_return_delivered",
+        forceDisplay: false
+    },
+    {
+        id: 14,
+        text: "Help",
+        value: "help",
+        forceDisplay: true
+    }
 ];
 
 
@@ -710,7 +719,6 @@ export default {
     computed:{
         advancedMenuItems(){
             return BASE_MENU_ITEMS.filter(mi=> this.isMenuItemValid(mi));
-            return BASE_MENU_ITEMS.map(mi => mi);
         },
     },
     mounted(){
@@ -897,12 +905,26 @@ export default {
         isMenuItemValid(item){
             if(item.value == "create_invoice_s3") {
                 this.statusForCreateS3 = ['placed', 'bag_confirmed', 'bag_not_confirmed', 'store_reassigned', 'dp_not_assigned'];
-                if(this.statusForCreateS3.includes(this.activeShipmentDetails.status.status)) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return this.statusForCreateS3.includes(this.activeShipmentDetails.status.status) && this.activeShipmentDetails.actionable;
+            }
+            if(item.value == "generate_e_invoice") {
+                return  this.activeShipmentDetails &&
+                        this.activeShipmentDetails.actionable &&
+                        this.activeShipmentDetails.einvoice_info && 
+                        this.activeShipmentDetails.einvoice_info.invoice &&
+                        this.activeShipmentDetails.einvoice_info.invoice.message &&
+                        this.activeShipmentDetails.einvoice_info.invoice.message[0] &&
+                        this.activeShipmentDetails.einvoice_info.invoice.message[0].ErrorCode &&
+                        this.activeShipmentDetails.einvoice_info.invoice.message[0].ErrorMessage;
+            }
+            if(item.value == 'mark_return_delivered') {
+                return this.activeShipmentDetails.status.status == 'return_initiated' && this.activeShipmentDetails.actionable;
+            }
+            if(item.value == 'sms') {
+                return this.activeShipmentDetails.actionable;
+            }
+            if(item.value == 'reassign_store') {
+                return this.activeShipmentDetails.actionable && ['placed', 'store_reassigned', 'bag_not_confirmed'].includes(this.activeShipmentDetails.status.status);
             }
             else {
                 return true;
@@ -920,7 +942,9 @@ export default {
             if(item.value == 'reassign_store') { this.fetchReasons() };
             if(item.value == 'initiate_ndr') { this.isInitiateNdr = true };
             if(item.value == 'change_address') { this.isChangeAddress = true };
-            // if(item.value == 'create_e_invoice') { this.generateEInvoice() };
+            if(item.value == 'generate_e_invoice') { this.generateEInvoice() };
+            if(item.value == 'mark_return_delivered') { this.markReturnDelivered() };
+            if(item.value == 'help') { this.openHelpPage() };
         },
         openHelpPage() {
             window.open(`https://platform.fynd.com/help/`, '_blank');

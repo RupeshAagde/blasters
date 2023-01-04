@@ -234,7 +234,7 @@
             v-if="
                 isReturnInitiated &&
                 !isClosed &&
-                ordering_channel === 'MARKETPLACE'
+                ordering_channel.toLowerCase() === 'marketplace'
             "
         >
             <div>
@@ -245,7 +245,7 @@
                     class="shipment-action-button"
                     :disabled="locked || !shipment.actionable"
                 >
-                    Return Initiated
+                    Initiate Return
                 </nitrozen-button>
             </div>
         </template>
