@@ -21,13 +21,28 @@
                 </div>
               </div>
             </td>
-            <td v-for="(column, idx) in columns" v-else :key="idx">
+            <td v-for="(column, idx) in columns" v-else :key="idx" :class="{'icon-field': hyperlocalPage && column.type === TABLE_COLUMN_TYPES.ICON}">
               <!--              first column with arrow-->
               <div v-if="idx === 0 && hasCollapse(row)" class="table-content-content cp"
                    @click="toggleRow(row.id)">
-                <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
-                ></ukt-inline-svg>
-                <span class="first-arrow-content">{{ row[column.field] }}</span>
+                   <!--not array-->
+                <div v-if="!Array.isArray(row[column.field])">
+                    <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
+                    ></ukt-inline-svg>
+                    <span class="first-arrow-content">{{ row[column.field] }}</span>
+                </div>
+                <!--arrray (show tooltip)-->
+                <div v-else>
+                  <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
+                    ></ukt-inline-svg>
+                    <span class="first-arrow-content">{{ row[column.field][0] }}</span>
+                    <div v-if="row[column.field][1].length > 15 " class="affilate_name">
+                      <generic-tooltip :text="row[column.field][1]">{{ row[column.field][1].slice(0,15) + '...' }}</generic-tooltip>
+                    </div>
+                    <div v-else class="affilate_name">
+                      {{ row[column.field][1] }}
+                    </div>
+                </div>
                   <!-- <generic-tooltip :text="'some sample'">Some data ty[e]</generic-tooltip> -->
                 <!--              If  has more details let this be collapsable-->
               </div>
@@ -62,7 +77,7 @@
   
     
               </div>
-              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" class="table-content-content icon" :class="{'disable-icon': !row[column.field].url}"
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" class="icon" :class="{'disable-icon': !row[column.field].url}"
                    @click="redirectHyperlocal(row[column.field].url, row)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                 <!--              If  has more details let this be collapsable-->
@@ -285,7 +300,7 @@ td {
 }
 
 .table-content-content.icon {
-    padding-top: 0.4rem;
+  align-items: center;
 }
 
 .table-head-content {
@@ -411,5 +426,12 @@ td:last-child {
 .disable-icon {
   opacity: 0.4;
   cursor: default;
+}
+.affilate_name {
+  padding-left: 1.2rem;
+}
+.icon-field {
+  vertical-align: top !important;
+  padding-top: 22px;
 }
 </style>

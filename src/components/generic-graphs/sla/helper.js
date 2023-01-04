@@ -10,10 +10,10 @@ export const displaySlaHoursLeft = (sla_estimated_date) => {
     return sla_estimated_date < current_time ? `- ${getHoursDifference(current_time - sla_estimated_date)}`:`${getHoursDifference(sla_estimated_date - current_time)}`;
 }
 export const displaySlaPercentage = (sla_estimated_time) => {
-    const created_date = new Date(sla_estimated_time).getTime(); // 0% date ms
-    const current_date = new Date().getTime(); // current% date ms
-    const diff_time = (current_date - created_date)/60000;
-    return Math.ceil(diff_time)>30?diff_time:101;
+    const created_date = new Date(moment(sla_estimated_time).add(new Date().getTimezoneOffset(), 'minutes').format()); // 0% date ms
+    const current_date = new Date() // current% date ms
+    let diff_time = (created_date - current_date)/(1000 * 60);
+    return Math.floor(Math.abs(diff_time))>30? 101 : Math.floor(Math.abs(diff_time));
 
 }
 
