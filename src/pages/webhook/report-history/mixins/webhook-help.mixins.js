@@ -4,7 +4,7 @@ const WebhookHelpMixins = {
     data: () => ({
         docUrl:
             env.SEARCHLIGHT_MAIN_DOMAIN +
-            '/docs/company-settings/webhook/webhook',
+            '/docs/company-settings/webhook/',
     }),
     methods: {
         onCancel() {
