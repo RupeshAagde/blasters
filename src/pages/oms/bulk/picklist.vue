@@ -229,15 +229,7 @@ export default {
         },
         showInvoiceErrorFn() {
             return this.showInvoiceError;
-        },
-        checkUpdateRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'store_manager' ||
-                    this.accessDetail.order_role == 'full_access');
-            return role;
-        },
+        }
     },
     data: function () {
         return {

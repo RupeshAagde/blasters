@@ -316,7 +316,8 @@
                         class="packaging-icon"
                         @click="openPackagingDimensions()"
                     >
-                        <inline-svg v-if="checkReadRole && !checkCustomerCareRole " src="packaging-icon"></inline-svg>
+                        <!-- <inline-svg v-if="checkReadRole && !checkCustomerCareRole " src="packaging-icon"></inline-svg> -->
+                        <inline-svg v-if="checkReadRole" src="packaging-icon"></inline-svg>
                     </span>
                 </span>
             </div>
@@ -557,19 +558,13 @@ export default {
         ...mapGetters({
             accessDetail: {},
         }),
-        checkCustomerCareRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'customer_care');
-            return role;
-        },
         checkReadRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                this.accessDetail.order_role != 'read_only';
-            return role;
+            // const role =
+            //     this.accessDetail &&
+            //     this.accessDetail.order_role &&
+            //     this.accessDetail.order_role != 'read_only';
+            // return role;
+            return true;
         },
         pickupSlot() {
             if (

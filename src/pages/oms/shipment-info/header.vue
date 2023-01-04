@@ -85,11 +85,16 @@
                         @click="openDialog"
                         title="Report an Issue"
                     > -->
-                    <span
+                    <!-- <span
                         class="report-an-issue"
                         @click="openDialog"
                         title="Report an Issue"
                         v-if="checkReadRole"
+                    > -->
+                    <div
+                        class="report-an-issue"
+                        @click="openDialog"
+                        title="Report an Issue"
                     >
                         <ukt-inline-svg src="new-report-issue"></ukt-inline-svg>
                         <span
@@ -99,7 +104,7 @@
                         >
                             {{ issues.length }}
                         </span>
-                    </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,6 +142,7 @@
         <nitrozen-dialog
             ref="dialog"
             :title="`Shipment Issues: ${shipment.shipment_id}`"
+            class="shipment-issue-list-dialog"
         >
             <template slot="body">
                 <shipment-issue-list-dialog
@@ -254,19 +260,12 @@ export default {
             support_config: {},
         }),
         checkReadRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                this.accessDetail.order_role != 'read_only';
-            return role;
-        },
-        checkUpdateRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'store_manager' ||
-                    this.accessDetail.order_role == 'full_access');
-            return role;
+            // const role =
+            //     this.accessDetail &&
+            //     this.accessDetail.order_role &&
+            //     this.accessDetail.order_role != 'read_only';
+            // return role;
+            return true;
         },
         ticketCreationStatus() {
             return (
@@ -462,6 +461,7 @@ export default {
 
             .action-items {
                 display: flex;
+                align-items: center;
 
                 .activity-log {
                     margin-right: 8px;
@@ -470,6 +470,8 @@ export default {
 
                 .report-an-issue {
                     cursor: pointer;
+                    display: flex;
+                    position: relative;
 
                     .issues-count {
                         opacity: 0.9;
@@ -482,9 +484,9 @@ export default {
                         padding: 0px 8px;
                         cursor: pointer;
                         font-size: 10px;
-                        position: relative;
-                        top: -30px;
-                        right: -8px;
+                        position: absolute;
+                        top: -13px;
+                        right: -13px;
                     }
                 }
             }
@@ -565,5 +567,11 @@ export default {
 .tags-wrapper {
     display: flex;
     column-gap: 8px;
+}
+
+.shipment-issue-list-dialog {
+    ::v-deep .nitrozen-dialog-body {
+        overflow: initial;
+    }
 }
 </style>

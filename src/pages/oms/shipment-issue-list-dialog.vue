@@ -25,29 +25,31 @@
                     No issues reported for this shipment
                 </div>
 
-                <div
-                    class="issue-list-row"
-                    :style="getPriorityColor(issue)"
-                    v-for="issue in issues"
-                    :key="issue._id"
-                >
-                    <div class="ticket-id">
-                        {{ issue.ticket_id }}
-                    </div>
-                    <div class="title">
-                        <span class="link" @click="goToTicket(issue._id)">
-                            {{ issue.content.title || "No title"}}
-                        </span>
-                    </div>
-                    <div class="status">
-                        <nitrozen-badge>
-                            {{ issue.status.display || 'Pending' }}
-                        </nitrozen-badge>
-                    </div>
-                    <div class="category">
-                        <nitrozen-badge>
-                            {{ issue.category.display }}
-                        </nitrozen-badge>
+                <div class="issues-table-body">
+                    <div
+                        class="issue-list-row"
+                        :style="getPriorityColor(issue)"
+                        v-for="issue in issues"
+                        :key="issue._id"
+                    >
+                        <div class="ticket-id">
+                            {{ issue.ticket_id }}
+                        </div>
+                        <div class="title">
+                            <span class="link" @click="goToTicket(issue._id)">
+                                {{ issue.content.title || "No title"}}
+                            </span>
+                        </div>
+                        <div class="status">
+                            <nitrozen-badge>
+                                {{ issue.status.display || 'Pending' }}
+                            </nitrozen-badge>
+                        </div>
+                        <div class="category">
+                            <nitrozen-badge>
+                                {{ issue.category.display }}
+                            </nitrozen-badge>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -238,4 +240,9 @@ export default {
         // }
     // }
 // }
+
+.issues-table-body {
+    height: 30vh;
+    overflow: auto;
+}
 </style>

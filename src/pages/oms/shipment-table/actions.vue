@@ -454,28 +454,30 @@ export default {
             return this.shipment.status.status;
         },
         checkReadRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                this.accessDetail.order_role != 'read_only';
-            return role;
+            // const role =
+            //     this.accessDetail &&
+            //     this.accessDetail.order_role &&
+            //     this.accessDetail.order_role != 'read_only';
+            // return role;
+            return true;
         },
         checkUpdateRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'store_manager' ||
-                    this.accessDetail.order_role == 'full_access');
-            return role;
+            // const role =
+            //     this.accessDetail &&
+            //     this.accessDetail.order_role &&
+            //     (this.accessDetail.order_role == 'store_manager' ||
+            //         this.accessDetail.order_role == 'full_access');
+            // return role;
+            return true;
         },
-        checkCustomerCareRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'customer_care' ||
-                    this.accessDetail.order_role == 'full_access');
-            return role;
-        },
+        // checkCustomerCareRole() {
+        //     const role =
+        //         this.accessDetail &&
+        //         this.accessDetail.order_role &&
+        //         (this.accessDetail.order_role == 'customer_care' ||
+        //             this.accessDetail.order_role == 'full_access');
+        //     return role;
+        // },
         isNew() {
             try {
                 // return ['placed', 'store_reassigned'].includes(this.shipment.shipment_status.status);

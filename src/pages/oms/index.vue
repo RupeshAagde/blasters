@@ -557,14 +557,6 @@ export default {
             }
             return false;
         },
-        checkUpdateRole() {
-            const role =
-                this.accessDetail &&
-                this.accessDetail.order_role &&
-                (this.accessDetail.order_role == 'store_manager' ||
-                    this.accessDetail.order_role == 'full_access');
-            return role;
-        },
         isApplicationLevel() {
             return this.applicationId ? true : false;
         },
