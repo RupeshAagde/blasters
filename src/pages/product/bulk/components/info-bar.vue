@@ -21,13 +21,10 @@ export default {
             switch (this.type) {
                 case 'info':
                     return 'info';
-                    break;
                 case 'error':
                     return 'error_info';
-                    break;
                 default:
                     return 'info';
-                    break;
             }
         }
     },

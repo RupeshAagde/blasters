@@ -790,7 +790,7 @@ export default {
             this.errorsArray = [];
             this.showErrorsTable = false;
             this.file = null;
-            this.isUploading;
+            this.isUploading = false;
             this.isTableLoaded = false;
             this.productsTable = {
                 meta: { fields: [] },
@@ -913,7 +913,7 @@ export default {
                     const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
                     const xlsJSON = XLSX.utils.sheet_to_json(sheet);
-                    if (!xlsJSON | !xlsJSON.length) {
+                    if (!xlsJSON || !xlsJSON.length) {
                         this.$snackbar.global.showError('Empty file');
                         return;
                     }
@@ -958,7 +958,7 @@ export default {
             this.errorsArray = [];
             this.showErrorsTable = false;
             this.file = null;
-            this.isUploading;
+            this.isUploading = false;
             this.isTableLoaded = false;
             this.productsTable = {
                 meta: { fields: [] },

@@ -347,7 +347,7 @@
     }
 
     .header {
-        font-family: 'Inter';
+        font-family: Inter, sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
@@ -553,7 +553,7 @@
                 gap: 24px;
 
                 .header {
-                    font-family: 'Inter';
+                    font-family: Inter, sans-serif;
                     font-style: normal;
                     font-weight: 400;
                     font-size: 12px;
@@ -577,7 +577,6 @@
     display: flex;
     overflow: visible;
     padding: 24px;
-    border-radius: 3px;
     margin-bottom: 16px;
     cursor: pointer;
     transition: box-shadow 0.3s;

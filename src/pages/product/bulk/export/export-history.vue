@@ -368,7 +368,7 @@
                 gap: 24px;
 
                 .header {
-                    font-family: 'Inter';
+                    font-family: Inter, sans-serif;
                     font-style: normal;
                     font-weight: 400;
                     font-size: 12px;
@@ -431,7 +431,7 @@
     }
 
     .header {
-        font-family: 'Inter';
+        font-family: Inter, sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
@@ -455,7 +455,6 @@
     display: flex;
     overflow: visible;
     padding: 24px;
-    border-radius: 3px;
     margin-bottom: 16px;
     cursor: pointer;
     transition: box-shadow 0.3s;
@@ -539,7 +538,6 @@ import moment from 'moment';
 import NoContent from '@/components/common/adm-no-content.vue';
 import admpageheader from '@/components/common/layout/page-header';
 import isEmpty from 'lodash/isEmpty';
-import capitalize from 'lodash/capitalize';
 
 import {
     NitrozenInput,
@@ -640,7 +638,6 @@ export default {
         this.loadHistory(true);
     },
     methods: {
-        capitalize,
         isEmpty,
         closeOverlay: function(index) {
             this.isSidebarTogle = !this.isSidebarTogle;

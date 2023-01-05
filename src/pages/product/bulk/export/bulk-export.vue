@@ -120,7 +120,7 @@
                         class="selection-dropdown"
                         :items="templateCategories"
                         :multiple="true"
-                        :enable_select_all="true"
+                        :enable_select_all="templateCategories.length"
                         :searchable="true"
                         @searchInputChange="setCategoriesList"
                         v-model="selectedCategories"
@@ -359,6 +359,12 @@
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
+}
+::v-deep
+    .nitrozen-dropdown-container
+    .nitrozen-select.nitrozen-dropdown-open
+    .nitrozen-options {
+    z-index: 100;
 }
 </style>
 
