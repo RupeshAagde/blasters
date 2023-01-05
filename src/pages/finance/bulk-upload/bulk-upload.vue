@@ -55,7 +55,7 @@
                 <span class="txt">Upload History</span>
               </div>
             </div>
-            <div class="upload-file">
+            <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
               <div class="select-file" @click="onUploadClick">
                 <input type="file" accept=".csv" ref="fileUpload" @change="onFileUpload" class="fileUploadInput"  />
                 <div class="plus-sign">
@@ -133,7 +133,7 @@
               @click="cancelValidation"
               >Cancel</nitrozen-button>
               <nitrozen-button
-              class="cancel-btn"
+              class="confirm-btn"
               :theme="'secondary'"
               v-flatBtn
               @click="confirmValidation"
@@ -179,7 +179,7 @@
 
           <div class="validate-loader" v-if="startLoader">
             <no-content
-                :icon="'/public/assets/pngs/upload-loader.png'"
+                :icon="'/public/assets/pngs/upload-loader-finance.gif'"
                 :helperText="''"
             />
             <div class="txt">Please hold on while the records are being fetched...</div>
@@ -198,6 +198,7 @@
 </template>
 <script>
 import NoContent from '../../../components/common/adm-no-content.vue';
+import pako from "pako";
 import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
 import MirageAlert from '@/components/orders/alert.vue';
@@ -245,7 +246,7 @@ export default {
       isUploaded:false,
       presignedUrl: '',
       validationCompleted: false,
-      file: '',
+      file: new Blob(),
       parsedData:{
         totalRecords: 0,
         success:0,
@@ -341,10 +342,8 @@ export default {
                         }
             
             const caller = FinanceService.getFileType(params);
-            console.log(caller);
             caller
                 .then(( res ) => {
-                  console.log(res);
                     this.fileType = res.data.items.map((item) => {
                         return {
                             text: item.display_name,
@@ -358,7 +357,6 @@ export default {
                     );
                 })
                 .finally(() => {
-                  console.log("in finally")
                     
                 });
         },
@@ -378,10 +376,13 @@ export default {
         },
 
         onFileUpload(event) {
+  
           this.fileUploading = true;
           this.fileSelected = true;
-            let file = event.target.files[0];
-            this.file = event.target.files[0];        
+
+          let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
+          this.file = file;
+
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`
@@ -426,7 +427,7 @@ export default {
           const params = {
               "data": {
                   "report_id": this.selectedFileType ,
-                  "file_name": this.fileDetails.fileName + ".gz",
+                  "file_name": this.fileDetails.fileName + '.gz',
               }
           }
             const caller = FinanceService.getPreSignedUrl(params);
@@ -438,48 +439,65 @@ export default {
                     for (let prop in res.data.data.fields) {
                       data.append(prop, res.data.data.fields[prop]);
                     }
-                    data.append("file", this.file);                    
-                    this.callPresignedUrl(url,data);
+                    data.append('x-amz-acl', 'public-read');
+
+                    const file = this.file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const fileAsArray = new Uint8Array(reader.result);
+                        const compressedFileArray = pako.gzip(fileAsArray);
+                        const compressedFile = compressedFileArray.buffer;
+                        const dataToUpload = new Blob([compressedFile], { type: file.type });
+                        const fileToUpload = new Blob([dataToUpload], { type: "application/gzip"});
+                        data.append('file', fileToUpload);
+                        this.uploadToS3(url,data);
+                    };
+
+                    reader.readAsArrayBuffer(file);
+
+                    console.log("formdata");
+                    console.log(data);
+                    
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
                         `Failed`
                     );
                 })
-                .finally(() => {
-                    // this.callPreSignedUrl();
-                });
         },
 
-        callPresignedUrl(url,data){
-          const caller = FinanceService.callPresignedUrl(url, data);
+        uploadToS3(url,data){
+          const caller = FinanceService.uploadToS3(url, data);
           caller
                 .then(( res ) => {
-                      
+                      console.log(res,'aaaaaaaaaaaaaaaaa');
                 })
                 .catch((err) => {
+                    this.file = data.get('file');
+                    this.getValidatedFileInfo(this.file);
                     this.$snackbar.global.showError(
                         `Failed`
                     );
                 })
                 .finally(() => {
-                  // this.getValidatedFileInfo(data.get('file'));
+                 
                 });
 
-                this.getValidatedFileInfo(data.get('file'));
+                
         },
 
-        getValidatedFileInfo(){
+        getValidatedFileInfo(file){
     
           let data = new FormData;
-          data.append("url", this.presignedUrl);
-          data.append("report_id", this.selectedFileType);
-          data.append("report_file", this.file);
+          // data.append("url", this.presignedUrl);
           // data.append("source", "S3");
+
+          data.append("report_id", this.selectedFileType);
+          data.append("report_file", file);
           data.append("is_gzip", "true");
           data.append("action", "preprocess");
 
-          const caller = FinanceService.validateFile(data);
+          const caller = FinanceService.uploadUrl(data);
             caller
                 .then(( res ) => {
                   console.log(res);
@@ -491,9 +509,8 @@ export default {
                     );
                 })
                 .finally(() => {
-                    // this.callPreSignedUrl();
+                    
                 });
-
 
                 setTimeout(() => {
                   this.showValidatedScreen();
@@ -514,8 +531,6 @@ export default {
 
           this.tableData.headers = this.validatedData.data.json.headers;
           this.tableData.items = this.validatedData.data.json.rows;
-          // this.validateData.errors = this.validatedData.total;
-
 
         },
 
@@ -534,6 +549,26 @@ export default {
 
         },
         confirmValidation(){
+          let data = new FormData;
+          data.append("report_id", this.selectedFileType);
+          data.append("report_file", this.file);
+          data.append("is_gzip", "true");
+          data.append("action", "process");
+
+          const caller = FinanceService.uploadUrl(data);
+            caller
+                .then(( res ) => {
+                  console.log(res);
+                    
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                  this.file = new Blob();  
+                });
 
         },
      

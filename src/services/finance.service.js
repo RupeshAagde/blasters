@@ -18,17 +18,18 @@ const FinanceService = {
     return ApiService.post(URLS.GET_PRESIGNED_URL(), axiosOption);
  },
 
-    callPresignedUrl(url,data) {
+   uploadToS3(url,data) {
         let axiosOption = Object.assign({}, { data });
-        return ApiService.post(URLS.CALL_PRESIGNED_URL(url), axiosOption);
+        console.log("axiosoptn");
+        console.log(axiosOption);
+
+        return ApiService.post(url, axiosOption);
     },
 
-    validateFile(data) {
+    uploadUrl(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
      },
-
-    //  v1.0/upload-report
 
 };
 
