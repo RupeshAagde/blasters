@@ -15,6 +15,7 @@
             v-for="(filter, index) in seedData"
             :key="index"
             class="component-wrapper"
+            :class="{'hyperlocal-filters': hyperlocalPage}"
         >
           <filter-checkbox-components
               v-if="ANALYTICS_FILTER_TYPES.RADIO_BUTTON === filter.filterType"
@@ -78,7 +79,8 @@ export default {
   },
   props: {
     alignVertically: {type: Boolean, default: false},
-    shouldShowToolTip: {type: Boolean, default: true}
+    shouldShowToolTip: {type: Boolean, default: true},
+    hyperlocalPage: {type: Boolean, default: false}
   },
   mixins: [filterMixin, filterComponentSharedProps, isGlobalLoadingProps],
   methods: {
@@ -123,5 +125,8 @@ export default {
 }
 ::v-deep .questionmark-icon > .nitrozen-inline-svg > svg > path {
   stroke: #dadada;
+}
+.hyperlocal-filters.component-wrapper:nth-child(1) {
+   width: 80% !important;
 }
 </style>

@@ -7,7 +7,7 @@ export const getSLAColorByPercent = (percent) =>{
 export const displaySlaHoursLeft = (sla_estimated_date) => {    
     const current_time = new Date();
     sla_estimated_date = new Date(moment(sla_estimated_date).add(new Date().getTimezoneOffset(), 'minutes').format());
-    return sla_estimated_date < current_time ? `- ${getHoursDifference(current_time - sla_estimated_date)}`:`${getHoursDifference(sla_estimated_date - current_time)}`;
+    return sla_estimated_date < current_time ? ` ${getHoursDifference(current_time - sla_estimated_date)}`:`${getHoursDifference(sla_estimated_date - current_time)}`;
 }
 export const displaySlaPercentage = (sla_estimated_time) => {
     const created_date = new Date(moment(sla_estimated_time).add(new Date().getTimezoneOffset(), 'minutes').format()); // 0% date ms

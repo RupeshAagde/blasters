@@ -1,6 +1,7 @@
 <template>
   <div>
     <graph-filters v-if="item.filters" :disabled="disabled" :filters="item.filters" :is-loading="isLoading"
+                    :hyperlocal-page="hyperlocalPage"
                    :page-name="pageName" @reset-data="resetData" :chart-id="getRandomId(item.id)"></graph-filters>
     <div class="is-loading" v-if="isLoading">
       <adm-shimmer

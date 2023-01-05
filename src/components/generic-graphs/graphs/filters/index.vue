@@ -45,6 +45,7 @@
     </div>
     <topFilters v-if="filters.filterView === FILTER_VIEWS.TABLE_V2_FILTERS" :chart-id="chartId" :filters="filters.data"
                 :is-global-loading="isLoading"
+                :hyperlocal-page="hyperlocalPage"
                 @reset-data="$emit('reset-data')"></topFilters>
   </div>
 </template>
@@ -85,6 +86,7 @@ export default {
     isLoading: {type: Boolean, required: true},
     disabled: {type: Boolean, default: false},
     chartId: {type: [String, Number]},
+    hyperlocalPage: {type: Boolean, default: false}
   },
   computed: {
     getFilterData: {
