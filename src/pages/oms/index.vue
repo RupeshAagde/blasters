@@ -23,8 +23,7 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
-                            >
-                            </nitrozen-dropdown>
+                            />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
                                 <nitrozen-input
@@ -35,8 +34,7 @@
                                     :placeholder="searchPlaceholder"
                                     v-model="search"
                                     @keyup="onSearchInput"
-                                >
-                                </nitrozen-input>
+                                />
                             </div>
                             <date-picker
                                 label="Date Range"
@@ -80,31 +78,17 @@
                                                 <div class="text">
                                                     {{ slotProps.item.text }}
                                                 </div>
-                                                <!-- <div class="subtext">
-                                                    {{ slotProps.item.store_code }}
-                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
                                 </template>
                             </nitrozen-dropdown>
                         </div>
-                        <!-- comment it out after running test cases  -->
-                        <!-- <div class="filter-row">
-                            <nitrozen-button class="row-filter" :theme="'secondary'" @click="resetFilter">Reset Filter</nitrozen-button>
-                        </div> -->
                     </template>
                 </div>
 
                 <div class="tab-row">
                     <div class="left-container" v-if="orderLaneData && orderLaneData.length">
-                        <!-- <nitrozen-tab
-                            ref="tabs"
-                            class="tabs"
-                            :tabItem="orderLaneData.map(item => item.text)"
-                            :active-index="selectedStageTabIndex"
-                            @tab-change="selectStageTab"
-                        ></nitrozen-tab> -->
                         <!-- #IMPORTANT: Do not use nitrozen-tab in the below fashion, this is only for OMS v3 design.  -->
                         <div class="nitrozen-tab-container">
                             <ul class="nitrozen-tab">
@@ -123,14 +107,6 @@
                         </div>
                     </div>
                     <div class="right-container" v-if="orderLaneData && orderLaneData.length">
-                        <!-- 10/10/22 - Commented out as per the latest design of OMS v3 -->
-                        <!-- <div
-                            class="refresh-icon"
-                            @click="searchOrders()"
-                            title="Refresh Orders"
-                        >
-                            <inline-svg src="refresh"></inline-svg>
-                        </div> -->
                         <div class="select-view">
                             <nitrozen-dropdown
                                 class="views"
@@ -158,30 +134,23 @@
                         </div>
                     </div>
                     <div class="right-side" v-if="orderLaneData && orderLaneData.length && selectedStageTab !== 'action_centre'">
-                        <!-- <div class="manifest-button">
-                            <nitrozen-button class="button-manifest" theme="secondary" v-strokeBtn v-if="lane == 'ready_for_dispatch' && !isApplicationLevel" @click="navigateToManifest">Manifest</nitrozen-button> -->
-                            <!-- <nitrozen-button theme="secondary" v-strokeBtn v-if="selectedView == 'bulk' && (lane != 'new' || selectedStageTab != 'return' || selectedStageTab != 'all')" @click="navigateToManifest">Bulk Invoice</nitrozen-button> -->
-                        <!-- </div> -->
-                        <!-- @NOTE: Request Return to be removed temporarily -->
-                        <!-- <div class="return-dropdown-container" v-if="selectedStageTab === 'return' && this.lane === 'return_initiated'">
-                            <nitrozen-button
-                                theme="secondary"
-                                v-stroke-btn
-                                @click="onRequestReturn"
-                            >
-                                Request Return
-                            </nitrozen-button>
-                        </div> -->
-                        <div v-if="this.selectedStageTabIndex != 3" class="advanced-filter" @click="advancedFilterSection()" title="Advanced Filters">
+                        <div 
+                            v-if="this.selectedStageTabIndex != 3" 
+                            class="advanced-filter" 
+                            @click="advancedFilterSection()" 
+                            title="Advanced Filters">
                             <ukt-inline-svg src="filter-oms" />
                             <div class="filter-applied-indicator" v-if="isAdvancedFilterApplied()"/>
                         </div>
-                        <!-- Menu items are commented as per the new OMSv3 design -->
-                        <!-- <div class="menu-item" v-if="!isApplicationLevel">
+                        <div class="menu-item" v-if="!isApplicationLevel">
                             <nitrozen-menu class="actions-menu" mode="vertical">
-                                <nitrozen-menu-item class="navigate-to-export" @click="navigateToExport">Export</nitrozen-menu-item>
+                                <nitrozen-menu-item 
+                                    class="debug-shipment-menu-item" 
+                                    @click="toggleDebugShipment(true)">
+                                    Debug Shipment
+                                </nitrozen-menu-item>
                             </nitrozen-menu>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
@@ -330,6 +299,18 @@
                 </side-drawer>
             </template>
         </transition>
+
+        <transition name="slide">
+            <template v-if="debugShipmentView">
+                <side-drawer
+                    :title="debugOrderId.length ? `Debug Order Info for ${debugOrderId}` : `Debug Shipment`"
+                    @close="toggleDebugShipment(false)"
+                    :css="{width: '50%'}"
+                >
+                    <global-debug-shipment @changeOrderId="changeDebugOrderId"/>
+                </side-drawer>
+            </template>
+        </transition>
     </div>
 </template>
 
@@ -363,6 +344,7 @@ import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import BagsDialog from '@/pages/oms/bags-dialog/index.vue';
 import AdvancedFilter from './advanced-filter-drawer.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
+import GlobalDebugShipment from '@/pages/oms/global-debug-shipment/global-debug-shipment.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -440,7 +422,8 @@ export default {
         BagsDialog,
         NitrozenBadge,
         SideDrawer,
-        NitrozenTabItem
+        NitrozenTabItem,
+        'global-debug-shipment': GlobalDebugShipment
     },
     directives: { flatBtn, strokeBtn, clickOutside },
 
@@ -540,7 +523,10 @@ export default {
             filterTypeMinSize: '',
             allAdvancedFilters: [],
             laneMap: cloneDeep(LANE_MAPPER),
-            enterTapValue: false
+            enterTapValue: false,
+
+            debugShipmentView: false,
+            debugOrderId: ''
         };
     },
     computed: {
@@ -579,7 +565,6 @@ export default {
             this.selectedStore = ls_stores.store_id
         }
         this.populateFromURL();
-        this.getMetricsCount();
     },
     methods: {
         numberToThousandString,
@@ -654,29 +639,6 @@ export default {
                     this.$snackbar.global.showError('Unable to fetch fulfillment centres');
                     console.error("Error in fetching the fulfillment centres:   ", err);
                 })
-        },
-        getMetricsCount(from_date = new Date()){
-            const params = {
-                from_date: moment(from_date).format('DD-MM-YYYY'),
-                to_date: moment().format('DD-MM-YYYY'),
-            }
-            // const get_metrics_promise = this.isApplicationLevel
-            //     ? OrderService.getApplicationMetricsCount(
-            //           params
-            //       )
-            //     : OrderService.getMetricsCount(params);
-
-            const get_metrics_promise = new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(mockMetricsCount);
-                }, 500);
-            })
-
-            return get_metrics_promise.then(({data}) => {
-                this.metricLists = data.items || []
-            }).catch(err => {
-                console.error(err);
-            })
         },
         fetchFilters() {
             const params = {
@@ -1399,32 +1361,6 @@ export default {
                 }
             })
         },
-        navigateToExport(){
-            if(!this.selectedStore){
-                this.$snackbar.global.showWarning('Please select a Fulfilment Center');
-                return
-            }
-            let cleansedQuery = Object.keys(cloneDeep(this.$route.query))
-            .filter(key => {
-                let item = this.$route.query[key];
-                return item !== undefined && item !== null && item.length > 0;
-            }).reduce((finalObj, key) => {
-                let value = this.$route.query[key];
-                finalObj[key] = value;
-                return finalObj;
-            }, {});
-
-            this.$router.push({
-                name: 'company-order-export-list',
-                params: {
-                    type: 0,
-                    storeId: this.selectedStore
-                },
-                query: {
-                    ...cleansedQuery
-                }
-            })
-        },
         applyAdvancedFilters(data_obj, query = {}, isSuperLane = true,overideBlock=true){
             if(overideBlock || !this.blockAdvancedFilterRequest(data_obj.data,this.selectedAdvancedFilters)){
                 let data = data_obj && data_obj.data ? data_obj.data :{};
@@ -1511,6 +1447,24 @@ export default {
             LocalStorageService.removeItem('oms-orders');
         },
 
+        /**
+         * This method will toggle the display of debug shipment drawer.
+         * 
+         * @author: Rushabh Mulraj Shah
+         */
+        toggleDebugShipment(display) {
+            this.debugShipmentView = display;
+        },
+
+        /**
+         * This method will add the selected order ID from the 
+         * debug shipment drawer to the data variable 'debugOrderId'
+         * 
+         * @author: Rushabh Mulraj Shah
+         */
+        changeDebugOrderId(orderId) {
+            this.debugOrderId = orderId;
+        }
     },
 };
 </script>
@@ -2021,6 +1975,10 @@ export default {
         opacity: 0;
         cursor: pointer;
     }
+}
+
+.main-container {
+    margin: 0 !important;
 }
 </style>
 
