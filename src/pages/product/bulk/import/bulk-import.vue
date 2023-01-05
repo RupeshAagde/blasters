@@ -607,7 +607,7 @@ import {
     getCSVValidationErrors,
     getBoolean
 } from '@/helper/csv-parser.helper.js';
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 import { CatalogueSchemaService } from '@/services/bulk-upload.service';
 import GrindorService from '@/services/grindor.service';
 import { saveAs } from 'file-saver';
