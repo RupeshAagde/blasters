@@ -24,7 +24,7 @@
         ></tags-container>
         <div class="main-wrapper">
             <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper">
-              <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"
+              <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"  :hyperlocal-page="true"
                                      :card-index="0"></dashboard-grid-header>
               <graph-loading-controller
                   :item="card"
