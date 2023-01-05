@@ -25,17 +25,19 @@ const getHoursDifference = (milliseconds) =>{
     let hours = minutes / 60;
     seconds = seconds % 60;
     let time_string = '';
+    
     if(hours>=24){
         let days = parseInt(hours / 24);
         hours = parseInt(hours % 24); 
-        time_string = `${days} day${days>1?'s':''} ${hours ? hours+' hour'+(hours>1?'s':''):''}`
+        time_string = `${days} day${days>1?'s':''} ${hours ? hours+' hr'+(hours>1?'s':''):''}`
     }else if(Math.floor(hours)){
         //minutes = seconds >= 30 ? minutes + 1 : minutes;
         minutes = minutes % 60;
-        time_string = `${hours > 1 ? to2Digit(hours) + ' hours':to2Digit(hours) + ' hour' } ${to2Digit(minutes)} minute${minutes>1?'s':''}`
+        time_string = `${to2Digit(hours)}:${to2Digit(minutes)} hr${hours>1?'s':''}`
     }else{
-        time_string = `${to2Digit(minutes)} minute${minutes>1?'s':''}`
+        time_string = `${to2Digit(minutes)} min${minutes>1?'s':''}`
     }
     
     return time_string;
+
 }
