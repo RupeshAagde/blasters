@@ -60,7 +60,7 @@
         <div class="all-dimensions">
             <div>
                 <div class="dimension-title">
-                    Package dimension (L x B x H) (in cm)
+                    Package Measurements (L x B x H) (in cm)
                 </div>
                 <div class="lbh-dimensions-input">
                     <nitrozen-input

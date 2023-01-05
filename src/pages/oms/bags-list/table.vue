@@ -73,7 +73,9 @@
                                             item.products[0].item && 
                                             item.products[0].item.brand && 
                                             item.products[0].item.name">
-                                        <span class="item-name">{{item.products[0].item.brand}} | {{item.products[0].item.name}}</span>
+                                        <span class="item-name tooltip-top" :data-tooltip="item.products[0].item.name">
+                                            {{item.products[0].item.brand}} | {{item.products[0].item.name}}
+                                        </span>
                                         <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">
@@ -1061,9 +1063,9 @@ tr.line-break.promo-mid::after{
     transform: translateX(-50%) translateY(calc(-100% - var(--arrow-size)));
     background-color: #333333;
     color: #F9F9F9;
-    font-size: 12px;
+    font-size: 11px;
     z-index: 2;
-    padding: 10px;
+    padding: 8px 10px;
     border-radius: 0.5rem;
     width: max-content;
     line-height: 15px;

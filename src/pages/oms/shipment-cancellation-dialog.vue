@@ -66,8 +66,8 @@
                     </div>
                     <div class="form-row">
                         <nitrozen-dropdown
-                            label="Cancellation reason"
-                            placeholder="Choose reason"
+                            label="Cancellation Reason"
+                            placeholder="Choose Reason"
                             :items="cancellationReasons"
                             v-model="bag.shipmentCancellationReason.value"
                             @change="

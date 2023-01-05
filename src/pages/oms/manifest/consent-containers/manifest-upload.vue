@@ -14,8 +14,7 @@
         <bulk-action-box>
             <template #header>
                 <p>
-                    <span class="bold-text">3. Upload</span> the updated file
-                    once it is filled with all the required fields. {{ status }}
+                    <span class="bold-text">3. Upload</span> the soft copy of signed manifest
                 </p>
             </template>
             <template #content>
@@ -23,7 +22,7 @@
                     <div class="section-container">
                         <inline-svg :src="'oms-upload'" />
                         <p class="img-help-text">
-                            Drag and drop .pdf here (max 2MB)
+                            Drag and drop PDF file here (max. file size: 2 MB)
                         </p>
                     </div>
                     <p class="section-divider">OR</p>

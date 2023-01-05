@@ -45,14 +45,14 @@
                                 class="clear-button"
                                 :theme="'secondary'"
                                 @click="resetFilters()"
-                                >Clear all</nitrozen-button
+                                >Clear All</nitrozen-button
                             >
                             <nitrozen-button
                                 class="apply-filter-button"
                                 v-flatBtn
                                 :theme="'secondary'"
                                 @click="applyFilters()"
-                                >Apply filter</nitrozen-button
+                                >Apply Filter</nitrozen-button
                             >
                         </div>
                     </template>

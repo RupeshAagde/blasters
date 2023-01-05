@@ -78,7 +78,7 @@ const SHIPMENT_TABLE_COLUMNS = [
     },
     {
         value: 'actions',
-        text: 'Actions',
+        text: 'Action',
     },
     {
         value: '',

@@ -2,7 +2,7 @@
      <bulk-action-box>
         <template #header>
             <p>
-                <span class="bold-text">1. Select</span> Filters & <span class="bold-text">Download</span> the file from the Download button.
+                <span class="bold-text">1. Use</span> the given filters below and click the download button to get a CSV/Excel file containing all the orders
             </p>
         </template>
         <template #content>
@@ -11,7 +11,7 @@
                     class="dropdown"
                     :searchable="true"
                     :items="filteredStores"
-                    :label="'Fulfillment Centre'"
+                    :label="'Fulfilment Centre'"
                     @searchInputChange="searchStore($event.text)"
                     v-model="selectedFulfillmentCentre"
                 />

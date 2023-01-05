@@ -633,7 +633,7 @@ const BASE_MENU_ITEMS = [
     },
     {
         id: 13,
-        text: "Mark Return Delivered",
+        text: "Mark Return As Delivered",
         value: "mark_return_delivered",
         forceDisplay: false
     },
@@ -905,7 +905,7 @@ export default {
         isMenuItemValid(item){
             if(item.value == "create_invoice_s3") {
                 this.statusForCreateS3 = ['placed', 'bag_confirmed', 'bag_not_confirmed', 'store_reassigned', 'dp_not_assigned'];
-                return this.statusForCreateS3.includes(this.activeShipmentDetails.status.status) && this.activeShipmentDetails.actionable;
+                return (!this.statusForCreateS3.includes(this.activeShipmentDetails.status.status)) && (this.activeShipmentDetails.actionable);
             }
             if(item.value == "generate_e_invoice") {
                 return  this.activeShipmentDetails &&

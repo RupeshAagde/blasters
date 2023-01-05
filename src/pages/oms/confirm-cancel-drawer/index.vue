@@ -56,7 +56,7 @@
 
             <div class="confirmation-container" v-if="!cancel && !showSerialNumberForm">
                 <p class="confirmation-container-title">
-                    Confirmed Items
+                    Confirmed Item(s)
                 </p>
                 
                 <confirmation-table 
@@ -115,7 +115,7 @@ import { cancellationReasons } from '@/pages/oms/fixtures/cancellation-reasons.j
 const TABLE_COLUMNS = [
     {
         value: 'items_details',
-        text: 'Items Details',
+        text: 'Item Details',
         sort: false
     },
     {
@@ -169,7 +169,7 @@ export default {
                 if(this.cancel) {
                     return `Cancellation Summary`;
                 } else if(!this.cancel && rejectedItems) {
-                    return `Partial Confirmation Summary`;
+                    return `Summary of Partial Confirmation`;
                 } else if(!this.cancel && !rejectedItems) {
                     return `Confirmation Summary`;
                 }

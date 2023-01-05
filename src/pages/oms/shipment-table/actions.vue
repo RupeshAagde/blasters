@@ -230,7 +230,8 @@
         </template> -->
 
         <!-- Return Initiated -->
-        <template
+         <!-- Return Initiated  Commented due to ticket FPCO-8696 -->
+        <!-- <template 
             v-if="
                 isReturnInitiated &&
                 !isClosed &&
@@ -248,7 +249,7 @@
                     Initiate Return
                 </nitrozen-button>
             </div>
-        </template>
+        </template> -->
 
         <!-- Return Accepted -->
         <!-- Uncomment the below code and delete the code and replace it with Accept Return. Also, delete the code below it. -->

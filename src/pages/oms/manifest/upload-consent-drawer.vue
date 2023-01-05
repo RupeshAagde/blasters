@@ -11,7 +11,7 @@
         </div>
         <div class="main-body">
             <p class="upload-note">
-                Upload the signed manifest <span>(Optional)</span>
+                Follow these steps to upload the signed manifest <span>(Optional)</span>
             </p>
             <div class="content">
                 <manifest-download-box
@@ -34,14 +34,14 @@
                 ref="intro"
                 class="plain"
                 type="plain"
-                v-show="isUploading"
+                v-show="isUploadingOrDownloading"
             >
                 <div class="alert-content">
                     <span class="text-icon">
                         <span class="space">
                             <ukt-inline-svg src="bulls-eye" />
                         </span>
-                        File upload is in progress..
+                        Wait! Manifest file is being {{ fileState }}
                     </span>
                 </div>
             </mirage-alert>
@@ -53,8 +53,7 @@
                     <span class="checked-box">
                         <nitrozen-checkbox  v-model="declarationChecked"> </nitrozen-checkbox
                     ></span>
-                    I confirm that the manifest provided by the me is
-                    genuine/signed and I am liable for the dispatch.
+                    I declare that the signed manifest provided by me is genuine and I am liable for dispatch
                 </p>
             </div>
             <nitrozen-button
@@ -143,12 +142,13 @@ export default {
             mediaUpdates: {},
             downloadUrl: '',
             file: null,
-            isUploading: false,
+            isUploadingOrDownloading: false,
             uploadURL: {},
             declarationChecked: true,
             polling: '',
             pdfGenerationInProgress: false,
-            retries: 0
+            retries: 0,
+            fileState: ''
         };
     },
     mounted() {
@@ -166,6 +166,9 @@ export default {
             /*@author Sameer shaikh
              *  This is emission from child component
              */
+            this.isUploadingOrDownloading = true;
+            this.fileState = 'downloaded';
+
             return GrindorService.getPublicUrl({
                 expiry: 300,
                 urls: [this.downloadUrl],
@@ -173,27 +176,29 @@ export default {
                 .then((res) => {
                     let signedurl = res.data.urls[0].signed_url;
                     if (signedurl !== '') {
-                fetch(
-                    signedurl
-                )
-                    .then((res) => res.blob())
-                    .then((blob) => {
-                        let link = document.createElement('a');
-                        let url = window.URL.createObjectURL(blob);
-                        link.href = url;
-                        link.download = `${this.manifestId}.pdf`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }).catch((err)=> {
-                        this.$snackbar.global.showError('Failed to download consent');
-                        console.error('Failed to download consent', err);
-                    })
-            }
-
+                        fetch(
+                            signedurl
+                        )
+                            .then((res) => res.blob())
+                            .then((blob) => {
+                                let link = document.createElement('a');
+                                let url = window.URL.createObjectURL(blob);
+                                link.href = url;
+                                link.download = `${this.manifestId}.pdf`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                this.isUploadingOrDownloading = false;
+                            }).catch((err)=> {
+                                this.$snackbar.global.showError('Failed to download consent');
+                                console.error('Failed to download consent', err);
+                                this.isUploadingOrDownloading = false;
+                            })
+                    }
                 })
                 .catch((err) => {
                     console.log('Error in downloading the manifest', err);
+                    this.isUploadingOrDownloading = false;
                 });
         },
 
@@ -289,7 +294,8 @@ export default {
         uploadToGrindor(namespace = 'misc', company_id = null) {
             if (!namespace) return;
             if (this.file) {
-                this.isUploading = true;
+                this.isUploadingOrDownloading = true;
+                this.fileState = 'uploaded';
                 let body = {
                     file_name: this.file.name,
                     content_type: this.file.type,
@@ -346,10 +352,11 @@ export default {
                         console.log('Error while uploading consent', err);
                     })
                     .finally(() => {
-                        this.isUploading = false;
+                        this.isUploadingOrDownloading = false;
+                        this.fileState = 'uploaded';
                         console.log(this.manifestStatus)
-                        if(this.manifestStatus == 'complete'){
-                            if(this.entryPoint == 'home'){
+                        if(this.manifestStatus == 'complete') {
+                        if(this.entryPoint == 'home') {
                             this.$emit('dispatch')
                              }else {
                                 this.$router.push({ name: 'company-order-manifest' });

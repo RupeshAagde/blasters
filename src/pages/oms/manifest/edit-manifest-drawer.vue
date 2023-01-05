@@ -4,12 +4,12 @@
             <div class="alert-content">
                 <ukt-inline-svg src="blue-info" />
                 <span class="content-text">
-                    Select shipments from the list to add this to the manifest
+                    Select shipment(s) from the list to add this to the manifest
                 </span>
             </div>
             <div class="action-section">
                 <span class="action-text" @click="hideAlert">
-                    Ok, Got It
+                    Ok, got It
                 </span>
             </div>
         </div>

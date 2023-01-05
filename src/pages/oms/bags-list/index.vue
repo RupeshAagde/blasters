@@ -14,7 +14,7 @@
 const BAGS_LIST_COLUMNS = [
     {
         value: 'items_details',
-        text: 'Items Details',
+        text: 'Item Details',
         sort: false
     },
     {

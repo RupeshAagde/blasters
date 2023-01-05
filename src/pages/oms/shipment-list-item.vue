@@ -41,7 +41,7 @@
                             {{ shipData.shipment_id }}
                         </span>
                         <div class="placed-on common-struct">
-                            {{ convertToOMSDate(shipData.shipment_created_at) }}
+                            Placed: {{ convertToOMSDate(shipData.shipment_created_at) }}
                         </div>
                     </div>
                 </td>
@@ -164,11 +164,10 @@
                         class="sla-status" 
                         v-if="
                             shipData.shipment_status && 
-                            shipData.shipment_status && 
                             shipData.shipment_status.meta && 
                             shipData.shipment_status.meta.estimated_sla_time
                         " 
-                        :title="slaTitle(shipData)">
+                        :title="displaySlaTooltip(shipData.shipment_status.meta.estimated_sla_time)">
                         <sla-indicator 
                             :sla_percent="
                                 displaySlaPercentage(
@@ -313,19 +312,6 @@ export default {
         //     }
         //     return sum;
         // },
-
-        slaTitle(shipData) {
-            if(
-                shipData &&
-                isEmpty(shipData) && 
-                shipData.shipment_status && 
-                shipData.shipment_status && 
-                shipData.shipment_status.meta &&
-                shipData.shipment_status.meta.estimated_sla_time
-            ) {
-                return shipData.shipment_status.meta.estimated_sla_time;
-            } else return '';
-        },
 
         /**
          * Handle navigation to details page

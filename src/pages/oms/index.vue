@@ -53,7 +53,7 @@
                                 @input="dateRangeChange"
                             />
                             <nitrozen-dropdown
-                                label="Fulfillment Center"
+                                label="Fulfilment Centre"
                                 class="filter-dropdown filter-input-sm filter-item"
                                 :searchable="true"
                                 :items="filteredStores"
@@ -1376,7 +1376,7 @@ export default {
         // },
         navigateToManifest(){
             if(!this.selectedStore){
-                this.$snackbar.global.showWarning('Please select a Fulfillment Center');
+                this.$snackbar.global.showWarning('Please select a Fulfilment Center');
                 return
             }
             let cleansedQuery = Object.keys(cloneDeep(this.$route.query))
@@ -1401,7 +1401,7 @@ export default {
         },
         navigateToExport(){
             if(!this.selectedStore){
-                this.$snackbar.global.showWarning('Please select a Fulfillment Center');
+                this.$snackbar.global.showWarning('Please select a Fulfilment Center');
                 return
             }
             let cleansedQuery = Object.keys(cloneDeep(this.$route.query))

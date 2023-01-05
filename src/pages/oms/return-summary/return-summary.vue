@@ -14,7 +14,7 @@
                     Shipment ID: {{ shipmentData.shipment_id }}
                 </p>
                 <div class="return-summary-title">
-                    Please Check QC
+                    Verify and update the quality check (QC) for item below
                 </div>
             </div>
             <div class="return-summary-content">
@@ -23,7 +23,7 @@
 
                     <div class="right-section">
                         <p class="info">
-                            By default, the items are marked as received in good condition. Enter the reasons of the poor quality items.
+                            By default, the item is marked as Good QC when received. Enter the reason(s) if item has poor quality.
                         </p>
 
                         <div class="qc-tags-container" v-if="item.qc">

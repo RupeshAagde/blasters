@@ -21,7 +21,7 @@
                 <div class="upload-via-img section-container" @drop.prevent.stop="onFileUpload" @dragenter.prevent @dragover.prevent>
                     <!-- <img src="/public/admin/assets/admin/pngs/upload.png" class="upload-icon" /> -->
                     <inline-svg :src="'oms-upload'" class="upload-icon" />
-                    <p class="img-help-text">Drag and drop .csv, .xls here (max 2MB)</p>
+                    <p class="img-help-text">Drag and drop your file here (max. file size: 2 MB)</p>
                 </div>
                 <p class="section-divider">OR</p>
                 <div class="upload-via-btn section-container">

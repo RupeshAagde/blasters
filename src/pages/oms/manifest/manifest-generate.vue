@@ -49,14 +49,14 @@
                             <span class="space">
                                 <ukt-inline-svg src="blue-info" />
                             </span>
-                            Select delivery partner to generate manifest
+                            Select a delivery partner (DP) from the dropdown below to generate manifest
                         </span>
                         <span
                             class="blue-button"
                             ref="generic-intro"
                             @click="hideAlert"
                         >
-                            Ok, Got it</span
+                            Ok, got it</span
                         >
                     </div>
                 </mirage-alert>
@@ -88,7 +88,7 @@
                             />
 
                             <nitrozen-dropdown
-                                label="Channel (Optional)"
+                                label="Channels (Optional)"
                                 class="filter-dropdown filter-input-sm"
                                 :searchable="true"
                                 :items="channelOptions"
@@ -288,8 +288,7 @@
                 <div class="empty-screen" v-if="isIntialState">
                     <inline-svg :src="'empty-orders'" />
                     <p>
-                        To add shipments, select channel, DP & slot form
-                        dropdown
+                        To add shipment, select delivery partner, channels, and pickup slot
                     </p>
                 </div>
                 <transition name="slide">
@@ -575,7 +574,7 @@ export default {
                     }
                     if (action == 'save') {
                         this.$router.push({ name: 'company-order-manifest' });
-                        this.$snackbar.global.showSuccess(`The manifest has been successfully generated`);
+                        this.$snackbar.global.showSuccess(`Manifest generated successfully`);
                     } else if (action == 'process') {
                         OrderService.fetchManifestDetails({manifest_id:this.manifestId}).then((res)=> {
                             if(res && res.data && res.data.manifest_details && res.data.manifest_details[0]) {

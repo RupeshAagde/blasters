@@ -98,11 +98,12 @@
             <div class="customer-note info-container" v-if="orderData.order.meta.customer_note">
                 <accordion :title="'Customer Note'" :initialState="true">
                     <div class="content">
-                        <nitrozen-input
+                        <!-- <nitrozen-input
                             :type="'textarea'"
                             v-model="checkForNote"
                             :disabled="true"
-                        ></nitrozen-input>
+                        ></nitrozen-input> -->
+                        <textarea name="note" id="note" class="customer-note-input" v-model="checkForNote" readonly></textarea>
                     </div>
                 </accordion>
             </div>
@@ -110,6 +111,7 @@
             <!-- need currency symbol in payment value -->
             <div class="payment-method info-container">
                 <accordion :title="'Payment Method'" :initialState="true">
+                    <div class="info-title" v-if="isPrepaid">Prepaid:</div>
                     <div class="content">
                         <span
                             v-for="(value, key) in orderData.order.payment_methods"
@@ -276,7 +278,14 @@ export default {
                 return !(['in', 'india'].includes(this.detailsData.delivery_details.country.toLowerCase()))
             }
             return false
+        },
+        isPrepaid(){
+            if(this.orderData && this.orderData.order && this.orderData.order.payment_methods){
+                return !(Object.keys(this.orderData.order.payment_methods).includes('COD'))
+            }
+            return false
         }
+
     },
     methods: {
         isEmpty,
@@ -390,14 +399,14 @@ export default {
             padding: 8px 0;
             font-weight: 300;
             line-height: 22px;
-            ::v-deep .nitrozen-form-input {
-                .nitrozen-input-grp {
-                    .n-input:disabled {
-                        background: #ffffff;
-                        color: #4d4d4e;
-                    }
-                }
-            }
+            // ::v-deep .nitrozen-form-input {
+            //     .nitrozen-input-grp {
+            //         .n-input:disabled {
+            //             background: #ffffff;
+            //             color: #4d4d4e;
+            //         }
+            //     }
+            // }
             .title-background {
                 color: #9b9b9b;
             }
@@ -470,6 +479,10 @@ export default {
     // }
 
     .payment-method {
+        .info-title{
+            padding-top: 10px;
+        }
+        
         .content {
             display: flex;
             align-items: center;
@@ -510,7 +523,31 @@ export default {
     line-height: 22px;
     padding: 8px 0;
     .title-background {
-                color: #9b9b9b;
-            }
+        color: #9b9b9b;
+    }
+}
+
+.customer-note {
+    .content {
+        .customer-note-input {
+            height: 96px;
+            line-height: 21px;
+            padding: 6px 12px 0px 12px;
+            color: #4D4D4E;
+            border: 1px solid #E0E0E0;
+            border-radius: 3px;
+            width: 100%;
+            background: #ffffff;
+            font-family: Inter,sans-serif;
+            position: relative;
+            outline: none;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            font-size: 14px;
+            -webkit-appearance: none;
+            cursor: default;
+            resize: vertical;
+        }
+    }
 }
 </style>

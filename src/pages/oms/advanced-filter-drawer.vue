@@ -60,8 +60,8 @@
         </div>
      
         <div class="footer-box">
-                <nitrozen-button class="clear-button"  :theme="'secondary'"  @click="resetFilters($event)">Clear all</nitrozen-button>
-                <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()">Apply filter</nitrozen-button>
+                <nitrozen-button class="clear-button"  :theme="'secondary'"  @click="resetFilters($event)">Clear All</nitrozen-button>
+                <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()">Apply Filter</nitrozen-button>
        </div>
    </div>
 </template>

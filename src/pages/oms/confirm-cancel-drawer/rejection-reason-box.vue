@@ -1,10 +1,10 @@
 <template>
     <div class="rejection-reason-container">
         <div class="remaining-alert alert" v-if="remainingQuantity > 0">
-            {{ remainingQuantity }}/{{ total_quantity }} quantity remaining for adding rejection reason
+            Rejection reason required for {{ remainingQuantity }} out of {{ total_quantity }} qty
         </div>
         <div class="resolved-alert alert" v-else-if="remainingQuantity === 0 && allReasonsAdded">
-            Rejection reasons added for all quantity
+            Rejection reason added for all the quantities
         </div>
         <div class="alert irregular-qty" v-if="irregularQtyAdded">
             You have added more items for rejection than available items.
@@ -12,7 +12,7 @@
 
         <div class="headers">
             <span>Quantity</span>
-            <span>Rejection reason</span>
+            <span>Rejection Reason</span>
         </div>
 
         <div 
@@ -51,7 +51,7 @@
                 @click="addInputs"
                 :disabled="(remainingQuantity <= 0 && allReasonsAdded) || (items.length === total_quantity) || full_cancellation"
             >
-                + Add quantity
+                + Add Quantity
             </nitrozen-button>
         </div>
     </div>

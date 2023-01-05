@@ -2,13 +2,13 @@
     <bulk-action-box>
         <template #header>
             <p>
-                <span class="bold-text">2. Open</span> and follow these steps.
+                <span class="bold-text">2. Open</span> PDF files and follow these steps.
             </p>
         </template>
         <template #content>
             <ol start="1" class="instructions-list">
-                <li>Sign the Manifest from the delivery person</li>
-                <li>Cross signature from the Store manager</li>
+                <li>Take signature of delivery person on manifest</li>
+                <li>Get the manifest cross-signed by store manager</li>
             </ol>
         </template>
     </bulk-action-box>

@@ -85,12 +85,17 @@
                         shipment.meta.einvoice_info.invoice
                     "
                 > -->
-                <div v-if="shipment.einvoice_info && shipment.einvoice_info.invoice">
+                <div v-if="shipment.meta.einvoice_info && shipment.meta.einvoice_info.invoice">
                     <div class="header-title">E-Invoice</div>
                     <br />
-                    <div class="fail-einvoice" v-if="shipment.einvoice_info.invoice.message[0] &&
-                        shipment.einvoice_info.invoice.message[0].ErrorCode &&
-                            shipment.einvoice_info.invoice.message[0].ErrorMessage">
+                    <div 
+                        class="fail-einvoice" 
+                        v-if="
+                            shipment.meta.einvoice_info.invoice.message &&
+                            shipment.meta.einvoice_info.invoice.message[0] &&
+                            shipment.meta.einvoice_info.invoice.message[0].ErrorCode &&
+                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage
+                        ">
                         <div class="details-data">Not generated</div>
                         <nitrozen-tooltip
                             position="top"
@@ -102,7 +107,7 @@
                                     Error Code: 
                                 </span>
                                 <span>
-                                    {{shipment.einvoice_info.invoice.message[0].ErrorCode }}
+                                    {{shipment.meta.einvoice_info.invoice.message[0].ErrorCode }}
                                 </span>
                             </p>
                             <p>
@@ -110,15 +115,15 @@
                                     Error: 
                                 </span>
                                 <span>
-                                    {{ shipment.einvoice_info.invoice.message[0].ErrorMessage }}
+                                    {{ shipment.meta.einvoice_info.invoice.message[0].ErrorMessage }}
                                 </span>
                             </p>
                         </span>
                         </nitrozen-tooltip>
                     </div>
-                    <div class="success-einvoice" v-if="shipment.einvoice_info.invoice.Irn">
-                        <div class="details-data">{{ shipment.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
-                        <div @click="copyToClipboard($event, shipment.einvoice_info.invoice.Irn )">
+                    <div class="success-einvoice" v-if="shipment.meta.einvoice_info.invoice.Irn">
+                        <div class="details-data">{{ shipment.meta.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
+                        <div @click="copyToClipboard($event, shipment.meta.einvoice_info.invoice.Irn )">
                             <inline-svg class="svg-copy" src="copy"></inline-svg>
                         </div>
                         <nitrozen-tooltip
@@ -128,7 +133,7 @@
                             <p class="einvoice-head">Successfully generated E-Invoice</p>
                             <p class="einvoice-details">
                                 <span class="einvoice-head">IRN: </span>
-                                <span> {{ shipment.einvoice_info.invoice.Irn }}</span>
+                                <span> {{ shipment.meta.einvoice_info.invoice.Irn }}</span>
                             </p>
                         </span>
                         </nitrozen-tooltip>
@@ -493,7 +498,7 @@ import PICKUP_SLOT_PAYLOAD from './../mocks/pickup-slot-payload.json';
 
 const TABS_OPTIONS = [
     {
-        text: 'Fulfillment Details',
+        text: 'Fulfilment Details',
         value: 'fulfillment',
     },
     {
@@ -590,7 +595,7 @@ export default {
                 !isEmpty(this.shipment) &&
                 !isEmpty(this.shipment.delivery_slot)
             ) {
-                let day = moment(this.shipment.pickup_slot.date).format(
+                let day = moment(this.shipment.delivery_slot.upper_bound).format(
                     'DD MMM, YYYY'
                 );
                 // let fromTime = moment(this.shipment.pickup_slot.lower_bound).format('LT');

@@ -1,27 +1,29 @@
 <template>
     <div class="reassign-store-head">
-        <div class="title">
-            <span>Following stores are available for the reassignment for Bag ID: {{ bagId }}</span>
-        </div>
-        <div class="inputs-dropdowns">
-            <!-- <nitrozen-input
-                :showSearchIcon="true"
-                class="search-input"
-                type="search"
-                :placeholder="`Search by Shipment ID`"
-                v-model="search"
-                @keyup="onSearchInput"
-            ></nitrozen-input> -->
+        <template v-if="stores && stores.length">
+            <div class="title">
+                <span>Following stores are available for the reassignment for Bag ID: {{ bagId }}</span>
+            </div>
+            <div class="inputs-dropdowns">
+                <!-- <nitrozen-input
+                    :showSearchIcon="true"
+                    class="search-input"
+                    type="search"
+                    :placeholder="`Search by Shipment ID`"
+                    v-model="search"
+                    @keyup="onSearchInput"
+                ></nitrozen-input> -->
 
-            <nitrozen-dropdown
-                class="dropdown-reason"
-                label="Store Reassign Reason"
-                @change="reassignStores"
-                :items="reasons"
-                v-model="selectedReason"
-            >
-            </nitrozen-dropdown>
-        </div>
+                <nitrozen-dropdown
+                    class="dropdown-reason"
+                    label="Store Reassign Reason"
+                    @change="reassignStores"
+                    :items="reasons"
+                    v-model="selectedReason"
+                >
+                </nitrozen-dropdown>
+            </div>
+        </template>
         
         <div class="labels">
             <div v-for="(store, index) in stores"
@@ -49,10 +51,9 @@
                     </div>
                 </div>
             </div>
-            <div class="no-content">
+            <div class="no-content" v-if="!stores.length">
                 <adm-no-content
-                    helperText="No store found"
-                    v-if="!stores.length"
+                    helperText="No store/reasons found"
                 ></adm-no-content>
             </div>
         </div>

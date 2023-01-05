@@ -13,7 +13,7 @@
                     </nitrozen-button>
                 </div> -->
                 <div class="issue-list-header">
-                    <div class="ticket-id">Ticket #</div>
+                    <div class="ticket-id">Ticket#</div>
                     <div class="title">Title</div>
                     <div class="status">Status</div>
                     <div class="category">Category</div>

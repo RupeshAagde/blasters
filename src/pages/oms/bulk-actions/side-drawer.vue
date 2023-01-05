@@ -140,6 +140,7 @@ export default {
             // height: auto;
             padding: 24px;
             overflow-y: scroll;
+            box-sizing: border-box;
         }
 
         .sidedrawer-footer {

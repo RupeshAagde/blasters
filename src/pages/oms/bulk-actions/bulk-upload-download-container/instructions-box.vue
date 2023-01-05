@@ -7,9 +7,9 @@
         </template>
         <template #content>
             <ol start="1" class="instructions-list">
-                <li>Keep the shipment(s) in the file you want to process.</li>
-                <li>Delete the complete shipment(s) that you do not intend to process right away.</li>
-                <li>Remove an item(s) from the file if you want to cancel a specific item(s) for a specific shipment.</li>
+                <li>Keep the row(s) of the items you wish to process</li>
+                <li>Remove the row(s) of the items if you wish to cancel them</li>
+                <li>Delete the entire row of shipment(s) you do not intend to process</li>
             </ol>
         </template>
     </bulk-action-box>

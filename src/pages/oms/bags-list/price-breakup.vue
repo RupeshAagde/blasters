@@ -33,18 +33,18 @@
                     shipment && 
                     (shipment.coupon && shipment.coupon.payable_category !== 'fynd') || 
                     (prices.coupon_value > 0 && !shipment.coupon && shipment.order && shipment.order.ordering_channel == 'Ecomm')">
-                <div class="styling-price-details" v-if="prices.promotion_effective_discount !== undefined && prices.promotion_effective_discount !== 0">
-                    <span class="style-price-title">Promotion Discount: </span>
-                    <span class="style-price">
-                        {{prices.promotion_effective_discount > 0 ? '-' : ''}} ₹{{ prices.promotion_effective_discount.toFixed(2) }}
-                    </span>
-                </div>
                 <div class="styling-price-details" v-if="prices.coupon_value !== undefined && prices.coupon_value !== 0 && couponCode">
                     <span class="style-price-title">Coupon Value ({{ couponCode.toUpperCase() }}): </span>
                     <span class="style-price">
                         {{prices.coupon_value > 0 ? '-' : ''}} ₹{{ prices.coupon_value.toFixed(2) }}
                     </span>
                 </div>
+            </div>
+            <div class="styling-price-details" v-if="prices.promotion_effective_discount !== undefined && prices.promotion_effective_discount !== 0">
+                <span class="style-price-title">Promotion Discount: </span>
+                <span class="style-price">
+                    {{prices.promotion_effective_discount > 0 ? '-' : ''}} ₹{{ prices.promotion_effective_discount.toFixed(2) }}
+                </span>
             </div>
             <!-- <div class="styling-price-details" v-if="prices.coupon_value !== undefined && +prices.coupon_value !== 0">
                 <span class="style-price-title">Coupon Code: </span>

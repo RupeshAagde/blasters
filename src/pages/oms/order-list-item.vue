@@ -5,14 +5,14 @@
                <th class="channel">Channel</th>
                 <th class="order-ids">Order ID</th>
                 <th class="price">Price</th>
-                <th class="num-ship">Shipments</th>
+                <th class="num-ship">Shipment Count</th>
                 <th class="status">Tags</th>
-                <th class="items">Items </th>
+                <th class="items">Item Count</th>
             </tr>
             <tr class="line-break"
                 v-for="(orderData, index) in data"
                 :key="'order-'+orderData.order_id"
-                @click="navigate(orderData.order_id, index)"
+                @click="navigate(orderData.order_id, index, orderData.shipments[0].shipment_id)"
             >
                <td class="application-holder">
                    <div>
@@ -38,7 +38,7 @@
                         
                     </span>
                     <div class="placed-on common-struct">
-                        {{ convertToOMSDate(orderData.order_created_time ) }}
+                        Placed: {{ convertToOMSDate(orderData.order_created_time ) }}
                     </div>
                 </td>
                 <td>
@@ -195,7 +195,7 @@ export default {
             return data.slice(1).map(item =>item.text).join(', ');
         },
 
-        navigate(orderId, index) {
+        navigate(orderId, index, shipmentId) {
             let cleansedQuery = Object.keys(cloneDeep(this.$route.query))
             .filter(key => {
                 let item = this.$route.query[key];
@@ -223,6 +223,8 @@ export default {
                     orderId: orderId
                 },
                 query: {
+                    shipmentId: shipmentId,
+                    shipmentPriority: shipmentId,
                     ...cleansedQuery,
                     ...navigationObj
                 }

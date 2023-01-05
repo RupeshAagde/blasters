@@ -1,8 +1,8 @@
 <template>
     <div class="bulk-upload-download-container">
         <div class="title-container">
-            <p class="title">Bulk Upload</p>
-            <p class="subtitle">Follow the steps to bulk upload</p>
+            <p class="title">Bulk Order Processing</p>
+            <p class="subtitle">Follow these steps to process multiple orders in bulk</p>
         </div>
         <div class="content" v-if="globalFilters[0].options">
             <download-action-box 

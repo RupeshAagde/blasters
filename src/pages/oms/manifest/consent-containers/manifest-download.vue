@@ -2,8 +2,7 @@
     <bulk-action-box>
         <template #header>
             <p>
-                <span class="bold-text">1. Download </span> the PDF file of the
-                products from the download button.
+                <span class="bold-text">1. Click </span> the download button to get a PDF file of the manifest
             </p>
         </template>
         <template #content>
@@ -17,7 +16,7 @@
                         class="upload-icon"
                     />
                     <p class="img-help-text">
-                       Download .pdf File
+                       Download PDF File
                     </p>
                 </div>
 

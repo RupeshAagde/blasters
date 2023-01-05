@@ -3,7 +3,7 @@
         <div class="inside-date-picker">
             <div v-if="searchText" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
             <nitrozen-input
-                placeholder="Search by title"
+                placeholder="Search by Title"
                 v-model="searchText"
                 type="search"
                 :showSearchIcon="true"

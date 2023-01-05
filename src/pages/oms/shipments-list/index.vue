@@ -79,11 +79,11 @@ export default {
         if(!isEmpty(this.data)) {
             let alerts = {};
             let alertsMap = {
-                placed:  { message: 'Adjust reject quantity to cancel, and please verify all items before confirming.', icon: 'alerts-blue-icon' },
-                bag_confirmed: { message: 'Enter invoice number and click on update to process the shipment.',  icon: 'alerts-blue-icon' },
-                bag_invoiced: { message: 'Wait, we are assigning a delivery partner for your shipment.',  icon: 'alerts-blue-icon' },
+                placed:  { message: 'Adjust the ‘Cancel Qty’ to cancel item(s), and verify before you confirm', icon: 'alerts-blue-icon' },
+                bag_confirmed: { message: 'Enter invoice number and click the update button to process the shipment',  icon: 'alerts-blue-icon' },
+                bag_invoiced: { message: 'Wait! We are assigning a delivery partner (DP) for your shipment',  icon: 'alerts-blue-icon' },
                 ready_for_dp_assignment: { message: 'Wait, we are assigning a delivery partner for your shipment.',  icon: 'blue-circle-icon' },
-                dp_assigned: { message: 'Download invoice, label then pack your shipment.',  icon: 'alerts-blue-icon' },
+                dp_assigned: { message: 'Please download invoice and label to pack your shipment',  icon: 'alerts-blue-icon' },
                 bag_packed: {message: 'Proceed further by dispatching shipments from the Manifest section', icon: 'alerts-blue-icon' }
             }
             for(let shipment of this.data.shipments) {

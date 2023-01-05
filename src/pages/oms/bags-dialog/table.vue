@@ -31,7 +31,9 @@
                 <td class="item-details-container">
                     <div class="item-cell" v-if="item.item">
                         <img v-if="item.item.image" :src="item.item.image" class="item-logo" />
-                        <span v-if="item.item.image.name" style="line-height: 17px">{{ item.item.name }}</span>
+                        <span v-if="item.item.name && item.item.brand" style="line-height: 17px">
+                            {{ item.item.brand }} | {{ item.item.name }}
+                        </span>
                     </div>
                 </td>
                 <td class="size" v-if="item.article && item.article.size">

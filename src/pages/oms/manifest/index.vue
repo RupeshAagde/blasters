@@ -16,7 +16,7 @@
                             :showSearchIcon="true"
                             class="search filter-input-lg"
                             type="search"
-                            :placeholder="'Search by Manifest ID,Shipment ID and Delivery Partner Name'"
+                            :placeholder="'Search by delivery partner, manifest ID, or shipment ID'"
                             v-model="searchText"
                             @keyup.enter="onSearch"
                         ></nitrozen-input>
@@ -38,7 +38,7 @@
 
                         <nitrozen-dropdown
                             v-if="!fetchFulFillmentStoresFailure"
-                            label="Fulfillment Center"
+                            label="Fulfilment Center"
                             class="filter-dropdown filter-input-sm stores-dropdown"
                             :searchable="true"
                             :items="filteredStores"
@@ -73,7 +73,7 @@
                         selectedStageTabIndex === 1 ||
                         !isEmpty(advancedFilters))">
                     <p class="manifest-header-text" v-if="manifestData.length">
-                        List of Manifest
+                        List of Manifests
                     </p>
 
                     <div class="manifest-header-action-buttons">
@@ -105,9 +105,9 @@
 
                 <div class="alert" v-if="isDocDownloading">
                     <inline-svg :src="'oms-loader'" class="loading-icon" />
-                    <span class="alert-text"
-                        >File download is in progress..</span
-                    >
+                    <span class="alert-text">
+                        Wait! Manifest file is being uploaded
+                    </span>
                 </div>
 
                 <div class="content-container">

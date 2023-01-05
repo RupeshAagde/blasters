@@ -5,8 +5,8 @@
             <tr class="table-header-row">
                 <th>Delivery Partner</th>
                 <th>Manifest ID</th>
-                <th>Fulfillment Centre</th>
-                <th>Channel</th>
+                <th>Fulfilment Centre</th>
+                <th>Channels</th>
                 <th>Shipments</th>
                 <th v-if="tabIndex == 0">Action</th>
                 <th v-if="tabIndex == 1">&nbsp;&nbsp;</th>
