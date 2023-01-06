@@ -59,7 +59,8 @@
                                         <div class="form-title">
                                             Permission
                                         </div>
-                                        <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions" :multiple="true"></nitrozen-dropdown>
+                                        <!-- <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions" :multiple="true"></nitrozen-dropdown> -->
+                                        <nitrozen-dropdown v-if="permissions.length !==0 " @change="test" :items="permissions" v-model="menuSettings.permissions[0]" :multiple="false"></nitrozen-dropdown>
                                     </div>
 
                                     <div class="form-item">
