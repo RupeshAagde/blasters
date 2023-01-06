@@ -50,19 +50,9 @@
                         </div>
                     </td>
                     <td class="actions" v-if="!shipmentProcessing">
-                        <shipment-actions
-                            class="actions-shipment"
-                            v-if="!(shipmentProcessing && activeShipmentDetails.shipment_id === activeId) && activeShipmentDetails.order && activeShipmentDetails.order.ordering_channel && activeShipmentDetails.shipment_id === activeId"
-                            :shipment="activeShipmentDetails"
-                            :ordering_channel="activeShipmentDetails && activeShipmentDetails.order.ordering_channel"
-                            :locked="activeShipmentDetails && activeShipmentDetails.lock_status"
-                            @updateStatus="onStatusUpdate"
-                            :rejectUpdate="rejectUpdate"
-                            :readOnlyMode="readOnlyMode"
-                            @statusUpdated="$emit('statusUpdated')"
-                        ></shipment-actions>
+                        <admin-actions @change="performMenuAction" />
                     </td>
-                    <td>
+                    <!-- <td>
                         <div tabindex="0" @blur="handleMenuBlur"> 
                             <nitrozen-menu class="advanced-menu" mode="vertical" ref="menu" v-if="advancedMenuItems && advancedMenuItems.length" @click="closeMenu()">
                                 <nitrozen-menu-item 
@@ -81,7 +71,7 @@
                                 </nitrozen-menu-item>
                             </nitrozen-menu>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
                 <tr
                     class="details-row"
@@ -100,12 +90,8 @@
             </template>
         </table>
 
-        <!-- <template v-if="items.length > 1">
-            <div class="other-shipments">Other Shipments</div>
-        </template> -->
-
         <table class="mirage-table list-table" v-if="items.length > 0">
-            <template v-for="(item, index) in otherShipments">
+            <template v-for="item in otherShipments">
                 <tr 
                     :key="item.shipment_id" 
                     class="line-break" 
@@ -139,7 +125,7 @@
                         </div>
                     </td>
                     <td class="actions" v-if="!shipmentProcessing">
-                        <shipment-actions
+                        <!-- <shipment-actions
                             class="action-s"
                             v-if="!(shipmentProcessing && item.shipment_id === activeId) && item.order && item.order.ordering_channel && item.shipment_id === activeId"
                             :shipment="item"
@@ -148,15 +134,25 @@
                             @updateStatus="onStatusUpdate"
                             :rejectUpdate="rejectUpdate"
                             :readOnlyMode="readOnlyMode"
-                        ></shipment-actions>
+                        ></shipment-actions> -->
+
+                        <admin-actions 
+                            v-if="
+                                !(shipmentProcessing && item.shipment_id === activeId) && 
+                                item.order && 
+                                item.order.ordering_channel && 
+                                item.shipment_id === activeId
+                            "
+                            @change="performMenuAction"
+                        />
                     </td>
-                    <td>
+                    <!-- <td>
                         <div tabindex="0" @blur="() => $refs.menus[index].closeMenu()">
                             <nitrozen-menu class="actions-menu" mode="vertical" ref="menus">
                                 <nitrozen-menu-item @click="openHelpPage" >Help</nitrozen-menu-item>
                             </nitrozen-menu>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
                 <tr
                     class="details-row"
@@ -547,6 +543,7 @@ import ReassginStoreDrawer from './reassign-store-drawer.vue';
 import TagEmployeeDrawer from './tag-employee-drawer.vue';
 import BankDetailsDrawer from './bank-details-drawer.vue';
 import ChangeAddressDrawer from './change-address-drawer.vue';
+import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
 
 /* Helper imports */
 import { convertSnakeCaseToString, copyToClipboard } from '@/helper/utils.js';
@@ -554,96 +551,6 @@ import { convertSnakeCaseToString, copyToClipboard } from '@/helper/utils.js';
 /* Service imports */
 import OrderService from '@/services/orders.service';
 
-/* Constants */
-const BASE_MENU_ITEMS = [
-    {
-        id:1,
-        text:"Create Invoice (S3)",
-        value:"create_invoice_s3",
-        icon:"create-invoice",
-        forceDisplay: false
-    },
-    // {
-    //     id:2,
-    //     text:"Call",
-    //     value:"call",
-    //     icon:"call-icon",
-    //     forceDisplay: false
-    // },
-    {
-        id:3,
-        text:"SMS",
-        value:"sms",
-        icon:"sms-logo",
-        forceDisplay: false
-    },
-    // {
-    //     id:4,
-    //     text:"Debug Logistics",
-    //     value:"debug_logistics",
-    //     icon:"debug-logistics"
-    // },
-    // {
-    //     id:5,
-    //     text:"Debug Shipment",
-    //     value:"debug_shipment",
-    //     icon:"debug-shipment"
-    // },
-    // {
-    //     id:6,
-    //     text:"Tag Employee",
-    //     value:"tag_employee",
-    //     icon:"tag-employee"
-    // },
-    // {
-    //     id:7,
-    //     text:"Change Bag State",
-    //     value:"change_bag_state",
-    //     icon:"flag"
-    // },
-    // {
-    //     id:8,
-    //     text:"Bank Details",
-    //     value:"bank_details",
-    //     icon:"bank"
-    // },
-    {
-        id:9,
-        text:"Reassign Store",
-        value:"reassign_store",
-        icon:"store-assign",
-        forceDisplay: false
-    },
-    // {
-    //     id:10,
-    //     text:"Initiate NDR",
-    //     value:"initiate_ndr",
-    //     icon:"ndr"
-    // },
-    // {
-    //     id:11,
-    //     text:"Change Address",
-    //     value:"change_address",
-    // },
-    {
-        id: 12,
-        text: "Generate E-invoice ",
-        value: "generate_e_invoice",
-        forceDisplay: false
-    },
-    {
-        id: 13,
-        text: "Mark Return As Delivered",
-        value: "mark_return_delivered",
-        forceDisplay: false
-    },
-    {
-        id: 14,
-        text: "Help",
-        value: "help",
-        forceDisplay: true
-    }
-];
 
 
 export default {
@@ -678,7 +585,8 @@ export default {
         ReassginStoreDrawer,
         TagEmployeeDrawer,
         BankDetailsDrawer,
-        ChangeAddressDrawer
+        ChangeAddressDrawer,
+        AdminActions
     },
     directives: {
         flatBtn,
@@ -715,11 +623,6 @@ export default {
             isSubmitStore: true,
             statusForCreateS3: [],
         }
-    },
-    computed:{
-        advancedMenuItems(){
-            return BASE_MENU_ITEMS.filter(mi=> this.isMenuItemValid(mi));
-        },
     },
     mounted(){
         this.items.forEach(ele => {
@@ -897,9 +800,13 @@ export default {
             let data = {shipment_ids: [this.activeId]}
             this.$snackbar.global.showInfo('Your S3 invoice is getting generated');
             OrderService.createS3Invoice(data).then((res)=>{
-                this.$snackbar.global.showSuccess('S3 invoice generated!')
+                this.$snackbar.global.showSuccess('S3 invoice generated!');
             }).catch((err)=> {
-                console.error("Failed to create S3 invoice ", err)
+                console.error("Failed to create S3 invoice ", err);
+                this.$snackbar.global.showError(
+                    'We are unable to generate the S3 invoice for your shipment',
+                    3000
+                );
             })
         },
         isMenuItemValid(item){
@@ -998,7 +905,11 @@ export default {
                     this.fetchStores();
                 }
             }).catch((err)=> {
-                console.error("Failed to get reasons for re-assign store ", err)
+                console.error("Failed to get reasons for re-assign store ", err);
+                this.$snackbar.global.showError(
+                    'We are unable to fetch reasons for reassigning the store. Kindly try again after sometime.',
+                    3000
+                );
             })
         },
         fetchStores() {
@@ -1018,7 +929,11 @@ export default {
                     this.isReassignStore = true;
                 }
             }).catch((err)=> {
-                console.error("Failed to get stores for re-assign store ", err)
+                console.error("Failed to get stores for re-assign store ", err);
+                this.$snackbar.global.showError(
+                    'We are unable to fetch stores. Kindly try again after sometime.',
+                    3000
+                );
             })
         },
         isSubmitReassingStore(e) {
@@ -1040,7 +955,11 @@ export default {
                     this.$snackbar.global.showSuccess('E-invoice generated successfully')
                 }
             }).catch((err)=> {
-                console.error("Failed to generate E-invoice ", err)
+                console.error("Failed to generate E-invoice ", err);
+                this.$snackbar.global.showError(
+                    'We failed to generate the e-invoice for your order. Kindly try again after sometime.',
+                    3000
+                );
             })
         }
     }

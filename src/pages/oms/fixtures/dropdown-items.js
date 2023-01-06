@@ -57,3 +57,76 @@ export const returnNextStates = [
         value: 'initiate_return'
     }
 ];
+
+export const adminActionDropdownItems = [
+    {
+        id: 1,
+        text: 'Create Invoice (S3)',
+        value: 'create_invoice_s3',
+        icon: 'create-invoice',
+        forceDisplay: false
+    },
+    {
+        id: 2,
+        text: 'Call',
+        value: 'call',
+        icon: 'call-icon',
+        forceDisplay: false
+    },
+    {
+        id: 3,
+        text: 'SMS',
+        value: 'sms',
+        icon: 'sms-logo',
+        forceDisplay: false
+    },
+    {
+        id: 4,
+        text: 'Debug Logistics',
+        value: 'debug_logistics',
+        icon: 'debug-logistics',
+        forceDisplay: false
+    },
+    {
+        id: 5,
+        text: 'Debug Shipment',
+        value: 'debug_shipment',
+        icon: 'debug-shipment',
+        forceDisplay: false
+    },
+    {
+        id: 6,
+        text: 'Change Bag State',
+        value: 'change_bag_state',
+        icon: 'change-bag-state',
+        forceDisplay: false
+    },
+    {
+        id: 7,
+        text: 'Bank Details',
+        value: 'bank_details',
+        icon: 'bank',
+        forceDisplay: false
+    },
+    {
+        id: 8,
+        text: 'Reassign Store',
+        value: 'reassign_store',
+        icon: 'store-assign',
+        forceDisplay: false
+    },
+    {
+        id: 9,
+        text: 'Initiate NDR',
+        value: 'initiate_ndr',
+        icon: 'ndr',
+        forceDisplay: false
+    },
+    {
+        id: 10,
+        text: 'Change Address',
+        value: 'change_address',
+        icon: 'address',
+        forceDisplay: false
+    }
+];
