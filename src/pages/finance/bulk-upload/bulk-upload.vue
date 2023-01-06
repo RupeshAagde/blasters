@@ -439,7 +439,7 @@ export default {
                     for (let prop in res.data.data.fields) {
                       data.append(prop, res.data.data.fields[prop]);
                     }
-                    data.append('x-amz-acl', 'public-read');
+                    // data.append('x-amz-acl', 'public-read');
 
                     const file = this.file;
                     const reader = new FileReader();
@@ -451,12 +451,10 @@ export default {
                         const fileToUpload = new Blob([dataToUpload], { type: "application/gzip"});
                         data.append('file', fileToUpload);
                         this.uploadToS3(url,data);
+                        // this.getValidatedFileInfo(fileToUpload);
                     };
 
                     reader.readAsArrayBuffer(file);
-
-                    console.log("formdata");
-                    console.log(data);
                     
                 })
                 .catch((err) => {
@@ -488,16 +486,20 @@ export default {
 
         getValidatedFileInfo(file){
     
-          let data = new FormData;
-          // data.append("url", this.presignedUrl);
-          // data.append("source", "S3");
+          let dataUpload = new FormData;
+          dataUpload.append("url", this.presignedUrl);
+          dataUpload.append("source", "S3");
 
-          data.append("report_id", this.selectedFileType);
-          data.append("report_file", file);
-          data.append("is_gzip", "true");
-          data.append("action", "preprocess");
+          dataUpload.append("report_id", this.selectedFileType);
+          // dataUpload.append("report_file", file);
+          dataUpload.append("is_gzip", "true");
+          dataUpload.append("action", "preprocess");
 
-          const caller = FinanceService.uploadUrl(data);
+          for(var pair of dataUpload.entries()){
+                console.log(pair);
+          }
+
+          const caller = FinanceService.uploadUrl(dataUpload);
             caller
                 .then(( res ) => {
                   console.log(res);

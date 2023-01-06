@@ -18,6 +18,15 @@ export const getCommonHeaderOptions = () => {
     };
 };
 
+export const getFormDataHeaders = () => {
+    let defaultHeader = isBrowser ? {} : {};
+    return {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    };
+};
+
 export const setAuthTokenHeader = (token) => {
     headers[env.AUTH_HEADER_NAME] = token;
 };

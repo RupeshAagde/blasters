@@ -1,12 +1,13 @@
 import ApiService from './api.service';
 import URLS from './domain.service';
 import ADMIN_URLS from './admin-url.service';
-import {getCompInfo, getCommonHeaderOptions } from '@/services/utils.service';
+import {getFormDataHeaders } from '@/services/utils.service';
 
 const FinanceService = {
    getFileType(data) {
-    console.log(data);
+   // console.log(data);
       let axiosOption = Object.assign({}, { data });
+      console.log(axiosOption,'get file type calllllllllled');
       return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
    },
    getDownloadFormat(data) {
@@ -23,11 +24,15 @@ const FinanceService = {
         console.log("axiosoptn");
         console.log(axiosOption);
 
-        return ApiService.post(url, axiosOption);
+        return ApiService.post(url, axiosOption, {
+         withCredentials: true,
+        });
+
     },
 
     uploadUrl(data) {
-        let axiosOption = Object.assign({}, { data });
+        let axiosOption = Object.assign(getFormDataHeaders(), { data } );
+        console.log(axiosOption);
         return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
      },
 
