@@ -46,6 +46,7 @@
     <topFilters v-if="filters.filterView === FILTER_VIEWS.TABLE_V2_FILTERS" :chart-id="chartId" :filters="filters.data"
                 :is-global-loading="isLoading"
                 :hyperlocal-page="hyperlocalPage"
+                @on-error="handleError"
                 @reset-data="$emit('reset-data')"></topFilters>
   </div>
 </template>
@@ -72,6 +73,7 @@ export default {
     FilterCard,
     "nitrozen-dropdown": NitrozenDropdown
   },
+  emits: ['on-error'],
   data: () => ({
     FILTER_VIEWS: FILTER_VIEW,
     draggableClassNameConstant: "",
@@ -120,6 +122,9 @@ export default {
     getDisabledVal() {
       // console.log('flag: ', this.flag);
       return this.flag;
+    },
+    handleError(value) {
+      this.$emit('on-error',value)
     },
     onFilterClicked({index, chartUrl, navLink}) {
       // console.log("charturl: ", chartUrl);

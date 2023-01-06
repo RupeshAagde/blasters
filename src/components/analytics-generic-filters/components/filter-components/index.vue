@@ -1,4 +1,5 @@
 <template>
+
     <div
         :class="{ 'align-vertically': alignVertically }"
         class="rest-of-filters"
@@ -40,6 +41,7 @@
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              @on-error="handleError"
               @reset-data="$emit('reset-data')"
               :is-global-loading="isGlobalLoading"
           ></filter-search-component>
@@ -57,7 +59,9 @@
               @reset-data="$emit('reset-data')"
               :is-global-loading="isGlobalLoading"
           ></filter-dropdown-component>
+          
         </div>
+        
     </div>
 </template>
 
@@ -77,6 +81,7 @@ export default {
     FilterCheckboxComponents,
     "nitrozen-tooltip": NitrozenTooltip
   },
+  emits: ['on-error'],
   props: {
     alignVertically: {type: Boolean, default: false},
     shouldShowToolTip: {type: Boolean, default: true},
@@ -88,6 +93,9 @@ export default {
       this.seedData.forEach((filter) => {
         this.$refs[filter.name][0].clearSearchSlugs();
       });
+    },
+    handleError(value) {
+      this.$emit('on-error',value)
     }
   },
   computed: {

@@ -2,7 +2,11 @@
   <div>
     <graph-filters v-if="item.filters" :disabled="disabled" :filters="item.filters" :is-loading="isLoading"
                     :hyperlocal-page="hyperlocalPage"
+                    @on-error="handleError"
                    :page-name="pageName" @reset-data="resetData" :chart-id="getRandomId(item.id)"></graph-filters>
+      <div v-if="errorMessage" class="error-container">
+      <nitrozen-error >{{ errorMessage }}</nitrozen-error>
+    </div>
     <div class="is-loading" v-if="isLoading">
       <adm-shimmer
           :count="2"
@@ -39,15 +43,21 @@ import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.m
 import {DashboardCommonMixins} from "../mixins/dashboard-common.mixins";
 import {graphLoadingCondition} from "../utils/graph-loading.utils";
 import admshimmer from "@/components/common/shimmer.vue";
-import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue'
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue';
+import {NitrozenError} from "@gofynd/nitrozen-vue";
 export default {
   name: "graph-loading-controller",
   mixins: [loadingMixins, DashboardCommonMixins],
+  data() {
+    return {
+      errorMessage: null
+    }
+  },  
   provide() {
     return {CHART_ID: this.item.id}
   },
   components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,
-    SlaIndicator
+    SlaIndicator, NitrozenError
   },
   props: {
     item: {type: Object, default: null, required: true},
@@ -60,6 +70,11 @@ export default {
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}
   },
   methods: {
+    handleError(value) {
+    
+     this.errorMessage = value;
+     console.log(this.errorMessage)
+    },
     loadData() {
       this.$nextTick(function () {
 
@@ -117,5 +132,7 @@ export default {
 ::v-deep .card-avatar {
   display: none;
 }
-
+.error-container {
+  padding-left: 0.5rem;
+}
 </style>

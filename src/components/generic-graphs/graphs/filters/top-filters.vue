@@ -4,6 +4,7 @@
                          :chart-id="chartId"
                          :hyperlocal-page="hyperlocalPage"
                          :is-global-loading="isGlobalLoading" class="components-specific-styles"
+                         @on-error="handleError"
                          @reset-data="$emit('reset-data')"></filter-components>
     </div>
 </template>
@@ -66,10 +67,16 @@ export default {
   provide() {
     return {}
   },
+  emits: ['on-error'],
   props: {
     filters: {type: Array | Object, required: true},
     chartId: {type: String},
     hyperlocalPage: {type: Boolean, default: false}
+  },
+  methods: {
+    handleError(value) {
+      this.$emit('on-error',value)
+    }
   },
   inject: ['pageName'],
   data() {
