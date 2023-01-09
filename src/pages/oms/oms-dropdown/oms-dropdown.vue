@@ -220,8 +220,8 @@ export default {
                 color: #2E31BE;
 
                 ::v-deep svg {
-                    fill: #2E31BE;
-                    stroke: #2E31BE;
+                    fill: #2E31BE !important;
+                    stroke: #2E31BE !important;
                 }
             }
 
@@ -229,6 +229,10 @@ export default {
                 height: 15px;
                 width: 15px;
                 margin-right: 10px;
+
+                ::v-deep svg path {
+                    fill: #979797 !important;
+                }
             }
         }
     }
