@@ -8,6 +8,7 @@ const analyticsTablePropsMixins = {
         rows: {
             type: Array,
         },
+        hyperlocalPage: { type: Boolean, default: false},
         chartId: {type: [String, Number]},
         showPagination: {type: Boolean, default: false, required: false},
         analyticPage: {type: String, default: ANALYTICS_PAGES.DASHBOARD},

@@ -58,7 +58,7 @@ export default {
         },
         icon: {
             type: String,
-            default: '/public/assets/admin/pngs/empty_state.png'
+            default: "/public/assets/admin/pngs/empty_state.png"
         },
         btnText: {
             type: String,

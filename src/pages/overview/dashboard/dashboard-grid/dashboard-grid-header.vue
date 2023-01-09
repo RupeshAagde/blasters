@@ -12,6 +12,7 @@
           v-if="card.heading"
           icon="help"
           class="questionmark-icon"
+          :class="{'hyperlocal-tooltip':hyperlocalPage}"
           :position="toolTipPosition"
       >
         <p>
@@ -80,6 +81,7 @@ export default {
         return {navLink: {}, heading: ""};
       }
     },
+    hyperlocalPage: {type: Boolean, default: false},
     isHeaderCard: {type: Boolean, default: true},
     cardIndex: {type: Number, required: true},
   },
@@ -142,5 +144,8 @@ export default {
 
 ::v-deep .nitrozen-tooltip-bottom {
   /*left: -200%;*/
+}
+::v-deep .hyperlocal-tooltip > .nitrozen-tooltiptext > p{
+  font-weight: 400;
 }
 </style>
