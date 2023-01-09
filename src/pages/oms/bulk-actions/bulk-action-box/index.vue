@@ -26,7 +26,7 @@ export default {
 
 .bulk-action-box {
     background: rgba(231, 238, 255, 0.3);
-    height: 400px;
+    height: 450px;
     font-family: 'Inter', sans-serif;
     padding: 16px;
     font-size: 12px;

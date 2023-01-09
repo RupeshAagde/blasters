@@ -10,10 +10,20 @@
                 <nitrozen-dropdown
                     class="dropdown"
                     :searchable="true"
+                    :items="companiesList"
+                    :label="'Company'"
+                    @change="onCompanyChange"
+                    @searchInputChange="searchCompany($event.text)"
+                    v-model="selectedCompany"
+                />
+                <nitrozen-dropdown
+                    class="dropdown"
+                    :searchable="true"
                     :items="filteredStores"
                     :label="'Fulfilment Centre'"
                     @searchInputChange="searchStore($event.text)"
                     v-model="selectedFulfillmentCentre"
+                    :disabled="selectedCompany.length === 0"
                 />
                 <nitrozen-dropdown
                     :class="selectedStatus ? 'dropdown' : 'dropdown-first'"
@@ -61,13 +71,13 @@ import BulkActionBox from '@/pages/oms/bulk-actions/bulk-action-box/index.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
+import CompanyAdminService from '@/services/company-admin.service.js';
 
 /* Mock imports */
-import {
-    fulfillmentCentres,
-    statuses,
-    fileTypes
-} from '@/pages/oms/fixtures/dropdown-items.js';
+import { fileTypes } from '@/pages/oms/fixtures/dropdown-items.js';
+
+/* Helper imports */
+import { debounce } from '@/helper/utils';
 
 export default {
     name: 'download-action-box',
@@ -88,14 +98,17 @@ export default {
     },
     data() {
         return {
+            companiesError: false,
+            companiesList: [],
             disableDownload: false,
             fileTypes: [],
             filteredStores: [],
+            fulfillingStoreFilter: [],
+            selectedCompany: '',
             selectedFileType: null,
             selectedFulfillmentCentre: null,
             selectedStatus: null,
             statuses: [],
-            fulfillingStoreFilter: [],
         }
     },
     directives: {
@@ -108,35 +121,49 @@ export default {
     },
     mounted() {
         this.disableDownload = this.disabled;
-        this.getFulfillmentCenter();
+        this.fetchCompanies();
         this.statuses = this.globalFilters[0].options;
-        // this.fulfillmentCentres = cloneDeep(fulfillmentCentres);
-        // this.statuses = cloneDeep(statuses);
         this.fileTypes = cloneDeep(fileTypes);
     },
     methods: {
-        searchStore(text) {
-            text = text ? text.toLowerCase() : text;
-            if (text) {
-                this.filteredStores = this.fulfillingStoreFilter.filter((s) =>
-                    s.text.toLowerCase().includes(text) ||
-                    s.uid && s.uid.toString().toLowerCase().includes(text) ||
-                    s.store_code && s.store_code.toString().toLowerCase().includes(text)
-                        ? true
-                        : false
+        /**
+         * Function to fetch the companies.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        fetchCompanies(params = {}) {
+            this.companiesListLoading = true;
+
+            return CompanyAdminService.getCompanyList(params)
+            .then(response => {
+                if(response.data && response.data.items) {
+                    this.companiesList = cloneDeep(response.data.items).map(item => {
+                        return {
+                            ...item,
+                            text: item.name,
+                            value: item.uid
+                        }
+                    });
+                    this.companiesError = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error in fetching list of companies:   ", error);
+                this.$snackbar.global.showError(
+                    'We are unable to fetch the list of companies',
+                    3000
                 );
-            } else {
-                this.selectedFulfillmentCentre = '';
-                this.filteredStores = this.fulfillingStoreFilter;
-            }
+                this.companiesError = true;
+            });
         },
+
         getFulfillmentCenter() {
             let centerOfFulfillment = [];
             let params = {
                 page_no: 1,
                 page_size: 500
             };
-            OrderService.getFulfillmentCenterV2(params)
+            OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
                 .then(({ data }) => {
                     centerOfFulfillment = data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
                   if(
@@ -164,12 +191,56 @@ export default {
         },
 
         /**
+         * Method to handle user selection of company from the companies
+         * dropdown. As of January 9, 2023, the selected company will be
+         * used for fetching a list of fulfillment centres for that
+         * company.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        onCompanyChange() {
+            this.getFulfillmentCenter();
+        },
+
+        /**
          * Function to emit download when the user clicks on download
          *
          * @author: Rushabh Mulraj Shah
          */
         onDownloadBtnClick() {
             this.$emit('download', [this.selectedFulfillmentCentre, this.selectedStatus, this.selectedFileType]);
+        },
+
+        /**
+         * Method to handle searching of companies by the user.
+         * If the length of the text is 0, selected company will be deleted.
+         * Else, the fetchCompanies function will be called with the typed
+         * text.
+         * This method uses 'debounce' to ensure that the function waits for
+         * 300 ms before getting the text and hitting the API.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {String} text The text entered by the user.
+         */
+        searchCompany: debounce(function(text) {
+            if(text.length === 0) this.selectedCompany = '';
+            this.fetchCompanies({q: text});
+        }, 300),
+
+        searchStore(text) {
+            text = text ? text.toLowerCase() : text;
+            if (text) {
+                this.filteredStores = this.fulfillingStoreFilter.filter((s) =>
+                    s.text.toLowerCase().includes(text) ||
+                    s.uid && s.uid.toString().toLowerCase().includes(text) ||
+                    s.store_code && s.store_code.toString().toLowerCase().includes(text)
+                        ? true
+                        : false
+                );
+            } else {
+                this.selectedFulfillmentCentre = '';
+                this.filteredStores = this.fulfillingStoreFilter;
+            }
         }
     }
 }

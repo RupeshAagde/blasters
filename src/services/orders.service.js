@@ -470,9 +470,9 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_BULK_INVOICE_REPORT(), axiosOption);
     },
-    getFulfillmentCenterV2(params) {
+    getFulfillmentCenterV2(params, companyId) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
-        return ApiService.get(URLS.GET_FULFILLMENT_CENTER(), axiosOption);
+        return ApiService.get(URLS.GET_FULFILLMENT_CENTER(companyId), axiosOption);
     },
     getReasons(shipmentId, bagId, state) {
         let axiosOptions = Object.assign(

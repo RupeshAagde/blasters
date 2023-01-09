@@ -50,6 +50,22 @@
                                 :useNitrozenTheme="true"
                                 @input="dateRangeChange"
                             />
+                            
+
+                            <div class="companies-dropdown" v-if="!companiesError">
+                                <div class="companies-dropdown-list">
+                                    <nitrozen-dropdown 
+                                        label="Company"
+                                        class="filter-dropdown filter-item filter-input-sm"
+                                        :searchable="true"
+                                        :items="companiesList"
+                                        v-model="selectedCompany"
+                                        @change="onCompanyChange"
+                                        @searchInputChange="searchCompany($event.text)"
+                                    />
+                                </div>
+                            </div>
+
                             <nitrozen-dropdown
                                 label="Fulfilment Centre"
                                 class="filter-dropdown filter-input-sm filter-item"
@@ -60,6 +76,7 @@
                                 @searchInputChange="
                                     searchStore($event.text)
                                 "
+                                :disabled="selectedCompany.length === 0"
                             >
                                 <template slot="option" slot-scope="slotProps">
                                     <div
@@ -352,10 +369,11 @@ import {
     LocalStorageService,
     STORAGE_KEYS,
 } from '@/services/localstorage.service';
+import CompanyAdminService from '@/services/company-admin.service.js';
 
 /* Helper imports */
 import { dateRangeShortcuts } from '@/helper/datetime.util';
-import { detectFPApp, numberToThousandString } from '@/helper/utils';
+import { detectFPApp, debounce, numberToThousandString } from '@/helper/utils';
 import { goBack } from '@/helper/actions';
 import { returnNextStates } from '@/pages/oms/fixtures/dropdown-items.js';
 
@@ -364,9 +382,6 @@ import {
     GET_USER_INFO,
     GET_USER_PERMISSIONS
 } from '@/store/getters.type';
-
-/* Mock imports */
-import mockMetricsCount from '@/pages/oms/mocks/metrics-count.json';
 
 const PAGINATION = {
     limit: 10,
@@ -433,7 +448,7 @@ export default {
      * In that case, we shall delete the list of orders stored in
      * the local storage.
      *
-     * @author: Rushabh Mulraj Shah
+     * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
      */
     beforeRouteLeave(to, from, next) {
         if(to.name !== 'company-order-details-v2') {
@@ -526,7 +541,12 @@ export default {
             enterTapValue: false,
 
             debugShipmentView: false,
-            debugOrderId: ''
+            debugOrderId: '',
+
+            companiesList: [],
+            companiesError: false,
+            companiesListLoading: false,
+            selectedCompany: ''
         };
     },
     computed: {
@@ -565,6 +585,7 @@ export default {
             this.selectedStore = ls_stores.store_id
         }
         this.populateFromURL();
+        this.fetchCompanies();
     },
     methods: {
         numberToThousandString,
@@ -580,8 +601,6 @@ export default {
                 this.fetchShipments();
             }
             this.fetchFilters();
-            this.getFulfillmentCenter();
-
         },
         onRequestReturn() {
             this.showReturnStateDrawer = true;
@@ -621,7 +640,8 @@ export default {
                 page_no: 1,
                 page_size: 500
             };
-            OrderService.getFulfillmentCenterV2(params)
+
+            OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
                 .then(({ data }) => {
                     centerOfFulfillment = data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
                     if(
@@ -1307,7 +1327,6 @@ export default {
                 this.fetchShipments();
             }
             this.fetchFilters();
-            this.getFulfillmentCenter();
         },
         // closeMoreFilters() {
         //     this.viewMoreFilters = false;
@@ -1464,7 +1483,69 @@ export default {
          */
         changeDebugOrderId(orderId) {
             this.debugOrderId = orderId;
-        }
+        },
+
+        /**
+         * Function to fetch the companies.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        fetchCompanies(params = {}) {
+            this.companiesListLoading = true;
+
+            return CompanyAdminService.getCompanyList(params)
+            .then(response => {
+                if(response.data && response.data.items) {
+                    this.companiesList = cloneDeep(response.data.items).map(item => {
+                        return {
+                            ...item,
+                            text: item.name,
+                            value: item.uid
+                        }
+                    });
+                    this.companiesError = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error in fetching list of companies:   ", error);
+                this.$snackbar.global.showError(
+                    'We are unable to fetch the list of companies',
+                    3000
+                );
+                this.companiesError = true;
+            })
+            .finally(() => {
+                this.companiesListLoading = false;
+            })
+        },
+
+        /**
+         * Method to handle user selection of company from the companies
+         * dropdown. As of January 9, 2023, the selected company will be
+         * used for fetching a list of fulfillment centres for that
+         * company.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        onCompanyChange() {
+            this.getFulfillmentCenter();
+        },
+
+        /**
+         * Method to handle searching of companies by the user.
+         * If the length of the text is 0, selected company will be deleted.
+         * Else, the fetchCompanies function will be called with the typed
+         * text.
+         * This method uses 'debounce' to ensure that the function waits for
+         * 300 ms before getting the text and hitting the API.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {String} text The text entered by the user.
+         */
+        searchCompany: debounce(function(text) {
+            if(text.length === 0) this.selectedCompany = '';
+            this.fetchCompanies({q: text});
+        }, 300)
     },
 };
 </script>
@@ -1653,9 +1734,8 @@ export default {
         }
 
         .filter-row {
-            // display: flex;
             display: grid;
-            grid-template-columns: 0.8fr 2fr 1fr 1fr;
+            grid-template-columns: 0.8fr 1fr 1fr 1fr 1fr;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
@@ -1979,6 +2059,18 @@ export default {
 
 .main-container {
     margin: 0 !important;
+}
+
+.loading-section-label {
+    color: #9b9b9b;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 21px;
+    padding-bottom: 8px;
+}
+
+.dropdown-loader {
+    height: 40px;
 }
 </style>
 

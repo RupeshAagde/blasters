@@ -37,7 +37,17 @@
                         />
 
                         <nitrozen-dropdown
-                            v-if="!fetchFulFillmentStoresFailure"
+                            label="Company"
+                            class="filter-dropdown filter-input-sm company-dropdown"
+                            :searchable="true"
+                            :items="companiesList"
+                            v-model="selectedCompany"
+                            @change="onCompanyChange"
+                            @searchInputChange="searchCompany($event.text)"
+                        />
+
+                        <nitrozen-dropdown
+                            :disabled="selectedCompany.length === 0"
                             label="Fulfilment Center"
                             class="filter-dropdown filter-input-sm stores-dropdown"
                             :searchable="true"
@@ -235,6 +245,7 @@ import UploadConsentDrawer from '@/pages/oms/manifest/upload-consent-drawer.vue'
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
+import CompanyAdminService from '@/services/company-admin.service.js';
 
 /* Helper imports */
 import { dateRangeShortcuts } from '@/helper/datetime.util';
@@ -283,6 +294,8 @@ export default {
             activeStatus: true,
             advancedFilterView: false,
             advancedFilters: {},
+            companiesError: false,
+            companiesList: [],
             dateRangeShortcuts: [...dateRangeShortcuts],
             errorText: undefined,
             fetchInProgress: false,
@@ -315,6 +328,7 @@ export default {
                 current: 1,
             },
             pageSizeOptions: [10, 20, 50, 100, 200],
+            selectedCompany: '',
             selectedStageTabIndex: 0,
             selectedStore: '',
             searchText: '',
@@ -335,7 +349,7 @@ export default {
         this.globalParams['to_date'] = moment(this.orderDateRange[1]).format(
             'DD-MM-YYYY'
         );
-        this.fetchFulfillmentCentres();
+        this.fetchCompanies();
 
         this.fetchFilters();
         if(!isEmpty(this.$route.query)){
@@ -449,6 +463,40 @@ export default {
         },
 
         /**
+         * Function to fetch the companies.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        fetchCompanies(params = {}) {
+            this.companiesListLoading = true;
+
+            return CompanyAdminService.getCompanyList(params)
+            .then(response => {
+                if(response.data && response.data.items) {
+                    this.companiesList = cloneDeep(response.data.items).map(item => {
+                        return {
+                            ...item,
+                            text: item.name,
+                            value: item.uid
+                        }
+                    });
+                    this.companiesError = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error in fetching list of companies:   ", error);
+                this.$snackbar.global.showError(
+                    'We are unable to fetch the list of companies',
+                    3000
+                );
+                this.companiesError = true;
+            })
+            .finally(() => {
+                this.companiesListLoading = false;
+            })
+        },
+
+        /**
          * Fetching the list of fulfillment centres for the filters
          */
         fetchFulfillmentCentres(params = {}) {
@@ -457,7 +505,7 @@ export default {
                 page_size: 500,
                 ...params,
             };
-            return OrderService.getFulfillmentCenterV2(params)
+            return OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
                 .then((response) => {
                     if (response.data && response.data.items) {
                         this.filteredStores = response.data.items.map(
@@ -549,6 +597,8 @@ export default {
                     this.fetchInProgress = false;
                 });
         },
+
+
         fetchFilters() {
             const params = {
                 view: 'manifest',
@@ -618,6 +668,18 @@ export default {
             } else {
                 return false;
             }
+        },
+
+        /**
+         * Method to handle user selection of company from the companies
+         * dropdown. As of January 9, 2023, the selected company will be
+         * used for fetching a list of fulfillment centres for that
+         * company.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        onCompanyChange() {
+            this.fetchFulfillmentCentres();
         },
 
         /**
@@ -701,6 +763,22 @@ export default {
         },
 
         /**
+         * Method to handle searching of companies by the user.
+         * If the length of the text is 0, selected company will be deleted.
+         * Else, the fetchCompanies function will be called with the typed
+         * text.
+         * This method uses 'debounce' to ensure that the function waits for
+         * 300 ms before getting the text and hitting the API.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {String} text The text entered by the user.
+         */
+        searchCompany: debounce(function(text) {
+            if(text.length === 0) this.selectedCompany = '';
+            this.fetchCompanies({q: text});
+        }, 300),
+
+        /**
          * Method to handle searches on the store
          *
          * @author: Rushabh Mulraj Shah
@@ -739,6 +817,7 @@ export default {
 .page-container {
     box-sizing: border-box;
     height: 100%;
+    margin: 0 !important;
 
     @media @mobile {
         width: calc(100% - 48px);
@@ -759,7 +838,7 @@ export default {
             font-size: 14px;
             margin-top: 8px;
             display: grid;
-            grid-template-columns: 3fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             column-gap: 1rem;
 
             @media @mobile {

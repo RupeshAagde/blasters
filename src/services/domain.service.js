@@ -772,8 +772,8 @@ const URLS = {
     FILTERS_APPLICATION_V2: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/application/${getAppInfo()._id}/filter-listing`);
     },
-    GET_FULFILLMENT_CENTER: () => {
-        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/location`);
+    GET_FULFILLMENT_CENTER: companyId => {
+        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${companyId}/location`);
     },
     FETCH_MANIFEST_LIST: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/generated-manifests`);
