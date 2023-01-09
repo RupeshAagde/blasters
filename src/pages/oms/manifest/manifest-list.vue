@@ -105,7 +105,7 @@
                 <!-- Table cell: Action Button -->
                 <td>
                     <div class="button-demo" @click.stop >
-                        <nitrozen-button
+                        <!-- <nitrozen-button
                             :disabled="false"
                             v-if="tabIndex == 0"
                             v-strokeBtn
@@ -115,7 +115,7 @@
                             "
                         >
                             Process
-                        </nitrozen-button>
+                        </nitrozen-button> -->
 
                         <div tabindex="0" @blur="() => handleMenu(index)" >
                             <nitrozen-menu

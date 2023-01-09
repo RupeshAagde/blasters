@@ -18,7 +18,7 @@
                 </span>
             </div>
 
-            <div v-if="manifestStatus !== 'complete'" class="action-btns">
+            <!-- <div v-if="manifestStatus !== 'complete'" class="action-btns">
                 <nitrozen-button
                     :theme="'secondary'"
                     :disabled="!showSaveProcessButtons"
@@ -35,7 +35,7 @@
                     @click="saveProcessManifest('process')">
                     Process
                 </nitrozen-button>
-            </div>
+            </div> -->
         </div>
     </adm-page-header>
 </template>
