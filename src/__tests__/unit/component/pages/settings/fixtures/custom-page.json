@@ -152,6 +152,66 @@
             "description": ""
         },
         "type": "markdown"
+    },
+    "customPageFileData": {
+        "content": [
+            {
+                "type": "file",
+                "value": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/platform/page/assets/files/original/moJNpLSUe-sample.html"
+            }
+        ],
+        "title": "Fynd Test Markdown Pag",
+        "description": "",
+        "tags": ["one"],
+        "slug": "fynd-test-markdown-pag",
+        "published": true,
+        "page_meta": [
+            {
+                "key": "width",
+                "value": {
+                    "value": 500,
+                    "unit": "px"
+                }
+            }
+        ],
+        "seo": {
+            "title": "Fynd Test Markdown Pag",
+            "description": ""
+        },
+        "type": "markdown"
+    },
+    "uploadFileStartData": {
+        "file_name": "dummy.html",
+        "operation": "putObject",
+        "size": 220,
+        "namespace": "platform-page-assets",
+        "content_type": "text/html",
+        "file_path": "/platform/page/assets/files/original/MvuGo6y97-dummy.html",
+        "method": "PUT",
+        "tags": [],
+        "upload": {
+            "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/platform/page/assets/files/original/MvuGo6y97-dummy.html?Content-Type=text%2Fhtml&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230109%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230109T072514Z&X-Amz-Expires=1800&X-Amz-Signature=e26ab2d4c44c1795a967a65fb968b1e6b3e5c3f0f08709befefc146599cfea77&X-Amz-SignedHeaders=host%3Bx-amz-acl&x-amz-acl=public-read",
+            "expiry": 1800
+        },
+        "cdn": {
+            "url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/platform/page/assets/files/original/MvuGo6y97-dummy.html"
+        }
+    },
+    "uploadFileCompleteData": {
+        "file_name": "dummy.html",
+        "operation": "putObject",
+        "size": 220,
+        "namespace": "platform-page-assets",
+        "content_type": "text/html",
+        "file_path": "/platform/page/assets/files/original/MvuGo6y97-dummy.html",
+        "method": "PUT",
+        "tags": [],
+        "upload": {
+            "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/x0/platform/page/assets/files/original/MvuGo6y97-dummy.html?Content-Type=text%2Fhtml&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230109%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230109T072514Z&X-Amz-Expires=1800&X-Amz-Signature=e26ab2d4c44c1795a967a65fb968b1e6b3e5c3f0f08709befefc146599cfea77&X-Amz-SignedHeaders=host%3Bx-amz-acl&x-amz-acl=public-read",
+            "expiry": 1800
+        },
+        "cdn": {
+            "url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/platform/page/assets/files/original/MvuGo6y97-dummy.html"
+        }
     }
-    
 }

@@ -31,6 +31,52 @@ const pageCssOptions= [
     },
 ]
 
+// describe('Mount edit custom page with file page type', () => {
+//     beforeEach(async () => {
+//         localVue = createLocalVue();
+//         localVue.use(VueRouter);
+//         mock.reset();
+//         mock.onGet(URLS.PLATFORM_EDIT_CUSTOM_PAGES('fynd-test-markdown-page')).reply(200, MOCK_DATA.customPageFileData);
+//         mock.onPut(URLS.PLATFORM_EDIT_CUSTOM_PAGES('614021a58a20d1811ea2f6b6')).reply(200, MOCK_DATA.customPageFileData);
+//         mock.onPut(URLS.PLATFORM_PUBLISHED('fynd-test-markdown-page')).reply(200, MOCK_DATA.customPageFileData);
+//         mock.onPost(URLS.GRINDOR_UPLOAD_START('platform-page-assets')).reply(200, MOCK_DATA.uploadFileStartData);
+//         mock.onPost(URLS.GRINDOR_UPLOAD_COMPLETE('platform-page-assets')).reply(200, MOCK_DATA.uploadFileCompleteData);
+//         router = new VueRouter({
+//             routes: [{
+//                 path: '/administrator/settings/pages/:pagetype/:slug/edit',
+//                 component: CreateCustomPage,
+//                 name: 'edit-custom'
+//             }]
+//         })
+//         router.push('/administrator/settings/pages/file/fynd-test-markdown-page/edit');
+//         wrapper = mount( CreateCustomPage , {
+//             localVue,
+//             router,
+//         })
+//         await flushPromises();
+//     });
+//     it('exists wrapper and div', async () => {
+//         await flushPromises();
+//         expect(wrapper.vm).toBeTruthy()
+//         expect(wrapper.element).toMatchSnapshot();
+
+//     })
+//     it('upload file', async () => {
+//         const uploadFile = wrapper.findComponent('input');
+//         expect(uploadFile.exists()).toBeTruthy();
+//         // uploadFile.trigger('change');
+
+//     })
+//     it('save edited file content', async () => {
+//         wrapper.vm.content= MOCK_DATA.customPageFileData.content[0].value;
+//         await flushPromises();
+//         const saveBtn = wrapper.find('#actions');
+//         expect(saveBtn.exists()).toBe(true)
+//         saveBtn.trigger('click')
+//         expect(wrapper.vm.inProgress).toBe(false)
+//     })
+// })
+
 describe('Mounted edit custom Page', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
@@ -54,14 +100,8 @@ describe('Mounted edit custom Page', () => {
             router,
         })
         await flushPromises();
-
-       
-        
     });
     it('exists wrapper and div', async () => {
-
-    
-        
         await flushPromises();
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
@@ -73,8 +113,6 @@ describe('Mounted edit custom Page', () => {
     //     wrapper.vm.meta = MOCK_DATA.formdata.meta;
     //     wrapper.vm.tags = MOCK_DATA.formdata.tags;
     //     wrapper.vm.tags = MOCK_DATA.formdata.tags;
-
-
     // })
     it('edit save', async ()=>{
         wrapper.vm.content= MOCK_DATA.formdata.content[0].value;
@@ -83,8 +121,6 @@ describe('Mounted edit custom Page', () => {
         const saveBtn = wrapper.find('#actions');
         expect(saveBtn.exists()).toBe(true)
         saveBtn.trigger('click')
-        
-
     })
     it('create publish', async ()=>{
         wrapper.vm.content= MOCK_DATA.formdata.content[0].value;
@@ -93,8 +129,6 @@ describe('Mounted edit custom Page', () => {
         const createBtn = wrapper.find('#actions');
         expect(createBtn.exists()).toBe(true)
         createBtn.trigger('click')
-        
-
     })
     it('publish', async ()=>{
         await flushPromises();
@@ -110,18 +144,10 @@ describe('Mounted edit custom Page', () => {
         chipFocus.trigger('click');
         wrapper.vm.chipInput = 'name';
 
-      
-
         const chipBtn = wrapper.find('#chipInput');
         expect(chipBtn.exists()).toBe(true)
         chipBtn.trigger('blur');
-
-        
     })
-
-
-    
-
 })
 
 describe('create page', () => {
