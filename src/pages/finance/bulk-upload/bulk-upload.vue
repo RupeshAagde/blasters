@@ -467,43 +467,43 @@ export default {
         uploadToS3(url,data){
           const caller = FinanceService.uploadToS3(url, data);
           caller
-                .then(( res ) => {
-                      console.log(res,'aaaaaaaaaaaaaaaaa');
+                .then((res) => {
+                      console.log('In Amazon then');
                 })
                 .catch((err) => {
-                    this.file = data.get('file');
-                    this.getValidatedFileInfo(this.file);
                     this.$snackbar.global.showError(
                         `Failed`
                     );
                 })
                 .finally(() => {
+                  this.getValidatedFileInfo();
                  
                 });
 
                 
         },
 
-        getValidatedFileInfo(file){
-    
-          let dataUpload = new FormData;
-          dataUpload.append("url", this.presignedUrl);
-          dataUpload.append("source", "S3");
+        getValidatedFileInfo(){  
 
-          dataUpload.append("report_id", this.selectedFileType);
-          // dataUpload.append("report_file", file);
-          dataUpload.append("is_gzip", "true");
-          dataUpload.append("action", "preprocess");
+          const params = {
+                "data": {
+                    "report_id": this.selectedFileType,
+                    "url": this.presignedUrl,
+                    "is_gzip": "true",
+                    "action": "preprocess",
+                    "source":"s3"
+                }
+            }
 
-          for(var pair of dataUpload.entries()){
-                console.log(pair);
-          }
-
-          const caller = FinanceService.uploadUrl(dataUpload);
+          const caller = FinanceService.uploadUrl(params);
             caller
                 .then(( res ) => {
-                  console.log(res);
-                    
+                  // setTimeout(() => {
+                   
+                  // }, 3000);       
+                  
+                  this.showValidatedScreen(res);
+                  
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
@@ -514,9 +514,7 @@ export default {
                     
                 });
 
-                setTimeout(() => {
-                  this.showValidatedScreen();
-                }, 3000);
+               
                 
 
         },

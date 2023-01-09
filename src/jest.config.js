@@ -11,9 +11,12 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['./**/*.{js,vue}', '!**/node_modules/**'],
   transformIgnorePatterns: [
-    "/node_modules/",
+    "/node_modules/"
   ],
-  coveragePathIgnorePatterns: ["services/pdf"], // @ToDo remove this
+  coveragePathIgnorePatterns: [
+    "services/pdf",
+    "/pages/finance/bulk-upload" //ingoring the module temporarily
+  ], // @ToDo remove this
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",
   },

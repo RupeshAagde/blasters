@@ -7,7 +7,6 @@ const FinanceService = {
    getFileType(data) {
    // console.log(data);
       let axiosOption = Object.assign({}, { data });
-      console.log(axiosOption,'get file type calllllllllled');
       return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
    },
    getDownloadFormat(data) {
@@ -23,7 +22,6 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         console.log("axiosoptn");
         console.log(axiosOption);
-
         return ApiService.post(url, axiosOption, {
          withCredentials: true,
         });
@@ -31,8 +29,7 @@ const FinanceService = {
     },
 
     uploadUrl(data) {
-        let axiosOption = Object.assign(getFormDataHeaders(), { data } );
-        console.log(axiosOption);
+        let axiosOption = Object.assign( { data } );
         return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
      },
 
