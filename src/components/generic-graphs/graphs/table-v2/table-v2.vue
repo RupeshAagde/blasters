@@ -1,6 +1,7 @@
 <template>
     <div class="table-top">
         <table>
+  
           <tr class="table-head">
             <th v-for="(column, columnIndex) in columns" :key="columnIndex" scope="col">
               <div class="table-head-content">
@@ -20,13 +21,29 @@
                 </div>
               </div>
             </td>
-            <td v-for="(column, idx) in columns" v-else :key="idx">
+            <td v-for="(column, idx) in columns" v-else :key="idx" :class="{'icon-field': hyperlocalPage && column.type === TABLE_COLUMN_TYPES.ICON}">
               <!--              first column with arrow-->
               <div v-if="idx === 0 && hasCollapse(row)" class="table-content-content cp"
                    @click="toggleRow(row.id)">
-                <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
-                ></ukt-inline-svg>
-                <span class="first-arrow-content">{{ row[column.field] }}</span>
+                   <!--not array-->
+                <div v-if="!Array.isArray(row[column.field])">
+                    <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
+                    ></ukt-inline-svg>
+                    <span class="first-arrow-content">{{ row[column.field] }}</span>
+                </div>
+                <!--arrray (show tooltip)-->
+                <div v-else>
+                  <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
+                    ></ukt-inline-svg>
+                    <span class="first-arrow-content">{{ row[column.field][0] }}</span>
+                    <div v-if="row[column.field][1].length > 15 " class="affilate_name">
+                      <generic-tooltip :text="row[column.field][1]">{{ row[column.field][1].slice(0,15) + '...' }}</generic-tooltip>
+                    </div>
+                    <div v-else class="affilate_name">
+                      {{ row[column.field][1] }}
+                    </div>
+                </div>
+                  <!-- <generic-tooltip :text="'some sample'">Some data ty[e]</generic-tooltip> -->
                 <!--              If  has more details let this be collapsable-->
               </div>
 
@@ -45,13 +62,28 @@
                 <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
 
               </div>
+              <!--Sla type-->
+              <div v-else-if="column.type == TABLE_COLUMN_TYPES.SLA" class=" table-content-content sla_field">
+                <sla-indicator :sla_percent="calculateSlaPercentage(row[column.field])"/>
+               <p class="sla_value"> {{ calculateSLAHours(row[column.field]) }}</p>
 
+              </div>
               <!--              icon type             -->
-              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON" :class="['icon']" class="table-content-content"
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && !hyperlocalPage" :class="['icon']" class="table-content-content"
                    @click="linkTodirect(row[column.field].url)">
                 <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
                 <!--              If  has more details let this be collapsable-->
                 <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
+  
+    
+              </div>
+              <div v-else-if="column.type === TABLE_COLUMN_TYPES.ICON && hyperlocalPage" class="icon" :class="{'disable-icon': !row[column.field].url}"
+                   @click="redirectHyperlocal(row[column.field].url, row)">
+                <ukt-inline-svg class="platform-icons" src="location"></ukt-inline-svg>
+                <!--              If  has more details let this be collapsable-->
+                <other-riders :column="column" :row="row" :row-map="rowMap" @toggleRow="toggleRow"></other-riders>
+  
+    
               </div>
 
 
@@ -96,7 +128,10 @@ import {ADMIN_SAVE_PAGINATION_CHANGE} from "@/store/action.type";
 import {TABLE_COLUMN_TYPES} from "@/components/generic-graphs/data/constants"
 import {ANALYTICS_PAGES} from "../../data/constants";
 import OtherRiders from "./other-riders";
-
+import {hyperlocalHelpers} from '@/components/generic-graphs/utils/hyperlocal-helper.js';
+import GenericTooltip from '../../generic-tooltip/generic-tooltip.vue';
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue';
+import {displaySlaHoursLeft, displaySlaPercentage} from '@/components/generic-graphs/sla/helper.js'
 export default {
   name: "table-component",
   mixins: [analyticsTablePropsMixins],
@@ -117,9 +152,11 @@ export default {
   components: {
     OtherRiders,
     NitrozenBadge,
+    GenericTooltip,
     uktInlineSvg,
     "nitrozen-pagination": NitrozenPagination,
     'adm-no-content': admnocontent,
+    SlaIndicator
   },
   filters: {
     valueDisplayFormatter(value) {
@@ -186,7 +223,18 @@ export default {
   },
   methods: {
     linkTodirect(event) {
+
       window.open(`${event}`, '_blank');
+    },
+    calculateSlaPercentage(sla_time) {
+      return displaySlaPercentage(sla_time)
+    },
+    calculateSLAHours(sla_time) {
+      return displaySlaHoursLeft(sla_time);
+    },
+    redirectHyperlocal(url,row) {
+      if(!url) return;
+      window.open(`${url}`, '_blank');
     },
     toggleRow(rowIndex) {
       this.rowMap = rowIndex;
@@ -249,6 +297,10 @@ td {
     font-weight: 400;
     font-size: 12px;
     padding: 1rem 0rem;
+}
+
+.table-content-content.icon {
+  align-items: center;
 }
 
 .table-head-content {
@@ -361,5 +413,25 @@ td:last-child {
 
 .hidden {
   display: none;
+}
+.sla_field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(10px);
+}
+.sla_field .sla_value {
+  margin-top: 5px;
+}
+.disable-icon {
+  opacity: 0.4;
+  cursor: default;
+}
+.affilate_name {
+  padding-left: 1.2rem;
+}
+.icon-field {
+  vertical-align: top !important;
+  padding-top: 22px;
 }
 </style>

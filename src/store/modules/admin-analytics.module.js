@@ -701,10 +701,11 @@ const actions = {
         filterIndex,
         dependency,
         chartId,
+        values = null,
         resetSelf = null
     }) {
         commit(SAVE_SEED_FILTER_FOR_DROPDOWNS, {
-            values: null,
+            values,
             panelIndex: panelIndex,
             cardIndex: cardIndex,
             filterIndex: filterIndex,

@@ -2,7 +2,9 @@
     <div class="topFilter">
       <filter-components :page-name="pageName" :seed-data="filters" :should-show-tool-tip="false"
                          :chart-id="chartId"
+                         :hyperlocal-page="hyperlocalPage"
                          :is-global-loading="isGlobalLoading" class="components-specific-styles"
+                         @on-error="handleError"
                          @reset-data="$emit('reset-data')"></filter-components>
     </div>
 </template>
@@ -22,6 +24,15 @@
   .component-wrapper:nth-child(2), .component-wrapper:nth-child(3) {
     width: 20% !important;
   }
+}
+::v-deep .hyperlocal-filters.component-wrapper:nth-child(1) {
+   width: 80% !important;
+}
+::v-deep .hyperlocal-filters.component-wrapper:nth-child(2) {
+   width: 30% !important;
+}
+::v-deep .hyperlocal-filters.component-wrapper:nth-child(3), ::v-deep .hyperlocal-filters.component-wrapper:nth-child(4) {
+   width: 100% !important;
 }
 
 ::v-deep .nitrozen-dropdown-container {
@@ -56,9 +67,16 @@ export default {
   provide() {
     return {}
   },
+  emits: ['on-error'],
   props: {
     filters: {type: Array | Object, required: true},
-    chartId: {type: String}
+    chartId: {type: String},
+    hyperlocalPage: {type: Boolean, default: false}
+  },
+  methods: {
+    handleError(value) {
+      this.$emit('on-error',value)
+    }
   },
   inject: ['pageName'],
   data() {

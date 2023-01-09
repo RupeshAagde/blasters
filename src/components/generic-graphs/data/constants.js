@@ -61,7 +61,8 @@ export const TABLE_COLUMN_TYPES = {
     IMAGE: "image",
     ICON: "icon",
     STATUS: "status",
-    COLLAPSE: "COLLAPSE"
+    COLLAPSE: "COLLAPSE",
+    SLA: "sla"
 };
 
 export const TABLE_CONFIGS = {
