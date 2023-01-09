@@ -37,9 +37,6 @@
                 <inline-svg :src="'upward-arrow-finance'"></inline-svg>
           </div>
               <div class="close-arrow" v-else>
-                  <!-- <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.77 0.115234L-7.73692e-08 1.88523L10 11.8852L20 1.88523L18.23 0.115234L10 8.34523L1.77 0.115234Z" fill="#8F8F8F"/>
-                  </svg> -->
                   <inline-svg :src="'downward-arrow-finance'"></inline-svg>
               </div>
             </div>
@@ -77,7 +74,6 @@
                     </svg>
                   </div>
                 </div>
-              
               <div class="progress-bar" v-if="this.fileUploading">
                 <div ref="progressbar" class="progress-speed" v-bind:style="{ 'width': width+'%'}"></div>
               </div>
@@ -108,12 +104,12 @@
                   <span class="txt">Total Record : </span>
                   <span class="val">{{this.parsedData.totalRecords}}</span>
                 </div>
-                <div class="record-success" v-if="validationCompleted">
+                <div class="record-success hide" v-if="validationCompleted">
                   <inline-svg :src="'success-icon-finance'"></inline-svg>
                   <span class="txt">Success: </span>
                   <span class="val">{{this.parsedData.success}}</span>
                 </div>
-                <div class="record-error" v-if="validationCompleted">
+                <div class="record-error hide" v-if="validationCompleted">
                   <inline-svg :src="'error-icon-finance'"></inline-svg>
                   <span class="txt">Errors: </span>
                   <span class="val">{{this.parsedData.errors}}</span>
@@ -122,7 +118,7 @@
               <div class="payout-sum" v-if="validationCompleted">
                 <inline-svg :src="'payout-icon-finance'"></inline-svg>
                   <span class="txt">Payout Amount Sum: </span>
-                  <span class="val">{{this.parsedData.payout_amount}}</span>
+                  <span class="val">{{ this.parsedData.payout_amount}}</span>
               </div>
           </div>
           <div class="right-content" v-if="validationCompleted">
@@ -322,7 +318,6 @@ export default {
                 .finally(() => {
                     
        });
-
       },
       getFileType() {
         const params = {
@@ -376,10 +371,8 @@ export default {
         },
 
         onFileUpload(event) {
-  
           this.fileUploading = true;
           this.fileSelected = true;
-
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
           this.file = file;
 
@@ -450,8 +443,8 @@ export default {
                         const dataToUpload = new Blob([compressedFile], { type: file.type });
                         const fileToUpload = new Blob([dataToUpload], { type: "application/gzip"});
                         data.append('file', fileToUpload);
+
                         this.uploadToS3(url,data);
-                        // this.getValidatedFileInfo(fileToUpload);
                     };
 
                     reader.readAsArrayBuffer(file);
@@ -469,17 +462,17 @@ export default {
           caller
                 .then((res) => {
                       console.log('In Amazon then');
+                      console.log(res);
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
+                  console.log(err);
+                  if(err.request.data == "undefined"){
+                    this.getValidatedFileInfo();
+                  }
+                    // this.$snackbar.global.showError(
+                    //     `Failed`
+                    // );
                 })
-                .finally(() => {
-                  this.getValidatedFileInfo();
-                 
-                });
-
                 
         },
 
@@ -497,40 +490,33 @@ export default {
 
           const caller = FinanceService.uploadUrl(params);
             caller
-                .then(( res ) => {
-                  // setTimeout(() => {
-                   
-                  // }, 3000);       
-                  
+                .then(( res ) => {   
                   this.showValidatedScreen(res);
                   
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
-                        `Failed`
+                        `Validation Failed`
                     );
-                })
-                .finally(() => {
-                    
-                });
-
-               
-                
-
+                })               
         },
+        showValidatedScreen(res){
 
-        showValidatedScreen(){
+          console.log(res);
+
+          const dataVal = res.data.data;
 
           this.validationCompleted = true;
           this.toggleUpload = false;
           this.startLoader = false;
 
-          this.parsedData.totalRecords = this.validatedData.data.total;
-          this.parsedData.success = this.validatedData.data.total;
-          this.parsedData.payout_amount = this.validatedData.data.summary[0].payoutsum;
+          this.parsedData.totalRecords = dataVal.total;
+          this.parsedData.success = dataVal.total;
+          const payoutAmt = dataVal.summary[0];
+          this.parsedData.payout_amount = Object.values(payoutAmt)[0];
 
-          this.tableData.headers = this.validatedData.data.json.headers;
-          this.tableData.items = this.validatedData.data.json.rows;
+          this.tableData.headers = dataVal.json.headers;
+          this.tableData.items = dataVal.json.rows;
 
         },
 
@@ -549,13 +535,17 @@ export default {
 
         },
         confirmValidation(){
-          let data = new FormData;
-          data.append("report_id", this.selectedFileType);
-          data.append("report_file", this.file);
-          data.append("is_gzip", "true");
-          data.append("action", "process");
+          const params = {
+                "data": {
+                    "report_id": this.selectedFileType,
+                    "url": this.presignedUrl,
+                    "is_gzip": "true",
+                    "action": "process",
+                    "source":"s3"
+                }
+            }
 
-          const caller = FinanceService.uploadUrl(data);
+          const caller = FinanceService.uploadUrl(params);
             caller
                 .then(( res ) => {
                   console.log(res);
@@ -583,6 +573,9 @@ export default {
   0% { width: 0; }
   100% { width: 100%; }
 }
+
+.panel{overflow-x: hidden;}
+.hide{display: none;}
 
 .main-file-container{
   background: #FFFFFF;
@@ -803,6 +796,11 @@ svg{
   .inline-svg{
     display: inline-block;
     vertical-align: middle;
+  }
+}
+.right-content{
+  button{
+    margin-left: 20px;
   }
 }
 }
