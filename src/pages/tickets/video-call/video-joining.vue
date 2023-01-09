@@ -149,7 +149,7 @@
                                     {{ createdBy() }}
                                 </div>
                                 <div class="assignee-app">
-                                    {{ 'Request ID: ' + ticket.ticket_id }}
+                                    {{ 'Request ID: ' + ticket._id }}
                                 </div>
                             </div>
                         </div>
