@@ -304,14 +304,13 @@
                     :title="`Reassign store`"
                     :footer="true"
                 >
-                    <reassgin-store-drawer
+                    <reassign-store-drawer
                         ref="store-assign-call"
                         :reasons="reasons"
                         :stores="stores"
                         :bagId="bagId"
                         @enableSubmitForReassignStore="isSubmitReassingStore"
-                    >
-                    </reassgin-store-drawer>
+                    />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
@@ -360,9 +359,7 @@
                     :title="`Change Adress`"
                     :footer="true"
                 >
-                    <change-address-drawer
-                    >
-                    </change-address-drawer>
+                    <change-address-drawer />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
@@ -385,9 +382,7 @@
                     :title="`Debug Order Info For: FY53425324532453245324`"
                     :footer="false"
                 >
-                    <debug-shipment-drawer
-                    >
-                    </debug-shipment-drawer>
+                    <debug-shipment-drawer />
                 </side-drawer>
             </template>
         </transition>
@@ -400,9 +395,7 @@
                     :title="`Tag Employee to Shipment`"
                     :footer="true"
                 >
-                    <tag-employee-drawer
-                    >
-                    </tag-employee-drawer>
+                    <tag-employee-drawer />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"

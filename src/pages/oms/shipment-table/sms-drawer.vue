@@ -8,8 +8,7 @@
                     @change="sendMessage"
                     :items="smsTemplate"
                     v-model="selectedTemplate"
-                >
-                </nitrozen-dropdown>
+                />
 
                 <nitrozen-dropdown
                     class=""
@@ -17,26 +16,31 @@
                     @change="sendMessage"
                     :items="number"
                     v-model="selectedNumber"
-                >
-                </nitrozen-dropdown>
+                />
             </div>
+
             <div class="dropdowns-two" v-if="selectedTemplate == 'custom_delayed_shipment'">
                 <nitrozen-input
                     :type="'textarea'"
                     label="Reason"
-                    v-model="checkForReason"
+                    v-model="reason"
                     placeholder="Write reason here"
                     :disabled="false"
-                ></nitrozen-input>
+                    class="reason-box"
+                />
 
-                <nitrozen-dropdown
-                    class=""
-                    label="Days"
-                    @change="sendMessage"
-                    :items="days"
-                    v-model="daysValue"
-                >
-                </nitrozen-dropdown>
+                <div class="days-container">
+                    <span class="days-label">Days</span>
+                    <custom-input-number
+                        :allowNegative="false"
+                        :disabled="true"
+                        :min="1"
+                        :max="30"
+                        :value="daysValue"
+                        @increment="daysValue+=1"
+                        @decrement="daysValue-=1"
+                    />
+                </div>
             </div>
         </div>
         <div class="user-input">
@@ -46,16 +50,18 @@
                 v-model="getMeNote"
                 placeholder="(Min. 10 characters)"
                 :disabled="true"
-            ></nitrozen-input>
+            />
         </div>
     </div>
 </template>
 
 <script>
-/* Components import */
+/* Package imports */
 import { NitrozenDropdown, NitrozenInput } from '@gofynd/nitrozen-vue';
+
+/* Components import */
+import CustomInputNumber from '@/components/common/adm-input-number-controls.vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
-import admNoContent from '@/components/common/adm-no-content.vue';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -78,11 +84,11 @@ export default {
     },
     data() {
         return {
-            selectedNumber: "",
-            selectedTemplate: "",
-            checkForNote: "",
-            checkForReason: "",
-            daysValue: "",
+            selectedNumber: '',
+            selectedTemplate: '',
+            checkForNote: '',
+            reason: '',
+            daysValue: 1,
             smsTemplate: [
                 {
                     text: "Delayed Shipment",
@@ -108,35 +114,14 @@ export default {
                     text: "Refund - Bank Details",
                     value: "refund"
                 },
-            ],  
-            // number: [
-            //     {
-            //         text: "8451986726",
-            //         value: "8451986726"
-            //     },
-            // ],
-            days: [
-                {
-                    text: "1",
-                    value: "1"
-                },
-                {
-                    text: "2",
-                    value: "2"
-                },
-                {
-                    text: "3",
-                    value: "3"
-                }
             ]
-            
         }
     },
     components: {
+        CustomInputNumber,
         InlineSvg,
         NitrozenDropdown,
-        admNoContent,
-        NitrozenInput,
+        NitrozenInput
     },
     mounted() {
         this.$emit("enableSubmitButton", true);
@@ -148,8 +133,8 @@ export default {
                 return `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed. We are doing our best to get it delivered as soon as possible. You can track your shipment ${this.shipmentId} on track.fynd.com. For any queries, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "custom_delayed_shipment") {
-                this.checkForNote = `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.checkForReason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
-                return `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.checkForReason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
+                this.checkForNote = `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
+                return `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working day(s). For any queries, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "not_reachable") {
                 this.checkForNote = `Dear ${this.fullName}, we've been trying to contact you for your shipment ${this.shipmentId} but were unable to reach you. For further assistance, please reach out to us on care@fynd.com.`
@@ -190,22 +175,28 @@ export default {
                     "amount_paid": this.amountPaid,
                     "payment_mode": this.paymentMode
                 }
+            };
+
+            if(selectedTemplate == 'custom_delayed_shipment') {
+                data.data['days'] = this.daysValue;
+                data.data['reason'] = this.reason;
             }
+
             const send_sms = OrderService.sendSms(data)
             return send_sms
-                .then(({data}) => {
-                    if(data.success) {
-                        this.$snackbar.global.showSuccess(`Message to ${this.fullName} sent successfully`);
-                    }
-                    else {
-                        this.$snackbar.global.showError('Unable to send message to customer');
-                        console.error("error:   ", error);
-                    }
-                })
-                .catch((error) => {
+            .then(({data}) => {
+                if(data.success) {
+                    this.$snackbar.global.showSuccess(`Message to ${this.fullName} sent successfully`);
+                }
+                else {
                     this.$snackbar.global.showError('Unable to send message to customer');
-                    console.error("error:   ", error);
-                })
+                    console.error("Error in sending SMS to customer:   ", data);
+                }
+            })
+            .catch((error) => {
+                this.$snackbar.global.showError('Unable to send message to customer');
+                console.error("Error in sending SMS to customer:   ", error);
+            });
         },
     }
 
@@ -218,25 +209,37 @@ export default {
     .dropdowns {
         display: flex;
         flex-direction: column;
+
         .dropdowns-one {
             display: flex;
             gap: 16px;
-            margin-bottom: 40px;
+            margin-bottom: 1rem;
         }
+
         .dropdowns-two {
             display: flex;
             gap: 16px;
-            margin-bottom: 40px;
+            width: 100%;
+            margin-bottom: 1rem;
+
+            .days-label {
+                color: #9b9b9b;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 21px;
+            }
+
             ::v-deep .nitrozen-form-input {
                 .nitrozen-input-grp {
                     .n-input-textarea {
-                        height: unset;
+                        height: 40px;
                         line-height: 16px;
                     }
-                    .n-input {
-                        width: unset;
-                    }
                 }
+            }
+
+            .reason-box {
+                flex-grow: 1;
             }
         }
     }
