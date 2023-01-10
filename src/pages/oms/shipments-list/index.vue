@@ -7,7 +7,8 @@
                 </template>
             </warn-alert>
         </div>
-        <div class="alert" v-if="showAlert && displayAlert && alertText && !isShipmentLock">
+        <!-- Commenting as of January 10, 2023 -->
+        <!-- <div class="alert" v-if="showAlert && displayAlert && alertText && !isShipmentLock">
             <alert-box class="alert-sys" @close="closeAlert" :display="showAlert">
                 <template v-slot:icon>
                     <adm-inline-svg class="warn-icon" :src="alertText.icon"></adm-inline-svg>
@@ -16,7 +17,7 @@
                     {{ alertText.message }}
                 </template>
             </alert-box>
-        </div>
+        </div> -->
         <div class="content">
             <shipment-items
                 class="content-sys"
