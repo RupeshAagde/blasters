@@ -110,7 +110,7 @@ export default {
         getDimensions(dimensions) {
             let dimensionData = '';
             // loop through the object keys
-            Object.keys(dimensions).map((key, index) => {
+            Object.keys(dimensions).forEach((key, index) => {
                 // only if the key is not the last key do not add 'x'
                 dimensionData += `${dimensions[key]}${
                     index != Object.keys(dimensions).length - 1 ? 'x' : ''

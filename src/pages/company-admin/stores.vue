@@ -356,7 +356,7 @@
             }
         }
         .label {
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             color: @Mako;
             font-size: 14px;
             line-height: 20px;
@@ -559,8 +559,6 @@ export default {
             selectedChoice: '',
             selectedStoreType: '',
             searchText: '',
-            selectedChoice: '',
-            selectedStoreType: '',
             choiceType: [],
             storeType: [],
             storesData: [],

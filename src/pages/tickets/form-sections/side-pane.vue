@@ -176,7 +176,6 @@
     min-height: 32px;
     font-size: 14px;
     width: 100%;
-    align-items: center;
     cursor: pointer;
     color: #9b9b9b;
 }

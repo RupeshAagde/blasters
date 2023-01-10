@@ -410,7 +410,7 @@ export default {
   td {
     text-align: left;
     font-size: 12px;
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 400;
     line-height: 17px;
@@ -530,7 +530,7 @@ export default {
 .clickable {
   cursor: pointer;
   font-size: 14px;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
 }

@@ -924,7 +924,7 @@ export default {
                 padding: 24px 24px 26px;
                 border-bottom: 1px solid #e0e0e0;
                 .title {
-                    font-family: 'Inter';
+                    font-family: Inter, sans-serif;
                     font-style: normal;
                     font-weight: 700;
                     font-size: 20px;
@@ -946,7 +946,7 @@ export default {
                     display: flex;
                     justify-content: space-between;
                     .sub-heading {
-                        font-family: 'Inter';
+                        font-family: Inter, sans-serif;
                         font-style: normal;
                         font-weight: 600;
                         font-size: 14px;
@@ -960,7 +960,7 @@ export default {
                 .preview {
                     padding: 16px;
                     .preview-header {
-                        font-family: 'Inter';
+                        font-family: Inter, sans-serif;
                         font-style: normal;
                         font-weight: 600;
                         font-size: 12px;
@@ -975,7 +975,7 @@ export default {
                             display: flex;
                             align-items: center;
                             .preview-title {
-                                font-family: 'Inter';
+                                font-family: Inter, sans-serif;
                                 font-style: normal;
                                 font-weight: 600;
                                 font-size: 14px;
@@ -985,7 +985,7 @@ export default {
                             }
                         }
                         .preview-description {
-                            font-family: 'Inter';
+                            font-family: Inter, sans-serif;
                             font-style: normal;
                             font-weight: 400;
                             font-size: 12px;
@@ -1007,7 +1007,7 @@ export default {
                     .inpurField-decs {
                         // margin-top: 14px;
                         .decs {
-                            font-family: 'Inter';
+                            font-family: Inter, sans-serif;
                             font-style: normal;
                             font-weight: 500;
                             font-size: 12px;
@@ -1043,7 +1043,6 @@ export default {
     position: relative;
     margin: 24px;
     padding: 24px;
-    border-radius: 12px;
     top: 56.5px;
     background: #ffffff;
     border-radius: 12px;
@@ -1070,7 +1069,7 @@ export default {
                     align-items: center;
                     cursor: pointer;
                     .btn-label {
-                        font-family: 'Inter';
+                        font-family: Inter, sans-serif;
                         font-style: normal;
                         font-weight: 700;
                         font-size: 14px;
@@ -1085,7 +1084,7 @@ export default {
             }
         }
         .label {
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
@@ -1107,7 +1106,7 @@ export default {
             margin-left: 11px;
         }
         .label {
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
@@ -1126,7 +1125,7 @@ export default {
             border-bottom: 1px solid #e0e0e0;
         }
         .label {
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
@@ -1241,7 +1240,7 @@ export default {
         flex-direction: column;
         margin-left: 9px;
         .tool-heading {
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
@@ -1250,7 +1249,7 @@ export default {
         }
         .tool-decs {
             margin-top: 4px;
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -1282,7 +1281,7 @@ export default {
 }
 .tooltip-label {
     line-height: 16px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 10px;
     text-align: left;
     width: 500px;
@@ -1308,7 +1307,7 @@ export default {
     flex-direction: column;
     align-items: center;
     .empty-contact-message {
-        font-family: 'Inter';
+        font-family: Inter, sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
