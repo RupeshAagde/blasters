@@ -60,7 +60,15 @@
                                             Permission
                                         </div>
                                         <!-- <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions" :multiple="true"></nitrozen-dropdown> -->
-                                        <nitrozen-dropdown v-if="permissions.length !==0 " @change="test" :items="permissions" v-model="menuSettings.permissions[0]" :multiple="false"></nitrozen-dropdown>
+                                        <div class="dropdown-btn">
+                                            <div class="dropdown">
+                                                <nitrozen-dropdown v-if="permissions.length !==0 " @change="test" :items="permissions" v-model="menuSettings.permissions[0]" :multiple="false"></nitrozen-dropdown>
+                                            </div>
+                                            <div class="button">
+                                                <nitrozen-button :theme="'secondary'" @click.stop="menuSettings.permissions = []"> Clear </nitrozen-button>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="form-item">
@@ -279,6 +287,14 @@ export default {
 
                 .form-item {
                     margin-top: 15px;
+                    .dropdown-btn {
+                        display: flex;
+                        justify-content: space-between;
+                        .dropdown {
+                            flex: 0.90;
+                        }
+                        
+                    }
                 }
 
                 .visible-grp {
