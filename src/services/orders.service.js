@@ -556,6 +556,22 @@ const OrderService = {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
         return ApiService.post(URLS.SEND_SMS(), axiosOption);
     },
+    updateAddress(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.UPDATE_ADDRESS(), axiosOptions);
+    },
+    uploadConsent(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.UPLOAD_CONSENT(), axiosOptions);
+    },
     updatePackagingDimensions(data){
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
         return ApiService.post(URLS.UPDATE_PACKAGE_DIMENSION(), axiosOption);
@@ -570,15 +586,7 @@ const OrderService = {
             URLS.UPDATE_SHIPMENT_STATUS(),
             axiosOption
         );
-    },
-    uploadConsent(data) {
-        let axiosOptions = Object.assign(
-            {},
-            getCommonHeaderOptions(),
-            { data }
-        );
-        return ApiService.post(URLS.UPLOAD_CONSENT(), axiosOptions);
-    },
+    }
     /** OMS v2.1 --END */
 };
 export default OrderService;

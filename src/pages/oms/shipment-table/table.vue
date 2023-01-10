@@ -302,13 +302,17 @@
                     :title="`Change Adress`"
                     :footer="true"
                 >
-                    <change-address-drawer />
+                    <change-address-drawer
+                        ref="change-address-drawer"
+                        @change="onAddressChange"
+                    />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
-                            :disabled="true"
+                            :disabled="!enableAddressUpdation"
                             theme="secondary"
                             v-flatBtn
+                            @click="changeAddress"
                         >
                             Submit
                         </nitrozen-button>
@@ -412,7 +416,8 @@ export default {
             isSubmitStore: true,
             statusForCreateS3: [],
             enableCalling: false,
-            enableBagStateChange: false
+            enableBagStateChange: false,
+            enableAddressUpdation: false
         }
     },
     mounted(){
@@ -910,6 +915,82 @@ export default {
                 );
                 console.error("Error in updating the status:   ", error);
             });
+        },
+
+        /**
+         * Method to verify if all the required values are present to enable 
+         * address updation.
+         * Currently, as of January 10, 2023, the list of required values includes:
+         * Name, Phone, Pincode, City, State
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {Object} event The address object shared by the change-address-drawer component.
+         */
+        onAddressChange(event) {
+            if(
+                event.name.length > 0 &&
+                event.phone.length > 0 &&
+                event.pincode.length > 0 &&
+                event.city.length > 0 &&
+                event.state.length > 0
+            ) {
+                this.enableAddressUpdation = true;
+            } else {
+                this.enableAddressUpdation = false;
+            }
+        },
+
+        /**
+         * Method to change the address.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        changeAddress() {
+            let changeAddressDrawer = this.$refs['change-address-drawer'];
+            if(changeAddressDrawer !== undefined) {
+                let finalData = {
+                    name: changeAddressDrawer.name,
+                    phone: changeAddressDrawer.phoneNumber,
+                    email: changeAddressDrawer.email,
+                    area: changeAddressDrawer.area,
+                    landmark: changeAddressDrawer.landmark,
+                    city: changeAddressDrawer.city,
+                    address: changeAddressDrawer.address,
+                    pincode: changeAddressDrawer.pincode,
+                    state: changeAddressDrawer.state,
+                    address_type: changeAddressDrawer.selectedAddressType,
+                    address_category: changeAddressDrawer.selectedAddressType,
+                    country: changeAddressDrawer.country,
+                    shipment_id: this.activeId
+                };
+    
+                return OrderService.updateAddress(finalData)
+                .then(response => {
+                    if(response.data && response.data.success) {
+                        this.$snackbar.global.showSuccess(
+                            `Address has been successfully updated for the shipment ID: ${this.activeId}`,
+                            3000
+                        );
+                        this.isChangeAddress = false;
+                    } else {
+                        console.error(`Error in updating the address:  `, response);
+                        this.$snackbar.global.showError(
+                            `We are unable to update the address. Please try again later.`,
+                            3000
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error in updating the address:  `, error);
+                    this.$snackbar.global.showError(
+                        `We are unable to update the address. Please try again later.`,
+                        3000
+                    );
+                })
+            } else {
+                this.$snackbar.global.showError('Unable to update the address', 3000);
+                console.error('Error in updating the address as the code is unable to find the component:  ', changeAddressDrawer);
+            }
         }
     }
 }

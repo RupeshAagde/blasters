@@ -867,6 +867,9 @@ const URLS = {
     },
     GET_STATES_FOR_TRANSITION: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bag/state/transition`);
+    },
+    UPDATE_ADDRESS: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/delight/update-address/`);
     }
     /** OMSv2.1 -- END */
 };

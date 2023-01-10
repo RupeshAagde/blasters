@@ -4,11 +4,10 @@
             class="employee"
             label="Select Address Type"
             placeholder="Enter Account Number"
-            @change="selectAddressType"
             :items="addressTypes"
             v-model="selectedAddressType"
-        >
-        </nitrozen-dropdown>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -16,15 +15,17 @@
             type="text"
             :placeholder="`Customer`"
             v-model="name"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
             label="Email"
-            type="text"
+            type="email"
             :placeholder="`Enter Email`"
             v-model="email"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -32,7 +33,8 @@
             type="text"
             :placeholder="`Enter Phone Number`"
             v-model="phoneNumber"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
         
         <nitrozen-input
             class="search-input"
@@ -40,7 +42,8 @@
             type="text"
             :placeholder="`Enter Pincode`"
             v-model="pincode"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -48,7 +51,8 @@
             type="text"
             :placeholder="`Enter City`"
             v-model="city"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -56,7 +60,8 @@
             type="text"
             :placeholder="`Enter State`"
             v-model="state"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -64,7 +69,8 @@
             type="text"
             :placeholder="`Enter Area`"
             v-model="area"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -72,7 +78,8 @@
             type="text"
             :placeholder="`Enter Landmark`"
             v-model="landmark"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
 
         <nitrozen-input
             class="search-input"
@@ -82,32 +89,25 @@
             v-model="address"
             :showTooltip="true"
             tooltipText="Enter your address"
-        ></nitrozen-input>
+            @change="onValueChange"
+        />
     </div>
 </template>
 
 <script>
-/* Components import */
+/* Package imports */
 import { NitrozenDropdown, NitrozenInput } from '@gofynd/nitrozen-vue';
+
+/* Components import */
 import InlineSvg from '@/components/common/inline-svg.vue';
-import admNoContent from '@/components/common/adm-no-content.vue';
 
 export default {
     name: "change-address-drawer",
     props: {
-    //    dpOptionsData: Object,
+        shipmentId: String
     },
     data() {
         return {
-            selectedAddressType: "",
-            name: "",
-            email: "",
-            phoneNumber: "",
-            pincode: "",
-            city: "",
-            state: "",
-            area: "",
-            landmark: "",
             address: "",
             addressTypes: [
                 {
@@ -117,30 +117,50 @@ export default {
                 {
                     text: "Store",
                     value: "store"
-                },
-                {
-                    text: "Gaav",
-                    value: "gaav"
-                },
-            ]
+                }
+            ],
+            area: "",
+            city: "",
+            country: 'India',
+            email: "",
+            landmark: "",
+            name: "",
+            selectedAddressType: "",
+            phoneNumber: "",
+            pincode: "",
+            state: ""
         }
     },
     components: {
         InlineSvg,
-        NitrozenDropdown,
-        admNoContent,
+        NitrozenDropdown,        
         NitrozenInput,
     },
     methods: {
-        selectAddressType() {
-            console.log("Selected bag stage:: :", this.selectedAddressType);
-        },
+        onValueChange() {
+            let addressObj = {
+                name: this.name,
+                phone: this.phoneNumber,
+                email: this.email,
+                area: this.area,
+                landmark: this.landmark,
+                city: this.city,
+                address: this.address,
+                pincode: this.pincode,
+                state: this.state,
+                address_type: this.selectedAddressType,
+                address_category: this.selectedAddressType,
+                country: this.country,
+                shipment_id: this.shipmentId
+            };
+
+            this.$emit('change', addressObj);
+        }
     }
 }
 </script>
 
 <style lang="less" scoped> 
-
 .bank-details-drawer-head {
     display: flex;
     flex-direction: column;
@@ -148,4 +168,9 @@ export default {
     padding-bottom: 70px;
 }
 
+.employee {
+    ::v-deep .nitrozen-select__trigger {
+        font-size: 12px;
+    }
+}
 </style>
