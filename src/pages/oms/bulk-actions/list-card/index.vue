@@ -2,7 +2,7 @@
     <div class="list-card-container" v-if="!isEmpty(invoiceData)" @click.stop="onCardClick">
         <div class="left-section">
             <div class="type-logo-container">
-                <img :src="imgSrc" class="type-logo" />
+                <adm-inline-svg :src="imgSrc" />
             </div>
             <div class="invoice-info">
                 <p class="title">{{ invoiceData.file_name }}</p>
@@ -212,8 +212,8 @@ export default {
             return this.invoiceType.length === 0;
         },
         imgSrc() {
-            if(this.invoiceData.file_name.slice(-4) === '.csv') return '/public/admin/assets/admin/pngs/csv_icon.png';
-            if(this.invoiceData.file_name.slice(-4) === 'xlsx') return '/public/admin/assets/admin/pngs/xls_icon.png';
+            if(this.invoiceData.file_name.slice(-4) === '.csv') return 'oms-csv';
+            if(this.invoiceData.file_name.slice(-4) === 'xlsx') return 'oms-xls';
         }
     },
     methods: {
