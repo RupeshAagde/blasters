@@ -623,7 +623,6 @@ export default {
                 this.categoryInfo.category.categories_l1,
                 category_l2
             );
-            categoriesL1Array = categoriesL1Array;
         },
         onChangeCategoryL2() {
             let { category_l2, categoriesL2Array } = this.categoryInfo;

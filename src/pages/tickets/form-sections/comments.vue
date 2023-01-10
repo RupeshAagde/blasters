@@ -190,7 +190,7 @@ export default {
     .comment {
         font-size: 11.5px;
         font-weight: 500;
-        border: solid 1px#f0f0f0;
+        border: solid 1px #f0f0f0;
         background-color: #f8f8f8;
         border-radius: 5px;
         padding: 7px;

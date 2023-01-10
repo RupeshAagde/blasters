@@ -82,17 +82,17 @@ export default {
 .container {
     flex: 1;
     display: flex;
-    font-family: Inter !important;
+    font-family: Inter, sans-serif !important;
 
     button,
     input,
     textarea,
     select {
-        font-family: Inter !important;
+        font-family: Inter, sans-serif !important;
     }
 
     ::placeholder {
-        font-family: Inter !important;
+        font-family: Inter, sans-serif !important;
     }
 }
 </style>

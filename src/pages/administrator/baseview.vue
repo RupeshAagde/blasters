@@ -75,7 +75,6 @@ export default {
                 })
                 .catch((err) => {
                     return (window.location.href = '/');
-                    console.log(err, 'err');
                 });
         });
     },

@@ -358,7 +358,7 @@ export default {
                     this.inProgress = false;
                     this.$router
                         .push({
-                            path: `/administrator/settings/pages`,
+                            path: `/administrator/settings/platform/pages`,
                         })
                         .catch(() => {});
                 })

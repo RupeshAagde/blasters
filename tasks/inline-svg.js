@@ -64,7 +64,6 @@ async function run(srcPath, destPath) {
         str = str + `module.exports = svgs;`;
         const writeFilePath = destPath;
         await fsPromise.writeFile(writeFilePath, str);
-        console.log('SVGs generated at', destPath);
         return;
     } catch (err) {
         console.error(`Error while generating svgs ${destPath}`, err);

@@ -1,9 +1,9 @@
 <template>
-    <nitrozen-dialog ref="home-page" title="Home Page">
+    <nitrozen-dialog ref="home-page" :title="title">
         <template slot="body">
             <div class="custom-home-page">
                 <div class="alert-box" v-if="!isCustomHomePage">
-                    No Custom Home Page is configured
+                    No Custom {{title}} is configured
                 </div>
                 <div class="custom-pages">
                     <nitrozen-dropdown
@@ -15,7 +15,7 @@
                     ></nitrozen-dropdown>
                 </div>
                 <div class="info">
-                    This will change Fynd Platform home page
+                    This will change Fynd Platform {{title}}
                 </div>
             </div>
             <loader v-if="isLoading"></loader>
@@ -75,23 +75,33 @@ export default {
             isCustomHomePage: false,
             customHomePage: '',
             homePageRes: null,
-            isLoading: false
+            isLoading: false,
+            title: 'Home Page',
+            key: 'home'
         };
     },
     mounted() {},
     methods: {
-        open() {
+        open(menu = {}) {
+            this.title = menu.title || 'Home Page';
+            this.key = menu.key || 'home';
             this.$refs['home-page'].open({
                 width: '500px',
                 height: '500px',
                 showCloseButton: true
             });
-            Promise.all([this.getHomePage(), this.getCustomPages()])
+            Promise.all([this.getHomePage(menu.key), this.getCustomPages()])
                 .then((res) => {
-                    this.isCustomHomePage = res[0].data.slug ? true : false;
-                    this.homePageRes = res[0].data;
-                    if (this.isCustomHomePage) {
-                        this.customHomePage = res[0].data.slug;
+                    if(menu.key === res[0].data.page_type){
+                        this.isCustomHomePage = res[0].data.slug ? true : false;
+                        this.homePageRes = res[0].data;
+                        if (this.isCustomHomePage) {
+                            this.customHomePage = res[0].data.slug;
+                        }
+                    }else{
+                        this.customHomePage = '';
+                        this.isCustomHomePage = false
+                        this.homePageRes = res[0].data;
                     }
                 })
                 .catch((err) => {
@@ -119,12 +129,13 @@ export default {
                 }
             );
         },
-        getHomePage() {
-            return InternalSettingsService.getHomePage();
+        getHomePage(page_type = 'home') {
+            return InternalSettingsService.getHomePage(page_type);
         },
         save() {
             const body = {
-                slug: this.customHomePage
+                slug: this.customHomePage,
+                page_type: this.key
             };
             if (this.homePageRes._id) {
                 body._id = this.homePageRes._id;
@@ -142,6 +153,7 @@ export default {
         setDefault() {
             const body = {
                 slug: this.customHomePage,
+                page_type: this.key,
                 archived: true,
                 _id: this.homePageRes._id
             };

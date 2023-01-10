@@ -192,7 +192,6 @@
 }
 .container {
     border: 1px solid #e4e5e6;
-    border-radius: 4px;
     display: flex;
     overflow: visible;
     padding: 24px;

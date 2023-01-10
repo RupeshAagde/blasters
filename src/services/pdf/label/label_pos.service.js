@@ -6,12 +6,12 @@ const { DOMImplementation, XMLSerializer } = require('@xmldom/xmldom');
 export class LabelPosTemplateService {
 
   constructor(shipment) {
-	this.mask_number = true;
+    this.mask_number = true;
     this.shipment = shipment;
     this.image_url = null;
     this.shipment_image_url = null;
     this.absolute_footer_position = 650;
-    this.isGstinAvailable = !!(this.shipment.gst &&this.shipment.gst.gstin_code);
+    this.isGstinAvailable = !!(this.shipment.gst && this.shipment.gst.gstin_code);
     this.pageSizeWidth = 3 * 72
     this.pageLeftRightMargin = 24
   }
@@ -24,7 +24,7 @@ export class LabelPosTemplateService {
       this.shipment.dp_details.awb_no.toString(), 2
     );
     this.shipment_image_url = this.textToBase64Barcode(
-      this.shipment.id.toString() , 1
+      this.shipment.id.toString(), 1
     );
     try {
       let poslabel = [
@@ -37,10 +37,10 @@ export class LabelPosTemplateService {
         this.getFooterImage(),
       ];
       return Promise.all(poslabel).then(data => {
-		return this.getBaseTemplate(data);
-	  });
+        return this.getBaseTemplate(data);
+      });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       console.error(
         `Error occurred in template for shipment id: ${this.shipment.id}`
       );
@@ -48,36 +48,36 @@ export class LabelPosTemplateService {
     }
   }
 
-  getBaseTemplate(content){
+  getBaseTemplate(content) {
     let pdfmake_description = {
-		info: {
-			title: this.shipment.id + '_LABEL_POS',
-		},
-		content,
-		styles: {
-			header: {
-				fontSize: 18,
-				bold: true,
-			},
-			large: {
-				fontSize: 13,
-			},
-			medium: {
-				fontSize: 10,
-			},
-		},
-		defaultStyle: {
-			columnGap: 20,
-			font: "Montserrat",
-		},
-		pageMargins: [12, 16, 12, 8],
-		pageSize: {
-			width: this.pageSizeWidth,
-			height: 13.5 * 72,
-		},
-	};
-	return pdfmake_description;
-  };
+      info: {
+        title: this.shipment.id + '_LABEL_POS',
+      },
+      content,
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+        },
+        large: {
+          fontSize: 13,
+        },
+        medium: {
+          fontSize: 10,
+        },
+      },
+      defaultStyle: {
+        columnGap: 20,
+        font: "Montserrat",
+      },
+      pageMargins: [12, 16, 12, 8],
+      pageSize: {
+        width: this.pageSizeWidth,
+        height: 13.5 * 72,
+      },
+    };
+    return pdfmake_description;
+  }
 
   getLabelHeader() {
     return {
@@ -88,8 +88,7 @@ export class LabelPosTemplateService {
         },
         {
           stack: [
-            `${
-				this.shipment.ordering_channel
+            `${this.shipment.ordering_channel
             } | ${this.shipment.dp_details.name.toUpperCase()}`,
             `AWB: ${this.shipment.dp_details.awb_no}`,
           ],
@@ -112,11 +111,10 @@ export class LabelPosTemplateService {
           margin: [0, 4, 0, 0],
         },
         {
-          text: `Invoice ID: ${this.shipment.invoice.store_invoice_id} | ${
-            this.shipment.invoice.payment_type
-          } | ${moment(this.shipment.affiliate_details.shipment_meta.store_invoice_updated_date).format(
-            "DD/MM/YYYY"
-          )}`,
+          text: `Invoice ID: ${this.shipment.invoice.store_invoice_id} | ${this.shipment.invoice.payment_type
+            } | ${moment(this.shipment.affiliate_details.shipment_meta.store_invoice_updated_date).format(
+              "DD/MM/YYYY"
+            )}`,
           fontSize: 8,
           margin: [0, 0, 0, 3],
         },
@@ -131,7 +129,7 @@ export class LabelPosTemplateService {
 
   getSortCode() {
     const dpSortCode = this.getDpSortCode();
-    if(dpSortCode) {
+    if (dpSortCode) {
       return {
         stack: [
           {
@@ -167,7 +165,7 @@ export class LabelPosTemplateService {
   }
 
   getBarcodeAndSortCodeTable() {
-    const table = { body: [[{ svg: this.image_url , height: 100}]] };
+    const table = { body: [[{ svg: this.image_url, height: 100 }]] };
 
     return [
       {
@@ -179,7 +177,7 @@ export class LabelPosTemplateService {
   }
 
   getShipmentIdBarcode() {
-    const table = { body: [[{ svg: this.shipment_image_url , height: 100}]] };
+    const table = { body: [[{ svg: this.shipment_image_url, height: 100 }]] };
     return [
       { text: "", width: "*" },
       {
@@ -192,25 +190,24 @@ export class LabelPosTemplateService {
   }
 
   getDpSortCode() {
-	const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ? this.shipment.affiliate_details.shipment_meta.sort_code:"";
-	return dpSortCode ? `${dpSortCode}` : "";
+    const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ? this.shipment.affiliate_details.shipment_meta.sort_code : "";
+    return dpSortCode ? `${dpSortCode}` : "";
   }
 
   getNameAndNumber() {
-	const { delivery_address } = this.shipment.order;
-	const name =
-		this.shipment.is_packaging_order &&
-		delivery_address.packaging_store_info
-			? `${delivery_address.packaging_store_info.store_id} | ${
-				  delivery_address.packaging_store_info.company_name ||
-				  delivery_address.packaging_store_info.brand_name
-			  }`
-			: `${delivery_address.name}`;
+    const { delivery_address } = this.shipment.order;
+    const name =
+      this.shipment.is_packaging_order &&
+        delivery_address.packaging_store_info
+        ? `${delivery_address.packaging_store_info.store_id} | ${delivery_address.packaging_store_info.company_name ||
+        delivery_address.packaging_store_info.brand_name
+        }`
+        : `${delivery_address.name}`;
 
-	const phone = this.mask_number
-		? `XXXXXXX${delivery_address.phone.slice(-3)}`
-		: delivery_address.phone;
-	return { name, phone };
+    const phone = this.mask_number
+      ? `XXXXXXX${delivery_address.phone.slice(-3)}`
+      : delivery_address.phone;
+    return { name, phone };
   }
 
   getUserInfo() {
@@ -289,33 +286,33 @@ export class LabelPosTemplateService {
   }
 
   getFooterImage() {
-	return Promise.all([
-		getBase64DataURL(this.shipment.brand.logo),
-	]).then((data) => {
-		if(data){
-			let obj = {
-				alignment: "justify",
-				margin: [0, 24, 0, 0],
-				columns: [
-					[
-						{
-							columns: [
-								{
-									image: data[0],
-									alignment: "left",
-									width: 60,
-								},
-							],
-						},
-					],
-					// this.getUPIData(),
-      			],
-			}
-			return obj
-		}else{
-			return {};
-		}
-	})
+    return Promise.all([
+      getBase64DataURL(this.shipment.brand.logo),
+    ]).then((data) => {
+      if (data) {
+        let obj = {
+          alignment: "justify",
+          margin: [0, 24, 0, 0],
+          columns: [
+            [
+              {
+                columns: [
+                  {
+                    image: data[0],
+                    alignment: "left",
+                    width: 60,
+                  },
+                ],
+              },
+            ],
+            // this.getUPIData(),
+          ],
+        }
+        return obj
+      } else {
+        return {};
+      }
+    })
   }
 
   getUPIData() {
@@ -334,10 +331,10 @@ export class LabelPosTemplateService {
     }
 
     return {
-        text: `Scan to pay`,
-        alignment: 'center',
-        fontSize: 7,
-        margin: [0, 3, 0, 3],
+      text: `Scan to pay`,
+      alignment: 'center',
+      fontSize: 7,
+      margin: [0, 3, 0, 3],
     }
   }
 
@@ -382,12 +379,12 @@ export class LabelPosTemplateService {
 
   textToBase64Barcode(text, width) {
     const xmlSerializer = new XMLSerializer();
-	const document = new DOMImplementation().createDocument(
-		'http://www.w3.org/1999/xhtml',
-		'html',
-		null
-	);
-	let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const document = new DOMImplementation().createDocument(
+      'http://www.w3.org/1999/xhtml',
+      'html',
+      null
+    );
+    let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     JsBarcode(svg, text, {
       font: "Helvetica",
       width: width,
@@ -397,7 +394,7 @@ export class LabelPosTemplateService {
       xmlDocument: document,
     });
 
-    this.barcodeWidth = svg&& svg.width && svg.width.baseVal && svg.width.baseVal.value ? svg.width.baseVal.value : 0;
+    this.barcodeWidth = svg && svg.width && svg.width.baseVal && svg.width.baseVal.value ? svg.width.baseVal.value : 0;
     svg.setAttribute("width", (this.pageSizeWidth - this.pageLeftRightMargin).toString());
     return xmlSerializer.serializeToString(svg);
   }
@@ -445,9 +442,8 @@ export class LabelPosTemplateService {
     upiURI.searchParams.append("gstBrkUp", gstBrkUp);
     upiURI.searchParams.append(
       "am",
-      `${
-        (this.shipment.gst_details.brand_calculated_amount || 0.0) +
-        this.shipment.prices.cod_charges
+      `${(this.shipment.gst_details.brand_calculated_amount || 0.0) +
+      this.shipment.prices.cod_charges
       }`
     );
     upiURI.searchParams.append("cu", "INR");

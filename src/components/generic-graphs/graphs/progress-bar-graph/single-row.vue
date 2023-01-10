@@ -56,6 +56,6 @@ export default {
   margin-left: 1em;
   color: #41434c;
   font-size: 13px;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
 }
 </style>
