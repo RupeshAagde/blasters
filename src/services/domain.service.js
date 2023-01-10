@@ -841,6 +841,9 @@ const URLS = {
     FETCH_QC_REASONS: (shipmentId, bagId) => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/return_initiated/reasons`);
     },
+    FETCH_REASSIGN_STORE_REASONS: (shipmentId, bagId) => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/store_reassigned/reasons`);
+    },
     LOCK_MANAGER_URL : () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/entity/lock-manager`);
     },
@@ -862,6 +865,9 @@ const URLS = {
     HIT_E_INVOICE: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/virtual-invoice-dp-assign`);
     },
+    GET_STATES_FOR_TRANSITION: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bag/state/transition`);
+    }
     /** OMSv2.1 -- END */
 };
 

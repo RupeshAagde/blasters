@@ -177,13 +177,18 @@
                     :title="`Choose Next Bag State`"
                     :footer="true"
                 >
-                    <change-bag-state-drawer />
+                    <change-bag-state-drawer
+                        ref="change-bag-state"
+                        :shipment="activeShipmentDetails"
+                        @change="onBagChangeState"
+                    />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
-                            :disabled="true"
+                            :disabled="!enableBagStateChange"
                             theme="secondary"
                             v-flatBtn
+                            @click="onStateChangeClick"
                         >
                             Submit
                         </nitrozen-button>
@@ -406,7 +411,8 @@ export default {
             stores: [],
             isSubmitStore: true,
             statusForCreateS3: [],
-            enableCalling: false
+            enableCalling: false,
+            enableBagStateChange: false
         }
     },
     mounted(){
@@ -791,6 +797,119 @@ export default {
                     3000
                 );
             }
+        },
+
+        /**
+         * Method to decide whether the "Submit" button for changing the state should be enabled.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {Object} event The object containing changed values sent by the child component.
+         */
+        onBagChangeState(event) {
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            if(
+                event.state.length > 0 && 
+                event.remark.length > 0 && 
+                (reasonStates.includes(event.state) && event.reason.length > 0)) {
+                    this.enableBagStateChange = true;
+            } else {
+                this.enableBagStateChange = false;
+            }
+        },
+
+        /**
+         * Method to update the state of the shipment.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        onStateChangeClick() {
+            let changeBagStateDrawer = this.$refs['change-bag-state'];
+
+            /* Check if the selected state's value exists, else throw an error */
+            if(changeBagStateDrawer.selectedState === undefined || changeBagStateDrawer.selectedState === null) {
+                this.$snackbar.global.showError(
+                    `Unable to update the status for this shipment: ${this.activeShipmentDetails.shipment_id}`,
+                    3000
+                );
+                return;
+            }
+
+            /* Basic payload structure (without reasons) */
+            let payload = {
+                statuses: [
+                    {
+                        shipments: [
+                            {
+                                identifier: this.activeShipmentDetails.shipment_id,
+                                products: []
+                            }
+                        ],
+                        status: changeBagStateDrawer.selectedState,
+                        exclude_bags_next_state: null
+                    }
+                ],
+                task: false,
+                force_transition: false,
+                lock_after_transition: false,
+                unlock_before_transition: false
+            };
+
+            /* Adding reasons for cancelled states */
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            if(reasonStates.includes(changeBagStateDrawer.selectedState)) {
+                let reasonValue = changeBagStateDrawer.selectedReason;
+                let reasonText = '';
+                let selectedReason = changeBagStateDrawer.reasons.find(reason => reason.value === changeBagStateDrawer.selectedReason);
+                if(selectedReason && selectedReason.text) {
+                    reasonText = selectedReason.text;
+                }
+
+                payload.statuses.shipments[0]['reasons'] = {
+                    products: [
+                        {
+                            filters: [{}],
+                            data: {
+                                reason_id: reasonValue,
+                                reason_text: reasonText
+                            }
+                        }
+                    ],
+                    entities: []
+                }
+            }
+
+            /* Hitting the API for changing the state */
+            return OrderService.updateShipmentStatus(payload)
+            .then(response => {
+                if(response.data && response.data.statuses && response.data.statuses.length) {
+                    let statusResponse = response.data.statuses[0].shipments[0];
+                    if(statusResponse.status === 200) {
+                        this.$snackbar.global.showSuccess(
+                            `Successfully updated the status of the shipment: ${this.activeShipmentDetails.shipment_id}`,
+                            3000
+                        );
+                    } else {
+                        this.$snackbar.global.showError(
+                            `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
+                            3000
+                        );
+                        console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0].message);
+                    }
+                } else {
+                    this.$snackbar.global.showError(
+                        `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
+                        3000
+                    );
+                    console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0]);
+                }
+            })
+            .catch(error => {
+                this.$snackbar.global.showError(
+                    `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
+                    3000
+                );
+                console.error("Error in updating the status:   ", error);
+            });
         }
     }
 }

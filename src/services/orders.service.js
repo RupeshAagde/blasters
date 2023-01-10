@@ -439,6 +439,13 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_QC_REASONS(shipmentId, bagId), axiosOptions);
     },
+    fetchReassignedStoreReasons(shipmentId, bagId) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(false)
+        );
+        return ApiService.get(URLS.FETCH_REASSIGN_STORE_REASONS(shipmentId, bagId), axiosOptions);
+    },
     fetchShipmentActivityLogs(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
         return ApiService.get(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
@@ -489,6 +496,10 @@ const OrderService = {
             getCommonHeaderOptions(false)
         );
         return ApiService.get(URLS.FETCH_REASONS(shipmentId, bagId, state), axiosOptions);
+    },
+    getStatesForBagTranistion() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false));
+        return ApiService.get(URLS.GET_STATES_FOR_TRANSITION(), axiosOption);
     },
     getStores(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
