@@ -764,6 +764,11 @@ export default {
                     'Please provide all details'
                 );
             }
+            if(!this.validateSupportValue(this.supportValue)){
+                return this.$snackbar.global.showError(
+                    'Please provide correct details'
+                );
+            }
             let contactDetail = {
                 type: this.selectedSupport,
                 title: this.supportTitle,

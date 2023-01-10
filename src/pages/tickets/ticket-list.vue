@@ -507,7 +507,7 @@ export default {
             });
         },
         readableDate(date) {
-            return moment(date).format('DD/MM/YYYY');
+            return moment(date).format('MMM D, YYYY');
         },
         ticketSubtitle(ticket) {
             let subtitle = 'Created by ';

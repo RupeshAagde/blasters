@@ -4,7 +4,9 @@
             class="type-filter mt-sm"
             :label="label"
             v-model="l1_category"
-            :items="selectedIntegrationCategory"
+            :searchable="true"
+            @searchInputChange="categorySearchl1"
+            :items="l1Category"
             @change="l1Changed"
             :disabled="disabled"
         ></nitrozen-dropdown>
@@ -13,7 +15,9 @@
             class="type-filter mt-sm"
             :label="nameForLabel(l1_category, categories)"
             v-model="l2_category"
-            :items="l2_category_option"
+            :searchable="true"
+            @searchInputChange="categorySearchl2"
+            :items="l2Category"
             @change="l2Changed"
             :disabled="disabled"
         ></nitrozen-dropdown>
@@ -22,7 +26,9 @@
             class="type-filter mt-sm"
             :label="nameForLabel(l2_category, l2_categories)"
             v-model="l3_category"
-            :items="l3_category_option"
+            :searchable="true"
+            @searchInputChange="categorySearchl3"
+            :items="l3Category"
             @change="l3Changed"
             :disabled="disabled"
         ></nitrozen-dropdown>
@@ -31,7 +37,9 @@
             class="type-filter mt-sm"
             :label="nameForLabel(l3_category, l3_categories)"
             v-model="l4_category"
-            :items="l4_category_option"
+            :searchable="true"
+            @searchInputChange="categorySearchl4"
+            :items="l4Category"
             @change="l4Changed"
             :disabled="disabled"
         ></nitrozen-dropdown>
@@ -79,7 +87,13 @@ export default {
             l2_category_option: [],
             l3_category_option: [],
             l4_category_option: [],
-            categories: []
+            categories: [],
+
+            l1Category : [],
+            l2Category : [],
+            l3Category : [],
+            l4Category : []
+
         };
     },
     computed: {
@@ -165,6 +179,7 @@ export default {
                         this.selectedIntegrationCategory.push(
                             categoryDropdownOption
                         );
+                        this.l1Category.push(categoryDropdownOption);
                         this.categories.push(category);
                     });
                 }
@@ -174,8 +189,53 @@ export default {
             let obj = arr.find((a) => a.key == slug);
             return `${obj.display || 'Sub'} Issues`;
         },
+        categorySearchl1(e){
+            if(e && e.text){
+                this.l1Category = this.selectedIntegrationCategory.filter(
+                    (a) =>{
+                        return a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                    }   
+                );
+            } else {
+                this.l1Category = this.selectedIntegrationCategory
+            }
+        },
+        categorySearchl2(e){
+            if(e && e.text){
+                this.l2Category = this.l2_category_option.filter(
+                    (a) =>{
+                        return a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                    }    
+                );
+            } else {
+                this.l2Category = this.l2_category_option
+            }
+        },
+        categorySearchl3(e){
+            if(e && e.text){
+                this.l3Category = this.l3_category_option.filter(
+                    (a) =>{
+                        return a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                    }      
+                );
+            } else {
+                this.l3Category = this.l3_category_option
+            }
+        },
+        categorySearchl4(e){
+            if(e && e.text){
+                this.l4Category = this.l4_category_option.filter(
+                    (a) =>{
+                        return a.text.toLowerCase().indexOf(e.text.toLowerCase()) > -1
+                    }     
+                );
+            } else {
+                this.l4Category = this.l4_category_option
+            }
+        },
         l1Changed() {
             this.l2_category_option = [];
+            this.l2Category = [];
             let selectedCat = this.categories.find(
                 (a) => a.key === this.l1_category
             );
@@ -189,6 +249,7 @@ export default {
                     value: category.key
                 };
                 this.l2_category_option.push(categoryDropdownOption);
+                this.l2Category.push(categoryDropdownOption);
             });
             this.l2_category = '';
             this.l3_category = '';
@@ -197,6 +258,7 @@ export default {
         },
         l2Changed() {
             this.l3_category_option = [];
+            this.l3Category = [];
             let selectedCat = this.l2_categories.find(
                 (a) => a.key == this.l2_category
             );
@@ -210,6 +272,7 @@ export default {
                     value: category.key
                 };
                 this.l3_category_option.push(categoryDropdownOption);
+                this.l3Category.push(categoryDropdownOption);
             });
             this.l3_category = '';
             this.l4_category = '';
@@ -217,6 +280,7 @@ export default {
         },
         l3Changed() {
             this.l4_category_option = [];
+            this.l4Category = [];
             let selectedCat = this.l3_categories.find(
                 (a) => a.key == this.l3_category
             );
@@ -230,6 +294,7 @@ export default {
                     value: category.key
                 };
                 this.l4_category_option.push(categoryDropdownOption);
+                this.l4Category.push(categoryDropdownOption);
             });
             this.l4_category = '';
             this.emitChange();
