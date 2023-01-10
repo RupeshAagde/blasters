@@ -450,6 +450,9 @@ const URLS = {
     GET_UPLOAD_URL: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
     },
+    GET_REPORT_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
+    },
 
     //#########Tickets########
     FETCH_TICKETS: () => {
