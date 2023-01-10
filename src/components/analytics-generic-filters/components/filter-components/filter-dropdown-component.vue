@@ -152,7 +152,10 @@ export default {
       this.getVals = vals;
     },
     methodsChange() {
-      this.$refs[this.seedData.name].toggle();
+      if(!this.isMultiSelect) {
+        this.$refs[this.seedData.name].toggle();
+      }
+    
     }
   },
   computed: {
