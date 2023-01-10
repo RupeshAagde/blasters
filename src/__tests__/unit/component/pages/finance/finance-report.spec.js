@@ -258,7 +258,7 @@ describe('Finance', () => {
     it('should format the dates from unix to readable format', async() => {
         let clickEvent = jest.spyOn(wrapper.vm, 'dateFormat');
         //clickEvent = jest.fn().mockReturnValue('1657825752');
-        clickEvent('1657825752');
+        clickEvent("2023-01-10 10:16:45");
         //expect(drink).toHaveReturnedWith('La Croix');
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();

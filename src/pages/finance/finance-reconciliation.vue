@@ -116,14 +116,6 @@
                                         >
                                             {{ item }}
                                         </td>
-                                        <!-- <td>{{ tab[0] }}</td>
-                                        <td>{{ tab[1] ? tab[1] : '-' }}</td>
-                                        <td>{{ tab[2] }}</td>
-                                        <td>{{ tab[3] }}</td>
-                                        <td>{{ tab[4] }}</td>
-                                        <td>{{ tab[5] }}</td>
-                                        <td>{{ tab[6] }}</td>
-                                        <td>{{ dateFormat(tab[7]) }}</td> -->
                                         <td>
                                             <nitrozen-badge
                                                 v-if="tab[tableColumns.length - 2] === 'reconciled' || tab[tableColumns.length - 2] === 'processed' || tab[tableColumns.length - 2] === 'settled'"
@@ -133,10 +125,6 @@
                                                 v-else-if="tab[tableColumns.length - 2] === 'reported' || tab[tableColumns.length - 2] === 'pending'"
                                                 state="warn"
                                             >{{ tab[tableColumns.length - 2] }}</nitrozen-badge>
-                                            <!-- <nitrozen-badge
-                                                v-if="tab[tableColumns.length - 2] === 'rejected' || tab[tableColumns.length - 2] === null || tab[tableColumns.length - 2] === 'discard' "
-                                                state="error"
-                                            >Rejected</nitrozen-badge> -->
                                             <nitrozen-badge
                                                 v-else
                                                 state="error"
@@ -178,20 +166,6 @@
                                                                 </span>
                                                                 
                                                             </td>
-                                                            <!-- <td>{{ tab[9] ? tab[9] : '-' }}</td>
-                                                            <td>{{ tab[10] ? tab[10] : '-' }}</td>
-                                                            <td>{{ tab[11] ? tab[11] : '-' }}</td>
-                                                            <td>{{ tab[12] ? tab[12] : '-' }}</td>
-                                                            <td>{{ tab[13] ? tab[13] : '-' }}</td>
-                                                            <td>{{ tab[14] ? tab[14] : '-' }}</td>
-                                                            <td>{{ tab[15] ? tab[15] : '-' }}</td>
-                                                            <td>{{ tab[16] ? tab[16] : '-' }}</td>
-                                                            <td>{{ tab[17] ? tab[17] : '-' }}</td>
-                                                            <td>{{ tab[18] ? tab[18] : '-' }}</td>
-                                                            <td>{{ tab[19] ? tab[19] : '-' }}</td>
-                                                            <td>{{ tab[20] ? tab[20] : '-' }}</td>
-                                                            <td>{{ tab[21] ? tab[21] : '-' }}</td>
-                                                            <td>{{ tab[22] ? dateFormat(tab[22]) : '-' }}</td> -->
                                                         </tr>
                                                     </template>
                                                 </table>
@@ -221,12 +195,6 @@
                 </div>
             </div>
         </div>
-        <!-- <recon-filters-dialog
-            ref="reconFiltersDialog"
-            title="Apply Filters"
-            @close="$dialogClosed"
-        >
-        </recon-filters-dialog> -->
         <transition name="slide">
             <template v-if="quickFilters">
                 <div class="slide-fade" ref="slide-fade" @click="closeFilter($event)">
@@ -502,22 +470,7 @@ export default {
             this.expandedRow = false;
             delete tab.isErrorShown;
             this.tableDataItems.splice(index + 1, 1);
-            //this.tableValues.slice(index + 1, 1);
         },
-        /* openReconFiltersDialog() {
-            this.$refs.reconFiltersDialog.open({
-                pageSize:this.pageObject.limit
-            });
-        },
-        $dialogClosed(data) {
-            this.expandedRow  = false;
-            if(data){
-                this.inProgress = true;
-                this.cachedParam = data;
-                this.downloadReportParam = data;
-                this.generateReport();
-            }
-        }, */
         filterSearch(e){
             if(e){
                 this.companyChipsList = e.companyList;
@@ -565,18 +518,6 @@ export default {
             ); */
             let excludedPrimaryHeaders = this.headers.filter(val => !this.primaryHeaders.includes(val));
             this.additionColumns = excludedPrimaryHeaders;
-
-            /* values.forEach((v) => {
-            if (v.length === this.headers.length) {
-                let d = {};
-                for (let i = 0; i < this.headers.length; i++) {
-                    //console.log(this.headers[i]);
-                    d[this.headers[i]] = v[i];
-                }
-                //console.log(d);
-                //this.tableDataItems.push(d);
-            }
-            }); */
             values.forEach((v) => {
             if (v.length === this.headers.length) {
                 let m = {};
