@@ -37,7 +37,7 @@
         <div class="navigation-list" v-if="settings && show">
             <draggable :list="settings" v-model="settings">
                 <transition-group>
-                    <seller-navigation-list v-for="(element, index) in settings" :key="index" :name="element.title" :subMenu="getSubMenu(element.child)" :icon="element.icon" @seller-panel-show="$emit('seller-panel-show', { type: type, index: index, isEdit: true})"></seller-navigation-list>
+                    <seller-navigation-list v-for="(element, index) in settings" :key="index" :name="element.title" :subMenu="getSubMenu(element.child)" :icon="element.icon" @delete-menu="settings.splice(index, 1)" @seller-panel-show="$emit('seller-panel-show', { type: type, index: index, isEdit: true})"></seller-navigation-list>
                 </transition-group>
             </draggable>
         </div>

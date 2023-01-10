@@ -180,10 +180,15 @@ export default {
                 REQUIRED_FIELDS.forEach(key => {
                     value = this.subMenu[index][key]
                 
-                if (isEmpty(value)) {
-                    this.errors[index][key] = '* Required field';
-                    isVaild = false;
-                }
+                    if (isEmpty(value)) {
+                        this.errors[index][key] = '* Required field';
+                        isVaild = false;
+                    }
+
+                    if(value && key === 'link' && value.includes(' ')){
+                        this.errors[index][key] = 'Invalid Path';
+                        isVaild = false;
+                    }
                 });
             }
 

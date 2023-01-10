@@ -5,6 +5,7 @@
                 <nitrozen-button ref="save-settings"  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
             </page-header>
         </div>
+        <loader class="loading" v-if="isLoading"></loader>
         <div class="customise-container" v-if="settingsObj">
             <div class="customise-title">
                 <div class="jumbotron-container">
@@ -58,6 +59,7 @@ import OtherSellers from '@/components/settings/navigation/other-sellers.vue';
 import footerContentVue from '@/components/settings/navigation/footer-content.vue';
 import sidePanelVue from '@/components/settings/navigation/side-panel.vue';
 import SellerPanleService from '@/services/seller-panel.service.js';
+import loader from '@/components/common/loader';
 
 import {
     NitrozenButton,
@@ -76,7 +78,8 @@ export default {
         'other-sellers': OtherSellers,
         'footer-content': footerContentVue,
         'side-panel': sidePanelVue,
-        'preview-setting': PreviewSetting
+        'preview-setting': PreviewSetting,
+        loader
     },
     mounted() {
         this.fetchSettings();
@@ -86,14 +89,17 @@ export default {
             deviceType: 'desktop',
             settingsObj: null,
             permissionObj: null,
-            tabs : ['Desktop', 'Mobile']
+            tabs : ['Desktop', 'Mobile'],
+            isLoading: false
         }
     },
     methods: {
         async fetchSettings() {
-           const [settings, permission] = await Promise.all([SellerPanleService.getPanelSettings(), SellerPanleService.getPermission()])
+            this.isLoading = true;
+            const [settings, permission] = await Promise.all([SellerPanleService.getPanelSettings(), SellerPanleService.getPermission()])
             this.settingsObj = settings.data
             this.permissionObj = permission.data
+            this.isLoading = false;
         },
         
         editPanel(payload) {
@@ -105,9 +111,13 @@ export default {
         },
 
         saveSettings(payload) {
+            this.isLoading = true;
             SellerPanleService.savePanelSettings(payload).then(()=>{
-                this.fetchSettings()
-                this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
+                this.fetchSettings().then(()=>{
+                    this.isLoading = false;
+                    this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
+                })
+                
             })
         },
         tabChange(data) {

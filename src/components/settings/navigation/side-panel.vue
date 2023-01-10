@@ -14,8 +14,8 @@
                             <div class="cancel-btn" @click="showNavigationSection">
                                 <inline-svg :src="'cross-side-panel'" class="icon"></inline-svg>
                             </div>
+                                                    
                         </div>
-                        <hr class="line">
                         <div class="forms">
 
         
@@ -62,7 +62,7 @@
                                         <!-- <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions" :multiple="true"></nitrozen-dropdown> -->
                                         <div class="dropdown-btn">
                                             <div class="dropdown">
-                                                <nitrozen-dropdown v-if="permissions.length !==0 " @change="test" :items="permissions" v-model="menuSettings.permissions[0]" :multiple="false"></nitrozen-dropdown>
+                                                <nitrozen-dropdown v-if="permissions.length !==0 " :items="permissions" v-model="menuSettings.permissions[0]" :multiple="false"></nitrozen-dropdown>
                                             </div>
                                             <div class="button">
                                                 <nitrozen-button :theme="'secondary'" @click.stop="menuSettings.permissions = []"> Clear </nitrozen-button>
@@ -196,7 +196,7 @@ export default {
             if (settings.isEdit) {
                 this.index = settings.index
             }
-            this.setPermission(settings.permissions.permissions)
+            this.setPermission(this.type === 'company_level' ? settings.permissions.permissions : settings.permissions.application.permissions)
             this.showNavigationSection()
         },
         validateRequiredFormFields() {
@@ -208,6 +208,11 @@ export default {
                if (isEmpty(value)) {
                    this.errors[key] = '* Required field';
                    isVaild = false;
+               }
+
+               if(value && key === 'link' && value.includes(' ')){
+                    this.errors[key] = 'Invalid Path';
+                    isVaild = false;
                }
             });
 
@@ -257,10 +262,16 @@ export default {
 
         }
         .header {
+            position: fixed;
             display: flex;
             justify-content: space-between;
             height: 72px;
             align-items: center;
+            z-index: @gotop;
+            background: @White;
+            width: 506px;
+            box-sizing: border-box;
+            border-bottom: 0.5px solid @LightGray;
             .line {
                 border: 0.5px solid @LightGray;
                 margin: 0px;
@@ -281,7 +292,7 @@ export default {
         }
 
         .forms {
-            margin: 24px 24px 0px 24px;
+            margin: 80px 24px 80px 24px;
 
             .item-form {
 
@@ -341,11 +352,13 @@ export default {
 
         .add-cancle-btn {
             display: flex;
-            margin-top: 25px;
+            position: fixed;
+            width: 506px;
+            bottom: 0;
             align-items: center;
             height: 72px;
             justify-content: right;
-            color: @White;
+            background-color: @White;
             box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.06);
 
             .cancle-btn {

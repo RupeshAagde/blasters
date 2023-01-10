@@ -24,6 +24,9 @@
                     <div class="company-edit" @click.stop="$emit('seller-panel-show')" >
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
+                    <div @click.stop="$emit('delete-menu')">
+                        <inline-svg :src="'delete'"  class="icon"></inline-svg>
+                    </div>
                 </div>
             </div>
         </div>
