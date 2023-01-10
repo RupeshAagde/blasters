@@ -5,7 +5,6 @@ import {getFormDataHeaders } from '@/services/utils.service';
 
 const FinanceService = {
    getFileType(data) {
-   // console.log(data);
       let axiosOption = Object.assign({}, { data });
       return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
    },
@@ -32,6 +31,18 @@ const FinanceService = {
         let axiosOption = Object.assign( { data } );
         return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
      },
+   callPresignedUrl(url,data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.CALL_PRESIGNED_URL(url), axiosOption);
+   },
+   validateFile(data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
+   },
+   getReportList(data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption); 
+   }
 
 };
 

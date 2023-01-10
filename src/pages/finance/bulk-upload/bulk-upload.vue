@@ -47,7 +47,10 @@
           <div class="upload-container" v-if="this.toggleUpload">
             <div class="upload-header">
               <div class="title">Upload File</div>
-              <div class="upload-history-btn">
+              <div 
+                class="upload-history-btn"
+                @click="openHistory"
+              >
                 <span class="icon"><inline-svg :src="'upload-history-finance'"></inline-svg></span>
                 <span class="txt">Upload History</span>
               </div>
@@ -283,6 +286,10 @@ export default {
     },
     handleCloseDrawer(){
         this.drawerOpen = false;
+    },
+    openHistory(){
+      console.log(this.$router);
+      this.$router.push({ name: 'upload-history' });
     },
       downloadFormat(){
 
@@ -638,6 +645,7 @@ padding: 24px ;
   }
 
   .upload-history-btn{
+    cursor: pointer;
     .txt{
       color: #2E31BE;
       font-weight: 700;

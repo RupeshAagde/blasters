@@ -59,6 +59,7 @@ import CreateWebhooks from './../../pages/webhook/index.vue';
 import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
 import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
+import UploadHistory from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
@@ -768,10 +769,23 @@ export default [
                     ]);
                 }
             },
+            /**
+             * Finance Upload Portal Routes
+             */
             {
                 name: 'bulk-upload',
                 path: 'finance/bulk-upload',
                 component: BulkUpload,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
+            },
+            {
+                name: 'upload-history',
+                path: 'finance/bulk-upload/upload-history',
+                component: UploadHistory,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
                         'admin-access'
