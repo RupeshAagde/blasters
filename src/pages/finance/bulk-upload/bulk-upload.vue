@@ -555,6 +555,7 @@ export default {
                 })
                 .finally(() => {
                   this.file = new Blob();  
+                  this.openHistory();
                 });
         },
      
