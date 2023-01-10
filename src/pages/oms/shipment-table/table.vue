@@ -577,7 +577,6 @@ export default {
             isCreateInvoiceS3: false,
             isCall: false,
             isSms: false,
-            isDebugLogistics: false,
             isDebugShipment: false,
             isTagEmployee: false,
             isChangeBagState: false,
@@ -653,7 +652,6 @@ export default {
             this.isCreateInvoiceS3 = false;
             this.isCall = false;
             this.isSms = false;
-            this.isDebugLogistics = false;
             this.isDebugShipment = false;
             this.isTagEmployee = false;
             this.isChangeBagState = false;
@@ -819,7 +817,7 @@ export default {
             if(item.value == 'create_invoice_s3') { this.createS3Invoice() };
             if(item.value == 'call') { this.isCall = true };
             if(item.value == 'sms') { this.isSms = true };
-            if(item.value == 'debug_logistics') { this.isDebugLogistics = true };
+            if(item.value == 'debug_logistics') { this.navigateToLogisticsPage(); };
             if(item.value == 'debug_shipment') { this.isDebugShipment = true };
             if(item.value == 'tag_employee') { this.isTagEmployee = true };
             if(item.value == 'change_bag_state') { this.isChangeBagState = true };
@@ -958,6 +956,23 @@ export default {
                 this.enableCalling = true;
             } else {
                 this.enableCalling = false;
+            }
+        },
+
+        /**
+         * Method to navigate user to the logistics page on a new tab.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         */
+        navigateToLogisticsPage() {
+            if(this.activeId) {
+                window.open(`https://pulse-admin.fyndx1.de/firebolt/monitor/debug/${this.activeId}`, '_blank');
+            } else {
+                console.error("Error in navigating to the logistics page as the active ID is undefined.");
+                this.$snackbar.global.showError(
+                    `We are unable to navigate you to the logistics page`,
+                    3000
+                );
             }
         }
     }
