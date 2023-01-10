@@ -251,16 +251,18 @@
                     :title="`Call`"
                     :footer="true"
                 >
-                    <call-drawer
-                    >
-                    </call-drawer>
+                    <call-drawer 
+                        :ref="'call-drawer'"
+                        :shipment="activeShipmentDetails"
+                        @change="onCallersChange"
+                    />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
-                            :disabled="true"
                             theme="secondary"
                             v-flatBtn
-                            @click="sendSmsCutomer"
+                            @click="callCustomer"
+                            :disabled="!enableCalling"
                         >
                             Call
                         </nitrozen-button>
@@ -386,31 +388,6 @@
                     <debug-shipment-drawer
                     >
                     </debug-shipment-drawer>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isCall">
-                <side-drawer
-                    class="call-side-drawer"
-                    @close="closeDetails()"
-                    :title="`Call`"
-                    :footer="true"
-                >
-                    <call-drawer
-                    >
-                    </call-drawer>
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Call
-                        </nitrozen-button>
-                    </template>
                 </side-drawer>
             </template>
         </transition>
@@ -622,6 +599,7 @@ export default {
             stores: [],
             isSubmitStore: true,
             statusForCreateS3: [],
+            enableCalling: false
         }
     },
     mounted(){
@@ -894,6 +872,9 @@ export default {
         sendSmsCutomer() {
             this.$refs['sms-drawer'].sendSmsToCustomer();
         },
+        callCustomer() {
+            this.$refs['call-drawer'].callCustomer();
+        },
         fetchReasons() {
             OrderService.getReasons(this.shipmentId, this.bagId, this.status).then((res)=>{
                 if(res.data.success == true) {
@@ -961,6 +942,23 @@ export default {
                     3000
                 );
             })
+        },
+
+        /**
+         * Method to enable/disable calling button in the call drawer.
+         * If the user has entered a valid number for caller and he/she
+         * has selected one of the receivers' values, only then the call
+         * button will be active.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {Object} event The event object emitted by the call-drawer component.
+         */
+        onCallersChange(event) {
+            if(event.caller.toString().length > 0 && event.receiver.toString().length > 0) {
+                this.enableCalling = true;
+            } else {
+                this.enableCalling = false;
+            }
         }
     }
 }

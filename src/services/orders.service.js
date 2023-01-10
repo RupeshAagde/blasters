@@ -245,6 +245,15 @@ const OrderService = {
     },
 
     /** OMS v2.1 */
+    callCustomer(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(false),
+            false,
+            { params: params }
+        );
+        return ApiService.get(URLS.CALL(), axiosOption);
+    },
     createS3Invoice(data){
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
         return ApiService.post(URLS.CREATE_S3_INVOICE(), axiosOption);

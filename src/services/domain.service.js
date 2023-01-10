@@ -847,6 +847,9 @@ const URLS = {
     SEND_SMS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/ninja/send-sms`);
     },
+    CALL: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/ninja/click2call/`);
+    },
     FETCH_REASONS: (shipmentId, bagId, state) => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/${state}/reasons`);
     },
