@@ -60,7 +60,7 @@
                 </div>
                 <div class="upload-file-title">Choose File</div>
               </div>
-              <div class="desc">Drag and drop a file here(max. file size: 5MB)</div>
+              <div class="desc">Drag and drop a file here</div>
               <div class="condition">Accepted File Type:  .csv</div>
             </div>
             <div class="file-loading-container"  v-if="this.fileSelected">
@@ -150,7 +150,6 @@
                         </span>
                     </div>
           </mirage-alert>
-
           <div class="snapshot-table-conatiner" v-if="validationCompleted">
             <table
                 class="snapshot-table"
@@ -165,14 +164,12 @@
                 </tr>
                 <tr v-for="(tab, index) in tableData.items"
                     :key="'tab-' + index"> 
-                    <td v-for="(tabItem,key,index) in tab" :key="'tabitem-' + index">
+                    <td v-for="(tabItem,index) in tab" :key="index">
                         {{ tabItem }}
                     </td>
                 </tr>
-                
             </table>
           </div>
-
           <div class="validate-loader" v-if="startLoader">
             <no-content
                 :icon="'/public/assets/pngs/upload-loader-finance.gif'"
@@ -432,8 +429,6 @@ export default {
                     for (let prop in res.data.data.fields) {
                       data.append(prop, res.data.data.fields[prop]);
                     }
-                    // data.append('x-amz-acl', 'public-read');
-
                     const file = this.file;
                     const reader = new FileReader();
                     reader.onload = (e) => {
@@ -443,7 +438,6 @@ export default {
                         const dataToUpload = new Blob([compressedFile], { type: file.type });
                         const fileToUpload = new Blob([dataToUpload], { type: "application/gzip"});
                         data.append('file', fileToUpload);
-
                         this.uploadToS3(url,data);
                     };
 
@@ -461,23 +455,15 @@ export default {
           const caller = FinanceService.uploadToS3(url, data);
           caller
                 .then((res) => {
-                      console.log('In Amazon then');
-                      console.log(res);
+
                 })
                 .catch((err) => {
-                  console.log(err);
-                  if(err.request.data == "undefined"){
-                    this.getValidatedFileInfo();
-                  }
-                    // this.$snackbar.global.showError(
-                    //     `Failed`
-                    // );
+                  this.getValidatedFileInfo();
                 })
                 
         },
 
         getValidatedFileInfo(){  
-
           const params = {
                 "data": {
                     "report_id": this.selectedFileType,
@@ -501,8 +487,6 @@ export default {
                 })               
         },
         showValidatedScreen(res){
-
-          console.log(res);
 
           const dataVal = res.data.data;
 
@@ -532,6 +516,12 @@ export default {
             
         },
         cancelValidation(){
+          this.validationCompleted = false;
+          this.toggleUpload = true;
+          this.parsedData.totalRecords = 0;
+          this.$refs.validateImg.style.display = "block";
+          this.fileSelected = false;
+          this.file = new Blob(); 
 
         },
         confirmValidation(){
@@ -559,7 +549,6 @@ export default {
                 .finally(() => {
                   this.file = new Blob();  
                 });
-
         },
      
     }
@@ -910,6 +899,11 @@ svg{
   .icon{
     margin-right: 3px;
   }
+}
+
+th,tr{
+  font-size: 14px;
+  line-height: 19px;
 }
 
 
