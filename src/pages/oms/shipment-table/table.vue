@@ -169,6 +169,7 @@
             </template>
         </table>
 
+        <!-- Change Bag State Drawer -->
         <transition name="slide">
             <template v-if="isChangeBagState">
                 <side-drawer
@@ -176,8 +177,7 @@
                     :title="`Choose Next Bag State`"
                     :footer="true"
                 >
-                    <change-bag-state-drawer
-                    ></change-bag-state-drawer>
+                    <change-bag-state-drawer />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
@@ -192,6 +192,7 @@
             </template>
         </transition>
 
+        <!-- SMS Drawer -->
         <transition name="slide">
             <template v-if="isSms && activeShipmentDetails">
                 <side-drawer
@@ -211,8 +212,7 @@
                         :amountPaid="amountPaid"
                         :paymentMode="paymentMode"
                         @enableSubmitButton="enableSubmitButtonSms"
-                    >
-                    </sms-drawer>
+                    />
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
@@ -228,21 +228,7 @@
             </template>
         </transition>
 
-        <transition name="slide">
-            <template v-if="isDebugShipment">
-                <side-drawer
-                    class="debug-shipment-side-drawer"
-                    @close="closeDetails()"
-                    :title="`Debug Order Info For: FY53425324532453245324`"
-                    :footer="false"
-                >
-                    <debug-shipment-drawer
-                    >
-                    </debug-shipment-drawer>
-                </side-drawer>
-            </template>
-        </transition>
-
+        <!-- Call Drawer -->
         <transition name="slide">
             <template v-if="isCall">
                 <side-drawer
@@ -271,31 +257,7 @@
             </template>
         </transition>
 
-        <transition name="slide">
-            <template v-if="isTagEmployee">
-                <side-drawer
-                    class="tag-employee-drawer"
-                    @close="closeDetails()"
-                    :title="`Tag Employee to Shipment`"
-                    :footer="true"
-                >
-                    <tag-employee-drawer
-                    >
-                    </tag-employee-drawer>
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
+        <!-- Reassign Store Drawer -->
         <transition name="slide">
             <template v-if="isReassignStore">
                 <side-drawer
@@ -326,31 +288,7 @@
             </template>
         </transition>
 
-        <transition name="slide">
-            <template v-if="isBankDetails">
-                <side-drawer
-                    class="bank-details-drawer"
-                    @close="closeDetails()"
-                    :title="`Add Bank Details: 16345834590202348554`"
-                    :footer="true"
-                >
-                    <bank-details-drawer
-                    >
-                    </bank-details-drawer>
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
+        <!-- Change Address Drawer -->
         <transition name="slide">
             <template v-if="isChangeAddress">
                 <side-drawer
@@ -360,123 +298,6 @@
                     :footer="true"
                 >
                     <change-address-drawer />
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isDebugShipment">
-                <side-drawer
-                    class="debug-shipment-side-drawer"
-                    @close="closeDetails()"
-                    :title="`Debug Order Info For: FY53425324532453245324`"
-                    :footer="false"
-                >
-                    <debug-shipment-drawer />
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isTagEmployee">
-                <side-drawer
-                    class="tag-employee-drawer"
-                    @close="closeDetails()"
-                    :title="`Tag Employee to Shipment`"
-                    :footer="true"
-                >
-                    <tag-employee-drawer />
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isReassignStore">
-                <side-drawer
-                    class="reassign-store-drawer"
-                    @close="closeDetails()"
-                    :title="`Reassign store`"
-                    :footer="true"
-                >
-                    <reassgin-store-drawer
-                        ref="store-assign-call"
-                        :reasons="reasons"
-                        :stores="stores"
-                        :bagId="bagId"
-                        @enableSubmitForReassignStore="isSubmitReassingStore"
-                    >
-                    </reassgin-store-drawer>
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="isSubmitStore"
-                            theme="secondary"
-                            v-flatBtn
-                            @click="callStoreAssign"
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isBankDetails">
-                <side-drawer
-                    class="bank-details-drawer"
-                    @close="closeDetails()"
-                    :title="`Add Bank Details: 16345834590202348554`"
-                    :footer="true"
-                >
-                    <bank-details-drawer
-                    >
-                    </bank-details-drawer>
-                    <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="true"
-                            theme="secondary"
-                            v-flatBtn
-                        >
-                            Submit
-                        </nitrozen-button>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="isChangeAddress">
-                <side-drawer
-                    class="change-address-drawer"
-                    @close="closeDetails()"
-                    :title="`Change Adress`"
-                    :footer="true"
-                >
-                    <change-address-drawer
-                    >
-                    </change-address-drawer>
                     <template #footer>
                         <nitrozen-button
                             class="button-submit"
@@ -507,11 +328,8 @@ import AdmInlineSvg from '@/components/common/inline-svg.vue';
 import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
 import ChangeBagStateDrawer from './change-bag-state-drawer.vue';
 import SmsDrawer from './sms-drawer.vue';
-import DebugShipmentDrawer from './debug-shipment-drawer.vue';
 import CallDrawer from './call-drawer.vue';
-import ReassginStoreDrawer from './reassign-store-drawer.vue';
-import TagEmployeeDrawer from './tag-employee-drawer.vue';
-import BankDetailsDrawer from './bank-details-drawer.vue';
+import ReassignStoreDrawer from './reassign-store-drawer.vue';
 import ChangeAddressDrawer from './change-address-drawer.vue';
 import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
 
@@ -550,11 +368,8 @@ export default {
         NitrozenButton,
         NitrozenTooltip,
         SmsDrawer,
-        DebugShipmentDrawer,
         CallDrawer,
-        ReassginStoreDrawer,
-        TagEmployeeDrawer,
-        BankDetailsDrawer,
+        'reassign-store': ReassignStoreDrawer,
         ChangeAddressDrawer,
         AdminActions
     },
@@ -867,17 +682,26 @@ export default {
             this.$refs['call-drawer'].callCustomer();
         },
         fetchReasons() {
-            OrderService.getReasons(this.shipmentId, this.bagId, this.status).then((res)=>{
+            OrderService.getReasons(this.shipmentId, this.bagId, this.status)
+            .then((res)=>{
                 if(res.data.success == true) {
                     this.reasons = res.data.reasons.map(reason => {
                         reason['text'] = reason.display_name;
                         reason['value'] = reason.id;
                         return reason;
                     });
-                    this.fetchStores();
+                    if(res.data.reasons.length > 0) {
+                        this.fetchStores();
+                    } else {
+                        this.$snackbar.global.showError(
+                            `We are unable to fetch reasons for reassigning this store. Kindly try again after some time.`,
+                            3000
+                        );
+                    }
                 }
-            }).catch((err)=> {
-                console.error("Failed to get reasons for re-assign store ", err);
+            })
+            .catch((err)=> {
+                console.error("Failed to get reasons for re-assigning the store ", err);
                 this.$snackbar.global.showError(
                     'We are unable to fetch reasons for reassigning the store. Kindly try again after sometime.',
                     3000
@@ -890,7 +714,7 @@ export default {
                 all_stores: true,
                 limit: 100,
             }
-            OrderService.getStores(params).then((res)=>{
+            OrderService.getStores(params).then((res) => {
                 if(res.data.success == true) {
                     this.stores = res.data.stores.map(store => {
                         store['text'] = store.name;
@@ -900,7 +724,7 @@ export default {
                     });
                     this.isReassignStore = true;
                 }
-            }).catch((err)=> {
+            }).catch((err) => {
                 console.error("Failed to get stores for re-assign store ", err);
                 this.$snackbar.global.showError(
                     'We are unable to fetch stores. Kindly try again after sometime.',
