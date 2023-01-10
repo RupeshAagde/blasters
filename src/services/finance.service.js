@@ -5,7 +5,6 @@ import {getCompInfo, getCommonHeaderOptions } from '@/services/utils.service';
 
 const FinanceService = {
    getFileType(data) {
-    console.log(data);
       let axiosOption = Object.assign({}, { data });
       return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
    },
@@ -14,19 +13,21 @@ const FinanceService = {
       return ApiService.post(URLS.GET_DOWNLOAD_FORMAT(), axiosOption);
    },
    getPreSignedUrl(data) {
-    let axiosOption = Object.assign({}, { data });
-    return ApiService.post(URLS.GET_PRESIGNED_URL(), axiosOption);
- },
-
-    callPresignedUrl(url,data) {
-        let axiosOption = Object.assign({}, { data });
-        return ApiService.post(URLS.CALL_PRESIGNED_URL(url), axiosOption);
-    },
-
-    validateFile(data) {
-        let axiosOption = Object.assign({}, { data });
-        return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
-     },
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.GET_PRESIGNED_URL(), axiosOption);
+   },
+   callPresignedUrl(url,data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.CALL_PRESIGNED_URL(url), axiosOption);
+   },
+   validateFile(data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.GET_UPLOAD_URL(), axiosOption);
+   },
+   getReportList(data) {
+      let axiosOption = Object.assign({}, { data });
+      return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption); 
+   }
 
     //  v1.0/upload-report
 
