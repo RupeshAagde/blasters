@@ -5,7 +5,7 @@ export const DETAILS_INFO_MAPPING = [
             { key: 'delivery_details.name', display_name: 'Name' },
             {
                 key: 'delivery_details.phone',
-                display_name: 'Contact',
+                display_name: 'Contact Phone',
             },
             {
                 key: 'delivery_details.address1',
@@ -13,7 +13,7 @@ export const DETAILS_INFO_MAPPING = [
             },
             {
                 key: 'delivery_details.pincode',
-                display_name: 'Pincode',
+                display_name: 'PIN Code',
             },
             { key: 'delivery_details.city', display_name: 'City' },
             {
@@ -78,7 +78,7 @@ export const DETAILS_INFO_MAPPING = [
             },
             {
                 key: 'ordering_store.phone',
-                display_name: 'Contact',
+                display_name: 'Contact Phone',
             },
             {
                 key: 'ordering_store.address1',

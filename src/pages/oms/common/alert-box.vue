@@ -8,7 +8,7 @@
         </div>
         <slot name="action-btn">
             <div class="close-text" @click="closeAlert">
-                Ok, got it
+                Okay, got it
             </div>
         </slot>
     </div>

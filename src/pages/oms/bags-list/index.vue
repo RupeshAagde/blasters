@@ -19,7 +19,7 @@ const BAGS_LIST_COLUMNS = [
     },
     {
         value: 'seller_identifier',
-        text: 'Seller Identifiers',
+        text: 'Seller Identifier',
         sort: false
     },
     {

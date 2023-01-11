@@ -20,7 +20,7 @@
                     class="dropdown"
                     :searchable="true"
                     :items="filteredStores"
-                    :label="'Fulfilment Centre'"
+                    :label="'Fulfilment Location'"
                     @searchInputChange="searchStore($event.text)"
                     v-model="selectedFulfillmentCentre"
                     :disabled="selectedCompany.length === 0"
@@ -31,6 +31,7 @@
                     :searchable="false"
                     :label="'Status'"
                     v-model="selectedStatus"
+                    placeholder="`Choose status`"
                 />
                 <nitrozen-dropdown
                     :class="selectedFileType ? 'dropdown' : 'dropdown-first'"
@@ -38,6 +39,7 @@
                     :searchable="false"
                     :label="'File Type'"
                     v-model="selectedFileType"
+                    :placeholder="`Choose file type`"
                 />
             </div>
             <div class="advanced-filters-btn-container">
@@ -177,7 +179,7 @@ export default {
                     this.fulfillingStoreFilter = centerOfFulfillment;
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError('Unable to fetch fulfilment centres');
+                    this.$snackbar.global.showError('Unable to fetch fulfilment locations');
                     console.error("Error in fetching fulfillment centres:   ", err);
                 })
         },

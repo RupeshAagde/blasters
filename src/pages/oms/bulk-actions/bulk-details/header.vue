@@ -5,7 +5,7 @@
             <div class="value">{{ uploadedDate }}</div>
         </div>
         <div class="item">
-            <div class="label">Uploaded by</div> 
+            <div class="label">Uploaded By</div> 
             <div class="value">{{ uploadedBy }}</div>
         </div>
         <div class="item" v-if="!isEmpty(details)">
@@ -26,6 +26,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 
+/* Helper imports */
+import { convertToOMSDate } from '@/helper/utils.js';
+
 export default {
     name: 'bulk-details-header',
     components: {
@@ -45,7 +48,7 @@ export default {
     computed: {
         uploadedDate() {
             if(!isEmpty(this.details) && this.details.uploaded_on) {
-                return moment(this.details.uploaded_on).format('MMMM Do YYYY, h:mm a');
+                return convertToOMSDate(this.details.uploaded_on);
             } else return '';
         },
         uploadedBy() {

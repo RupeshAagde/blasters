@@ -17,7 +17,7 @@
                     :class="`advanced-filter-dropdown dropdown-number-${i+1}`"
                     :label="f.text"
                     :key="'advanced-filter-dropdown-'+i"
-                    :placeholder="`Select ${f.text}`"
+                    :placeholder="f.placeholder_text ? f.placeholder_text : `Select ${f.text}`"
                     :items="filteredOptions[i].options"
                     v-model="selectedFiltersOptions[f.value]"
                     :multiple="f.type === 'multi_select'"
@@ -60,8 +60,8 @@
         </div>
      
         <div class="footer-box">
-                <nitrozen-button class="clear-button"  :theme="'secondary'"  @click="resetFilters($event)">Clear All</nitrozen-button>
-                <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()">Apply Filter</nitrozen-button>
+            <nitrozen-button class="clear-button" :theme="'secondary'" @click="resetFilters($event)" :disabled="!isAnyFilterSelected">Clear All</nitrozen-button>
+            <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()" :disabled="!isAnyFilterSelected">Apply Filter</nitrozen-button>
        </div>
    </div>
 </template>
@@ -195,13 +195,13 @@ export default {
         flatBtn
     },
     props: {
-       advancedFilters: {
+        advancedFilters: {
            type: Array,
            required: true,
-       },
+        },
         advancedSelectedFilters: {
            type: Object
-       },
+        }
     },
     beforeMount(){
         // Clear Filters already set if any
@@ -227,6 +227,13 @@ export default {
         },
         selectedFiltersOptions(){
             return this.selectedFilters || {};
+        },
+        isAnyFilterSelected(){
+            if(this.selectedFiltersOptions && Object.values(this.selectedFiltersOptions).length){
+                return Object.values(this.selectedFiltersOptions).find(v=>v&&v.length)?true:false;
+            }else{
+                return false;
+            }
         }
     },
     methods: {
@@ -285,14 +292,6 @@ export default {
              // Apply Filter and Process to get a list according to filter
             this.$emit("applyFilters", {closeDrawer,data:this.selectedFilters});
         },
-        // isAnyFilterSelected(){
-        //     // Used to show the indicator for advanced applied filters
-        //     if(this.selectedFiltersOptions && Object.values(this.selectedFiltersOptions).length){
-        //         return Object.values(this.selectedFiltersOptions).find(asf=>asf&&asf.length)?true:false;
-        //     }else{
-        //         return false;
-        //     }
-        // },
         searchFilterOptions(e,index){
             if (e && e.text) {
                 const filteredData = this.advancedFilterOptions[index].options.filter(

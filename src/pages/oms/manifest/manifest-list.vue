@@ -5,7 +5,7 @@
             <tr class="table-header-row">
                 <th>Delivery Partner</th>
                 <th>Manifest ID</th>
-                <th>Fulfilment Centre</th>
+                <th>Fulfilment Location</th>
                 <th>Channels</th>
                 <th>Shipments</th>
                 <th v-if="tabIndex == 0">Action</th>
@@ -64,7 +64,7 @@
                         <div
                             class="payment-method common-struct"
                             v-if="showManifestCreatedAtDate(manifestData)">
-                            <span>{{ convertToSpecificOMSDate(manifestData.created_at) }}</span>
+                            <span>{{ convertToOMSDate(manifestData.created_at) }}</span>
                         </div>
                     </div>
                 </td>
@@ -157,7 +157,7 @@ import AdmInlineSvg from '@/components/common/inline-svg';
 
 /* Helper imports */
 import {
-    copyToClipboard, convertSnakeCaseToString
+    copyToClipboard, convertSnakeCaseToString, convertToOMSDate
 } from '@/helper/utils.js';
 import {
     displaySlaPercentage, displaySlaHoursLeft, displaySlaTooltip
@@ -212,6 +212,7 @@ export default {
         displaySlaPercentage,
         displaySlaHoursLeft,
         displaySlaTooltip,
+        convertToOMSDate,
 
         close: function (e) {
             e.stopPropagation();

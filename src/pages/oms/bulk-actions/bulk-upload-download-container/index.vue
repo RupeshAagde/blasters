@@ -241,7 +241,7 @@ export default {
             }
             else {
                 this.$snackbar.global.showError(
-                    'Kindly ensure that you have selected fulfillment centre, status & the file type before attempting to download'
+                    'Kindly ensure that you have selected location name, status and file type before attempting to download'
                 );
             }
         },

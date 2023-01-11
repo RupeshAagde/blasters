@@ -14,14 +14,14 @@
                 </p>
                 <p class="upload-info">
                     Uploaded by: {{ invoiceData.user_name }} • 
-                    Uploaded on: {{ toDateTimeString(invoiceData.uploaded_on) }}
+                    Uploaded on: {{ convertToOMSDate(invoiceData.uploaded_on) }}
                 </p>
                 <p class="flex-prop" v-if="isProcessing">
                     <adm-inline-svg :src="'loading-new-circle'" />
-                    <span class="css-change">Bulk Invoice is being processed</span>
+                    <span class="css-change">Bulk invoice is being processed</span>
                 </p>
                 <p class="flex-prop" v-if="isProcessed">
-                    <span class="css-change">Bulk Invoice Generated Successfully</span>
+                    <span class="css-change">Bulk invoice generated successfully</span>
                     <span class="css-changes view-report" @click="callViewReportApi"><u> View Report </u></span>
                 </p>
             </div>
@@ -118,7 +118,7 @@
                                 </span>
                             </div>
                             <div>
-                                <p class="type-head">Uploaded On</p>
+                                <p class="type-head">Uploaded on</p>
                                 <span class="type-value" v-if="invoiceReportData.data.uploaded_on">
                                     {{ convertToOMSDate(invoiceReportData.data.uploaded_on) }}
                                 </span>

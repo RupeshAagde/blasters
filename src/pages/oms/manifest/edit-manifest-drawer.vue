@@ -9,7 +9,7 @@
             </div>
             <div class="action-section">
                 <span class="action-text" @click="hideAlert">
-                    Ok, got It
+                    Okay, got It
                 </span>
             </div>
         </div>

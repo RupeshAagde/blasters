@@ -56,7 +56,7 @@
                             ref="generic-intro"
                             @click="hideAlert"
                         >
-                            Ok, got it</span
+                            Okay, got it</span
                         >
                     </div>
                 </mirage-alert>
@@ -78,7 +78,7 @@
                             />
 
                             <nitrozen-dropdown
-                                label="Fullfilment Centre"
+                                label="Fullfilment Location"
                                 class="filter-dropdown filter-input-sm stores-dropdown"
                                 :searchable="true"
                                 :items="filteredStores"
@@ -1038,10 +1038,10 @@ export default {
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
-                        'Unable to fetch fulfilment centres'
+                        'Unable to fetch fulfilment locations'
                     );
                     console.error(
-                        `Error in fetching the list of fulfillment centres:   ${err}`
+                        `Error in fetching the list of fulfillment locations:   ${err}`
                     );
                 });
         },

@@ -25,7 +25,7 @@
                             label="Date Range"
                             class="date-picker filter-input-dr"
                             picker_type="date"
-                            date_format="MMM Do, YY"
+                            date_format="MMM D, YYYY"
                             v-model="orderDateRange"
                             :clearable="false"
                             :range="true"
@@ -48,7 +48,7 @@
 
                         <nitrozen-dropdown
                             :disabled="selectedCompany.length === 0"
-                            label="Fulfilment Centre"
+                            label="Fulfilment Location"
                             class="filter-dropdown filter-input-sm stores-dropdown"
                             :searchable="true"
                             :items="filteredStores"

@@ -7,7 +7,7 @@
                 label="Select Date Range"
                 class="date-picker filter-input-sm"
                 picker_type="date"
-                date_format="MMM Do, YY"
+                date_format="MMM D, YYYY"
                 v-model="orderDateRange"
                 :clearable="false"
                 :range="true"
@@ -21,10 +21,10 @@
         <div v-for="(filter, index) in advancedFilterOptions" :key="'filter'+index" class="filter">
             <div v-if="filter.type === 'datetime'">
                 <date-picker
-                    label="Select Date Range"
+                    label="Select date range"
                     class="date-picker filter-input-sm"
                     picker_type="date"
-                    date_format="MMM Do, YY"
+                    date_format="MMM D, YYYY"
                     :clearable="true"
                     v-model="selectedFilters[filter.value]"
                     :range="true"
@@ -39,7 +39,7 @@
                 :class="`advanced-filter-dropdown dropdown-number-${index+1}`"
                 :label="filter.text"
                 :key="'advanced-filter-dropdown-'+index"
-                :placeholder="`Select ${filter.text}`"
+                :placeholder="`Select ${filter.text.toLowerCase()}`"
                 :items="filteredOptions[index].options"
                 v-model="selectedFilters[filter.value]"
                 :multiple="filter.type === 'multi_select'"

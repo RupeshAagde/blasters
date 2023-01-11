@@ -23,6 +23,7 @@
                         :items="reasons"
                         v-model="selectedReason"
                         ref="reasonDropdown"
+                        placeholder="Choose location reassignment reason"
                     />
                 </div>
             </div>
@@ -30,7 +31,7 @@
             <div class="labels">
                 <div v-for="(store, index) in stores"
                     :key="index"
-                    :class="selectedStore == store.value ? 'selected-store' : 'not-selected-store'"
+                    :class="`store-card ${selectedStore == store.value ? 'active':''}`"
                     @click="changeEvent($event, store.value)"
                 >
                     <div class="header-store-details-card">
@@ -160,18 +161,18 @@ export default {
     gap: 16px;
 }
 
-.not-selected-store {
+.store-card {
     background: #FFFFFF;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
     border-radius: 4px;
     padding: 14px;
     margin-bottom: 16px;
     width: 44%;
-    height: 100px;
+    min-height: 100px;
     cursor: pointer;
 }
 
-.selected-store {
+.store-card.active {
     border: 1px solid #2E31BE;
     width: 44%;
     height: 100px;

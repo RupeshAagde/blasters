@@ -3,7 +3,7 @@
         <div class="inside-date-picker">
             <div v-if="searchText" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
             <nitrozen-input
-                placeholder="Search by Title"
+                placeholder="Search by title"
                 v-model="searchText"
                 type="search"
                 :showSearchIcon="true"
@@ -13,7 +13,7 @@
         <date-picker
             class="date-picker filter-input-dr"
             picker_type="date"
-            date_format="MMM Do, YY"
+            date_format="MMM D, YYYY"
             v-model="orderDateRange"
             :clearable="false"
             :range="true"
@@ -29,6 +29,7 @@
             :label="'Status'"
             v-model="selectedStatus"
             @change="onFilterChange"
+            placeholder="Choose status"
         />
         <div class="action-container">
             <div

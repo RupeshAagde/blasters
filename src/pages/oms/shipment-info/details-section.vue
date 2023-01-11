@@ -20,7 +20,7 @@
                 "
             >
                 <div v-if="shipment.fulfilling_store.code">
-                    <div class="header-title">Store Code</div>
+                    <div class="header-title">Location Code</div>
                     <br />
                     <div class="details-data">
                         {{ shipment.fulfilling_store.code }}
@@ -28,7 +28,7 @@
                 </div>
 
                 <div v-if="shipment.fulfilling_store.id">
-                    <div class="header-title">Store ID</div>
+                    <div class="header-title">Location ID</div>
                     <br />
                     <div class="details-data">
                         {{ shipment.fulfilling_store.id }}
@@ -36,7 +36,7 @@
                 </div>
 
                 <div v-if="shipment.fulfilling_store.store_name">
-                    <div class="header-title">Store Name</div>
+                    <div class="header-title">Location Name</div>
                     <br />
                     <div class="details-data">
                         {{ shipment.fulfilling_store.store_name }}

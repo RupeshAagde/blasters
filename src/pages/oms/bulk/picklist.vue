@@ -1045,7 +1045,7 @@ export default {
         },
         generateBulkInvoice(document_type = 'a4') {
             if(!this.selectedStore){
-                this.$snackbar.global.showWarning('Please select a fulfilment centre');
+                this.$snackbar.global.showWarning('Please select a fulfilment location');
                 return
             }
             if (this.$refs['csv-picklist']) {

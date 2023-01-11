@@ -126,8 +126,7 @@
                                     'border-color': 'green',
                                 }"
                             >
-                                {{ convertSnakeCaseToString(shipData.shipment_status.status) }}
-                                <!-- {{ shipData.shipment_status.display_name }} -->
+                                {{ convertSnakeCaseToString(shipData.display_name || shipData.shipment_status.status) }}
                             </nitrozen-badge>
                     </div>
                 </td>

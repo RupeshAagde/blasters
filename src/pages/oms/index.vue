@@ -40,7 +40,7 @@
                                 label="Date Range"
                                 class="date-picker filter-input-dr filter-item"
                                 picker_type="date"
-                                date_format="MMM Do, YY"
+                                date_format="MMM D, YYYY"
                                 v-model="orderDateRange"
                                 :clearable="false"
                                 :range="true"
@@ -67,7 +67,7 @@
                             </div>
 
                             <nitrozen-dropdown
-                                label="Fulfilment Centre"
+                                label="Fulfilment Location"
                                 class="filter-dropdown filter-input-sm filter-item"
                                 :searchable="true"
                                 :items="filteredStores"
@@ -77,6 +77,7 @@
                                     searchStore($event.text)
                                 "
                                 :disabled="selectedCompany.length === 0"
+                                :placeholder="'Select fulfilment location'"
                             >
                                 <template slot="option" slot-scope="slotProps">
                                     <div
@@ -142,7 +143,7 @@
                             class="lane-types"
                             @click="changeLaneType(subTab, index)">
                             <nitrozen-badge
-                                v-if="subTab.text != 'Action Center'"
+                                v-if="subTab.value != 'action_centre'"
                                 :state="lane == subTab.value ? 'info': 'none'"
                                 :fill="false"
                             >
@@ -218,7 +219,7 @@
                         ></order-bulk-picklist>
                     </div> -->
                     <div class="empty-state" v-if="selectedView == 'orders' ? orders && !orders.length && !inProgress && !pageError : shipmentData && !shipmentData.length && !inProgress && !pageError">
-                        <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'Orders' : 'Shipments'} found`" />
+                        <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'orders' : 'shipments'} found`" />
                     </div>
                     <div
                         class="pagination-div"
@@ -391,11 +392,11 @@ const PAGINATION = {
 
 const VIEW_OPTIONS = [
     {
-        text: 'Shipment view',
+        text: 'Shipment View',
         value: 'shipment',
     },
     {
-        text: 'Order view',
+        text: 'Order View',
         value: 'orders'
     },
     // {
@@ -1330,7 +1331,7 @@ export default {
         // },
         navigateToManifest(){
             if(!this.selectedStore){
-                this.$snackbar.global.showWarning('Please select a Fulfilment Center');
+                this.$snackbar.global.showWarning('Please select a Fulfilment Location');
                 return
             }
             let cleansedQuery = Object.keys(cloneDeep(this.$route.query))
@@ -1369,8 +1370,6 @@ export default {
                 if(isSuperLane){
                     this.fetchSuperLanes()
                 }
-            } else {
-                this.$snackbar.global.showWarning('Please select atleast one filter');
             }
         },
         blockAdvancedFilterRequest(newRequestObj){
