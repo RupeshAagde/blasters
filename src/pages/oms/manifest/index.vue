@@ -48,7 +48,7 @@
 
                         <nitrozen-dropdown
                             :disabled="selectedCompany.length === 0"
-                            label="Fulfilment Center"
+                            label="Fulfilment Centre"
                             class="filter-dropdown filter-input-sm stores-dropdown"
                             :searchable="true"
                             :items="filteredStores"
@@ -458,7 +458,7 @@ export default {
         closeConsent() {
             this.uploadConsentView = false;
            setTimeout(()=>{
-            this.fetchManifestsList()
+                this.fetchManifestsList();
            }, 1000)
         },
 
@@ -774,7 +774,11 @@ export default {
          * @param {String} text The text entered by the user.
          */
         searchCompany: debounce(function(text) {
-            if(text.length === 0) this.selectedCompany = '';
+            if(text.length === 0) {
+                this.selectedCompany = '';
+                this.selectedStore = '';
+                this.fetchManifestsList();
+            }
             this.fetchCompanies({q: text});
         }, 300),
 

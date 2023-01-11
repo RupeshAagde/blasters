@@ -769,7 +769,7 @@ const URLS = {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/application/${getAppInfo()._id}/filter-listing`);
     },
     GET_FULFILLMENT_CENTER: companyId => {
-        return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${companyId}/location`);
+        return urlJoin(WHEELJACK_ACPR_URL, `/v1.0/company/${companyId}/location`);
     },
     FETCH_MANIFEST_LIST: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/listing`);

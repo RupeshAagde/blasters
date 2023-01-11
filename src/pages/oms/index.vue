@@ -580,10 +580,6 @@ export default {
             }
             ]
         }
-        let ls_stores = LocalStorageService.getItem(STORAGE_KEYS.USER_ORDER_STORE_PREFERENCE);
-        if(ls_stores && ls_stores.company_id == this.companyId) {
-            this.selectedStore = ls_stores.store_id
-        }
         this.populateFromURL();
         this.fetchCompanies();
     },
@@ -1067,19 +1063,6 @@ export default {
                 page: 1,
             });
             this.fetchSuperLanes({stores: this.selectedStore});
-            if (this.selectedStore) {
-                LocalStorageService.addOrUpdateItem(
-                    STORAGE_KEYS.USER_ORDER_STORE_PREFERENCE,
-                    {
-                        company_id: this.companyId,
-                        store_id: this.selectedStore
-                    }
-                );
-            } else {
-                LocalStorageService.removeItem(
-                    STORAGE_KEYS.USER_ORDER_STORE_PREFERENCE
-                );
-            }
         },
         paginationChange(e) {
             this.pagination = e;
@@ -1250,21 +1233,11 @@ export default {
         populateFilters() {
             const { stores, deployment_stores } = this.$route.query;
 
-            // store state manage for filter preference: query over localstorage
-            const ls_stores = LocalStorageService.getItem(
-                STORAGE_KEYS.USER_ORDER_STORE_PREFERENCE
-            );
-            const ls_stores_id = ls_stores && ls_stores.store_id
             const storesValueArray = this.fulfillingStoreFilter.map((f) =>
                 f.value.toString()
             );
             if (storesValueArray.includes(stores)) {
                 this.selectedStore = stores;
-            } else if (
-                ls_stores_id &&
-                storesValueArray.length && storesValueArray.includes(ls_stores_id.toString())
-            ) {
-                this.selectedStore = ls_stores_id.toString();
             }
 
             // const deploymentStoresValueArray = this.deploymentStoreList.map(
@@ -1543,7 +1516,15 @@ export default {
          * @param {String} text The text entered by the user.
          */
         searchCompany: debounce(function(text) {
-            if(text.length === 0) this.selectedCompany = '';
+            if(text.length === 0) {
+                this.selectedCompany = '';
+                this.selectedStore = '';
+                if(this.selectedView == 'orders') {
+                    this.fetchOrders();
+                } else if(this.selectedView == "shipment") {
+                    this.fetchShipments();
+                }
+            }
             this.fetchCompanies({q: text});
         }, 300)
     },

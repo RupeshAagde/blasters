@@ -223,7 +223,10 @@ export default {
          * @param {String} text The text entered by the user.
          */
         searchCompany: debounce(function(text) {
-            if(text.length === 0) this.selectedCompany = '';
+            if(text.length === 0) {
+                this.selectedCompany = '';
+                this.selectedFulfillmentCentre = '';
+            }
             this.fetchCompanies({q: text});
         }, 300),
 
