@@ -288,8 +288,7 @@ export default {
         this.drawerOpen = false;
     },
     openHistory(){
-      console.log(this.$router);
-      this.$router.push({ name: 'upload-history' });
+      this.$router.push({ name: 'upload-history-fin', params: {status: 'preprocess'}});
     },
       downloadFormat(){
 
@@ -457,7 +456,6 @@ export default {
                     );
                 })
         },
-
         uploadToS3(url,data){
           const caller = FinanceService.uploadToS3(url, data);
           caller
@@ -469,7 +467,6 @@ export default {
                 })
                 
         },
-
         getValidatedFileInfo(){  
           const params = {
                 "data": {
@@ -520,7 +517,6 @@ export default {
                   `Please Select value from dropdown`
               );
           }
-            
         },
         cancelValidation(){
           this.validationCompleted = false;
@@ -541,7 +537,6 @@ export default {
                     "source":"s3"
                 }
             }
-
           const caller = FinanceService.uploadUrl(params);
             caller
                 .then(( res ) => {
@@ -554,7 +549,7 @@ export default {
                     );
                 })
                 .finally(() => {
-                  this.file = new Blob();  
+                  this.file = new Blob(); 
                   this.openHistory();
                 });
         },

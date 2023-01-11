@@ -23,6 +23,8 @@ export const getFormDataHeaders = () => {
     return {
         headers: {
             'Content-Type': 'multipart/form-data',
+            ...defaultHeader,
+            ...headers
         }
     };
 };

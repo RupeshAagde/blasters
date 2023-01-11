@@ -79,6 +79,9 @@ export default {
             ]
         }
     },
+    mounted() {
+       this.$emit("dates",this.uploadDateRange);
+    },
     methods: {
         // loadData() {
         //     this.$emit('load');
@@ -96,7 +99,7 @@ export default {
             if(this.searchText) filters_obj.search_key = this.searchText;
 
             this.$emit('filterChange', filters_obj) */;
-            console.log(e);
+            this.$emit("dateschanged", e);
         }, 500),
 
         getFileType() {
@@ -119,7 +122,6 @@ export default {
             const caller = FinanceService.getFileType(params);
             caller
                 .then(( res ) => {
-                  console.log(res);
                     this.csvTypes = res.data.items.map((item) => {
                         return {
                             text: item.display_name,
