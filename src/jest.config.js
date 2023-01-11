@@ -15,6 +15,7 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: [
     "services/pdf",
+    // "/pages/finance/bulk-upload" //ingoring the module temporarily
   ], // @ToDo remove this
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",

@@ -1,0 +1,108 @@
+{
+    "getFileType": {
+        "success": true,
+        "items": [
+            {
+                "id": "d8824531-a02a-4c65-a612-b73b3c867bf6",
+                "display_name": "UTR Number Update",
+                "description": "Report to update utr number for bag_id",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "6c3370d9-3cab-413c-a569-207ae72edcde",
+                "display_name": "Process Bags",
+                "description": "Report to update status of bag to processed",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "d36458c8-3e3b-4df0-a0ec-59651d5d243f",
+                "display_name": "Transfer Price",
+                "description": "Upload transfer price in system",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "38e8176d-6004-4bc9-b7b2-19c94f0d3944",
+                "display_name": "Finance Dates Update",
+                "description": " Report to update settelemnt date and payout date for bag_id.",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "f0c113df-e12b-483b-8257-14da538e4d70",
+                "display_name": "Reprocess Bags",
+                "description": "Report to delete previous history and reprocess bags ",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "e450fd8d-d017-4c78-b45e-893e3a1ebad6",
+                "display_name": "Invoice Number Update",
+                "description": "Report to update invoice number for bag_id",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "c436fc91-c15e-4283-ad3b-c917caf22fea",
+                "display_name": "Recon Report",
+                "description": "weekly and monthly bag recon file",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "5cb1e7ab-099a-46ec-94d3-736402c1e132",
+                "display_name": "Resolve Dispute Bags",
+                "description": "Upload and Resolve Dispute Bags",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "69019466-ee31-4dbd-ad93-7f74180417c4",
+                "display_name": "Verify Invoice",
+                "description": "Report to verify invoice data",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "7bb252c7-8f0d-45f3-b578-85f8c9bc0a80",
+                "display_name": "Direct Transfer Payout",
+                "description": " Report to transfer payouts to brand’s linked account",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "d6019466-ee31-4dbd-ad93-7f7414rtfe",
+                "display_name": "Upload Invoice",
+                "description": "Report to upload invoice data",
+                "preprocess": true,
+                "is_gzip": true
+            },
+            {
+                "id": "d9987e2f-d3f2-4040-a751-2175c661de22",
+                "display_name": "COD Payouts",
+                "description": "Report to trigger COD payouts",
+                "preprocess": true,
+                "is_gzip": true
+            }
+        ],
+        "item_count": 12,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 12
+        }
+    },
+    "downloadData":{
+        "success": true,
+        "data": {
+            "url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/csv/cod_payouts.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230110%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230110T094109Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4240f20698cf80a4905db1d456b28b65a569a7a8760b5a5a2f736bb661c64c13"
+        }
+    },
+    "file":{
+        
+    }
+}

@@ -26,6 +26,7 @@
               <nitrozen-button
               v-if="this.toggleUpload"
               class="download-fbtn"
+              id="download-fbtn"
               :theme="'secondary'"
               v-strokeBtn
               :disabled="!selectedFileType"
@@ -56,7 +57,7 @@
               </div>
             </div>
             <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
-              <div class="select-file" @click="onUploadClick">
+              <div id="select-file" class="select-file" @click="onUploadClick">
                 <input type="file" accept=".csv" ref="fileUpload" @change="onFileUpload" class="fileUploadInput"  />
                 <div class="plus-sign">
                   <inline-svg :src="'plus-sign-finance'"></inline-svg>
@@ -293,6 +294,8 @@ export default {
     },
       downloadFormat(){
 
+        console.log(this.selectedFileType);
+
       if(!this.selectedFileType){
         this.$snackbar.global.showError(
             `Please select option from dropdown`
@@ -375,6 +378,9 @@ export default {
         },
 
         onFileUpload(event) {
+
+          console.log(event);
+
           this.fileUploading = true;
           this.fileSelected = true;
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
@@ -403,10 +409,6 @@ export default {
                 );
             }
         },
-        validateData(){
-          this.getPreSignedUrl();
-        },
-
         toggleUploadSection(){
           this.toggleUpload = !this.toggleUpload;
         },
@@ -417,7 +419,7 @@ export default {
           this.validationCompleted = false;
           this.$refs.validateImg.style.display = "none";
           this.startLoader = true;
-          this.validateData();
+          this.getPreSignedUrl();
         },
 
         getPreSignedUrl(){
