@@ -41,10 +41,10 @@
                                         <div class="item-name-container tooltip-top" :data-tooltip="item.item.name">
                                             <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
                                         </div>
-                                        <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
+                                        <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">
-                                                {{ item.item.size }}
+                                                {{ item.article.size }}
                                             </nitrozen-chips>
                                         </div>
                                     </div>

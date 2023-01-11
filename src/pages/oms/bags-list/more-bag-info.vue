@@ -32,7 +32,7 @@
                 <div id="variants" v-if="articleData.item.size">
                     <span class="common-key-style">Size: </span>
                     <span class="common-value-style">
-                        {{ articleData.item.size }}
+                        {{ articleData.article.size }}
                     </span>
                 </div>
 

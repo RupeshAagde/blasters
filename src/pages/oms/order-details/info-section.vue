@@ -21,7 +21,7 @@
                             />
                         </div>
                         <span class="channel-name">
-                            {{ detailsData.order.ordering_channel }}
+                            {{ detailsData.affiliate_details.company_affiliate_tag }}
                         </span>
                     </div>
                 </div>
