@@ -277,6 +277,7 @@
                         :stores="stores"
                         :bagId="bagId"
                         @enableSubmitForReassignStore="isSubmitReassingStore"
+                        @closeDrawer="closeDetails()"
                     />
                     <template #footer>
                         <nitrozen-button

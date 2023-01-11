@@ -1,9 +1,10 @@
 <template>
     <div class="reassign-store-head">
-        <template v-if="stores && stores.length">
-            <div class="title">
-                <span>Following stores are available for the reassignment for Bag ID: {{ bagId }}</span>
-            </div>
+        <div class="title">
+            <span>Following stores are available for the reassignment for Bag ID: {{ bagId }}</span>
+        </div>
+
+        <template v-if="stores && stores.length && reasons && reasons.length">
             <div class="inputs-dropdowns">
                 <!-- <nitrozen-input
                     :showSearchIcon="true"
@@ -14,14 +15,16 @@
                     @keyup="onSearchInput"
                 ></nitrozen-input> -->
 
-                <nitrozen-dropdown
-                    class="dropdown-reason"
-                    label="Store Reassign Reason"
-                    @change="reassignStores"
-                    :items="reasons"
-                    v-model="selectedReason"
-                >
-                </nitrozen-dropdown>
+                <div class="dropdown" tabindex="0" @blur="handleDropdown($event, 'reasonDropdown')">>
+                    <nitrozen-dropdown
+                        class="dropdown-reason"
+                        label="Store Reassign Reason"
+                        @change="reassignStores"
+                        :items="reasons"
+                        v-model="selectedReason"
+                        ref="reasonDropdown"
+                    />
+                </div>
             </div>
         </template>
         
@@ -51,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="no-content" v-if="!stores.length">
+            <div class="no-content" v-if="!stores.length || !reasons.length">
                 <adm-no-content
                     helperText="No store/reasons found"
                 ></adm-no-content>
@@ -107,8 +110,8 @@ export default {
                 bag_id: this.bagId
             }
             OrderService.changeStore(data).then((res)=>{
-                console.log(res)
-                this.$snackbar.global.showSuccess('Store reassign successfull')
+                this.$snackbar.global.showSuccess('Store reassigned successfully');
+                this.$emit('closeDrawer');
             }).catch((err)=> {
                 console.error("Store reassign failed ", err)
             })
@@ -120,6 +123,9 @@ export default {
             this.selectedStore = selectedValue;
             this.reassignStores();
         },
+        handleDropdown(e, ref){
+            if(this.$refs[ref]) this.$refs[ref].documentClick(e);
+        }
     }
 
 }

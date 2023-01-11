@@ -2,21 +2,27 @@
     <div class="sms-body">
         <div class="dropdowns">
             <div class="dropdowns-one">
-                <nitrozen-dropdown
-                    class=""
-                    label="SMS template"
-                    @change="sendMessage"
-                    :items="smsTemplate"
-                    v-model="selectedTemplate"
-                />
+                <div class="dropdown" tabindex="0" @blur="handleDropdownBlur($event, 'templateDropdown')">
+                    <nitrozen-dropdown
+                        class=""
+                        label="SMS template"
+                        @change="sendMessage"
+                        :items="smsTemplate"
+                        v-model="selectedTemplate"
+                        ref="templateDropdown"
+                    />
+                </div>
 
-                <nitrozen-dropdown
-                    class=""
-                    label="Recipient"
-                    @change="sendMessage"
-                    :items="number"
-                    v-model="selectedNumber"
-                />
+                <div class="dropdown" tabindex="0" @blur="handleDropdownBlur($event, 'recipientDropdown')">
+                    <nitrozen-dropdown
+                        class=""
+                        label="Recipient"
+                        @change="sendMessage"
+                        :items="number"
+                        v-model="selectedNumber"
+                        ref="recipientDropdown"
+                    />
+                </div>
             </div>
 
             <div class="dropdowns-two" v-if="selectedTemplate == 'custom_delayed_shipment'">
@@ -198,8 +204,10 @@ export default {
                 console.error("Error in sending SMS to customer:   ", error);
             });
         },
+        handleDropdownBlur(e, ref){
+            if(this.$refs[ref]) this.$refs[ref].documentClick(e);
+        }
     }
-
 }
 </script>
 

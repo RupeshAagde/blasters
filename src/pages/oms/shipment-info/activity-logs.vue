@@ -51,12 +51,10 @@
                                     <div>{{ status.message }} </div>
                                     <div 
                                         class="message-info" 
-                                        v-if="
-                                            status.meta &&
-                                            status.meta.channel_type && 
-                                            (status.meta.channel_type == 'sms' || status.meta.channel_type == 'email') ||
-                                            (status.meta.reason && status.meta.reason.display_name && status.meta.reason.text)
-                                        ">
+                                        v-if="status.meta">
+                                        <div v-if="status.meta && status.meta.sms"> 
+                                            <span class="message-label"> Message: </span> {{ status.meta.sms }}
+                                        </div>
                                         <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name && status.meta.reason.text"> 
                                             <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }}({{ status.meta.reason.text }})
                                         </div>
@@ -230,10 +228,8 @@ export default {
 
         // the below function is used to convert the date to a paritcular format so that we can compare it
         showDate(date) {
-            let pDate = convertToOMSDate(date);
-            return this.calenderFormat(
-                pDate.trim().substring(0, pDate.trim().indexOf(','))
-            );
+            let pDate = moment(date).format('D MMM YYYY')
+            return this.calenderFormat(pDate);
         },
 
         // this function is used to push and pop the value from an array
@@ -387,8 +383,7 @@ export default {
             .user{
                 font-weight: 300;
                 text-align: end;
-                // padding-right: 15px;
-                background-color: initial;
+                padding-left: 15px;
             }
         }
     }

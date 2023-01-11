@@ -688,9 +688,9 @@ export const downloadFile = path => {
 
 export const formatPrice = (value) => {
     if(!isNaN(value)){
-        return value.toFixed(2)
+        return value.toFixed(2);
     }
-    return Number(0).toFixed(2)
+    return Number(0).toFixed(2);
 }
 
 export const numberToThousandString = (num)=> {

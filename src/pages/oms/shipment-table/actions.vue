@@ -126,7 +126,7 @@
                 <!-- Bag Confirm -->
                 <nitrozen-button
                     :disabled="
-                        (locked || ordering_channel === 'MARKETPLACE') ||
+                        (locked || ordering_channel.toLowerCase() === 'marketplace') ||
                         disableConfirm || !shipment.actionable
                     "
                     v-if="!readOnlyMode"
@@ -750,6 +750,12 @@ export default {
                 this.shipment.shipment_details.action_to_status.download_label &&  
                 this.shipment.shipment_details.action_to_status.download_label == 'lock'
             )
+        },
+        assignDpForMp() {
+            if(this.ordering_channel.toLowerCase() === 'marketplace'){
+                return this.shipment.is_dp_assign_enabled;
+            }
+            return true;
         }
     },
     methods: {
@@ -1120,16 +1126,13 @@ export default {
                 action_type: "complete",
                 resume_tasks_after_unlock: true,
                 entity_type: "shipments",
+                user_id: this.accessDetail.user,
                 entities: [
                     {
                         id: shipmentId,
                         reason_text: ""
                     }
                 ]
-            }
-
-            if(this.accessDetail) {
-                payload['user_id'] = this.accessDetail.user;
             }
 
             OrderService.lockManager(payload)

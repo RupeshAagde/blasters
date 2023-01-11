@@ -73,9 +73,9 @@
                                             item.products[0].item && 
                                             item.products[0].item.brand && 
                                             item.products[0].item.name">
-                                        <span class="item-name-container tooltip-top" :data-tooltip="item.products[0].item.name">
+                                        <div class="item-name-container tooltip-top" :data-tooltip="item.products[0].item.name">
                                             <span class="item-name">{{item.products[0].item.brand}} | {{item.products[0].item.name}}</span>
-                                        </span>
+                                        </div>
                                         <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">
