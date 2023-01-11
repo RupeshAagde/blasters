@@ -7,30 +7,21 @@
                         <span>Quantity</span>
                     </div>
                     <custom-input-number
-                        :min="item.entity_type == 'set' ? item.article.set.quantity : 1"
+                        :min="1"
                         :max="findMax(item, index)"
-                        :id="item.entity_type == 'set' ? item.products[0].bag_id : item.bag_id"
+                        :id="item.bag_id"
                         :value="item.qc.bad.reasons[index].quantity"
                         :disabled="true"
                         :allowNegative="false"
-                        @increment="increment($event, index, item.entity_type == 'set')"
-                        @decrement="decrement($event, index, item.entity_type == 'set')"
+                        @increment="increment($event, index)"
+                        @decrement="decrement($event, index)"
                     />
                 </div>
                 <div class="reason">
-                    <nitrozen-dropdown v-if="item.entity_type == 'set'"
+                    <nitrozen-dropdown
                         :label="`How is the quality of the returned item?`"
                         :placeholder="'Select Reason'"
                         :items="reasons"
-                        v-model="item.qc.bad.reasons[index].quality"
-                        @change="onReasonSelection($event, item.products[0].bag_id, index, true)"
-                    />
-                    <nitrozen-dropdown v-else
-                        :label="`How is the quality of the returned item?`"
-                        :placeholder="'Select Reason'"
-                        :items="reasons"
-                        v-model="item.qc.bad.reasons[index].quality"
-                        @change="onReasonSelection($event, item.bag_id, index, false)"
                     />
                 </div>
             </div>
@@ -38,35 +29,18 @@
             <div class="remarks">
                 <div class="remarks-box">
                     <input 
-                        v-if="item.entity_type=='set'"
-                        type="text"
-                        placeholder="Write a remark"
-                        class="remark-input"
-                        @change="onAddingRemark($event, item.products[0].bag_id, index, true)"
-                    />
-                    <input 
-                        v-else
                         type="text"
                         placeholder="Write a remark"
                         class="remark-input"
                         @change="onAddingRemark($event, item.bag_id, index, false)"
                     />
-                    <div v-if="item.entity_type=='set'" @click.stop="onAttachClick(item.products[0].bag_id, index)">
-                        <ukt-inline-svg :src="'attachment'" class="attachment-icon" />
-                    </div>
-                    <div v-else @click.stop="onAttachClick(item.bag_id, index)">
+                    <div @click.stop="onAttachClick(item.bag_id, index)">
                         <ukt-inline-svg :src="'attachment'" class="attachment-icon" />
                     </div>
                 </div>
                 <div class="uploaded-file" v-if="item.qc.bad.reasons[index].img">
                     <span>{{ item.qc.bad.reasons[index].img.file_name }}</span>
                     <span
-                        v-if="item.entity_type=='set'"
-                        class="remove-file" 
-                        @click.stop="removeFile(item.products[0].bag_id, index)"
-                    >x</span>
-                    <span
-                        v-else
                         class="remove-file" 
                         @click.stop="removeFile(item.bag_id, index)"
                     >x</span>
@@ -76,7 +50,7 @@
             <div 
                 class="add-qty-btn" 
                 @click.stop="onAddingQty(item.bag_id)"
-                v-if="item.entity_type != 'set' && showAddReasonsBtn(item, index)">
+                v-if="showAddReasonsBtn(item, index)">
                 + Add Reason
             </div>
         </div>
@@ -140,8 +114,7 @@ export default {
 
     mounted() {
         if(!isEmpty(this.shipment) && !isEmpty(this.item)) {
-            if(this.item.entity_type == 'set') this.fetchReasons(this.shipment.shipment_id, this.item.products[0].bag_id);
-            else this.fetchReasons(this.shipment.shipment_id, this.item.bag_id);
+            this.fetchReasons(this.shipment.shipment_id, this.item.bag_id);
         }
     },
 
@@ -162,13 +135,11 @@ export default {
          * @param {String} bag_id The bag id of the changed input box
          * @param {Number} index The index or the current position of the changed input box
          */
-        decrement(event, index, isSet) {
+        decrement(event, index) {
             let shipData = cloneDeep(this.shipmentData);
-            let selectedBag = isSet ? shipData.bags.find(bag => bag.products[0].bag_id == event ) : shipData.bags.find(bag => bag.bag_id === event);
-            if(isSet) selectedBag.qc.good.quantity += selectedBag.article.set.quantity;
-            else selectedBag.qc.good.quantity += 1;
-            if(isSet) selectedBag.qc.bad.reasons[index].quantity -= selectedBag.article.set.quantity;
-            else selectedBag.qc.bad.reasons[index].quantity -= 1;
+            let selectedBag = shipData.bags.find(bag => bag.bag_id === event);
+            selectedBag.qc.good.quantity += 1;
+            selectedBag.qc.bad.reasons[index].quantity -= 1;
             this.$emit('update', shipData);
         },
 
@@ -245,7 +216,7 @@ export default {
             
             let otherReasonsTotalQty = clonedReasons.reduce((total, reason) => total + reason.quantity, 0);
 
-            return item.entity_type == 'set' ? item.article.set.quantity - otherReasonsTotalQty : item.quantity - otherReasonsTotalQty;
+            return item.quantity - otherReasonsTotalQty;
         },
 
          /**
@@ -258,32 +229,20 @@ export default {
          * @param {String} bag_id The bag id of the changed input box
          * @param {Number} index The index or the current position of the changed input box
          */
-        increment(event, index, isSet) {
+        increment(event, index) {
             let shipData = cloneDeep(this.shipmentData);
-            let selectedBag = isSet ? shipData.bags.find(bag => bag.products[0].bag_id == event ) : shipData.bags.find(bag => bag.bag_id === event);
-            if(isSet) selectedBag.qc.good.quantity -= selectedBag.article.set.quantity;
-            else selectedBag.qc.good.quantity -= 1;
-            if(isSet) selectedBag.qc.bad.reasons[index].quantity += selectedBag.article.set.quantity;
-            else selectedBag.qc.bad.reasons[index].quantity += 1;
+            let selectedBag = shipData.bags.find(bag => bag.bag_id === event);
+            selectedBag.qc.good.quantity -= 1;
+            selectedBag.qc.bad.reasons[index].quantity += 1;
             this.$emit('update', shipData);
         },
-        onChange(event, index, isSet) {
+        onChange(event, index) {
             let shipData = cloneDeep(this.shipmentData);
-            let selectedBag = isSet ? shipData.bags.find(bag => bag.products[0].bag_id == event.id ) : shipData.bags.find(bag => bag.bag_id === event.id);
-            if(selectedBag && !isSet) {
+            let selectedBag = shipData.bags.find(bag => bag.bag_id === event.id);
+            if(selectedBag) {
                 selectedBag.qc.bad.reasons[index].quantity = e.value;
                 selectedBag.qc.good.quantity = item.quantity - e.value;
                 this.$emit('update', shipData);
-            } else if(selectedBag && isSet) {
-                if(e.value > 0 && e.value != selectedBag.article.set.quantity) {
-                    selectedBag.qc.bad.reasons[index].quantity = 0
-                    selectedBag.qc.good.quantity = selectedBag.article.set.quantity;
-                    this.$snackbar.global.showError(`Minimum quantity for set is ${selectedBag.article.set.quantity}`);
-                }else{
-                    selectedBag.qc.bad.reasons[index].quantity = selectedBag.article.set.quantity
-                    selectedBag.qc.good.quantity = 0;
-                    this.$emit('update', shipData);
-                }
             } else {
                 this.$snackbar.global.showError('Unable to change the quantity');
                 console.error("Bag ID not found for changing");
@@ -323,9 +282,9 @@ export default {
          * @param {String} bag_id The bag ID for adding the remarks
          * @param {Number} index The position of the reason in the QCs to add the remark
          */
-        onAddingRemark(event, bag_id, index, isSet) {
+        onAddingRemark(event, bag_id, index) {
             let shipData = cloneDeep(this.shipmentData);
-            let selectedBag = isSet ? shipData.bags.find(bag => bag.products[0].bag_id == bag_id) : shipData.bags.find(bag => bag.bag_id === bag_id);
+            let selectedBag = shipData.bags.find(bag => bag.bag_id === bag_id);
 
             if(selectedBag.qc.bad.reasons.length) {
                 let entry = selectedBag.qc.bad.reasons[index];
@@ -500,10 +459,10 @@ export default {
          * @param {String} bag_id The bag ID where the reason needs to be added
          * @param {Number} index The position of the reason where the reason needs to be added. 
          */
-        onReasonSelection(event, bag_id, index, isSet) {
+        onReasonSelection(event, bag_id, index) {
             let selectedReason = this.reasons.find(reason => reason.id === event);
             let shipData = cloneDeep(this.shipmentData);
-            let selectedBag = isSet ? shipData.bags.find(bag => bag.products[0].bag_id == bag_id ) : shipData.bags.find(bag => bag.bag_id === bag_id);
+            let selectedBag = shipData.bags.find(bag => bag.bag_id === bag_id);
             selectedBag.qc.bad.reasons[index].reason_id = event;
             selectedBag.qc.bad.reasons[index].reason_text = selectedReason.text;
             this.$emit('update', shipData);
@@ -533,8 +492,7 @@ export default {
         showAddReasonsBtn(item, index) {
             let totalReasons = item.qc.bad.reasons.reduce((total, reason) => total + reason.quantity, 0);
 
-            if(item.entity_type == 'set') return item.article.set.quantity > totalReasons && index === item.qc.bad.reasons.length - 1;
-            else return item.quantity > totalReasons && index === item.qc.bad.reasons.length - 1;
+            return item.quantity > totalReasons && index === item.qc.bad.reasons.length - 1;
         },
 
         /**
@@ -546,8 +504,7 @@ export default {
         updateDataOnFileUpload(uploadedData) {
             let shipData = cloneDeep(this.shipmentData);
             let selectedBag = shipData.bags.find(bag => { 
-                if(bag.entity_type == 'set') return bag.products[0].bag_id == this.selectedBagIDForFileUpload;
-                else return bag.bag_id === this.selectedBagIDForFileUpload;
+                return bag.bag_id === this.selectedBagIDForFileUpload;
             });
             if(selectedBag.qc.bad.reasons.length) {
                 let entry = selectedBag.qc.bad.reasons[this.selectedReasonIndexForFileUpload];

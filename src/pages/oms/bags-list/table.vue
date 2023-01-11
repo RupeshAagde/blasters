@@ -25,7 +25,7 @@
                         :class="`line-break ${getGroupItemClass(indx,item)} bag-list-table`"
                     >
                             <td class="item-details-container" >
-                                <div class="item-title-block" v-if="item.entity_type !== 'set'">
+                                <div class="item-title-block">
                                     <div 
                                         class="item-image" 
                                         v-if="item.item && item.item.images"
@@ -49,41 +49,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item-title-block" v-if="item.entity_type === 'set'">
-                                    <div 
-                                        class="item-image" 
-                                        v-if="
-                                            item.products && 
-                                            item.products[0] && 
-                                            item.products[0].item && 
-                                            item.products[0].item.images"
-                                        @click="openImage([{
-                                            image: item.products[0].item.images[0],
-                                            name: item.products[0].item.name,
-                                            size: item.article.size,
-                                            sku: item.products[0].identifier
-                                        }] )">
-                                        <img :src="item.products[0].item.images[0]" class="item-logo" />
-                                    </div>
-                                    <div 
-                                        class="item-primary-information" 
-                                        v-if="
-                                            item.products && 
-                                            item.products[0] && 
-                                            item.products[0].item && 
-                                            item.products[0].item.brand && 
-                                            item.products[0].item.name">
-                                        <div class="item-name-container tooltip-top" :data-tooltip="item.products[0].item.name">
-                                            <span class="item-name">{{item.products[0].item.brand}} | {{item.products[0].item.name}}</span>
-                                        </div>
-                                        <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
-                                            <nitrozen-chips 
-                                                class="nitro-chip">
-                                                {{ item.article.size }}
-                                            </nitrozen-chips>
-                                        </div>
-                                    </div>
-                                </div>
                                 <nitrozen-button
                                     v-if="item.__bag_group_child_count"
                                     class="offer-products-btn"
@@ -96,10 +61,7 @@
                             </td>
 
                             <td>
-                                <div class="seller-cell" v-if="item.entity_type === 'set'">
-                                    <span>{{ findSetIdentifier(item) }}</span>
-                                </div>
-                                <div class="seller-cell" v-if="item.entity_type !== 'set'">
+                                <div class="seller-cell">
                                     <span 
                                         v-for="(identifier, key) in item.article.identifiers" 
                                         :key="identifier"
@@ -138,12 +100,12 @@
                                     class="qty-reject"
                                     :min="0"
                                     :max="item.quantity"
-                                    :id="item.entity_type == 'set' ? item.products[0].bag_id : item.bag_id"
+                                    :id="item.bag_id"
                                     :value="item.rejected"
                                     :allowNegative="false"
-                                    @increment="increment($event, indx, item.entity_type == 'set')"
-                                    @decrement="decrement($event, indx, item.entity_type == 'set')"
-                                    @change="onChange($event, indx, item.entity_type == 'set')"
+                                    @increment="increment($event, indx)"
+                                    @decrement="decrement($event, indx)"
+                                    @change="onChange($event, indx)"
                                 />
                             </td>
 
@@ -153,12 +115,12 @@
 
                             <td>
                                 <span class="quantity-cell">
-                                    ₹{{ formatPrice(item.financial_breakup.reduce((total, bag) => total + bag.brand_calculated_amount, 0) * (item.quantity - item.rejected)) }}
+                                    ₹{{ formatPrice(item.financial_breakup.brand_calculated_amount * (item.quantity - item.rejected)) }}
                                 </span>
                             </td>
 
                             <td class="book-note-style">
-                                <div @click="openBookInfo(item)" v-if="item.entity_type !== 'set' && item.meta">
+                                <div @click="openBookInfo(item)" v-if="item.meta">
                                     <inline-svg 
                                         :src="item.meta.custom_message ? 'book-note-present' : 'book-note'"
                                     />
@@ -295,7 +257,7 @@ export default {
         totalPrices() {
             let total = 0;
             total = this.items.reduce((sum, item) => {
-                let price = item.entity_type === 'set' ? item.financial_breakup.brand_calculated_amount : item.gst_details.brand_calculated_amount;
+                let price = item.financial_breakup.brand_calculated_amount;
                 let bagTotal = price * (item.quantity - item.rejected);
                 return sum + bagTotal;
             }, 0);
@@ -457,8 +419,8 @@ export default {
             e.stopPropagation();
             this.imageView = false;
         }, 
-        increment(e, index, isSet=false) {
-            let selectedBag = isSet ? this.items.find(bag => bag.products[0].bag_id === e ) : this.items.find(bag => bag.bag_id === e);
+        increment(e, index) {
+            let selectedBag = this.items.find(bag => bag.bag_id === e);
             if(selectedBag) {
                 selectedBag.rejected += 1;
                 this.$set(this.items, index, selectedBag);
@@ -468,8 +430,8 @@ export default {
                 console.error("Bag ID not found for incrementing");
             } 
         },
-        decrement(e, index, isSet=false) {
-            let selectedBag = isSet ? this.items.find(bag => bag.products[0].bag_id === e ) : this.items.find(bag => bag.bag_id === e);
+        decrement(e, index) {
+            let selectedBag = this.items.find(bag => bag.bag_id === e);
             if(selectedBag) {
                 selectedBag.rejected -= 1;
                 this.$set(this.items, index, selectedBag);
@@ -479,8 +441,8 @@ export default {
                 console.error("Bag ID not found for incrementing");
             } 
         },
-        onChange(e, index, isSet=false) {
-            let selectedBag = isSet ? this.items.find(bag => bag.products[0].bag_id === e.id ) : this.items.find(bag => bag.bag_id === e.id);
+        onChange(e, index) {
+            let selectedBag = this.items.find(bag => bag.bag_id === e.id);
             if(selectedBag) {
                 selectedBag.rejected = +e.value;
                 this.$set(this.items, index, selectedBag);
@@ -492,22 +454,6 @@ export default {
         },
         snakeCaseToCaps(text) {
             return convertSnakeCaseToString(text).toUpperCase();
-        },
-        findSetIdentifier(item) {
-            if(item.article) {
-                let correctIdentifier = item.article.seller_identifier;
-                if(correctIdentifier) {
-                    let correctIdentifierKey = '';
-                    for(let key in item.article.identifiers) {
-                        if(item.article.identifiers[key] === correctIdentifier) {
-                            correctIdentifierKey = key;
-                            break;
-                        }
-                    }
-                    if(correctIdentifierKey) return `${this.snakeCaseToCaps(correctIdentifierKey)}: ${correctIdentifier}`;
-                    else return `${correctIdentifier}`;
-                } else return null;
-            } else return null;
         },
         getSetPrice(item) {
             let finalPrice = null;
@@ -683,6 +629,7 @@ export default {
             border: 0.8px solid #e1dede;
             border-radius: 4px;
             background: white;
+            
             .item-logo {
                 object-fit: contain;
                 width: 100%;

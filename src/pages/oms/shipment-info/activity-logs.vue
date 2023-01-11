@@ -228,7 +228,7 @@ export default {
 
         // the below function is used to convert the date to a paritcular format so that we can compare it
         showDate(date) {
-            let pDate = moment(date).format('D MMM YYYY')
+            let pDate = moment(date).format('D MMM YYYY');
             return this.calenderFormat(pDate);
         },
 

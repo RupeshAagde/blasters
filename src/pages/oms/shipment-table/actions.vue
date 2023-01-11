@@ -49,11 +49,12 @@
                         @click="openInvoiceMenu"
                         title="Print Invoice"
                         @blur="openInvoiceMenu"
+                        :class="{disabled: !showInvoiceIcon}"
                         v-if="showInvoiceIcon"
                     >
                         <adm-inline-svg class="svg-color-change" :src=" isInvoiceLock ? 'printer-icon-present': 'printer-icon' "> </adm-inline-svg>
                         <invoice-label-menu
-                            v-show="toggleInvoice"
+                            v-show="toggleInvoice && showInvoiceIcon"
                             :toggleMenu="'invoice'"
                             :shipment="shipment"
                             @downloadSuccess="() => onInvoiceLabelDownload('invoice')"
@@ -66,10 +67,11 @@
                         title="Print Label"
                         @blur="openLabelMenu"
                         v-if="showLabelIcon"
+                        :class="{disabled: !showLabelIcon}"
                     >
                         <adm-inline-svg :src="isLabelLock ? 'tag-icon-present' : 'tag-icon' "></adm-inline-svg>
                         <invoice-label-menu
-                            v-show="toggleLabel"
+                            v-show="toggleLabel && showLabelIcon"
                             :toggleMenu="'label'"
                             :shipment="shipment"
                             @downloadSuccess="() => onInvoiceLabelDownload('label')"
@@ -125,10 +127,7 @@
 
                 <!-- Bag Confirm -->
                 <nitrozen-button
-                    :disabled="
-                        (locked || ordering_channel.toLowerCase() === 'marketplace') ||
-                        disableConfirm || !shipment.actionable
-                    "
+                    :disabled="locked || disableConfirm || !shipment.actionable"
                     v-if="!readOnlyMode"
                     v-flatBtn
                     theme="secondary"
@@ -770,8 +769,7 @@ export default {
         checkForUserNote() {
             let userNoteExists = this.shipment.bags.some(
                 (bag) =>  {
-                    if(bag.entity_type == 'set') return bag.products[0].meta.custom_message;
-                    else return bag.meta.custom_message;
+                    return bag.meta.custom_message;
                 }
             );
             if (userNoteExists) this.popUp = true;
@@ -852,80 +850,54 @@ export default {
                 let totalBadQCs = bag.qc.bad.reasons.reduce((total, reason) => total + reason.quantity, 0);
 
                 /* Add total bad QCs to the products key */
-                if(bag.entity_type == 'set'){
-                    shipmentProducts.push({
-                        quantity: bag.article.set.quantity,
-                        identifier: bag.products[0].seller_identifier
-                    })
-                } else {
-                    shipmentProducts.push({
-                        line_number: bag.line_number,
-                        identifier: bag.seller_identifier,
-                        quantity: bag.quantity
-                    });
-                }
+                shipmentProducts.push({
+                    line_number: bag.line_number,
+                    identifier: bag.seller_identifier,
+                    quantity: bag.quantity
+                });
                 let badQCReasons = bag.qc.bad.reasons;
                 badQCReasons.forEach(reason => {
                     let currentReasonObj = shipmentReasons.products.find(item => item.data.reason_id === reason.reason);
 
                     /* Update reasons object */
                     if(!isEmpty(currentReasonObj)) {
-                        if(bag.entity_type == 'set'){
-                            currentReasonObj.filters.push({
-                                quantity: reason.quantity,
-                                identifier: bag.products[0].seller_identifier
-                            })
-                        } else {
-                            currentReasonObj.filters.push({
-                                line_number: bag.line_number,
-                                quantity: reason.quantity,
-                                identifier: bag.seller_identifier
-                            });
-                        }
+                        currentReasonObj.filters.push({
+                            line_number: bag.line_number,
+                            quantity: reason.quantity,
+                            identifier: bag.seller_identifier
+                        });
                     } else {
                         let reasonObj = {
-                            filters: [],
+                            filters: [
+                                {
+                                    line_number: bag.line_number,
+                                    quantity: reason.quantity,
+                                    identifier: bag.seller_identifier
+                                }
+                            ],
                             data: {
                                 reason_id: reason.reason_id,
                                 reason_text: reason.reason_text
                             }
                         };
-                        if(bag.entity_type == 'set'){
-                            reasonObj.filters.push({
-                                quantity: reason.quantity,
-                                identifier: bag.products[0].seller_identifier
-                            })
-                        } else {
-                            reasonObj.filters.push({
-                                line_number: bag.line_number,
-                                quantity: reason.quantity,
-                                identifier: bag.seller_identifier
-                            });
-                        }
                         shipmentReasons.products.push(reasonObj);
                     }
 
                     /* Update data_updates key */
                     let dataUpdates = {
-                        filters: [],
+                        filters: [
+                            {
+                                line_number: bag.line_number,
+                                quantity: reason.quantity,
+                                identifier: bag.seller_identifier
+                            }
+                        ],
                         data: {
                             meta: {
                                 qc_text: reason.remark
                             }
                         }
                     };
-                    if(bag.entity_type == 'set'){
-                        dataUpdates.filters.push({
-                            quantity: reason.quantity,
-                            identifier: bag.products[0].seller_identifier
-                        })
-                    } else {
-                        dataUpdates.filters.push({
-                            line_number: bag.line_number,
-                            quantity: reason.quantity,
-                            identifier: bag.seller_identifier
-                        });
-                    }
 
                     if(reason.img && reason.img.upload && reason.img.upload.url) {
                         dataUpdates.data.meta['qc_image_links'] = reason.img.upload.url;
@@ -1224,6 +1196,10 @@ export default {
     display: flex;
     .header-icon {
         padding-right: 10px;
+    }
+    .header-icon.disabled {
+        opacity: .3;
+        cursor: default;
     }
 }
 

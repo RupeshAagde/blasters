@@ -198,6 +198,7 @@ export default {
                     this.$snackbar.global.showError('Unable to send message to customer');
                     console.error("Error in sending SMS to customer:   ", data);
                 }
+                this.$emit('closeDrawer');
             })
             .catch((error) => {
                 this.$snackbar.global.showError('Unable to send message to customer');

@@ -18,16 +18,15 @@
                 v-for="item in bags"
             >
              <tr
-                :key="item.entity_type == 'set' ? item.products[0].bag_id : item.bag_id"
+                :key="item.bag_id"
                 v-if="showCancelledItems ? item.quantity - item.rejected : item.quantity"
                 class="line-break"
             >
                 <td class="item-details-container">
                     <div class="item-cell">
-                        <img v-if="item.entity_type == 'set'" :src="item.products[0].item.images[0]" class="item-logo" />
-                        <img v-else :src="item.item.images[0]" class="item-logo" />
+                        <img :src="item.item.images[0]" class="item-logo" />
                         <div class="details">
-                            <span class="item-name">{{ item.entity_type == 'set' ? item.products[0].item.name : item.item.name }}</span>
+                            <span class="item-name">{{ item.item.name }}</span>
                             <div class="variants-container" v-if="item.variants && item.variants.length > 0">
                                 <div class="variant-tag" v-for="variant in item.variants" :key="`${item.bag_id}-${variant.text}`">
                                     {{ variant.text }}
@@ -52,8 +51,7 @@
                     </span>
                 </td>
                 <td>
-                    <!-- <span v-if="item.entity_type == 'set'">₹{{ item.quantity - item.rejected > 0 ? item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0).toFixed(2) : (0).toFixed(2) }}</span> -->
-                    <span>₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0) * (item.quantity - item.rejected)) }}</span>
+                   <span>₹{{ formatPrice(item.financial_breakup.brand_calculated_amount * (item.quantity - item.rejected)) }}</span>
                 </td>
              </tr>
             </template>

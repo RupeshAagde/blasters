@@ -339,37 +339,24 @@ export default {
                             let currentReasonObj = finalReasonsObj.products.find(item => item.data.reason_id === reason.reason);
     
                             if(!isEmpty(currentReasonObj)) {
-                                if(bag.entity_type == 'set'){
-                                    currentReasonObj.filters.push({
-                                        quantity: reason.quantity * bag.article.set.quantity,
-                                        identifier: bag.products[0].seller_identifier
-                                    });
-                                } else {
-                                    currentReasonObj.filters.push({
-                                        line_number: bag.line_number,
-                                        quantity: reason.quantity,
-                                        identifier: bag.seller_identifier
-                                    });
-                                }
+                                currentReasonObj.filters.push({
+                                    line_number: bag.line_number,
+                                    quantity: reason.quantity,
+                                    identifier: bag.seller_identifier
+                                });
                             } else {
                                 let reasonObj = {
-                                    filters: [],
+                                    filters: [
+                                        {
+                                            line_number: bag.line_number,
+                                            quantity: reason.quantity,
+                                            identifier: bag.seller_identifier
+                                        }
+                                    ],
                                     data: {
                                         reason_id: reason.reason,
                                         reason_text: cancellationReasons.store_manager.find(r => r.value === reason.reason).text
                                     }
-                                }
-                                if(bag.entity_type == 'set'){
-                                    reasonObj.filters.push({
-                                        quantity: reason.quantity * bag.article.set.quantity,
-                                        identifier: bag.products[0].seller_identifier
-                                    })
-                                } else {
-                                    reasonObj.filters.push({
-                                        line_number: bag.line_number,
-                                        quantity: reason.quantity,
-                                        identifier: bag.seller_identifier
-                                    })
                                 }
                                 finalReasonsObj.products.push(reasonObj);
                             }
@@ -412,18 +399,11 @@ export default {
 
                 this.bags.forEach(bag => {
                     if(bag.rejected > 0) {
-                        if(bag.entity_type == 'set'){
-                            finalProductsObj.push({
-                                quantity: bag.rejected * bag.article.set.quantity,
-                                identifier: bag.products[0].seller_identifier
-                            });
-                        } else {
-                            finalProductsObj.push({
-                                line_number: bag.line_number,
-                                quantity: bag.rejected,
-                                identifier: bag.seller_identifier
-                            });
-                        }
+                        finalProductsObj.push({
+                            line_number: bag.line_number,
+                            quantity: bag.rejected,
+                            identifier: bag.seller_identifier
+                        });
                     }
 
                     bag.reasons.forEach(reason => {
@@ -431,37 +411,24 @@ export default {
                         let currentReasonObj = finalReasonsObj.products.find(item => item.data.reason_id === reason.reason);
 
                         if(!isEmpty(currentReasonObj)) {
-                            if(bag.entity_type == 'set'){
-                                currentReasonObj.filters.push({
-                                    quantity: reason.quantity * bag.article.set.quantity,
-                                    identifier: bag.products[0].seller_identifier
-                                });
-                            } else {
-                                currentReasonObj.filters.push({
-                                    line_number: bag.line_number,
-                                    quantity: reason.quantity,
-                                    identifier: bag.seller_identifier
-                                });
-                            }
+                            currentReasonObj.filters.push({
+                                line_number: bag.line_number,
+                                quantity: reason.quantity,
+                                identifier: bag.seller_identifier
+                            });
                         } else {
                             let reasonObj = {
-                                filters: [],
+                                filters: [
+                                    {
+                                        line_number: bag.line_number,
+                                        quantity: reason.quantity,
+                                        identifier: bag.seller_identifier
+                                    }
+                                ],
                                 data: {
                                     reason_id: reason.reason,
                                     reason_text: cancellationReasons.store_manager.find(r => r.value === reason.reason).text
                                 }
-                            }
-                            if(bag.entity_type == 'set'){
-                                reasonObj.filters.push({
-                                    quantity: reason.quantity * bag.article.set.quantity,
-                                    identifier: bag.products[0].seller_identifier
-                                })
-                            } else {
-                                reasonObj.filters.push({
-                                    line_number: bag.line_number,
-                                    quantity: reason.quantity,
-                                    identifier: bag.seller_identifier
-                                })
                             }
                             finalReasonsObj.products.push(reasonObj);
                         }
@@ -502,12 +469,7 @@ export default {
                 };
 
                 this.bags.forEach(bag => {
-                    if(bag.entity_type == 'set' && bag.quantity - bag.rejected) {
-                            finalProductsObj.push({
-                                quantity: bag.article.set.quantity - (bag.rejected * bag.article.set.quantity),
-                                identifier: bag.products[0].seller_identifier
-                            });
-                    } else if(bag.quantity - bag.rejected) {
+                    if(bag.quantity - bag.rejected) {
                         finalProductsObj.push({
                             line_number: bag.line_number,
                             quantity: bag.quantity - bag.rejected,
@@ -520,39 +482,24 @@ export default {
                         let currentReasonObj = finalReasonsObj.products.find(item => item.data.reason_id === reason.reason);
 
                         if(!isEmpty(currentReasonObj)) {
-                            if (bag.entity_type == 'set'){
-                                currentReasonObj.filters.push({
-                                    quantity: reason.quantity * bag.article.set.quantity,
-                                    identifier: bag.products[0].seller_identifier
-                                });
-                            } else {
-                                currentReasonObj.filters.push({
-                                    line_number: bag.line_number,
-                                    quantity: reason.quantity,
-                                    identifier: bag.seller_identifier
-                                });
-                            }
+                            currentReasonObj.filters.push({
+                                line_number: bag.line_number,
+                                quantity: reason.quantity,
+                                identifier: bag.seller_identifier
+                            });
                         } else {
                             let reasonObj = {
-                                filters: [],
+                                filters: [
+                                    {
+                                        line_number: bag.line_number,
+                                        quantity: reason.quantity,
+                                        identifier: bag.seller_identifier
+                                    }
+                                ],
                                 data: {
                                     reason_id: reason.reason,
                                     reason_text: cancellationReasons.store_manager.find(r => r.value === reason.reason).text
                                 }
-                            }
-                            if(bag.entity_type == 'set'){
-                                let filterObj = {
-                                    quantity: reason.quantity * bag.article.set.quantity,
-                                    identifier: bag.products[0].seller_identifier
-                                }
-                                reasonObj.filters.push(filterObj)
-                            } else {
-                                let filterObj = {
-                                    line_number: bag.line_number,
-                                    quantity: reason.quantity,
-                                    identifier: bag.seller_identifier
-                                }
-                                reasonObj.filters.push(filterObj)
                             }
                             finalReasonsObj.products.push(reasonObj);
                         }

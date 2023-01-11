@@ -34,7 +34,7 @@
                     </td>
                     <td class="shipment-price">
                         <!-- ₹{{ activeShipmentDetails.gst_details.brand_calculated_amount }} -->
-                        ₹{{ activeShipmentPrice.toFixed(2) }}
+                        ₹{{ formatPrice(activeShipmentPrice) }}
                     </td>
                     <td class="items-count">
                         {{ activeShipmentDetails.total_items }}
@@ -217,6 +217,7 @@
                         :amountPaid="amountPaid"
                         :paymentMode="paymentMode"
                         @enableSubmitButton="enableSubmitButtonSms"
+                        @closeDrawer="closeDetails()"
                     />
                     <template #footer>
                         <nitrozen-button
@@ -344,7 +345,7 @@ import ChangeAddressDrawer from './change-address-drawer.vue';
 import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
 
 /* Helper imports */
-import { convertSnakeCaseToString, copyToClipboard } from '@/helper/utils.js';
+import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper/utils.js';
 
 /* Service imports */
 import OrderService from '@/services/orders.service';
@@ -429,13 +430,8 @@ export default {
                 this.fullName = `${this.activeShipmentDetails.user.first_name} ${this.activeShipmentDetails.user.last_name}`;
                 this.orderId = this.activeShipmentDetails.order.fynd_order_id;
                 this.shipmentId = this.activeShipmentDetails.shipment_id;
-                if(this.activeShipmentDetails.bags[0].entity_type == 'set') {
-                    this.bagId = this.activeShipmentDetails.bags[0].products[0].bag_id.toString();
-                    this.brandName = this.activeShipmentDetails.bags[0].products[0].item.brand;
-                } else {
-                    this.bagId = this.activeShipmentDetails.bags[0].bag_id.toString();
-                    this.brandName = this.activeShipmentDetails.bags[0].item.brand;
-                }
+                this.bagId = this.activeShipmentDetails.bags[0].bag_id.toString();
+                this.brandName = this.activeShipmentDetails.bags[0].item.brand;
                 this.status = this.activeShipmentDetails.status.status;
                 this.amountPaid = this.activeShipmentDetails.order.prices.amount_paid.toString();
                 if(
@@ -449,17 +445,7 @@ export default {
                     this.paymentMode = "PREPAID";
                 }
                 this.activeShipmentPrice = cloneDeep(ele.bags).reduce((total, item) => {
-                    let finalQuantity = 0;
-                    let finalPrice = 0;
-                    if(item.entity_type === 'set' && item.article && item.article.set && item.article.set.quantity) {
-                        finalQuantity = item.article.set.quantity;
-                        if(item.financial_breakup) {
-                            finalPrice = item.financial_breakup.reduce((total, bag) => total + bag.brand_calculated_amount, 0);
-                        }
-                    } else {
-                        finalQuantity = item.quantity;
-                        finalPrice = finalQuantity * item.financial_breakup[0].brand_calculated_amount;
-                    }
+                    let finalPrice = item.quantity * item.financial_breakup.brand_calculated_amount;
                     return finalPrice + total;
                 }, 0);
             } else {
@@ -468,6 +454,7 @@ export default {
         });
     },
     methods: {
+        formatPrice,
         closeDetails() {
             this.isCreateInvoiceS3 = false;
             this.isCall = false;
@@ -490,15 +477,9 @@ export default {
         },
         onRejectChange() {
             let updatedPrice = cloneDeep(this.activeShipmentDetails.bags).reduce((total, item) => {
-                if(item.entity_type == 'set'){
-                    let finalQuantity = item.article.set.quantity - item.rejected;
-                    let finalPrice = finalQuantity > 0 ? item.financial_breakup.reduce((sum, item) => sum + item.brand_calculated_amount, 0) : 0
-                    return finalPrice + total
-                } else {
-                    let finalQuantity = item.quantity - item.rejected;
-                    let finalPrice = finalQuantity * item.financial_breakup[0].brand_calculated_amount;
-                    return finalPrice + total;
-                }
+                let finalQuantity = item.quantity - item.rejected;
+                let finalPrice = finalQuantity * item.financial_breakup.brand_calculated_amount;
+                return finalPrice + total;
             }, 0);
             this.activeShipmentPrice = updatedPrice;
             this.rejectUpdate = cloneDeep(this.items);

@@ -15,7 +15,7 @@
                     @keyup="onSearchInput"
                 ></nitrozen-input> -->
 
-                <div class="dropdown" tabindex="0" @blur="handleDropdown($event, 'reasonDropdown')">>
+                <div class="dropdown" tabindex="0" @blur="handleDropdown($event, 'reasonDropdown')">
                     <nitrozen-dropdown
                         class="dropdown-reason"
                         label="Store Reassign Reason"
@@ -26,39 +26,39 @@
                     />
                 </div>
             </div>
-        </template>
         
-        <div class="labels">
-            <div v-for="(store, index) in stores"
-                :key="index"
-                :class="selectedStore == store.value ? 'selected-store' : 'not-selected-store'"
-                @click="changeEvent($event, store.value)"
-            >
-                <div class="header-store-details-card">
-                    <div class="store-details">
-                        <input 
-                            class="radio-button"
-                            type="radio"
-                            name="name"
-                            :value="store.value"
-                            v-model="selectedStore"
-                            @change="reassignStores"
-                            
-                        />
-                        <label class="store-info">
-                            <p>Store: {{ store.name }}</p> 
-                            <p>Store Code: {{ store.store_code }}</p> 
-                            <p>Address: {{ store.address }}</p> 
-                            <p>Contact: {{ store.contact }}</p> 
-                        </label>
+            <div class="labels">
+                <div v-for="(store, index) in stores"
+                    :key="index"
+                    :class="selectedStore == store.value ? 'selected-store' : 'not-selected-store'"
+                    @click="changeEvent($event, store.value)"
+                >
+                    <div class="header-store-details-card">
+                        <div class="store-details">
+                            <input 
+                                class="radio-button"
+                                type="radio"
+                                name="name"
+                                :value="store.value"
+                                v-model="selectedStore"
+                                @change="reassignStores"
+                                
+                            />
+                            <label class="store-info">
+                                <p>Store: {{ store.name }}</p> 
+                                <p>Store Code: {{ store.store_code }}</p> 
+                                <p>Address: {{ store.address }}</p> 
+                                <p>Contact: {{ store.contact }}</p> 
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="no-content" v-if="!stores.length || !reasons.length">
-                <adm-no-content
-                    helperText="No store/reasons found"
-                ></adm-no-content>
-            </div>
+        </template>
+        <div class="no-content" v-if="!stores.length || !reasons.length">
+            <adm-no-content
+                helperText="No store/reasons found"
+            ></adm-no-content>
         </div>
     </div>
 </template>

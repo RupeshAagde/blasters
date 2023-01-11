@@ -10,16 +10,12 @@
                     <div class="left-container">
                         <div class="item-header">
                             <span>
-                                {{ item.entity_type == 'set' ? item.products[0].item.name : item.item.name }} ({{ item.quantity }} {{ item.quantity === 1 ? 'item' : 'items'}})
+                                {{ item.item.name }} ({{ item.quantity }} {{ item.quantity === 1 ? 'item' : 'items'}})
                             </span>
                         </div>
                         <div class="item-content">
                             <div class="item-image-container">
-                                <img v-if="item.entity_type == 'set'"
-                                    class="item-img"
-                                    :src="item.products[0].item.images[0]" 
-                                    :alt="item.products[0].item.name">
-                                <img v-else
+                                <img
                                     class="item-img"
                                     :src="item.item.images[0]" 
                                     :alt="item.item.name">
@@ -33,11 +29,7 @@
                                     <span class="label">EAN:</span>
                                     <span class="value">{{ item.article.identifiers.ean }}</span>
                                 </div> -->
-                                <div class="detail" v-if="item.entity_type == 'set' && item.products[0].item.code">
-                                    <span class="label">Item code:</span>
-                                    <span class="value">{{ item.products[0].item.code }}</span>
-                                </div>
-                                <div class="detail" v-if="item.entity_type != 'set' && item.item.code">
+                                <div class="detail" v-if="item.item.code">
                                     <span class="label">Item code:</span>
                                     <span class="value">{{ item.item.code }}</span>
                                 </div>
@@ -51,17 +43,13 @@
                                     <span class="label">Quantity:</span>
                                     <span class="value">{{ item.quantity }}</span>
                                 </div>
-                                <!-- <div class="detail" v-if="item.financial_breakup[0].price_effective">
-                                    <span class="label">Effective Price:</span>
-                                    <span class="value">₹{{ item.financial_breakup[0].price_effective }}</span>
-                                </div> -->
                                 <div class="detail">
                                     <span class="label">MRP:</span>
-                                    <span class="value">₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0) * item.quantity) }}</span>
+                                    <span class="value">₹{{ formatPrice(item.financial_breakup.price_marked * item.quantity) }}</span>
                                 </div>
                                 <div class="detail">
                                     <span class="label">Price:</span>
-                                    <span class="value">₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0) * item.quantity)  }}</span>
+                                    <span class="value">₹{{ formatPrice(item.financial_breakup.brand_calculated_amount * item.quantity) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -75,8 +63,7 @@
                             class="reason-rejection-box"
                             :total_quantity="cancelClicked ? (!showItemCancellation ? item.rejected : item.quantity) : item.rejected"
                             :rejected_quantity="item.rejected"
-                            :isSet="item.entity_type == 'set'"
-                            :id="item.entity_type == 'set' ? item.products[0].bag_id : item.bag_id"
+                            :id="item.bag_id"
                             @bagReasonsAdded="bagReasonsAdded"
                             :full_cancellation="fullCancellation"
                         ></rejection-reason-box>
@@ -123,8 +110,7 @@ export default {
                 let updatedReasons = cloneDeep(reasons);
                 updatedReasons.forEach(reason => delete reason.max);
                 let updatedBag = this.items.find(bag => {
-                    if(bag.entity_type == 'set') return bag.products[0].bag_id == id;
-                    else return bag.bag_id === id;
+                    return bag.bag_id === id;
                 });
                 updatedBag.reasons = updatedReasons;
     

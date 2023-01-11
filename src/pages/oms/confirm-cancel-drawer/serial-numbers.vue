@@ -43,17 +43,13 @@
                                 <span class="label">Quantity:</span>
                                 <span class="value">{{ item.quantity }}</span>
                             </div>
-                            <!-- <div class="detail" v-if="item.financial_breakup[0].price_effective">
-                                <span class="label">Effective Price:</span>
-                                <span class="value">₹{{ item.financial_breakup[0].price_effective }}</span>
-                            </div> -->
-                            <div class="detail" v-if="item.financial_breakup[0].price_marked">
+                            <div class="detail" v-if="item.financial_breakup.price_marked">
                                 <span class="label">MRP:</span>
-                                <span class="value">₹{{ item.financial_breakup[0].price_marked.toFixed(2) }}</span>
+                                <span class="value">₹{{ formatPrice(item.financial_breakup.price_marked * item.quantity) }}</span>
                             </div>
-                            <div class="detail" v-if="item.financial_breakup[0].brand_calculated_amount">
+                            <div class="detail" v-if="item.financial_breakup.brand_calculated_amount">
                                 <span class="label">Price:</span>
-                                <span class="value">₹{{ item.financial_breakup[0].brand_calculated_amount.toFixed(2) }}</span>
+                                <span class="value">₹{{ formatPrice(item.financial_breakup.brand_calculated_amount * item.quantity) }}</span>
                             </div>
                         </div>
                     </div>
@@ -85,6 +81,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { NitrozenInput } from '@gofynd/nitrozen-vue';
 
+/* Helper imports */
+import { formatPrice } from '@/helper/utils.js';
+
 export default {
     name: 'serial-numbers',
     props: {
@@ -109,6 +108,7 @@ export default {
         }
     },
     methods: {
+        formatPrice,
         onAddingSerialNumber(bag_id, index, event) {
             let selectedItem = this.items.find(item => item.bag_id === bag_id);
             selectedItem.serial_numbers[index] = event.target.value;

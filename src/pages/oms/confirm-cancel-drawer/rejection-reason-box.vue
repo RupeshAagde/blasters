@@ -76,8 +76,7 @@ export default {
         total_quantity: Number,
         rejected_quantity: Number,
         id: [String, Number],
-        full_cancellation: Boolean,
-        isSet: Boolean
+        full_cancellation: Boolean
     },
     components: {
         AdmInlineSvg,

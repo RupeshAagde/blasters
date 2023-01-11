@@ -31,19 +31,15 @@
                                 {{ item.qc.good.quantity }} Good QC{{ item.qc.good.quantity > 1 ? 's' : '' }}
                             </div>
                             <div class="qc-tag bad-qc-tag" v-if="item.qc.bad && item.qc.bad.quantity > 0">
-                                {{ item.entity_type == 'set' ? item.article.set.quantity - item.qc.good.quantity : item.quantity - item.qc.good.quantity }} 
-                                Bad QC{{ (item.entity_type == 'set' ? item.article.set.quantity - item.qc.good.quantity : item.quantity - item.qc.good.quantity) > 1 ? 's' : '' }}
+                                {{ item.quantity - item.qc.good.quantity }} 
+                                Bad QC{{ (item.quantity - item.qc.good.quantity) > 1 ? 's' : '' }}
                             </div>
                         </div>
+                        
                         <nitrozen-button 
                             theme="secondary" 
-                            v-if="item.entity_type == 'set' && item.qc && item.qc.bad.quantity === 0"
-                            @click="onClickingAddBadQC($event, item.products[0].bag_id, true)"
-                        >+ Add Bad QC</nitrozen-button>
-                        <nitrozen-button 
-                            theme="secondary" 
-                            v-if="item.entity_type != 'set' && item.qc && item.qc.bad.quantity === 0"
-                            @click="onClickingAddBadQC($event, item.bag_id, false)"
+                            v-if="item.qc && item.qc.bad.quantity === 0"
+                            @click="onClickingAddBadQC($event, item.bag_id)"
                         >+ Add Bad QC</nitrozen-button>
 
                         <return-reasons 
@@ -97,7 +93,7 @@ export default {
             let updatedBags = data.bags.map(bag => {
                 let qc = {
                     good: {
-                        quantity: bag.entity_type == 'set' ? bag.article.set.quantity : bag.quantity
+                        quantity: bag.quantity
                     },
                     bad: {
                         quantity: 0,
@@ -122,10 +118,10 @@ export default {
          * @param {Object} event The native event
          * @param {String} item_id The bag ID
          */
-        onClickingAddBadQC(event, item_id, isSet) {
+        onClickingAddBadQC(event, item_id) {
             event.stopPropagation();
             let shipDataBags = cloneDeep(this.shipmentData.bags);
-            let selectedBag = isSet ? shipDataBags.find(bag => bag.products[0].bag_id == item_id) : shipDataBags.find(bag => bag.bag_id === item_id);
+            let selectedBag = shipDataBags.find(bag => bag.bag_id === item_id);
             /* 
                 This button will be clicked when there are no bad QCs and all items have a good QC.
                 We will first increase the bad QC and reduce the good QC by 1. 
@@ -133,13 +129,11 @@ export default {
                 Instead, it will show the "+ Add Quantity" button, now.
                 It will also add an entry with default quantity 1 in the reasons.
             */
-            if(isSet) selectedBag.qc.bad.quantity += selectedBag.article.set.quantity;
-            else selectedBag.qc.bad.quantity += 1
-            if(isSet) selectedBag.qc.good.quantity -= selectedBag.article.set.quantity;
-            else selectedBag.qc.good.quantity -= 1;
+            selectedBag.qc.bad.quantity += 1
+            selectedBag.qc.good.quantity -= 1;
             selectedBag.qc.bad.reasons.push(
                 {
-                    quantity: isSet ? selectedBag.article.set.quantity : 1,
+                    quantity: 1,
                     quality: ''
                 }
             );

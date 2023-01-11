@@ -200,7 +200,7 @@
                 <div v-if="shipment.delivery_slot">
                     <div class="header-title">Delivery Date</div>
                     <br />
-                    <div class="details-data">{{ convertToOMSDate(deliveryDate) }}</div>
+                    <div class="details-data">{{ deliveryDate }}</div>
                 </div>
 
                 <div v-if="shipment.dp_details.name">
@@ -595,9 +595,7 @@ export default {
                 !isEmpty(this.shipment) &&
                 !isEmpty(this.shipment.delivery_slot)
             ) {
-                let day = moment(this.shipment.delivery_slot.upper_bound).format(
-                    'DD MMM, YYYY'
-                );
+                let day = moment(this.shipment.delivery_slot.upper_bound).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY');
                 // let fromTime = moment(this.shipment.pickup_slot.lower_bound).format('LT');
                 // let toTime = moment(this.shipment.pickup_slot.upper_bound).format('LT');
                 // return `${day} ${fromTime} -  ${toTime}`;
