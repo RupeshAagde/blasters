@@ -351,7 +351,7 @@ export default {
 // @import './../less/page-header.less';
 // @import './../less/page-ui.less';
 .panel {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     background: #ffffff;
     min-height: 733px;
     left: 271px;
@@ -363,9 +363,9 @@ export default {
     display: flex;
     justify-content: space-between;
     border: 1px solid #e4e5e6;
-    radius: 6px;
+    border-radius: 6px;
     padding: 30px 24px 30px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     color: #41434c;
     .main-hdr {
         font-size: 24px;

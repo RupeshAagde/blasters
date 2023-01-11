@@ -40,7 +40,7 @@ describe('Mounted HomePage', () => {
         expect(wrapper.vm.isCustomHomePage).toBe(true)
     })
     it('save data', async () => {
-        wrapper.vm.open()
+        wrapper.vm.open({title: 'Features Page', key: 'features'})
         await flushPromises();
         let showSuccess = jest.spyOn(wrapper.vm.$snackbar.global, "showSuccess");
         const saveBtn = wrapper.findComponent({ ref: 'save-btn' });

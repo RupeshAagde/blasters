@@ -198,7 +198,6 @@
     margin-right: 20px;
 }
 .date {
-    margin-top: 24px;
     display: flex;
     margin-top: 24px;
     ::v-deep .form-row {

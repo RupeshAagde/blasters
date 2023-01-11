@@ -211,7 +211,6 @@ export default {
         },
         $loadImages() {
             this.imageList = [];
-            this;
             if (this.imageSource !== 'namespace_images') {
                 this.grindorPagination = { page: 0, nextPage: 1, limit: 16 };
             }

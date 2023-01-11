@@ -1,18 +1,14 @@
-import { isBrowser, isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
-const config = root.config || {};
 const env = root.env || {};
 
 let headers = {};
 
 export const getCommonHeaderOptions = () => {
-    let defaultHeader = isBrowser ? {} : {};
     return {
         headers: {
             'Content-Type': 'application/json',
             'x-currency-code': 'INR',
-            ...defaultHeader,
             ...headers
         }
     };

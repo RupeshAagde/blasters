@@ -72,7 +72,6 @@ import BulkImport from '@/pages/product/bulk/import/bulk-import';
 import UploadHistory from '@/pages/product/bulk/import/upload-history.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
-import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {

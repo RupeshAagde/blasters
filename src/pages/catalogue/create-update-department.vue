@@ -31,7 +31,7 @@
                             <nitrozen-button
                                 class="left-space-txb"
                                 :theme="'secondary'"
-                                ref='save-button'
+                                ref="save-button"
                                 @click="save"
                                 v-flatBtn
                                 >Save</nitrozen-button
@@ -67,6 +67,7 @@
                         label="Slug *"
                         pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
                         v-model="slug.value"
+                        :disabled="update"
                     ></nitrozen-input>
                     <nitrozen-error v-if="slug.showerror">{{
                         slug.errortext
@@ -102,7 +103,7 @@
                     @save="logo.value = $event"
                     v-model="logo.value"
                     fileName="department"
-                    :showGallery=true
+                    :showGallery="true"
                     namespace="department-square-logo"
                 ></image-uploader-tile>
                 <nitrozen-error v-if="logo.showerror">{{
@@ -148,7 +149,7 @@
     align-items: center;
 
     .active-dept {
-        color: #2E31BE;
+        color: #2e31be;
         cursor: pointer;
         display: flex;
         justify-content: flex-start;
@@ -189,7 +190,7 @@
     border-radius: 4px;
     margin: 85px 24px 24px 24px !important;
     padding: 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 
     .row-1 {
         width: 100%;
@@ -362,15 +363,15 @@ export default {
             }
         },
         attachNameWatcher() {
-            // if (!this.update) {
-            this.$watch(
-                'name',
-                function handler(val) {
-                    this.slug.value = convertToSlug(this.name.value.trim());
-                },
-                { deep: true }
-            );
-            // }
+            if (!this.update) {
+                this.$watch(
+                    'name',
+                    function handler(val) {
+                        this.slug.value = convertToSlug(this.name.value.trim());
+                    },
+                    { deep: true }
+                );
+            }
         },
         removeSearchInput(index) {
             this.synonym.value.splice(index, 1);
@@ -421,12 +422,14 @@ export default {
             } else {
                 this.name.showerror = true;
             }
-
-            if (this.slug.value !== '') {
-                this.slug.showerror = false;
-                postdata.slug = this.slug.value;
-            } else {
-                this.slug.showerror = true;
+            
+            if (!this.update){
+                if (this.slug.value !== '') {
+                    this.slug.showerror = false;
+                    postdata.slug = this.slug.value;
+                } else {
+                    this.slug.showerror = true;
+                }
             }
 
             if (this.priority.value > '-1') {
@@ -469,9 +472,18 @@ export default {
                         this.pageLoading = false;
                         console.error(error);
                         this.$snackbar.global.showError(
-                            error && error.response && error.response.data && error.response.data && `${error.response.data.error}` ||
-                            error && error.response && error.response.data && error.response.data && error.response.data.errors && `${error.response.data.errors.error}`||
-                            `Operation Failed !`
+                            (error &&
+                                error.response &&
+                                error.response.data &&
+                                error.response.data &&
+                                `${error.response.data.error}`) ||
+                                (error &&
+                                    error.response &&
+                                    error.response.data &&
+                                    error.response.data &&
+                                    error.response.data.errors &&
+                                    `${error.response.data.errors.error}`) ||
+                                `Operation Failed !`
                         );
                     });
             }

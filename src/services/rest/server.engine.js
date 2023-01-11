@@ -1,13 +1,9 @@
 import axios from 'axios'
 import { transformRequestOptions } from './../../helper/utils'
 import { LocalStorageService } from './../localstorage.service'
-import { isBrowser, isNode } from 'browser-or-node'
+import { isBrowser } from 'browser-or-node'
 import { interceptorFn } from "./signature/axios_helper";
 axios.defaults.withCredentials = true
-
-let axiosMisc = axios.create({
-    withCredentials: false
-})
 
 let config = {}
 
