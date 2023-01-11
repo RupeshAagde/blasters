@@ -1997,9 +1997,9 @@ export default {
     justify-content: center;
     align-items: center;
     margin-left: 10px;
-    border-radius: 50%;
+    border-radius: 10px;
     box-sizing: content-box;
-    padding: 0 2px;
+    padding: 0 4px;
 }
 
 .nitrozen-tab-active {

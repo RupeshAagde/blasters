@@ -200,7 +200,7 @@
                 <div v-if="shipment.delivery_slot">
                     <div class="header-title">Delivery Date</div>
                     <br />
-                    <div class="details-data">{{ deliveryDate }}</div>
+                    <div class="details-data">{{ convertToOMSDate(deliveryDate) }}</div>
                 </div>
 
                 <div v-if="shipment.dp_details.name">
@@ -494,7 +494,7 @@ import SelectDeliveryPartner from './../fixtures/select-delivery-partner.json';
 import PICKUP_SLOT_PAYLOAD from './../mocks/pickup-slot-payload.json';
 
 /* Helper imports */
-// import { convertToOMSDate } from '@/helper/utils.js';
+import { convertToOMSDate } from '@/helper/utils.js';
 
 const TABS_OPTIONS = [
     {
@@ -579,7 +579,7 @@ export default {
             ) {
                 let day = moment(
                     this.shipment.meta.processing_dates.dp_pickup_slot.end_time
-                ).format('DD MMM, YYYY');
+                ).format('MMM D, YYYY');
                 let startTime = moment(
                     this.shipment.meta.processing_dates.dp_pickup_slot
                         .start_time

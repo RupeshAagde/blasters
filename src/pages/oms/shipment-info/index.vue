@@ -123,7 +123,7 @@ export default {
     justify-content: center;
     border: 1px solid #E0E0E0;
     max-width: 20%;
-    min-width: 20%;
+    min-width: 135px;
     align-items: center;
     position: relative;
     top: 39px;

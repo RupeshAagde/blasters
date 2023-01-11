@@ -22,7 +22,7 @@
                     <tr
                         v-for="(item, indx) in mod_items"
                         :key="item.bag_id"
-                        :class="`line-break ${getPromoItemClass(indx,item)} bag-list-table`"
+                        :class="`line-break ${getGroupItemClass(indx,item)} bag-list-table`"
                     >
                             <td class="item-details-container" >
                                 <div class="item-title-block" v-if="item.entity_type !== 'set'">
@@ -38,7 +38,7 @@
                                         <img :src="item.item.images[0]" class="item-logo" />
                                     </div>
                                     <div class="item-primary-information" v-if="item.item && item.item.brand && item.item.name">
-                                        <div class="tooltip-top" :data-tooltip="item.item.name">
+                                        <div class="item-name-container tooltip-top" :data-tooltip="item.item.name">
                                             <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
                                         </div>
                                         <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
@@ -73,8 +73,8 @@
                                             item.products[0].item && 
                                             item.products[0].item.brand && 
                                             item.products[0].item.name">
-                                        <span class="item-name tooltip-top" :data-tooltip="item.products[0].item.name">
-                                            {{item.products[0].item.brand}} | {{item.products[0].item.name}}
+                                        <span class="item-name-container tooltip-top" :data-tooltip="item.products[0].item.name">
+                                            <span class="item-name">{{item.products[0].item.brand}} | {{item.products[0].item.name}}</span>
                                         </span>
                                         <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
                                             <nitrozen-chips 
@@ -85,13 +85,13 @@
                                     </div>
                                 </div>
                                 <nitrozen-button
-                                    v-if="item.__bag_promo_child_count"
+                                    v-if="item.__bag_group_child_count"
                                     class="offer-products-btn"
                                     theme="secondary"
                                     v-flatBtn
-                                    @click="toggleChildPromoBags(item.__bag_promo_id,indx+1)"
-                                > {{item.__bag_promo_child_count}} Offer Product{{item.__bag_promo_child_count > 1 ? 's':''}} 
-                                    <inline-svg class="collapse-icon" :src="mod_items[indx+1] && mod_items[indx+1].__bag_promo_id === item.__bag_promo_id ?'close-arrow':'open-arrow'"/>
+                                    @click="toggleChildGroupBags(item.group_id,indx+1)"
+                                > {{item.__bag_group_child_count}} {{item.applied_promos && item.applied_promos.length ? `Offer`:'Group'}} Product{{item.__bag_group_child_count > 1 ? 's':''}} 
+                                    <inline-svg class="collapse-icon" :src="mod_items[indx+1] && mod_items[indx+1].group_id === item.group_id ?'close-arrow':'open-arrow'"/>
                                 </nitrozen-button>
                             </td>
 
@@ -111,8 +111,7 @@
                             </td>
 
                             <td v-if="currentStatus === 'placed'">
-                                <span v-if="item.entity_type != 'set' && item.quantity" class="quantity-cell">{{ item.quantity }}</span>
-                                <span v-if="item.entity_type == 'set'" class="quantity-cell">{{ item.quantity }}</span>
+                                <span class="quantity-cell">{{ item.quantity }}</span>
                             </td>
 
                             <td v-if="currentStatus === 'placed' &&
@@ -122,8 +121,8 @@
                                 shipment.transition_config.bag_confirmed.can_break_entity &&
                                 shipment.transition_config.bag_confirmed.can_break_entity == true &&
                                 !readOnlyMode">
-                                <span v-if="item.entity_type != 'set' && item.quantity" class="quantity-cell">{{ item.quantity - item.rejected }}</span>
-                                <span v-if="item.entity_type == 'set'" class="quantity-cell">{{ item.quantity - item.rejected }}</span>
+                                <span class="quantity-cell">{{ item.quantity - item.rejected }}</span>
+
                             </td>
 
                             <td v-if="
@@ -135,6 +134,7 @@
                                 shipment.transition_config.bag_confirmed.can_break_entity == true && 
                                 !readOnlyMode" class="reject-qty">
                                 <custom-input-number 
+                                    v-if="item.is_parent"
                                     class="qty-reject"
                                     :min="0"
                                     :max="item.quantity"
@@ -152,12 +152,8 @@
                             </td>
 
                             <td>
-                                <span class="quantity-cell" v-if="item.entity_type === 'set'">
-                                    ₹{{ getSetPrice(item).toFixed(2) }}
-                                </span>
-                                <span class="quantity-cell" v-if="item.entity_type !== 'set' && item.gst_details && item.gst_details.brand_calculated_amount">
-                                    <!-- ₹{{ (item.gst_details.brand_calculated_amount * (item.quantity - item.rejected)).toFixed(2) }} -->
-                                    ₹{{ (item.gst_details.brand_calculated_amount * (item.quantity - item.rejected)).toFixed(2) }}
+                                <span class="quantity-cell">
+                                    ₹{{ formatPrice(item.financial_breakup.reduce((total, bag) => total + bag.brand_calculated_amount, 0) * (item.quantity - item.rejected)) }}
                                 </span>
                             </td>
 
@@ -238,7 +234,7 @@ import MoreBagInfo from './more-bag-info.vue';
 import PriceBreakup from '@/pages/oms/bags-list/price-breakup.vue';
 
 /* Helper imports */
-import { convertSnakeCaseToString } from '@/helper/utils';
+import { convertSnakeCaseToString, formatPrice } from '@/helper/utils';
 
 export default {
     name: 'bags-list-table',
@@ -274,11 +270,10 @@ export default {
             formattingItems:true,
             org_items:[],
             mod_items:[],
-            promotional_bags_map:new Map()
+            group_bags_map: new Map()
         }
     },
     computed: {
-       
         currentStatus() {
             return this.shipment.bag_status_history.slice(-1)[0].status;
         },
@@ -335,6 +330,7 @@ export default {
     },
     methods: {  
         isEmpty,
+        formatPrice,
         collateItems(){
             /*
                 Collation Algorithm for Formatting Bag Items
@@ -375,75 +371,71 @@ export default {
 
             // 1. Loop Bag Items and  Segregate promotional bags
             for(let bag of this.items){
-                const bag_promo_id = bag.applied_promos && bag.applied_promos.length && bag.applied_promos[0].promo_id ? bag.applied_promos[0].promo_id : null;
-                if(bag_promo_id){
-                    const bag_promo_name = bag.applied_promos[0].promotion_name ? bag.applied_promos[0].promotion_name : null;
-                    const bag_promo_type = bag.applied_promos[0].promotion_type ? bag.applied_promos[0].promotion_type : null;
-
-                    // Add Meta to Promotional Bag
-                    bag["__promo_parent"] = !Boolean(bag.parent_promo_bags && Object.keys(bag.parent_promo_bags).length);
-                    bag["__bag_promo_id"] = bag_promo_id;
-
-                    let __promo = {};
-                    if(this.promotional_bags_map.has(bag_promo_id)){
-                        __promo = this.promotional_bags_map.get(bag_promo_id);
+                const applied_promos = bag.applied_promos && bag.applied_promos.length ? bag.applied_promos:null;
+                const bag_promo_id = applied_promos && applied_promos[0].promo_id ? applied_promos[0].promo_id : null;
+                if(bag.group_id){
+                    const bag_promo_name = applied_promos && applied_promos[0].promotion_name ? applied_promos[0].promotion_name : null;
+                    const bag_promo_type = applied_promos && applied_promos[0].promotion_type ? applied_promos[0].promotion_type : null;
+                    let __group = {};
+                    if(this.group_bags_map.has(bag.group_id)){
+                        __group = this.group_bags_map.get(bag.group_id);
                     }else{
-                        __promo = {
-                            promo_id: bag_promo_id,
+                        __group = {
+                            group_id:bag.group_id,
+                            promo_id:bag_promo_id,
                             promotion_name:bag_promo_name,
                             promotion_type:bag_promo_type,
                             parent:[],
                             child:[]
                         }
                     }
-                    __promo[bag.__promo_parent?"parent":"child"].push(bag);
-                    this.promotional_bags_map.set(bag_promo_id,__promo);
+                    __group[bag.is_parent?"parent":"child"].push(bag);
+                    this.group_bags_map.set(bag.group_id,__group);
                 }else{
                     this.mod_items.push(bag);
                 }
             }
 
             // 2. Get all parents out in Main Array - this.mod_items
-            for (const [_key, _val] of this.promotional_bags_map) {
+            for (const [_key, _val] of this.group_bags_map) {
                 if(_val && _val.parent && _val.parent.length){
-                    _val.parent[_val.parent.length-1]["__bag_promo_child_count"] =  _val.child.length; //Will serve count and also help in detecting last parent
+                    _val.parent[_val.parent.length-1]["__bag_group_child_count"] =  _val.child.length; //Will serve count and also help in detecting last parent
                     this.mod_items = [..._val.parent,...this.mod_items]
                 }
             }
             this.formattingItems = true;
             this.org_items = this.mod_items;
         },
-        toggleChildPromoBags(promo_id, index){
-            if(this.mod_items[index] && '__bag_promo_id' in this.mod_items[index] && (this.mod_items[index].__bag_promo_id == promo_id) && !this.mod_items[index].__promo_parent){
+        toggleChildGroupBags(bag_group_id, index){
+            if(this.mod_items[index] && 'group_id' in this.mod_items[index] && (this.mod_items[index].group_id == bag_group_id) && !this.mod_items[index].is_parent){
                 // Remove Promo Item
                 this.mod_items = this.org_items;
             }else{
                 // Add Promo Item
                 this.mod_items = this.org_items;
-                let promo_child = this.promotional_bags_map.get(promo_id);
-                this.mod_items = [...this.mod_items.slice(0, index),...promo_child.child,...this.mod_items.slice(index)];
+                let group_child = this.group_bags_map.get(bag_group_id);
+                this.mod_items = [...this.mod_items.slice(0, index),...group_child.child,...this.mod_items.slice(index)];
             }
         },
-        getPromoItemClass(index, item){
-            let _classes = 'promo-item';
-            if(item.__bag_promo_id){
+        getGroupItemClass(index, item){
+            let _classes = 'group-item';
+            if(item.group_id){
                 let hasPrev = this.mod_items[index-1];
-                hasPrev = !!(hasPrev && hasPrev.__bag_promo_id && hasPrev.__bag_promo_id === item.__bag_promo_id);
+                hasPrev = !!(hasPrev && hasPrev.group_id && hasPrev.group_id === item.group_id);
                 let hasNext = this.mod_items[index+1];
-                hasNext = !!(hasNext && hasNext.__bag_promo_id && hasNext.__bag_promo_id === item.__bag_promo_id);
-
+                hasNext = !!(hasNext && hasNext.group_id && hasNext.group_id === item.group_id);
                 if(hasPrev && hasNext){
-                    _classes = `${_classes} promo-mid`;
+                    _classes = `${_classes} group-mid`;
                 }else if(hasPrev && !hasNext){
-                    _classes = `${_classes} promo-bottom`;
+                    _classes = `${_classes} group-bottom`;
                 }else if(!hasPrev && hasNext){
-                    _classes = `${_classes} promo-top`;
+                    _classes = `${_classes} group-top`;
                 }
-                if('__bag_promo_child_count' in item && item.__bag_promo_child_count){
-                    _classes = `${_classes} promo-bottom-parent`;
+                if('__bag_group_child_count' in item && item.__bag_group_child_count){
+                    _classes = `${_classes} group-bottom-parent`;
                 }
-                if(!(item.__promo_parent)){
-                    _classes = `${_classes} promo-child`;
+                if(!(item.is_parent)){
+                    _classes = `${_classes} group-child`;
                 }
             }
                                 
@@ -699,12 +691,14 @@ export default {
             }
         }
 
-        
+        .group-item{
+            .item-image{
+                border: 0.1px solid #6678DD;
+            }
+        }
 
-
-
-        .promo-mid:not(.promo-bottom-parent,.promo-child),
-        .promo-top:not(.promo-bottom-parent,.promo-child){
+        .group-mid:not(.group-bottom-parent,.group-child),
+        .group-top:not(.group-bottom-parent,.group-child){
             .item-image::before{
                 content: '';
                 position: absolute;
@@ -717,7 +711,7 @@ export default {
             }
         }
 
-        .promo-bottom-parent{
+        .group-bottom-parent{
             td:not(:first-child){
                 padding-bottom: 40px;
             }
@@ -733,7 +727,7 @@ export default {
         }
 
 
-        .promo-child{
+        .group-child{
             .item-image {    
                 height: 36px;
                 width: 36px;
@@ -743,7 +737,7 @@ export default {
                 content: '';
                 position: absolute;
                 width: 0px;
-                height: 34px;
+                height: 33px;
                 left: 18px;
                 top: -35px;
                 border: 0.3px dashed #6678DD;
@@ -789,7 +783,7 @@ export default {
 
         .reject-qty {
             width: 60px;
-            padding-right: 8px;
+            padding-right: 10px;
             
             ::v-deep .n-input {
                 font-size: 12px;
@@ -885,12 +879,17 @@ export default {
     flex-direction: column;
     justify-content: center;
 
+    .item-name-container {
+        width: fit-content;
+    }
+
     .item-name, .item-size {
         font-weight: 300;
         font-size: 12px;
         line-height: 17px;
         // color: #4D4D4E;
-        width: 142px;
+        display: inline-block;
+        max-width: 142px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1021,24 +1020,19 @@ export default {
     &:hover{
         color:#DBE1FF!important;
         ::v-deep.collapse-icon{
-         svg{
-            fill:#DBE1FF!important;
+            svg{
+                fill:#DBE1FF!important;
+            }
         }
     }
-    }
 }
 
-tr.line-break.promo-top::after{
+tr.line-break.group-top::after{
     display: none;
 }
-tr.line-break.promo-mid::after{
+tr.line-break.group-mid::after{
     display: none;
 }
-
-// .promo-bottom{
-//     border-top:none;
-// }
-
 
 .bag-list-table {
     cursor: default !important;

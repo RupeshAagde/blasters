@@ -168,23 +168,19 @@
 
                 <div 
                     id="mrp"
-                    v-if="articleData.financial_breakup && 
-                    articleData.financial_breakup[0] &&
-                    articleData.financial_breakup[0].price_marked">
+                    v-if="articleData.financial_breakup">
                     <span class="common-key-style">MRP: </span>
                     <span class="common-value-style">
-                        ₹{{ articleData.financial_breakup[0].price_marked.toFixed(2) }}
+                        ₹{{ formatPrice(articleData.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0)) }}
                     </span>
                 </div>
 
                 <div
                     id="effective-price"
-                    v-if="articleData.financial_breakup && 
-                    articleData.financial_breakup[0] &&
-                    articleData.financial_breakup[0].price_effective">
+                    v-if="articleData.financial_breakup">
                     <span class="common-key-style">Price: </span>
                     <span class="common-value-style">
-                        ₹{{ articleData.financial_breakup[0].price_effective.toFixed(2) }}
+                        ₹{{ formatPrice(articleData.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0)) }}
                     </span>
                 </div>
             </div>
@@ -258,23 +254,19 @@
 
                 <div 
                     id="mrp"
-                    v-if="articleData.financial_breakup && 
-                    articleData.financial_breakup[0] &&
-                    articleData.financial_breakup[0].price_marked">
+                    v-if="articleData.financial_breakup">
                     <span class="common-key-style">MRP: </span>
                     <span class="common-value-style">
-                        ₹{{ articleData.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0).toFixed(2) }}
+                        ₹{{ formatPrice(articleData.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0)) }}
                     </span>
                 </div>
 
                 <div
                     id="effective-price"
-                    v-if="articleData.financial_breakup && 
-                    articleData.financial_breakup[0] &&
-                    articleData.financial_breakup[0].price_effective">
+                    v-if="articleData.financial_breakup">
                     <span class="common-key-style">Price: </span>
                     <span class="common-value-style">
-                        ₹{{ articleData.financial_breakup.reduce((sum, f) => sum + f.price_effective, 0).toFixed(2) }}
+                        ₹{{ formatPrice(articleData.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0)) }}
                     </span>
                 </div>
             </div>
@@ -308,10 +300,15 @@
 </template>
 
 <script>
-/* Component imports */
-import { NitrozenBadge } from '@gofynd/nitrozen-vue';
-import InlineSvg from '@/components/common/inline-svg.vue';
+/* Package imports */
 import moment from 'moment';
+import { NitrozenBadge } from '@gofynd/nitrozen-vue';
+
+/* Component imports */
+import InlineSvg from '@/components/common/inline-svg.vue';
+
+/* Helper imports */
+import { formatPrice } from '@/helper/utils.js';
 
 export default {
     name: 'more-bag-info',
@@ -342,6 +339,9 @@ export default {
                 return days > 0 && days < 1 ? Math.ceil(days) : days > 1 ? Math.ceil(days) : 0;
             }
         }
+    },
+    methods: {
+        formatPrice,
     }
 }
 </script>

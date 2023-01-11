@@ -671,12 +671,7 @@ export const detectFPApp = () => {
 
 /** OMS v2.1 */
 export const convertToOMSDate = date => {
-    return moment(date).add(new Date().getTimezoneOffset(), 'minutes').format('D MMM YYYY, LT');
-}
-
-export const numberToThousandString = (num)=> {
-    let val = Number(num)/1000;
-    return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
+    return moment(date).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY LT');
 }
 
 export const downloadFile = path => {
@@ -690,4 +685,16 @@ export const downloadFile = path => {
     element.click();
     document.body.removeChild(element);
 };
+
+export const formatPrice = (value) => {
+    if(!isNaN(value)){
+        return value.toFixed(2)
+    }
+    return Number(0).toFixed(2)
+}
+
+export const numberToThousandString = (num)=> {
+    let val = Number(num)/1000;
+    return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
+}
 /** OMS v2.1 --END */

@@ -52,8 +52,8 @@
                     </span>
                 </td>
                 <td>
-                    <span v-if="item.entity_type == 'set'">₹{{ item.quantity - item.rejected > 0 ? item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0).toFixed(2) : (0).toFixed(2) }}</span>
-                    <span v-else>₹{{ (item.financial_breakup[0].brand_calculated_amount * (item.quantity - item.rejected)).toFixed(2) }}</span>
+                    <!-- <span v-if="item.entity_type == 'set'">₹{{ item.quantity - item.rejected > 0 ? item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0).toFixed(2) : (0).toFixed(2) }}</span> -->
+                    <span>₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0) * (item.quantity - item.rejected)) }}</span>
                 </td>
              </tr>
             </template>
@@ -62,12 +62,18 @@
 </template>
 
 <script>
+/* Helper imports */
+import { formatPrice } from '@/helper/utils.js';
+
 export default {
     name: 'confirmation-table',
     props: {
         columns: Array,
         bags: Array,
         showCancelledItems: Boolean
+    },
+    methods: {
+        formatPrice 
     }
 }
 </script>

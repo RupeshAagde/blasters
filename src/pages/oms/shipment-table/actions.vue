@@ -687,7 +687,7 @@ export default {
             return (
                 this.shipment &&
                 this.shipment.invoice.store_invoice_id &&
-                !RETURN_JOURNEY_STATUSES.includes(this.shipment.status.status) &&
+                // !RETURN_JOURNEY_STATUSES.includes(this.shipment.status.status) &&
                 this.shipment.status.status !== 'dp_not_assigned'
             );
         },

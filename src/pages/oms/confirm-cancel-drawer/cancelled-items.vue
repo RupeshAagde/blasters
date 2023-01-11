@@ -55,13 +55,13 @@
                                     <span class="label">Effective Price:</span>
                                     <span class="value">₹{{ item.financial_breakup[0].price_effective }}</span>
                                 </div> -->
-                                <div class="detail" v-if="item.financial_breakup[0].price_marked">
+                                <div class="detail">
                                     <span class="label">MRP:</span>
-                                    <span class="value">₹{{ item.financial_breakup[0].price_marked.toFixed(2) }}</span>
+                                    <span class="value">₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0) * item.quantity) }}</span>
                                 </div>
-                                <div class="detail" v-if="item.financial_breakup[0].brand_calculated_amount">
+                                <div class="detail">
                                     <span class="label">Price:</span>
-                                    <span class="value">₹{{ item.financial_breakup[0].brand_calculated_amount.toFixed(2) }}</span>
+                                    <span class="value">₹{{ formatPrice(item.financial_breakup.reduce((sum, f) => sum + f.brand_calculated_amount, 0) * item.quantity)  }}</span>
                                 </div>
                             </div>
                         </div>
@@ -94,6 +94,9 @@ import cloneDeep from 'lodash/cloneDeep';
 /* Component imports */
 import RejectionReasonBox from './rejection-reason-box.vue';
 
+/* Helper imports */
+import { formatPrice } from '@/helper/utils.js';
+
 export default {
     name: 'cancelled-items',
     props: {
@@ -114,6 +117,7 @@ export default {
         }
     },
     methods: {
+        formatPrice,
         bagReasonsAdded(allQty, id, reasons) {
             if(allQty) {
                 let updatedReasons = cloneDeep(reasons);
