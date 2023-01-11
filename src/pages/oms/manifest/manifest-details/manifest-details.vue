@@ -16,7 +16,7 @@
             class="main-container"
             v-if="!noManifestId && !manifestFetchInProgress"
         >
-            <div class="page-container">
+            <div class="page-container manifest-page">
                 <details-info
                     :data="manifestInfo"
                     :manifestDetailsShipmentCount="manifestDetailsShipmentCount"
@@ -1111,5 +1111,9 @@ export default {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+}
+
+.manifest-page {
+    margin: 0 !important;
 }
 </style>

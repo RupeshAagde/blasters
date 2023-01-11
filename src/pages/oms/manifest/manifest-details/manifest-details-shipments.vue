@@ -7,9 +7,8 @@
             >
                 <div class="manifest-main-div">
                     <div class="manifest-mid-wrapper">
-                        <div class="manifest-search">
-                            <!-- && filterDelivery -->
-
+                        <!-- Commented as of January 11, 2023 as per Ninja design for OMS v2.0 -->
+                        <!-- <div class="manifest-search">
                             <mirage-alert
                                 :dismissible="false"
                                 ref="intro"
@@ -56,7 +55,7 @@
                                     >
                                 </div>
                             </mirage-alert>
-                        </div>
+                        </div> -->
 
                         <div
                             class="manifest-list-wrapper"
@@ -68,14 +67,14 @@
                                 v-for="(colName, index) in columns"
                                 :key="`${colName}-${index}`"
                             >
-                                <span
+                                <!-- <span
                                     v-if="index == 0 && manifestStatus !== 'complete'"
                                     class="checkbox"
                                     @click="selectUnSelectAllItem"
                                 >
                                     <nitrozen-checkbox :value="isAllSelected">
                                     </nitrozen-checkbox>
-                                </span>
+                                </span> -->
                                 <div class="manifest-list-heading">
                                     {{ colName }}
                                 </div>
@@ -92,7 +91,7 @@
                                 :key="index"
                             >
                                 <div class="manifest-list">
-                                    <span
+                                    <!-- <span
                                     v-if="manifestStatus !== 'complete'"
                                         class="checkbox boxcheck"
                                         @click="selectItem(index)"
@@ -101,7 +100,7 @@
                                             :value="manifest.isSelected"
                                         >
                                         </nitrozen-checkbox>
-                                    </span>
+                                    </span> -->
                                     <div class="manifest-list-heading">
                                         <p>{{ manifest.shipment_id }}</p>
                                         <p class="manifest-list-heading-date">
@@ -449,6 +448,7 @@ export default {
     .page-container {
         box-sizing: border-box;
         height: 100%;
+        margin: 0;
         margin-top: 24px;
         padding: 0px;
 

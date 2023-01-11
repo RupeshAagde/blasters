@@ -750,22 +750,18 @@ const URLS = {
     SHIPMENT_APPLICATION_V2_LIST: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/application/${getAppInfo()._id}/shipments-listing`);
     },
-
     ORDERS_V2_LISTING: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/orders-listing`);
     },
-
     ORDERS_APPLICATION_V2_LISTING: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/application/${getAppInfo()._id}/orders-listing`);
     },
-
     LANE_CONFIG_V2: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/lane-config`);
     },
     LANE_APPLICATION_CONFIG_V2: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/application/${getAppInfo()._id}/lane-config`);
     },
-
     FILTERS_V2: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/filter-listing`);
     },
@@ -776,7 +772,7 @@ const URLS = {
         return urlJoin(WHEELJACK_PCPR_URL, `/v1.0/company/${companyId}/location`);
     },
     FETCH_MANIFEST_LIST: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/generated-manifests`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/listing`);
     },
     FETCH_PICKUP_SLOT:()=>{
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/pickup-slots`)
@@ -791,7 +787,7 @@ const URLS = {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/dispatch`)
     },
     FETCH_MANIFEST_DETAILS: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/manifest-details`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/details`);
     },
     FETCH_ANNOUNCEMENT_NOTE: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/announcements`);
