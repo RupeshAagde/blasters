@@ -42,7 +42,8 @@
                     <td>
                         <div class="status">
                              <nitrozen-badge state="success" v-if="activeShipmentDetails.status.status">
-                                {{ convertCase(activeShipmentDetails.status.current_operational_status || activeShipmentDetails.status.status) }}
+                                <!-- {{ convertCase(activeShipmentDetails.status.current_operational_status || activeShipmentDetails.status.status) }} -->
+                                {{ activeShipmentDetails.status.display_name }}
                             </nitrozen-badge>
                             <nitrozen-badge state="info" class="progress-badge" v-if="shipmentProcessing && activeShipmentDetails.shipment_id === activeId">
                                 {{ "PROCESSING" }}
@@ -117,7 +118,8 @@
                     <td>
                         <div class="status">
                              <nitrozen-badge state="success" v-if="item.status.status">
-                                {{ convertCase(item.status.current_operational_status || item.status.status) }}
+                                <!-- {{ convertCase(item.status.current_operational_status || item.status.status) }} -->
+                                {{ item.status.display_name }}
                             </nitrozen-badge>
                             <nitrozen-badge state="info" class="progress-badge" v-if="shipmentProcessing && item.shipment_id === activeId">
                                 {{ "PROCESSING" }}

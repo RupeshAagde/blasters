@@ -120,7 +120,15 @@ export default {
                     text: "Refund - Bank Details",
                     value: "refund"
                 },
-            ]
+            ],
+            slugs: {
+                delayed_shipment: 'aldaviz-delayed-shipment-event',
+                custom_delayed_shipment: 'aldaviz-custom-delayed-shipment-event',
+                not_reachable: 'aldaviz-not-reachable-event',
+                shipment_rto: 'aldaviz-shipment-rto-event',
+                account_details: 'aldaviz-account-details-event',
+                refund: 'aldaviz-return-bag_picked-event'
+            }
         }
     },
     components: {
@@ -169,7 +177,7 @@ export default {
         sendSmsToCustomer() {
             let data = {
                 "bag_id": this.bagId,
-                "slug": "aldaviz-delayed-shipment-event",
+                "slug": this.slugs[this.selectedTemplate],
                 "data": {
                     "country_code": "+91",
                     "phone_number": this.selectedNumber,

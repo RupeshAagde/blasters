@@ -127,6 +127,7 @@
                                 }"
                             >
                                 {{ convertSnakeCaseToString(shipData.shipment_status.status) }}
+                                <!-- {{ shipData.shipment_status.display_name }} -->
                             </nitrozen-badge>
                     </div>
                 </td>
