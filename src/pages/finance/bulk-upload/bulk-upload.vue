@@ -37,9 +37,6 @@
                 <inline-svg :src="'upward-arrow-finance'"></inline-svg>
           </div>
               <div class="close-arrow" v-else>
-                  <!-- <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.77 0.115234L-7.73692e-08 1.88523L10 11.8852L20 1.88523L18.23 0.115234L10 8.34523L1.77 0.115234Z" fill="#8F8F8F"/>
-                  </svg> -->
                   <inline-svg :src="'downward-arrow-finance'"></inline-svg>
               </div>
             </div>
@@ -58,7 +55,7 @@
                 <span class="txt">Upload History</span>
               </div>
             </div>
-            <div class="upload-file">
+            <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
               <div class="select-file" @click="onUploadClick">
                 <input type="file" accept=".csv" ref="fileUpload" @change="onFileUpload" class="fileUploadInput"  />
                 <div class="plus-sign">
@@ -66,7 +63,7 @@
                 </div>
                 <div class="upload-file-title">Choose File</div>
               </div>
-              <div class="desc">Drag and drop a file here(max. file size: 5MB)</div>
+              <div class="desc">Drag and drop a file here</div>
               <div class="condition">Accepted File Type:  .csv</div>
             </div>
             <div class="file-loading-container"  v-if="this.fileSelected">
@@ -80,7 +77,6 @@
                     </svg>
                   </div>
                 </div>
-              
               <div class="progress-bar" v-if="this.fileUploading">
                 <div ref="progressbar" class="progress-speed" v-bind:style="{ 'width': width+'%'}"></div>
               </div>
@@ -111,12 +107,12 @@
                   <span class="txt">Total Record : </span>
                   <span class="val">{{this.parsedData.totalRecords}}</span>
                 </div>
-                <div class="record-success" v-if="validationCompleted">
+                <div class="record-success hide" v-if="validationCompleted">
                   <inline-svg :src="'success-icon-finance'"></inline-svg>
                   <span class="txt">Success: </span>
                   <span class="val">{{this.parsedData.success}}</span>
                 </div>
-                <div class="record-error" v-if="validationCompleted">
+                <div class="record-error hide" v-if="validationCompleted">
                   <inline-svg :src="'error-icon-finance'"></inline-svg>
                   <span class="txt">Errors: </span>
                   <span class="val">{{this.parsedData.errors}}</span>
@@ -125,7 +121,7 @@
               <div class="payout-sum" v-if="validationCompleted">
                 <inline-svg :src="'payout-icon-finance'"></inline-svg>
                   <span class="txt">Payout Amount Sum: </span>
-                  <span class="val">{{this.parsedData.payout_amount}}</span>
+                  <span class="val">{{ this.parsedData.payout_amount}}</span>
               </div>
           </div>
           <div class="right-content" v-if="validationCompleted">
@@ -136,7 +132,7 @@
               @click="cancelValidation"
               >Cancel</nitrozen-button>
               <nitrozen-button
-              class="cancel-btn"
+              class="confirm-btn"
               :theme="'secondary'"
               v-flatBtn
               @click="confirmValidation"
@@ -157,7 +153,6 @@
                         </span>
                     </div>
           </mirage-alert>
-
           <div class="snapshot-table-conatiner" v-if="validationCompleted">
             <table
                 class="snapshot-table"
@@ -172,17 +167,15 @@
                 </tr>
                 <tr v-for="(tab, index) in tableData.items"
                     :key="'tab-' + index"> 
-                    <td v-for="(tabItem,key,index) in tab" :key="'tabitem-' + index">
+                    <td v-for="(tabItem,index) in tab" :key="index">
                         {{ tabItem }}
                     </td>
                 </tr>
-                
             </table>
           </div>
-
           <div class="validate-loader" v-if="startLoader">
             <no-content
-                :icon="'/public/assets/pngs/upload-loader.png'"
+                :icon="'/public/assets/pngs/upload-loader-finance.gif'"
                 :helperText="''"
             />
             <div class="txt">Please hold on while the records are being fetched...</div>
@@ -201,6 +194,7 @@
 </template>
 <script>
 import NoContent from '../../../components/common/adm-no-content.vue';
+import pako from "pako";
 import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
 import MirageAlert from '@/components/orders/alert.vue';
@@ -248,7 +242,7 @@ export default {
       isUploaded:false,
       presignedUrl: '',
       validationCompleted: false,
-      file: '',
+      file: new Blob(),
       parsedData:{
         totalRecords: 0,
         success:0,
@@ -328,7 +322,6 @@ export default {
                 .finally(() => {
                     
        });
-
       },
       getFileType() {
         const params = {
@@ -348,10 +341,8 @@ export default {
                         }
             
             const caller = FinanceService.getFileType(params);
-            console.log(caller);
             caller
                 .then(( res ) => {
-                  console.log(res);
                     this.fileType = res.data.items.map((item) => {
                         return {
                             text: item.display_name,
@@ -365,7 +356,6 @@ export default {
                     );
                 })
                 .finally(() => {
-                  console.log("in finally")
                     
                 });
         },
@@ -387,8 +377,9 @@ export default {
         onFileUpload(event) {
           this.fileUploading = true;
           this.fileSelected = true;
-            let file = event.target.files[0];
-            this.file = event.target.files[0];        
+          let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
+          this.file = file;
+
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`
@@ -433,7 +424,7 @@ export default {
           const params = {
               "data": {
                   "report_id": this.selectedFileType ,
-                  "file_name": this.fileDetails.fileName + ".gz",
+                  "file_name": this.fileDetails.fileName + '.gz',
               }
           }
             const caller = FinanceService.getPreSignedUrl(params);
@@ -445,51 +436,19 @@ export default {
                     for (let prop in res.data.data.fields) {
                       data.append(prop, res.data.data.fields[prop]);
                     }
-                    data.append("file", this.file);                    
-                    this.callPresignedUrl(url,data);
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
-                })
-                .finally(() => {
-                    // this.callPreSignedUrl();
-                });
-        },
+                    const file = this.file;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const fileAsArray = new Uint8Array(reader.result);
+                        const compressedFileArray = pako.gzip(fileAsArray);
+                        const compressedFile = compressedFileArray.buffer;
+                        const dataToUpload = new Blob([compressedFile], { type: file.type });
+                        const fileToUpload = new Blob([dataToUpload], { type: "application/gzip"});
+                        data.append('file', fileToUpload);
+                        this.uploadToS3(url,data);
+                    };
 
-        callPresignedUrl(url,data){
-          const caller = FinanceService.callPresignedUrl(url, data);
-          caller
-                .then(( res ) => {
-                      
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
-                })
-                .finally(() => {
-                  // this.getValidatedFileInfo(data.get('file'));
-                });
-
-                this.getValidatedFileInfo(data.get('file'));
-        },
-
-        getValidatedFileInfo(){
-    
-          let data = new FormData;
-          data.append("url", this.presignedUrl);
-          data.append("report_id", this.selectedFileType);
-          data.append("report_file", this.file);
-          // data.append("source", "S3");
-          data.append("is_gzip", "true");
-          data.append("action", "preprocess");
-
-          const caller = FinanceService.validateFile(data);
-            caller
-                .then(( res ) => {
-                  console.log(res);
+                    reader.readAsArrayBuffer(file);
                     
                 })
                 .catch((err) => {
@@ -497,32 +456,58 @@ export default {
                         `Failed`
                     );
                 })
-                .finally(() => {
-                    // this.callPreSignedUrl();
-                });
-
-
-                setTimeout(() => {
-                  this.showValidatedScreen();
-                }, 3000);
-                
-
         },
 
-        showValidatedScreen(){
+        uploadToS3(url,data){
+          const caller = FinanceService.uploadToS3(url, data);
+          caller
+                .then((res) => {
+
+                })
+                .catch((err) => {
+                  this.getValidatedFileInfo();
+                })
+                
+        },
+
+        getValidatedFileInfo(){  
+          const params = {
+                "data": {
+                    "report_id": this.selectedFileType,
+                    "url": this.presignedUrl,
+                    "is_gzip": "true",
+                    "action": "preprocess",
+                    "source":"s3"
+                }
+            }
+
+          const caller = FinanceService.uploadUrl(params);
+            caller
+                .then(( res ) => {   
+                  this.showValidatedScreen(res);
+                  
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Validation Failed`
+                    );
+                })               
+        },
+        showValidatedScreen(res){
+
+          const dataVal = res.data.data;
 
           this.validationCompleted = true;
           this.toggleUpload = false;
           this.startLoader = false;
 
-          this.parsedData.totalRecords = this.validatedData.data.total;
-          this.parsedData.success = this.validatedData.data.total;
-          this.parsedData.payout_amount = this.validatedData.data.summary[0].payoutsum;
+          this.parsedData.totalRecords = dataVal.total;
+          this.parsedData.success = dataVal.total;
+          const payoutAmt = dataVal.summary[0];
+          this.parsedData.payout_amount = Object.values(payoutAmt)[0];
 
-          this.tableData.headers = this.validatedData.data.json.headers;
-          this.tableData.items = this.validatedData.data.json.rows;
-          // this.validateData.errors = this.validatedData.total;
-
+          this.tableData.headers = dataVal.json.headers;
+          this.tableData.items = dataVal.json.rows;
 
         },
 
@@ -538,10 +523,40 @@ export default {
             
         },
         cancelValidation(){
+          this.validationCompleted = false;
+          this.toggleUpload = true;
+          this.parsedData.totalRecords = 0;
+          this.$refs.validateImg.style.display = "block";
+          this.fileSelected = false;
+          this.file = new Blob(); 
 
         },
         confirmValidation(){
+          const params = {
+                "data": {
+                    "report_id": this.selectedFileType,
+                    "url": this.presignedUrl,
+                    "is_gzip": "true",
+                    "action": "process",
+                    "source":"s3"
+                }
+            }
 
+          const caller = FinanceService.uploadUrl(params);
+            caller
+                .then(( res ) => {
+                  console.log(res);
+                    
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed`
+                    );
+                })
+                .finally(() => {
+                  this.file = new Blob();  
+                  this.openHistory();
+                });
         },
      
     }
@@ -555,6 +570,9 @@ export default {
   0% { width: 0; }
   100% { width: 100%; }
 }
+
+.panel{overflow-x: hidden;}
+.hide{display: none;}
 
 .main-file-container{
   background: #FFFFFF;
@@ -778,6 +796,11 @@ svg{
     vertical-align: middle;
   }
 }
+.right-content{
+  button{
+    margin-left: 20px;
+  }
+}
 }
 
 .title{
@@ -885,6 +908,11 @@ svg{
   .icon{
     margin-right: 3px;
   }
+}
+
+th,tr{
+  font-size: 14px;
+  line-height: 19px;
 }
 
 

@@ -443,7 +443,7 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-s3-presigned-url`);
     },
 
-    CALL_PRESIGNED_URL: (url) => {
+    UPLOAD_TO_S3: (url) => {
         return url;
     },
 
