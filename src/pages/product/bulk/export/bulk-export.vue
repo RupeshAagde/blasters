@@ -27,18 +27,37 @@
                             productType === 'attribute'
                     "
                 >
-                    <div class="notify">
-                        <nitrozen-checkbox
-                            class="chekbox"
-                            v-model="notifyByEmail"
-                            @change=""
-                        ></nitrozen-checkbox>
-                        <p class="cl-Mako regular-xxxs">
-                            Notify on
-                            <span class="cl-RoyalBlue darker-xxxs">{{
-                                getUserEmail()
-                            }}</span>
-                        </p>
+                    <div class="flex-align-center">
+                        <div class="notify" v-if="getUserEmail() !== ''">
+                            <nitrozen-checkbox
+                                class="chekbox"
+                                v-model="notifyByEmail"
+                                @change=""
+                            ></nitrozen-checkbox>
+                            <p class="cl-Mako regular-xxxs">
+                                Notify on
+                                <span class="cl-RoyalBlue darker-xxxs">{{
+                                    getUserEmail()
+                                }}</span>
+                            </p>
+                        </div>
+                        <div class="notify" v-else>
+                            <p
+                                class="cl-RoyalBlue darker-xxxs pointer"
+                                @click="openConfirmationDialogBox"
+                            >
+                                +Add Email
+                                <span class="cl-Mako regular-xxxs"
+                                    >to get notified</span
+                                >
+                            </p>
+                        </div>
+                        <nitrozen-tooltip
+                            position="top"
+                            tooltipText="When the export is completed, you'll receive a notification
+                            along with the requested file on your email"
+                            icon="help"
+                        />
                     </div>
                     <div
                         class="ml-16 filters"
@@ -120,7 +139,9 @@
                         class="selection-dropdown"
                         :items="templateCategories"
                         :multiple="true"
-                        :enable_select_all="templateCategories.length"
+                        :enable_select_all="
+                            templateCategories.length ? true : false
+                        "
                         :searchable="true"
                         @searchInputChange="setCategoriesList"
                         v-model="selectedCategories"
@@ -152,17 +173,36 @@
                         productType === 'product-template'
                 "
             >
-                <nitrozen-checkbox
-                    class="chekbox"
-                    v-model="notifyByEmail"
-                    @change=""
-                ></nitrozen-checkbox>
-                <p class="cl-Mako regular-xxxs">
-                    Notify on
-                    <span class="cl-RoyalBlue darker-xxxs">{{
-                        getUserEmail()
-                    }}</span>
-                </p>
+                <div class="flex-align-center" v-if="getUserEmail() !== ''">
+                    <nitrozen-checkbox
+                        class="chekbox"
+                        v-model="notifyByEmail"
+                        @change=""
+                    ></nitrozen-checkbox>
+                    <p class="cl-Mako regular-xxxs">
+                        Notify on
+                        <span class="cl-RoyalBlue darker-xxxs">{{
+                            getUserEmail()
+                        }}</span>
+                    </p>
+                </div>
+                <div class="flex-align-center" v-else>
+                    <p
+                        class="cl-RoyalBlue darker-xxxs pointer"
+                        @click="openConfirmationDialogBox"
+                    >
+                        +Add Email
+                        <span class="cl-Mako regular-xxxs"
+                            >to get notified</span
+                        >
+                    </p>
+                </div>
+                <nitrozen-tooltip
+                    position="top"
+                    tooltipText="When the export is completed, you'll receive a notification
+                            along with the requested file on your email"
+                    icon="help"
+                />
             </div>
         </div>
         <div>
@@ -178,6 +218,12 @@
                 <learn-more></learn-more>
             </template>
         </side-bar>
+        <confirmation-dialog-box
+            ref="confirm"
+            cancelBtnTitle="Cancel"
+            saveBtnTitle="Redirect"
+            @save="closeConfirmationDialogBox($event)"
+        />
     </div>
 </template>
 
@@ -307,7 +353,7 @@
 
         .chekbox {
             position: relative;
-            bottom: 9px;
+            bottom: 10px;
         }
     }
     .attribute {
@@ -324,7 +370,7 @@
     margin-top: 18px;
     .chekbox {
         position: relative;
-        bottom: 9px;
+        bottom: 10px;
     }
 }
 
@@ -355,6 +401,13 @@
 .inline {
     display: flex;
 }
+.flex-align-center {
+    display: flex;
+    align-items: center;
+}
+.pointer {
+    cursor: pointer;
+}
 .disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -384,7 +437,8 @@ import {
     NitrozenToggleBtn,
     flatBtn,
     strokeBtn,
-    NitrozenCheckBox
+    NitrozenCheckBox,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 
 import PageError from '@/components/common/page-error';
@@ -412,6 +466,10 @@ import Utf8 from 'crypto-js/enc-utf8';
 import cloneDeep from 'lodash/cloneDeep';
 import { mapGetters } from 'vuex';
 import { GET_USER_INFO } from '@/store/getters.type';
+import ConfirmationDialogBox from '@/components/common/confirmation-dialog.vue';
+import root from 'window-or-global';
+
+const env = root.env || {};
 
 const PRODUCT_NAME_MAPPING = {
     attribute: 'attributes',
@@ -444,8 +502,10 @@ export default {
         'learn-more': LearnMore,
         'export-history': exportHistory,
         'nitrozen-checkbox': NitrozenCheckBox,
+        'nitrozen-tooltip': NitrozenTooltip,
         loader,
-        PageError
+        PageError,
+        ConfirmationDialogBox
     },
     directives: {
         flatBtn,
@@ -519,7 +579,18 @@ export default {
             this.sidebarToggle = !this.sidebarToggle;
         },
         getUserEmail() {
-            return this.userData.user.emails[0].email;
+            if (this.userData && this.userData.user) {
+                const user = this.userData.user;
+                if (user.emails && user.emails.length !== 0) {
+                    let emailID = user.emails.find((item) => {
+                        return item.verified && item.primary;
+                    });
+                    if (emailID && emailID.email) {
+                        return emailID.email;
+                    }
+                }
+            }
+            return '';
         },
         init() {
             let typeConfig = this.exportConfig[this.productType];
@@ -652,6 +723,17 @@ export default {
             this.selectedCategories = [];
             this.selectedDepartments = [];
             this.selectedFileType = null;
+        },
+        /**Confirmation dialog box function*/
+        openConfirmationDialogBox() {
+            this.$refs['confirm'].openConfirmation({
+                title: "You'll be redirected",
+                message:
+                    "You'll be redirected to the “My Profile” section to add an Email ID"
+            });
+        },
+        closeConfirmationDialogBox(e) {
+            window.open(`${env.MIRAGE_MAIN_DOMAIN}/user-profile`, '_blank');
         }
     }
 };
