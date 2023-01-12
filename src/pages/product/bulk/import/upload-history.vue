@@ -308,7 +308,7 @@
                             <div class="header column-1">Completed On:</div>
                             <div class="value column-2">
                                 {{
-                                    history.completed_on
+                                    history.stage !== 'running'
                                         ? getFormattedDate(history.completed_on)
                                         : 'NA'
                                 }}
@@ -317,7 +317,11 @@
                         <div class="batch">
                             <div class="header column-1">Processing Time:</div>
                             <div class="value column-2">
-                                {{ getProcessingTime(history) }}
+                                {{
+                                    history.stage !== 'running'
+                                        ? getProcessingTime(history)
+                                        : 'NA'
+                                }}
                             </div>
                         </div>
                     </div>
