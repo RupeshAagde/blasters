@@ -10,6 +10,7 @@
             <div class="page-container">
                 <div class="group-name-container">
                     <nitrozen-tab
+                        id="group-tab"
                         class="group-tab"
                         :activeIndex="activeGroupIndex"
                         @tab-change="changeGroupIndex"
@@ -64,6 +65,8 @@ export default {
     },
     methods:{
         changeGroupIndex(item) {
+
+            console.log(item);
             this.activeGroupIndex = item.index;
             this.$router.replace({
                 name: 'bills-and-payouts',
