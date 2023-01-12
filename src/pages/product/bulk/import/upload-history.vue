@@ -170,7 +170,11 @@
                                 :state="getBadgeState(history.stage)"
                                 :class="{ gray: history.stage === 'running' }"
                             >
-                                {{ history.stage === 'running' ? 'In Process' : history.stage  }}
+                                {{
+                                    history.stage === 'running'
+                                        ? 'In Process'
+                                        : history.stage
+                                }}
                             </nitrozen-badge>
                             <div
                                 class="close-box"
@@ -225,7 +229,11 @@
                                 v-if="history.stage"
                                 :state="getBadgeState(history.stage)"
                             >
-                                {{ history.stage === 'running' ? 'In Process' : history.stage }}
+                                {{
+                                    history.stage === 'running'
+                                        ? 'In Process'
+                                        : history.stage
+                                }}
                             </nitrozen-badge>
                         </div>
                         <div class="summary">
@@ -299,7 +307,11 @@
                         <div class="batch">
                             <div class="header column-1">Completed On:</div>
                             <div class="value column-2">
-                                {{ getFormattedDate(history.modified_on) }}
+                                {{
+                                    history.completed_on
+                                        ? getFormattedDate(history.modified_on)
+                                        : 'NA'
+                                }}
                             </div>
                         </div>
                         <div class="batch">
@@ -969,7 +981,9 @@ export default {
             else return '';
         },
         getFormattedDate(date) {
-            return moment(date).add('hours', "5.5").format('MMMM Do YYYY, h:mm:ss a');
+            return moment(date)
+                .add('hours', '5.5')
+                .format('MMMM Do YYYY, h:mm:ss a');
         },
         getFileType(url) {
             const fileExtension = url && url.split('.').pop();

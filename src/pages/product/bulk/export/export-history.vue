@@ -186,7 +186,11 @@
                         <div class="batch">
                             <div class="header column-1">Completed On:</div>
                             <div class="value column-2">
-                                {{ getFormattedDate(history.modified_on) }}
+                                {{
+                                    history.completed_on
+                                        ? getFormattedDate(history.modified_on)
+                                        : 'NA'
+                                }}
                             </div>
                         </div>
                         <div class="batch">
@@ -750,7 +754,9 @@ export default {
             else return '';
         },
         getFormattedDate(date) {
-            return moment(date).add('hours', "5.5").format('MMMM Do YYYY, h:mm:ss a');
+            return moment(date)
+                .add('hours', '5.5')
+                .format('MMMM Do YYYY, h:mm:ss a');
         },
         capitalize(str) {
             return (
