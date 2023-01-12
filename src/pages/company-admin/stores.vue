@@ -26,13 +26,14 @@
             <div class="filter-dropdown">
                 <nitrozen-dropdown
                     :items="choiceType"
-                    class="stage-dropdown"
+                    class="stage-dropdown filter-box"
                     v-model="selectedChoice"
                     :label="'Stage'"
                     @change="changeStage"
                 ></nitrozen-dropdown>
                 <nitrozen-dropdown
                     :items="storeType"
+                    class="filter-box"
                     v-model="selectedStoreType"
                     :label="'Type'"
                     @change="changeStore"
@@ -146,7 +147,8 @@
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
                     > -->
-                    <nitrozen-button
+
+                    <!-- <nitrozen-button
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
@@ -155,7 +157,7 @@
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
-                    >
+                    > -->
                 </div>
             </div>
         </div>
@@ -418,6 +420,9 @@
             display: flex;
             .stage-dropdown {
                 margin-right: 12px;
+            }
+            .filter-box{
+                min-width: 140px;
             }
         }
     }
