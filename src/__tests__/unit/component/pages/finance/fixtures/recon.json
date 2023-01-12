@@ -302,6 +302,47 @@
                 "value": "aaaa"
             }
         ]
-    }
-    
+    },
+    "sellerNames": [
+        {
+            "text": "Ashit Test (791)",
+            "value": "791"
+        },
+        {
+            "text": "my dev test (790)",
+            "value": "790"
+        },
+        {
+            "text": "test account - parita (789)",
+            "value": "789"
+        },
+        {
+            "text": "my shop - parita (788)",
+            "value": "788"
+        },
+        {
+            "text": "Flatdesigns Agency Studio (787)",
+            "value": "787"
+        },
+        {
+            "text": "Test Aditya (399)",
+            "value": "399"
+        },
+        {
+            "text": "AAA (786)",
+            "value": "786"
+        },
+        {
+            "text": "Prathamesh Testing (785)",
+            "value": "785"
+        },
+        {
+            "text": "GMFA Pvt Ltd (784)",
+            "value": "784"
+        },
+        {
+            "text": "Prathamesh Retail Ltd (783)",
+            "value": "783"
+        }
+    ]
 }

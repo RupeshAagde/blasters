@@ -13,6 +13,7 @@
             >
                 <nitrozen-dropdown
                     id="report-type"
+                    ref="report-type"
                     label="Seller Name"
                     :items="sellerNames"
                     v-model="selectedSeller"
@@ -29,6 +30,7 @@
                     {{ item.text }}
                     <nitrozen-inline
                         :icon="'cross'"
+                        ref="remove-chips"
                         class="nitrozen-icon"
                         v-on:click="removeFromChips(index, item)"
                     ></nitrozen-inline>
@@ -40,25 +42,19 @@
                 :title="'Status'"
                 :initialState="true"
             >
-                <!-- <div 
+                <nitrozen-checkbox
                     v-for="(item, index) in financeStatusItems"
                     :key="index"
                     @change="filterDropdown(selectedStatus, financeStatusItems)"
-                > -->
-                    <nitrozen-checkbox
-                        v-for="(item, index) in financeStatusItems"
-                        :key="index"
-                        @change="filterDropdown(selectedStatus, financeStatusItems)"
-                        :checkboxValue="item.value"
-                        v-model="selectedStatus"
-                    >
-                        <div class="access">
-                            <span class="title">
-                                {{ item.text }}
-                            </span>
-                        </div>
-                    </nitrozen-checkbox>
-                <!-- </div> -->
+                    :checkboxValue="item.value"
+                    v-model="selectedStatus"
+                >
+                    <div class="access">
+                        <span class="title">
+                            {{ item.text }}
+                        </span>
+                    </div>
+                </nitrozen-checkbox>
             </accordion>
             <accordion
                 class="accordion-container"
@@ -307,11 +303,9 @@ export default {
             debounce((text) => {
                 this.fetchCompany(text);
             }, 1000)(e.text);
-            //this.fetchCompany({q: e.text});
         },
         storeIndex(index){
             this.storedIndex = index;
-            console.log(this.selectedReconDate);
         },
         getInitialDates(){
             this.fromDate = moment(this.reconDate[0]).format('DD-MM-YYYY');
@@ -344,7 +338,7 @@ export default {
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');
-                    console.log(err);
+
                     });
         },
         setCompanyList() {
@@ -384,7 +378,7 @@ export default {
             data:{
                 table_name:"config_fields_values",
                 filters:{
-                    config_field:"finance_status"
+                    config_field:"ledger_finance_status"
                 },
                 project:[
                     "id",
@@ -466,36 +460,7 @@ export default {
             //console.log(dropdownData);
             return dropdownData;
         },
-        selectedDropDownValue(selectedData, dataList){
-            let dataName = selectedData.map(item => {
-            let name = find(dataList,(obj) => {
-                return obj.value === item;
-            });
-            return name.text;
-            });
-            return dataName;
-        },
-        filterSellerNames() {
-            let sellers = this.selectedSeller.map(item => {
-                let seller = find(this.sellerNames,(obj) => {
-                    return obj.value === item;
-                });
-                return seller;
-            });
-            return sellers;
-        },
-        selectedSellerName(){
-            let sellerName = this.selectedSeller.map(item => {
-                let name = find(this.sellerNames,(obj) => {
-                    return obj.value === item;
-                });
-                return name.text;
-            });
-            return sellerName;
-        },
         generateRecon(){
-
-            console.log()
             //this.companyId = getCompInfo();
             let status = this.filterDropdown(this.selectedStatus, this.financeStatusItems);
             if(status.length){
@@ -526,12 +491,6 @@ export default {
             }
             this.close({params: params, companyList: this.companyChips});
         },
-        disableSave () {
-            if (this.isValid === true) {
-                return false;
-            }
-            return true;
-        }
     }
 }
 </script>

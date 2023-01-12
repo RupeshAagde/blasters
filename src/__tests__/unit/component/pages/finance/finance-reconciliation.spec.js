@@ -81,24 +81,26 @@ describe('FinanceReconciliation', () => {
     });
 
     it('Function call on changing filter', async() => {
-        const changeFilter = jest.spyOn(wrapper.vm, 'changeFilterType');
         await flushPromises();
-
         wrapper.setData({
-            filterType: 'fynd_store',
-        })
-
+            filterType: 'shipment_id',
+            filterTypeList: [
+                {
+                    text: 'Bag ID',
+                    value: 'bag_id'
+                },
+                {
+                    text: 'Shipment ID',
+                    value: 'shipment_id'
+                }
+            ]
+        });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-
-        const calledOnChangeFilter = wrapper.find('.filter-type');
-        calledOnChangeFilter.vm.$emit('change');
-        
-        await wrapper.vm.$forceUpdate();
+        const filterFun = wrapper.find('.filter-type');
+        filterFun.vm.$emit('change');
         await wrapper.vm.$nextTick();
-
-        expect(changeFilter).toHaveBeenCalled();
-        expect(wrapper.vm.searchPlaceholder).toBe("Fynd Store");
+        expect(wrapper.vm.searchPlaceholder).toBe(wrapper.vm.filterTypeList[1].text);
         
     });
     it('Close and Open Filter', async() => {
@@ -120,8 +122,11 @@ describe('FinanceReconciliation', () => {
     });
 
     it('it changes the pagination method when the pagination is changed by the user', async () => {
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.pagination-recon');
+        const copyClick = wrapper.find('.pagination-main');
         copyClick.vm.$emit('change', {
             "limit": 10,
             "current": 2,
@@ -167,20 +172,15 @@ it('adding chips when a specific bag id is searched', async() => {
 
 it('remove chips when cross button is clicked on respective chip', async() => {
     await flushPromises();
-    e
-
+        wrapper.setData({
+            tags: ['261801','281762'],
+        });
     await wrapper.vm.$forceUpdate();
     await wrapper.vm.$nextTick();
-
-    const searchInput = wrapper.find('.nitrozen-icon');
-    searchInput.trigger('click',{
-        index: 0,
-    });
-
-    await wrapper.vm.$forceUpdate();
+    const removeChip = wrapper.find('#remove-chips');
+    removeChip.vm.$emit('click', 1);
     await wrapper.vm.$nextTick();
-
-    expect(wrapper.vm.tags).toHaveLength(2);
+    expect(wrapper.vm.tags.length).toBe(1);
     
 });
 
@@ -280,66 +280,6 @@ it('auto refresh data', () => {
     });
 
 
-// describe('test MyComponent', () => {
-//     const wrapper = mount(<MyComponent />);
-//     const table = wrapper.find('table');
-//     const row = table.find('tr')
-//     const node = table.find(Node)
-
-//     it('table grid', () => {
-//         expect(table).toHaveLength(1);
-//         expect(row).toHaveLength(whateverYouExpect);
-//         expect(node).toHaveLength(whateverYouExpect);
-//     });
-// });
- 
-
-
-
-
-    // it('filter', () => {
-    //     wrapper.vm.initialPayload();
-    //     wrapper.vm.changeFilterType();
-    //     wrapper.vm.reset();
-    //     wrapper.vm.addeChips();
-    //     wrapper.vm.removeChip(1);
-    //     //wrapper.vm.generateListData(reconData);
-    //     /* wrapper.vm.openReconFiltersDialog();
-    //     wrapper.vm.$dialogClosed({}); */
-    // });
-    // it('generatedReport', async() => {
-    //     mock.onPost(DOMAIN_URLS.GENERATE_REPORT(companyId)).reply(200, mocks.generateReportDetails);
-    //     wrapper.vm.generateReport();
-    //     await flushPromises();
-    //     expect(wrapper.vm.inProgress).toBe(false);
-    // });
-
-    // it('get table data', async() => {
-    //     wrapper.vm.generateListData(reconData.data);
-    //     await wrapper.vm.$nextTick();
-    // });
-    
-    // it('set route query', async() => {
-    //     wrapper.vm.setRouteQuery({});
-    //     await wrapper.vm.$nextTick();
-    //     //expect(router.currentRoute.fullPath).toBe('/company/334/billing/bills?activeTab=2&search=17365926&page=1');
-    // });
-    // it('open drawer', async() => {
-    //     const event = {
-    //         stopPropagation: () => { }
-    //     }
-    //     wrapper.vm.closeFilter(event);
-    //     wrapper.vm.quickFiltersSection();
-        //expect(wrapper.vm.quickFilters).toBe(false);
-    // })
-    // it('filter based search', async() => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'filterSearch');
-    //     await flushPromises();
-    //     let reportTypes = wrapper.vm.filterSearch(reconData.e);
-    //     await flushPromises();
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
     /* it('open link', async() => {
         wrapper.vm.openLink(`https://gen.xyz.com`);
         await wrapper.vm.$nextTick();

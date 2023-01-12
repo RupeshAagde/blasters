@@ -16,6 +16,7 @@
                     <nitrozen-input
                         :showSearchIcon="true"
                         class="search filter-input-lg"
+                        id="search-bar"
                         type="search"
                         :placeholder="`Search by ${searchPlaceholder}`"
                         v-model="search"
@@ -44,6 +45,7 @@
                             {{ tag }}
                             <nitrozen-inline
                                 icon="cross"
+                                id="remove-chips"
                                 class="nitrozen-icon"
                                 @click="removeChip(index)"
                             ></nitrozen-inline>
@@ -186,6 +188,7 @@
                 
                 <div class="pagination-div">
                     <nitrozen-pagination
+                        class="pagination-main"
                         name="Recon"
                         v-model="pageObject"
                         @change="handlePageChanges"
@@ -234,7 +237,6 @@ import {
     NitrozenChips,
     NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
-import ReconFiltersDialog from './recon-filters-dialog.vue';
 import ReconFilters from './recon-filters.vue';
 import loader from '@/components/common/loader';
 import PageEmpty from '@/components/common/page-empty.vue';
@@ -260,7 +262,6 @@ export default {
         'ukt-inline-svg': UktInlineSvg,
         'fy-loader': loader,
         'adm-no-content': PageEmpty,
-        ReconFiltersDialog,
         'recon-filters': ReconFilters,
         MirageAlert
     },
@@ -278,16 +279,7 @@ export default {
                 default: () => {},
             },
             tableDataItems: [],
-            filterTypeList: [
-                /* {
-                    text: 'Shipment ID',
-                    value: 'shipment_id',
-                },
-                {
-                    text: 'Bag ID',
-                    value: 'bag_id',
-                }, */
-            ],
+            filterTypeList: [],
             searchPlaceholder: 'Bag ID',
             pageObject: { ...PAGINATION_OBJECT },
             expandedRow: false,
@@ -321,7 +313,6 @@ export default {
         this.cachedParam = this.initialPayload();
         this.downloadReportParam = this.downloadReportPayload();
         this.generateReport();
-        //this.setRouteQuery({ activeTab: 1, page: this.pageObject.current, limit: this.pageObject.limit });
     },
     methods: {
         getSearchByData(){
@@ -360,7 +351,7 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
+                    //console.log(err);
                 })
                 .finally(() => {
                     //this.inProgress = false;
@@ -421,7 +412,6 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     this.expandedRow = false;
@@ -444,11 +434,6 @@ export default {
             this.cachedParam.data.page = this.pageObject.current;
             this.cachedParam.data.pageSize = this.pageObject.limit;
             this.generateReport();
-            /* const query = {
-                page: this.pageObject.current,
-                limit: this.pageObject.limit,
-            };
-            this.setRouteQuery(query); */
         },
         expandRow(tab, expandedIndex) {
             if(tab.isErrorShown){
@@ -530,7 +515,6 @@ export default {
         },
         downloadReport(){
             this.downloadReportParam.data = {...this.downloadReportParam.data, report_id:"0c09c7e7-0839-43c1-a2bf-76e08478fa95"};
-            console.log(this.downloadReportParam);
             const caller = FinanceService.generateReport(this.downloadReportParam);
             caller
                 .then(( res ) => {
@@ -545,7 +529,6 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     this.inProgress = false;
@@ -559,7 +542,6 @@ export default {
                         this.$snackbar.global.showError(
                             `Report Download failed`
                         );
-                        console.log('Failed');
                     }
                     this.isPending = ['pending','in process'].includes(res.data.items[0].status.toLowerCase());
                     if( this.isPending && this.count < 15 ){
@@ -575,14 +557,12 @@ export default {
                     this.$snackbar.global.showError(
                         `Failed due to ${err.message}`
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     if(this.isPending && this.count == 15){
                         this.$snackbar.global.showError(
                             `No Report found to download at this moment`
                         );
-                        console.log('Failed');
                     }
                     this.inProgress = false;
                 });
@@ -593,28 +573,6 @@ export default {
                 this.getGeneratedReport();
                 this.inProgress = false;
             }, 10000);
-        },
-        setRouteQuery: function (query) {
-            /* if (
-                query.activeTab ||
-                query.search ||
-                query.status ||
-                query.page ||
-                query.limit ||
-                query.from_date ||
-                query.to_date
-            ) {
-                
-            } */
-            this.$router
-                .push({
-                    path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        ...query,
-                    },
-                })
-                .catch(() => {});
         },
         addeChips(){
             if(this.search.length){
@@ -635,10 +593,6 @@ export default {
                 this.cachedParam.data['search_type'] = this.filterType;
             } 
             this.generateReport();
-            //this.setRouteQuery({ search: undefined })
-        },
-        dateFormat(date){
-            return moment.unix(date).format('DD-MM-YYYY');
         },
         closeFilter: function (e) {
             e.stopPropagation();
