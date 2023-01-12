@@ -1,14 +1,24 @@
 <template>
     <div class="main-container">
-        <div>
+        <div class="jumbo-wrapper">
             <jumbotron
                 :title="'Departments'"
                 :desc="
                     'Manage or create departments to categorize products according to their type'
                 "
-                btnLabel="Create Department"
+                btnLabel="Create"
                 @btnClick="createDepartment"
-            ></jumbotron>
+            >
+                <div class="bulk-action-dropdown">
+                    <nitrozen-dropdown
+                        label="Bulk Action"
+                        :placeholder="'Bulk Action'"
+                        :items="bulkAction"
+                        v-model="selectedAction"
+                        @change="navigateToBulkAction"
+                    ></nitrozen-dropdown>
+                </div>
+            </jumbotron>
         </div>
         <div
             class="search-filter"
@@ -44,7 +54,7 @@
                     :key="index"
                     class="container"
                     @click="editDepartment(item)"
-                >   
+                >
                     <div class="card-avatar">
                         <img
                             :src="getDepartmentImage(item)"
@@ -60,15 +70,15 @@
                             class="card-content-line-2"
                             v-if="item.created_by && item.created_on"
                         >
-                            <span>Created By :</span>
-                            <span class="left-space-co">
+                            <span>Created On : &nbsp;</span>
+                            <!-- <span class="left-space-co">
                                 <user-info-tooltip
                                     :userId="userObj[item.created_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span v-if="item.created_on" class="meta-space"
                                 >On</span
-                            >
+                            > -->
                             <span v-if="item.created_on">{{
                                 new Date(item.created_on).toLocaleString()
                             }}</span>
@@ -77,15 +87,15 @@
                             class="card-content-line-2"
                             v-if="item.modified_by && item.modified_on"
                         >
-                            <span>Modified By :</span>
-                            <span class="left-space-mo">
+                            <span>Modified On : &nbsp;</span>
+                            <!-- <span class="left-space-mo">
                                 <user-info-tooltip
                                     :userId="userObj[item.modified_by.user_id]"
                                 ></user-info-tooltip>
                             </span>
                             <span class="meta-space" v-if="item.modified_on"
                                 >On</span
-                            >
+                            > -->
                             <span v-if="item.modified_on">
                                 {{
                                     new Date(item.modified_on).toLocaleString()
@@ -124,11 +134,11 @@
 }
 .left-space-co {
     margin-left: 16px;
-    color: #2E31BE;
+    color: #2e31be;
 }
 .left-space-mo {
     margin-left: 14px;
-    color: #2E31BE;
+    color: #2e31be;
 }
 .label {
     color: #9b9b9b;
@@ -138,6 +148,50 @@
     margin: 24px;
     padding: 24px;
     background-color: #fff;
+
+    .jumbo-wrapper {
+        /deep/.jumbotron-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .txt-box + div {
+                width: 36%;
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: flex-start;
+                button {
+                    margin-left: 10px;
+                    // width: 100%;
+                }
+            }
+        }
+
+        ::v-deep .nitrozen-dropdown-label {
+            display: none;
+        }
+
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 140%;
+            color: #2e31be;
+        }
+    }
+
+    .bulk-action-dropdown {
+        width: 130px;
+        margin-left: 10px;
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 140%;
+            color: #2e31be;
+        }
+
+        ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+            border: 1px solid #2e31be;
+        }
+    }
 
     .custom-header {
         ::v-deep .n-flat-button-secondary {
@@ -214,7 +268,7 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             line-height: 24px;
-            color: #2E31BE;
+            color: #2e31be;
         }
 
         .card-content-line-2 {
@@ -271,6 +325,11 @@ const FILTER = [
     { value: 'false', text: 'Disabled' }
 ];
 
+const BULK_ACTION = [
+    { value: 'import', text: 'Import' },
+    { value: 'export', text: 'Export' }
+];
+
 export default {
     name: 'list-deparment',
     components: {
@@ -298,7 +357,9 @@ export default {
             filter: FILTER,
             selectedFilter: 'all',
             tempList: [],
-            userObj: {}
+            userObj: {},
+            bulkAction: BULK_ACTION,
+            selectedAction: ''
         };
     },
     mounted() {
@@ -378,6 +439,11 @@ export default {
                     path: `/administrator/product/department/edit/${item.uid}`
                 });
             }
+        },
+        navigateToBulkAction() {
+            this.$router.push({
+                path: `/administrator/product/department/${this.selectedAction}`
+            });
         }
     }
 };

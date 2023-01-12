@@ -166,9 +166,9 @@
             </div>
             <div class="logo-container">
                 <div class="row">
-                    <div class="n-input-label">Logo*</div>
+                    <!-- <div class="n-input-label">Logo*</div> -->
                     <image-uploader-tile
-                        label="Logo"
+                        label="Logo *"
                         aspectRatio="1:1"
                         @delete="logo.value = ''"
                         @save="logo.value = $event"
@@ -181,9 +181,9 @@
                     }}</nitrozen-error>
                 </div>
                 <div class="row">
-                    <div class="n-input-label">Portrait*</div>
+                    <!-- <div class="n-input-label">Portrait*</div> -->
                     <image-uploader-tile
-                        label="Portrait Image"
+                        label="Portrait Image *"
                         aspectRatio="13:20"
                         @delete="banner = ''"
                         @save="banner = $event"
@@ -196,9 +196,9 @@
                     }}</nitrozen-error>
                 </div>
                 <div>
-                    <div class="n-input-label">Landscape*</div>
+                    <!-- <div class="n-input-label">Landscape*</div> -->
                     <image-uploader-tile
-                        label="Landscape Image"
+                        label="Landscape Image *"
                         aspectRatio="27:20"
                         @delete="landscape = ''"
                         @save="landscape = $event"
