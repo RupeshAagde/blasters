@@ -188,7 +188,7 @@
                             <div class="value column-2">
                                 {{
                                     history.completed_on
-                                        ? getFormattedDate(history.modified_on)
+                                        ? getFormattedDate(history.completed_on)
                                         : 'NA'
                                 }}
                             </div>
