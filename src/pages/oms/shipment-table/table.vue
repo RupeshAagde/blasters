@@ -796,11 +796,15 @@ export default {
          */
         onBagChangeState(event) {
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
-            if(
-                event.state.length > 0 && 
-                event.remark.length > 0 && 
-                (reasonStates.includes(event.state) && event.reason.length > 0)) {
+            if(event.state.length > 0 && event.remark.length > 0) {
+                if(reasonStates.includes(event.state) && event.reason.length > 0) {
                     this.enableBagStateChange = true;
+                } else if(reasonStates.includes(event.state) && event.reason.length === 0) {
+                    this.enableBagStateChange = false;
+                } else if(!reasonStates.includes(event.state)) {
+                    this.enableBagStateChange = true;
+                }
+                this.enableBagStateChange = true;
             } else {
                 this.enableBagStateChange = false;
             }
@@ -877,6 +881,10 @@ export default {
                             `Successfully updated the status of the shipment: ${this.activeShipmentDetails.shipment_id}`,
                             3000
                         );
+                        this.isChangeBagState = false;
+                        setTimeout(() => {
+                            this.$emit('statusUpdated', this.activeShipmentDetails.shipment_id);
+                        }, 500);
                     } else {
                         this.$snackbar.global.showError(
                             `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,

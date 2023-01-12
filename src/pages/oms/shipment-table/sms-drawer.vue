@@ -191,7 +191,7 @@ export default {
                 }
             };
 
-            if(selectedTemplate == 'custom_delayed_shipment') {
+            if(this.selectedTemplate == 'custom_delayed_shipment') {
                 data.data['days'] = this.daysValue;
                 data.data['reason'] = this.reason;
             }
@@ -228,7 +228,8 @@ export default {
         flex-direction: column;
 
         .dropdowns-one {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             margin-bottom: 1rem;
         }

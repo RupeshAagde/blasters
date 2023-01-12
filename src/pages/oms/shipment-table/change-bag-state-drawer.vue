@@ -10,19 +10,17 @@
         <div class="change-bag-state-body" v-else>
             <div class="dropdowns">
                 <nitrozen-dropdown
-                    class=""
                     label="Next Bag State"
                     @change="onStateChange"
                     :items="bagStates"
                     v-model="selectedState"
                 />
                 <nitrozen-dropdown
-                    class=""
                     label="Reason"
                     @change="onReasonChange"
                     :items="reasons"
                     v-model="selectedReason"
-                    v-if="showReasons"
+                    v-if="showReasons && reasons.length"
                 />
             </div>
 
@@ -60,6 +58,9 @@ import Loader from '@/components/common/loader.vue';
 /* Service imports */
 import OrdersService from '@/services/orders.service.js';
 
+/* Helper imports */
+import { convertSnakeCaseToString } from '@/helper/utils.js';
+
 export default {
     name: "change-bag-state",
     props: {
@@ -67,6 +68,7 @@ export default {
     },
     data() {
         return {
+            allBagStates: {},
             bagStates: [],
             bagStateFetchError: false,
             fetchingBagStates: false,
@@ -103,9 +105,9 @@ export default {
             this.$emit(
                 'change',
                 {
-                    state: this.state,
-                    reason: this.reason,
-                    remark: this.note
+                    state: this.selectedState ? this.selectedState : '',
+                    reason: this.selectedReason ? this.selectedReason : '',
+                    remark: this.note ? this.note : ''
                 }
             );
         },
@@ -120,9 +122,31 @@ export default {
 
             return OrdersService.getStatesForBagTranistion()
             .then(response => {
-                if(response.data && response.data.items) {
-                    this.bagStates = cloneDeep(response.data.items);
-                    this.bagStateFetchError = false;
+                if(response.data && response.data.fynd && !isEmpty(response.data.fynd)) {
+                    this.allBagStates = cloneDeep(response.data.fynd);
+                    if(
+                        this.shipment &&
+                        this.shipment.status &&
+                        this.shipment.status.current_shipment_status
+                    ) {
+                        let currentState = response.data.fynd[this.shipment.status.current_shipment_status];
+                        if(currentState.length) {
+                            this.bagStates = currentState.map(state => {
+                                return {
+                                    text: convertSnakeCaseToString(state),
+                                    value: state
+                                }
+                            });
+                        } else this.bagStates = [];
+                        this.bagStateFetchError = false;
+                    } else {
+                        console.error("Error in fetching the states for bag state transition:   ", "No status available in shipment");
+                        this.$snackbar.global.showError(
+                            `We are unable to fetch the states for bag transitions. Kindly try again after some time.`,
+                            3000
+                        );
+                        this.bagStateFetchError = true;
+                    }
                 } else {
                     console.error("Error in fetching the states for bag state transition:   ", response);
                     this.$snackbar.global.showError(
@@ -160,12 +184,16 @@ export default {
             ) {
                 return OrdersService.fetchReassignedStoreReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id)
                 .then(response => {
-                    if(response.data && response.data.success) {
-                        this.reasons = response.data.reasons.map(reason => {
-                            reason['text'] = reason.display_name;
-                            reason['value'] = reason.id;
-                            return reason;
-                        });
+                    if(response.data && response.data.success && response.data.reasons) {
+                        if(response.data.reasons.length) {
+                            this.reasons = response.data.reasons.map(reason => {
+                                reason['text'] = reason.display_name;
+                                reason['value'] = reason.id;
+                                return reason;
+                            });
+                        } else {
+                            this.reasons = [];
+                        }
                     } else {
                         /* If the success value received in the response is false */
                         console.error("Error in fetching the reasons for bag state change:   ", response);
