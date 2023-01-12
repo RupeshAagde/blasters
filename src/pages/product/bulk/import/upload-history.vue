@@ -456,7 +456,6 @@
                 margin-left: 12px;
             }
             ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
-                opacity: 0.5 !important;
                 font-weight: 400;
                 font-size: 12px;
                 line-height: 23px;
@@ -970,7 +969,7 @@ export default {
             else return '';
         },
         getFormattedDate(date) {
-            return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+            return moment(date).add('hours', "5.5").format('MMMM Do YYYY, h:mm:ss a');
         },
         getFileType(url) {
             const fileExtension = url && url.split('.').pop();
