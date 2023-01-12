@@ -61,6 +61,7 @@
                 </div>
                 <div class="reports-action">
                     <nitrozen-button
+                        id="generate-report"
                         :theme="'secondary'"
                         v-flatBtn
                         :disabled="!selectedReportType"

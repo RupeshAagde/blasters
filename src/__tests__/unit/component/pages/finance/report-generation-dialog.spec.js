@@ -43,23 +43,49 @@ describe('Finance', () => {
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
-    it('Methods', async () => {
-        wrapper.vm.resetDefault();
-        wrapper.vm.dateRangeChange();
+
+    it('it generates report when clicked on generate report button', async() => {
+
+        const generateReport = jest.spyOn(wrapper.vm, 'generateReport');
+
+        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
+
+        const reportBtn = wrapper.find('#generate-btn');
+        reportBtn.trigger('click');
+
+        await wrapper.vm.$nextTick();
+
+        expect(generateReport).toHaveBeenCalled();
+    
     });
-    it('Call Methods', async () => {
+
+    it('change from and to dates', async() => {
+
+        const dataRange = jest.spyOn(wrapper.vm, 'dateRangeChange');
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const reportBtn = wrapper.find('.date-picker');
+
+        reportBtn.vm.$emit('input');
+
+        await wrapper.vm.$nextTick();
+
+        expect(dataRange).toHaveBeenCalled();
+    
+        });
+
+        it('Call Methods', async () => {
         wrapper.vm.open(mocks.dialogData);
         wrapper.vm.close({});
     });
-    it('generate report call', async () => {
-        wrapper.vm.generateReport();
-        //expect(wrapper.vm.close({})).toBeCalled();
-        await wrapper.vm.$nextTick();
-    })
-    /* it('pagination data', async() => {
-        wrapper.vm.handlePageChanges({ limit: 2, current: 1, total: 0 })
-        await flushPromises();
-        expect(wrapper.vm.tableColumns.length).toBeGreaterThanOrEqual(1);
-    }); */
+    
+
+    //  it('pagination data', async() => {
+    //     wrapper.vm.handlePageChanges({ limit: 2, current: 1, total: 0 })
+    //     await flushPromises();
+    //     expect(wrapper.vm.tableColumns.length).toBeGreaterThanOrEqual(1);
+    // }); 
 })
