@@ -256,13 +256,6 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                },
-                {
-                    display: 'Credit-Note/Debit-Note',
-                    link: '/administrator/finance/credit-debit-note',
-                    title: 'cndn',
-                    highlightedIcon: 'team-highlighted',
-                    active: false,
                 }
             ]
         },
