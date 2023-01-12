@@ -23,6 +23,7 @@
         </template>
         <template slot="footer">
             <nitrozen-button
+                id="generate-btn"
                 theme="secondary"
                 v-flat-btn
                 @click="generateReport"

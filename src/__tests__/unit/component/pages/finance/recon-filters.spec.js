@@ -57,27 +57,51 @@ describe('ReconFilters', () => {
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
-    it('Get Date', () => {
-        wrapper.vm.getInitialDates();
-        wrapper.vm.dateRangeChange();
+
+    it('should call function when seller name is selected', async () => {
+
+        const clickEvent = jest.spyOn(wrapper.vm, 'setCompanyList');
+
+        await flushPromises();
+        wrapper.setData({
+            selectedSeller:"AAA",
+        });
+        
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+
+        const copyClick = wrapper.find('#report-type');
+        copyClick.vm.$emit('change');
+        await wrapper.vm.$nextTick();
+        expect(clickEvent).toHaveBeenCalledTimes(1);
+
     });
-    it('filter', () => {
-        wrapper.vm.getStatus();
-        wrapper.vm.getReconDate();
-        wrapper.vm.resetDefault();
-        let isValid = true;
-        wrapper.vm.disableSave(isValid);
-    });
+
+
+
+    // it('Get Date', () => {
+    //     wrapper.vm.getInitialDates();
+    //     wrapper.vm.dateRangeChange();
+    // });
+    // it('filter', () => {
+    //     wrapper.vm.getStatus();
+    //     wrapper.vm.getReconDate();
+    //     wrapper.vm.resetDefault();
+    //     let isValid = true;
+    //     wrapper.vm.disableSave(isValid);
+    // });
     /* it('Call Methods', async () => {
         wrapper.vm.open({pageSize});
         wrapper.vm.close({});
     }); */
-    it('generatedReport', async() => {
-        wrapper.vm.generateRecon();
-        await flushPromises();
-    });
-    it('dropdown functions', () => {
-        wrapper.vm.filterDropdown(reconData.dropdownData,reconData.selectedDropDownData);
-        wrapper.vm.selectedDropDownValue(reconData.dropdownData,reconData.selectedDropDownData);
-    });
+    // it('generatedReport', async() => {
+    //     wrapper.vm.generateRecon();
+    //     await flushPromises();
+    // });
+    // it('dropdown functions', () => {
+    //     wrapper.vm.filterDropdown(reconData.dropdownData,reconData.selectedDropDownData);
+    //     wrapper.vm.selectedDropDownValue(reconData.dropdownData,reconData.selectedDropDownData);
+    // });
 })

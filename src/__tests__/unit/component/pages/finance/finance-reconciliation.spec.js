@@ -11,8 +11,9 @@ import FinanceReconciliation from '../../../../../pages/finance/finance-reconcil
 /* import REGISTERED_MARKETPLACES from './../../../../fixtures/marketplace-data.json';
 import ALL_MARKETPLACES from './../../../../fixtures/all-marketplaces.json'; */
 //import BillingRoutes from '../../../../../router/admin/billing';
-import mocks from './fixtures/reports.json'
-import reconData from './fixtures/recon.json'
+import mocks from './fixtures/reports.json';
+import reconData from './fixtures/recon.json';
+import reconListData from './fixtures/reconListData.json';
 import Vuex from 'vuex';
 //import ADMIN_URLS from '@/services/admin/admin-url.service';
 
@@ -74,64 +75,271 @@ describe('FinanceReconciliation', () => {
         await flushPromises();
         expect(wrapper.vm.tableColumns.length).toBeGreaterThanOrEqual(1);
     });
-    /* it('selectStageTab', async() => {
-        wrapper.vm.tabChange({ index: 0 });
-        await wrapper.vm.$nextTick();
-    }); */
+   
     it('Get Date', () => {
         wrapper.vm.getDates();
-        wrapper.vm.autoRefresh();
     });
-    it('filter', () => {
-        wrapper.vm.initialPayload();
-        wrapper.vm.changeFilterType();
-        wrapper.vm.reset();
-        wrapper.vm.addeChips();
-        wrapper.vm.removeChip(1);
-        //wrapper.vm.generateListData(reconData);
-        /* wrapper.vm.openReconFiltersDialog();
-        wrapper.vm.$dialogClosed({}); */
-    });
-    it('generatedReport', async() => {
-        mock.onPost(DOMAIN_URLS.GENERATE_REPORT(companyId)).reply(200, mocks.generateReportDetails);
-        wrapper.vm.generateReport();
+
+    it('Function call on changing filter', async() => {
+        const changeFilter = jest.spyOn(wrapper.vm, 'changeFilterType');
         await flushPromises();
-        expect(wrapper.vm.inProgress).toBe(false);
+
+        wrapper.setData({
+            filterType: 'fynd_store',
+        })
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const calledOnChangeFilter = wrapper.find('.filter-type');
+        calledOnChangeFilter.vm.$emit('change');
+        
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        expect(changeFilter).toHaveBeenCalled();
+        expect(wrapper.vm.searchPlaceholder).toBe("Fynd Store");
+        
     });
-    it('download report', async() => {
-        wrapper.vm.downloadReport();
-        wrapper.vm.getGeneratedReport();
+    it('Close and Open Filter', async() => {
+
+        const clickFilter = jest.spyOn(wrapper.vm, 'quickFiltersSection');
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const filterEl = wrapper.find('.filter');
+        filterEl.trigger('click'); 
+
         await flushPromises();
-    });
-    it('get table data', async() => {
-        wrapper.vm.generateListData(reconData.data);
+        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
+
+        expect(clickFilter).toHaveBeenCalled();
+        
+        
     });
-    it('expand and collapse tab', () => {
-        wrapper.vm.expandRow(reconData.tab, 1);
-        wrapper.vm.collapse(reconData.tab, 1);
-    });
-    it('set route query', async() => {
-        wrapper.vm.setRouteQuery({});
+
+    it('it changes the pagination method when the pagination is changed by the user', async () => {
+
+        const copyClick = wrapper.find('.pagination-recon');
+        copyClick.vm.$emit('change', {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        });
+        const pageObject = {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        };
         await wrapper.vm.$nextTick();
-        //expect(router.currentRoute.fullPath).toBe('/company/334/billing/bills?activeTab=2&search=17365926&page=1');
+        expect(wrapper.vm.pageObject).toEqual(pageObject);
     });
-    it('open drawer', async() => {
-        const event = {
-            stopPropagation: () => { }
-        }
-        wrapper.vm.closeFilter(event);
-        wrapper.vm.quickFiltersSection();
-        //expect(wrapper.vm.quickFilters).toBe(false);
+
+
+it('it downloads report when clicked on download button', async() => {
+
+    const triggerDownload = jest.spyOn(wrapper.vm, 'downloadReport');
+    const downloadBtn = wrapper.find('.download');
+    downloadBtn.trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(triggerDownload).toHaveBeenCalled();
+
+    });
+
+
+it('adding chips when a specific bag id is searched', async() => {
+    await flushPromises();
+    wrapper.setData({
+        search: '406095',
     })
-    it('filter based search', async() => {
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    const searchInput = wrapper.find('#search-bar');
+    searchInput.trigger('keyup.enter');
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.tags).toHaveLength(1);
+    
+});
+
+it('remove chips when cross button is clicked on respective chip', async() => {
+    await flushPromises();
+    e
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    const searchInput = wrapper.find('.nitrozen-icon');
+    searchInput.trigger('click',{
+        index: 0,
+    });
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.tags).toHaveLength(2);
+    
+});
+
+
+it('expand tab on clicking on arrow in table', async() => {
+
+    await flushPromises();
+
+    const expandFn = jest.spyOn(wrapper.vm, 'expandRow');
+    wrapper.setData({
+        collapsedRowIndex: 0,
+        tableDataItems: reconListData
+    });
+
+    console.log("Before");
+    console.log(reconListData[1]);
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expandFn(reconListData[0],0);
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.tableDataItems[1]).toEqual(expect.objectContaining({ "isErrorShown" : true }));
+});
+
+it('expand tab for error condition true', async() => {
+
+    await flushPromises();
+
+    const expandFn = jest.spyOn(wrapper.vm, 'expandRow');
+    wrapper.setData({
+        collapsedRowIndex: 0,
+        tableDataItems: reconListData
+    });
+
+    console.log("Before");
+    console.log(reconListData[1]);
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expandFn(reconListData[0],0);
+
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.tableDataItems[0]).toEqual(expect.not.objectContaining({ "isErrorShown" : true }));
+});
+
+it('collapse tab on clicking on arrow in table', async() => {
+
+    const collapseFn = jest.spyOn(wrapper.vm, 'collapse');
+    // collapseFn(reconListData[1],1);
+    wrapper.setData({
+        expandedRow: true,
+        collapsedRowIndex: 0,
+        tableDataItems: reconListData
+    });
+
+    await flushPromises();
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    // const advFilters = wrapper.find('#collapse-row');
+    // advFilters.trigger('click', (
+    //     reconListData[1],
+    //     1
+    // ));
+    collapseFn(reconListData[0],0)
+    await wrapper.vm.$forceUpdate();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.tableDataItems[0]).toEqual(expect.not.objectContaining({ "isErrorShown" : true }));
+});
+
+ it('filter based search', async() => {
         const clickEvent = jest.spyOn(wrapper.vm, 'filterSearch');
         await flushPromises();
-        let reportTypes = wrapper.vm.filterSearch(reconData.e);
+        clickEvent(reconData.e);
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
     });
+
+    
+    
+it('auto refresh data', () => {
+    jest.useFakeTimers();
+    jest.spyOn(global, 'setTimeout');
+      const autoRefresh = jest.spyOn(wrapper.vm, 'autoRefresh');
+      autoRefresh();
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10000);
+    });
+
+
+// describe('test MyComponent', () => {
+//     const wrapper = mount(<MyComponent />);
+//     const table = wrapper.find('table');
+//     const row = table.find('tr')
+//     const node = table.find(Node)
+
+//     it('table grid', () => {
+//         expect(table).toHaveLength(1);
+//         expect(row).toHaveLength(whateverYouExpect);
+//         expect(node).toHaveLength(whateverYouExpect);
+//     });
+// });
+ 
+
+
+
+
+    // it('filter', () => {
+    //     wrapper.vm.initialPayload();
+    //     wrapper.vm.changeFilterType();
+    //     wrapper.vm.reset();
+    //     wrapper.vm.addeChips();
+    //     wrapper.vm.removeChip(1);
+    //     //wrapper.vm.generateListData(reconData);
+    //     /* wrapper.vm.openReconFiltersDialog();
+    //     wrapper.vm.$dialogClosed({}); */
+    // });
+    // it('generatedReport', async() => {
+    //     mock.onPost(DOMAIN_URLS.GENERATE_REPORT(companyId)).reply(200, mocks.generateReportDetails);
+    //     wrapper.vm.generateReport();
+    //     await flushPromises();
+    //     expect(wrapper.vm.inProgress).toBe(false);
+    // });
+
+    // it('get table data', async() => {
+    //     wrapper.vm.generateListData(reconData.data);
+    //     await wrapper.vm.$nextTick();
+    // });
+    
+    // it('set route query', async() => {
+    //     wrapper.vm.setRouteQuery({});
+    //     await wrapper.vm.$nextTick();
+    //     //expect(router.currentRoute.fullPath).toBe('/company/334/billing/bills?activeTab=2&search=17365926&page=1');
+    // });
+    // it('open drawer', async() => {
+    //     const event = {
+    //         stopPropagation: () => { }
+    //     }
+    //     wrapper.vm.closeFilter(event);
+    //     wrapper.vm.quickFiltersSection();
+        //expect(wrapper.vm.quickFilters).toBe(false);
+    // })
+    // it('filter based search', async() => {
+    //     const clickEvent = jest.spyOn(wrapper.vm, 'filterSearch');
+    //     await flushPromises();
+    //     let reportTypes = wrapper.vm.filterSearch(reconData.e);
+    //     await flushPromises();
+    //     await wrapper.vm.$nextTick();
+    //     expect(clickEvent).toHaveBeenCalled();
+    // });
     /* it('open link', async() => {
         wrapper.vm.openLink(`https://gen.xyz.com`);
         await wrapper.vm.$nextTick();

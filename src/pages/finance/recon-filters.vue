@@ -200,7 +200,6 @@
             }
         }
     }
-
     .checkboxes{
         ::v-deep.nitrozen-checkbox-container{
             .nitrozen-checkbox{
@@ -312,6 +311,7 @@ export default {
         },
         storeIndex(index){
             this.storedIndex = index;
+            console.log(this.selectedReconDate);
         },
         getInitialDates(){
             this.fromDate = moment(this.reconDate[0]).format('DD-MM-YYYY');
@@ -348,6 +348,9 @@ export default {
                     });
         },
         setCompanyList() {
+
+            console.log(this.selectedSeller);
+
             let chipsCompanies = this.companyChips.map((it) => it.value);
             let newCompanies = this.selectedSeller.filter(
                 (val) => !chipsCompanies.includes(val)
@@ -491,6 +494,8 @@ export default {
             return sellerName;
         },
         generateRecon(){
+
+            console.log()
             //this.companyId = getCompInfo();
             let status = this.filterDropdown(this.selectedStatus, this.financeStatusItems);
             if(status.length){

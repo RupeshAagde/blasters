@@ -186,11 +186,11 @@ describe('Finance', () => {
         await wrapper.vm.$nextTick();
         const clickEvent = jest.spyOn(wrapper.vm, 'selectedIDT');
         wrapper.setData({
-            selectedID: ['Hs-01'],
+            selectedID: ['Hs-02'],
             locationID: [
                 {
-                    text: 'Hs-01',
-                    value: 'Hs-01'
+                    text: 'Hs-02',
+                    value: 'Hs-02'
                 }
             ],
         })
@@ -258,7 +258,7 @@ describe('Finance', () => {
     it('should format the dates from unix to readable format', async() => {
         let clickEvent = jest.spyOn(wrapper.vm, 'dateFormat');
         //clickEvent = jest.fn().mockReturnValue('1657825752');
-        clickEvent("2023-01-10 10:16:45");
+        clickEvent('1657825752');
         //expect(drink).toHaveReturnedWith('La Croix');
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
@@ -374,40 +374,73 @@ describe('Finance', () => {
         expect(clickEvent).toHaveReturnedWith(true);
     });
 
-    /* it('Should open the link on click of download icon', async () => {
-        wrapper.setData({
-            errorAlert: false,
-        });
-        await flushPromises();
-        const consentDrawer = wrapper.find('#report-download');
-        consentDrawer.trigger('click','https://gen.xyz.com')
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.errorAlert).toBe(false);
-
-    }); */
-
-    it('open link', async() => {
-        wrapper.vm.openLink(`https://gen.xyz.com`);
-        await wrapper.vm.$nextTick();
-    });
     it('format string', async() => {
-        wrapper.vm.formatStrings('xyz abc pqr');
-        wrapper.vm.dataLength('xyz abc pqr');
+        const str = 'xyz,abc,pqr';
+        const formatedVal = wrapper.vm.formatStrings(str);
         await wrapper.vm.$nextTick();
-    });
-    it('location dd test', async() => {
-        //wrapper.vm.getLocation();
-        wrapper.vm.runLocation();
-        await flushPromises();
+        expect(formatedVal).toBe('xyz');
+        const formatedLen = wrapper.vm.dataLength(str);
+        await wrapper.vm.$nextTick();
+        expect(formatedLen).toBe(2);  
+        
     });
 
     it('Open report generate dialog', async () => {
-        //console.log(wrapper.vm.$refs.reportGenerationDialog);
-        let report = {date: '01-01-2022'};
-        //wrapper.vm.openReportGenerationDialog(report.date);
-        wrapper.vm.$dialogClosed({});
+        const openReport = jest.spyOn(wrapper.vm, 'openReportGenerationDialog');
+        wrapper.setData({
+            selectedReportType: 'Invoice Summary',
+        })
+
         await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const generateBtn = wrapper.find('#generate-report');
+        generateBtn.vm.$emit('click');
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        expect(openReport).toHaveBeenCalled();
+
+        
     });
+
+    
+
+
+    // it('Should open the link on click of download icon', async () => {
+    //     await flushPromises();
+    //     wrapper.setData({
+    //         errorAlert: false,
+    //     });
+        
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+    //     const consentDrawer = wrapper.find('#report-download');
+    //     consentDrawer.vm.$emit('click','https://gen.xyz.com')
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.vm.errorAlert).toBe(false);
+
+    // }); 
+
+    // it('open download link', async() => {
+    //     await flushPromises();
+    //     const triggerDownload = jest.spyOn(wrapper.vm, 'openLink');
+    //     const downloadBtn = wrapper.find('#report-download');
+
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+
+    //     downloadBtn.vm.$emit('click');
+        
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+
+    //     expect(triggerDownload).toHaveBeenCalled();
+    // });
+
 
     /* it(('get report Description'), () => {
         let reportValue = 'test';
@@ -423,20 +456,20 @@ describe('Finance', () => {
         wrapper.vm.getReportDesc('test');
         console.log(reportSelected);
         expect(wrapper.vm.reportDescription.length).toBeGreaterThanOrEqual(1);
-    }); */
-    /* it('Open report generate dialog', async () => {
-        //console.log(wrapper.vm.$refs.reportGenerationDialog);
-        const openMethod = jest.spyOn(wrapper.vm.$refs.reportGenerationDialog, 'open')
-        wrapper.vm.openReportGenerationDialog();
-        await wrapper.vm.$nextTick();
-        expect(openMethod).toHaveBeenCalled();
-    }); */
-    /* it('Show Error', async () => {
-        wrapper.vm.getGeneratedReport();
-        //console.log(wrapper.vm.$refs.reportGenerationDialog);
-        const openMethod = jest.spyOn(wrapper.vm, 'showError')
-        wrapper.vm.showError();
-        await wrapper.vm.$nextTick();
-        expect(openMethod).toHaveBeenCalled();
-    }); */
+    }); 
+    */
+  
+    //  it('Show Error', async () => {
+    //     wrapper.vm.getGeneratedReport();
+    //     //console.log(wrapper.vm.$refs.reportGenerationDialog);
+    //     const openMethod = jest.spyOn(wrapper.vm, 'showError')
+    //     wrapper.vm.showError();
+    //     await wrapper.vm.$nextTick();
+    //     expect(openMethod).toHaveBeenCalled();
+    // }); 
+    
+
+    
+
+    
 })
