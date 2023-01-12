@@ -16,10 +16,22 @@
                     :style="{
                         color: '#E9783D',
                         'border-color': '#E9783D',
+                        'width': 'fit-content'
                     }"
                     v-if="articleData.can_return"
                 >
                     Returnable ({{ noOfReturnableDays ? noOfReturnableDays + ' Day' + (noOfReturnableDays > 1 ? 's left' : ' left') : 'window closed' }})
+                </nitrozen-badge>
+                <nitrozen-badge
+                    class="right-align"
+                    :style="{
+                        color: '#E9783D',
+                        'border-color': '#E9783D',
+                        'width': 'fit-content'
+                    }"
+                    v-else-if="articleData.article.return_config"
+                >
+                   {{ articleData.article.return_config.returnable ? `Returnable Upto ${articleData.article.return_config.time} ${articleData.article.return_config.days}` : 'Non Returnable' }}
                 </nitrozen-badge>
             </div>
         </div>

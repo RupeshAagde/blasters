@@ -218,7 +218,15 @@ export default {
             }
         },
         fullCancellation() {
-            let noRejectedItems = this.bags.every(bag => bag.rejected === 0);
+             /**
+             * In noRejectedItems, we check for either of the two conditions:
+             * a) Either the bag is a part of the group and its rejected quanity = its total quantity
+             * b) It's not a part of the group and its rejected quantity = 0
+             */
+            let noRejectedItems = this.bags.every(bag => {
+                return (bag.group_selection && bag.quantity === bag.rejected) || bag.rejected === 0;
+            });
+
             if(this.cancel && noRejectedItems) {
                 return true;
             }

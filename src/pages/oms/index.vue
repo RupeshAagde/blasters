@@ -1395,6 +1395,7 @@ export default {
                 // this.selectedStageTab = 'all';
                 // this.lane = 'all';
                 this.selectedAdvancedFilters = {};
+                this.pagination.current = 1;
                 this.searchOrders({selected_filters: '{}', lane: this.lane, super_lane: this.selectedStageTab, search_type: this.filterType});
             }
             else if(event.keyCode === 13) {

@@ -187,7 +187,7 @@
                 theme="secondary"
                 @click="updateShipmentStatus('bag_packed')"
             >
-                {{'Packed' }}
+                {{'Pack' }}
             </nitrozen-button>
         </template>
 

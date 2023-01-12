@@ -41,10 +41,10 @@
                                         <div class="item-name-container tooltip-top" :data-tooltip="item.item.name">
                                             <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
                                         </div>
-                                        <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
+                                        <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">
-                                                {{ item.article.size }}
+                                                {{ item.item.size }}
                                             </nitrozen-chips>
                                         </div>
                                     </div>
@@ -95,8 +95,29 @@
                                 shipment.transition_config.bag_confirmed.can_break_entity &&
                                 shipment.transition_config.bag_confirmed.can_break_entity == true && 
                                 !readOnlyMode" class="reject-qty">
+                                <div 
+                                    class="group-cancellation" 
+                                    v-if="isPartOfGroup(item) && !(mod_items[indx-1]&&item.group_id===mod_items[indx-1].group_id)">
+                                    <nitrozen-checkbox
+                                        :title="`Cancel all items of the same group by checking this checkbox`"
+                                        v-if="isPartOfGroup(item) && !(mod_items[indx-1]&&item.group_id===mod_items[indx-1].group_id)"
+                                        :value="item.group_selection"
+                                        class="group-cancellation-checkbox"
+                                        @change="onGroupSelectionToggle(item, indx)"
+                                    />
+                                    <nitrozen-tooltip
+                                        :position="'top'"
+                                        icon="help"
+                                        class="questionmark-icon tool-tip-control"
+                                    >
+                                        <p> 
+                                            You can cancel all items belonging to the same group by selecting this
+                                            checkbox.
+                                        </p>
+                                    </nitrozen-tooltip>
+                                </div>
                                 <custom-input-number 
-                                    v-if="item.is_parent"
+                                    v-if="!isPartOfGroup(item) && item.is_parent"
                                     class="qty-reject"
                                     :min="0"
                                     :max="item.quantity"
@@ -123,19 +144,6 @@
                                 <div @click="openBookInfo(item)" v-if="item.meta">
                                     <inline-svg 
                                         :src="item.meta.custom_message ? 'book-note-present' : 'book-note'"
-                                    />
-                                </div>
-                                <div 
-                                    @click="openBookInfo(item)" 
-                                    v-if="
-                                        item.entity_type === 'set' && 
-                                        item.products &&
-                                        item.products[0] &&
-                                        item.products[0].meta &&
-                                        item.products[0].meta.custom_message
-                                    ">
-                                    <inline-svg 
-                                        :src="item.products[0].meta.custom_message ? 'book-note-present' : 'book-note'"
                                     />
                                 </div>
                             </td>
@@ -167,7 +175,6 @@
                 <side-drawer @close="closeDetails()" :title="`More Information`">
                     <more-bag-info
                         :articleData="itemData"
-                        :isSet="itemData.entity_type === 'set'"
                     ></more-bag-info>
                 </side-drawer>
             </template>
@@ -180,10 +187,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { 
-    NitrozenChips,
-    NitrozenButton, 
-    flatBtn, 
-    strokeBtn
+    NitrozenCheckBox, NitrozenChips, NitrozenButton, 
+    flatBtn, strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 /* Component imports */
@@ -215,6 +220,7 @@ export default {
         SideDrawer,
         BagDetails,
         NitrozenChips,
+        'nitrozen-checkbox': NitrozenCheckBox,
         NitrozenButton,
         InlineSvg,
         Accordion,
@@ -285,7 +291,7 @@ export default {
         
     },
     mounted() {
-        this.collateItems()
+        this.collateItems();
         if(!isEmpty(this.shipment) && this.shipment.prices && !isEmpty(this.shipment.prices)) {
             this.prices = cloneDeep(this.shipment.prices);
         }
@@ -293,6 +299,15 @@ export default {
     methods: {  
         isEmpty,
         formatPrice,
+        isPartOfGroup(item){
+            if(item && item.group_id && this.mod_items && this.mod_items.length){
+                const _group = this.group_bags_map.get(item.group_id);
+                const group_count = _group.child.length + _group.parent.length;
+                return group_count > 1;
+            }else{
+                return false;
+            }
+        },
         collateItems(){
             /*
                 Collation Algorithm for Formatting Bag Items
@@ -341,7 +356,7 @@ export default {
                     let __group = {};
                     if(this.group_bags_map.has(bag.group_id)){
                         __group = this.group_bags_map.get(bag.group_id);
-                    }else{
+                    } else {
                         __group = {
                             group_id:bag.group_id,
                             promo_id:bag_promo_id,
@@ -353,7 +368,8 @@ export default {
                     }
                     __group[bag.is_parent?"parent":"child"].push(bag);
                     this.group_bags_map.set(bag.group_id,__group);
-                }else{
+                    bag['group_selection'] = false;
+                } else {
                     this.mod_items.push(bag);
                 }
             }
@@ -362,7 +378,7 @@ export default {
             for (const [_key, _val] of this.group_bags_map) {
                 if(_val && _val.parent && _val.parent.length){
                     _val.parent[_val.parent.length-1]["__bag_group_child_count"] =  _val.child.length; //Will serve count and also help in detecting last parent
-                    this.mod_items = [..._val.parent,...this.mod_items]
+                    this.mod_items = [..._val.parent,...this.mod_items];
                 }
             }
             this.formattingItems = true;
@@ -455,12 +471,75 @@ export default {
         snakeCaseToCaps(text) {
             return convertSnakeCaseToString(text).toUpperCase();
         },
-        getSetPrice(item) {
-            let finalPrice = null;
-            if(item.financial_breakup && item.financial_breakup.length) {
-                finalPrice = item.financial_breakup.reduce((total, bag) => total + bag.brand_calculated_amount, 0);
+
+        /**
+         * Method to handle the checking/unchecking of the checkbox for group items.
+         * 
+         * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
+         * @param {Object} item The individual bag item where the checkbox has been toggled
+         * @param {Number} index The index/position of the bag item.
+         */
+        onGroupSelectionToggle(item, index) {
+            /** 
+             * Fetch the group ID and whether the group items were selected or not 
+             * BEFORE user clicked and changed the value of the checkbox.
+             */
+            let selectedGroupId = item.group_id;
+            let beforeSelectionValue = item.group_selection;
+            /**
+             * Run through every item and make changes to
+             * the group selection.
+             */
+            for(let item of this.items) {
+                /** 
+                 * If item is a part of group, we will make changes, else continue to next item.
+                 */
+                if(item.group_id === selectedGroupId) {
+                    /**
+                     * If the value BEFORE user clicked on checkbox was false, i.e.,
+                     * the user just selected the entire group for cancellation,
+                     * we will change its group_selection value and add the entire
+                     * quantity to the rejected key.
+                     * Else, we turn off the group_selection value and make the 
+                     * rejected key's value as 0.
+                     */
+                    if(beforeSelectionValue === false) {
+                        item.group_selection = true;
+                        item.rejected = item.quantity;
+                    } else {
+                        item.group_selection = false;
+                        item.rejected = 0;
+                    }
+                } else continue;
             }
-            return finalPrice;
+            /**
+             * If the user is changing the value to true, i.e.,
+             * the user is selecting the entire group for cancellation,
+             * we will show a warning telling the user that the entire
+             * group is getting cancelled.
+             */
+            if(beforeSelectionValue === false) {
+                this.$snackbar.global.showWarning(
+                    `All items belonging to this group will be cancelled`,
+                    3000
+                );
+            }
+            /**
+             * The following code is used for force setting and updating
+             * the final quantity value in the table.
+             */
+            let selectedBag = this.items.find(bag => bag.bag_id === item.bag_id);
+            if(selectedBag) {
+                this.$set(this.items, index, selectedBag);
+            } else {
+                this.$snackbar.global.showError('Unable to change the quantity');
+                console.error("Bag ID not found for changing");
+            }
+            /**
+             * The following code will update the confirm/cancel button for
+             * the shipment.
+             */
+            this.$emit('reject');
         }
     }
 }
@@ -629,6 +708,7 @@ export default {
             border: 0.8px solid #e1dede;
             border-radius: 4px;
             background: white;
+            cursor: pointer;
             
             .item-logo {
                 object-fit: contain;
@@ -652,7 +732,7 @@ export default {
                 width: 0px;
                 height: 24px;
                 left: 23px;
-                top: 47px;
+                top: 46px;
                 border: 0.3px dashed #6678DD;
                 z-index: 1;
             }
@@ -1023,5 +1103,14 @@ tr.line-break.group-mid::after{
     transform: translateX(-50%) translateY(calc(-1 * var(--translate-y)));
     border-top-color: #333333;
     display: none;
+}
+
+.group-cancellation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .group-cancellation-checkbox {
+        margin-top: -20px;
+    }
 }
 </style>

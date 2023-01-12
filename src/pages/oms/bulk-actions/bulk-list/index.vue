@@ -32,6 +32,7 @@
 <script>
 /* Package imports */
 import cloneDeep from 'lodash/cloneDeep';
+import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 import { NitrozenPagination } from '@gofynd/nitrozen-vue';
 
@@ -70,7 +71,10 @@ export default {
                 current: 1,
                 limit: 10,
             },
-            params: {}
+            params: {
+                from_date: moment().subtract(1, 'weeks').format('DD-MM-YYYY'),
+                to_date: moment().format('DD-MM-YYYY')
+            }
         }
     },
     mounted() {
@@ -100,7 +104,6 @@ export default {
             let finalParams = {
                 page_size: this.paginationObj.limit,
                 page_no: this.paginationObj.current,
-                store_id: 357,
                 ...newParams
             };
             let bulkActionListing = OrderService.fetchBulkActionList(finalParams);
@@ -199,5 +202,6 @@ export default {
 .invoices-list-container {
     width: 100%;
     margin-bottom: 1rem;
+    overflow: unset;
 }
 </style>

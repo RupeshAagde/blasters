@@ -110,7 +110,7 @@
                         </p>
                     </td>
                     <td class="shipment-price">
-                        ₹{{ item.gst_details.brand_calculated_amount.toFixed(2) }}
+                        ₹{{ formatPrice(item.bags.reduce((total, bag) => total + ((bag.quantity - (bag.rejected || 0)) * bag.financial_breakup.brand_calculated_amount), 0)) }}
                     </td>
                     <td class="items-count">
                         {{ item.total_items }}

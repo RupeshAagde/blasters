@@ -42,13 +42,13 @@
                         <adm-inline-svg :src="'oms-download'" class="menu-item-icon" />
                         <span>Download File</span> 
                     </nitrozen-menu-item>
-                    <nitrozen-menu-item v-if="(invoiceData.status == 'PARTIALLY COMPLETED' || invoiceData.status == 'COMPLETED') &&
+                    <!-- <nitrozen-menu-item v-if="(invoiceData.status == 'PARTIALLY COMPLETED' || invoiceData.status == 'COMPLETED') &&
                                         invoiceData.is_invoiceable"
                                         class="navigate-to-export" 
                                             @click="process($event)">
                         <adm-inline-svg :src="'oms-refresh'" class="menu-item-icon" />
                         <span>Process Bulk Invoice</span> 
-                    </nitrozen-menu-item>
+                    </nitrozen-menu-item> -->
                 </nitrozen-menu>
             </div>
         </div>
