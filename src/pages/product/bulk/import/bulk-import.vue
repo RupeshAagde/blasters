@@ -1077,7 +1077,8 @@ export default {
                             slug: item['Slug'],
                             priority_order: item['Priority'],
                             is_active: this.parseBoolean(item['Active']),
-                            synonyms: synonyms
+                            synonyms: synonyms,
+                            command: item['Command']
                         });
                     } else if (this.productType === 'category') {
                         let media;
@@ -1103,7 +1104,7 @@ export default {
                             is_active: this.parseBoolean(item['Active']),
                             hierarchy: item['Hierarchy'],
                             tryouts: item['Tryouts'],
-                            command: item['COMMAND'],
+                            command: item['Command']
                         });
                     } else if (this.productType === 'product-template') {
                         result.push({
@@ -1116,7 +1117,8 @@ export default {
                             is_active: this.parseBoolean(item['Active']),
                             logo: item['Logo'],
                             is_physical: this.parseBoolean(item['Physical']),
-                            is_expirable: this.parseBoolean(item['Expirable'])
+                            is_expirable: this.parseBoolean(item['Expirable']),
+                            command: item['Command']
                         });
                     } else if (this.productType === 'hsn') {
                         let taxes;
@@ -1176,7 +1178,8 @@ export default {
                             logo: item['Logo'],
                             unit: item['Unit'],
                             filter: this.parseBoolean(item['Filter']),
-                            attribute_schema: schema
+                            attribute_schema: schema,
+                            command: item['Command']
                         });
                     }
                 });
