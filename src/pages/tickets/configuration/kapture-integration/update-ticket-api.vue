@@ -129,7 +129,7 @@ export default {
         align-items: center;
         .heading {
             .sub-heading {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 16px;
@@ -137,7 +137,7 @@ export default {
                 color: #41434c;
             }
             .decs {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -159,7 +159,7 @@ export default {
             }
             .link {
                 margin-left: 8px;
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;

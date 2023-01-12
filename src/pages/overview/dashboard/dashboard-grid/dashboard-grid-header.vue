@@ -108,7 +108,7 @@ export default {
 }
 
 .header-text {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -118,7 +118,7 @@ export default {
 
 .detail-link {
   cursor: pointer;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;

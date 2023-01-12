@@ -69,7 +69,7 @@ export default {
 }
 .custom-tooltip-txt {
     line-height: 20px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     text-align: left;
     min-width: 200px;
@@ -80,7 +80,7 @@ export default {
     align-items: center;
 }
 .jumbotron-container {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     padding: 20px 24px;
     border: 1px solid @Iron;
     border-radius: 3px;

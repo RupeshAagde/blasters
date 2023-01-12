@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@primary-font-family: 'Inter';
+@primary-font-family: Inter, sans-serif;
 .panel-container {
   display: flex;
   justify-content: space-between;

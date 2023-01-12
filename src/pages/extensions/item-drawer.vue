@@ -601,7 +601,7 @@ export default {
 .drawer-modal {
     ::v-deep .modal-container {
         min-width: 86%;
-        min-height: 80%px;
+        min-height: 80%;
         .modal-body {
             overflow: hidden;
         }

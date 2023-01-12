@@ -288,7 +288,6 @@ export default {
     border-radius: 12px;
     top: 77px;
     background: #ffffff;
-    border-radius: 12px;
 
     .freshdesk-logo {
         padding: 24px;

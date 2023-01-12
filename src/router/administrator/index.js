@@ -70,7 +70,6 @@ import PackagingCreate from '@/pages/packaging/create-packaging.vue';
 import CreateCategory from '@/pages/packaging/create-category-home.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
-import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {

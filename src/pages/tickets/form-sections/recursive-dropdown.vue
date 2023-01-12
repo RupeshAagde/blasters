@@ -169,7 +169,7 @@ export default {
             this.l4Changed();
         },
         updateCategory() {
-            Object.keys(this.allCategories).map((integrationType) => {
+            Object.keys(this.allCategories).forEach((integrationType) => {
                 if (integrationType === this.integration.type) {
                     this.allCategories[integrationType].map((category) => {
                         let categoryDropdownOption = {
