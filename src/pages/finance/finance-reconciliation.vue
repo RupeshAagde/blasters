@@ -138,7 +138,7 @@
                                         tab.isErrorShown"
                                     >
                                         <td
-                                            colspan="10"
+                                            :colspan="tableColumns.length"
                                         >
                                             <div class="scrollable-table">
                                                 <table class="mirage-table additional-table">

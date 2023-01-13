@@ -180,7 +180,7 @@
             padding: 5px;
         }
 
-        ::v-deep.nitrozen-radio-group{
+        /deep/.nitrozen-radio-group{
             height: unset;
             padding: 7px 0;
             label {
@@ -197,7 +197,7 @@
         }
     }
     .checkboxes{
-        ::v-deep.nitrozen-checkbox-container{
+        /deep/.nitrozen-checkbox-container{
             .nitrozen-checkbox{
                 top: 8px
             }
