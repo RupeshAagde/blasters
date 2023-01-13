@@ -107,6 +107,11 @@ const FIREBOLT_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.FIREBOLT_ADMIN_URL : 
     envVars.FIREBOLT_ADMIN_URL;
 
+const DAYTRADER_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL : 
+    envVars.DAYTRADER_ADMIN_URL;
+
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -760,7 +765,24 @@ const URLS = {
     GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary'),
     POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule'),
     PUT_RMA_RULE: (id) => urlJoin(RMA_ADMIN_URL, `api/v1/rule/${id}`),
-    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, `api/v1/channel/${id}`)
+    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, `api/v1/channel/${id}`),
+    // =============== Finance ==========================
+    GET_REPORT_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/get-report-list`);
+    },
+    GET_CHANNEL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/get-data`);
+    },
+    GET_REPORT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/download-report`);
+    },
+    GENERATE_REPORT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL,`/v1.0/generate-report`);
+    },
+    GET_LOCATION_ID: (companyId) => {
+        return urlJoin(FIREBOLT_ADMIN_URL,`/v1.0/oms/stores?company_uids=${companyId}&fulfilment_type=JFC`);
+        //`/v1.0/company//?company_ids=${companyId}/&program_type=jfc`
+    },
 };
 
 export default URLS;

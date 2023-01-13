@@ -1,6 +1,7 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
+import FinanceRoutes from './finance';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
@@ -85,6 +86,7 @@ export default [
         children: [
             ...PlanCreatorRoutes,
             ...ExtensionRoutes,
+            ...FinanceRoutes,
             {
                 name: 'company-list',
                 path: 'company-list',
