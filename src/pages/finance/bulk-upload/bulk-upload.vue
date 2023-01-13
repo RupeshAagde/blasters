@@ -118,7 +118,7 @@
                   <span class="val">{{this.parsedData.errors}}</span>
                 </div>
               </div>
-              <div class="payout-sum" v-if="validationCompleted">
+              <div class="payout-sum" ref="payouts" v-if="validationCompleted && payoutsExists">
                 <inline-svg :src="'payout-icon-finance'"></inline-svg>
                   <span class="txt">Payout Amount Sum: </span>
                   <span class="val">{{ this.parsedData.payout_amount}}</span>
@@ -242,6 +242,7 @@ export default {
       isUploaded:false,
       presignedUrl: '',
       validationCompleted: false,
+      payoutsExists:true,
       file: new Blob(),
       parsedData:{
         totalRecords: 0,
@@ -463,8 +464,16 @@ export default {
 
                 })
                 .catch((err) => {
-                  this.getValidatedFileInfo();
+                  
                 })
+                .finally(() => {
+
+                  setTimeout(() => {
+                      this.getValidatedFileInfo();
+                  }, 500)
+
+                    
+                });  
                 
         },
         getValidatedFileInfo(){  
@@ -477,18 +486,20 @@ export default {
                     "source":"s3"
                 }
             }
-
           const caller = FinanceService.uploadUrl(params);
             caller
                 .then(( res ) => {   
                   this.showValidatedScreen(res);
+                  console.log("in");
                   
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
                         `Validation Failed`
                     );
-                })               
+                    this.cancelValidation();
+                }) 
+                           
         },
         showValidatedScreen(res){
 
@@ -500,8 +511,16 @@ export default {
 
           this.parsedData.totalRecords = dataVal.total;
           this.parsedData.success = dataVal.total;
-          const payoutAmt = dataVal.summary[0];
-          this.parsedData.payout_amount = Object.values(payoutAmt)[0];
+
+          if(dataVal.summary.length > 0){
+            const payoutAmt = dataVal.summary[0];
+            this.parsedData.payout_amount = Object.values(payoutAmt)[0];
+            this.payoutsExists = true;
+          }
+          else{
+            this.payoutsExists = false;
+          }
+
 
           this.tableData.headers = dataVal.json.headers;
           this.tableData.items = dataVal.json.rows;
@@ -622,6 +641,10 @@ padding: 24px ;
     margin-left: 20px;
     max-width: 222px;
     width: 100%;
+  }
+
+  ::v-deep .nitrozen-option-container{
+      text-transform: capitalize;
   }
 
 }
@@ -864,6 +887,10 @@ svg{
   padding: 2% 0 0%;
 }
 
+}
+
+.snapshot-table-conatiner{
+  overflow-x: auto;
 }
 
 .snapshot-table {

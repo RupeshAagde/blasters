@@ -7,7 +7,7 @@
         </page-header>
         <div class="main-container">
             <div class="page-container">
-                <upload-filters @dates="setDates" @dateschanged="changedDates" />
+                <upload-filters @dates="setDates" @dateschanged="changedDates" @querychanged="queryChanged" />
                 <div v-for="data in reportList" :key="data.id" class="report-list-container">
                     <list-cards
                         :data="data"
@@ -68,6 +68,7 @@ export default {
             inProcess: false,
             startDate:'',
             endDate:'',
+            query:'',
         };
     },
     computed:{
@@ -87,11 +88,15 @@ export default {
             this.setDates(e);
             this.getReportList();
         },
+        queryChanged(input){
+            this.query = input;
+        },
         getReportList(){
             let params = {
                 "data": {
                     "start_date": this.startDate,
                     "end_date": this.endDate,
+                    "search":this.query,
                     "page_size": 10,
                     "page": 1
                 }
