@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="user">{{ status.user }}</div>
+                                <div class="user-new">{{ status.user }}</div>
                             </div>
                         </div>
                     </div>
@@ -380,7 +380,7 @@ export default {
                     font-weight: 600;
                 }
             }
-            .user{
+            .user-new{
                 font-weight: 300;
                 text-align: end;
                 padding-left: 15px;
