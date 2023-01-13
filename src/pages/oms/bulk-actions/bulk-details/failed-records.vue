@@ -3,7 +3,7 @@
         <div class="header">
             <div class="title">Failed Records</div>
             <div class="download-link-container" @click="downloadRecords">
-                <img src="/public/admin/assets/admin/pngs/download_alt.png" />
+                <inline-svg :src="'oms-bulk-download'" />
                 <span class="download-link-text">Records</span>
             </div>
         </div>
@@ -46,6 +46,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
+/* Component imports */
+import InlineSvg from '@/components/common/inline-svg.vue';
+
 /* Services imports */
 import OrderService from '@/services/orders.service';
 
@@ -66,13 +69,9 @@ export default {
         allData: {
             type: Object
         },
-        // records: {
-        //     type: Array,
-        //     default: []
-        // },
-        // batchId: {
-        //     type: String
-        // }
+    },
+    components: {
+        InlineSvg
     },
     data() {
         return {
@@ -82,9 +81,6 @@ export default {
     },
     mounted() {
         this.records = this.allData.failed_records;
-        // if(!isEmpty(this.records)) {
-        //     this.sanitiseData();
-        // }
     },
     methods: {
         /**
@@ -127,24 +123,29 @@ export default {
             const get_excel = OrderService.fetchBulkActionFailedReport(params)
             return get_excel
             .then(({data}) => {
-                const url = data.cdn.url;
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', data.file_name);
-                document.body.appendChild(link);
-                link.click();
-                /**
-                 * @todo The message that needs to be sent on successful download needs to be
-                 * dynamic and not based on setTimeout. Need to improve this code.
-                 * - Rushabh Mulraj Shah
-                 */
-                setTimeout(() => {
-                    this.$snackbar.global.showSuccess('Your file has been successfully downloaded', 3000);
-                }, 2500)
+                if(data.success) {
+                    const url = data.cdn.url;
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', data.file_name);
+                    document.body.appendChild(link);
+                    link.click();
+                    /**
+                     * @todo The message that needs to be sent on successful download needs to be
+                     * dynamic and not based on setTimeout. Need to improve this code.
+                     * - Rushabh Mulraj Shah
+                     */
+                    setTimeout(() => {
+                        this.$snackbar.global.showSuccess('Your file has been successfully downloaded', 3000);
+                    }, 2500);
+                } else {
+                    this.$snackbar.global.showError('Unable to download failed records');
+                    console.error("Error in downloading failed records:   ", data);
+                }
             })
             .catch((error) => {
-                this.$snackbar.global.showError('Unable to Download Failed Records');
-                console.error("error:   ", error);
+                this.$snackbar.global.showError('Unable to download failed records');
+                console.error("Error in downloading failed records:   ", error);
             })
         }
     }
@@ -172,6 +173,9 @@ export default {
     font-size: 12px;
     color: @RoyalBlue;
     cursor: pointer;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
 }
 
 .list-table {

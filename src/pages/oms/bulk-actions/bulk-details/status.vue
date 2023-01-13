@@ -3,7 +3,7 @@
         <div class="header">
             <div class="title">Status</div>
             <div class="download-link-container" @click="downloadSourceFile">
-                <img src="/public/admin/assets/admin/pngs/download_alt.png" />
+                <inline-svg :src="'oms-bulk-download'" />
                 <span class="download-link-text">Source File</span>
             </div>
         </div>
@@ -50,14 +50,19 @@ export default {
     },
     methods: {
         downloadSourceFile() {
-            this.$snackbar.global.showInfo('Your download will begin shortly');
-            const url = this.bulkData.excel_url;
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('click', '_blank');
-            document.body.appendChild(link);
-            link.click();
-            this.$snackbar.global.showSuccess('Your file has been successfully downloaded', 3000);
+            try {
+                this.$snackbar.global.showInfo('Your download will begin shortly');
+                const url = this.bulkData.excel_url;
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('click', '_blank');
+                document.body.appendChild(link);
+                link.click();
+            }
+            catch(error) {
+                this.$snackbar.global.showError('We are unable to download the source file. Kindly try again after some time.', 3000);
+                console.error("Error in downloading source file:   ", error);
+            }
         },
         isEmpty(obj) {
             return isEmpty(obj);
@@ -116,5 +121,8 @@ export default {
     font-size: 12px;
     color: @RoyalBlue;
     cursor: pointer;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
 }
 </style>

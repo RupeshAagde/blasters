@@ -883,7 +883,7 @@ const URLS = {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-get-data/${data}`)
     },
     FETCH_BULK_ACTION_FAILED_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-failed-report`)
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-failed-report`);
     },
     PROCESS_BULK_ACTION_INVOICE: () => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/invoice`)

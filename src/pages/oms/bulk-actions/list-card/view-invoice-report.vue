@@ -10,7 +10,7 @@
                     invoiceReportData.data.invoice[0] && 
                     invoiceReportData.data.invoice[0].url"
                     @click="getPublicUrl(invoiceReportData.data.invoice[0].url, 'Invoice')">
-                    <img src="/public/admin/assets/admin/pngs/download_alt.png" />
+                    <adm-inline-svg :src="'oms-bulk-download'" />
                     <span class="download-link-text">Download Invoice</span>
                 </div>
                 <div class="download-link-container" 
@@ -20,7 +20,7 @@
                     invoiceReportData.data.label[0] && 
                     invoiceReportData.data.label[0].url" 
                     @click="getPublicUrl(invoiceReportData.data.label[0].url, 'Label')">
-                    <img src="/public/admin/assets/admin/pngs/download_alt.png" />
+                    <adm-inline-svg :src="'oms-bulk-download'" />
                     <span class="download-link-text">Download Label</span>
                 </div>
             </div>
@@ -43,7 +43,7 @@
             <div class="header-table">
                 <div class="title">Failed Records</div>
                 <div class="download-link-container" v-if="!isEmpty(records.sh_ids)">
-                    <img src="/public/admin/assets/admin/pngs/download_alt.png" />
+                    <adm-inline-svg :src="'oms-bulk-download'" />
                     <span class="download-link-text">Records</span>
                 </div>
             </div>
@@ -145,7 +145,7 @@ export default {
                 }
             })
             .catch((error) => {
-                this.$snackbar.global.showError(`Unable to Download ${type}`);
+                this.$snackbar.global.showError(`Unable to download ${type.toLowerCase()}`);
                 console.error("Error in downloading the file:   ", error);
             })
         },
@@ -202,7 +202,7 @@ export default {
                 }, 2500);
             })
             .catch((error) => {
-                this.$snackbar.global.showError('Unable to Download Failed Records');
+                this.$snackbar.global.showError('Unable to download failed records');
                 console.error("Error in downloading the file for failed records:   ", error);
             })
         }
@@ -262,6 +262,9 @@ export default {
     font-size: 12px;
     color: @RoyalBlue;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
 }
 .header-table {
     margin-top: 24px;
