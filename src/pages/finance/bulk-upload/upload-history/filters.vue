@@ -6,7 +6,7 @@
                 v-model="searchText"
                 type="search"
                 :showSearchIcon="true"
-                @keyup="onFilterChange($event)" 
+                @input="onFilterChange" 
             />
         </div>
         <nitrozen-dropdown
@@ -27,7 +27,7 @@
             :shortcuts="dateRangeShortcuts"
             :not_after="new Date().toISOString()"
             :useNitrozenTheme="true"
-            @input="onFilterChange"
+            @input="onDateChange"
         /> 
     </div>
 </template>
@@ -79,11 +79,11 @@ export default {
             ]
         }
     },
+    mounted() {
+       this.$emit("dates",this.uploadDateRange);
+    },
     methods: {
-        // loadData() {
-        //     this.$emit('load');
-        // },
-        onFilterChange: debounce(function (e) {
+        onFilterChange: debounce(async function(input) {
             /* let filters_obj = {
                 to_date: moment(this.uploadDateRange[1]).format('DD-MM-YYYY'),
                 from_date: moment(this.uploadDateRange[0]).format('DD-MM-YYYY')
@@ -96,9 +96,14 @@ export default {
             if(this.searchText) filters_obj.search_key = this.searchText;
 
             this.$emit('filterChange', filters_obj) */;
-            console.log(e);
-        }, 500),
 
+            console.log(input);
+            this.$emit("querychanged", input);
+            
+        }, 500),
+        onDateChange: debounce(function (e) {
+            this.$emit("dateschanged", e);
+        }, 500),
         getFileType() {
         const params = {
             "data": {
@@ -119,7 +124,6 @@ export default {
             const caller = FinanceService.getFileType(params);
             caller
                 .then(( res ) => {
-                  console.log(res);
                     this.csvTypes = res.data.items.map((item) => {
                         return {
                             text: item.display_name,

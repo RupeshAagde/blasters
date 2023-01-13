@@ -3,7 +3,13 @@
         <!-- v-if="!isEmpty(invoiceData)" @click.stop="onCardClick" -->
         <div class="left-section">
             <div class="type-logo-container">
-                <img :src="'/assets/admin/pngs/csv_icon.png'" class="type-logo" />
+                <!-- <img :src="'/assets/admin/pngs/csv_icon.png'" class="type-logo" /> -->
+                <adm-inline-svg :src="'upload-history-fin'" />
+                <!-- <no-content
+                class="type-logo"
+                :icon="'/assets/admin/pngs/csv_icon.png'"
+                :helperText="''"
+            /> -->
             </div>
             <div class="invoice-info">
                 <p class="title">{{ reportData.name }}</p>
@@ -47,6 +53,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
+import NoContent from '../../../../components/common/adm-no-content.vue';
 
 /* Component imports */
 import AdmInlineSVG from '@/components/common/adm-inline-svg';
@@ -59,6 +66,7 @@ export default {
     components: {
         'adm-inline-svg': AdmInlineSVG,
         'inline-svg': inlineSvgVue,
+        'no-content' : NoContent,
         NitrozenBadge,
         NitrozenButton,
         NitrozenDialog,

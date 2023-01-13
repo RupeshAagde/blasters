@@ -7,7 +7,7 @@
         </page-header>
         <div class="main-container">
             <div class="page-container">
-                <upload-filters/>
+                <upload-filters @dates="setDates" @dateschanged="changedDates" @querychanged="queryChanged" />
                 <div v-for="data in reportList" :key="data.id" class="report-list-container">
                     <list-cards
                         :data="data"
@@ -28,6 +28,7 @@ import {
     NitrozenInput,
     NitrozenError
 } from '@gofynd/nitrozen-vue';
+import moment from 'moment';
 import PageError from '@/components/common/page-error';
 import { Loader, PageHeader, ImageUploaderTile } from '@/components/common/';
 import InlineSvg from '@/components/common/inline-svg';
@@ -65,6 +66,9 @@ export default {
             reportList: [],
             responseData: {},
             inProcess: false,
+            startDate:'',
+            endDate:'',
+            query:'',
         };
     },
     computed:{
@@ -74,15 +78,26 @@ export default {
     },
     mounted() {
         this.getReportList();
-        this.reportList = REPORT_LIST.items;
-        //console.log(this.responseData);
     },
     methods: {
+        setDates(data){
+            this.startDate =  moment(data[0]).format('DD-MM-YYYY');
+            this.endDate = moment(data[1]).format('DD-MM-YYYY');
+        },
+        changedDates(e){
+            this.setDates(e);
+            this.getReportList();
+        },
+        queryChanged(input){
+            this.query = input;
+            this.getReportList();
+        },
         getReportList(){
             let params = {
                 "data": {
-                    "start_date": "25-11-2022",
-                    "end_date": "25-11-2022",
+                    "start_date": this.startDate,
+                    "end_date": this.endDate,
+                    "search":this.query,
                     "page_size": 10,
                     "page": 1
                 }
@@ -90,8 +105,8 @@ export default {
             const reportList = FinanceService.getReportList(params);
             reportList
                 .then((res) => {
-                    this.reportList = REPORT_LIST.items;
-                    //console.log()
+                    this.reportList = res.data.items;
+                    console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -111,11 +126,6 @@ export default {
     margin-top: 64px;
     .content-container {
         display: block;
-        // width: 50%;
-        // flex: 1;
-        // &:nth-child(odd) {
-        //     margin-left: 24px;
-        // }
         .input-form {
             margin-top: 16px;
         }
