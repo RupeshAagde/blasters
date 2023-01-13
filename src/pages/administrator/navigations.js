@@ -91,18 +91,50 @@ export const getNavigations = () => {
         },
         {
             display: 'Orders',
-            link: '/administrator/orders/list',
+            link: '/administrator/orders/',
             title: 'orders',
             icon: 'orders-cart',
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
             children: [
+                // {
+                //     display: 'List Orders',
+                //     link: '/administrator/orders/list',
+                //     title: 'list',
+                //     icon: 'orders-cart',
+                //     highlightedIcon: 'orders-cart-highlighted',
+                //     active: false
+                // },
                 {
-                    display: 'List Orders',
-                    link: '/administrator/orders/list',
+                    display: 'Orders',
+                    link: '/administrator/orders/',
                     title: 'list',
                     icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Manifest',
+                    link: '/administrator/orders/manifest',
+                    title: 'manifest',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Bulk Actions',
+                    link: '/administrator/orders/bulk',
+                    title: 'bulk-actions',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Hyperlocal Tracking',
+                    link: '/administrator/orders/hyperlocal-tracking',
+                    title: 'hyperlocal-tracking',
+                    icon: 'home',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
                 },
@@ -114,14 +146,6 @@ export const getNavigations = () => {
                     highlightedIcon: 'home-highlighted',
                     active: false,
                     permission: 'order'
-                },
-                {
-                    display: 'Hyperlocal Tracking',
-                    link: '/administrator/orders/hyperlocal-tracking',
-                    title: 'hyperlocal-tracking',
-                    icon: 'home',
-                    highlightedIcon: 'orders-cart-highlighted',
-                    active: false
                 }
             ]
             //     {

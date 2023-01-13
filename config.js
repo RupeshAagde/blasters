@@ -452,7 +452,71 @@ const conf = convict({
             env: 'FRENZY_ADMIN_URL',
             args: 'frenzy_admin_url'
         },
-
+        /** OMS v2.1 */
+        ARK_MAIN_URL: {
+            doc: 'Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_URL',
+            arg: 'ark_main_url'
+        },
+        ARK_MAIN_SVC: {
+            doc: 'Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_SVC',
+            arg: 'ark_main_svc'
+        },
+        ARK_PLTM_URL: {
+            doc: 'Platform Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_URL',
+            arg: 'ark_pltm_url'
+        },
+        ARK_PLTM_SVC: {
+            doc: 'Platform Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_SVC',
+            arg: 'ark_pltm_svc'
+        },
+        AVIS_ADMIN_URL: {
+            doc: 'Platform Order Management URL',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_URL',
+            arg: 'avis_admin_url'
+        },
+        AVIS_ADMIN_SVC: {
+            doc: 'Platform Order Management Service',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_SVC',
+            arg: 'avis_admin_svc'
+        },
+        COMPUTRON_ADMIN_SVC: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_SVC',
+            arg: 'computron_admin_svc'
+        },
+        COMPUTRON_ADMIN_URL: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_URL',
+            arg: 'computron_admin_url'
+        },
+        HEDWIG_ADMIN_SVC: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_ADMIN_SVC',
+            arg: 'hedwig_admin_svc'
+        }
+        /** OMS v2.1 -- END */
     },
 
     // Sentry

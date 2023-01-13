@@ -1,0 +1,30 @@
+[
+    {
+        "text": "Delhivery_Surface_2",
+        "value": "Delhivery_Surface_2",
+        "type": "Fastest",
+        "estimated_shipping_charges": "100",
+        "estimated_delivery_date": "2022-11-30T09:10:46.888Z"
+    },
+    {
+        "text": "Dunzo",
+        "value": "Dunzo",
+        "type": "Best Value",
+        "estimated_shipping_charges": "100",
+        "estimated_delivery_date": "2022-11-30T09:10:59.609Z"
+    },
+    {
+        "text": "Ekart Logistics",
+        "value": "Ekart logistics",
+        "type": "Recommended",
+        "estimated_shipping_charges": "100",
+        "estimated_delivery_date": "2022-11-30T09:11:01.094Z"
+    },
+    {
+        "text": "Blue Dart",
+        "value": "Blue Dart",
+        "type": "",
+        "estimated_shipping_charges": "100",
+        "estimated_delivery_date": "2022-11-30T09:11:03.386Z"
+    }
+]

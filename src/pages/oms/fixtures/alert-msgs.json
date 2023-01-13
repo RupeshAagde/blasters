@@ -1,0 +1,5 @@
+{
+    "bulkUpload": "Wait! Bulk order file is being uploaded",
+    "templateDownload": "Template file is loading and will download upon completion.",
+    "invoiceDownload": "Wait! File download is in progress"
+}
