@@ -99,6 +99,14 @@ const GRINGOTTS_BASE = isNode
     : envVars.GRINGOTTS_ADMIN_URL;
 
 
+const RMA_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.RMA_ADMIN_URL : 
+    envVars.RMA_ADMIN_URL;
+
+const FIREBOLT_ADMIN_URL = isNode ? 
+    envVars.BROWSER_CONFIG.FIREBOLT_ADMIN_URL : 
+    envVars.FIREBOLT_ADMIN_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -730,6 +738,29 @@ const URLS = {
     BULK_REQUEST: (job_type, action) => {
         return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/${action}`);
     },
+    //RMA Sales Channel List
+    RMA_RULES_LIST: () => {
+        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule/list`);
+    },
+    RMA_DELETE_RULE: (id = '') => {
+        return urlJoin(RMA_ADMIN_URL, `/api/v1/rule/${id}`);
+    },
+    //RMA Sales Channel Opt in List
+    GET_OPTED_RMA_SALES_CHANNEL: () =>
+        urlJoin(RMA_ADMIN_URL, '/api/v1/channel'),
+    //RMA Departments List
+    GET_DEPARTMENTS: () => urlJoin(SILVERBOLT_ACAT_URL, 'v1.0/departments'),
+    //RMA Categories List
+    GET_CATEGORIES: () =>
+        urlJoin(FIREBOLT_ADMIN_URL, 'api/v1/category/'),
+    //RMA Reasons List
+    GET_REASONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/reason/'),
+    //RMA Questions List
+    GET_QUESTIONS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/question'),
+    GET_PLATFORM_COUNTS: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule/summary'),
+    POST_RMA_RULE: () => urlJoin(RMA_ADMIN_URL, 'api/v1/rule'),
+    PUT_RMA_RULE: (id) => urlJoin(RMA_ADMIN_URL, `api/v1/rule/${id}`),
+    PUT_RMA_CONFIG_UPDATE: (id = '') => urlJoin(RMA_ADMIN_URL, `api/v1/channel/${id}`)
 };
 
 export default URLS;

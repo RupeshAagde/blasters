@@ -107,6 +107,15 @@ export const getNavigations = () => {
                     active: false
                 },
                 {
+                    display: 'RMA',
+                    link: '/administrator/orders/rma/rules',
+                    title: 'rma',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                    permission: 'order'
+                },
+                {
                     display: 'Hyperlocal Tracking',
                     link: '/administrator/orders/hyperlocal-tracking',
                     title: 'hyperlocal-tracking',
@@ -144,7 +153,6 @@ export const getNavigations = () => {
             active: false,
             permission: 'plans',
             children: [
-               
                 {
                     display: 'Invoices',
                     link: '/administrator/subscription/invoices',
@@ -152,7 +160,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }, 
+                },
                 {
                     display: 'Coupons',
                     link: '/administrator/subscription/coupons',
@@ -160,8 +168,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                },
-                
+                }
             ]
         },
         // Packaging related changes for adding navbar element

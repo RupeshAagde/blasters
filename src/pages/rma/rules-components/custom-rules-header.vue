@@ -6,29 +6,41 @@
                 <div class="custom-tooltip-txt">{{ desc }}</div>
             </nitrozen-tooltip>
         </div>
-        <div>
+        <div class="jumbotron-btns">
+            <!--  Not removing the logic as of now, will remove after x0 testing and demo -->
+            <!-- <div>  
+                <span class="custom-txt">Custom</span>
+                <nitrozen-toggle
+                    :value="toggleValue"
+                    @change="toggleClick"
+                    :disabled="false"
+                />
+            </div>  -->
             <nitrozen-button
                 v-if="btnLabel"
                 :theme="'secondary'"
                 v-flatBtn
                 @click="btnClick"
-                :disabled="btnDisabled"
-                >{{ btnLabel }}</nitrozen-button
-            >
+                >{{ btnLabel }}
+            </nitrozen-button>
             <slot />
         </div>
     </div>
 </template>
 
 <script>
-import { NitrozenButton, NitrozenTooltip, flatBtn } from '@gofynd/nitrozen-vue';
-import * as _ from 'lodash';
+import { NitrozenButton,
+    NitrozenTooltip,
+    flatBtn,
+    NitrozenToggleBtn
+ } from '@gofynd/nitrozen-vue';
 
 export default {
-    name: 'jumbotron',
+    name: 'custom-rules-channel-header',
     components: {
         NitrozenTooltip,
-        'nitrozen-button': NitrozenButton
+        'nitrozen-button': NitrozenButton,
+        'nitrozen-toggle': NitrozenToggleBtn
     },
     props: {
         title: {
@@ -43,11 +55,10 @@ export default {
         btnLabel: {
             type: String
         },
-        illustration: {
-            type: String,
-            default: 'illustration'
-        },
-        btnDisabled: {
+        // onToggleClick: {
+        //     type: Function
+        // },
+        toggleValue: {
             type: Boolean,
             default: false
         }
@@ -56,14 +67,14 @@ export default {
         flatBtn
     },
     watch: {},
-    data: function() {
-        return {};
-    },
     mounted() {},
     methods: {
         btnClick() {
             this.$emit('btnClick');
-        }
+        },
+        // toggleClick(){
+        //     this.$emit('onToggleClick', !this.toggleValue);
+        // }
     }
 };
 </script>
@@ -74,7 +85,7 @@ export default {
 }
 .custom-tooltip-txt {
     line-height: 20px;
-    font-family: Inter, sans-serif;
+    font-family: Inter;
     font-size: 12px;
     text-align: left;
     min-width: 200px;
@@ -85,7 +96,7 @@ export default {
     align-items: center;
 }
 .jumbotron-container {
-    font-family: Inter, sans-serif;
+    font-family: Inter;
     padding: 20px 24px;
     border: 1px solid @Iron;
     border-radius: 3px;
@@ -98,8 +109,8 @@ export default {
 .jumbotron-title {
     // padding: 11.25px 0;
     color: @Mako;
-    font-weight: bold;
-    font-size: 24px;
+    font-weight: 600;
+    font-size: 20px;
     line-height: 40px;
     text-align: left;
 }
@@ -107,6 +118,18 @@ export default {
     font-size: 16px;
     line-height: 26px;
     color: @Mako;
+}
+.jumbotron-btns{
+    display: flex;
+    gap: 20px;
+
+    & > div{
+        display: flex;
+        align-items: center;
+    }
+    .custom-txt{
+        font-weight: 600;
+    }
 }
 ::v-deep .nitrozen-tooltip {
     svg {

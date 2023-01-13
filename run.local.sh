@@ -59,6 +59,8 @@ export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/pa
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
+export RMA_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/rma
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
 
 #ENV's

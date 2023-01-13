@@ -417,6 +417,20 @@ const conf = convict({
             env: 'EXTENSION_PAGE_URL',
             arg: 'EXTENSION_PAGE_URL'
         },
+        FIREBOLT_ADMIN_URL: {
+            doc: 'Firebolt logistics',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/logistics',
+            env: 'FIREBOLT_ADMIN_URL',
+            arg: 'FIREBOLT_ADMIN_URL'
+        },
+        RMA_ADMIN_URL: {
+            doc: 'RMA Admin',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/rma',
+            env: 'RMA_ADMIN_URL',
+            arg: 'RMA_ADMIN_URL'
+        },
         FRENZY_ADMIN_URL: {
             doc: 'url to get analytics api for sales channel',
             format: String,
