@@ -3,7 +3,8 @@
         <!-- v-if="!isEmpty(invoiceData)" @click.stop="onCardClick" -->
         <div class="left-section">
             <div class="type-logo-container">
-                <img :src="'/assets/admin/pngs/csv_icon.png'" class="type-logo" />
+                <!-- <img :src="'/assets/admin/pngs/csv_icon.png'" class="type-logo" /> -->
+                <adm-inline-svg :src="'upload-history-fin'" />
                 <!-- <no-content
                 class="type-logo"
                 :icon="'/assets/admin/pngs/csv_icon.png'"

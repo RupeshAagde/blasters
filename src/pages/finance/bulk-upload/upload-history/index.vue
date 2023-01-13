@@ -90,6 +90,7 @@ export default {
         },
         queryChanged(input){
             this.query = input;
+            this.getReportList();
         },
         getReportList(){
             let params = {
@@ -105,7 +106,6 @@ export default {
             reportList
                 .then((res) => {
                     this.reportList = res.data.items;
-
                     console.log(res);
                 })
                 .catch((err) => {

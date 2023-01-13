@@ -643,9 +643,16 @@ padding: 24px ;
     width: 100%;
   }
 
+  .nitrozen-dropdown-container{
   ::v-deep .nitrozen-option-container{
       text-transform: capitalize;
   }
+
+  ::v-deep .search{
+    text-transform: capitalize;
+  }
+
+}
 
 }
 
