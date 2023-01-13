@@ -648,8 +648,10 @@ padding: 24px ;
       text-transform: capitalize;
   }
 
-  ::v-deep .search{
-    text-transform: capitalize;
+  ::v-deep .nitrozen-searchable-input-container{
+    input{
+      text-transform: capitalize;
+    }
   }
 
 }
