@@ -1,15 +1,21 @@
 <template>
     <div class="alert-box-container">
-        <img src="/public/admin/assets/admin/pngs/oms-loader.png" class="loading-icon" />
+        <inline-svg class="loading-icon" src="oms-alerts-blue-icon" />
         <p class="alert-text">{{ text }}</p>
     </div>
 </template>
 
 <script>
+/* Component imports */
+import InlineSvg from '@/components/common/inline-svg.vue';
+
 export default {
     name: 'bulk-alert-box',
     props: {
         text: String
+    },
+    components: {
+        InlineSvg
     }
 }
 </script>

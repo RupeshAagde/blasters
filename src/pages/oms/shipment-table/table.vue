@@ -274,7 +274,7 @@
                     :title="`Reassign store`"
                     :footer="true"
                 >
-                    <reassign-store-drawer
+                    <reassign-store
                         ref="store-assign-call"
                         :reasons="reasons"
                         :stores="stores"
