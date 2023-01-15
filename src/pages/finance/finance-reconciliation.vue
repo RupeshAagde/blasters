@@ -393,7 +393,7 @@ export default {
         },
         getDates(){
             this.endDate = new Date().toISOString().slice(0, 10);
-            this.startDate = moment(this.endDate).subtract(1, 'months').format('DD-MM-YYYY');
+            this.startDate = moment(this.endDate).subtract(1, 'days').format('DD-MM-YYYY');
             this.endDate = moment(this.endDate).format('DD-MM-YYYY');
         },
         generateReport(){
