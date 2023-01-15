@@ -3,7 +3,7 @@
         <div class="jumbotron-container">
             <jumbotron
                 :title="'Reports and Ledger'"
-                :desc="'Welcome to JioMarket Reporting and Ledger console. Your latest reports and ledger appear below.'"
+                :desc="'Welcome to Reporting and Ledger console. Your latest reports and ledger appear below.'"
             ></jumbotron>
         </div>
         <div class="main-container">
