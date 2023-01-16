@@ -4,20 +4,25 @@ import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import DOMAIN_URLS from '../../../../../../services/domain.service';
+import DOMAIN_URLS from '../../../../../../../services/domain.service';
 import flushPromises from "flush-promises";
-import Filters from '../../../../../../pages/finance/bulk-upload/upload-history/filters.vue';
+import Filters from '../../../../../../../pages/finance/bulk-upload/upload-history/filters.vue';
 // import APPLICATION_LIST_MOCK_DATA from '../company-admin/fixtures/application-mock.json';
 //import BillingRoutes from '../../../../../router/admin/billing';
-import mocks from '../fixtures/upload-reports.json';
+import mocks from '../../fixtures/upload-reports.json';
 //import Vuex from 'vuex';
 import ADMIN_URLS from '@/services/admin-url.service';
+import debounce from 'lodash/debounce';
+import { expect } from '@jest/globals';
+
+// Tell Jest to mock this import
+jest.mock('lodash/debounce');
 
 let localVue, wrapper, router,store;
 const mock = new MockAdapter(axios);
 const companyId = '11';
 
-jest.useFakeTimers();
+
 
 const RoleModal = {
     render: () => {},
@@ -39,6 +44,7 @@ describe('Finance', () => {
             }]
         });
         router.push('/administrator/finance/bulk-upload/upload-history');
+        jest.useFakeTimers();
         wrapper = shallowMount(Filters, {
             localVue,
             router,
@@ -57,28 +63,19 @@ describe('Finance', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
-    it('search an element', async() => {
-
+    it('Should serch for the given keywords properly', async() => {
         await flushPromises();
-
+        wrapper.setData({
+            searchText: '',
+        })
         let closeBtn = jest.spyOn(wrapper.vm, 'onFilterChange');
-      
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-
-        const closeEl = wrapper.find('#searchbox');
-
-        closeEl.vm.$emit("input" , " ");
-
-        // closeEl.vm.debounceInput("omi"); 
-
+        const searchFun = wrapper.find('#searchbox');
+        searchFun.vm.$emit('input' ,'COD');
+        jest.advanceTimersByTime(500);
+        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-
         expect(closeBtn).toHaveBeenCalled();
-
-
-
-    });
-
-    
+    });    
 })

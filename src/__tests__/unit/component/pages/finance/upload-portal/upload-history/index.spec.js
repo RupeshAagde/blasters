@@ -4,14 +4,12 @@ import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import DOMAIN_URLS from '../../../../../../services/domain.service';
+import DOMAIN_URLS from '../../../../../../../services/domain.service';
 import flushPromises from "flush-promises";
-import UploadHistory from '../../../../../../pages/finance/bulk-upload/upload-history/index.vue';
-// import APPLICATION_LIST_MOCK_DATA from '../company-admin/fixtures/application-mock.json';
+import UploadHistory from '../../../../../../../pages/finance/bulk-upload/upload-history/index.vue';
 //import BillingRoutes from '../../../../../router/admin/billing';
-import mocks from '../fixtures/upload-reports.json';
-//import Vuex from 'vuex';
-import ADMIN_URLS from '@/services/admin-url.service';
+import mocks from '../../fixtures/upload-reports.json';
+import { jest } from '@jest/globals';
 
 let localVue, wrapper, router,store;
 const mock = new MockAdapter(axios);
@@ -58,7 +56,33 @@ describe('Finance', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
+    it('Should Handle Pagination when clicked', async()=> {
+        await flushPromises();
+        wrapper.setData({
+            paginationObj: {
+                total: 0,
+                current: 1,
+                limit: 10,
+            }
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const copyClick = wrapper.find('.pagination-main');
+        copyClick.vm.$emit('change', {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.paginationObj.total).toBe(70);
+    });
 
-
-    
+    it('Should Refresh the page when clicked', async()=> {
+        await flushPromises();
+        const copyClick = wrapper.find('.right-head')
+        copyClick.trigger('click');
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.inProcess).toBe(false);
+    });
 })
