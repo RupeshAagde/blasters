@@ -42,7 +42,7 @@ describe('Finance', () => {
             router,
             
         });
-        mock.onPost(DOMAIN_URLS.GET_REPORT_LIST()).reply(200, mocks.getUploadHistory);
+        mock.onPost(DOMAIN_URLS.GET_REPORT_LIST()).reply(200, mocks.getListCards);
         await flushPromises();
     });
 

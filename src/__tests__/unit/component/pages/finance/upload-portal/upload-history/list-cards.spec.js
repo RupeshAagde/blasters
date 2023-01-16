@@ -9,21 +9,12 @@ import flushPromises from "flush-promises";
 import ListCards from '../../../../../../../pages/finance/bulk-upload/upload-history/list-cards.vue';
 //import BillingRoutes from '../../../../../router/admin/billing';
 import mocks from '../../fixtures/upload-reports.json';
-import { jest } from '@jest/globals';
+
 
 let localVue, wrapper, router,store;
 const mock = new MockAdapter(axios);
 const companyId = '11';
 
-jest.useFakeTimers();
-
-const RoleModal = {
-    render: () => {},
-    methods: {
-        open: () => { },
-        close: () => { }
-    }
-}
 describe('Finance', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
@@ -40,18 +31,17 @@ describe('Finance', () => {
         wrapper = shallowMount(ListCards, {
             localVue,
             router,
-            // propsData: { mocks.getUploadHistory },
+            propsData: { 
+                data: mocks.getListCards.items[0] 
+            },
             computed: {
-                badgeState: () => {
-                    let invoiceStatus = mocks.getUploadHistory.status;
-                    if(invoiceStatus.toLowerCase() === 'complete') return 'success';
-                    if(invoiceStatus.toLowerCase() === 'in process') return 'info';
-                    if(invoiceStatus.toLowerCase() === 'fail') return 'error';
-                }
+                badgeState(){
+                    return 'success'
+                },
             }
             
         });
-        mock.onPost(DOMAIN_URLS.GET_REPORT_LIST()).reply(200, mocks.getUploadHistory);
+        //mock.onPost(DOMAIN_URLS.GET_REPORT_LIST()).reply(200, mocks.getListCards);
         await flushPromises();
     });
 
@@ -65,33 +55,4 @@ describe('Finance', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
-    // it('Should Handle Pagination when clicked', async()=> {
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         paginationObj: {
-    //             total: 0,
-    //             current: 1,
-    //             limit: 10,
-    //         }
-    //     });
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-    //     const copyClick = wrapper.find('.pagination-main');
-    //     copyClick.vm.$emit('change', {
-    //         "limit": 10,
-    //         "current": 2,
-    //         "total": 70
-    //     });
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.vm.paginationObj.total).toBe(70);
-    // });
-
-    // it('Should Refresh the page when clicked', async()=> {
-    //     await flushPromises();
-    //     const copyClick = wrapper.find('.right-head')
-    //     copyClick.trigger('click');
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.vm.inProcess).toBe(false);
-    // });
 })
