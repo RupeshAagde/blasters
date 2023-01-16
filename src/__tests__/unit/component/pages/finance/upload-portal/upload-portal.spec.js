@@ -269,13 +269,7 @@ describe('Finance', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        // mocks.validatedFile.
-
         expect(wrapper.vm.startLoader).toBe(false);
-
-        // expect(wrapper.vm.fileUploading).toBe(false);
-        // expect(wrapper.vm.isUploaded).toBe(true);
-        // expect(callPresigned).toHaveBeenCalled();
     
     });
     // getValidatedFileInfo

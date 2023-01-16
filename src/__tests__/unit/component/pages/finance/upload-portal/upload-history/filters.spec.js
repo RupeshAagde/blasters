@@ -4,15 +4,13 @@ import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import DOMAIN_URLS from '../../../../../../../services/domain.service';
 import flushPromises from "flush-promises";
 import Filters from '../../../../../../../pages/finance/bulk-upload/upload-history/filters.vue';
 // import APPLICATION_LIST_MOCK_DATA from '../company-admin/fixtures/application-mock.json';
 //import BillingRoutes from '../../../../../router/admin/billing';
-import mocks from '../../fixtures/upload-reports.json';
 //import Vuex from 'vuex';
-import ADMIN_URLS from '@/services/admin-url.service';
-import debounce from 'lodash/debounce';
+// import ADMIN_URLS from '@/services/admin-url.service';
+// import debounce from 'lodash/debounce';
 import { expect } from '@jest/globals';
 
 // Tell Jest to mock this import
