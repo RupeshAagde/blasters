@@ -14,7 +14,8 @@
             <div class="invoice-info">
                 <p class="title">{{ reportData.name }}</p>
                 <p class="file-status-info">
-                    <!-- {{ +reportData.total_count >= 0 ? `Total ${reportData.total_count}` : '' }} - 
+                    <!--  WILL BE NEEDING IN FUTURE UPDATE -------
+                    {{ +reportData.total_count >= 0 ? `Total ${reportData.total_count}` : '' }} - 
                     {{ +reportData.successful_sh_count >= 0 ? `${reportData.successful_sh_count} success` : '' }} 
                     {{ +reportData.failed_sh_count >= 0 ? `, ${reportData.failed_sh_count} failed` : ''}}  -->
                     <span class="status-info" v-if="reportData.status === 'Complete'">

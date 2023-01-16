@@ -1,18 +1,33 @@
 <template>
     <div>
         <page-header
-            title="Upload History"
+            title="History"
             @backClick="$router.push({ name: 'bulk-upload' })"
         >
         </page-header>
         <div class="main-container">
             <div class="page-container">
-                <upload-filters @dates="setDates" @dateschanged="changedDates" @querychanged="queryChanged" />
+                <div class="heading">
+                    <span class="left-head">Upload History</span>
+                    <span
+                        class="right-head"
+                        @click="refreshPage"
+                    >
+                        <inline-svg src="refresh"></inline-svg>
+                        Refresh
+                    </span>
+                </div>
+                <upload-filters  @querychanged="queryChanged" /> <!-- @dates="setDates" @dateschanged="changedDates" -->
                 <div v-for="data in reportList" :key="data.id" class="report-list-container">
                     <list-cards
                         :data="data"
                     />
                 </div>
+                <nitrozen-pagination
+                    v-model="paginationObj"
+                    @change="onPaginationChange"
+                    :pageSizeOptions="[5, 10, 20, 50]"
+                />
             </div>
         </div>
     </div>
@@ -26,7 +41,8 @@ import {
     NitrozenCheckBox,
     NitrozenToggleBtn,
     NitrozenInput,
-    NitrozenError
+    NitrozenError,
+    NitrozenPagination
 } from '@gofynd/nitrozen-vue';
 import moment from 'moment';
 import PageError from '@/components/common/page-error';
@@ -50,6 +66,7 @@ export default {
         NitrozenToggleBtn,
         NitrozenInput,
         NitrozenError,
+        NitrozenPagination,
         PageError,
         PageHeader,
         ImageUploaderTile,
@@ -69,6 +86,16 @@ export default {
             startDate:'',
             endDate:'',
             query:'',
+            paginationObj: {
+                total: 0,
+                current: 1,
+                limit: 10,
+            },
+            params: {
+                start_date: moment().subtract(1, 'weeks').format('DD-MM-YYYY'),
+                end_date: moment().format('DD-MM-YYYY'),
+                search:'',
+            }
         };
     },
     computed:{
@@ -85,15 +112,18 @@ export default {
             this.endDate = moment(data[1]).format('DD-MM-YYYY');
         },
         changedDates(e){
+            console.log(e);
             this.setDates(e);
             this.getReportList();
         },
         queryChanged(input){
-            this.query = input;
+            this.params = input;
+            console.log(input);
+            //this.query = input;
             this.getReportList();
         },
         getReportList(){
-            let params = {
+            /* let params = {
                 "data": {
                     "start_date": this.startDate,
                     "end_date": this.endDate,
@@ -101,12 +131,27 @@ export default {
                     "page_size": 10,
                     "page": 1
                 }
+            }; */
+            let newParams = this.params;
+            let finalParams = {
+                    "data": {
+                    page_size: this.paginationObj.limit,
+                    page: this.paginationObj.current,
+                    ...newParams
+                }
             };
-            const reportList = FinanceService.getReportList(params);
+
+            const reportList = FinanceService.getReportList(finalParams);
             reportList
                 .then((res) => {
                     this.reportList = res.data.items;
-                    console.log(res);
+                    this.paginationObj = {
+                        ...res.data.page,
+                        limit: res.data.page.size,
+                        total: res.data.page.item_count
+                    };
+
+                    console.log(this.paginationObj);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -114,6 +159,13 @@ export default {
                 .finally(()=> {
                     this.inProcess = false
                 })
+        },
+        onPaginationChange(event) {
+            this.paginationObj = event
+            this.getReportList();
+        },
+        refreshPage(){
+            this.getReportList();
         }
     }
 };
@@ -128,6 +180,24 @@ export default {
         display: block;
         .input-form {
             margin-top: 16px;
+        }
+    }
+
+    .heading{
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        .left-head{
+            font-size: 18px;
+            font-weight: 600;
+            color: #41434C;
+        }
+        .right-head{
+            cursor: pointer;
+            display: flex;
+            gap: 4px;
+            color: #2E31BE;
         }
     }
 

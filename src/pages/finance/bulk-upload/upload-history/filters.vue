@@ -9,13 +9,13 @@
                 @input="onFilterChange" 
             />
         </div>
-        <nitrozen-dropdown
+        <!-- <nitrozen-dropdown
             class="status-dropdown dropdown"
             :items="csvTypes"
             :label="'Status'"
             v-model="selectedCsvType"
             @change="onFilterChange"
-        />
+        /> -->
         <date-picker
             class="date-picker filter-input-dr"
             picker_type="date"
@@ -27,7 +27,7 @@
             :shortcuts="dateRangeShortcuts"
             :not_after="new Date().toISOString()"
             :useNitrozenTheme="true"
-            @input="onDateChange"
+            @input="onFilterChange"
         /> 
     </div>
 </template>
@@ -70,56 +70,40 @@ export default {
             ],
             notBefore: moment().subtract(3, 'months').toISOString(),
             searchText: '',
-            selectedCsvType: '',
-            csvTypes: [
-                {
-                    text: 'CSV',
-                    value: 'csv'
-                }
-            ]
+            /* selectedCsvType: '',
+            csvTypes: [] */
         }
     },
-    mounted() {
-       this.$emit("dates",this.uploadDateRange);
-    },
+    mounted() {},
     methods: {
-        onFilterChange: debounce(async function(input) {
-            /* let filters_obj = {
-                to_date: moment(this.uploadDateRange[1]).format('DD-MM-YYYY'),
-                from_date: moment(this.uploadDateRange[0]).format('DD-MM-YYYY')
+        onFilterChange: debounce(function(input) {
+            let filtersParam = {
+                end_date: moment(this.uploadDateRange[1]).format('DD-MM-YYYY'),
+                start_date: moment(this.uploadDateRange[0]).format('DD-MM-YYYY')
             };
-            if(this.selectedStatus.toLowerCase() === 'all') {
-                filters_obj.status = '';
-            } else {
-                filters_obj.status = this.selectedStatus;
-            }
-            if(this.searchText) filters_obj.search_key = this.searchText;
-
-            this.$emit('filterChange', filters_obj) */;
-
-            console.log(input);
-            this.$emit("querychanged", input);
+            if(this.searchText) filtersParam.search = this.searchText;
+            this.$emit("querychanged", filtersParam);
             
         }, 500),
         onDateChange: debounce(function (e) {
             this.$emit("dateschanged", e);
         }, 500),
-        getFileType() {
-        const params = {
-            "data": {
-                "table_name": "report_upload_config",
-                "filters": {
-                "listing_enabled": true
-                },
-                "project": [
-                    "id",
-                    "display_name",
-                    "preprocess",
-                    "is_gzip",
-                    "description"
-                ]
+        /* getFileType() {
+            const params = {
+                "data": {
+                    "table_name": "report_upload_config",
+                    "filters": {
+                    "listing_enabled": true
+                    },
+                    "project": [
+                        "id",
+                        "display_name",
+                        "preprocess",
+                        "is_gzip",
+                        "description"
+                    ]
+                }
             }
-        }
             
             const caller = FinanceService.getFileType(params);
             caller
@@ -139,7 +123,7 @@ export default {
                 .finally(() => {
                  // console.log("in finally") 
                 });
-        },
+        }, */
     }
 }
 </script>
@@ -153,7 +137,7 @@ export default {
     background-color: #F5F5F5;
     padding: 12px;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     column-gap: 12px;
     margin-bottom: 1rem;
     
