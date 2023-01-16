@@ -1,7 +1,8 @@
 <template>
     <div v-if="showNavigation">
+        <confirmation-popup ref="confirmationPopup" @onUpdate="onSave"></confirmation-popup>
         <transition name="slide">
-            <template >
+            <template>
                 <div class="slide-fade" ref="slide-fade">
                     <div class="container" v-click-outside="showNavigationSection">
                         <div class="header">
@@ -36,8 +37,13 @@
                                         </nitrozen-error>
                                     </div>
                                     <div class="form-item">
-                                        <div class="form-title">
-                                            Title
+                                        <div class="form-title-group">
+                                            <div class="form-title">
+                                                Title
+                                            </div>
+                                            <div class="previous-title" v-if="previousTitle">
+                                                Previously: {{ previousTitle }}
+                                            </div>
                                         </div>
                                         <nitrozen-input v-model="menuSettings.title" v-on:keyup="menuSettings.display = $event.target.value" type="text" placeholder="Give a title to the navigation item"></nitrozen-input>
                                         <nitrozen-error v-bind:class="{ visible: errors['title'] }">
@@ -123,11 +129,12 @@
                                     <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small' @click.stop="showNavigationSection"> Cancel </nitrozen-button>          
                                 </div>
                                 <div class="add-btn">
-                                    <nitrozen-button :theme="'secondary'" @click.stop="onSave"  v-flatBtn> Save </nitrozen-button>
+                                    <nitrozen-button :theme="'secondary'" @click.stop="openConfirmationPopup('Save Changes?', 'If you save the changes here, it will change the navigation panel for all the sellers.', 'Yes', 'No')"  v-flatBtn> Save </nitrozen-button>
                                 </div>
                         </div>
                     </div>
                 </div>
+                
             </template>
         </transition>
     </div>
@@ -141,6 +148,7 @@ const REQUIRED_FIELDS = [
 ];
 import { NitrozenInput, NitrozenDropdown, NitrozenCheckBox, NitrozenButton, strokeBtn, flatBtn, NitrozenError } from '@gofynd/nitrozen-vue';
 import SubMenu from './sub-menu-form.vue'
+import ConfirmationPopup from './confirmation-popup.vue';
 import { cloneDeep } from "lodash";
 import isEmpty from 'lodash/isEmpty';
 import { ImageUploaderTile, InlineSvg } from '@/components/common/';
@@ -154,13 +162,12 @@ export default {
         "nitrozen-button": NitrozenButton,
         "sub-menu": SubMenu,
         'nitrozen-error': NitrozenError,
-        'image-uploader-tile': ImageUploaderTile
+        'image-uploader-tile': ImageUploaderTile,
+        'confirmation-popup': ConfirmationPopup
     },
     directives: {
         strokeBtn,
         flatBtn
-    },
-    mounted() {
     },
     data() {
         return {
@@ -171,10 +178,12 @@ export default {
             index: null,
             isEdit: false,
             errors: {},
+            previousTitle: ''
         }
     },
     methods: {
         showNavigationSection () {
+            this.clearError()
             this.showNavigation = !this.showNavigation;
         },
         close () {
@@ -188,9 +197,20 @@ export default {
                 }
             }
         },
+        openConfirmationPopup(header, info, confirmButtonName, cancleButtonName) {
+            if(this.validateForm()) {
+                this.$refs["confirmationPopup"].open({
+                    header: header,
+                    info: info,
+                    confirmButtonName: confirmButtonName,
+                    cancleButtonName: cancleButtonName
+                });
+            }
+        },
         openSidePanel(settings) {
             settings = cloneDeep(settings)
             this.menuSettings = settings.data;
+            this.previousTitle = this.menuSettings.title
             this.type = settings.type;
             this.isEdit = settings.isEdit
             if (settings.isEdit) {
@@ -298,13 +318,23 @@ export default {
 
                 .form-item {
                     margin-top: 15px;
+                    .form-title-group {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
                     .dropdown-btn {
                         display: flex;
                         justify-content: space-between;
                         .dropdown {
                             flex: 0.90;
                         }
-                        
+                    }
+
+                    .previous-title {
+                        font-weight: 400;
+                        font-size: 12px;
+                        color:@DarkGray;
                     }
                 }
 

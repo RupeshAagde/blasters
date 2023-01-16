@@ -2,9 +2,12 @@
     <div class="company">
         <div class="company-title">
             <div class="company-menu">
-                <div  v-if="type==='application_level'">
+                <div  v-if="type==='application_level'" class="title-group">
                     <div>
                         {{ appSettings.title }}
+                    </div>
+                    <div class="previous-title" v-if="previousTitle">
+                        Previously: {{ previousTitle }}
                     </div>
                     <edit-header ref="editPopUp" :title="appSettings.title" @saveTitle="appSettings.title = $event"></edit-header>
                 </div>
@@ -76,7 +79,13 @@ export default {
     data() {
         return {
             show: true,
+            previousTitle: ''
         }
+    },
+    mounted() {
+        if (this.appSettings) 
+             this.previousTitle = this.appSettings.title;
+    
     },
     methods: {
         getSubMenu(subMenu) {
@@ -128,6 +137,17 @@ export default {
                 display: flex;
                 .title-edit .input {
                     outline: none !important;
+                }
+
+                .title-group {
+                    display: flex;
+                    flex-direction: column;
+                    .previous-title {
+                        font-weight: 400;
+                        font-size: 12px;
+                        color: @DarkGray;
+                        margin-top: 10px;
+                    }
                 }
             }
 

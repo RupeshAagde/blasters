@@ -1,8 +1,9 @@
 <template>
     <div class="container">
+        <confirmation-popup ref="confirmationPopup" @onUpdate="saveSettings(settingsObj)"></confirmation-popup>
         <div>
             <page-header title="Seller Navigation" @backClick="$router.push({ name: 'settings' })">
-                <nitrozen-button ref="save-settings"  v-flatBtn theme="secondary" @click.stop="saveSettings(settingsObj)"> Save </nitrozen-button>
+                <nitrozen-button ref="save-settings"  v-flatBtn theme="secondary" @click.stop="openConfirmationPopup('Save Changes?', 'If you save the changes here, it will change the navigation panel for all the sellers.', 'Yes', 'No')"> Save </nitrozen-button>
             </page-header>
         </div>
         <loader class="loading" v-if="isLoading"></loader>
@@ -57,6 +58,7 @@ import SalesChannelSetting from '@/components/settings/navigation/sales-channel-
 import PreviewSetting from '@/components/settings/navigation/preview-settings.vue';
 import OtherSellers from '@/components/settings/navigation/other-sellers.vue';
 import footerContentVue from '@/components/settings/navigation/footer-content.vue';
+import ConfirmationPopup from '@/components/settings/navigation/confirmation-popup.vue'
 import sidePanelVue from '@/components/settings/navigation/side-panel.vue';
 import SellerPanleService from '@/services/seller-panel.service.js';
 import loader from '@/components/common/loader';
@@ -79,6 +81,7 @@ export default {
         'footer-content': footerContentVue,
         'side-panel': sidePanelVue,
         'preview-setting': PreviewSetting,
+        'confirmation-popup': ConfirmationPopup,
         loader
     },
     mounted() {
@@ -109,7 +112,14 @@ export default {
                 this.$refs['sidePanel'].openSidePanel({ data: payload.data, isEdit: false, type: payload.type, permissions: this.permissionObj })
             }
         },
-
+        openConfirmationPopup(header, info, confirmButtonName, cancleButtonName) {
+            this.$refs["confirmationPopup"].open({
+                header: header,
+                info: info,
+                confirmButtonName: confirmButtonName,
+                cancleButtonName: cancleButtonName
+            });
+        },
         saveSettings(payload) {
             this.isLoading = true;
             SellerPanleService.savePanelSettings(payload).then(()=>{

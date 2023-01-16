@@ -8,7 +8,7 @@
                 Create a sub menu under current navigation item
             </div>
         </div>
-
+        <confirmation-popup ref="confirmationPopup" @onUpdate="onDeleteMenu()"></confirmation-popup>
         <draggable :list="subMenu" v-model="subMenu">
                 <transition-group>
                     <div class="sub-menu" v-for="(item, index) in subMenu" :key="index" >
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="icon-grp">
-                                <div class="item-dlt" @click="onDeleteMenu(index)">
+                                <div class="item-dlt"  @click="openConfirmationPopup('Are you sure?', `If you delete “${item.title}” , the seller won’t be able to access it anymore.`, 'Yes, delete', 'No', index)">
                                     <inline-svg :src="'delete'" class="icon"></inline-svg>
                                 </div>
                                 <div class="arrow" @click="toggleMenu(index)">
@@ -42,8 +42,10 @@
 
                         <div class="sub-menu-input" v-if="toggleSubMenu[index]">
                             <div class="form-item">
-                                <div class="form-title">
-                                    Title
+                                <div class="form-title-group">
+                                    <div class="form-title">
+                                        Title
+                                    </div>
                                 </div>
 
                                 <nitrozen-input v-model="item.title" v-on:keyup="item.display = $event.target.value"  type="text" placeholder="Give a title to the sub item"></nitrozen-input>
@@ -115,6 +117,7 @@
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import { NitrozenInput, NitrozenCheckBox, NitrozenButton, NitrozenError} from '@gofynd/nitrozen-vue';
 import draggable from 'vuedraggable';
+import ConfirmationPopup from './confirmation-popup.vue';
 import isEmpty from 'lodash/isEmpty';
 
 const REQUIRED_FIELDS = [
@@ -131,7 +134,8 @@ export default {
         "nitrozen-checkbox": NitrozenCheckBox,
         "nitrozen-button": NitrozenButton,
         'nitrozen-error': NitrozenError,
-        draggable
+        draggable,
+        'confirmation-popup': ConfirmationPopup
     },
     mounted() {
         this.subMenu = this.menuSettings
@@ -142,7 +146,8 @@ export default {
             subMenu : null,
             selectedMenuIndex: -1,
             errors: [],
-            toggleSubMenu: []
+            toggleSubMenu: [],
+            deleteIndex: -1
         }
     },
     methods: {
@@ -167,10 +172,19 @@ export default {
                 link: ''
             })
         },
-        onDeleteMenu(index) {
-            this.subMenu.splice(index, 1)
-            this.errors.splice(index, 1)
-            this.toggleSubMenu.splice(index, 1)
+        openConfirmationPopup(header, info, confirmButtonName, cancleButtonName, deleteIndex) {
+                this.deleteIndex = deleteIndex;
+                this.$refs["confirmationPopup"].open({
+                    header: header,
+                    info: info,
+                    confirmButtonName: confirmButtonName,
+                    cancleButtonName: cancleButtonName
+                });
+        },
+        onDeleteMenu() {
+            this.subMenu.splice(this.deleteIndex, 1)
+            this.errors.splice(this.deleteIndex, 1)
+            this.toggleSubMenu.splice(this.deleteIndex, 1)
         },
         validateRequiredFormFields() {
             let value = '';
@@ -222,7 +236,7 @@ export default {
 
 
 <style lang="less" scoped>
-    .sub-item-form {
+    .sub-item-form {    
         .sub-menu-title {
             display: flex;
             flex-direction: column;

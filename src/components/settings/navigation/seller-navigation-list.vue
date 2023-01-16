@@ -1,5 +1,6 @@
 <template>
         <div class="company-list">
+        <confirmation-popup ref="confirmationPopup" @onUpdate="$emit('delete-menu')"></confirmation-popup>
             <div class="company-group"> 
                 <div class="group1">
                     <div class="drag-icon">
@@ -24,7 +25,7 @@
                     <div class="company-edit" @click.stop="$emit('seller-panel-show')" >
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
-                    <div @click.stop="$emit('delete-menu')">
+                    <div @click.stop="openConfirmationPopup('Are you sure?', `If you delete “${name}” , the seller won’t be able to access it anymore.`, 'Yes, delete', 'No')">
                         <inline-svg :src="'delete'"  class="icon"></inline-svg>
                     </div>
                 </div>
@@ -40,12 +41,14 @@ import {
     NitrozenToggleBtn
 } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
+import ConfirmationPopup from './confirmation-popup.vue';
 export default {
     name: 'seller-navigation-list',
     props: ['name', 'subMenu', 'icon'],
     components: {
         'inline-svg': inlineSvgVue,
         'nitrozen-toggle-btn': NitrozenToggleBtn,
+        'confirmation-popup': ConfirmationPopup
     },
     mounted() {
        
@@ -74,6 +77,14 @@ export default {
                 subMenuTitle = subMenuTitle + (more > 0 ? '+' + more + ' More' : '')
                 return subMenuTitle
             }
+        },
+        openConfirmationPopup(header, info, confirmButtonName, cancleButtonName) {
+                this.$refs["confirmationPopup"].open({
+                    header: header,
+                    info: info,
+                    confirmButtonName: confirmButtonName,
+                    cancleButtonName: cancleButtonName
+                });
         }
     }
 }
