@@ -37,7 +37,7 @@ describe('Finance', () => {
             }]
         });
         router.push('/administrator/finance/bulk-upload/upload-history');
-        wrapper = shallowMount(UploadHistory, {
+        wrapper = mount(UploadHistory, {
             localVue,
             router,
             

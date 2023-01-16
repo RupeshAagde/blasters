@@ -3,6 +3,7 @@
         <div class="inside-date-picker">
             <nitrozen-input
                 id="searchbox"
+                ref="searchbox"
                 placeholder="Search by title"
                 v-model="searchText"
                 type="search"

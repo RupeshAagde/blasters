@@ -68,6 +68,4 @@ export NEW_RELIC_LICENSE_KEY=''
 export CDN_ITEM_BASE_PATH=https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/
 export OLD_CDN_BASE_URLS=hdn-1.addsale.com
 
-# npm run test -- -u
-
-npm run test src/__tests__/unit/component/pages/finance/upload-portal/upload-history/list-cards.spec.js
+npm run test -- -u

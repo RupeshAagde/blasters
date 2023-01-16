@@ -43,7 +43,7 @@ describe('Finance', () => {
         });
         router.push('/administrator/finance/bulk-upload/upload-history');
         jest.useFakeTimers();
-        wrapper = shallowMount(Filters, {
+        wrapper = mount(Filters, {
             localVue,
             router,
             
@@ -69,7 +69,7 @@ describe('Finance', () => {
         let closeBtn = jest.spyOn(wrapper.vm, 'onFilterChange');
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        const searchFun = wrapper.find('#searchbox');
+        const searchFun = wrapper.findComponent({ref: 'searchbox'});
         searchFun.vm.$emit('input' ,'COD');
         jest.advanceTimersByTime(500);
         await wrapper.vm.$forceUpdate();

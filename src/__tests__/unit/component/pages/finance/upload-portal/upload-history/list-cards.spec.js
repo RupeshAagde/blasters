@@ -28,14 +28,14 @@ describe('Finance', () => {
             }]
         });
         router.push('/administrator/finance/bulk-upload/upload-history');
-        wrapper = shallowMount(ListCards, {
+        wrapper = mount(ListCards, {
             localVue,
             router,
             propsData: { 
-                data: mocks.getListCards.items[0] 
+                data: mocks.getListCards.items[0]
             },
             computed: {
-                badgeState(){
+                badgeState() {
                     return 'success'
                 },
             }
