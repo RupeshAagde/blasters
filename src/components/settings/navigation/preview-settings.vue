@@ -153,6 +153,8 @@ export default {
                         font-weight: 400;
                         font-size: 12px;
                         color: @Mako;
+                        word-break: break-all;
+                        padding-right: 24px;
                     }
 
                 }
