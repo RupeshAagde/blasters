@@ -135,6 +135,7 @@
               >Cancel</nitrozen-button>
               <nitrozen-button
               class="confirm-btn"
+              id="confirm-btn"
               :theme="'secondary'"
               v-flatBtn
               @click="confirmValidation"
@@ -468,9 +469,9 @@ export default {
                 })
                 .finally(() => {
 
-                  setTimeout(() => {
-                      this.getValidatedFileInfo();
-                  }, 500)
+                setTimeout(() => {
+                    this.getValidatedFileInfo();
+                }, 500)
 
                     
                 });  

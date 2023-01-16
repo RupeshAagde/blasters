@@ -154,5 +154,50 @@
             },
             "presigned_url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/csv/d9987e2f-d3f2-4040-a751-2175c661de22/1673851628.564773_test-cod.csv.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230116%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230116T064708Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=db49d7ea374d998c0576df29082a4d19225324ce007e3e95f5190c1911497041"
         }
+    },
+    "validatedFile":{
+        "success": true,
+        "data": {
+            "report_upload_id": "d9987e2f-d3f2-4040-a751-2175c661de22",
+            "status": "PreProcess",
+            "json": {
+                "headers": [
+                    "RazorpayX Account Number",
+                    "Company Id",
+                    "Company Name",
+                    "Payout Amount",
+                    "Payout Purpose",
+                    "Fund Account Id",
+                    "Payout Narration",
+                    "Store Type"
+                ],
+                "rows": [
+                    [
+                        "78995566",
+                        "4",
+                        "SSIPL LIFESTYLE PRIVATE LIMITED",
+                        456.6,
+                        "Brand Payment",
+                        "890556",
+                        0,
+                        "Brand"
+                    ]
+                ]
+            },
+            "total": 1,
+            "summary": [
+                {
+                    "Payout Amount sum": 456.6
+                }
+            ]
+        }
+    },
+    "confirmValidation":{
+        "success": true,
+        "data": {
+            "reason": "We are processing report!",
+            "status": "In Process",
+            "report_upload_id": "a9267955-ab02-4eaf-b6f6-f262d80d9196"
+        }
     }
 }

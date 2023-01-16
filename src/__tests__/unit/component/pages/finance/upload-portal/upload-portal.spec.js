@@ -46,9 +46,10 @@ describe('Finance', () => {
         });
         mock.onPost(DOMAIN_URLS.GET_FILE_TYPE()).reply(200, mocks.getFileType);
         mock.onPost(DOMAIN_URLS.GET_DOWNLOAD_FORMAT()).reply(200, mocks.downloadData);
-        mock.onPost(DOMAIN_URLS.GET_PRESIGNED_URL()).reply(200, mocks.downloadData);
-        // mock.onPost(DOMAIN_URLS.GET_REPORT()).reply(200, mocks.downloadedReports);
-        // mock.onPost(DOMAIN_URLS.GENERATE_REPORT()).reply(200, mocks.generateReportDetails);
+        mock.onPost(DOMAIN_URLS.GET_PRESIGNED_URL()).reply(200, mocks.getPresigned);
+        mock.onPost(DOMAIN_URLS.GET_UPLOAD_URL()).reply(200, mocks.validatedFile);
+        mock.onPost(DOMAIN_URLS.GET_UPLOAD_URL()).reply(200, mocks.confirmValidation);
+
         await flushPromises();
     });
 
@@ -219,7 +220,7 @@ describe('Finance', () => {
 
     // });
 
-    it('Show Validation Screen', async() => {
+    it('Calling Presigned URL', async() => {
 
         await flushPromises();
 
@@ -234,6 +235,50 @@ describe('Finance', () => {
         expect(callPresigned).toHaveBeenCalled();
     
     });
+
+    it('On clicking confirm button', async() => {
+
+        await flushPromises();
+
+        let confirmValidation = jest.spyOn(wrapper.vm, 'confirmValidation');
+        wrapper.setData({
+            validationCompleted: true,
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const downloadBtn = wrapper.find('#confirm-btn');
+
+        console.log(downloadBtn);
+
+        downloadBtn.vm.$emit("click");
+
+        await wrapper.vm.$nextTick();
+
+        expect(confirmValidation).toHaveBeenCalled();
+
+    
+    });
+
+    it('Showing Validation Screen', async() => {
+
+        await flushPromises();
+
+        wrapper.vm.getValidatedFileInfo();
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        // mocks.validatedFile.
+
+        expect(wrapper.vm.startLoader).toBe(false);
+
+        // expect(wrapper.vm.fileUploading).toBe(false);
+        // expect(wrapper.vm.isUploaded).toBe(true);
+        // expect(callPresigned).toHaveBeenCalled();
+    
+    });
+    // getValidatedFileInfo
 
     
 })
