@@ -2,6 +2,7 @@
     <div class="filters-container">
         <div class="inside-date-picker">
             <nitrozen-input
+                id="searchbox"
                 placeholder="Search by title"
                 v-model="searchText"
                 type="search"
@@ -84,62 +85,48 @@ export default {
     },
     methods: {
         onFilterChange: debounce(async function(input) {
-            /* let filters_obj = {
-                to_date: moment(this.uploadDateRange[1]).format('DD-MM-YYYY'),
-                from_date: moment(this.uploadDateRange[0]).format('DD-MM-YYYY')
-            };
-            if(this.selectedStatus.toLowerCase() === 'all') {
-                filters_obj.status = '';
-            } else {
-                filters_obj.status = this.selectedStatus;
-            }
-            if(this.searchText) filters_obj.search_key = this.searchText;
-
-            this.$emit('filterChange', filters_obj) */;
-
-            console.log(input);
             this.$emit("querychanged", input);
             
         }, 500),
         onDateChange: debounce(function (e) {
             this.$emit("dateschanged", e);
         }, 500),
-        getFileType() {
-        const params = {
-            "data": {
-                "table_name": "report_upload_config",
-                "filters": {
-                "listing_enabled": true
-                },
-                "project": [
-                    "id",
-                    "display_name",
-                    "preprocess",
-                    "is_gzip",
-                    "description"
-                ]
-            }
-        }
+        // getFileType() {
+        // const params = {
+        //     "data": {
+        //         "table_name": "report_upload_config",
+        //         "filters": {
+        //         "listing_enabled": true
+        //         },
+        //         "project": [
+        //             "id",
+        //             "display_name",
+        //             "preprocess",
+        //             "is_gzip",
+        //             "description"
+        //         ]
+        //     }
+        // }
             
-            const caller = FinanceService.getFileType(params);
-            caller
-                .then(( res ) => {
-                    this.csvTypes = res.data.items.map((item) => {
-                        return {
-                            text: item.display_name,
-                            value: item.id,
-                        };
-                    });
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
-                })
-                .finally(() => {
-                 // console.log("in finally") 
-                });
-        },
+        //     const caller = FinanceService.getFileType(params);
+        //     caller
+        //         .then(( res ) => {
+        //             this.csvTypes = res.data.items.map((item) => {
+        //                 return {
+        //                     text: item.display_name,
+        //                     value: item.id,
+        //                 };
+        //             });
+        //         })
+        //         .catch((err) => {
+        //             this.$snackbar.global.showError(
+        //                 `Failed`
+        //             );
+        //         })
+        //         .finally(() => {
+        //          // console.log("in finally") 
+        //         });
+        // },
     }
 }
 </script>

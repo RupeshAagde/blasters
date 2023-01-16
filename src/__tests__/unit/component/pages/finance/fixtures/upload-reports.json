@@ -102,7 +102,57 @@
             "url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/csv/cod_payouts.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230110%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230110T094109Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4240f20698cf80a4905db1d456b28b65a569a7a8760b5a5a2f736bb661c64c13"
         }
     },
-    "file":{
-        
+    "getListCards":{
+        "items": [
+            {
+                "id": "5af3a6a8-a6a4-49b0-8dc9-40b2d888743d",
+                "name": "COD Payouts",
+                "created_by": "opheliatrelawney_gofynd_com_71106",
+                "created_at": "2023-01-13 23:50:09",
+                "status": "Complete",
+                "reason": "Processing Complete",
+                "source": "s3"
+            },
+            {
+                "id": "84482730-d674-4bb3-be9c-6ac22a0e88fc",
+                "name": "Verify Invoice",
+                "created_by": "opheliatrelawney_gofynd_com_71106",
+                "created_at": "2023-01-13 21:54:33",
+                "status": "Complete",
+                "reason": "Processing Complete",
+                "source": "s3"
+            },
+            {
+                "id": "26c7a0aa-18e1-4f2d-9a1c-e1ea6f2f0ddd",
+                "name": "COD Payouts",
+                "created_by": "opheliatrelawney_gofynd_com_71106",
+                "created_at": "2023-01-13 21:46:51",
+                "status": "Complete",
+                "reason": "Processing Complete",
+                "source": "s3"
+            }
+        ],
+        "item_count": 3,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 3
+        }
+    },
+    "getPresigned":{
+        "data": {
+            "url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/",
+            "fields": {
+                "key": "csv/d9987e2f-d3f2-4040-a751-2175c661de22/1673851628.564773_test-cod.csv.gz",
+                "x-amz-algorithm": "AWS4-HMAC-SHA256",
+                "x-amz-credential": "AKIAJUADR2WMPQT6ZJ2Q/20230116/us-east-2/s3/aws4_request",
+                "x-amz-date": "20230116T064708Z",
+                "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMDEtMTdUMDY6NDc6MDhaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiZGF5dHJhZGVyLXJlcG9ydGluZy1kYXRhLXByZSJ9LCB7ImtleSI6ICJjc3YvZDk5ODdlMmYtZDNmMi00MDQwLWE3NTEtMjE3NWM2NjFkZTIyLzE2NzM4NTE2MjguNTY0NzczX3Rlc3QtY29kLmNzdi5neiJ9LCB7IngtYW16LWFsZ29yaXRobSI6ICJBV1M0LUhNQUMtU0hBMjU2In0sIHsieC1hbXotY3JlZGVudGlhbCI6ICJBS0lBSlVBRFIyV01QUVQ2WkoyUS8yMDIzMDExNi91cy1lYXN0LTIvczMvYXdzNF9yZXF1ZXN0In0sIHsieC1hbXotZGF0ZSI6ICIyMDIzMDExNlQwNjQ3MDhaIn1dfQ==",
+                "x-amz-signature": "7d8cad821e87a25221914e5bb272036ea1024727eaab57e22a482b96778c901f"
+            },
+            "presigned_url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/csv/d9987e2f-d3f2-4040-a751-2175c661de22/1673851628.564773_test-cod.csv.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230116%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230116T064708Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=db49d7ea374d998c0576df29082a4d19225324ce007e3e95f5190c1911497041"
+        }
     }
 }

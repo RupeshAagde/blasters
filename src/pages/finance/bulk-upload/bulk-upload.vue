@@ -127,6 +127,7 @@
           </div>
           <div class="right-content" v-if="validationCompleted">
             <nitrozen-button
+              id="cancel-btn"
               class="cancel-btn"
               :theme="'secondary'"
               v-strokeBtn
@@ -378,9 +379,6 @@ export default {
         },
 
         onFileUpload(event) {
-
-          console.log(event);
-
           this.fileUploading = true;
           this.fileSelected = true;
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];

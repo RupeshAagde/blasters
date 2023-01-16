@@ -46,6 +46,7 @@ describe('Finance', () => {
         });
         mock.onPost(DOMAIN_URLS.GET_FILE_TYPE()).reply(200, mocks.getFileType);
         mock.onPost(DOMAIN_URLS.GET_DOWNLOAD_FORMAT()).reply(200, mocks.downloadData);
+        mock.onPost(DOMAIN_URLS.GET_PRESIGNED_URL()).reply(200, mocks.downloadData);
         // mock.onPost(DOMAIN_URLS.GET_REPORT()).reply(200, mocks.downloadedReports);
         // mock.onPost(DOMAIN_URLS.GENERATE_REPORT()).reply(200, mocks.generateReportDetails);
         await flushPromises();
@@ -97,6 +98,8 @@ describe('Finance', () => {
         await flushPromises();
 
         let uploadBtn = jest.spyOn(wrapper.vm, 'onUploadClick');
+        let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+
         wrapper.setData({
             toggleUpload: true,
         });
@@ -127,14 +130,14 @@ describe('Finance', () => {
 
         await flushPromises();
 
-        let uploadClick = jest.spyOn(wrapper.vm, 'cancelValidation');
         wrapper.setData({
             validationCompleted: true,
         });
+      
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const cancelBtn = wrapper.find('.cancel-btn');
+        const cancelBtn = wrapper.find('#cancel-btn');
         cancelBtn.vm.$emit("click");
 
         await wrapper.vm.$nextTick();
@@ -143,6 +146,93 @@ describe('Finance', () => {
         expect(wrapper.vm.toggleUpload).toBe(true); 
         expect(wrapper.vm.fileSelected).toBe(false);
 
+    });
+
+    it('Open Learn here component', async() => {
+
+        await flushPromises();
+
+        let uploadClick = jest.spyOn(wrapper.vm, 'handleOpenDrawer');
+        wrapper.setData({
+            validationCompleted: true,
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const cancelBtn = wrapper.find('.desc-link');
+        cancelBtn.trigger("click");
+
+        await wrapper.vm.$nextTick();
+
+        expect(uploadClick).toHaveBeenCalled();
+
+    });
+
+    it('Process uploaded file', async() => {
+        wrapper.vm.onFileUpload({target:{files:[{size: 20971, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+        expect(wrapper.vm.fileDetails.fileName).toBeDefined();
+
+    });
+
+    it('When the file size is 0', async() => {
+        let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+        wrapper.vm.onFileUpload({target:{files:[{size: 0, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+        expect(showErrorMethod).toHaveBeenCalled();
+
+    });
+
+    it('When the file size is greater than 500000', async() => {
+        let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+        wrapper.vm.onFileUpload({target:{files:[{size: 100000000, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+        expect(showErrorMethod).toHaveBeenCalled();
+
+    });
+    // it('Show Validation Screen', async() => {
+
+    //     jest.useFakeTimers();
+    //     // jest.spyOn(global, 'setInterval');
+
+    //     await flushPromises();
+
+    //     let uploadBtn = jest.spyOn(wrapper.vm, 'showValidateScreen');
+
+    //     wrapper.setData({
+    //         width: 100,
+    //     });
+
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+        
+    //     wrapper.vm.onFileUpload({target:{files:[{size: 100000000, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+
+    //     jest.clearAllTimers()
+
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
+
+    //     console.log(uploadBtn);
+        
+    //     expect(uploadBtn).toHaveBeenCalled();
+
+    // });
+
+    it('Show Validation Screen', async() => {
+
+        await flushPromises();
+
+        let callPresigned = jest.spyOn(wrapper.vm, 'getPreSignedUrl');
+        wrapper.vm.showValidateScreen();
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.vm.fileUploading).toBe(false);
+        expect(wrapper.vm.isUploaded).toBe(true);
+        expect(callPresigned).toHaveBeenCalled();
+    
     });
 
     
