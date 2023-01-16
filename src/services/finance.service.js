@@ -1,7 +1,7 @@
 import ApiService from './api.service';
 import URLS from './domain.service';
 import ADMIN_URLS from './admin-url.service';
-import {getFormDataHeaders, getCommonHeaderOptions } from '@/services/utils.service';
+import { getCommonHeaderOptions } from '@/services/utils.service';
 
 const FinanceService = {
    getFileType(data) {
@@ -18,7 +18,7 @@ const FinanceService = {
  },
 
    uploadToS3(url,data) {
-        let axiosOption = Object.assign({}, { data }, getFormDataHeaders());
+        let axiosOption = Object.assign({}, { data });
         console.log(axiosOption);
         return ApiService.post(url, axiosOption, {
          withCredentials: true,
