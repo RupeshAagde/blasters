@@ -85,9 +85,9 @@ export default {
             this.$emit("querychanged", filtersParam);
             
         }, 500),
-        onDateChange: debounce(function (e) {
+        /* onDateChange: debounce(function (e) {
             this.$emit("dateschanged", e);
-        }, 500),
+        }, 500), */
         /* getFileType() {
             const params = {
                 "data": {

@@ -107,7 +107,7 @@ export default {
         this.getReportList();
     },
     methods: {
-        setDates(data){
+        /* setDates(data){
             this.startDate =  moment(data[0]).format('DD-MM-YYYY');
             this.endDate = moment(data[1]).format('DD-MM-YYYY');
         },
@@ -115,10 +115,9 @@ export default {
             console.log(e);
             this.setDates(e);
             this.getReportList();
-        },
+        }, */
         queryChanged(input){
             this.params = input;
-            console.log(input);
             //this.query = input;
             this.getReportList();
         },
@@ -150,11 +149,11 @@ export default {
                         limit: res.data.page.size,
                         total: res.data.page.item_count
                     };
-
-                    console.log(this.paginationObj);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    this.$snackbar.global.showError(
+                        `Something Went Wrong with Reports list`
+                    );
                 })
                 .finally(()=> {
                     this.inProcess = false
