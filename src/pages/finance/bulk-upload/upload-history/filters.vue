@@ -72,15 +72,16 @@ export default {
             searchText: '',
             selectedCsvType: '',
             csvTypes: [
-                {
+/*                 {
                     text: 'CSV',
                     value: 'csv'
-                }
+                } */
             ]
         }
     },
     mounted() {
        this.$emit("dates",this.uploadDateRange);
+       this.getFileType();
     },
     methods: {
         // loadData() {
@@ -103,21 +104,21 @@ export default {
         }, 500),
 
         getFileType() {
-        const params = {
-            "data": {
-                "table_name": "report_upload_config",
-                "filters": {
-                "listing_enabled": true
-                },
-                "project": [
-                    "id",
-                    "display_name",
-                    "preprocess",
-                    "is_gzip",
-                    "description"
-                ]
+            const params = {
+                "data": {
+                    "table_name": "report_upload_config",
+                    "filters": {
+                    "listing_enabled": true
+                    },
+                    "project": [
+                        "id",
+                        "display_name",
+                        "preprocess",
+                        "is_gzip",
+                        "description"
+                    ]
+                }
             }
-        }
             
             const caller = FinanceService.getFileType(params);
             caller

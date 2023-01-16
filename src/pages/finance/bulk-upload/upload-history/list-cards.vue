@@ -4,11 +4,11 @@
         <div class="left-section">
             <div class="type-logo-container">
                 <img :src="'/assets/admin/pngs/csv_icon.png'" class="type-logo" />
-                <!-- <no-content
-                class="type-logo"
-                :icon="'/assets/admin/pngs/csv_icon.png'"
-                :helperText="''"
-            /> -->
+                <no-content
+                    class="type-logo"
+                    :icon="'/assets/admin/pngs/csv_icon.png'"
+                    :helperText="''"
+                />
             </div>
             <div class="invoice-info">
                 <p class="title">{{ reportData.name }}</p>
