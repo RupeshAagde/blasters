@@ -78,6 +78,7 @@ export default {
     mounted() {},
     methods: {
         onFilterChange: debounce(function(input) {
+            console.log(this.uploadDateRange);
             let filtersParam = {
                 end_date: moment(this.uploadDateRange[1]).format('DD-MM-YYYY'),
                 start_date: moment(this.uploadDateRange[0]).format('DD-MM-YYYY')
