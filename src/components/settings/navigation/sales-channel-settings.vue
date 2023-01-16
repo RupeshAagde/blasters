@@ -85,15 +85,14 @@ export default {
     mounted() {
         if (this.appSettings) 
              this.previousTitle = this.appSettings.title;
-    
     },
     methods: {
         getSubMenu(subMenu) {
-            let subMenuStr = ''
+            let subMenuArr = []
             for (let index = 0; index < subMenu.length; index++) {
-               subMenuStr = subMenuStr + subMenu[index].title  + ", " 
+                subMenuArr.push(subMenu[index].title)
             }
-            return subMenuStr
+            return subMenuArr
         },
         toggleMenu() {
             this.show = !this.show

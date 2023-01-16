@@ -55,28 +55,19 @@ export default {
     },
     methods: {
         modifySubMenuTitle () {
-           let subMenuTitle = this.subMenu
-            if (subMenuTitle.length < 49) {
-                subMenuTitle = subMenuTitle.slice(0,-2)
-                return subMenuTitle;
-            }    
-            else {
-                subMenuTitle = subMenuTitle.split(',')
-                subMenuTitle.pop()
-                let str = ''
-                let more = 0
-                for (let index = 0; index < subMenuTitle.length; index++) {
-                    str = str + subMenuTitle[index] + ','
-                    more = subMenuTitle.length - index - 1;
-                    if (str.length > 49) {
-                        break;
+           let subMenuTitle = ''
+           for (let index = 0; index < this.subMenu.length; index++) {
+                let menuStr = this.subMenu[index];
+                for (let menuIndex = 0; menuIndex < menuStr.length; menuIndex++) {
+                    subMenuTitle = subMenuTitle + menuStr[menuIndex]
+                    if (subMenuTitle.length > 49) {
+                        return subMenuTitle + (this.subMenu.length - index - 1 > 0 ? ` ...+${this.subMenu.length - index - 1} More` : '')
                     }
                 }
-                str = str.slice(0,-1)
-                subMenuTitle = str + (more > 0 ? "..." : "")
-                subMenuTitle = subMenuTitle + (more > 0 ? '+' + more + ' More' : '')
-                return subMenuTitle
-            }
+                if (index + 1 !== this.subMenu.length ) 
+                        subMenuTitle = subMenuTitle + ', ';
+           }
+           return subMenuTitle
         },
         openConfirmationPopup(header, info, confirmButtonName, cancleButtonName) {
                 this.$refs["confirmationPopup"].open({

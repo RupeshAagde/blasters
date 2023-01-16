@@ -1,6 +1,7 @@
 <template>
         <div class="company-title">
-            <div class="company-menu">
+            <div>
+                <div class="company-menu">
                     <div class="company-name">
                         {{ settings.title }}
                     </div>
@@ -8,6 +9,11 @@
                     <div class="company-edit" @click="editHeader">
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
+
+                </div>
+                <div class="previous-title" v-if="previousTitle">
+                            Previously: {{ previousTitle }}
+                </div>
             </div>
             <div class="grp-btn-close">
                 <div class="add-menu-btn">
@@ -39,6 +45,15 @@ export default {
         'nitrozen-toggle-btn': NitrozenToggleBtn,
         'seller-navigation-list': SellerNavigationList,
         'edit-header': EditHeader, 
+    },
+    mounted() {
+        if (this.settings) 
+             this.previousTitle = this.settings.title;
+    },
+    data() {
+        return {
+            previousTitle: ''
+        }
     },
     methods: {
         editHeader() {
@@ -73,6 +88,12 @@ export default {
 
         }
 
+        .previous-title {
+            font-weight: 400;
+            font-size: 12px;
+            color: @DarkGray;
+            margin-top: 10px;
+        }
         .company-edit {
             margin-left: 15px;
         }
