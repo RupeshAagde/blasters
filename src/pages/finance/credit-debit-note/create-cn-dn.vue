@@ -65,6 +65,9 @@
                     </div>
                 </div>
             </mirage-alert>
+
+            <div class="top-wrap">
+
             <div class="first">
                 <!-- Note Type -->
                 <label class="label">{{dropdownLabel}}</label>
@@ -79,6 +82,23 @@
                         @searchInputChange="changeNoteType($event)"
                     ></nitrozen-dropdown>
                 <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error>
+            </div>
+
+            <div class="date-picker-wrap">
+                    <date-picker
+                        class="date-picker filter-input-dr"
+                        picker_type="date"
+                        label="Select Date"
+                        date_format="MMM Do, YY"
+                        v-model="uploadDateRange"
+                        :clearable="false"
+                        :not_before="notBefore"
+                        :not_after="new Date().toISOString()"
+                        :useNitrozenTheme="true"
+                        @input="onFilterChange"
+                    /> 
+            </div>
+
             </div>
             
             <div class="commercial-cn" v-show="selectedType === 'commercial'">
@@ -465,6 +485,7 @@
     import { GET_USER_INFO } from '@/store/getters.type';
     import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
     import loader from '@/components/common/loader';
+    import DatePicker from '@/components/common/date-picker.vue';
     import moment from 'moment';
     import {
         NitrozenInput,
@@ -508,6 +529,7 @@
             MirageAlert,
             NitrozenInline,
             'adm-inline-svg': admInlineSVG,
+            'date-picker':DatePicker,
             loader
         },
         directives: {
@@ -522,6 +544,9 @@
         data() {
             return {
                 disableShipmentInput : false,
+                uploadDateRange: moment().toISOString(),
+                notBefore: moment().startOf('month').toISOString(),
+                selectedDate:moment().format('YYYY-MM-DD hh:mm:ss'),
                 drawerData: {
                     status: '',
                     notesSet:{}
@@ -635,6 +660,7 @@
         },
 
         mounted() {
+            // this.dateRange();
             this.getNoteType();
             this.getCommercialFeeType();
             if(this.noteType === 'credit'){
@@ -663,6 +689,17 @@
         },
 
         methods: {
+            onFilterChange(e){
+                this.selectedDate = moment(e).format('YYYY-MM-DD hh:mm:ss');
+                
+            },
+            dateRange(){
+                var firstDay = moment().startOf('month');
+                var endDay = moment().endOf('month');
+
+                var monthRange = moment.range(firstDay, endDay)
+
+            },
             isEmpty,
             omit_special_char(e) {
                 let keyCode = e.keyCode ? e.keyCode : e.which;
@@ -1217,6 +1254,7 @@
                                 "status" : "Init",
                                 "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
                                 "is_active" : true,
+                                "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : [
                                     {
@@ -1257,6 +1295,7 @@
                                 "status" : "Init",
                                 "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
                                 "is_active" : true,
+                                "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : [
                                     {
@@ -1385,6 +1424,7 @@
                                 "note_type": this.noteType === 'credit' ? 'Credit': 'Debit',
                                 "category": this.selectedType,
                                 "invoice_number": this.invoiceNumber.value,
+                                "issued_at" : this.selectedDate,
                                 "invoice_type": "service",
                                 "total_amount": total_amount.toFixed(2),
                                 "purpose_id": this.noteDetails[0].purpose_id,
@@ -1416,6 +1456,7 @@
                                 "purpose_id": this.noteDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_acive": true,
                                 "order_id": this.noteDetails[0].order_id,
                                 "ordering_channel": this.noteDetails[0].ordering_channel,
@@ -1456,6 +1497,7 @@
                                 "purpose_id": this.feeInvoiceDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_active": true,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : this.feeInvoiceDetails 
@@ -1482,6 +1524,7 @@
                                 "purpose_id": this.noteDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_acive": true,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : this.noteDetails
@@ -1910,13 +1953,26 @@
     //scroll-behavior: smooth;
     overflow-y: scroll;
     position: absolute;
-    .first::after {
-        content: " ";
-        display: block;
-        border: 1px solid #F2F2F2;
+    .top-wrap{
+        display: flex;
+        border-bottom : 1px solid #F2F2F2;
         margin-top: 20px;
+        padding-bottom: 20px;
         margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+        
+        .vue-date-picker {
+            width: 349px;
+        }
+        .mx-datepicker{
+            height: 40px;
+            width: 349px;
+        }
     }
+
+    
 
     .second::after {
         content: " ";
