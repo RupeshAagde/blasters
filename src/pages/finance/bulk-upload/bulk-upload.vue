@@ -240,6 +240,7 @@ export default {
       toggleUpload: true,
       fileSelected:false,
       fileUploading:true,
+      maxDisplay:20,
       intervalId:'',
       width:0,
       isUploaded:false,
@@ -524,7 +525,10 @@ export default {
 
 
           this.tableData.headers = dataVal.json.headers;
-          this.tableData.items = dataVal.json.rows;
+          this.tableData.items = (dataVal.json.rows.length > this.maxDisplay) ? dataVal.json.rows.slice(0,this.maxDisplay) : dataVal.json.rows;
+
+          console.log(this.tableData.items);
+          
 
         },
 
