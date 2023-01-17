@@ -5,6 +5,7 @@
                 <nitrozen-input
                     :showSearchIcon="true"
                     class="search filter-input-lg"
+                    ref="search-bar"
                     type="search"
                     :placeholder="`Search by ${searchPlaceholder}`"
                     v-model="search"
@@ -22,6 +23,7 @@
                 >
                 </nitrozen-dropdown>
                 <nitrozen-dropdown
+                    id="note-type-dd"
                     class="filter-type filter-input-sm"
                     :items="modifiedNoteItems"
                     :searchable="true"
@@ -57,6 +59,7 @@
             <div class="cn-buttons" v-if="isApprover">   <!-- //////// UPCOMING CHANGES //////////// -->
                     <nitrozen-button
                         v-strokeBtn
+                        ref="reject-btn"
                         theme="secondary"
                         @click="quickApproverViewSection('Reject')"
                         :disabled="isDisabled.Reject"
@@ -105,6 +108,7 @@
                         <template>
                             <td v-if="isApprover" class="icon-eye check-box-td"> <!-- //////// UPCOMING CHANGES //////////// -->
                                 <nitrozen-checkbox
+                                    ref="check-boxes"
                                     :v-model="tab"
                                     @change="select(tab), disableButton()"
                                     :multiple="false"
@@ -146,6 +150,7 @@
                             <td class="icons">
                                 <span 
                                     class="cursor-pointer icon-eye"
+                                    ref="preview-note"
                                     @click="previewNote(tab)"
                                 >
                                     <adm-inline-svg src="eye-open"></adm-inline-svg>
@@ -159,6 +164,7 @@
                                 </span>
                                 <span 
                                     class="cursor-pointer icon-delete"
+                                    ref="delete-note"
                                     v-if="!isApprover && tab.status === 'Init' || tab.status === 'Pending'"
                                     @click="deleteNote(tab)"
                                 >
@@ -179,6 +185,7 @@
         </div>
         <div class="pagination-div">
             <nitrozen-pagination
+                class="pagination-main"
                 :name ="paginationName"
                 v-model="pageObject"
                 @change="handlePageChanges"
@@ -193,6 +200,7 @@
                 <div class="slide-fade" ref="slide-fade" @click="close($event)">
                     <div class="container">
                         <approver-drawer
+                            ref="approver-drawer"
                             @drawerClose = "closeApproverDrawerView($event)"
                             :status = "drawerData.status"
                             :notesSet = "drawerData.notesSet"
@@ -540,11 +548,6 @@ export default {
                 this.initialPayload.data.pageSize = this.pageObject.limit;
                 this.getListData();
             }
-        },
-        changeFilterType(){
-            this.filterType = '';
-            delete this.initialPayload.data.filters.status;
-            this.getListData();
         },
         changeNoteType(e){
             this.modifiedNoteItems = this.noteTypeItems.filter((x) =>

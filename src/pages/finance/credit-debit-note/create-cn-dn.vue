@@ -1093,7 +1093,7 @@
                         //integrate key value pairs with the nitrozen inputs and dropdowns and expandable tables
                         this.tab = res.data.items;
                         this.selectedType = this.tab.category;
-                        
+                        this.changeDesc();
                         if(this.tab.category === 'gst_service'){
                             this.purposeList = [];
                             this.setPurposeList();

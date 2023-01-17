@@ -1,6 +1,6 @@
 'use strict';
 
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import URLS from '@/services/domain.service';
@@ -11,6 +11,7 @@ import USER_MOCK from './fixtures/user-mock.json';
 import INITIAL_PAYLOAD_MOCK from './fixtures/initial-payload.json';
 import NOTE_DETAIL_MOCK from './fixtures/note-detail.json';
 import CreditNoteVue from '../../../../../../../src/pages/finance/credit-debit-note/create-cn-dn.vue';
+import { flush } from "@sentry/node";
 
 let wrapper, router, localVue;
 const mock = new MockAdapter(axios);
@@ -44,12 +45,16 @@ describe('credit-debit-note home page', () => {
                 },
             ],
         });
+        router.push('finance/credit-debit-note?activeTab=0');
 
         mock.onPost(URLS.GET_LIST_DATA()).reply(200, INITIAL_PAYLOAD_MOCK);
 
         wrapper = shallowMount(CreditHomeVue, {
             localVue,
             router,
+            propsData: {
+                noteType: 'credit',
+            },
             computed: {
                 userData: () => {
                     return USER_MOCK.computedFix;
@@ -93,20 +98,64 @@ describe('credit-debit-note home page', () => {
             "success": true,
             "reason": "Request Successful"
         });
-        wrapper.vm.deleteNote(note_item);
-    })
-    
-    it('should change filter type', () => {
-        wrapper.vm.changeFilterType();
-    })
+        await flushPromises();
+        const deleteNoteFun = jest.spyOn(wrapper.vm, 'deleteNote');
+        deleteNoteFun(note_item);
+        const deleteNote = wrapper.findComponent({ref: 'delete-note'});
+        //deleteNote.vm.$emit('click', note_item);
+        expect(wrapper.vm.inProgress).toBe(false);
+    });
 
-    /* it('should change note type', () => {
-        wrapper.vm.changeNoteType();
-    }) */
+    it('should disable the button', async() => {
+        await flushPromises();
+        wrapper.setData({
+            tab: [121],
+            drawerData: {
+                notesSet: {
+                    'aaa': 'commercial'
+                },
+                status: ''
+            },
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const disableBtn = wrapper.findComponent({ref: 'check-boxes'});
+        disableBtn.vm.$emit('change');
+        expect(wrapper.vm.isDisabled.Reject).toBe(false);
+    });;
 
-    it('should auto search in note', () => {
-        wrapper.vm.autoSearchNote();
-    })
+    it('it changes the pagination method when the pagination is changed', async () => {
+        await flushPromises();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        const copyClick = wrapper.find('.pagination-main');
+        copyClick.vm.$emit('change', {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        });
+        const pageObject = {
+            "limit": 10,
+            "current": 2,
+            "total": 70
+        };
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.pageObject).toEqual(pageObject);
+    });
+
+    it('should auto search in note', async() => {
+        await flushPromises();
+        wrapper.setData({
+            noteTypeValue: 'commercial'
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const noteType = wrapper.find('#note-type-dd');
+        noteType.vm.$emit('change');
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.pageObject.current).toBe(1);
+    });
 
     it('auto search status', async() => {
         const getListfn = jest.spyOn(wrapper.vm, 'getListData');
@@ -120,22 +169,6 @@ describe('credit-debit-note home page', () => {
         expect(getListfn).toHaveBeenCalled();
     })
 
-    /* it('date picker', async() => {
-        const getListfn = jest.spyOn(wrapper.vm, 'dateRangeChange');
-        wrapper.setData({
-            reconDate: ['1669372339','1669372188'],
-        })
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
-        const statusDD = wrapper.find('.date-picker');
-        statusDD.vm.$emit('input');
-        expect(getListfn).toHaveBeenCalled();
-    }) */
-
-    it('handles page changes', () => {
-        wrapper.vm.handlePageChanges({});
-    })
-
     it('date picker', async() => {
         wrapper.setData({
             reconDate: ['1669372339','1669372188'],
@@ -143,35 +176,35 @@ describe('credit-debit-note home page', () => {
         wrapper.vm.dateRangeChange();
     })
 
-    // it('should go to edit screen', () => {
-    //     //wrapper.vm.routeNoteCheck();
-    //     let routerPushMethod = jest.spyOn(wrapper.vm.$router, 'push');
-
-    //     let element = wrapper.find('.icon-edit');
-    //     element.trigger('click');
-
-    //     expect(routerPushMethod).toHaveBeenCalled();
-    // })
-
-    /* it('tests select row function', () => {
-        wrapper.vm.select({});
-    }) */
-
-    it('tests search by input function', () => {
+    it('tests search by input function', async() => {
+        const getListfn = jest.spyOn(wrapper.vm, 'getListData');
+        await flushPromises();
         wrapper.setData({
             filterTypeList: [
                 {
-                    text: 'aaa',
-                    value: 'aaa'
+                    text: 'Approved',
+                    value: 'approved'
                 }
-            ]
+            ],
+            modifiedFilterList: [
+                {
+                    text: 'Approved',
+                    value: 'approved'
+                }
+            ],
         });
-        wrapper.vm.searchStatus({text: 'aaa'});
-        wrapper.vm.autoSearchNote();  
-    })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.find('#search-status');
+        statusDD.vm.$emit('searchInputChange',{
+            text: 'Approved',
+            value: 'approved'
+        });
+        expect(wrapper.vm.modifiedFilterList.length).toBe(1);
+    });
 
     it('Search with debounce', async() => {
-        //wrapper.vm.getDates();
+        await flushPromises();
         wrapper.setData({
             noteTypeItems: [
                 {
@@ -180,66 +213,125 @@ describe('credit-debit-note home page', () => {
                 }
             ]
         })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const searchBar = wrapper.findComponent({ref: 'search-bar'});
+        searchBar.vm.$emit('input', {});
         wrapper.vm.changeNoteType({text: 'aaa'});
-        wrapper.vm.searchByInput({});
         await new Promise(resolve => setTimeout(resolve, 1000));
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.pageObject.current).toBe(1);
     });
 
-
-    it('opens approve drawer',() => {
-        wrapper.vm.quickApproverViewSection('approve');
-    })
-
-    it('opens in preview mode', () => {
-        wrapper.vm.previewNote({
-            approved_at: "2022-07-12 03:58:58",
-            category: "gst_fee",
-            created_at: "2022-07-11 15:14:08",
-            document_number: "3PCN14231000026",
-            id: "778fafeb-4c22-440c-ae21-74064d1bb797",
-            seller_name: "dummy seller name",
-            status: "approved",
-            total_amount: 354
-        });
-    })
-
-    it('opens in edit mode', () => {
-        wrapper.vm.editNote({
-            approved_at: "2022-07-12 03:58:58",
-            category: "gst_fee",
-            created_at: "2022-07-11 15:14:08",
-            document_number: "3PCN14231000026",
-            id: "778fafeb-4c22-440c-ae21-74064d1bb797",
-            seller_name: "dummy seller name",
-            status: "approved",
-            total_amount: 354
-        });
-    })
-
-    it('navigates to new component', () => {
-        wrapper.vm.routeNoteCheck();
-    });
-
-    it('update drawer data', async() => {
+    it('close the approver drawer', async()=> {
+        await flushPromises();
         wrapper.setData({
-            tab: ['22']
-        })
-        wrapper.vm.updateDrawerData({},true);
-        wrapper.vm.updateDrawerData({},false);
-        wrapper.vm.select({ document_number: '2323' });
+            quickApproveView: true,
+            inProgress: false,
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const approverDrawer = wrapper.findComponent({ref: 'approver-drawer'});
+        approverDrawer.vm.$emit('drawerClose', true);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.inProgress).toBe(false);
     });
 
-    it('downloads note', () => {
+
+    it('should open the approver drawer when clicked',async() => {
+        await flushPromises();
+        wrapper.setData({
+            quickApproveView: true,
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const approverDrawer = wrapper.findComponent({ref: 'reject-btn'});
+        approverDrawer.vm.$emit('click', 'Reject');
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.quickApproveView).toBe(false);
+    })
+
+    it('should redirect to preview page', async() => {
+        await flushPromises();
+        wrapper.setData({
+            inProgress: false,
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const previewNoteFun = jest.spyOn(wrapper.vm, 'previewNote');
+        previewNoteFun({
+            approved_at: "2022-07-12 03:58:58",
+            category: "gst_fee",
+            created_at: "2022-07-11 15:14:08",
+            document_number: "3PCN14231000026",
+            id: "778fafeb-4c22-440c-ae21-74064d1bb797",
+            seller_name: "dummy seller name",
+            status: "approved",
+            total_amount: 354
+        });
+        const editNote = jest.spyOn(wrapper.vm, 'editNote');
+        editNote({
+            approved_at: "2022-07-12 03:58:58",
+            category: "gst_fee",
+            created_at: "2022-07-11 15:14:08",
+            document_number: "3PCN14231000026",
+            id: "778fafeb-4c22-440c-ae21-74064d1bb797",
+            seller_name: "dummy seller name",
+            status: "approved",
+            total_amount: 354
+        });
+        const routeNoteCheck = jest.spyOn(wrapper.vm, 'routeNoteCheck');
+        routeNoteCheck();
+        const previewNote = wrapper.findComponent({ref: 'preview-note'});
+        expect.anything();
+    });
+
+    it('downloads note', async() => {
         mock.onPost(URLS.DOWNLOAD_NOTE()).reply(200, {
             "data":{
                 "success": true,
                 "url": "Test url"
             }
         });
-        wrapper.vm.downloadNote({
+        await flushPromises();
+        const downloadNote = jest.spyOn(wrapper.vm, 'downloadNote');
+        downloadNote({
             id: 'dummy id'
         });
+        await wrapper.vm.$nextTick();
+        expect.anything();
     })
+
+    it('update drawer data', async() => {
+        await flushPromises();
+        wrapper.setData({
+            tab: ['332'],
+            drawerData: {
+                notesSet: {
+                    'aaa': 'commercial'
+                },
+                status: ''
+            },
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const disableBtn = wrapper.findComponent({ref: 'check-boxes'});
+        disableBtn.vm.$emit('change',{ document_number: '2323' });
+        wrapper.vm.updateDrawerData({},true);
+        wrapper.vm.updateDrawerData({},false);
+        wrapper.vm.select({ document_number: '2323' });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.tab.length).toBe(3);
+        /* wrapper.setData({
+            tab: ['22']
+        })
+        wrapper.vm.updateDrawerData({},true);
+        wrapper.vm.updateDrawerData({},false);
+        wrapper.vm.select({ document_number: '2323' }); */
+    });
+
+    
 
 
 })
