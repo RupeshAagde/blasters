@@ -5,7 +5,7 @@
                     <div class="company-name">
                         {{ settings.title }}
                     </div>
-                    <edit-header ref="editPopUp" :title="settings.title" @saveTitle="settings.title = $event"></edit-header>
+                    <edit-header ref="editPopUp" :title="settings.title" @saveTitle="previousTitle = settings.title = $event"></edit-header>
                     <div class="company-edit" @click="editHeader">
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>

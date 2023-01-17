@@ -9,7 +9,7 @@
                     <div class="previous-title" v-if="previousTitle">
                         Previously: {{ previousTitle }}
                     </div>
-                    <edit-header ref="editPopUp" :title="appSettings.title" @saveTitle="appSettings.title = $event"></edit-header>
+                    <edit-header ref="editPopUp" :title="appSettings.title" @saveTitle="previousTitle = appSettings.title = $event"></edit-header>
                 </div>
                 <div  v-else>
                     Company Menu
