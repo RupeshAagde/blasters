@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="icon-grp">
-                                <div class="item-dlt"  @click="openConfirmationPopup('Are you sure?', `If you delete ${item.title ? `“${item.title}”` : '' }, the seller won’t be able to access it anymore.`, 'Yes, delete', 'No', index)">
+                                <div class="item-dlt"  @click="openConfirmationPopup('Are you sure?', `If you delete${item.title ? ` “${item.title}”` :''}, the seller won’t be able to access it anymore.`, 'Yes, delete', 'No', index)">
                                     <inline-svg :src="'delete'" class="icon"></inline-svg>
                                 </div>
                                 <div class="arrow" @click="toggleMenu(index)">
