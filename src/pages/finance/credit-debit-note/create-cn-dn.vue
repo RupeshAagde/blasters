@@ -84,22 +84,39 @@
                     </div>
                 </div>
             </mirage-alert>
-            <div class="first">
-                <!-- Note Type -->
-                <label class="label">{{dropdownLabel}}</label>
-                    <nitrozen-dropdown
-                        class="filter-dropdown"
-                        v-model="selectedType"
-                        placeholder="Search Note Type"
-                        :items="filteredCnTypes"
-                        :disabled="readOnlyMode || editingMode"
-                        :searchable="true"
-                        @change="resetForm"
-                        @searchInputChange="changeNoteType($event)"
-                    ></nitrozen-dropdown>
-                <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error>
+
+            <div class="top-wrap">
+
+                <div class="first">
+                    <!-- Note Type -->
+                    <label class="label">{{dropdownLabel}}</label>
+                        <nitrozen-dropdown
+                            class="filter-dropdown"
+                            v-model="selectedType"
+                            placeholder="Search Note Type"
+                            :items="filteredCnTypes"
+                            :disabled="readOnlyMode || editingMode"
+                            @change="resetForm"
+                        ></nitrozen-dropdown>
+                    <!-- <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error> -->
+                </div>
+
+                <div class="date-picker-wrap">
+                        <date-picker
+                            class="date-picker filter-input-dr"
+                            picker_type="date"
+                            label="Select Date"
+                            date_format="MMM Do, YY"
+                            v-model="uploadDateRange"
+                            :clearable="false"
+                            :not_before="notBefore"
+                            :not_after="new Date().toISOString()"
+                            :useNitrozenTheme="true"
+                            @input="onFilterChange"
+                        /> 
+                </div>
+                <span>{{ noteDesc }}</span>
             </div>
-            
             <div class="commercial-cn" v-show="selectedType === 'commercial'">
                 
                 <div class="second">
@@ -505,6 +522,7 @@
     import { GET_USER_INFO } from '@/store/getters.type';
     import { ADMIN_PERMISSIONS } from '../../../store/getters.type';
     import loader from '@/components/common/loader';
+    import DatePicker from '@/components/common/date-picker.vue';
     import moment from 'moment';
     import {
         NitrozenInput,
@@ -549,6 +567,7 @@
             MirageAlert,
             NitrozenInline,
             'adm-inline-svg': admInlineSVG,
+            'date-picker':DatePicker,
             loader
         },
         directives: {
@@ -564,6 +583,9 @@
             return {
                 disableShipmentInput : false,
                 isApprover: '',
+                uploadDateRange: moment().toISOString(),
+                notBefore: moment().startOf('month').toISOString(),
+                selectedDate:moment().format('YYYY-MM-DD hh:mm:ss'),
                 drawerData: {
                     status: '',
                     notesSet:{}
@@ -580,8 +602,24 @@
                 calledFromChild: false,
                 sellerName:'',
                 noteDetails: [],
-                cnTypes: [{text:"Commercial",value:"commercial"},{text:"GST Fee Invoice",value:"gst_fee"},{text:"GST Service Invoice",value:"gst_service"}],
-                filteredCnTypes : [{text:"Commercial",value:"commercial"},{text:"GST Fee Invoice",value:"gst_fee"},{text:"GST Service Invoice",value:"gst_service"}],
+                filteredCnTypes : [
+                    {
+                        text:"Commercial",
+                        value:"commercial",
+                        description:"Commercial Credit notes are raised against invoice number and seller id. An example where a commercial credit note needs to be issued is when an order is lost by logistic service provider, the amount recovered by logistic service provider is credited to the seller."
+                    },
+                    {
+                        text:"GST Fee Invoice",
+                        value:"gst_fee",
+                        description:"Gst fee note is raised against an existing fee invoice component if theres an issue that affects the entire invoice."
+                    },
+                    {
+                        text:"GST Service Invoice",
+                        value:"gst_service",
+                        description:"Gst Service is raised against an existing service invoice component. One of the events in which gst service note needs to be issued is the invoice difference of initial shipping cost charged to Seller based on estimates and actual cost charged by logistic service provider."
+                    }
+                ],
+                noteDesc: '',
                 isDisabled: true,
                 isRequired: true,
                 isPreview: false,
@@ -678,18 +716,27 @@
 
         mounted() {
             this.isApprover = this.$route.params.isApprover;
-            this.getNoteType();
+            this.noteType = this.$route.params.noteType;
             this.getCommercialFeeType();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
                 this.dropdownLabel = 'Credit Note Type *';
                 this.noteAmountLabel = 'Credit Note Amount';
                 this.noteAmountPlaceholder = 'Enter Credit Note Amount';
+                this.noteDesc = this.filteredCnTypes[0].description;
             } else{
                 this.title = 'Create Debit Note';
                 this.dropdownLabel = 'Debit Note Type *';
                 this.noteAmountLabel = 'Debit Note Amount';
                 this.noteAmountPlaceholder = 'Enter Debit Note Amount';
+                this.filteredCnTypes = [
+                    {
+                        text:"Commercial",
+                        value:"commercial",
+                        description:"Commercial debit notes are raised against invoice number and seller id. An example where a commercial debit note needs to be issued is in an event of Return initiation or acceptance after return window/seller settlement, or cashback by bank."
+                    }
+                ]
+                this.noteDesc = this.filteredCnTypes[0].description;
             }
             this.setPurposeList();
             if(this.$route.params.noteId){
@@ -701,11 +748,21 @@
                 this.noteId = this.$route.params.noteId;
                 this.title = this.$route.params.documentNo;
             }
-            this.filteredCnTypes = this.cnTypes;
             this.getSellerDetails();
         },
 
         methods: {
+            onFilterChange(e){
+                this.selectedDate = moment(e).format('YYYY-MM-DD hh:mm:ss');
+                
+            },
+            dateRange(){
+                var firstDay = moment().startOf('month');
+                var endDay = moment().endOf('month');
+
+                var monthRange = moment.range(firstDay, endDay)
+
+            },
             isEmpty,
             closeApproverDrawerView(event){
             this.quickApproveView = false;
@@ -742,16 +799,6 @@
                 }
                 return false;
             },
-
-            changeNoteType(e){
-                this.filteredCnTypes = this.cnTypes.filter((x) =>
-                    x.text.toLowerCase().includes(e.text.toLowerCase())
-                );
-                if(isEmpty(e.text)){
-                    this.selectedType = '';
-                }
-            },
-
             changePurposeType(e){
                 this.filteredPurposeList = this.purposeList.filter((x) =>
                     x.text.toLowerCase().includes(e.text.toLowerCase())
@@ -762,7 +809,10 @@
                     delete this.isValidForm["purpose"];
                 }
             },
-
+            changeDesc(){
+                let noteDesc = this.filteredCnTypes.find(obj => obj.value === this.selectedType);
+                this.noteDesc = noteDesc.description;
+            },
             resetForm() {
                 this.sellerId.value = '1';
                 this.sellerName = '';
@@ -787,6 +837,7 @@
                 this.setPurposeList();
                 this.showTicks = [];
                 this.getSellerDetails();
+                this.changeDesc();
             },
             resetSellerName() {
                 if(this.sellerId.value.trim() === ''){
@@ -1232,7 +1283,6 @@
                     });
                 
             },
-
             editMode(){
                 this.readOnlyMode = false;
                 this.editingMode = true;
@@ -1267,6 +1317,7 @@
                                 "status" : "Init",
                                 "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
                                 "is_active" : true,
+                                "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : [
                                     {
@@ -1307,6 +1358,7 @@
                                 "status" : "Init",
                                 "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
                                 "is_active" : true,
+                                "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : [
                                     {
@@ -1434,6 +1486,7 @@
                                 "note_type": this.noteType === 'credit' ? 'Credit': 'Debit',
                                 "category": this.selectedType,
                                 "invoice_number": this.invoiceNumber.value,
+                                "issued_at" : this.selectedDate,
                                 "invoice_type": "service",
                                 "total_amount": total_amount.toFixed(2),
                                 "purpose_id": this.noteDetails[0].purpose_id,
@@ -1465,6 +1518,7 @@
                                 "purpose_id": this.noteDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_acive": true,
                                 "order_id": this.noteDetails[0].order_id,
                                 "ordering_channel": this.noteDetails[0].ordering_channel,
@@ -1505,6 +1559,7 @@
                                 "purpose_id": this.feeInvoiceDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_active": true,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : this.feeInvoiceDetails 
@@ -1531,6 +1586,7 @@
                                 "purpose_id": this.noteDetails[0].purpose_id,
                                 "note_narration": this.noteNarration.value,
                                 "status": "Init",
+                                "issued_at" : this.selectedDate,
                                 "is_acive": true,
                                 "created_by" : this.userData.user.username,
                                 "note_details" : this.noteDetails
@@ -1538,10 +1594,6 @@
                         }
                     }
                 }
-            },
-
-            getNoteType() {
-                this.noteType = this.$route.params.noteType;
             },
 
             async setPurposeList() {
@@ -1600,8 +1652,7 @@
                 this.$refs.goBackDialog.open({});
             },
 
-            $dialogClosed() {
-            },
+            $dialogClosed() {},
 
             // method to get user name from user id
             async getSellerDetails() {
@@ -1969,13 +2020,33 @@
     //scroll-behavior: smooth;
     overflow-y: scroll;
     position: absolute;
-    .first::after {
-        content: " ";
-        display: block;
-        border: 1px solid #F2F2F2;
+    .top-wrap{
+        display: flex;
+        border-bottom : 1px solid #F2F2F2;
         margin-top: 20px;
+        padding-bottom: 20px;
         margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 30px;
+        row-gap: 10px;
+        align-items: center;
+
+        span{
+            font-size: 14px;
+            font-family: sans-serif;
+            color: #2E31BE;
+        }
+        
+        .vue-date-picker {
+            width: 349px;
+        }
+        .mx-datepicker{
+            height: 40px;
+            width: 349px;
+        }
     }
+
+    
 
     .second::after {
         content: " ";

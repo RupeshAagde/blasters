@@ -1,8 +1,7 @@
 <template>
-    <div v-if="!isBulkUpload" class="cn-container">
+    <div class="cn-container">
         <div class="above-table">
             <div class="filters">
-                <!-- Filters {{ noteType }} -->
                 <nitrozen-input
                     :showSearchIcon="true"
                     class="search filter-input-lg"
@@ -11,7 +10,6 @@
                     v-model="search"
                     @input="searchByInput"
                 ></nitrozen-input>
-                <!-- @change="changeFilterType" -->
                 <nitrozen-dropdown
                     id="search-status"
                     class="filter-type filter-input-sm"
@@ -49,13 +47,6 @@
                 />
             </div>
             <div class="cn-buttons" v-if="!isApprover">
-                <!-- <nitrozen-button 
-                    theme="secondary"
-                    :disabled="true"
-                    v-strokeBtn
-                    @click="routeNoteCheck('BULK_UPLOAD')"
-                > Bulk Upload
-                </nitrozen-button> -->
                 <nitrozen-button 
                 theme="secondary"
                 v-flatBtn
@@ -90,11 +81,13 @@
                 class="mirage-table"
             >
                 <tr>
-                    <td v-if="isApprover"> <!-- //////// UPCOMING CHANGES //////////// -->
+                    <td
+                        class="check-box-td"
+                        v-if="isApprover"
+                    > <!-- //////// UPCOMING CHANGES //////////// -->
                         <nitrozen-checkbox
                             :disabled="true"
                         >
-                            
                         </nitrozen-checkbox>
                     </td>
                     <td
@@ -110,7 +103,7 @@
                         :key="'tab-' + index"
                     >
                         <template>
-                            <td v-if="isApprover" class="icon-eye"> <!-- //////// UPCOMING CHANGES //////////// -->
+                            <td v-if="isApprover" class="icon-eye check-box-td"> <!-- //////// UPCOMING CHANGES //////////// -->
                                 <nitrozen-checkbox
                                     :v-model="tab"
                                     @change="select(tab), disableButton()"
@@ -216,7 +209,6 @@
         </transition>
     </div>
     <!-- <div v-else>  //////// UPCOMING CHANGES ////////////
-    <BulkUploadVue  @is-bulk-upload-open="closeBulkUpload($event)" :noteType="this.noteType"></BulkUploadVue>
     </div> -->
 </template>
 
@@ -243,7 +235,6 @@ import loader from '@/components/common/loader';
 import moment from 'moment';
 import { mapGetters } from 'vuex'
 import ApproverDrawer from './approver-drawer.vue';
-//import BulkUploadVue from './bulk-upload-creator.vue';
 import { GET_USER_INFO, GET_USER_PERMISSIONS } from '@/store/getters.type'
 
 const PAGINATION_OBJECT = {
@@ -276,7 +267,7 @@ export default {
     },
     props: {
       noteType: String,
-      isBulkUpload: Boolean
+      //isBulkUpload: Boolean
     },
     data (){
       return {
@@ -354,8 +345,6 @@ export default {
                 this.isApprover = true;
             }
         }
-        
-        
         this.getInitialListingPayload();
         this.getListData();
         if(this.noteType === 'credit'){
@@ -368,9 +357,6 @@ export default {
         this.checkForAllowedColumn();
     },
     methods: {
-        closeBulkUpload(e){
-          this.$emit('is-bulk-upload-open', e);
-        },
         checkForAllowedColumn() {
             if(!this.isApprover){
                    this.tableColumns = this.tableColumns.filter((col) => col !== 'Note Narration')
@@ -687,12 +673,8 @@ export default {
                 });
         },
         routeNoteCheck(action){
-            if(action ===  "BULK_UPLOAD"){
-               this.$emit('is-bulk-upload-open', true);
-            }else{
             //this.$router.push({ path: 'debit-note' ,query: { note_type: 'debit' }});
             this.$router.push({ name: 'credit-note', params:{noteType: this.noteType } });
-            }
         },
         editNote(tab){
             this.$router.push({ name: 'credit-note', params:{ noteType: this.noteType, noteId: tab.id,preview: 'edit', isApprover: this.isApprover, documentNo: tab.document_number } });
@@ -805,6 +787,12 @@ export default {
             stroke: @RoyalBlue;
             stroke-width: 2;
         }
+    }
+}
+
+.check-box-td{
+    /deep/ .nitrozen-checkbox{
+        top: -13px;
     }
 }
 

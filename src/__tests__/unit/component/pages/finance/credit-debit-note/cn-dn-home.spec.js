@@ -168,7 +168,6 @@ describe('credit-debit-note home page', () => {
         });
         wrapper.vm.searchStatus({text: 'aaa'});
         wrapper.vm.autoSearchNote();  
-        wrapper.vm.closeBulkUpload({});
     })
 
     it('Search with debounce', async() => {

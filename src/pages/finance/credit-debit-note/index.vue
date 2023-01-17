@@ -18,10 +18,10 @@
                     ></nitrozen-tab>
                 </div>
                 <div v-if="activeGroupIndex === 0">
-                    <credit-note-component note-type = "credit" :key="0" @is-bulk-upload-open="handleBulkUpload($event)" :isBulkUpload="isBulkUpload"></credit-note-component>
+                    <credit-note-component note-type = "credit" :key="0"></credit-note-component>
                 </div>
                 <div v-if="activeGroupIndex === 1">
-                    <credit-note-component note-type = "debit" :key="1"  @is-bulk-upload-open="handleBulkUpload($event)" :isBulkUpload="isBulkUpload"></credit-note-component>
+                    <credit-note-component note-type = "debit" :key="1"></credit-note-component>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@ export default {
         return {
             activeGroupIndex: Number(this.$route.query.activeTab) ?  Number(this.$route.query.activeTab) : 0,
             tabs: [{ name: 'Credit Note' }, {name: 'Debit Note'}],
-            isBulkUpload : false,
+            //isBulkUpload : false,
         };
     },
     mounted(){
@@ -70,9 +70,9 @@ export default {
             query: { ...this.$route.query, activeTab: item.index }
             }).catch(()=>{});
         },
-        handleBulkUpload(e){
+        /* handleBulkUpload(e){
           this.isBulkUpload = e;
-        },
+        }, */
     }
 }
 </script>

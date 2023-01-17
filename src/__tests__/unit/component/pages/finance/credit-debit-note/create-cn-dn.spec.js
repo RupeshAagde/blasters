@@ -372,10 +372,6 @@ describe('credit-debit-note page', () => {
         wrapper.vm.getFeeInvoicePayload('edit_entity');
     })
 
-    it('should get note type', () => {
-        wrapper.vm.getNoteType();
-    })
-
     it('opens save dialog box for commercial note', () => {
         wrapper.vm.saveCN('create_entity');
     })
