@@ -11,6 +11,7 @@
           <tr v-for="(index) in tableSize" :key="'col-' + index">
             <td>
               <nitrozen-dropdown
+                id="component-filter"
                 class="filter-type filter-input-sm"
                 :items="componentDataList"
                 :searchable="true"
@@ -29,6 +30,7 @@
             <td>
               <nitrozen-dropdown
                 class="filter-type filter-input-sm"
+                id="component-purpose"
                 :items="purpose"
                 :searchable="true"
                 :required="true"
@@ -45,6 +47,7 @@
             <td>
               <nitrozen-input
                 :showSearchIcon="false"
+                id="component-amount"
                 class="search filter-input-lg"
                 type="text"
                 :required="true"
@@ -87,7 +90,7 @@
               <!--v-model="grossAmount" <span>{{ componentDataList[index].amount}}</span> -->
             </td>
             <td>
-              <nitrozen-input :showSearchIcon="false" :required="true" class="search filter-input-lg" type="text"
+              <nitrozen-input :showSearchIcon="false" :required="true" id="component-remark" class="search filter-input-lg" type="text"
                 :placeholder="`Remarks`" :disabled="readOnly" v-model="remark.value[index]"
                 @blur="checkRequiredFields(index)"
                 @input="checkIsEmpty($event,remark.type, remark.value[index], index),checkRequiredFields(index)">
@@ -101,7 +104,7 @@
               </nitrozen-input>
             </td>
             <td v-if="!preview">
-              <span class="cursor-pointer icon-delete" @click="deleteRow(index,$event)" v-show="!readOnly">
+              <span class="cursor-pointer icon-delete" id="icon-delete" @click="deleteRow(index,$event)" v-show="!readOnly">
                 <!-- v-if="tab.status === 'Init' || tab.status === 'Pending'"
                 @click="deleteNote(tab)" -->
                 <ukt-inline-svg src="delete-red"></ukt-inline-svg>
@@ -212,6 +215,8 @@
     },
   
     mounted() {
+      console.log(this.bagData);
+
       if(this.bagData && this.readOnly) {
         this.populateFromProp();
       } else {
@@ -376,6 +381,7 @@
       },
   
       checkIsEmpty(e,type, value, index) {
+        console.log(this.bagData);
         if(e){ //&& value.length > 0   might come in handy
           switch (type) {
             case 'component':

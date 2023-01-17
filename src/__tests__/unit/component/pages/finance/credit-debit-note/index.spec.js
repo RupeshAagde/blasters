@@ -2,6 +2,7 @@
 
 import { shallowMount } from "@vue/test-utils";
 import CreditNoteIndex from '../../../../../../../src/pages/finance/credit-debit-note/index.Vue';
+import flushPromises from 'flush-promises';
 
 
 describe('Index Page of Credit Debit Note', () => {
@@ -32,5 +33,19 @@ describe('Index Page of Credit Debit Note', () => {
 	it('div expect', () => {
 		const div = wrapper.find('div')
 		expect(div.exists()).toBe(true)
+	})
+	it('should change Route', async() => {
+		await flushPromises();
+
+        let changeTab = jest.spyOn(wrapper.vm, 'changeGroupIndex');
+		
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const groupEl = wrapper.find('#group-tab');
+        groupEl.vm.$emit("tab-change", {
+			"index": 1
+		});
+        await wrapper.vm.$nextTick();
+        expect(changeTab).toHaveBeenCalled();
 	})
 })
