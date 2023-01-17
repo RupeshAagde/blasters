@@ -456,13 +456,6 @@ const conf = convict({
         env: 'CDN_ITEM_BASE_PATH',
         arg: 'cdn_item_base_path'
     },
-    OLD_CDN_BASE_URLS: {
-        doc: 'Old CDN item base path url',
-        format: Array,
-        default: ["hdn-1.addsale.com","cdn.pixelbin.io/v2/xyz/wrkr"],
-        env: 'OLD_CDN_BASE_URLS',
-        arg: 'old_cdn_base_urls'
-    },
     // New Relic
     NEW_RELIC_APP_NAME: {
         doc: 'newrelic app name.',
