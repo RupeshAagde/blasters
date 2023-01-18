@@ -452,6 +452,30 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
     },
 
+    //for bulk upload
+    GET_FILE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-data`);
+    },
+
+    GET_DOWNLOAD_FORMAT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report/sample-file`);
+    },
+
+    GET_PRESIGNED_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-s3-presigned-url`);
+    },
+
+    UPLOAD_TO_S3: (url) => {
+        return url;
+    },
+
+    GET_UPLOAD_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
+    },
+    GET_REPORT_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
+    },
+
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);
@@ -732,6 +756,52 @@ const URLS = {
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
 
+    //================ Credit Debit Note =================
+    GET_LIST_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-data')
+    },
+    // data for purpose dropdown
+    GET_PURPOSE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-data')
+    },
+    // save note details
+    SAVE_NOTE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/credit-debit-note')
+    },
+    // get service invoice details for gst fee invoice and gst service invoice
+    GET_SERVICE_INVOICE_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-service-invoice-details')
+    },
+    GET_NOTE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-credit-debit-note')
+    },
+    GET_ENTITY: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/credit-debit-note')
+    },
+    // get user details from user id
+    GET_USER_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/seller-info')
+    },
+    //approver side cn-dn
+    UPDATE_NOTE_STATUS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/update-cn-dn-note-status')
+    },
+    // SKYWARP  Platform Config
+    PLATFORM_CONFIG: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/admin/platform/config/');
+    },
+    // get gst service invoice details
+    GET_INVOICE_DETAILS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-service-invoice-details')
+    },
+    // validate invoice number for gst service 
+    VALIDATE_INVOICE_NUMBER: () =>{
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/validate-service-invoice-number')
+    },
+    // download approved credit/debit note
+    DOWNLOAD_NOTE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/download-credit-debit-note')
+    },
     // bulk import export
     DOWNLOAD_SAMPLE_BULK_TEMPLATE: (job_type) => {
         return urlJoin(

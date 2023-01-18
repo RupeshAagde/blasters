@@ -120,7 +120,7 @@
                                         </td>
                                         <td>
                                             <nitrozen-badge
-                                                v-if="tab[tableColumns.length - 2] === 'reconciled' || tab[tableColumns.length - 2] === 'processed' || tab[tableColumns.length - 2] === 'settled'"
+                                                v-if="tab[tableColumns.length - 2] === 'reconciled' || tab[tableColumns.length - 2] === 'processed' || tab[tableColumns.length - 2] === 'settled' || tab[tableColumns.length - 2] === 'recon'"
                                                 state="success"
                                             >{{ tab[tableColumns.length - 2] }}</nitrozen-badge>
                                             <nitrozen-badge

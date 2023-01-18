@@ -59,6 +59,10 @@ import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
 import CreateWebhooks from './../../pages/webhook/index.vue';
 import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
+import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
+import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
+import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
+import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
@@ -985,6 +989,29 @@ export default [
                     ]);
                 }
             },
+            /**
+             * Finance Upload Portal Routes
+             */
+            {
+                name: 'bulk-upload',
+                path: 'finance/bulk-upload',
+                component: BulkUpload,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
+            },
+            {
+                name: 'upload-history-fin',
+                path: 'finance/bulk-upload/upload-history',
+                component: UploadHistoryFin,               
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
+            },
             {
                 name: 'category-config-create',
                 path: 'packaging/category-configuration/create',
@@ -995,6 +1022,28 @@ export default [
                         'admin-access'
                     ]);
                 }
+            },
+            //======================== CN DN ========================
+            {
+                name: 'credit-debit-note',
+                path: 'finance/credit-debit-note',
+                component: CreditDebitHome,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                },
+            },
+            {
+                name: 'credit-note',
+                path: 'finance/credit-debit-note/credit-note/:noteType/:noteId?/:preview?/:isApprover?/:documentNo?',
+                component: CreditDebitNote,
+                props: true,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                } 
             },
         ]
     },

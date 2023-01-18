@@ -278,12 +278,28 @@ export const getNavigations = () => {
             icon: 'kycdetails',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'finance',
+            permission: 'admin-access',
             children: [
                 {
                     display: 'Reports and Ledger',
                     link: '/administrator/finance/bills-and-payouts',
                     title: 'bills-and-payouts',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Credit-Note/Debit-Note',
+                    link: '/administrator/finance/credit-debit-note',
+                    title: 'credit-debit-note',
+                    icon: 'kycdetails',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                },
+                {
+                    display: 'Upload Data Portal',
+                    link: '/administrator/finance/bulk-upload',
+                    title: 'bulk-upload',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
