@@ -219,7 +219,9 @@
 
       if(this.bagData && this.readOnly) {
         this.populateFromProp();
-      } else {
+      } 
+      
+     else {
         if (this.bagData.charge_components) {
             let data = this.bagData.charge_components.map( i =>  {
             return   {
@@ -243,7 +245,7 @@
           
           this.makeChargeComponents();
         }
-      };
+      }; 
     },
   
     methods: {
@@ -322,7 +324,7 @@
           this.remark.value[this.tableSize] = this.bagData.remark;
           this.kaptureId[this.tableSize] = this.bagData.kapture_sr_id;
           this.totalAmount[this.tableSize] = this.bagData.total_amount;
-        } else {
+        }  else {
           this.tableSize = this.bagData.row.length;
           // to populate the component dd with charge comp related to the bag id
             this.bagData.charge_components.map(cc => {
@@ -360,7 +362,7 @@
             this.totalAmount[index+1] = r.total_amount;
             index++;
           })
-        }
+        } 
       },
   
       spliceAllFields(index) {  
@@ -397,6 +399,9 @@
               break;
             case 'amount':
               this.$set(this.amount.errorMsg,index,false);
+
+              console.log(this.chargeComponents)
+              
               if(this.$route.params.noteType == 'credit'){
                 this.validateAmount(index);
               }else{
@@ -437,10 +442,12 @@
       },
   
       validateAmount(index) {
+        console.log(this.chargeComponents)
         let key = this.component === '' ? this.componentDataList[index-1].value : this.component;
         if(this.amount.value.length < 1 ){
           this.$set(this.amount.errorMsg,index,true);
         }
+        
         else if(Number(this.amount.value[index]) <= this.chargeComponents[key]['amount']){
           if (this.amount.value[index]*1 <= 0) {
             this.validateErrIndex = index;
@@ -504,15 +511,15 @@
         return true;
       },
   
-      addLine() {
-        if(this.tableSize < this.componentDataList.length){
-          this.tableSize += 1;
-        }
-        else{
-          this.disableAddLine = true;
-          this.makePayload();
-        }
-      },
+      // addLine() {
+      //  if(this.tableSize < this.componentDataList.length){
+      //    this.tableSize += 1;
+      //  }
+      //  else{
+      //    this.disableAddLine = true;
+      //    this.makePayload();
+      //  }
+      //}, 
   
       deleteRow(index, e) {
         if(this.tableSize === 1) {

@@ -78,32 +78,6 @@ describe('expandable table drawer', () => {
             },
             localVue,
             router,
-            props:{
-                purpose: {
-                    type: Array,
-                      default: () => {
-                        return [];
-                      }
-                  },
-                  bagData: {
-                    type: Object,
-                    default: () => {
-                        
-                      }
-                  },
-                  readOnly: {
-                    type: Boolean,
-                    default: () => {
-                        return false;
-                      }
-                  },
-                  preview: {
-                    type: Boolean,
-                    default: () => {
-                        return false;
-                      }
-                  }
-            },
         });
         await flushPromises();
     });
@@ -155,12 +129,53 @@ describe('expandable table drawer', () => {
         
     })
 
-    it('Load Prop Data when readonly is true', async() => {
+    it('Load Prop Data when has row and when does not have row', async() => {
         
         await flushPromises();
         await wrapper.vm.populateFromProp();
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
+
+        wrapper.setData({
+            bagData: {
+                "bag_id": "412034",
+                "shipment_id": "16726405181421038384",
+                "row": [
+                    {
+                        "fee_type": "commission_from_brands",
+                        "purpose_id": "8796f00b-ce27-4804-9307-87d22e96a1d5",
+                        "gross_amount": 123,
+                        "sac_code": "998311",
+                        "sgst_tax_rate": 9,
+                        "igst_tax_rate": 0,
+                        "cgst_tax_rate": 9,
+                        "remark": "test",
+                        "total_amount": 145.14,
+                        "bag_id": "412034",
+                        "shipment_id": "16726405181421038384",
+                        "id": "221e761a-2cf2-4517-9bb3-b64107328536"
+                    }
+                ],
+                "charge_components": [
+                    {
+                        "type": "commission_from_brands",
+                        "display_name": "Commission From Brands",
+                        "sac_code": "998311",
+                        "sgst_tax_rate": 9,
+                        "cgst_tax_rate": 9,
+                        "amount": 564,
+                        "total_amount": 665
+                    }
+                ],
+                "order_id": "FY63B278050E706A0413",
+                "ordering_channel": "fynd"
+            }
+        })
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        await wrapper.vm.populateFromProp();
         
         
     })
@@ -206,6 +221,32 @@ describe('expandable table drawer', () => {
                 type: 'amount',
                 validationError: ''
               },
+        })
+
+        await wrapper.vm.validateAmount(1);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.validateErrIndex).toBe(1);
+
+        await wrapper.vm.validateAmount(1);
+        await wrapper.vm.$nextTick();
+
+        await wrapper.vm.roundToTwo(100.456);
+
+        wrapper.setData({
+            amount: {
+                value: [100],
+                errorMsg: [],
+                type: 'amount',
+                validationError: ''
+              },
+            chargeComponents:{
+                "sacCode": "998311",
+                "igst": 0,
+                "cgst": 9,
+                "sgst": 9,
+                "amount": 4326
+            }
+            
         })
 
         await wrapper.vm.validateAmount(1);
