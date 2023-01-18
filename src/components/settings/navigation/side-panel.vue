@@ -190,6 +190,7 @@ export default {
             this.showNavigation = false;
         },
         setPermission(permissions) {
+            this.permissions = [];
             for (let index = 0; index < permissions.length; index++) {
                 this.permissions[index] = {
                     text: permissions[index].title,
