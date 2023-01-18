@@ -98,7 +98,6 @@ const GRINGOTTS_BASE = isNode
     ? envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL
     : envVars.GRINGOTTS_ADMIN_URL;
 
-
 const DAYTRADER_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL :
     envVars.DAYTRADER_ADMIN_URL;
@@ -427,6 +426,30 @@ const URLS = {
         return urlJoin(UNICRON_BASE, `/v1.0/customer`)},
     SUBSCRIPTION_ACTIVATE: (company_id) => {
         return urlJoin(UNICRON_BASE, `/v1.0/company/${company_id}/company-subscription/activate`)
+    },
+
+    //for bulk upload
+    GET_FILE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-data`);
+    },
+
+    GET_DOWNLOAD_FORMAT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report/sample-file`);
+    },
+
+    GET_PRESIGNED_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-s3-presigned-url`);
+    },
+
+    UPLOAD_TO_S3: (url) => {
+        return url;
+    },
+
+    GET_UPLOAD_URL: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report`);
+    },
+    GET_REPORT_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
     //#########Tickets########

@@ -241,6 +241,33 @@ export const getNavigations = () => {
             ]
         },
         {
+            display: 'Finance',
+            link: '/administrator/finance/bulk-upload',
+            title: 'finance',
+            icon: 'kycdetails',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'admin-access',
+            children: [
+                {
+                    display: 'Upload Data Portal',
+                    link: '/administrator/finance/bulk-upload',
+                    title: 'bulk-upload',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Credit-Note/Debit-Note',
+                    link: '/administrator/finance/credit-debit-note',
+                    title: 'credit-debit-note',
+                    icon: 'kycdetails',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                }
+            ]
+        },
+        {
             display: 'Support Center',
             link: '/administrator/support/configuration',
             title: 'support',
@@ -264,25 +291,6 @@ export const getNavigations = () => {
                     icon: 'support-icon',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }
-            ]
-        },
-        {
-            display: 'Finance',
-            link: '/administrator/finance/credit-debit-note',
-            title: 'finance',
-            icon: 'kycdetails',
-            highlightedIcon: 'home-highlighted',
-            active: false,
-            permission: 'finance',
-            children: [
-                {
-                    display: 'Credit-Note/Debit-Note',
-                    link: '/administrator/finance/credit-debit-note',
-                    title: 'credit-debit-note',
-                    icon: 'kycdetails',
-                    highlightedIcon: 'home-highlighted',
-                    active: false,
                 }
             ]
         },

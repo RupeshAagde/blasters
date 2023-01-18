@@ -61,6 +61,7 @@ export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
 export DAYTRADER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/finance
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
+export DAYTRADER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/finance/
 
 #ENV's
 export SENTRY_DSN=''

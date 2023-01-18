@@ -60,6 +60,8 @@ import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
 import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
 import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
+import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
+import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
@@ -803,6 +805,29 @@ export default [
                 name: 'category-config',
                 path: 'packaging/category-configuration',
                 component: CategoryConfig,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
+            },
+            /**
+             * Finance Upload Portal Routes
+             */
+            {
+                name: 'bulk-upload',
+                path: 'finance/bulk-upload',
+                component: BulkUpload,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'admin-access'
+                    ]);
+                }
+            },
+            {
+                name: 'upload-history-fin',
+                path: 'finance/bulk-upload/upload-history',
+                component: UploadHistoryFin,               
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
                         'admin-access'
