@@ -1,6 +1,7 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
+import FinanceRoutes from './finance';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
@@ -37,7 +38,7 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/product/variants/list.vue'
+import ListVariants from './../../pages/product/variants/list.vue';
 import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
@@ -65,6 +66,10 @@ import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.v
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
+import RMAPage from '@/pages/rma';
+import RMARulesListing from '@/pages/rma/rules-listing';
+import RMASetup from '@/pages/rma/rma-setup.vue';
+import Rules from '@/pages/rma/rules';
 const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
@@ -74,6 +79,15 @@ import CreateCategory from '@/pages/packaging/create-category-home.vue'
 import BulkExport from '@/pages/product/bulk/export/bulk-export';
 import BulkImport from '@/pages/product/bulk/import/bulk-import';
 import UploadHistory from '@/pages/product/bulk/import/upload-history.vue';
+
+/** OMSv2.1 */
+const Orders = () => import('@/pages/oms/index.vue');
+const OrderDetailsV2 = () => import('@/pages/oms/order-details/index.vue');
+const OrdersBulk = () => import('@/pages/oms/bulk-actions/index.vue');
+const OrdersManifest = () => import('@/pages/oms/manifest/index.vue');
+const OrdersManifestDetails = () => import('@/pages/oms/manifest/manifest-details/manifest-details.vue');
+const OrdersManifestGenerate = () => import('@/pages/oms/manifest/manifest-generate.vue');
+/** OMSv2.1 --END */
 
 import { authenticatedUser, checkUserPermission } from './../guards';
 
@@ -85,6 +99,7 @@ export default [
         children: [
             ...PlanCreatorRoutes,
             ...ExtensionRoutes,
+            ...FinanceRoutes,
             {
                 name: 'company-list',
                 path: 'company-list',
@@ -699,6 +714,88 @@ export default [
                     return checkUserPermission(to, from, next, ['settings']);
                 }
             },
+            {
+                name: 'rma-global-rule-setup',
+                path: 'orders/rma/rules/global/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-global-rule-edit',
+                path: 'orders/rma/rules/global/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-setup',
+                path: 'orders/rma/rules/custom/:sales_channel/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-edit',
+                path: 'orders/rma/rules/custom/:sales_channel/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma',
+                path: 'orders/rma',
+                component: RMAPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                },
+                children: [
+                    {
+                        name: 'rma-rules',
+                        path: 'rules',
+                        components: { 'rma-view': Rules },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-rules',
+                        path: 'rules/global',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-channel-rules',
+                        path: 'rules/global/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-custom-channel-rules',
+                        path: 'rules/custom/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    }
+                ]
+            },
             // Category
             {
                 name: 'category',
@@ -736,14 +833,14 @@ export default [
             },
             {
                 name: 'orders-hyperlocal-tracking',
-            path: 'orders/hyperlocal-tracking',
-            component: OrdersNinjaPage,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['order']);
-            }
-        },
-        {
-            name: 'application-order-details',
+                path: 'orders/hyperlocal-tracking',
+                component: OrdersNinjaPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
@@ -753,6 +850,87 @@ export default [
                     name: 'Application Order Details'
                 }
             },
+            // =============================================================
+            /** OMSv2.1 */
+            {
+                name: 'company-orders-v2',
+                path: 'orders/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: Orders,
+                meta: {
+                    name: 'Company Orders'
+                }
+            },
+            {
+                name: 'company-order-details-v2',
+                path: 'orders/:orderId/details',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: OrderDetailsV2,
+                meta: {
+                    name: 'Company Order Details'
+                }
+            },
+            {
+                name: 'company-order-bulk-v2',
+                path: 'orders/bulk',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersBulk,
+                meta: {
+                    name: 'Company Order Bulk Actions'
+                }
+            },
+            {
+                name: 'company-order-manifest',
+                path: 'orders/manifest/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifest,
+                meta: {
+                    name: 'Company Order manifest'
+                }
+            },
+            {
+                name: 'company-manifest-detail',
+                path: 'orders/manifest/:manifestId/',  //need at aadd a storng 
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestDetails,
+                meta: {
+                    name: 'Manifest Detail'
+                }
+            },
+            {
+                name: 'company-manifest-generate',
+                path: 'orders/manifest/generate/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestGenerate,
+                meta: {
+                    name: 'Company Manifest Grenerate'
+                }
+            },
+
+            // =============================================================
+
             {
                 name: 'integrations-list',
                 path: 'integrations/list',
