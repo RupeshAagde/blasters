@@ -110,6 +110,7 @@
                             v-model="uploadDateRange"
                             :clearable="false"
                             :not_before="notBefore"
+                            :disabled="readOnlyMode || editingMode"
                             :not_after="new Date().toISOString()"
                             :useNitrozenTheme="true"
                             @input="onFilterChange"
