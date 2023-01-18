@@ -5,6 +5,11 @@
           <div class="page-nav">
             <div class="page-title">
               <span>Hyperlocal Tracking</span>
+              <nitrozen-button  
+                @click="refreshBtn"
+                :theme="'secondary'" class="refresh_button">
+                  <inline-svg :src="'refresh_regular'" class="refresh_icon"></inline-svg>
+              </nitrozen-button>
             </div>
           </div>
         </div>
@@ -19,11 +24,12 @@
         ></tags-container>
         <div class="main-wrapper">
             <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper">
-              <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"
+              <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"  :hyperlocal-page="true"
                                      :card-index="0"></dashboard-grid-header>
               <graph-loading-controller
                   :item="card"
                   :page-name="ANALYTICS_PAGES.DASHBOARD"
+                  :hyperlocal-page="true"
                   :panel-index="index"
               ></graph-loading-controller>
             </div>
@@ -81,7 +87,7 @@
 .left-panel > .n-button-stroke-secondary {
   border: 1px solid #e0e0e0;
   color: #666666;
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -311,7 +317,7 @@
 
 .date-text {
   align-self: center;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
@@ -379,7 +385,11 @@
   }
 }
 
-
+.refresh_icon {
+  transform: scale(1.3);
+  max-height: 24px;
+  max-width: 24px;
+}
 .page-header {
   display: flex;
   align-items: center;
@@ -487,7 +497,13 @@ canvas {
     z-index: 10;
   }
 }
-
+.refresh_button {
+  transition: all 0.4s ease-out;
+}
+.refresh_button:hover {
+  transition: 0.4s;
+  transform: rotate(180deg)
+}
 .sales-dump-progress-panel {
   margin-block: 0 1rem;
 }
@@ -531,6 +547,7 @@ import AdmLoader from "@/components/common/loader";
 import {ANALYTICS_STATE} from "@/store/modules/admin-analytics.module";
 import DashboardGridHeader from "@/pages/overview/dashboard/dashboard-grid/dashboard-grid-header.vue";
 import {HTTP_STATUS_CODES} from "../../../components/generic-graphs/data/constants";
+import inlineSvgVue from '@/components/common/inline-svg.vue';
 
 export default {
   name: 'adm-orders-ninja',
@@ -546,6 +563,23 @@ export default {
   methods: {
     cardExists(card) {
       return card.graphInfo.statusCode !== HTTP_STATUS_CODES.NO_CONTENT
+    },
+    fetchData() {
+      this.isDataLoading = false;
+        this.$store
+          .dispatch(ADMIN_FETCH_DASHBOARD_DATA, {
+            appId: this.appId,
+            emailId: this.emailId,
+            mobileNumber: this.mobileNumber,
+            pageName: ANALYTICS_PAGES.NINJA
+          })
+            .then()
+            .finally((x) => {
+                this.isDataLoading = false;
+            });
+    },
+    refreshBtn() {
+     location.reload();
     }
   },
   mixins: [
@@ -577,6 +611,7 @@ export default {
     'graph-loading-controller': GraphLoadingController,
     'error-handlers': ErrorHandlers,
     'adm-loader': AdmLoader,
+    'inline-svg': inlineSvgVue,
     DashboardGridHeader
   },
     computed: {
@@ -598,18 +633,7 @@ export default {
       }
     },
     mounted() {
-        this.isDataLoading = false;
-      this.$store
-          .dispatch(ADMIN_FETCH_DASHBOARD_DATA, {
-            appId: this.appId,
-            emailId: this.emailId,
-            mobileNumber: this.mobileNumber,
-            pageName: ANALYTICS_PAGES.NINJA
-          })
-            .then()
-            .finally((x) => {
-                this.isDataLoading = false;
-            });
+        this.fetchData();
     },
 };
 </script>

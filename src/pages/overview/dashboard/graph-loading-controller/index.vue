@@ -1,7 +1,12 @@
 <template>
   <div>
     <graph-filters v-if="item.filters" :disabled="disabled" :filters="item.filters" :is-loading="isLoading"
+                    :hyperlocal-page="hyperlocalPage"
+                    @on-error="handleError"
                    :page-name="pageName" @reset-data="resetData" :chart-id="getRandomId(item.id)"></graph-filters>
+      <div v-if="errorMessage" class="error-container">
+      <nitrozen-error >{{ errorMessage }}</nitrozen-error>
+    </div>
     <div class="is-loading" v-if="isLoading">
       <adm-shimmer
           :count="2"
@@ -13,6 +18,7 @@
                    :y-axes="item.graphInfo.yAxes"
                    :showPagination="item.graphInfo.showPagination"
                    :columns="item.graphInfo.columns"
+                   :hyperlocal-page="hyperlocalPage"
                    :rows="item.graphInfo.rows"
                    :type="item.graphInfo.graphType"
                    :chart-id="getRandomId(item.id)"
@@ -37,24 +43,38 @@ import {loadingMixins} from "@/components/generic-graphs/graphs/mixins/loading.m
 import {DashboardCommonMixins} from "../mixins/dashboard-common.mixins";
 import {graphLoadingCondition} from "../utils/graph-loading.utils";
 import admshimmer from "@/components/common/shimmer.vue";
-
+import SlaIndicator from '@/components/generic-graphs/sla/sla-indicator.vue';
+import {NitrozenError} from "@gofynd/nitrozen-vue";
 export default {
   name: "graph-loading-controller",
   mixins: [loadingMixins, DashboardCommonMixins],
+  data() {
+    return {
+      errorMessage: null
+    }
+  },  
   provide() {
     return {CHART_ID: this.item.id}
   },
-  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,},
+  components: {GraphFilters, "generic-graph": GenericGraph, loader, "adm-shimmer": admshimmer,
+    SlaIndicator, NitrozenError
+  },
   props: {
     item: {type: Object, default: null, required: true},
     disabled: {
       type: Boolean, default: false
     },
+    hyperlocalPage: {type: Boolean, default: false},
     panelIndex: {type: Number, default: 0},
     cardIndex: {type: Number, default: 0},
     pageName: {type: String, default: ANALYTICS_PAGES.DASHBOARD}
   },
   methods: {
+    handleError(value) {
+    
+     this.errorMessage = value;
+     console.log(this.errorMessage)
+    },
     loadData() {
       this.$nextTick(function () {
 
@@ -112,5 +132,7 @@ export default {
 ::v-deep .card-avatar {
   display: none;
 }
-
+.error-container {
+  padding-left: 0.5rem;
+}
 </style>

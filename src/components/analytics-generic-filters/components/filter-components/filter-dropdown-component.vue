@@ -55,6 +55,7 @@
             :limit-chars="true"
         >
         </applied-filter>
+       
     </div>
 </template>
 
@@ -130,7 +131,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2,
+        filterIndex: this.filterIndex,
       });
     },
     resetData() {
@@ -140,7 +141,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2,
+        filterIndex: this.filterIndex,
         resetSelf: {id: this.seedData.id}
       });
     },
@@ -187,7 +188,6 @@ export default {
       this.forFirstTime = true;
       this.value = this.seedData.defaultValue;
       this.forFirstTime = false;
-
     }
     this.setGetVals();
   },
@@ -258,7 +258,7 @@ export default {
 
 .clear {
   color: #2e31be;
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 12px;

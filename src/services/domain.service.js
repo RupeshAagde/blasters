@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import { isBrowser, isNode } from 'browser-or-node';
+import { isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
 const getCompInfo = () => 1;
@@ -94,9 +94,10 @@ const ADMIN_ORDER_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
 
-const EXTENSION_PAGE_URL = isNode ?
-    envVars.BROWSER_CONFIG.EXTENSION_PAGE_URL :
-    envVars.EXTENSION_PAGE_URL;
+const GRINGOTTS_BASE = isNode
+    ? envVars.BROWSER_CONFIG.GRINGOTTS_ADMIN_URL
+    : envVars.GRINGOTTS_ADMIN_URL;
+
 
 const DAYTRADER_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.DAYTRADER_ADMIN_URL :
@@ -122,11 +123,9 @@ const URLS = {
 
     //Create Hsn codes
     HSN_CODE_LIST_CREATE: () => {
-        console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, '/v2.0/hsn/');
     },
     HSN_CODE_RETRIVE_UPDATE_DELETE: (reporting_hsn) => {
-        console.log(SILVERBOLT_ACAT_URL)
         return urlJoin(SILVERBOLT_ACAT_URL, `/v2.0/hsn/${reporting_hsn}`);
     },
     //fetchVariant
@@ -497,7 +496,6 @@ const URLS = {
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/integration-config/${type}/category-sync`);
     },
     TEST_API_KEY: (type) => {
-        console.log(">>domain")
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/integration-config/${type}/test`);
     },
     INTEGRATION_DETAILS: (type) => {
@@ -547,14 +545,6 @@ const URLS = {
     },
     PLATFORM_CUSTOM_TAGS:(id='') =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
-    },
-
-    PLATFORM_CUSTOM_TAGS: (id = '') => {
-        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/', id);
-    },
-
-    PLATFORM_PRICING_BANNER: () => {
-        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/pricing-banner');
     },
 
     //Grindor
@@ -764,6 +754,31 @@ const URLS = {
     // download approved credit/debit note
     DOWNLOAD_NOTE: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/download-credit-debit-note')
+    },
+    // bulk import export
+    DOWNLOAD_SAMPLE_BULK_TEMPLATE: (job_type) => {
+        return urlJoin(
+            SILVERBOLT_ACAT_URL,
+            `v1.0/bulk/${job_type}/import/download`
+        );
+    },
+    BULK_HISTORY_REQUEST: (job_type, action) => {
+        return urlJoin(
+            SILVERBOLT_ACAT_URL,
+            `v1.0/bulk/${job_type}/${action}`
+        );
+    },
+    BULK_TEMPLATE_VALIDATION: (job_type) => {
+        return urlJoin(
+            SILVERBOLT_ACAT_URL,
+            `/v1.0/bulk/${job_type}/import/validation/schema/`
+        );
+    },
+    BULK_SEND: (job_type) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/import`);
+    },
+    BULK_REQUEST: (job_type, action) => {
+        return urlJoin(SILVERBOLT_ACAT_URL, `v1.0/bulk/${job_type}/${action}`);
     },
 };
 

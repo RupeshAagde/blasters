@@ -65,13 +65,15 @@ import ReportHistory from './../../pages/webhook/report-history/components/repor
 const OrdersPage = () => import('@/pages/orders');
 const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
-import PackagingHome from '@/pages/packaging/packaging-home.vue';
-import CategoryConfig from '@/pages/packaging/category-config.vue';
-import PackagingCreate from '@/pages/packaging/create-packaging.vue';
-import CreateCategory from '@/pages/packaging/create-category-home.vue';
+import PackagingHome from '@/pages/packaging/packaging-home.vue'
+import CategoryConfig from '@/pages/packaging/category-config.vue'
+import PackagingCreate from '@/pages/packaging/create-packaging.vue'
+import CreateCategory from '@/pages/packaging/create-category-home.vue'
+import BulkExport from '@/pages/product/bulk/export/bulk-export';
+import BulkImport from '@/pages/product/bulk/import/bulk-import';
+import UploadHistory from '@/pages/product/bulk/import/upload-history.vue';
 
 import { authenticatedUser, checkUserPermission } from './../guards';
-import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {
@@ -412,6 +414,46 @@ export default [
                 component: Product,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+             //bulk import export
+             {
+                name: 'export',
+                path: 'product/:type/export',
+                component: BulkExport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
+            },
+            {
+                name: 'import',
+                path: 'product/:type/import',
+                component: BulkImport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
+            },
+            {
+                name: 'upload-history',
+                path: 'product/:type/import/upload-history',
+                component: UploadHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
                 }
             },
             // attributes

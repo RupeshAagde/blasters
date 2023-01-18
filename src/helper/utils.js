@@ -664,6 +664,6 @@ export const  pickValues = function (obj, keys) {
 export const detectFPApp = () => {
     if (isBrowser) {
         return window._fpAppDetails;
-    };
+    }
     return false;
 };
