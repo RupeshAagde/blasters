@@ -756,13 +756,6 @@
                 this.selectedDate = moment(e).format('YYYY-MM-DD hh:mm:ss');
                 
             },
-            dateRange(){
-                var firstDay = moment().startOf('month');
-                var endDay = moment().endOf('month');
-
-                var monthRange = moment.range(firstDay, endDay)
-
-            },
             isEmpty,
             closeApproverDrawerView(event){
             this.quickApproveView = false;
