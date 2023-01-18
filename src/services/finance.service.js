@@ -33,7 +33,7 @@ const FinanceService = {
         let axiosOption = Object.assign({}, header);
         return ApiService.get(URLS.GET_LOCATION_ID(data), axiosOption);
     },
-    getFileTy̦pe(data) {
+    getFileType(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_FILE_TYPE(), axiosOption);
     },
