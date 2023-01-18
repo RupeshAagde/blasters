@@ -149,6 +149,7 @@
                         <div class="input-field purpose">
                             <nitrozen-dropdown
                                 label="Purpose"
+                                ref="purpose-dropdown"
                                 v-model="purposeType.value"
                                 :items="filteredPurposeList"
                                 :disabled="readOnlyMode"
@@ -173,6 +174,7 @@
 
                         <div class="input-field invoice-number">
                             <nitrozen-input
+                                ref="invoice-number"
                                 label="Invoice Number"
                                 placeholder="Enter Invoice Number"
                                 :disabled="readOnlyMode"
@@ -202,12 +204,12 @@
                                 @change="validateForm('feeType')"
                                 
                             ></nitrozen-dropdown>
-                            <!-- @searchInputChange="changePurposeType($event)" -->
                             <nitrozen-error v-if="feeType.errorMessage">{{ feeType.errorMessage }}</nitrozen-error>
                         </div>
 
                         <div class="credit-debit-note-amount">
                             <nitrozen-input
+                                ref="input-amount"
                                 :label=noteAmountLabel
                                 :placeholder=noteAmountPlaceholder
                                 :required="isRequired"
@@ -740,6 +742,7 @@
             }
             this.setPurposeList();
             if(this.$route.params.noteId){
+                
                 if(this.$route.params.preview && this.$route.params.preview == 'preview'){
                     this.isPreview = true;
                 }

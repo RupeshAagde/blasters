@@ -281,6 +281,7 @@ describe('credit-debit-note home page', () => {
             status: "approved",
             total_amount: 354
         });
+        wrapper.vm.close({stopPropagation(){}});
         const routeNoteCheck = jest.spyOn(wrapper.vm, 'routeNoteCheck');
         routeNoteCheck();
         const previewNote = wrapper.findComponent({ref: 'preview-note'});

@@ -13,8 +13,10 @@ import flushPromises from 'flush-promises';
 //import { NitrozenButton } from '@gofynd/nitrozen-vue';
 import PURPOSE_LIST_DATA from './fixtures/purpose-list.json';
 import USER_MOCK from './fixtures/user-mock.json';
+import createCn from './fixtures/create-cn.json';
 import SERVICE_INVOICE_DETAILS_MOCK from './fixtures/service-invoice-details-mock.json';
 import NOTE_DETAIL_MOCK from './fixtures/note-detail.json';
+import { flush } from "@sentry/node";
 //import SERVICE_INVOICE_DETAIL_MOCK from './fixtures/service-invoice-details-mock.json';
 
 let wrapper, router, localVue;
@@ -51,15 +53,15 @@ describe('credit-debit-note page', () => {
         router = new VueRouter({
             routes: [
                 {
-                    path: 'finance/credit-debit-note/credit-note/:noteType/:noteId?/:preview?',
+                    path: 'finance/credit-debit-note/credit-note/:noteType/:noteId?/:preview?/:isApprover?/:documentNo?',
                     component: CreditNote,
                 },
             ],
         });
-
+        router.push('finance/credit-debit-note/credit-note/credit/0ab27f6b-cf2e-4f57-a482-8ffe06971ad2/preview/false/BCN%2F00031%2F22-23');
         mock.onPost(URLS.GET_PURPOSE_DATA(purposeParamas)).reply(200, PURPOSE_LIST_DATA);
 
-        router.push(`finance/credit-debit-note/credit-note/:noteType/:noteId?/:preview?`);
+        
 
         wrapper = mount(CreditNote, {
             localVue,
@@ -80,7 +82,24 @@ describe('credit-debit-note page', () => {
                     isValidForm: {},
                     calledFromChild: true,
                     sellerName:'',
-                    cnTypes: [{text:"Commercial",value:"commercial"},{text:"GST Fee Invoice",value:"gst_fee"},{text:"GST Service Invoice",value:"gst_service"}],
+                    ilteredCnTypes : [
+                        {
+                            text:"Commercial",
+                            value:"commercial",
+                            description:"Commercial Credit notes are raised against invoice number and seller id. An example where a commercial credit note needs to be issued is when an order is lost by logistic service provider, the amount recovered by logistic service provider is credited to the seller."
+                        },
+                        {
+                            text:"GST Fee Invoice",
+                            value:"gst_fee",
+                            description:"Gst fee note is raised against an existing fee invoice component if theres an issue that affects the entire invoice."
+                        },
+                        {
+                            text:"GST Service Invoice",
+                            value:"gst_service",
+                            description:"Gst Service is raised against an existing service invoice component. One of the events in which gst service note needs to be issued is the invoice difference of initial shipping cost charged to Seller based on estimates and actual cost charged by logistic service provider."
+                        }
+                    ],
+                    noteDesc: '',
                     isDisabled: true,
                     isRequired: true,
                     isPreview: false,
@@ -146,65 +165,7 @@ describe('credit-debit-note page', () => {
                     bagShipmentMapping: {},
                     componentList: [],
                     readOnlyMode: false,
-                    tab: {
-                        'category': 'gst_service',
-                        'approved_at': null,
-                        'approved_by': null,
-                        'approver_remark': null,
-                        'created_at': 1658918093,
-                        'created_by': "shivanishah_fynd_external_com_45981",
-                        'document_number': "3PCN292310000038",
-                        'id': "2d49fc53-2965-434b-83b0-f1e6a64e471b",
-                        'invoice_number': "3PDF292200000051",
-                        'invoice_type': "service",
-                        'is_active': true,
-                        'note_details': [
-                            {
-                                'bag_id': "47814",
-                                'cgst_tax_rate': 0,
-                                'fee_type': "cancellation_penalty",
-                                'gross_amount': 1,
-                                'id': "7f826f78-abe3-4bc1-b258-e643c0365b3f",
-                                'igst_tax_rate': 0,
-                                'invoice_number': null,
-                                'kapture_sr_id': null,
-                                'note_id': "2d49fc53-2965-434b-83b0-f1e6a64e471b",
-                                'order_id': null,
-                                'purpose_id': "b5e2cf03-8bb6-4fcd-ad88-0efb611195da",
-                                'remark': "r20",
-                                'sac_code': "999794",
-                                'sgst_tax_rate': 0,
-                                'shipment_id': "16585652884651330395K",
-                                'total_amount': 1,
-                            },
-                            {
-                                'bag_id': "47857",
-                                'cgst_tax_rate': 0,
-                                'fee_type': "fixed_fee",
-                                'gross_amount': 12,
-                                'id': "6e8af381-1199-472c-844c-b19510373436",
-                                'igst_tax_rate': 18,
-                                'invoice_number': null,
-                                'kapture_sr_id': null,
-                                'note_id': "2d49fc53-2965-434b-83b0-f1e6a64e471b",
-                                'order_id': "FY62DBFF770176467297",
-                                'purpose_id': "20354d7a-e4fe-47af-8ff6-187bca92f3f1",
-                                'remark': "r20",
-                                'sac_code': "996211",
-                                'sgst_tax_rate': 0,
-                                'shipment_id': "16585849523081711463K",
-                                'total_amount': 14.16,
-                            }
-                        ],
-                        'note_narration': "note narration",
-                        'note_type': "credit",
-                        'pdf_s3_url': null,
-                        'purpose_id': "b5e2cf03-8bb6-4fcd-ad88-0efb611195da",
-                        'seller_id': "93",
-                        'seller_name': "CHANDRA NAYAK BHASKAR NAYAK",
-                        'status': "Init",
-                        'total_amount': 18.52
-                    },
+                    tab: createCn.tabInit,
                     chips : 'miltiple search, text',
                     noteDetails: [
                         {
@@ -282,9 +243,115 @@ describe('credit-debit-note page', () => {
     //     expect(wrapper.findComponent(GoBackDialog).isVisible()).toBe(true)
     // })
 
+    it('Should search in the dropdown when given the input', async() => {
+        //const getListfn = jest.spyOn(wrapper.vm, 'getListData');
+        await flushPromises();
+        wrapper.setData({
+            purposeList: [
+                {
+                    text: 'Approved',
+                    value: 'approved'
+                }
+            ],
+            filteredPurposeList: [
+                {
+                    text: 'Approved',
+                    value: 'approved'
+                }
+            ],
+            purposeType: {
+                value: '',
+                errorMessage: '',
+                isValid: false
+            },
+            selectedType: 'commercial'
+
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.findComponent({ref: 'purpose-dropdown'});
+        statusDD.vm.$emit('searchInputChange',{
+            text: 'Approved',
+            value: 'approved'
+        });
+        expect(wrapper.vm.filteredPurposeList.length).toBe(1);
+    });
+
+    it('Should search in the dropdown when given input is empty', async() => {
+        //const getListfn = jest.spyOn(wrapper.vm, 'getListData');
+        await flushPromises();
+        wrapper.setData({
+            purposeList: [
+                {
+                    text: 'Approved',
+                    value: 'approved'
+                }
+            ],
+            filteredPurposeList: [
+                {
+                    text: 'Approved',
+                    value: 'approved'
+                }
+            ],
+            purposeType: {
+                value: '',
+                errorMessage: '',
+                isValid: false
+            },
+            selectedType: 'commercial'
+
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.findComponent({ref: 'purpose-dropdown'});
+        statusDD.vm.$emit('searchInputChange',{
+            text: '',
+            value: ''
+        });
+        expect(wrapper.vm.filteredPurposeList.length).toBe(1);
+    });
+
+    it('read Only the data populate', async() => {
+       wrapper.vm.$router.replace({path: 'finance/credit-debit-note/credit-note', params: { noteType: 'credit', noteId: '0ab27f6b-cf2e-4f57-a482-8ffe06971ad2', preview: 'preview'}});
+        const readOnly = jest.spyOn(wrapper.vm, 'readOnlyData');
+        readOnly();
+        mock.onPost(URLS.GET_NOTE_DATA()).reply(200,NOTE_DETAIL_MOCK.gstFee);
+        await flushPromises();
+        await wrapper.vm.$nextTick();
+        expect.anything();
+    });
+
+    it('should return the keypressed', async() => {
+        await flushPromises();
+        const keyFun = jest.spyOn(wrapper.vm, 'omit_special_char');
+        keyFun({keyCode: 47, which:'enter', preventDefault(){} });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect.anything();
+    });
+
+    it('should close the approver drawer', async() => {
+        await flushPromises();
+        const keyFun = jest.spyOn(wrapper.vm, 'closeApproverDrawerView');
+        keyFun(true);
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.quickApproveView).toBe(false);
+    });
+
     it('should get seller details', async() => {
         await wrapper.vm.getSellerDetails();
     });
+
+    it('this function populates the the data in form in readonly mode', async() => {
+        await flushPromises();
+        wrapper.setData({
+            tab: {
+                category: 'gst_service',
+            }
+        });
+        wrapper.vm.readOnlyData();
+    })
 
     it('reset form', async() => {
         wrapper.setData({
@@ -298,10 +365,6 @@ describe('credit-debit-note page', () => {
     /* it('should reset form', () => {
         wrapper.vm.resetForm();
     }) */
-
-    it('disable save button', () => {
-        wrapper.vm.disableSave();
-    })
 
     it('disable save button gst service', () => {
         wrapper.setData({
@@ -340,7 +403,7 @@ describe('credit-debit-note page', () => {
     it('should get service invoice payload for update',() => {
         wrapper.setData({
             bagsRemoved: [],
-            noteDetails: [
+            noteDetailsMap: [
                 {
                     'bag_id': "47814",
                     'cgst_tax_rate': 0,
@@ -359,7 +422,50 @@ describe('credit-debit-note page', () => {
                     'shipment_id': "16585652884651330395K",
                     'total_amount': 1,
                 },
-            ]
+            ],
+            tab: createCn.pending,
+            noteDetails: createCn.pending.note_details,
+        })
+        wrapper.vm.getServiceInvoicePayload('edit_entity');
+    });
+
+    it('should get service invoice payload for update',() => {
+        wrapper.setData({
+            bagsRemoved: ['47814','47815'],
+            noteDetailsMap: {
+                "bag_id": "412034",
+                "shipment_id": "16726405181421038384",
+                "row": [
+                    {
+                        "fee_type": "commission_from_brands",
+                        "purpose_id": "8796f00b-ce27-4804-9307-87d22e96a1d5",
+                        "gross_amount": 123,
+                        "sac_code": "998311",
+                        "sgst_tax_rate": 9,
+                        "igst_tax_rate": 0,
+                        "cgst_tax_rate": 9,
+                        "remark": "test",
+                        "total_amount": 145.14,
+                        "bag_id": "412034",
+                        "shipment_id": "16726405181421038384",
+                        "id": "221e761a-2cf2-4517-9bb3-b64107328536"
+                    }
+                ],
+                "charge_components": [
+                    {
+                        "type": "commission_from_brands",
+                        "display_name": "Commission From Brands",
+                        "sac_code": "998311",
+                        "sgst_tax_rate": 9,
+                        "cgst_tax_rate": 9,
+                        "amount": 564,
+                        "total_amount": 665
+                    }
+                ],
+                "order_id": "FY63B278050E706A0413",
+                "ordering_channel": "fynd"
+            },
+            tab: createCn.pending
         })
         wrapper.vm.getServiceInvoicePayload('edit_entity');
     })
@@ -566,6 +672,53 @@ describe('credit-debit-note page', () => {
         })
         wrapper.vm.validateForm('shippingFee');
     })
+
+    it('should Validate the amount when entered', async() => {
+        await flushPromises();
+        wrapper.setData({
+            selectedType: 'commercial',
+            creditDebitNoteAmount:{
+                value: 0,
+            },
+            noteType: 'credit'
+
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const statusDD = wrapper.findComponent({ref: 'input-amount'});
+        statusDD.vm.$emit('input','amount');
+        expect(wrapper.vm.noteType).toBe('credit');
+    });
+    it('should Validate the invoice number when entered', async() => {
+        await flushPromises();
+        wrapper.setData({
+            selectedType: 'commercial',
+            creditDebitNoteAmount:{
+                value: createCn.max,
+            },
+            invoiceNumber: {
+                errorMessage: '',
+                isValid: false
+            },
+            feeType: {
+                value: 'component type',
+                errorMessage: '',
+                isValid: false
+            },
+            kaptureId: {
+                value: 'component type',
+                errorMessage: '',
+                isValid: false
+            },
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        wrapper.vm.validateForm('feeType');
+        wrapper.vm.validateForm('kaptureId');
+        const statusDD = wrapper.findComponent({ref: 'invoice-number'});
+        statusDD.vm.$emit('input','invoiceNumber');
+        expect(wrapper.vm.invoiceNumber.isValid).toBe(true);
+    });
 
     it('validates form for credit amount', () => {
         wrapper.setData({
