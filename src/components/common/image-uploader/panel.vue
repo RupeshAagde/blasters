@@ -262,6 +262,10 @@ export default {
         updateImageSrc() {
             try {
                 if(!this.isHDNImage && this.value){
+                    if(this.value.startsWith('data:')){
+                        this.src = this.value;
+                        return;
+                    }
                     // For external urls to bypass CORS issue
                     ApiService.get(`${GrindorService.getProxyURL()}?url=${this.value}`,
                     {},

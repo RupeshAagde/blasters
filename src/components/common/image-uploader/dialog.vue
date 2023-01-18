@@ -102,7 +102,7 @@ import ImageUploaderList from './list.vue';
 import loader from '@/components/common/loader';
 import GrindorService from '@/services/grindor.service';
 import InlineSvg from '@/components/common/adm-inline-svg.vue';
-import { copyToClipboard, detectMobileWidth } from '@/helper/utils.js';
+import { detectMobileWidth } from '@/helper/utils.js';
 import axios from 'axios';
 import mime from 'mime-types';
 
@@ -527,10 +527,6 @@ export default {
                         this.loading = false;
                     });
             }
-        },
-        copyToClipboard(e) {
-            copyToClipboard(this.imageURL);
-            this.$snackbar.global.showInfo('URL copied to clipboard', 1000);
         },
         getMeta(url) {
             return new Promise((resolve, reject) => {
