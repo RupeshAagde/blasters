@@ -333,6 +333,20 @@ const conf = convict({
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
         },
+        FIREBOLT_ADMIN_URL: {
+            doc: "Firebolt Admin URL",
+            format: String,
+            default: '',
+            env: "FIREBOLT_ADMIN_URL",
+            arg: "firebolt_admin_url"
+        },
+        DAYTRADER_ADMIN_URL: {
+            doc: "Daytrader Admin URL",
+            format: String,
+            default: '',
+            env: "DAYTRADER_ADMIN_URL",
+            arg: "daytrader_admin_url"
+        },
         MARKETPLACES_ADMIN_URL: {
             doc: 'Marketpalces Admin URL',
             format: String,
@@ -417,6 +431,20 @@ const conf = convict({
             env: 'EXTENSION_PAGE_URL',
             arg: 'EXTENSION_PAGE_URL'
         },
+        FIREBOLT_ADMIN_URL: {
+            doc: 'Firebolt logistics',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/logistics',
+            env: 'FIREBOLT_ADMIN_URL',
+            arg: 'FIREBOLT_ADMIN_URL'
+        },
+        RMA_ADMIN_URL: {
+            doc: 'RMA Admin',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/rma',
+            env: 'RMA_ADMIN_URL',
+            arg: 'RMA_ADMIN_URL'
+        },
         FRENZY_ADMIN_URL: {
             doc: 'url to get analytics api for sales channel',
             format: String,
@@ -424,7 +452,71 @@ const conf = convict({
             env: 'FRENZY_ADMIN_URL',
             args: 'frenzy_admin_url'
         },
-
+        /** OMS v2.1 */
+        ARK_MAIN_URL: {
+            doc: 'Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_URL',
+            arg: 'ark_main_url'
+        },
+        ARK_MAIN_SVC: {
+            doc: 'Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_SVC',
+            arg: 'ark_main_svc'
+        },
+        ARK_PLTM_URL: {
+            doc: 'Platform Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_URL',
+            arg: 'ark_pltm_url'
+        },
+        ARK_PLTM_SVC: {
+            doc: 'Platform Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_SVC',
+            arg: 'ark_pltm_svc'
+        },
+        AVIS_ADMIN_URL: {
+            doc: 'Platform Order Management URL',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_URL',
+            arg: 'avis_admin_url'
+        },
+        AVIS_ADMIN_SVC: {
+            doc: 'Platform Order Management Service',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_SVC',
+            arg: 'avis_admin_svc'
+        },
+        COMPUTRON_ADMIN_SVC: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_SVC',
+            arg: 'computron_admin_svc'
+        },
+        COMPUTRON_ADMIN_URL: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_URL',
+            arg: 'computron_admin_url'
+        },
+        HEDWIG_ADMIN_SVC: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_ADMIN_SVC',
+            arg: 'hedwig_admin_svc'
+        }
+        /** OMS v2.1 -- END */
     },
 
     // Sentry

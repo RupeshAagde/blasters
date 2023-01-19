@@ -95,7 +95,7 @@
                 }}</nitrozen-error>
             </div>
             <div>
-                <div class="n-input-label">Logo *</div>
+                <!-- <div class="n-input-label">Logo *</div> -->
                 <image-uploader-tile
                     label="Logo *"
                     aspectRatio="1:1"
@@ -190,7 +190,7 @@
     border-radius: 4px;
     margin: 85px 24px 24px 24px !important;
     padding: 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 
     .row-1 {
         width: 100%;

@@ -1,0 +1,983 @@
+{
+    "success": true,
+    "items": [
+        {
+            "id": "7053f6cb-5ff5-4b9e-b562-5b2197a9a4ff",
+            "created_at": "2022-06-16 14:54:10",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "0e75cddd-428c-4efd-b444-40339f9064a9",
+            "created_at": "2022-06-16 12:25:54",
+            "seller_name": "RIL_mil Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 10500.35,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "b2ed9773-482b-49c1-8b89-aa7480e1ebfd",
+            "created_at": "2022-06-16 09:58:27",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "7719fb46-438f-4147-93ca-d9ff79295f22",
+            "created_at": "2022-06-16 09:53:35",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "db2a4fe2-2c31-4acc-8cb2-ff5ca277cf40",
+            "created_at": "2022-06-16 09:41:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "81030323-8657-4cfa-a018-7ee0a2668111",
+            "created_at": "2022-06-16 09:41:21",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "fc90acd7-44ba-4a94-aa6a-1a1fd2ce1914",
+            "created_at": "2022-06-15 20:28:20",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "045cf4f9-6ce9-493f-afb8-60e40db95f85",
+            "created_at": "2022-06-15 20:02:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "583e1b9d-0f64-4bef-bb38-4e6c381cb61e",
+            "created_at": "2022-06-15 20:01:38",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "be5e2a18-812b-4520-9536-5db1128fa18b",
+            "created_at": "2022-06-15 19:59:51",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "69712fdd-eb2d-41b9-900d-c7dc0a143666",
+            "created_at": "2022-06-15 15:56:14",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8155d057-0a69-4b17-b5c6-6b7f90eddae4",
+            "created_at": "2022-06-15 15:55:16",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8968cc4d-f52c-44dd-981e-eaa251d7f756",
+            "created_at": "2022-06-15 15:55:07",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "25d46b1e-7a15-4c95-bea2-a375eea431c5",
+            "created_at": "2022-06-15 15:54:43",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "c0939587-b562-4060-9b8a-ff28607a8d8d",
+            "created_at": "2022-06-15 15:53:18",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "56c3384f-141a-4708-b3cd-37d03abe5024",
+            "created_at": "2022-06-15 15:52:48",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "f0301883-6018-4f31-af6a-b5e237569247",
+            "created_at": "2022-06-15 15:52:31",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "3cfb1933-b1c0-4d0b-980e-5e47b5d3ae8f",
+            "created_at": "2022-06-15 15:43:11",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "0b3e2272-01e9-4b82-832e-377a6012c582",
+            "created_at": "2022-06-15 15:42:57",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "e381e716-d521-4e35-a89f-756cbf083f57",
+            "created_at": "2022-06-15 15:42:49",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "9879faff-4058-42a5-ad45-61ac01e21e79",
+            "created_at": "2022-06-15 15:41:12",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "605a343d-ba3d-4e09-98be-f66fac90f213",
+            "created_at": "2022-06-15 15:41:01",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "9320edf2-0e1d-4269-b94f-fef3a9e8cfb1",
+            "created_at": "2022-06-15 15:40:08",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "5f5f3788-3945-4702-b69c-91d85c61d430",
+            "created_at": "2022-06-15 15:39:59",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "aaa8453b-1f6f-41e5-9673-8aed622a80a5",
+            "created_at": "2022-06-15 15:39:36",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "e95d928a-70e4-4b29-92ee-927fe6437b3f",
+            "created_at": "2022-06-15 15:38:53",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "c8c711e6-202d-4b21-9bdd-020fa3083f5d",
+            "created_at": "2022-06-15 15:38:16",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "2a054a11-6d1f-408b-9d7e-ce66cbdf7dbb",
+            "created_at": "2022-06-15 15:36:45",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "89227706-5067-49d4-b326-3f55abb70358",
+            "created_at": "2022-06-15 15:36:09",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8a3c1a7e-af39-4b74-ad13-cc2ab5e1d1c1",
+            "created_at": "2022-06-15 15:34:08",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "0f0c7c67-5455-4379-9ed0-5217ccd7a01a",
+            "created_at": "2022-06-15 15:34:03",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "431627fd-f120-4261-914b-d732f34229ae",
+            "created_at": "2022-06-15 15:33:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "b03d4656-5673-4808-bfdb-ff8137c90cf9",
+            "created_at": "2022-06-15 15:33:16",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "ddd933a0-5f14-479b-abd3-ec09f3e7da19",
+            "created_at": "2022-06-15 15:33:09",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "2fd14b76-5e3a-4363-aeb6-10d8317eb968",
+            "created_at": "2022-06-15 15:19:41",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "e7e588f1-9df2-4823-92b6-1619e80fe305",
+            "created_at": "2022-06-15 15:18:51",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "25f9d587-ad75-4934-92bc-38cc0f392ee2",
+            "created_at": "2022-06-15 15:18:33",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "76df6d9f-3778-431e-82d4-5b451a36ca7c",
+            "created_at": "2022-06-15 15:18:12",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "4edfa146-e461-4bed-84ff-3e97d271d2d3",
+            "created_at": "2022-06-15 15:17:45",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "93ba983b-6371-4d0f-ba50-2d77ca2bc437",
+            "created_at": "2022-06-15 15:17:25",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "d9ccc8a4-d818-4eb6-ba18-67060bd791b0",
+            "created_at": "2022-06-15 15:17:12",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8a69ea3a-ea5d-4537-b25a-0ccbc06b4b33",
+            "created_at": "2022-06-15 15:16:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "c7cb85e8-a5bf-4246-a658-98c385481f51",
+            "created_at": "2022-06-15 15:16:16",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "fc775e5b-4968-4c94-a0d6-ac036366e693",
+            "created_at": "2022-06-15 15:14:43",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "ae1f5932-84e6-43b4-9a04-bdf0c1aa0ef1",
+            "created_at": "2022-06-15 15:14:28",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "c1b2467b-9b1f-444b-b25f-6291fd1b1258",
+            "created_at": "2022-06-15 15:14:16",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "3c7f4e5f-501e-45c3-896e-a25bd97dc4f9",
+            "created_at": "2022-06-15 15:14:06",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "1aa14e95-b360-4ee4-afc1-d96a189331ca",
+            "created_at": "2022-06-15 15:13:24",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "0fd5e5fe-7e4d-4237-b10a-7fd556b63c7b",
+            "created_at": "2022-06-15 15:12:55",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "7c3fbb67-c484-4e4f-b57e-e396a7db6f74",
+            "created_at": "2022-06-15 15:12:48",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "11521c4b-d233-4813-9bbf-55cd2f3308ef",
+            "created_at": "2022-06-15 15:12:30",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "c3d3db9b-764c-4739-bd49-70ba109c67ad",
+            "created_at": "2022-06-15 15:12:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "d4a3e7fc-9507-40d8-9459-0250bc74d961",
+            "created_at": "2022-06-15 15:11:37",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "902affc5-24b8-448c-87c4-40d2529cccf0",
+            "created_at": "2022-06-15 15:11:27",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "82fc57b8-ed10-4f40-bb2e-9840024250dc",
+            "created_at": "2022-06-15 15:11:08",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "68be9cf4-dfc2-420d-9932-7d3516dce66b",
+            "created_at": "2022-06-15 15:06:32",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8aece743-847f-4f0e-8d7e-44866e4f1e87",
+            "created_at": "2022-06-15 14:20:13",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "9cf24646-754e-49af-9538-d7ad2a6c9dbc",
+            "created_at": "2022-06-15 14:18:38",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "47d81043-b502-4f4a-94e8-7ecc9c47536e",
+            "created_at": "2022-06-15 14:17:14",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "3537c8a8-5a32-4927-98b6-e06582dd29b9",
+            "created_at": "2022-06-15 14:16:24",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "3089aafe-837e-451d-b3d2-5b07cd3657c7",
+            "created_at": "2022-06-15 14:16:15",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "daadcd9d-66da-49b2-afd1-6dadd4ab34ff",
+            "created_at": "2022-06-15 14:16:01",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "47a99fee-57e6-491e-b253-c86525cd31a1",
+            "created_at": "2022-06-15 14:14:23",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "f5747e6a-00f3-49c2-846f-275691a514c3",
+            "created_at": "2022-06-15 14:13:53",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "873c2fb0-2e16-41f7-bc4d-5a087d349e6f",
+            "created_at": "2022-06-15 14:13:44",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "982ea60b-3a45-4492-b96b-38d3df9efaef",
+            "created_at": "2022-06-15 14:13:10",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "99a4f2d6-6a2e-49aa-b2a9-37a806cf80ad",
+            "created_at": "2022-06-15 14:12:29",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.349,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "03e41313-342e-4e2a-bc4a-02b5cfcc7b5f",
+            "created_at": "2022-06-15 14:12:12",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 33.34,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "bfe45180-3c87-4c3e-91a7-28818bc9220e",
+            "created_at": "2022-06-15 14:11:54",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 12345678899.0,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "1b5907a9-1374-4a83-8da8-7445df8effd0",
+            "created_at": "2022-06-15 14:09:35",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 0.0,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "94076a10-db1f-48cb-aac2-53e15dc0c09a",
+            "created_at": "2022-06-15 14:08:47",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": -123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "a2bc8df0-c6b6-4dce-943f-53524f89ec3c",
+            "created_at": "2022-06-15 14:06:58",
+            "seller_name": "ABC1 Seller",
+            "category": "commercial",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "6e37c1c8-d508-4c5c-8642-7d18ad22bb2b",
+            "created_at": "2022-06-15 14:06:49",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_service",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "4ca5dd0c-7313-4389-ac5a-f3c94c9319df",
+            "created_at": "2022-06-15 14:05:59",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "4a0e3da7-c8fd-4b06-a777-d5e9952ff833",
+            "created_at": "2022-06-15 14:05:01",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "b564c0e4-8455-483d-91ed-c230c299075c",
+            "created_at": "2022-06-15 13:27:56",
+            "seller_name": "",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "cbda86cf-bb5f-4cef-94b3-b77131d8fd3a",
+            "created_at": "2022-06-15 13:16:18",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "1a20ebb4-89f6-4e27-958f-2792cd49f0aa",
+            "created_at": "2022-06-15 13:16:03",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "b6c816b4-e8e6-4ff3-927d-da9ea870816b",
+            "created_at": "2022-06-15 13:14:53",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "18ff862f-a649-45c1-911f-9d347d199dad",
+            "created_at": "2022-06-15 13:03:22",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "a4206494-fcea-405c-ad97-0ab9c03741b9",
+            "created_at": "2022-06-15 13:00:21",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "cc3ab88e-4338-48b5-9a73-ad35aeeb5a0b",
+            "created_at": "2022-06-14 19:03:22",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "6cbf633a-921a-4c9b-994a-c9f5770d410c",
+            "created_at": "2022-06-14 18:33:32",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "f0ce745c-1a92-4c0f-aba7-a2adb4a05f6b",
+            "created_at": "2022-06-14 18:31:55",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "f5e624df-6ef5-49de-8fa3-ec012fdcb18e",
+            "created_at": "2022-06-14 18:31:30",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "0615d090-eb64-4301-959d-7e75bb71450a",
+            "created_at": "2022-06-14 18:30:01",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "a4a7984d-8f07-438a-b6f8-120a36d90f55",
+            "created_at": "2022-06-14 17:47:19",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "245fd087-01a4-4994-895a-c2086a7d879d",
+            "created_at": "2022-06-14 17:03:16",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "8815bd52-b894-48f6-941c-480d5f76d823",
+            "created_at": "2022-06-14 17:03:09",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "24c7166b-32ca-481a-8a34-54c4cc52b379",
+            "created_at": "2022-06-14 13:28:55",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "49ebab3a-2826-4d65-bee2-10d6fbb3018f",
+            "created_at": "2022-06-14 13:22:51",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "d39b64fd-258f-4267-a35c-719e7ff20c13",
+            "created_at": "2022-06-14 13:22:14",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "b028894c-fd21-4e6c-8812-bc6c93d3acde",
+            "created_at": "2022-06-14 13:17:07",
+            "seller_name": "ABC1 Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 123.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "9812ec9d-0147-4d9b-a62b-bbf77999fbbd",
+            "created_at": "2022-06-14 13:05:32",
+            "seller_name": "Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 140.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "ce743392-141c-4e3b-bb5c-ffbee24d433a",
+            "created_at": "2022-06-13 12:10:32",
+            "seller_name": "Seller",
+            "category": "gst_fee",
+            "document_number": "test_document",
+            "total_amount": 140.4,
+            "status": "Init",
+            "approved_at": null
+        },
+        {
+            "id": "d1f15b02-ab71-4832-83f3-9ec1e0af8944",
+            "created_at": "2022-05-14 16:25:45",
+            "seller_name": "TestSeller",
+            "category": "commercial",
+            "document_number": "Test123",
+            "total_amount": 100.0,
+            "status": "rejected",
+            "approved_at": "2022-06-16 15:06:03"
+        },
+        {
+            "id": "d1fs5b22-ab71-4832-83f3-9ec1e0af8944",
+            "created_at": "2022-05-14 16:25:45",
+            "seller_name": "TestSeller",
+            "category": "gst",
+            "document_number": "Test123",
+            "total_amount": 500.0,
+            "status": "Approved",
+            "approved_at": "2022-05-17 16:25:45"
+        }
+    ],
+    "item_count": 97,
+    "page": {
+        "type": "number",
+        "size": 10,
+        "current": 1,
+        "has_next": true,
+        "item_count": 97
+    }
+}

@@ -48,7 +48,7 @@
 
 ::v-deep .mx-datepicker.global-font-family,
 ::v-deep .mx-calendar.mx-calendar-panel-date {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
 }
 ::v-deep .mx-input {
     box-shadow: none !important;

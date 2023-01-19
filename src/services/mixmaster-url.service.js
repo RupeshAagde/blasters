@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import { isBrowser, isNode } from 'browser-or-node';
+import { isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
 const envVars = root.env || {};

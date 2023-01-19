@@ -83,7 +83,7 @@ class RequestSigner {
 
       if (!request.doNotModifyHeaders) {
         if (headers['x-fp-date']) {
-          this.datetime = headers['x-fp-date'] || headers['x-fp-date'];
+          this.datetime = headers['x-fp-date'];
         } else {
           headers['x-fp-date'] = this.getDateTime();
         }

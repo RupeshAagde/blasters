@@ -38,10 +38,10 @@ button,
 input,
 textarea,
 select {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 ::placeholder {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 a {
     text-decoration: none;
@@ -196,7 +196,7 @@ h1.content-header {
     font-size: 36px;
     line-height: 55px;
     font-weight: bold;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     color: @Mako;
 }
 p.content-desc {
@@ -204,7 +204,7 @@ p.content-desc {
     font-size: 14px;
     line-height: 21px;
     color: @HomePageText;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     margin-top: 26px;
 }
 
@@ -376,6 +376,31 @@ p.content-desc {
     }
 }
 
+.blaster-table {
+    width: 100%;
+    font-family: Inter;
+    font-size: 12px;
+    border: 1px solid @Iron;
+    border-radius: 4px;
+
+    tr:first-child {
+        background: @WhiteGray;
+        border: 1px solid #e0e0e0;
+        color: #4F4F4F;
+
+        td:first-child{
+            border-top-left-radius: 4px;
+        }
+    }
+    tr:not(:first-child) {
+        border-bottom: 1px solid @Iron;
+        color: #333333;
+    }
+    td {
+        vertical-align: middle;
+        padding: 18px 16px;
+    }
+}
 /*
   use this class on elements where you need to show ellipses on elements.
   Note: please give a max-width along with this class for the overflow to take effect.

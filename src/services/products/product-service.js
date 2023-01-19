@@ -1,7 +1,5 @@
 'use strict';
 
-import URLS from './domain.service';
-import ApiService from './api.service';
 import { getCommonHeaderOptions } from './utils.service';
 import { Object } from 'window-or-global';
 
@@ -13,7 +11,7 @@ const variants = [
 
 const variantService = {
     getVariants () {
-        const axiosOptions = Object.assign(
+        Object.assign(
             {},
             getCommonHeaderOptions()
         )

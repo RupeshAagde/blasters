@@ -776,7 +776,7 @@
 }
 
 .add-another-link-icon {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     line-height: 17px;
@@ -796,7 +796,7 @@
 }
 
 .add-another-link {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -877,7 +877,7 @@
 .clear-section {
     cursor: pointer;
     align-self: center;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -911,12 +911,11 @@
 .header-webhook-message {
     margin-bottom: 10px;
     text-align: center;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
     line-height: 25px;
-    text-align: center;
     color: #333333;
 }
 
@@ -963,7 +962,7 @@
 }
 
 .webhook-clear-btn {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -973,7 +972,7 @@
 }
 
 .test-webhook-message {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -988,7 +987,7 @@
 }
 
 .header-text {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -1054,7 +1053,7 @@
     float: right;
     width: 20%;
     padding: 0;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -1085,9 +1084,8 @@
 }
 
 .event-span-text {
-    font-size: 14px;
     margin: 5px 0 20px 0;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -1128,7 +1126,7 @@
 }
 
 .toggle-text-auth-header {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -1137,7 +1135,7 @@
 }
 
 .toggle-text-auth {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -1204,7 +1202,7 @@
 }
 
 ::v-deep .n-input-label {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -1221,7 +1219,7 @@
 }
 
 .span-header-auth {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -2290,7 +2288,7 @@ export default {
                             let groupEventConf = {};
                             let applicationArrayGroup = {};
                             let countApplication = 0;
-                            Object.keys(groupEvent['application']).map(
+                            Object.keys(groupEvent['application']).forEach(
                                 (elem, index) => {
                                     applicationArrayGroup[elem] = _.mapValues(
                                         _.groupBy(
@@ -2305,7 +2303,7 @@ export default {
                                     let applicationArrayGroupKeys = [];
                                     Object.keys(
                                         applicationArrayGroup[elem]
-                                    ).map((item) => {
+                                    ).forEach((item) => {
                                         applicationArrayGroupKeys.push({
                                             text: 'V' + item,
                                             value: item,
@@ -2329,7 +2327,7 @@ export default {
                             );
                             let companyArrayGroup = {};
 
-                            Object.keys(groupEvent['company']).map(
+                            Object.keys(groupEvent['company']).forEach(
                                 (elem, index) => {
                                     companyArrayGroup[elem] = _.mapValues(
                                         _.groupBy(
@@ -2343,7 +2341,7 @@ export default {
                                     );
                                     let companyArrayGroupKeys = [];
                                     let countCompany = 0;
-                                    Object.keys(companyArrayGroup[elem]).map(
+                                    Object.keys(companyArrayGroup[elem]).forEach(
                                         (item) => {
                                             companyArrayGroupKeys.push({
                                                 text: 'V' + item,
@@ -2368,14 +2366,14 @@ export default {
                             );
                             //? global events
                             let globalArrayGroup = {};
-                            Object.keys(groupEvent['global']).map((elem, index) => {
+                            Object.keys(groupEvent['global']).forEach((elem, index) => {
                                 globalArrayGroup[elem] = _.mapValues(
                                     _.groupBy(groupEvent['global'][elem], 'version'),
                                     (clist) =>
                                         clist.map((event) => _.omit(event, 'version'))
                                 );
                                 let globalArrayGroupKeys = [];
-                                Object.keys(globalArrayGroup[elem]).map((item) => {
+                                Object.keys(globalArrayGroup[elem]).forEach((item) => {
                                     globalArrayGroupKeys.push({
                                         text: 'V' + item,
                                         value: item,

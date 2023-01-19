@@ -59,7 +59,19 @@ export EXTENSION_PAGE_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/partner/pa
 export BLASTER_MAIN_DOMAIN=https://administrator.${FYND_PLATFORM_DOMAIN}
 export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
+export RMA_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/rma
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
+export DAYTRADER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/finance
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics-internal
+
+export DAYTRADER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/finance
+export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
+export AVIS_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
+export AVIS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/order-manage/
+export COMPUTRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
+export COMPUTRON_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
+export HEDWIG_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
 
 #ENV's
 export SENTRY_DSN=''

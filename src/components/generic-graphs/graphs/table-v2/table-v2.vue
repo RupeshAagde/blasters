@@ -292,7 +292,7 @@ td {
 }
 
 .table-content-content {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -304,7 +304,7 @@ td {
 }
 
 .table-head-content {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px
@@ -323,7 +323,7 @@ span {
 }
 
 .view-more {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -351,14 +351,14 @@ th {
 }
 
 .content {
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
 }
 
 .heading {
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
