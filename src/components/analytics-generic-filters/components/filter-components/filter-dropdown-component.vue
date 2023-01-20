@@ -25,6 +25,7 @@
                 :items="getVals || []"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
+                :ref="seedData.name"
                 :placeholder="placeholderName"
                 :searchable="isMultiSelect"
                 class="width"
@@ -41,7 +42,9 @@
             :placeholder="placeholderName"
             :multiple="isMultiSelect"
             :searchable="isMultiSelect"
+            :ref="seedData.name"
             @searchInputChange="searchFilter($event)"
+            @change="methodsChange"
             class="width"
             :disabled="isDisabled"
         ></nitrozen-dropdown>
@@ -147,6 +150,12 @@ export default {
     },
     setGetVals(vals = this.getValues) {
       this.getVals = vals;
+    },
+    methodsChange() {
+      if(!this.isMultiSelect) {
+        this.$refs[this.seedData.name].toggle();
+      }
+    
     }
   },
   computed: {
