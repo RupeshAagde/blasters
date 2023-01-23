@@ -686,6 +686,60 @@ const URLS = {
     COMMUNICATION_CAMPAIGNS: () => {
         return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/campaign`)
     },
+    COMMUNICATION_EVENT: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/events-order`)
+    },
+    COMMUNICATION_EVENT_SUBSCRIPTION: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/`,id)
+    },
+    COMMUNICATION_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/templates/`,id)
+    },
+    SUBSCRIBED_SMS_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/subscribedTemplates`,id)
+    },
+    SUBSCRIBED_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/subscribedTemplates`,id)
+    },
+    COMMUNICATION_SMS_S_TEMPLATES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/system-templates`)
+    },
+    COMMUNICATION_EMAIL_TEMPLATES: (id='') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/templates/`,id)
+    },
+    COMMUNICATION_EMAIL_S_TEMPLATES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/system-templates`)
+    },
+    SMS_PROVIDER: (id = '') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/providers/`,id)
+    },
+    EMAIL_PROVIDER: (id = '') => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/email/providers/`,id)
+    },
+    COMMS_DEFAULT_EMAIL_PROVIDERS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL,`/v1.0/platform/email/default-providers`);
+    },
+    COMMUNICATION_GLOBAL_PROVIDER: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/app-provider/global-providers`)
+    },
+    COMMUNICATION_APP_PROVIDER: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/app-provider/get-provider`)
+    },
+    COMMUNICATION_SYSTEM_EVENTS: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/events`)
+    },
+    COMMUNICATION_SEND_SYNC: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `v1.0/platform/engine/send-sync`)
+    },
+    EVENT_BULK_UPDATE: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/event/event-subscriptions/bulkUpdate`)
+    },
+    SMS_DEFAULT: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/platform/sms/default-providers`)
+    },
+    GLOBAL_VARIABLES: () => {
+        return urlJoin(COMMUNICATION_BASE_URL, `/v1.0/global-variables`)
+    },
 
 
     // ============= Order Service Endpoints ============

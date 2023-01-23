@@ -698,3 +698,13 @@ export const numberToThousandString = (num)=> {
     return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
 }
 /** OMS v2.1 --END */
+
+export const toggleString = (status, style) => {
+    let str = status ? 'enabled' : 'disabled';
+    if (style === 'titleCase') {
+        str = titleCase(str);
+    } else if (style === 'upperCase') {
+        str = str.toUpperCase(str);
+    }
+        return str;
+    }

@@ -278,9 +278,6 @@ export default {
              let query = { ...this.$route.query };
             let db_query = {};
             let direction = null;
-
-                console.log("this.filters.entityType",query.enttyp)
-                console.log("this.filters.entityType",this.filters.entityType)
             if (query.enttyp && query.enttyp !== 'all') {
                 this.filters.entityType.value = query.enttyp;
                 db_query['entity.type'] = query.enttyp;
