@@ -73,7 +73,7 @@ export default {
         .company-title {
             margin-top: 22px;
             border-radius: 3px;
-            border: 1px solid @Gray;
+            border: 1px solid @LightGray;
             height: 71px;
             padding: 0px 20px 0px 20px;
             justify-content: space-between;

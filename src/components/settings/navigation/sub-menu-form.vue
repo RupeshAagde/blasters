@@ -8,7 +8,7 @@
                 Create a sub menu under current navigation item
             </div>
         </div>
-        <confirmation-popup ref="confirmationPopup" @onUpdate="onDeleteMenu()"></confirmation-popup>
+        <!-- <confirmation-popup ref="confirmationPopup" @onUpdate="onDeleteMenu"></confirmation-popup> -->
         <draggable :list="subMenu" v-model="subMenu">
                 <transition-group>
                     <div class="sub-menu" v-for="(item, index) in subMenu" :key="index" >
@@ -23,8 +23,8 @@
                             </div>
 
                             <div class="icon-grp">
-                                <div class="item-dlt"  @click="openConfirmationPopup('Are you sure?', `If you delete${item.title ? ` “${item.title}”` :''}, the seller won’t be able to access it anymore.`, 'Yes, delete', 'No', index)">
-                                    <inline-svg :src="'delete'" class="icon"></inline-svg>
+                                <div class="item-dlt"  @click.stop="openConfirmationPopup('Are you sure?', `If you delete${item.title ? ` “${item.title}”` :''}, the seller won’t be able to access it anymore.`, 'Yes, delete', 'No', index)">
+                                    <inline-svg :src="'delete-icon'" class="icon"></inline-svg>
                                 </div>
                                 <div class="arrow" @click="toggleMenu(index)">
                                     <inline-svg
@@ -154,9 +154,9 @@ export default {
         addSubMenu () {
             this.subMenu.push({               
                  "visible_on": {
-                    "web": false,
-                    "ios": false,
-                    "android": false
+                    "web": true,
+                    "ios": true,
+                    "android": true
                 },
                 "display": "",
                 "permissions": [],
@@ -174,17 +174,21 @@ export default {
         },
         openConfirmationPopup(header, info, confirmButtonName, cancleButtonName, deleteIndex) {
                 this.deleteIndex = deleteIndex;
-                this.$refs["confirmationPopup"].open({
+                this.$emit('onDeleteSubMenu', {
                     header: header,
                     info: info,
                     confirmButtonName: confirmButtonName,
-                    cancleButtonName: cancleButtonName
-                });
+                    cancleButtonName: cancleButtonName,
+                    type: 'panel'
+                })
         },
         onDeleteMenu() {
-            this.subMenu.splice(this.deleteIndex, 1)
-            this.errors.splice(this.deleteIndex, 1)
-            this.toggleSubMenu.splice(this.deleteIndex, 1)
+            if (this.deleteIndex !== -1) {
+                this.subMenu.splice(this.deleteIndex, 1)
+                this.errors.splice(this.deleteIndex, 1)
+                this.toggleSubMenu.splice(this.deleteIndex, 1)
+                this.deleteIndex = -1
+            }
         },
         validateRequiredFormFields() {
             let value = '';
@@ -236,6 +240,10 @@ export default {
 
 
 <style lang="less" scoped>
+    .line {
+        border: 0.5px solid @LightGray;
+        margin: 0px;
+    }
     .sub-item-form {    
         .sub-menu-title {
             display: flex;

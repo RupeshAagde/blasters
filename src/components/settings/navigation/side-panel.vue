@@ -1,10 +1,12 @@
 <template>
     <div v-if="showNavigation">
-        <confirmation-popup ref="confirmationPopup" @onUpdate="onSave"></confirmation-popup>
+        <div class="confirmation-popup">
+            <confirmation-popup ref="confirmationPopup" @onUpdate="onUpdate"></confirmation-popup>
+        </div>
         <transition name="slide">
             <template>
                 <div class="slide-fade" ref="slide-fade">
-                    <div class="container" v-click-outside="showNavigationSection">
+                    <div class="container">
                         <div class="header">
                             <div v-if="isEdit" class="title">
                                 Edit Navigation Item
@@ -17,9 +19,7 @@
                             </div>
                                                     
                         </div>
-                        <div class="forms">
-
-        
+                        <div class="forms" :style="formOpacity">
                             <div class="item-form">
                                 <div class="image-upload">
                                     <div class="form-item">
@@ -121,15 +121,15 @@
 
                             </div>
                             <hr class="line">
-                            <sub-menu ref="subMenu" v-if="menuSettings" :menuSettings="menuSettings.child"></sub-menu>
+                            <sub-menu ref="subMenu" @onDeleteSubMenu="onDeleteSubMenu" v-if="menuSettings" :menuSettings="menuSettings.child"></sub-menu>
 
                         </div>
-                        <div class="add-cancle-btn">
+                        <div class="add-cancle-btn" >
                                 <div class="cancle-btn">
-                                    <nitrozen-button :theme="'secondary'" v-strokeBtn size:='small' @click.stop="showNavigationSection"> Cancel </nitrozen-button>          
+                                    <nitrozen-button :theme="'secondary'" :disabled="formOpacity.opacity == 0.5" v-strokeBtn size:='small' @click.stop="showNavigationSection"> Cancel </nitrozen-button>          
                                 </div>
                                 <div class="add-btn">
-                                    <nitrozen-button :theme="'secondary'" @click.stop="openConfirmationPopup('Save Changes?', 'If you save the changes here, it will change the navigation panel for all the sellers.', 'Yes', 'No')"  v-flatBtn> Save </nitrozen-button>
+                                    <nitrozen-button :theme="'secondary'" :disabled="formOpacity.opacity == 0.5" @click.stop="openConfirmationPopup('Save Changes?', 'If you save the changes here, it will change the navigation panel for all the sellers.', 'Yes', 'No')"  v-flatBtn> Save </nitrozen-button>
                                 </div>
                         </div>
                     </div>
@@ -178,13 +178,18 @@ export default {
             index: null,
             isEdit: false,
             errors: {},
-            previousTitle: ''
+            previousTitle: '',
+            formOpacity: {
+                opacity: 1
+            },
+            isDeleting: false
         }
     },
     methods: {
         showNavigationSection () {
             this.clearError()
             this.showNavigation = !this.showNavigation;
+            this.formOpacity.opacity = 1;
         },
         close () {
             this.showNavigation = false;
@@ -200,11 +205,13 @@ export default {
         },
         openConfirmationPopup(header, info, confirmButtonName, cancleButtonName) {
             if(this.validateForm()) {
+                this.formOpacity.opacity = 0.5;
                 this.$refs["confirmationPopup"].open({
                     header: header,
                     info: info,
                     confirmButtonName: confirmButtonName,
-                    cancleButtonName: cancleButtonName
+                    cancleButtonName: cancleButtonName,
+                    type: 'panel'
                 });
             }
         },
@@ -246,11 +253,22 @@ export default {
         clearError() {
             this.errors = {}
         },
-        onSave() {
-            if (this.validateForm()){
-                this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit});
-                this.showNavigationSection()
+        onUpdate(isSave) {  
+            if (isSave) {
+                if (this.validateForm() && !this.isDeleting) {
+                    this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit});
+                    this.showNavigationSection()
+                } else {
+                    this.$refs['subMenu'].onDeleteMenu()
+                    this.isDeleting = false;
+                }
             }
+            this.formOpacity.opacity = this.formOpacity.opacity == 1 ? 0.5 : 1;
+        },
+        onDeleteSubMenu(payload) {
+            this.isDeleting = true
+            this.formOpacity.opacity = 0.5;
+            this.$refs["confirmationPopup"].open(payload)
         }
     }
 };
@@ -264,7 +282,7 @@ export default {
         right: 0px;
         width: 100%;
         background-color: rgba(82, 78, 78, 0.52);
-        z-index: @menu;
+        z-index: @dialog;
         .container {
             position: absolute;
             right: 0px;
@@ -280,7 +298,6 @@ export default {
                 position: fixed;
                 width: 100%;
             }
-
         }
         .header {
             position: fixed;
@@ -314,7 +331,6 @@ export default {
 
         .forms {
             margin: 80px 24px 80px 24px;
-
             .item-form {
 
                 .form-item {

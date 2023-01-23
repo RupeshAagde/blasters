@@ -13,19 +13,13 @@
         <hr class="line">
         <div class="form-grp">
             <div class="input">
-                <div class="intput-des">
-                    <div> Line 1 </div>
-                </div>
                 <div>
-                    <nitrozen-input :maxlength="36" type="text" v-model="settings.line_one"></nitrozen-input>
+                    <nitrozen-input label="Line 1" :maxlength="36" type="text" v-model="settings.line_one"></nitrozen-input>
                 </div>
             </div>
             <div class="input">
-                <div class="intput-des">
-                    <div> Line 2 </div>
-                </div>
                 <div>
-                    <nitrozen-input :maxlength="36" type="text" v-model="settings.line_two"></nitrozen-input>
+                    <nitrozen-input label="Line 2" :maxlength="36" type="text" v-model="settings.line_two"></nitrozen-input>
                 </div>
             </div>
         </div>
@@ -55,7 +49,7 @@ export default {
 
 <style lang="less" scoped>
     .company {
-        border: 1px solid @Gray;
+        border: 1px solid @LightGray;
         border-radius: 3px;
         margin-top: 22px;
         .company-title {
@@ -83,7 +77,7 @@ export default {
             margin: 20px 20px 20px 20px;;
         }
         .line {
-            border: 0.5px solid @Gray;
+            border: 0.5px solid @LightGray;
             margin: 0px;
         }
 

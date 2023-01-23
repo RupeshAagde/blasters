@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <confirmation-popup ref="confirmationPopup" @onUpdate="saveSettings(settingsObj)"></confirmation-popup>
+            <confirmation-popup ref="confirmationPopup" @onUpdate="saveSettings"></confirmation-popup>
         <div>
             <page-header title="Seller Navigation" @backClick="$router.push({ name: 'settings' })">
                 <nitrozen-button ref="save-settings"  v-flatBtn theme="secondary" @click.stop="openConfirmationPopup('Save Changes?', 'If you save the changes here, it will change the navigation panel for all the sellers.', 'Yes', 'No')"> Save </nitrozen-button>
@@ -93,7 +93,7 @@ export default {
             settingsObj: null,
             permissionObj: null,
             tabs : ['Desktop', 'Mobile'],
-            isLoading: false
+            isLoading: false,
         }
     },
     methods: {
@@ -117,18 +117,26 @@ export default {
                 header: header,
                 info: info,
                 confirmButtonName: confirmButtonName,
-                cancleButtonName: cancleButtonName
+                cancleButtonName: cancleButtonName,
+                type: 'main'
             });
         },
-        saveSettings(payload) {
-            this.isLoading = true;
-            SellerPanleService.savePanelSettings(payload).then(()=>{
-                this.fetchSettings().then(()=>{
+        saveSettings(isSave) {
+            if (isSave) {
+                this.isLoading = true;
+                SellerPanleService.savePanelSettings(this.settingsObj).then(()=>{
+                    this.fetchSettings().then(()=>{
+                        this.isLoading = false;
+                        this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
+                    }).catch((err) => {
+                        this.isLoading = false;
+                        this.$snackbar.global.showError(err.message)
+                    })
+                }).catch((err) => {
                     this.isLoading = false;
-                    this.$snackbar.global.showSuccess(`Navigation item saved successfully`, { duration: 2000 });
+                    this.$snackbar.global.showError(err.message)
                 })
-                
-            })
+            }
         },
         tabChange(data) {
             this.deviceType = data.item === 'Desktop' ? 'desktop' : 'mobile';
@@ -148,8 +156,6 @@ export default {
 
 
 <style lang="less" scoped>
-
-
 .customise-container {
     display: flex;
     .customise-title {

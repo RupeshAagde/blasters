@@ -1,6 +1,6 @@
 <template>
         <div class="company-list">
-        <confirmation-popup ref="confirmationPopup" @onUpdate="$emit('delete-menu')"></confirmation-popup>
+            <confirmation-popup ref="confirmationPopup" @onUpdate="onUpdate"></confirmation-popup>
             <div class="company-group"> 
                 <div class="group1">
                     <div class="drag-icon">
@@ -25,8 +25,8 @@
                     <div class="company-edit" @click.stop="$emit('seller-panel-show')" >
                         <inline-svg :src="'edit_pen'" class="icon"></inline-svg>
                     </div>
-                    <div @click.stop="openConfirmationPopup('Are you sure?', `If you delete “${name}” , the seller won’t be able to access it anymore.`, 'Yes, delete', 'No')">
-                        <inline-svg :src="'delete'"  class="icon"></inline-svg>
+                    <div @click.stop="openConfirmationPopup('Are you sure?', `If you delete “${name}” , the seller won’t be able to access it anymore.`, 'Yes', 'No')">
+                        <inline-svg :src="'delete-icon'"  class="icon"></inline-svg>
                     </div>
                 </div>
             </div>
@@ -50,9 +50,6 @@ export default {
         'nitrozen-toggle-btn': NitrozenToggleBtn,
         'confirmation-popup': ConfirmationPopup
     },
-    mounted() {
-       
-    },
     methods: {
         modifySubMenuTitle () {
            let subMenuTitle = ''
@@ -74,8 +71,13 @@ export default {
                     header: header,
                     info: info,
                     confirmButtonName: confirmButtonName,
-                    cancleButtonName: cancleButtonName
+                    cancleButtonName: cancleButtonName,
+                    type: 'main'
                 });
+        },
+        onUpdate(isSave) {
+            if (isSave)
+                this.$emit('delete-menu')
         }
     }
 }
