@@ -998,7 +998,7 @@ export default [
                 component: BulkUpload,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'finance'
                     ]);
                 }
             },
@@ -1008,7 +1008,7 @@ export default [
                 component: UploadHistoryFin,               
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
-                        'admin-access'
+                        'finance'
                     ]);
                 }
             },

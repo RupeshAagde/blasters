@@ -2377,6 +2377,9 @@
 }
 
 ::v-deep .page-header{
+    .page-title{
+        width: 20%;
+    }
     .menu{
         display: none;
     }
