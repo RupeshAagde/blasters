@@ -226,17 +226,57 @@ export const getNavigations = () => {
         },
         {
             display: 'Communication',
-            link: '/administrator/communication/reports',
-            title: 'reports',
+            link: '/administrator/communication/events',
+            title: 'communication',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'communication',
             children: [
                 {
+                    display: 'Events',
+                    link: '/administrator/communication/events',
+                    title: 'events',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Providers',
+                    link: '/administrator/communication/provider',
+                    title: 'provider',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'SMS',
+                    link: '/administrator/communication/sms/templates',
+                    title: 'sms',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Email',
+                    link: '/administrator/communication/email/templates',
+                    title: 'email',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
                     display: 'Reports',
                     link: '/administrator/communication/reports',
                     title: 'reports',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Global Variables',
+                    link: '/administrator/communication/global-variables',
+                    title: 'variables',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false

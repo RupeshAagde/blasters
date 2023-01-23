@@ -412,3 +412,70 @@ p.content-desc {
     text-overflow: ellipsis;
     max-width: 70%;
   }
+
+  .link{
+    cursor: pointer;
+    color: #2e31be;
+    font-size: 12px;
+    font-family: Inter,sans-serif;
+}
+
+.from-container {
+    border: 1px solid #f9f9f9;
+    border-radius: 4px;
+    padding: 24px;
+    @media @mobile{
+        padding: 0;
+    }
+    .container {
+        position: relative;
+        border-radius: 4px;
+        box-sizing: border-box;
+        width: 100%;
+        flex-direction: column;
+        border: 1px solid #f9f9f9;
+        padding: 24px;
+        margin-bottom: 24px;
+        .field-wrap {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .remove {
+            position: absolute;
+            right: 0;
+            top: 9px;
+        }
+    }
+    .default {
+        background: #f9f9f9;
+    }
+}
+.bold-link {
+    color: #2E31BE;
+    text-align: right;
+    cursor: pointer;
+    margin-bottom: 0px;
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 13px;
+}
+.nitrozen-error-visible {
+    width: 100%;
+    color: #f33;
+    font-family: Inter,sans-serif;
+    font-size: 12px;
+    padding-top: 5px;
+}
+.nitrozen-label {
+    color: #9b9b9b;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.radio-inline {
+    margin-top: 12px;
+    display: inline-block;
+    margin-right: 24px;
+}  

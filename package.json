@@ -153,6 +153,19 @@
         "webpack-dev-middleware": "3.7.3",
         "webpack-hot-middleware": "2.25.2",
         "webpack-merge": "^5.8.0",
-        "webpack-node-externals": "^3.0.0"
+        "webpack-node-externals": "^3.0.0",
+        "@mailupinc/bee-plugin": "^1.2.0",
+        "grapesjs": "^0.16.3",
+        "grapesjs-custom-code": "0.1.2",
+        "grapesjs-lory-slider": "0.1.5",
+        "grapesjs-preset-newsletter": "^0.2.20",
+        "grapesjs-preset-webpage": "0.1.11",
+        "grapesjs-tooltip": "0.1.5",
+        "nunjucks": "^3.2.3",
+        "object-hash": "^3.0.0",
+        "parse5": "5.1.0",
+        "path": "^0.12.7",
+        "postcss": "7.0.17",
+        "qs": "6.7.0"
     }
 }

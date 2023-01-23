@@ -569,6 +569,20 @@ const conf = convict({
         default: '',
         env: 'NEW_RELIC_LICENSE_KEY',
         arg: 'newrelic_license_key'
+    },
+    BEEFREE_CLIENT_ID: {
+        doc: 'BEEFREE_CLIENT_ID',
+        format: String,
+        default: 'dcce640f-abc1-4c0c-8398-84488e8c4cd7',
+        env: 'BEEFREE_CLIENT_ID',
+        arg: 'beefree_client_id'
+    },
+    BEEFREE_CLIENT_SECRET: {
+        doc: 'BEEFREE_CLIENT_SECRET',
+        format: String,
+        default: '0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5',
+        env: 'BEEFREE_CLIENT_SECRET',
+        arg: 'beefree_client_secret'
     }
 });
 

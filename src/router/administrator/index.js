@@ -9,6 +9,15 @@ import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
 import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
+import EventSubscription from './../../pages/communication/event_subscription.vue';
+import GlobalVariables from './../../pages/communication/global-variables.vue';
+import Provider from './../../pages/communication/provider/listing.vue';
+import ProviderDefault from './../../pages/communication/provider/set-default.vue';
+import ProviderMain from './../../pages/communication/provider/provider-main.vue';
+import SmsTemplateMain from './../../pages/communication/sms/sms-templates.vue';
+import SmsTemplateForm from './../../pages/communication/sms/sms-template-form.vue';
+import EmailTemplateForm from './../../pages/communication/email/email-template-form.vue';
+import EmailTemplateMain from './../../pages/communication/email/email-templates.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
@@ -220,6 +229,162 @@ export default [
                     return checkUserPermission(to, from, next, [
                         'communication'
                     ]);
+                }
+            },
+            {
+                name: 'events',
+                path: 'communication/events',
+                component: EventSubscription,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'variables',
+                path: 'communication/global-variables',
+                component: GlobalVariables,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerList',
+                path: 'communication/provider',
+                component: Provider,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerDefault',
+                path: 'communication/provider/default',
+                component: ProviderDefault,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode/:providerId',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateMain',
+                path: 'communication/sms/templates',
+                component: SmsTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/create',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/edit/:templateId',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateMain',
+                path: 'communication/email/templates',
+                component: EmailTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateCreate',
+                path: 'communication/email/templates/create',
+                component: EmailTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateEdit',
+                path: 'communication/email/templates/edit/:templateId',
+                component: EmailTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
                 }
             },
             {
