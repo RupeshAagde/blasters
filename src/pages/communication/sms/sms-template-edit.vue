@@ -451,7 +451,7 @@ export default {
             pageLoading: false,
             pageError: false,
             id: null,
-            MAX_DESCRIPTION_CHAR_LIMIT: 100,
+            MAX_DESCRIPTION_CHAR_LIMIT: 300,
             linkToEvent: null,
             title: this.$route.meta.title,
             slug: '',
@@ -478,7 +478,7 @@ export default {
             smsTemplateToClone : {},
             appSubscriptions: {},
             smsTemplateStore:{},
-            validLength:{title:200,desc:200,message:500}
+            validLength:{title:200,desc:300,message:500}
 
         };
     },
@@ -862,7 +862,7 @@ export default {
                 this.data.name.showerror = true;
                 this.data.name.errortext = 'Limit Exceeded';
             }
-            if(this.data.description.value && this.data.description.value.length > 100){
+            if(this.data.description.value && this.data.description.value.length > 300){
                 has_error = true;
                 this.data.description.showerror = true;
                 this.data.description.errortext = 'Limit Exceeded';

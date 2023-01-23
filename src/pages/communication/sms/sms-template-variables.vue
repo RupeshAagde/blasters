@@ -749,7 +749,7 @@ export default {
             },
             initialHash: '',
             providersDropdownOptions: [],
-            validLength:{title:200,desc:200,message:500}
+            validLength:{title:200,desc:300,message:500}
         };
     },
     computed: {

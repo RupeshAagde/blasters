@@ -953,7 +953,7 @@ export default {
             emailTemplateToClone: {},
             emailProvidersStore: {},
             emailTemplateStore:{},
-            validLength:{title:200,desc:200,message:500}
+            validLength:{title:200,desc:300,message:500}
         };
     },
     computed: {
@@ -974,30 +974,31 @@ export default {
         }
     },
     mounted() {
-                let data = {};
-                this.fetchEmailProviders().then(emailProviders=>{
-                    this.providersDropdownOptions=emailProviders;
-                }).then(()=>{
-                    this.fetchDefaultEmailProvider().then(defaultProvider=>{
-                        this.providersDropdownOptions.unshift(...defaultProvider)
-                    })
-                }).catch(err=>{
-                    console.log(err);
-                })
-        // this.$store.dispatch(ADMIN_COMMS_DUMMY_DATA_SOURCES, {}).then(data => {
-        //     this.dummyDataSources = [
-        //         {
-        //             text: 'Select data source',
-        //             value: 1000
-        //         },
-        //         ...data.map(i => {
-        //             return {
-        //                 text: i.name,
-        //                 value: i.id
-        //             };
-        //         })
-        //     ];
-        // });
+        let data = {};
+        adminCommsService.getEmailProvider({
+            page_size: 100,
+            page_no: 1,
+            sort: { created_at: -1 },
+        })
+            .then((data) => {
+                data = data.data;
+                if (data.items.length) {
+                    this.selectedProvider.value = data.items[0]._id || ' ';
+                }
+                this.fetchDefaultEmailProvider().then((defaultProvider) => {
+                    this.providersDropdownOptions = data.items.map((ele) => {
+                        return {
+                            text: ele.name,
+                            value: ele._id,
+                        };
+                    });
+                    this.providersDropdownOptions.unshift(...defaultProvider);
+                });
+                return data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });        
 
         try {
             if (this.isCloneMode) {
@@ -1170,7 +1171,9 @@ export default {
             return adminCommsService
                 .getEmailProvider()
                 .then(({ data }) => {
-                    let emailProviders = [
+                    let emailProviders = {} 
+                    if(data.items.length){
+                    emailProviders = [
                         ...(data
                             ? data.items.map(v => ({
                                   text: v.name,
@@ -1178,6 +1181,7 @@ export default {
                               }))
                             : []),
                     ];
+                    }
                     this.selectedProvider.value = emailProviders[0].value || " ";
                     return emailProviders;
                 });
@@ -1240,8 +1244,8 @@ ${template}
             //     finalObj.subject.template_type = 'static';
             // }
             if (this.data.editor_type.value == 'rawhtml') {
-                finalObj.subject.template_type = 'static';
-                finalObj.html.template_type = 'static';
+                finalObj.subject.template_type = 'nunjucks';
+                finalObj.html.template_type = 'nunjucks';
             }
             // this.$store.commit(ADMIN_COMMS_SET_EMAIL_TEMPLATE, {
             //     data: {
