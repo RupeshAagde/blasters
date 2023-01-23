@@ -318,7 +318,7 @@ export const getNavigations = () => {
             icon: 'kycdetails',
             highlightedIcon: 'home-highlighted',
             active: false,
-            permission: 'admin-access',
+            permission: 'finance',
             children: [
                 {
                     display: 'Reports and Ledger',
