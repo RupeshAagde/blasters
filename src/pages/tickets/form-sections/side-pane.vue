@@ -2,8 +2,9 @@
     <div class="page-container" style="min-height:100%">
         <div class="cl-Mako bold-md top-headers">Assign</div>
         <nitrozen-dropdown
-            :searchable="true"
+            :searchable="false"
             @searchInputChange="staffSearch"
+            @scroll="assignScroll"
             @change="somethingChanged"
             class="type-filter"
             :label="'Assigned To'"
@@ -176,7 +177,6 @@
     min-height: 32px;
     font-size: 14px;
     width: 100%;
-    align-items: center;
     cursor: pointer;
     color: #9b9b9b;
 }
@@ -355,6 +355,14 @@ export default {
                 value: '',
                 errortext: '-'
             };
+        },
+        assignScroll(event) {
+            let height = event.scrollHeight - event.scrollTop <= 200
+            if(height){
+                this.$emit(`pagination`, {
+                height
+                });
+            }
         },
         addChip(event) {
             if (this.chipInput) {

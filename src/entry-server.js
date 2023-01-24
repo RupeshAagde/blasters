@@ -62,7 +62,7 @@ export default (context) => {
             // which is resolved when the action is complete and store state has been
             // updated.
             let arrPromises = [];
-            matchedComponents.filter(Boolean).map(({ asyncData }) => {
+            matchedComponents.filter(Boolean).forEach(({ asyncData }) => {
                 let arr =
                     (context.is_ssr &&
                         asyncData &&

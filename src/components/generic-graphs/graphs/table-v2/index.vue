@@ -1,6 +1,7 @@
 <template>
     <div class="table">
         <tableComponent :columns="columns" :rows="rows" :chart-id="chartId"
+        :hyperlocal-page="hyperlocalPage"
             :showPagination="showPagination" :analytic-page="analyticPage" :extra-props="extraProps"
             :status-code="statusCode"></tableComponent>
     </div>

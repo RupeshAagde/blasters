@@ -23,7 +23,6 @@
 .title {
     color: @Mako;
     font-size: 14px;
-    font-size: 14px;
     margin-bottom: 12px;
 }
 .address {

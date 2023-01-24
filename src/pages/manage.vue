@@ -79,13 +79,13 @@ section.league-of-experts {
             font-size: 60px;
             line-height: 83px;
             font-weight: bold;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
         }
         p {
             max-width: 350px;
             font-size: 14px;
             line-height: 21px;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             margin: 45px 0;
         }
     }

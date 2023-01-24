@@ -595,7 +595,7 @@ export default {
             }
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
-                this.$refs.iframe.contentWindow.postMessage(e, '*');
+                this.$refs.iframe.contentWindow.postMessage(e, this.previewUrl);
             }
         },
         hideRect() {

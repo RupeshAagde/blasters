@@ -12,6 +12,7 @@ import root from 'window-or-global'
 import urlJoin from 'url-join'
 import { FETCH_USER_DATA } from './store/action.type'
 const envVars = root.env || {}
+let __webpack_public_path__='';
 
 export function createApp() {
   if (envVars.CDN_URL) {

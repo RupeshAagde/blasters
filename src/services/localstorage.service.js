@@ -1,4 +1,4 @@
-import { isBrowser, isNode } from 'browser-or-node'
+import { isBrowser } from 'browser-or-node'
 
 export const LocalStorageService = {
   removeItem(key) {
