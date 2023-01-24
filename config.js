@@ -32,6 +32,20 @@ const conf = convict({
             env: "MIRAGE_MAIN_DOMAIN",
             arg: "mirage_main_domain"
         },
+        BRAINSTORM_EXTENSION_DOMAIN: {
+            doc: "Brainstorm Extension Domain",
+            format: String,
+            default: `https://extensions.${platformDomain}`,
+            env: "BRAINSTORM_EXTENSION_DOMAIN",
+            arg: "brainstorm_extension_domain"
+        },
+        BRAINSTORM_THEME_DOMAIN: {
+            doc: "Brainstorm Theme Domain",
+            format: String,
+            default: `https://themes.${platformDomain}`,
+            env: "BRAINSTORM_THEME_DOMAIN",
+            arg: "brainstorm_theme_domain"
+        },
         BOMBSHELL_MAIN_DOMAIN: {
             doc: "Bombshell Main Domain",
             format: String,

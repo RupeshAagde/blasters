@@ -59,6 +59,8 @@ docker run --net=host -p 8086:8086 --name=bombshell \
 -e BEEFREE_CLIENT_SECRET=0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5 \
 -e BLASTER_MAIN_DOMAIN=https://administrator.fynd.com \
 -e BOMBSHELL_MAIN_DOMAIN=https://partners.fynd.com \
+-e BRAINSTORM_EXTENSION_DOMAIN=https://extensions.fynd.com \
+-e BRAINSTORM_THEME_DOMAIN=https://themes.fynd.com \
 -e MIRAGE_MAIN_DOMAIN=https://platform.fynd.com \
 -e CDN_ITEM_BASE_PATH=https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/
 -e OLD_CDN_BASE_URLS=hdn-1.addsale.com
