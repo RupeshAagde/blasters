@@ -168,7 +168,7 @@ export default {
             }
 
             .check {
-                margin-right: 10px;
+                margin-right: 30px;
             }
 
         }
