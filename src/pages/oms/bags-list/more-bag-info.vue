@@ -128,7 +128,7 @@
                     v-if="articleData.financial_breakup">
                     <span class="common-key-style">MRP: </span>
                     <span class="common-value-style">
-                        ₹{{ formatPrice(articleData.financial_breakup.reduce((sum, f) => sum + f.price_marked, 0)) }}
+                       ₹{{ formatPrice(articleData.financial_breakup.price_marked * articleData.quantity) }}
                     </span>
                 </div>
 
