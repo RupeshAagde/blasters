@@ -77,7 +77,7 @@
                         v-model="logo"
                         @delete="logo = ''"
                         @save="logo = $event"
-                        :fileName="attribute.name"
+                        :fileName="attribute.name || 'attribute-logo'"
                         namespace="products-attribute-logo"
                     ></image-uploader-tile>
                 </form-input>

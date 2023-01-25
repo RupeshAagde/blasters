@@ -93,7 +93,7 @@
                         @delete="template.logo = ''"
                         @save="template.logo = $event"
                         @input="checkRequired('logo')"
-                        :fileName="template.name"
+                        :fileName="template.name || 'template-logo'"
                         namespace="products-template-logo"
                     ></image-uploader-tile>
                 </form-input>
