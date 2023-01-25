@@ -375,14 +375,14 @@ export default {
         //     }
         // },
         changeType() {
-            if (this.filters.type == 'email' || this.filters.type == 'phone') {
+            if (this.filters.type == 'email' || this.filters.type == 'phone' || this.filters.type == 'identifier') {
                 this.filters.plainTextSearch = '';
                 this.emailphoneErr.showerror = false;
             }
             this.searchLabel =
                 this.filters.type.charAt(0).toUpperCase() +
                 this.filters.type.slice(1);
-            //this.fieldChanged();
+            this.fieldChanged();
         },
         changeSearch() {
             if (this.filters.plainTextSearch == '') {
@@ -809,7 +809,7 @@ export default {
                     }
                 }
                 .label {
-                    font-family: Inter, sans-serif;
+                    font-family: Inter;
                     color: @Mako;
                     font-size: 14px;
                     line-height: 20px;
@@ -850,7 +850,7 @@ export default {
                     display: flex;
                 }
                 .label {
-                    font-family: Inter, sans-serif;
+                    font-family: Inter;
                     color: @Mako;
                     font-size: 14px;
                     line-height: 20px;
@@ -875,7 +875,7 @@ export default {
     }
 }
 /deep/.nitrozen-pagination__left {
-    visibility: hidden;
+    //visibility: hidden;
 }
 .date-container {
     @media @mobile {

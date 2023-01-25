@@ -1,0 +1,97 @@
+{
+    "success": true,
+    "error": { "type": null, "value": null, "message": null },
+    "items": [
+        {
+            "id": "000000000000000000000002",
+            "name": "FyndStore",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:30.890450",
+            "updated_at": "2022-11-17T07:25:30.890450",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": "000000000000000000000004",
+            "name": "Uniket B2B",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:32.028312",
+            "updated_at": "2022-11-17T07:25:32.028312",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": "000000000000000000000005",
+            "name": "000000000000000000000005 App",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:31.759056",
+            "updated_at": "2022-11-17T07:25:31.759056",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": "000000000000000000000006",
+            "name": "000000000000000000000006 App",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:31.152605",
+            "updated_at": "2022-11-17T07:25:31.152605",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": "000000000000000000000007",
+            "name": "Packaging App",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:31.031380",
+            "updated_at": "2022-11-17T07:25:31.031380",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": "000000000000000000000008",
+            "name": "000000000000000000000008 App",
+            "type": "platform",
+            "qc_enabled": false,
+            "qc_config": "global",
+            "meta": {
+                "qc_enable_dp_exists": true
+            },
+            "created_at": "2022-11-17T07:25:31.902773",
+            "updated_at": "2022-11-17T07:25:31.902773",
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "page": {
+        "type": "number",
+        "size": 10,
+        "current": 1,
+        "has_next": true,
+        "item_total": 534
+    }
+}

@@ -23,9 +23,13 @@
             :page-name="ANALYTICS_PAGES.DASHBOARD"
         ></tags-container>
         <div class="main-wrapper">
-            <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper">
-              <dashboard-grid-header :card="card" :is-header-card="card.showHeader === true"  :hyperlocal-page="true"
-                                     :card-index="0"></dashboard-grid-header>
+            <div v-for="(card, index) in cards" class="graph-loading--controller-wrapper" :key="index">
+              <dashboard-grid-header 
+                :card="card" 
+                :is-header-card="card.showHeader === true"  
+                :hyperlocal-page="true"
+                :card-index="0"
+              ></dashboard-grid-header>
               <graph-loading-controller
                   :item="card"
                   :page-name="ANALYTICS_PAGES.DASHBOARD"

@@ -50,7 +50,9 @@
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Custom Page and Tag</span>
+                    <span class="bold-xs cl-Mako title"
+                        >Custom Page and Tag</span
+                    >
                 </div>
 
                 <div class="settings-main">
@@ -87,8 +89,6 @@
                         </router-link>
                     </span>
                 </div>
-
-                
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
@@ -172,7 +172,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
-import HomePage from "./home-page"
+import HomePage from './home-page';
 
 const GENERAL_MENUS = [
     {
@@ -198,7 +198,7 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform pricing banner'
-    },
+    }
 ];
 const CUSTOM_MENUS = [
     {
@@ -209,7 +209,7 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
     },
-     {
+    {
         title: 'Custom Tags',
         link: 'platform/list-tags',
         icon: 'settings',
@@ -217,9 +217,9 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Inject Script/CSS'
     }
-]
+];
 const CUSTOMIZE_MENUS = [
-{
+    {
         title: 'Navbar',
         link: 'platform/navbar',
         icon: 'settings',
@@ -258,7 +258,7 @@ const CUSTOM_PAGES = [
         desc: 'Update pricing page',
         key: 'pricing'
     }
-]
+];
 export default {
     name: 'settings',
     components: {
