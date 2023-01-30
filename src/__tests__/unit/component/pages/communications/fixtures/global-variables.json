@@ -1,0 +1,25 @@
+{
+    "data":{
+        "read_only": {
+            "app.address.address_line.0": "",
+            "app.address.city": "",
+            "app.address.country": "India",
+            "app.address.pincode": null,
+            "app.shipping_policy": "https://fynd.freshdesk.com/support/solutions/folders/33000111577",
+            "app.returns_policy": "https://fynd.freshdesk.com/support/solutions/folders/33000111600",
+            "app.terms_policy": "https://fynd.freshdesk.com/support/solutions/articles/33000214399-terms-services",
+            "app.copyright_text": "#MadeInIndia © 2021 Shopsense Retail Technologies",
+            "app.address_line": "",
+            "app.city_pincode": "",
+            "app.logo_url": "https://hdn-1.addsale.com/x0/company/164/applications/5efc9913f474c329718e3690/application/pictures/free-logo/original/olqHM8LNr-JioMart-Groceries.png",
+            "app.support_email": "support@fynd.com",
+            "app.support_mobile": "91 8923857245",
+            "app.contact_us": "https://europaterraformationinc.hostx0.de/contact-us",
+            "app.domain": "europaterraformationinc.hostx0.de",
+            "app.privacy_policy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+        },
+        "editable": {
+            "fyndx0": "https://platform.fyndx0.de/"
+        }
+    }
+}

@@ -532,7 +532,7 @@ export default {
         },
         checkRequiredFields() {
             this.errors = {};
-            RequiredFields.map(({ key, message, validator }) => {
+            RequiredFields.forEach(({ key, message, validator }) => {
                 if (validator && !validator(this.collection_data)) {
                     this.$set(this.errors, key, message);
                 }

@@ -121,7 +121,7 @@ export default {
 }
 
 .card-description {
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

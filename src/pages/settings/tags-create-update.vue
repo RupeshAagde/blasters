@@ -529,7 +529,6 @@ export default {
 
     .editor-container {
         flex: 1;
-        margin-right: 24px;
         height: fit-content;
         background-color: white;
         border-radius: 4px;

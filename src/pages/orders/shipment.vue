@@ -774,10 +774,7 @@ export default {
             );
         },
         deliveryEstimatedDate() {
-            return (
-                this.shipment.estimated_delivery_date &&
-                this.shipment.estimated_delivery_date
-            );
+            return this.shipment.estimated_delivery_date;
         },
         dueDate(){
             // return "due date"//this.shipment?.affiliate_details?.affiliate_meta?.due_date;
@@ -1546,7 +1543,7 @@ export default {
         ::v-deep svg {
             width: 20px;
             height: 20px;
-            fill: 41434c;
+            fill: #41434c;
         }
     }
     .report-an-issue {

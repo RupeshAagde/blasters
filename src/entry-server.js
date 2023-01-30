@@ -9,8 +9,7 @@ const {
     SENTRY_DSN,
     SENTRY_ENVIRONMENT,
     CDN_ITEM_DOMAINS,
-    CDN_ITEM_BASE_PATH,
-    OLD_CDN_BASE_URLS
+    CDN_ITEM_BASE_PATH
 } = envVars;
 
 // entry-server.js
@@ -62,7 +61,7 @@ export default (context) => {
             // which is resolved when the action is complete and store state has been
             // updated.
             let arrPromises = [];
-            matchedComponents.filter(Boolean).map(({ asyncData }) => {
+            matchedComponents.filter(Boolean).forEach(({ asyncData }) => {
                 let arr =
                     (context.is_ssr &&
                         asyncData &&
@@ -106,8 +105,7 @@ const getAppEnv = () => {
                 PLATFORM: 'administrator'
             },
             CDN_ITEM_DOMAINS: CDN_ITEM_DOMAINS,
-            CDN_ITEM_BASE_PATH: CDN_ITEM_BASE_PATH,
-            OLD_CDN_BASE_URLS: OLD_CDN_BASE_URLS
+            CDN_ITEM_BASE_PATH: CDN_ITEM_BASE_PATH
         };
         strEnvs += `<script>window.env = ${JSON.stringify(
             { ...BROWSER_CONFIG, ...commonEnvs },

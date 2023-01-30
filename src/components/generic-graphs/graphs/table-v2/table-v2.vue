@@ -36,7 +36,7 @@
                   <ukt-inline-svg :class="{'rotate': rowMap[row.id]}" src="keyboard_arrow_right"
                     ></ukt-inline-svg>
                     <span class="first-arrow-content">{{ row[column.field][0] }}</span>
-                    <div v-if="row[column.field][1].length > 15 " class="affilate_name">
+                    <div v-if="row[column.field][1] && row[column.field][1].length > 15 " class="affilate_name">
                       <generic-tooltip :text="row[column.field][1]">{{ row[column.field][1].slice(0,15) + '...' }}</generic-tooltip>
                     </div>
                     <div v-else class="affilate_name">
@@ -292,7 +292,7 @@ td {
 }
 
 .table-content-content {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -304,7 +304,7 @@ td {
 }
 
 .table-head-content {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px
@@ -323,7 +323,7 @@ span {
 }
 
 .view-more {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -351,14 +351,14 @@ th {
 }
 
 .content {
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
 }
 
 .heading {
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;

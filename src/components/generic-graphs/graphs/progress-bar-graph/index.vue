@@ -52,7 +52,7 @@ export default {
 
 <style scoped lang="less">
 .progress-bar-container {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 13px;

@@ -218,7 +218,7 @@ export default {
             return arrPages;
         },
         previewUrl() {
-            return `${env.BOMBSHELL_MAIN_DOMAIN}/extension-home`;
+            return `${env.BRAINSTORM_EXTENSION_DOMAIN}`;
         },
     },
     methods: {
@@ -595,7 +595,7 @@ export default {
             }
             
             if (this.$refs.iframe && this.$refs.iframe.contentWindow) {
-                this.$refs.iframe.contentWindow.postMessage(e, '*');
+                this.$refs.iframe.contentWindow.postMessage(e, this.previewUrl);
             }
         },
         hideRect() {

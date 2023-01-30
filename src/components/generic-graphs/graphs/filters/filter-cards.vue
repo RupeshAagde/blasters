@@ -6,7 +6,7 @@
   >
     <!--    <span v-html="moveIcon" class="move-icon" v-if="!isMobile"></span>-->
     <div v-if="card.isClosable" class="remove-icon" @click.stop="onClose($event)">
-      <inline-svg src=remove-icon"></inline-svg>
+      <inline-svg src="remove-icon"></inline-svg>
     </div>
     <div class="card-name-wrapper">
       <h4>
@@ -118,7 +118,7 @@ export default {
 }
 
 .filter-card-container h4 {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-size: 12px;
   line-height: 18px;
   color: @font-gray;
