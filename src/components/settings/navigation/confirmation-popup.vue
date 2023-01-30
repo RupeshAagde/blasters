@@ -1,39 +1,58 @@
 <template>
-    <div :class="type" v-if="isPopUpOpen">
-        <div class="popupBackGround">
-            <div  v-click-outside="popupToggle" class="popup-container position">
-            <div class="title titleContainer">
-                <div class="header-svg header" > 
-                    <inline-svg :src=" type === 'panel' ? 'panel-warning' : 'warning-yallow'"> </inline-svg> 
-                    <div class="title"> {{ header }}</div>
+    <div>
+        <div class="main">
+            <nitrozen-dialog ref="dialog">
+                <template slot="body">
+                    <div class="title-container">
+                        <div class="header-svg">
+                            <inline-svg :src="'warning-yallow'"> </inline-svg>
+                            <div class="title"> {{ header }}</div>
+                        </div>
+
+                        <p class="info"> {{ info }}</p>
+                    </div>
+                </template>
+                <template slot="footer">
+                    <div class="footer">
+                        <nitrozen-button class="footer-btn" style="margin-right: 32px; width: 133px;" :theme="'secondary'" @click="save(false)" v-strokeBtn> {{
+                            cancleButtonName
+                        }} </nitrozen-button>
+
+                        <nitrozen-button class="footer-btn" style="width: 133px;" :theme="'secondary'" @click="save(true)" v-flatBtn> {{
+                            confirmButtonName
+                        }} </nitrozen-button>
+                    </div>
+                </template>
+            </nitrozen-dialog>
+        </div>
+
+        <div class="panel" v-if="isPopUpOpen && type === 'panel'">
+            <div class="popupBackGround">
+                <div v-click-outside="popupToggle" class="popup-container position">
+                    <div class="title titleContainer">
+                        <div class="header-svg header">
+                            <inline-svg :src="'panel-warning'"> </inline-svg>
+                            <div class="title"> {{ header }}</div>
+                        </div>
+                        <div>
+                            <div class="info"> {{ info }}</div>
+                        </div>
+                    </div>
+                    <div class="footer footerBtn">
+                        <div style="margin-right: 20px;">
+                            <nitrozen-button class="footer-btn button" :theme="'secondary'" @click.stop="save(false)"
+                                v-strokeBtn> {{ cancleButtonName }} </nitrozen-button>
+                        </div>
+
+                        <div>
+                            <nitrozen-button class="footer-btn button" :theme="'secondary'" @click.stop="save(true)"
+                                v-flatBtn> {{ confirmButtonName }} </nitrozen-button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div class="info"> {{ info }}</div>
-                </div>
-            </div>
-            <div class="footer footerBtn">
-                <div style="margin-right: 20px;">
-                    <nitrozen-button
-                    class="footer-btn button"
-                    :theme="'secondary'"
-                    @click.stop="save(false)"
-                    v-strokeBtn
-                    > {{ cancleButtonName }} </nitrozen-button>
-                </div >
-    
-                <div>
-                    <nitrozen-button
-                    class="footer-btn button"
-                    :theme="'secondary'"
-                    @click.stop="save(true)"
-                    v-flatBtn
-                    > {{ confirmButtonName }} </nitrozen-button>
-                </div>
-            </div>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -83,75 +102,30 @@ export default {
             this.confirmButtonName = popupInfo.confirmButtonName
             this.cancleButtonName = popupInfo.cancleButtonName
             this.type = popupInfo.type
+            if (this.type === 'main') {
+                this.$refs["dialog"].open({
+                    showCloseButton: false,
+                    width: "368px",
+                    height: "255px"
+                });
+            }
         },
         save(isSave) {
             this.$emit('onUpdate', isSave)
             this.isPopUpOpen = !this.isPopUpOpen
+            if (this.type === 'main') {
+                this.$refs['dialog'].close();
+            }
         }
     }
 };
 </script>
 
 <style lang="less" scoped>
-.main {
-    .position {
-        width: 368px;
-        height: 291px;
-        padding: 40px;
-        text-align: center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%; -50%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box
-    }
-
-    .header {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .title {
-        font-weight: 600;
-        font-size: 18px;
-        margin-top: 14px;
-    }
-
-    .footerBtn {
-        display: flex;
-        justify-content: space-evenly;
-        margin-top: 32px;
-    }
-
-    .button {
-        width: 133px;
-    }
-
-    .popupBackGround {
-        position: fixed;
-        background-color: rgba(82, 78, 78, 0.52);
-        height: 100vh;
-        width: 100vw;
-        z-index: 16;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .titleContainer {
-        width: 267px;
-        // height: 38px;
-    }
-}
-
 .panel {
     .position {
         width: 428px;
-        height: 115px;
+        height: 145px;
         top: 96px;
         right: 23px;
         padding: 16px;
@@ -173,6 +147,7 @@ export default {
         display: flex;
         justify-content: end;
         margin-top: 14px;
+        margin-right: 14px;
     }
 
     .buttonMargin {
@@ -180,6 +155,42 @@ export default {
     }
 
 }
+
+.main {
+    .title-container {
+        padding-top: 24px;
+
+        .header-svg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .title {
+                text-align: center;
+                font-weight: 600;
+                font-size: 18px;
+                margin-top: 14px;
+                display: flex;
+                color: @Mako;
+            }
+        }
+
+        .info {
+            font-weight: 400;
+            font-size: 12px;
+            margin-top: 14px;
+            color: @DoveGray;
+            text-align: center;
+        }
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
 
 //common
 .popup-container {
@@ -197,6 +208,7 @@ export default {
         font-size: 12px;
         margin-top: 14px;
         color: @DoveGray;
+        line-height: 160%;
     }
 }
 </style>
