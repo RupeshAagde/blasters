@@ -414,6 +414,11 @@ export default {
     directives: {
         flatBtn,
     },
+    computed:{
+        activeShipment(){
+            return this.items.find(i => i.shipment_id == this.activeId, {})
+        },
+    },
     data() {
         return {
             rejectUpdate: cloneDeep(this.items),
@@ -702,7 +707,7 @@ export default {
             this.$refs['call-drawer'].callCustomer();
         },
         fetchReasons() {
-            OrderService.getReasons(this.shipmentId, this.bagId, this.status)
+            OrderService.getReasons(this.activeShipment.shipment_id, this.activeShipment.bags[0].bag_id.toString(), this.activeShipment.status.status)
             .then((res)=>{
                 if(res.data.success == true) {
                     this.reasons = res.data.reasons.map(reason => {
