@@ -823,16 +823,19 @@ svg{
   border-bottom: 1px solid #E0E0E0;
   padding-bottom: 16px;
 .left-content{
+  max-width: 60%;
   .inline-svg{
     display: inline-block;
     vertical-align: middle;
   }
 }
 .right-content{
+  max-width: 40%;
   button{
     margin-left: 20px;
   }
 }
+
 }
 
 .title{
