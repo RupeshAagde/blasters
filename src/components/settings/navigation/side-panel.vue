@@ -25,7 +25,7 @@
                                     <div class="form-item">
                                         <image-uploader-tile
                                            label="Feature Image"
-                                            aspectRatio="*"
+                                            aspectRatio="1:1"
                                             :fileName="'platform feature'"
                                             namespace="platform-feature-image"
                                             v-model="menuSettings.icon"
