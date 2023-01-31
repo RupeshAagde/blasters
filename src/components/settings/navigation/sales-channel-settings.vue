@@ -103,9 +103,9 @@ export default {
         getSettings() {
             return {
                     "visible_on": {
-                        "web": false,
-                        "ios": false,
-                        "android": false
+                        "web": true,
+                        "ios": true,
+                        "android": true
                     },
                     "display": "",
                     "permissions": [],

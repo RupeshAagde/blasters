@@ -55,7 +55,7 @@
                                         <div class="form-title">
                                             Navigation Link
                                         </div>
-                                        <nitrozen-input v-model="menuSettings.link" type="text" placeholder="Paste a link to the page here"></nitrozen-input>
+                                        <nitrozen-input :disabled="menuSettings.child.length > 0" v-model="menuLinkVal" type="text" placeholder="Paste a link to the page here"></nitrozen-input>
                                         <nitrozen-error v-bind:class="{ visible: errors['link'] }">
                                                 {{ errors['link'] }}
                                         </nitrozen-error>
@@ -255,7 +255,7 @@ export default {
         },
         onUpdate(isSave) {  
             if (isSave) {
-                if (this.validateForm() && !this.isDeleting) {
+                if (!this.isDeleting && this.validateForm()) {
                     this.$emit('onSave', {index: this.index, data: this.menuSettings, type: this.type, isEdit: this.isEdit});
                     this.showNavigationSection()
                 } else {
@@ -263,6 +263,7 @@ export default {
                     this.isDeleting = false;
                 }
             }
+
             this.formOpacity.opacity = this.formOpacity.opacity == 1 ? 0.5 : 1;
         },
         onDeleteSubMenu(payload) {
@@ -270,6 +271,19 @@ export default {
             this.formOpacity.opacity = 0.5;
             this.$refs["confirmationPopup"].open(payload)
         }
+    },
+    computed: { 
+        menuLinkVal: {
+            get: function() {
+                if (this.menuSettings.child.length > 0)
+                    return this.menuSettings.link = this.menuSettings.child[0].link
+                else if(this.menuSettings.link)
+                    return this.menuSettings.link
+            },
+            set: function(value) {
+                this.menuSettings.link = value
+            }
+	    }   
     }
 };
 </script>

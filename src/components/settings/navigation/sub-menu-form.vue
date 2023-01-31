@@ -18,7 +18,7 @@
                                         <inline-svg :src="'drag'" class="icon"></inline-svg>
                                 </div>
                                 <div class="item-title">
-                                    Sub Item {{ index + 1}}
+                                    {{ item.title ? item.title : `Sub Item ${index + 1}` }}
                                 </div>
                             </div>
 
@@ -45,6 +45,9 @@
                                 <div class="form-title-group">
                                     <div class="form-title">
                                         Title
+                                    </div>
+                                    <div class="previous-name" v-if="previously[index]">
+                                        Previously: {{ previously[index] }}
                                     </div>
                                 </div>
 
@@ -147,7 +150,8 @@ export default {
             selectedMenuIndex: -1,
             errors: [],
             toggleSubMenu: [],
-            deleteIndex: -1
+            deleteIndex: -1,
+            previously: []
         }
     },
     methods: {
@@ -215,8 +219,10 @@ export default {
         },
         clearErrors() {
             this.errors = [];
-            this.toggleSubMenu =[]
+            this.toggleSubMenu =[];
+            this.previously = [];
             for (let index = 0; index < this.subMenu.length; index++) {
+                this.previously[index] = this.subMenu[index].title
                 this.errors.push({
                     title: '',
                     link: ''
@@ -313,6 +319,16 @@ export default {
 
             .sub-menu-input {
                 margin: 20px 15px 20px 15px;
+                .form-title-group {
+                    display: flex;
+                    justify-content: space-between;
+                    .previous-name {
+                        font-weight: 400;
+                        font-size: 12px;
+                        color:@DarkGray;
+                        margin-top: 10px;
+                    }
+                }
                     .visible-grp {
                     display: flex;
                     justify-content: space-between;
@@ -329,6 +345,9 @@ export default {
 
                         .des {
                             margin-left: 8px;
+                            font-weight: 400;
+                            font-size: 12px;
+                            color:@DarkGray;
                         }
 
                         .check {
@@ -343,11 +362,11 @@ export default {
 
     }
     .form-title {
-        margin-top: 10px;
         font-weight: 400;
         font-size: 12px;
-        color: @Mako;
+        color: @DarkGray;
         margin-bottom: 10px;
+        margin-top: 10px;
     }
     .dropdown-icon {
         transition: all 0.5s ease;
