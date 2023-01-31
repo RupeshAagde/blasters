@@ -31,7 +31,7 @@
                     }"
                     v-else-if="articleData.article.return_config"
                 >
-                   {{ articleData.article.return_config.returnable ? `Returnable Upto ${articleData.article.return_config.time} ${articleData.article.return_config.days}` : 'Non Returnable' }}
+                   {{ articleData.article.return_config.returnable ? `Returnable Upto ${articleData.article.return_config.time} ${articleData.article.return_config.unit}` : 'Non Returnable' }}
                 </nitrozen-badge>
             </div>
         </div>
