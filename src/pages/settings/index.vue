@@ -234,6 +234,14 @@ const CUSTOMIZE_MENUS = [
         permissions: [],
         active: false,
         desc: 'Use this section to change platform footer'
+    },
+    {
+        title: 'Seller Panel Sidebar',
+        link: 'platform/seller-panel',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Configure navigation items'
     }
 ]
 const CUSTOM_PAGES = [
