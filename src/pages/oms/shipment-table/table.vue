@@ -828,7 +828,7 @@ export default {
          */
         onBagChangeState(event) {
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
-            if(event.state.length > 0 && event.remark.length > 0) {
+            if(event.state.length > 0 && event.remark.length > 9) {
                 if(reasonStates.includes(event.state) && event.reason.length > 0) {
                     this.enableBagStateChange = true;
                 } else if(reasonStates.includes(event.state) && event.reason.length === 0) {

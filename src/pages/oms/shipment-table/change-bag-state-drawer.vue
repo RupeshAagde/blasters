@@ -31,7 +31,7 @@
                     v-model="note"
                     placeholder="(Min. 10 characters)"
                     :disabled="false"
-                    @change="onRemarkChange"
+                    @input="onRemarkChange"
                 />
             </div>
         </div>
