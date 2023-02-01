@@ -61,7 +61,9 @@
                                 :readOnlyMode="readOnlyMode"
                             >
                             </invoice-label-actions>
-                            <admin-actions @change="performMenuAction" />
+                            <admin-actions 
+                                @change="performMenuAction"
+                                :activeShipment="activeShipment" />
                         </div>
                     </td>
                     <!-- <td>
@@ -105,7 +107,6 @@
         <table class="mirage-table list-table" v-if="items.length > 0">
             <template v-for="item in otherShipments">
                 <tr 
-                    :key="item.shipment_id" 
                     class="line-break" 
                     @click="onRowClick(item.shipment_id)"
                     :class="{activeRow: item.shipment_id === activeId}">
@@ -168,6 +169,7 @@
                                     item.shipment_id === activeId
                                 "
                                 @change="performMenuAction"
+                                :activeShipment="activeShipment"
                             />
                         </div>
                     </td>
