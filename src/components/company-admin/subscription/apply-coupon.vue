@@ -242,7 +242,6 @@ export default {
     font-weight: 500;
     font-size: 14px;
     line-height: 140%;
-    display: flex;
     align-items: center;
     color: #828282;
     display: flex;

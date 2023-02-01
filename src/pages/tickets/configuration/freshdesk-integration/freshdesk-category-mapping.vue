@@ -35,7 +35,7 @@
                                 <transition-group>
                                     <div
                                         v-for="(item, index) in categoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                         :class="{
                                             active_list_category:
@@ -249,7 +249,7 @@
                                     <div
                                         v-for="(item,
                                         index) in levelTwoCategoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                         :class="{
                                             active_list_category:
@@ -358,7 +358,7 @@
                                     <div
                                         v-for="(item,
                                         index) in levelThreeCategoryList"
-                                        :key="index"
+                                        :key="`${index}`"
                                         class="list_category"
                                     >
                                         <!-- @click="openLevelThreeCategory(item)" -->
@@ -874,7 +874,7 @@ export default {
         align-items: center;
         .heading-flex {
             .sub-heading {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 16px;
@@ -882,7 +882,7 @@ export default {
                 color: #41434c;
             }
             .decs {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -935,7 +935,7 @@ export default {
                         padding: 0px 10px 0px 20px;
                         .group-label {
                             margin-left: 13px;
-                            font-family: 'Inter';
+                            font-family: Inter, sans-serif;
                             font-style: normal;
                             font-weight: 400;
                             font-size: 12px;

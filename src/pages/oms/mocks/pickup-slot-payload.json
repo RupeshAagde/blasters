@@ -1,0 +1,37 @@
+{
+    "statuses": [
+      {
+        "shipments": [
+          {
+            "identifier": "",
+            "products": [
+              
+            ],
+            "data_updates": {
+              "entities": [
+                {
+                  "filters": [
+                    {
+                      
+                    }
+                  ],
+                  "data": {
+                    "meta": {
+                      "processing_dates": {
+                        
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "status": "",
+        "exclude_bags_next_state": null
+      }
+    ],
+    "task": false,
+    "force_transition": false,
+    "unlock_before_transition": true
+  }

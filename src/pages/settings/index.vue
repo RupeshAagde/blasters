@@ -50,7 +50,9 @@
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Custom Page and Tag</span>
+                    <span class="bold-xs cl-Mako title"
+                        >Custom Page and Tag</span
+                    >
                 </div>
 
                 <div class="settings-main">
@@ -87,8 +89,6 @@
                         </router-link>
                     </span>
                 </div>
-
-                
 
                 <div class="settings-head">
                     <inline-svg src="settings"></inline-svg>
@@ -129,24 +129,24 @@
                         </router-link>
                     </span>
 
-                    <span class="settings-menu" @click="openHomePage" key="home-page">
+                    <span class="settings-menu" @click="openHomePage(menu)" v-for="(menu, index) in cutsom_pages" :key="menu.key+index">
                         <span>
                             <div class="settings-body">
                                 <span class="settings-icon">
                                     <inline-svg
-                                        src="settings"
+                                        :src="menu.icon"
                                         class="feature-icon"
                                     ></inline-svg>
                                 </span>
                                 <span class="settings-content">
                                     <div>
                                         <span class="bold-xs cl-Mako"
-                                            >Home Page</span
+                                            >{{menu.title}}</span
                                         >
                                     </div>
                                     <div class="settings-detail">
                                         <span class="cl-Mako">
-                                            Update home page
+                                            {{menu.desc}}
                                         </span>
                                     </div>
                                 </span>
@@ -172,7 +172,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
-import HomePage from "./home-page"
+import HomePage from './home-page';
 
 const GENERAL_MENUS = [
     {
@@ -198,7 +198,7 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform pricing banner'
-    },
+    }
 ];
 const CUSTOM_MENUS = [
     {
@@ -209,7 +209,7 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
     },
-     {
+    {
         title: 'Custom Tags',
         link: 'platform/list-tags',
         icon: 'settings',
@@ -217,9 +217,9 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Inject Script/CSS'
     }
-]
+];
 const CUSTOMIZE_MENUS = [
-{
+    {
         title: 'Navbar',
         link: 'platform/navbar',
         icon: 'settings',
@@ -244,6 +244,29 @@ const CUSTOMIZE_MENUS = [
         desc: 'Configure navigation items'
     }
 ]
+const CUSTOM_PAGES = [
+    {
+        title: 'Home Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update home page',
+        key: 'home'
+    },
+    {
+        title: 'Features Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update features page',
+        key: 'features'
+    },
+    {
+        title: 'Pricing Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update pricing page',
+        key: 'pricing'
+    }
+];
 export default {
     name: 'settings',
     components: {
@@ -264,14 +287,15 @@ export default {
             pageError: false,
             general_menus: GENERAL_MENUS,
             customize_menus: CUSTOMIZE_MENUS,
-            custom_menus: CUSTOM_MENUS
+            custom_menus: CUSTOM_MENUS,
+            cutsom_pages: CUSTOM_PAGES
         };
     },
     mounted() {},
     methods: {
         titleCase,
-        openHomePage(){
-            this.$refs["custom-home-page"].open()
+        openHomePage(menu){
+            this.$refs["custom-home-page"].open(menu)
         }
     }
 };

@@ -1,6 +1,7 @@
 import AdministratorBaseViewVue from './../../pages/administrator/baseview.vue';
 import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
+import FinanceRoutes from './finance';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
@@ -8,6 +9,15 @@ import BillingVue from './../../pages/company-admin/billing.vue';
 import InvoiceListingMain from './../../pages/company-admin/invoice-listing-main.vue';
 import CouponListingMain from './../../pages/company-admin/coupon-listing-main.vue';
 import CouponCreateUpdate from './../../pages/company-admin/coupon-create-update.vue';
+import EventSubscription from './../../pages/communication/event_subscription.vue';
+import GlobalVariables from './../../pages/communication/global-variables.vue';
+import Provider from './../../pages/communication/provider/listing.vue';
+import ProviderDefault from './../../pages/communication/provider/set-default.vue';
+import ProviderMain from './../../pages/communication/provider/provider-main.vue';
+import SmsTemplateMain from './../../pages/communication/sms/sms-templates.vue';
+import SmsTemplateForm from './../../pages/communication/sms/sms-template-form.vue';
+import EmailTemplateForm from './../../pages/communication/email/email-template-form.vue';
+import EmailTemplateMain from './../../pages/communication/email/email-templates.vue';
 import ReportListingMain from './../../pages/communication/reports.vue';
 import UserManagementVue from './../../pages/super-user/user-access.vue';
 import AddSuperUserVue from './../../pages/super-user/add-user.vue';
@@ -38,7 +48,7 @@ import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
 import ListDepartment from './../../pages/catalogue/list-department.vue';
 import CreateUpdateDepartment from './../../pages/catalogue/create-update-department.vue';
-import ListVariants from './../../pages/product/variants/list.vue'
+import ListVariants from './../../pages/product/variants/list.vue';
 import CreateUpdateVariant from '@/pages/product/variants/edit.vue';
 import Product from './../../pages/product/index';
 import ProductAttributesList from '@/pages/product/attributes/list';
@@ -59,18 +69,37 @@ import ListWebhooks from './../../pages/webhook/list_webhooks.vue';
 import CreateWebhooks from './../../pages/webhook/index.vue';
 import EditWebhooks from './../../pages/webhook/edit_webhooks.vue';
 import WebhookReport from './../../pages/webhook/webhook_report.vue';
+import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
+import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
+import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
+import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
 const OrdersPage = () => import('@/pages/orders');
+import RMAPage from '@/pages/rma';
+import RMARulesListing from '@/pages/rma/rules-listing';
+import RMASetup from '@/pages/rma/rma-setup.vue';
+import Rules from '@/pages/rma/rules';
 const OrdersNinjaPage = () => import('@/pages/orders/ninja')
 const OrderDetails = () => import('@/pages/orders/order-details.vue');
-import PackagingHome from '@/pages/packaging/packaging-home.vue';
-import CategoryConfig from '@/pages/packaging/category-config.vue';
-import PackagingCreate from '@/pages/packaging/create-packaging.vue';
-import CreateCategory from '@/pages/packaging/create-category-home.vue';
+import PackagingHome from '@/pages/packaging/packaging-home.vue'
+import CategoryConfig from '@/pages/packaging/category-config.vue'
+import PackagingCreate from '@/pages/packaging/create-packaging.vue'
+import CreateCategory from '@/pages/packaging/create-category-home.vue'
+import BulkExport from '@/pages/product/bulk/export/bulk-export';
+import BulkImport from '@/pages/product/bulk/import/bulk-import';
+import UploadHistory from '@/pages/product/bulk/import/upload-history.vue';
+
+/** OMSv2.1 */
+const Orders = () => import('@/pages/oms/index.vue');
+const OrderDetailsV2 = () => import('@/pages/oms/order-details/index.vue');
+const OrdersBulk = () => import('@/pages/oms/bulk-actions/index.vue');
+const OrdersManifest = () => import('@/pages/oms/manifest/index.vue');
+const OrdersManifestDetails = () => import('@/pages/oms/manifest/manifest-details/manifest-details.vue');
+const OrdersManifestGenerate = () => import('@/pages/oms/manifest/manifest-generate.vue');
+/** OMSv2.1 --END */
 
 import { authenticatedUser, checkUserPermission } from './../guards';
-import { children } from 'cheerio/lib/api/traversing';
 
 export default [
     {
@@ -80,6 +109,7 @@ export default [
         children: [
             ...PlanCreatorRoutes,
             ...ExtensionRoutes,
+            ...FinanceRoutes,
             {
                 name: 'company-list',
                 path: 'company-list',
@@ -200,6 +230,162 @@ export default [
                     return checkUserPermission(to, from, next, [
                         'communication'
                     ]);
+                }
+            },
+            {
+                name: 'events',
+                path: 'communication/events',
+                component: EventSubscription,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'variables',
+                path: 'communication/global-variables',
+                component: GlobalVariables,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerList',
+                path: 'communication/provider',
+                component: Provider,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerDefault',
+                path: 'communication/provider/default',
+                component: ProviderDefault,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'providerMain',
+                path: 'communication/provider/:providerType/:mode/:providerId',
+                component: ProviderMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateMain',
+                path: 'communication/sms/templates',
+                component: SmsTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/create',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'smstemplateCreate',
+                path: 'communication/sms/templates/edit/:templateId',
+                component: SmsTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateMain',
+                path: 'communication/email/templates',
+                component: EmailTemplateMain,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateCreate',
+                path: 'communication/email/templates/create',
+                component: EmailTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
+                }
+            },
+            {
+                name: 'emailtemplateEdit',
+                path: 'communication/email/templates/edit/:templateId',
+                component: EmailTemplateForm,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['company']
+                    );
                 }
             },
             {
@@ -411,6 +597,46 @@ export default [
                 component: Product,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['product']);
+                }
+            },
+             //bulk import export
+             {
+                name: 'export',
+                path: 'product/:type/export',
+                component: BulkExport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
+            },
+            {
+                name: 'import',
+                path: 'product/:type/import',
+                component: BulkImport,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
+                }
+            },
+            {
+                name: 'upload-history',
+                path: 'product/:type/import/upload-history',
+                component: UploadHistory,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(
+                        to,
+                        from,
+                        next,
+                        ['product']
+                    );
                 }
             },
             // attributes
@@ -662,6 +888,88 @@ export default [
                     return checkUserPermission(to, from, next, ['settings']);
                 }
             },
+            {
+                name: 'rma-global-rule-setup',
+                path: 'orders/rma/rules/global/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-global-rule-edit',
+                path: 'orders/rma/rules/global/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-setup',
+                path: 'orders/rma/rules/custom/:sales_channel/setup',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma-custom-rule-edit',
+                path: 'orders/rma/rules/custom/:sales_channel/edit',
+                component: RMASetup,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'rma',
+                path: 'orders/rma',
+                component: RMAPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                },
+                children: [
+                    {
+                        name: 'rma-rules',
+                        path: 'rules',
+                        components: { 'rma-view': Rules },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-rules',
+                        path: 'rules/global',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-global-channel-rules',
+                        path: 'rules/global/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    },
+                    {
+                        name: 'rma-custom-channel-rules',
+                        path: 'rules/custom/:sales_channel',
+                        components: { 'rma-view': RMARulesListing },
+                        beforeEnter: (to, from, next) => {
+                            return checkUserPermission(to, from, next, [
+                                'order'
+                            ]);
+                        }
+                    }
+                ]
+            },
             // Category
             {
                 name: 'category',
@@ -699,14 +1007,14 @@ export default [
             },
             {
                 name: 'orders-hyperlocal-tracking',
-            path: 'orders/hyperlocal-tracking',
-            component: OrdersNinjaPage,
-            beforeEnter: (to, from, next) => {
-                return checkUserPermission(to, from, next, ['order']);
-            }
-        },
-        {
-            name: 'application-order-details',
+                path: 'orders/hyperlocal-tracking',
+                component: OrdersNinjaPage,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['order']);
+                }
+            },
+            {
+                name: 'application-order-details',
                 path: '/order/:orderId/shipments',
                 component: OrderDetails,
                 beforeEnter: (to, from, next) => {
@@ -716,6 +1024,85 @@ export default [
                     name: 'Application Order Details'
                 }
             },
+            // =============================================================
+            /** OMSv2.1 */
+            {
+                name: 'company-orders-v2',
+                path: 'orders/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: Orders,
+                meta: {
+                    name: 'Company Orders'
+                }
+            },
+            {
+                name: 'company-order-details-v2',
+                path: 'orders/:orderId/details',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                },
+                component: OrderDetailsV2,
+                meta: {
+                    name: 'Company Order Details'
+                }
+            },
+            {
+                name: 'company-order-bulk-v2',
+                path: 'orders/bulk',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersBulk,
+                meta: {
+                    name: 'Company Order Bulk Actions'
+                }
+            },
+            {
+                name: 'company-order-manifest',
+                path: 'orders/manifest/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifest,
+                meta: {
+                    name: 'Company Order manifest'
+                }
+            },
+            {
+                name: 'company-manifest-detail',
+                path: 'orders/manifest/:manifestId/',  //need at aadd a storng 
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestDetails,
+                meta: {
+                    name: 'Manifest Detail'
+                }
+            },
+            {
+                name: 'company-manifest-generate',
+                path: 'orders/manifest/generate/',
+                permissions: ['order'],
+                beforeEnter: (to, from, next) => {
+                    checkUserPermission(to, from, next, 'company', ['order']);
+                    // checkOrderRole(to, from, next);
+                },
+                component: OrdersManifestGenerate,
+                meta: {
+                    name: 'Company Manifest Grenerate'
+                }
+            },
+
             // =============================================================
 
             {
@@ -776,6 +1163,29 @@ export default [
                     ]);
                 }
             },
+            /**
+             * Finance Upload Portal Routes
+             */
+            {
+                name: 'bulk-upload',
+                path: 'finance/bulk-upload',
+                component: BulkUpload,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                }
+            },
+            {
+                name: 'upload-history-fin',
+                path: 'finance/bulk-upload/upload-history',
+                component: UploadHistoryFin,               
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                }
+            },
             {
                 name: 'category-config-create',
                 path: 'packaging/category-configuration/create',
@@ -786,6 +1196,28 @@ export default [
                         'admin-access'
                     ]);
                 }
+            },
+            //======================== CN DN ========================
+            {
+                name: 'credit-debit-note',
+                path: 'finance/credit-debit-note',
+                component: CreditDebitHome,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                },
+            },
+            {
+                name: 'credit-note',
+                path: 'finance/credit-debit-note/credit-note/:noteType/:noteId?/:preview?/:isApprover?/:documentNo?',
+                component: CreditDebitNote,
+                props: true,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                } 
             },
         ]
     },

@@ -13,7 +13,7 @@
                     </nitrozen-button>
                 </div> -->
                 <div class="issue-list-header">
-                    <div class="ticket-id">Ticket #</div>
+                    <div class="ticket-id">Ticket#</div>
                     <div class="title">Title</div>
                     <div class="status">Status</div>
                     <div class="category">Category</div>
@@ -27,12 +27,8 @@
                     v-for="issue in issues"
                     :key="issue._id"
                 >
-                    <div class="ticket-id">
-                        {{ issue.ticket_id }}
-                    </div>
                     <div class="title">
-                        <!-- <span class="link" @click="goToTicket(issue._id)"> -->
-                        <span class="link">
+                        <span class="link" @click="goToTicket(issue._id)">
                             {{ issue.content.title || "No title"}}
                         </span>
                     </div>
@@ -113,17 +109,19 @@ export default {
                 "border-left": `5px solid ${issue.priority.color || "gray"}`
             }
         },
-        // goToTicket(ticket_id) {
-            // return null;
-            // this.close();
+        goToTicket(ticket_id) {
+            this.close();
+            this.$router.push({
+                path: `/administrator/support/ticket/${ticket_id}/edit`
+            });
             // this.$router.push({
-            //     name: 'company-support-view',
+            //     name: 'support-edit',
             //     query: {
             //         redirect_url: this.$route.fullPath
             //     },
             //     params: { ticket_id }
             // });
-        // },
+        },
         // reportAnIssue() {
         //     this.close('');
         //     let routeData = this.$router.resolve({ name: 'company-support-create', query: { redirect_url: this.$route.fullPath, shipment: this.shipment_id } }); 
@@ -169,19 +167,13 @@ export default {
                     padding: 6px;
                     background-color: @WhiteSmoke;
                     & > div:nth-child(1) {
-                        flex: 0.15;
-                        padding-left: 12px;
+                        flex: 0.4;
                     }
                     & > div:nth-child(2) {
-                        flex: 0.3;
-                        padding-right: 15px;
+                        flex: 0.2;
                     }
                     & > div:nth-child(3) {
-                        flex: 0.2;
-                        padding-right: 15px;
-                    }
-                    & > div:nth-child(4) {
-                        flex: 0.3;
+                        flex: 0.4;
                     }
                 }
                 .issue-list-row {
@@ -195,33 +187,27 @@ export default {
                     &:hover {
                         background-color: @WhiteSmoke;
                     }
-                    .ticket-id {
-                        padding-left: 12px;
-                        flex: 0.15;
-                    }
                     .title {
-                        flex: 0.3;
+                        flex: 0.36;
                         word-break: break-word;
-                        padding-right: 5px;
+                        padding-left: 12px;
                         .link {
-                            // cursor: pointer;
-                            // color: @RoyalBlue;
-                            // &:hover {
-                            //     text-decoration: underline;
-                            // }
+                            cursor: pointer;
+                            color: @RoyalBlue;
+                            &:hover {
+                                text-decoration: underline;
+                            }
                         }
                     }
                     .status {
                         flex: 0.2;
-                        padding-right: 12px;
                         .nitrozen-badge {
                             height: fit-content;
                             white-space: normal;
                         }
                     }
                     .category {
-                        flex: 0.3;
-                        padding-right: 12px;
+                        flex: 0.4;
                         word-break: break-word;
                         .nitrozen-badge {
                             height: fit-content;

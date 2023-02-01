@@ -110,7 +110,7 @@
     height: 30px;
     margin-right: 15px;
     padding: 12px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 11px;
@@ -119,7 +119,7 @@
     color: #2E31BE;
 }
 .list-events{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -147,7 +147,7 @@
     color: #9B9B9B;
 }
 .event-value{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -155,7 +155,7 @@
     color: #41434C;
 }
 .event-key{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -163,7 +163,7 @@
     color: #41434C;
 }
 .user-details{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

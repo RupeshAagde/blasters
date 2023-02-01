@@ -16,6 +16,7 @@ let localVue = createLocalVue()
 localVue.use(VueRouter)
 let wrapper, router
 
+
 describe('Mounted Create Integartion Page', () => {
     beforeEach(async () => {
         localVue = createLocalVue();

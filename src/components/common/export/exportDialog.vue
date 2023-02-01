@@ -82,7 +82,7 @@ span {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  font-family: "Inter";
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-size: 12px;
   margin-top: 24px;
@@ -94,12 +94,12 @@ span {
 }
 .alertBox {
   background: #ffe7e7;
-  border: 1px#FFE7E7;
+  border: 1px #FFE7E7;
 }
 
 .text {
   flex-grow: 1;
-  font-family: "Inter";
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;

@@ -87,7 +87,6 @@ export default {
     padding: 0 10px;
     .n-button-content {
         justify-content: center;
-        justify-content: center;
         font-weight: normal;
         font-size: 14px;
     }
