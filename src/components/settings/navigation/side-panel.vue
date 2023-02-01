@@ -19,7 +19,7 @@
                             </div>
                                                     
                         </div>
-                        <div class="forms" :style="formOpacity">
+                        <div class="forms" :style="formOpacity" :class="formOpacity.opacity === 0.5 ? 'avoid-clicks' : ''">
                             <div class="item-form">
                                 <div class="image-upload">
                                     <div class="form-item">
@@ -342,7 +342,9 @@ export default {
                 margin-right: 25px;
             }
         }
-
+        .avoid-clicks {
+            pointer-events: none;
+        }
         .forms {
             margin: 80px 24px 80px 24px;
             .item-form {
