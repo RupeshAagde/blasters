@@ -1011,7 +1011,7 @@ const URLS = {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/generate/file`);
     },
     POST_V2_LINK_BULK_ACTION: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/upload`);
     },
     UPLOAD_CONSENT:() => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/uploadConsent`);
@@ -1023,19 +1023,22 @@ const URLS = {
         return urlJoin(HEDWIG_ADMIN_SVC, `/v1.0/tracking`);
     },
     GET_BULK_ACTION_LIST: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/listing`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/listing`);
     },
     FETCH_BULK_LIST_DETAILED_DATA: (data) => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-get-data/${data}`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/details`);
     },
     FETCH_BULK_ACTION_FAILED_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-failed-report`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/get-failed-shipment-records`);
     },
     PROCESS_BULK_ACTION_INVOICE: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/invoice`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/invoice`);
     },
     FETCH_BULK_INVOICE_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/download/invoice-label`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/download/invoice-label`);
+    },
+    DOWNLOAD_BULK_ACTION_TEMPLATE: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
     },
     SAVE_PROCESS_MANIFEST: ()=>{
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/process-manifest`);

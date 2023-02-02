@@ -275,6 +275,14 @@ const OrderService = {
             axiosOption
         );
     },
+    downloadBulkActionTemplate() {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { params: params }
+        );
+        return ApiService.get(URLS.DOWNLOAD_BULK_ACTION_TEMPLATE(), axiosOption);
+    },
     fetchAnnouncementAlerts() {
         let axiosOption = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_ANNOUNCEMENT_NOTE(), axiosOption);
@@ -354,13 +362,13 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_V2_BULK_GENERATE_EXCEL(), axiosOption);
     },
-    fetchBulkListDetailedData(data) {
+    fetchBulkListDetailedData(params) {
         let axiosOption = Object.assign(
             {},
             getCommonHeaderOptions(), 
-            {}
+            {params: params}
         );
-        return ApiService.get(URLS.FETCH_BULK_LIST_DETAILED_DATA(data), axiosOption);
+        return ApiService.get(URLS.FETCH_BULK_LIST_DETAILED_DATA(), axiosOption);
     },
     fetchDpActivityLogs(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
