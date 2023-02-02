@@ -858,7 +858,7 @@ export default {
                 );
                 return;
             }
-
+            
             /* Basic payload structure (without reasons) */
             let payload = {
                 statuses: [
@@ -878,7 +878,7 @@ export default {
                 lock_after_transition: false,
                 unlock_before_transition: false
             };
-
+            
             /* Adding reasons for cancelled states */
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
             if(reasonStates.includes(changeBagStateDrawer.selectedState)) {
@@ -889,7 +889,7 @@ export default {
                     reasonText = selectedReason.text;
                 }
 
-                payload.statuses.shipments[0]['reasons'] = {
+                payload.statuses[0].shipments[0]['reasons'] = {
                     products: [
                         {
                             filters: [{}],
