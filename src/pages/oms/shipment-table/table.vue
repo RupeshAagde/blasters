@@ -929,8 +929,6 @@ export default {
                             3000
                         );
                           }
-                     
-                   
                         console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0].message);
                     }
                 } else {
