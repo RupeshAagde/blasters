@@ -73,8 +73,7 @@ export default {
             dateRangeShortcuts: [...dateRangeShortcuts],
             reportType: '',
             displayDate: '',
-            program_type: [],
-            program_type_id: [],
+            channel: [],
             sellerId: [],
             sellerName: [],
             fromDate: '',
@@ -90,11 +89,10 @@ export default {
             this.fromDate = moment(this.reportGenerationDate[0]).format('DD-MM-YYYY');
             this.toDate = moment(this.reportGenerationDate[1]).format('DD-MM-YYYY');
         },
-        open({ reportType, displayDate, program_type, program_type_id, sellerId, sellerName }){
+        open({ reportType, displayDate, channel, sellerId, sellerName }){
             this.reportType = reportType;
             this.displayDate = displayDate;
-            this.program_type = program_type;
-            this.program_type_id =program_type_id;
+            this.channel = channel;
             this.sellerId = sellerId;
             this.sellerName = sellerName;
             this.$refs.reportGenerationDialog.open({
@@ -108,8 +106,7 @@ export default {
             this.$emit('close', reason);
         },
         resetDefault(){
-            this.program_type = [];
-            this.program_type_id = [];
+            this.channel = [];
             this.sellerId = [];
             this.sellerName = [];
         },
@@ -126,22 +123,18 @@ export default {
                     start_date: this.fromDate,
                     end_date: this.toDate,
                     filters:{
-                        program_type: this.program_type.length ? this.program_type : [],
-                        program_type_id: this.program_type_id.length ? this.program_type_id : [],
+                        channel: this.channel.length ? this.channel : [],
                         company:this.sellerId.length ? this.sellerId : [],
                     },
                     meta:{
-                        program_type: this.program_type.toString(),
-                        program_type_id: this.program_type_id.toString(),
+                        channel: this.channel.toString(),
                         company: this.sellerName.toString()
                     }
                 }
             };
-            if(!params.data.filters.program_type.length){
-                delete params.data.filters.program_type;
-                delete params.data.filters.program_type_id;
-                delete params.data.meta.program_type;
-                delete params.data.meta.program_type_id;
+            if(!params.data.filters.channel.length){
+                delete params.data.filters.channel;
+                delete params.data.meta.channel;
             }
             const caller = FinanceService.generateReport(params);
             caller

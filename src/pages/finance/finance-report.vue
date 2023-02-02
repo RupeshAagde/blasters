@@ -26,30 +26,16 @@
                         @searchInputChange="searchCompany"
                         @change="setCompanyList"
                     ></nitrozen-dropdown>
-                    <!-- @searchInputChange="searchCompany($event.text)" -->
                     <nitrozen-dropdown
                         id="fullfilment-type"
-                        label="Fulfillment Model"
+                        label="Ordering Channels"
                         :items="fulfillmentModel"
                         v-model="selectedModel"
-                        :disabled="locationDisable"
                         :searchable="true"
                         :multiple="true"
                         @change="runLocation()"
-                        :placeholder="`${selectedModel ? selectedFMT() : 'Fulfillment Model'}`"
+                        :placeholder="`${selectedModel ? selectedFMT() : 'Ordering Channels'}`"
                     ></nitrozen-dropdown>
-                    <nitrozen-dropdown
-                        id="location-id"
-                        :items="locationID"
-                        v-model="selectedID"
-                        :multiple="true"
-                        :searchable="true"
-                        :disabled="haveFM"
-                        :label="'Location ID'"
-                        :placeholder="`${ selectedID ? selectedIDT() : 'Location ID'}`"
-                    >
-                    </nitrozen-dropdown>
-                    <!-- @searchInputChange="clearDD('location-id')" -->
                 </div>
                 <div 
                     v-if="selectedReportType"
@@ -174,29 +160,14 @@
                                         </td>
                                         <td>
                                             <span
-                                                :title="tab.meta.fulfilment_type || tab.meta.program_type"
+                                                :title="tab.meta.channel || tab.meta.program_type"
                                                 v-if="
                                                     tab.meta &&
-                                                    (tab.meta.fulfilment_type || tab.meta.program_type)
+                                                    (tab.meta.channel || tab.meta.program_type)
                                                 "
                                             >
-                                                <span class="report-channels"> {{ formatStrings(tab.meta.fulfilment_type || tab.meta.program_type) }} </span>
-                                                <span class="high-light" v-if="dataLength(tab.meta.fulfilment_type || tab.meta.program_type) > 0"> +{{ dataLength(tab.meta.fulfilment_type || tab.meta.program_type) }} more</span>
-                                            </span>
-                                            <span v-else>
-                                                All
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                :title="tab.meta.fulfilment_type_id || tab.meta.program_type_id"
-                                                v-if="
-                                                    tab.meta &&
-                                                    (tab.meta.fulfilment_type_id || tab.meta.program_type_id)
-                                                "
-                                            >
-                                               <span class="report-channels"> {{ formatStrings(tab.meta.fulfilment_type_id || tab.meta.program_type_id) }} </span>
-                                                <span class="high-light" v-if="dataLength(tab.meta.fulfilment_type_id || tab.meta.program_type_id) > 0"> +{{ dataLength(tab.meta.fulfilment_type_id || tab.meta.program_type_id) }} more</span>
+                                                <span class="report-channels"> {{ formatStrings(tab.meta.channel || tab.meta.program_type) }} </span>
+                                                <span class="high-light" v-if="dataLength(tab.meta.channel || tab.meta.program_type) > 0"> +{{ dataLength(tab.meta.channel || tab.meta.program_type) }} more</span>
                                             </span>
                                             <span v-else>
                                                 All
@@ -267,6 +238,7 @@
                                                         The Report you tried to generate failed due to some technical issue
                                                     </span>
                                                     <nitrozen-button
+                                                        id="try-again"
                                                         v-if="!noData"
                                                         :theme="'secondary'"
                                                         class="retry-button"
@@ -380,10 +352,10 @@ export default {
             selectedSellerList: [],
             companyChips: [],
             selectedModel: [],
-            selectedID: [],
+            //selectedID: [],
             selectedReportTabIndex: 0,
-            locationDisable: true,
-            haveFM: true,
+            //locationDisable: true,
+            //haveFM: true,
             reportType: [],
             pageObject: { ...PAGINATION_OBJECT },
             startDate: '',
@@ -402,7 +374,7 @@ export default {
             noData: false, 
             newReport: {},
             tableData: {},
-            tableColumns: [ 'Report Type','Seller Name','Fulfillment Mode','Location ID','Created At','Generated By','Action'],
+            tableColumns: [ 'Report Type','Seller Name','Ordering Channel','Created At','Generated By','Action'],
         };
     },
     mounted() {
@@ -411,44 +383,11 @@ export default {
         this.getFulfilment();
         this.fetchCompany();
         this.getGeneratedReport();
-        if(this.selectedModel.length > 0 && this.locationDisable == false && this.selectedModel !== 'DFC'){
-            this.haveFM = false;
-            this.getLocation();
-        }
         this.getReportType();
     },
     methods: {
-        getLocation(){
-            let sellerID = this.selectedSeller.toString();
-            this.locationID = [];
-            const caller = FinanceService.getLocationIDAdmin(sellerID);
-            caller
-                .then((res) => {
-                    this.locationID = res.data.items.map((item) => {
-                        return {
-                            text: item.code,
-                            value: item.instance_code ? item.instance_code : '',
-                            name: item.name
-                        }
-                    })
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError('No Location IDs found'); 
-                })
-        },
         runLocation(){
-            let hasDFC = false;
-            if(this.selectedModel.length === 1 && this.selectedModel[0] == 'DFC'){
-                hasDFC = true;
-            }
-            if(this.selectedModel.length && this.locationDisable == false && !hasDFC ){
-                this.haveFM = false;
-                this.filterFulfillment();
-                this.getLocation();
-            }else{
-                this.haveFM = true;
-                this.selectedID = [];
-            }
+            this.filterFulfillment();
         },
         searchCompany(e) {
             debounce((text) => {
@@ -513,7 +452,7 @@ export default {
                 data:{
                     table_name:"config_fields_values",
                     filters:{
-                        "config_field":"program_type"
+                        "config_field":"channel"
                     },
                     project:[
                         "id",
@@ -668,8 +607,8 @@ export default {
             this.$refs.reportGenerationDialog.open({
                 reportType: this.selectedReportType,
                 displayDate: report.date,
-                program_type: this.selectedModel,
-                program_type_id: this.selectedID,
+                channel: this.selectedModel,
+                //program_type_id: this.selectedID,
                 sellerId: companyId,
                 sellerName: companyName
             });
@@ -721,16 +660,6 @@ export default {
             });
             return selectedFM;
         },
-        /////can be used in future
-        /* selectedSellerName(){
-            let sellerName = this.selectedSeller.map(item => {
-                let name = find(this.sellerNames,(obj) => {
-                    return obj.value === item;
-                });
-                return name.text;
-            });
-            return sellerName;
-        }, */
         selectedFMT(){
             let fulfilmentName = this.selectedModel.map(item => {
                 let name = find(this.fulfillmentModel,(obj) => {
@@ -740,22 +669,10 @@ export default {
             });
             return fulfilmentName;
         },
-        selectedIDT(){
-            let rfcID = this.selectedID.map(item => {
-                let name = find(this.locationID,(obj) => {
-                    return obj.value === item;
-                });
-                return name.text;
-            });
-            return rfcID;
-        },
         openLink(e){
             this.errorAlert = false;
             window.open(e);
         },
-        /* selectedReport(){
-            this.selectedReportType = '';
-        }, */
         getReportDesc(reportValue){
             const cnReports = new Set([
                 'Commercial Credit Note Report',
@@ -771,12 +688,6 @@ export default {
             ]);
             //let cnReports = ['Commercial Credit Note Report','Commercial Debit Note Report','GST Credit Note Report','GST Debit Note Report'];
             let reportSelected = find(this.reportType,(obj) => {
-                if(obj.value === reportValue){
-                    this.locationDisable = cnReports.has(obj.text);
-                    this.haveFM = true;
-                    this.selectedModel = [];
-                    this.selectedID = [];
-                }
                 return obj.value === reportValue
             });
             this.reportDescription = reportSelected.description;
@@ -833,17 +744,14 @@ export default {
             return ['pending','in process'].includes(tab.status.toLowerCase());
         },
         clearDD(str){
+            /**
+             * This Switch case can used in the future enhancement version
+             * where dropdown v-models will be needed to get cleared
+             */
             switch(str){
                 case 'report-type':
                     this.selectedReportType = '';
-                    this.locationDisable = true;
-                    break;
-                case 'fulfillment-type':
-                    this.selectedModel = '';
-                    this.haveFM = true;
-                    break;
-                case 'location-id':
-                    this.selectedID = '';
+                    //this.locationDisable = true;
                     break;
             }
         }
