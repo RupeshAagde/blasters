@@ -38,6 +38,23 @@
                 <!-- :placeholder="`${selectedSeller ? selectedSellerName() : 'Seller ID'}`" -->
             </accordion>
             <accordion
+                class="accordion-container"
+                :title="'Ordering Channel'"
+                :initialState="true"
+            >
+                <nitrozen-dropdown
+                    id="ordering-channel"
+                    ref="ordering-channel"
+                    label="Ordering Channels"
+                    :items="orderingChannels"
+                    v-model="selectedChannel"
+                    :multiple="true"
+                    :searchable="true"
+                    @change="filterDropdown(selectedChannel, orderingChannels)"
+                    :placeholder="`${selectedChannel ? selectedChannels() : 'Ordering Channels'}`"
+                ></nitrozen-dropdown>
+            </accordion>
+            <accordion
                 class="accordion-container checkboxes"
                 :title="'Status'"
                 :initialState="true"
@@ -259,6 +276,9 @@ export default {
         sellerValueProp: {
             type: Array,
         },
+        channelValueProp: {
+            type: Array,
+        },
         financeDateProp: {
             type:  String,
         },
@@ -274,6 +294,8 @@ export default {
                 moment().subtract(1, 'weeks').toISOString(),
                 moment().toISOString(),
             ],
+            orderingChannels: [],
+            selectedChannel: this.channelValueProp.length ? this.channelValueProp : [],
             notBefore: moment().subtract(3, 'months').toISOString(),
             dateRangeShortcuts: [...dateRangeShortcuts],
             fromDate: '',
@@ -290,10 +312,13 @@ export default {
             storedIndex: null,
             statusValue: [],
             statusText: [],
+            channelText: [],
+            channelValue: []
         };
     },
     mounted(){
         this.getStatus();
+        this.getChannels();
         this.getReconDate();
         this.getInitialDates();
         this.fetchCompany();
@@ -317,6 +342,50 @@ export default {
             this.fromDate = from_date;
             this.toDate = to_date;
         },
+        getChannels(){
+            let params = {
+                data:{
+                    table_name:"config_fields_values",
+                    filters:{
+                        "config_field":"channel"
+                    },
+                    project:[
+                        "id",
+                        "name",
+                        "display_name"
+                    ]
+                }
+            }
+
+            const caller = FinanceService.getChannel(params);
+            caller
+                .then((res) => {
+                    this.orderingChannels = res.data.items.map((item) => {
+                        return {
+                            text: item.display_name,
+                            value: item.name,
+                            id: item.id
+                        };
+                    })
+                })
+                .catch((err)=> {
+                    this.$snackbar.global.showError(
+                        `Failed due to ${err.message}`
+                    );
+                })
+                .finally(() => {
+                    //this.inProgress = false;
+                });
+        },
+        selectedChannels(){
+            let ChannelName = this.selectedChannel.map(item => {
+                let name = find(this.orderingChannels,(obj) => {
+                    return obj.value === item;
+                });
+                return name.text;
+            });
+            return ChannelName;
+        },
         fetchCompany(query) {
             let params = {
                 page_no: 0,
@@ -327,7 +396,6 @@ export default {
             }
             return CompanyService.getCompanyList(params)
                 .then(({ data }) => {
-                    //this.sellerNames = data.items;
                     let sellers = data.items.map((item) => {
                         return {
                             text: `${item.name} (${item.uid})`,
@@ -406,10 +474,6 @@ export default {
                 //this.inProgress = false;
             });
         },
-        resetDefault(){
-            this.statusValue= [];
-            this.statusText= [];
-        },
         getReconDate() {
             const params = {
             data:{
@@ -447,7 +511,6 @@ export default {
             event.stopPropagation();
         },
         close: function (e) {
-            console.log(e);
             this.$emit('drawerClose', e)
         },
         filterDropdown(data, dataList){
@@ -457,16 +520,21 @@ export default {
             })
             return d;
             })
-            //console.log(dropdownData);
             return dropdownData;
         },
         generateRecon(){
-            //this.companyId = getCompInfo();
             let status = this.filterDropdown(this.selectedStatus, this.financeStatusItems);
+            let orderingChannel = this.filterDropdown(this.selectedChannel, this.orderingChannels);
             if(status.length){
                 status.forEach(item => {
                     this.statusText.push(item.text);
                     this.statusValue.push(item.value.toString());
+                });
+            }
+            if(orderingChannel.length){
+                orderingChannel.forEach(item => {
+                    this.channelText.push(item.text);
+                    this.channelValue.push(item.value.toString());
                 });
             }
             let companyId = this.companyChips.map(item => item.value);
@@ -480,12 +548,14 @@ export default {
                     pageSize: this.pageSize,
                     filters:{
                         company: companyId.length ? companyId : [],
-                        finance_status:this.statusValue.length ? this.statusValue : []
+                        finance_status:this.statusValue.length ? this.statusValue : [],
+                        channel: this.channelValue.length ? this.channelValue : []
                     },
                     finance_date:this.selectedReconDate,
                     meta:{
                         company: companyName.toString(),
                         finance_status:this.statusText.join(','),
+                        channel: this.channelText.join(',')
                     }
                 }
             }

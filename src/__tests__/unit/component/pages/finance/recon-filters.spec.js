@@ -37,6 +37,7 @@ describe('ReconFilters', () => {
                 pageSize: 1,
                 statusValueProp: [],
                 sellerValueProp: [],
+                channelValueProp: [],
                 financeDateProp: '',
                 companyChipsProp: []
             }

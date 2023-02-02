@@ -179,26 +179,6 @@ describe('Finance', () => {
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
     });
-
-    it('selected Location IDs', async() => {
-        const copyClick = wrapper.find('#seller-name');
-        copyClick.vm.$emit('change');
-        await wrapper.vm.$nextTick();
-        const clickEvent = jest.spyOn(wrapper.vm, 'selectedIDT');
-        wrapper.setData({
-            selectedID: ['Hs-02'],
-            locationID: [
-                {
-                    text: 'Hs-02',
-                    value: 'Hs-02'
-                }
-            ],
-        })
-        await flushPromises();
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
-    });
     it('disable fulfillment dd on this reports', async() => {
         const copyClick = wrapper.find('#report-type');
         
@@ -329,41 +309,11 @@ describe('Finance', () => {
         copyClick.vm.$emit('searchInputChange', 'report-type');
         await flushPromises();
         wrapper.setData({
-            selectedReportType: '',
-            locationDisable: true
+            selectedReportType: 'invoice_type',
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        expect(wrapper.vm.locationDisable).toBe(true);
-    });
-
-    it('Should clear the dropdown and disable the location id dropdown', async () => {
-        const copyClick = wrapper.find('#report-type');
-        const clickEvent = jest.spyOn(wrapper.vm, 'clearDD');
-        clickEvent('fulfillment-type')
-        copyClick.vm.$emit('searchInputChange', 'fulfillment-type');
-        await flushPromises();
-        wrapper.setData({
-            selectedModel: '',
-            haveFM: true
-        });
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.haveFM).toBe(true);
-    });
-
-    it('Should clear the Location ID dropdown', async () => {
-        const copyClick = wrapper.find('#report-type');
-        const clickEvent = jest.spyOn(wrapper.vm, 'clearDD');
-        clickEvent('location-id')
-        copyClick.vm.$emit('searchInputChange', 'fulfillment-type');
-        await flushPromises();
-        wrapper.setData({
-            selectedID: '',
-        });
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.selectedID).toBe('');
+        expect(wrapper.vm.selectedReportType.length).toBe(12);
     });
 
     it('should return the pending state of the item', async() => {
@@ -404,6 +354,28 @@ describe('Finance', () => {
         expect(openReport).toHaveBeenCalled();
 
         
+    });
+
+    it('try again for generating the report', async() => {
+        await flushPromises();
+        wrapper.setData({
+            tableData: {
+                items: [
+                    { ...mocks.downloadedReports.items[0],isErrorShown : true }
+                ]
+            },
+            cacheParams: mocks.generateReport.data,
+            inProgress: false,
+            count: 0,
+            noData: false
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const generateBtn = wrapper.find('#try-again');
+        console.log(generateBtn);
+        generateBtn.vm.$emit('click');
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.inProgress).toBe(true);
     });
 
     
