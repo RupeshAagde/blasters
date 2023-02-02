@@ -918,10 +918,19 @@ export default {
                             this.$emit('statusUpdated', this.activeShipmentDetails.shipment_id);
                         }, 500);
                     } else {
-                        this.$snackbar.global.showError(
+                          if(this.activeShipmentDetails.lock_status){
+                            this.$snackbar.global.showError(
+                            statusResponse.message,
+                            3000);
+
+                          }else{
+                            this.$snackbar.global.showError(
                             `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
                             3000
                         );
+                          }
+                     
+                   
                         console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0].message);
                     }
                 } else {
