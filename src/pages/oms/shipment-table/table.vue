@@ -376,7 +376,7 @@ import invoiceLabelAction from './invoice-label-action.vue';
 import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper/utils.js';
 
 /* Service imports */
-import OrderService from '@/services/orders.service';
+import OrderService from '@/services/orders.service'; 
 
 
 
