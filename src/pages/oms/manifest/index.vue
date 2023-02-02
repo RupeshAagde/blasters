@@ -55,7 +55,8 @@
                             v-model="selectedStore"
                             @change="onFulfillmentCenterChange"
                             @searchInputChange="searchStore($event.text)"
-                        />
+                        >
+                             </nitrozen-dropdown>
                     </div>
                 </div>
 
@@ -788,12 +789,17 @@ export default {
          * @author: Rushabh Mulraj Shah
          */
         searchStore: debounce(function (text) {
+
             /**
              * Code is subject to change, currently if text length is zero,
              * we are removing the store from component data
              * */
-            if (text.length === 0) this.selectedStore = '';
-            this.fetchFulfillmentCentres({ q: text });
+            if (text.length === 0) {
+                this.selectedStore = ''
+                this.onFulfillmentCenterChange()
+            } else {
+                this.fetchFulfillmentCentres({ q: text });
+            }
         }, 300),
 
         showInProgress(state) {
