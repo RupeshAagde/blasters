@@ -328,7 +328,7 @@
                 <side-drawer
                     class="change-address-drawer"
                     @close="closeDetails()"
-                    :title="`Change Adress`"
+                    :title="`Change Address`"
                     :footer="true"
                 >
                     <change-address-drawer
