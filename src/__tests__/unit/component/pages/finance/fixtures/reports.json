@@ -33,7 +33,7 @@
     },
     "generateReport": {
       "data":{
-         "report_id":"d8e51397-4aa1-4066-be12-3f1cf5d05d0d",
+         "report_config_id":"d8e51397-4aa1-4066-be12-3f1cf5d05d0d",
          "start_date":"05-12-2021",
          "end_date":"04-01-2022",
          "filters":{
@@ -320,7 +320,7 @@
               "status": "Failed",
               "start_date": "01-03-2022",
               "end_date": "21-03-2022",
-              "msg": "No data available.",
+              "msg": "Technical issue",
               "download_link": ""
           },
           {

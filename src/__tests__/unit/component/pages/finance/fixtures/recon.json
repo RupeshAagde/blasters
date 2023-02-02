@@ -285,6 +285,9 @@
                     "company": [
                         "33"
                     ],
+                    "channel": [
+                        "fynd"
+                    ],
                     "finance_status": [
                         "processed"
                     ]
