@@ -233,6 +233,7 @@ export default {
             this.toggleLabel = false;
             this.toggleCommon = !this.toggleCommon;
         },
+        /** The following method has been commented out for Ninja actions. It will be deleted pertaining to future conditions. */
         // onInvoiceLabelDownload(docType) {
         //     let payload = {
         //         statuses: [
@@ -281,82 +282,86 @@ export default {
         //         })
         //     }
         // },
-        updateShipmentActionStatus(payload){
-            return OrderService.updateShipmentStatus(payload)
-            .then(response => {
-                if(response.data && response.data.statuses && response.data.statuses.length) {
-                    let statusResponse = response.data.statuses[0].shipments[0];
-                    if(statusResponse.status === 200) {
-                        this.$snackbar.global.showSuccess(
-                            `Successfully updated the status of the shipment: ${statusResponse.identifier}`,
-                            3000
-                        );
-                        return true
-                    } else {
-                        this.$snackbar.global.showError(
-                            `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
-                            3000
-                        );
-                        console.error("Error in updating the status:   ", statusResponse.identifier);
-                        return false
-                    }
-                } else {
-                    this.$snackbar.global.showError(
-                        `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
-                        3000
-                    );
-                    console.error("Error in updating the status:   ", statusResponse.identifier);
-                    return false
-                }
-            })
-            .catch(error => {
-                this.$snackbar.global.showError(
-                    `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
-                    3000
-                );
-                console.error("Error in updating the status:   ", error);
-                return false
-            })
-        },
-        unLockShipment(shipmentId){
-            let payload = {
-                action: "unlock",
-                action_type: "complete",
-                resume_tasks_after_unlock: true,
-                entity_type: "shipments",
-                user_id: this.accessDetail.user,
-                entities: [
-                    {
-                        id: shipmentId,
-                        reason_text: ""
-                    }
-                ]
-            }
 
-            OrderService.lockManager(payload)
-            .then(response => {
-                if(response.data && response.data.success) {
-                    this.$snackbar.global.showSuccess(
-                        response.data.message,
-                        3000
-                    );
-                    this.$emit('statusUpdated')
-                } else {
-                    this.$snackbar.global.showError(
-                        response.data.message,
-                        3000
-                    );
-                    console.error("Error in unlocking the shipment:   ", shipmentId);
-                }
-            })
-            .catch(error => {
-                this.$snackbar.global.showError(
-                    `Error in unlocking the shipment:  ${shipmentId}`,
-                    3000
-                );
-                console.error("Error in unlocking the shipment:   ", error);
-            })
-        }
+        /** The following method has been commented out for Ninja actions. It will be deleted pertaining to future conditions. */
+        // updateShipmentActionStatus(payload){
+        //     return OrderService.updateShipmentStatus(payload)
+        //     .then(response => {
+        //         if(response.data && response.data.statuses && response.data.statuses.length) {
+        //             let statusResponse = response.data.statuses[0].shipments[0];
+        //             if(statusResponse.status === 200) {
+        //                 this.$snackbar.global.showSuccess(
+        //                     `Successfully updated the status of the shipment: ${statusResponse.identifier}`,
+        //                     3000
+        //                 );
+        //                 return true
+        //             } else {
+        //                 this.$snackbar.global.showError(
+        //                     `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
+        //                     3000
+        //                 );
+        //                 console.error("Error in updating the status:   ", statusResponse.identifier);
+        //                 return false
+        //             }
+        //         } else {
+        //             this.$snackbar.global.showError(
+        //                 `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
+        //                 3000
+        //             );
+        //             console.error("Error in updating the status:   ", statusResponse.identifier);
+        //             return false
+        //         }
+        //     })
+        //     .catch(error => {
+        //         this.$snackbar.global.showError(
+        //             `Failed to update the status of the shipment:  ${statusResponse.identifier}`,
+        //             3000
+        //         );
+        //         console.error("Error in updating the status:   ", error);
+        //         return false
+        //     })
+        // },
+
+        /** The following method has been commented out for Ninja actions. It will be deleted pertaining to future conditions. */
+        // unLockShipment(shipmentId){
+        //     let payload = {
+        //         action: "unlock",
+        //         action_type: "complete",
+        //         resume_tasks_after_unlock: true,
+        //         entity_type: "shipments",
+        //         user_id: this.accessDetail.user,
+        //         entities: [
+        //             {
+        //                 id: shipmentId,
+        //                 reason_text: ""
+        //             }
+        //         ]
+        //     }
+
+        //     OrderService.lockManager(payload)
+        //     .then(response => {
+        //         if(response.data && response.data.success) {
+        //             this.$snackbar.global.showSuccess(
+        //                 response.data.message,
+        //                 3000
+        //             );
+        //             this.$emit('statusUpdated')
+        //         } else {
+        //             this.$snackbar.global.showError(
+        //                 response.data.message,
+        //                 3000
+        //             );
+        //             console.error("Error in unlocking the shipment:   ", shipmentId);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         this.$snackbar.global.showError(
+        //             `Error in unlocking the shipment:  ${shipmentId}`,
+        //             3000
+        //         );
+        //         console.error("Error in unlocking the shipment:   ", error);
+        //     })
+        // }
     },
 };
 </script>
