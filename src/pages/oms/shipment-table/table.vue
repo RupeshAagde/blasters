@@ -51,9 +51,9 @@
                         </div>
                     </td>
                     <td class="actions" v-if="!shipmentProcessing">
-                        <div class="admin-action">
+                        <div class="admin-action"    v-if="activeShipmentDetails.shipment_id == activeId">
                             <invoice-label-actions
-                                v-if="activeShipmentDetails.shipment_id == activeId"
+                             
                                 class="action-s"
                                 :shipment="activeShipmentDetails"
                                 :ordering_channel="activeShipmentDetails && activeShipmentDetails.order.ordering_channel"
