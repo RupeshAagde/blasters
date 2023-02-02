@@ -51,7 +51,18 @@
                         </div>
                     </td>
                     <td class="actions" v-if="!shipmentProcessing">
-                        <admin-actions @change="performMenuAction" />
+                        <div class="admin-action">
+                            <invoice-label-actions
+                                v-if="activeShipmentDetails.shipment_id == activeId"
+                                class="action-s"
+                                :shipment="activeShipmentDetails"
+                                :ordering_channel="activeShipmentDetails && activeShipmentDetails.order.ordering_channel"
+                                :locked="activeShipmentDetails && activeShipmentDetails.lock_status"
+                                :readOnlyMode="readOnlyMode"
+                            >
+                            </invoice-label-actions>
+                            <admin-actions @change="performMenuAction" />
+                        </div>
                     </td>
                     <!-- <td>
                         <div tabindex="0" @blur="handleMenuBlur"> 
@@ -137,16 +148,28 @@
                             :rejectUpdate="rejectUpdate"
                             :readOnlyMode="readOnlyMode"
                         ></shipment-actions> -->
-
-                        <admin-actions 
-                            v-if="
-                                !(shipmentProcessing && item.shipment_id === activeId) && 
-                                item.order && 
-                                item.order.ordering_channel && 
-                                item.shipment_id === activeId
-                            "
-                            @change="performMenuAction"
-                        />
+                        <div class="admin-action">
+                            <invoice-label-actions
+                                class="action-s"
+                                v-if="!(shipmentProcessing && item.shipment_id === activeId) && item.order && item.order.ordering_channel && item.shipment_id === activeId"
+                                :shipment="item"
+                                :ordering_channel="item && item.order.ordering_channel"
+                                :locked="item && item.lock_status"
+                                @updateStatus="onStatusUpdate"
+                                :rejectUpdate="rejectUpdate"
+                                :readOnlyMode="readOnlyMode"
+                            >
+                            </invoice-label-actions>
+                            <admin-actions 
+                                v-if="
+                                    !(shipmentProcessing && item.shipment_id === activeId) && 
+                                    item.order && 
+                                    item.order.ordering_channel && 
+                                    item.shipment_id === activeId
+                                "
+                                @change="performMenuAction"
+                            />
+                        </div>
                     </td>
                     <!-- <td>
                         <div tabindex="0" @blur="() => $refs.menus[index].closeMenu()">
@@ -345,6 +368,7 @@ import CallDrawer from './call-drawer.vue';
 import ReassignStoreDrawer from './reassign-store-drawer.vue';
 import ChangeAddressDrawer from './change-address-drawer.vue';
 import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
+import invoiceLabelAction from './invoice-label-action.vue';
 
 /* Helper imports */
 import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper/utils.js';
@@ -384,7 +408,8 @@ export default {
         CallDrawer,
         'reassign-store': ReassignStoreDrawer,
         ChangeAddressDrawer,
-        AdminActions
+        AdminActions,
+        'invoice-label-actions': invoiceLabelAction
     },
     directives: {
         flatBtn,
@@ -1040,6 +1065,9 @@ tr.list-table.activeRow:hover{
 
 .actions {
     width: 35%;
+    .admin-action{
+        display: flex;
+    }
 }
 
 .no-wrap {
