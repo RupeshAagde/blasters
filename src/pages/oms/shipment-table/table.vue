@@ -956,13 +956,14 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          * @param {Object} event The address object shared by the change-address-drawer component.
          */
-        onAddressChange(event) {
+        onAddressChange(event, validForm) {
             if(
                 event.name.length > 0 &&
-                event.phone.length > 0 &&
-                event.pincode.length > 0 &&
+                event.phone.toString().length > 0 &&
+                event.pincode.toString().length > 0 &&
                 event.city.length > 0 &&
-                event.state.length > 0
+                event.state.length > 0 &&
+                validForm
             ) {
                 this.enableAddressUpdation = true;
             } else {
