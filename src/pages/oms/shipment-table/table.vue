@@ -829,14 +829,13 @@ export default {
         onBagChangeState(event) {
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
             if(event.state.length > 0 && event.remark.length > 9) {
-                if(reasonStates.includes(event.state) && event.reason.length > 0) {
+                if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
-                } else if(reasonStates.includes(event.state) && event.reason.length === 0) {
+                } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
                     this.enableBagStateChange = false;
                 } else if(!reasonStates.includes(event.state)) {
                     this.enableBagStateChange = true;
-                }
-                this.enableBagStateChange = true;
+                } 
             } else {
                 this.enableBagStateChange = false;
             }
