@@ -118,8 +118,8 @@
                                     @click="selectStageTab(index, item)"
                                     :active-index="selectedStageTabIndex">
                                     <span class="tab-item-text-custom">{{ item.text }}</span>
-                                    <span v-if="enterTapValue && item.value !== 'action_center'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
-                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_center'">{{ numberToThousandString(item.total_items) }}</span>
+                                    <span v-if="enterTapValue && item.value !== 'action_centre'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
+                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_centre'">{{ numberToThousandString(item.total_items) }}</span>
                                 </nitrozen-tab-item>
                             </ul>
                         </div>
