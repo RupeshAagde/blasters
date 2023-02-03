@@ -778,6 +778,7 @@ export default {
             if(text.length === 0) {
                 this.selectedCompany = '';
                 this.selectedStore = '';
+                delete this.globalParams['store_id'] 
                 this.fetchManifestsList();
             }
             this.fetchCompanies({q: text});
