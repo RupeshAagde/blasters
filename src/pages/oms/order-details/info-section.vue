@@ -119,8 +119,8 @@
                             class="content-item-payment"
                         >
                           <div class="payment-deep-item">  <span class="title-background">{{ value.name }}: </span> <span>₹{{ value.amount.toFixed(2) }}</span></div>
-                         <div class="payment-deep-item"><span class="title-background">Collected By</span> {{orderData.order.payment_methods[key]['collect_by']  }}: </div>  
-                         <div class="payment-deep-item"><span class="title-background">Refund By</span> {{orderData.order.payment_methods[key]['refund_by']  }}: </div>  
+                         <div v-if="orderData.order.payment_methods[key]['collect_by']" class="payment-deep-item"><span class="title-background">Collected By</span> {{orderData.order.payment_methods[key]['collect_by']  }}: </div>  
+                         <div v-if="orderData.order.payment_methods[key]['refund_by'] " class="payment-deep-item"><span class="title-background">Refund By</span> {{orderData.order.payment_methods[key]['refund_by']  }}: </div>  
                             </div
                         >                 
                     </div>
