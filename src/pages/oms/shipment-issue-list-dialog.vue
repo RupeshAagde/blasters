@@ -10,11 +10,11 @@
                 <div class="side-drawer-heade-title">Shipment Issues: {{shipment_id}}</div>
             </div> -->
             <div class="issue-list">
-                <div class="top-row">
+                <!-- <div class="top-row">
                     <nitrozen-button class="row-top" theme="secondary" @click="reportAnIssue">
                         Create New
                     </nitrozen-button>
-                </div>
+                </div> -->
                 <div class="issue-list-header">
                     <div class="ticket-id">Ticket #</div>
                     <div class="title">Title</div>
@@ -25,31 +25,29 @@
                     No issues reported for this shipment
                 </div>
 
-                <div class="issues-table-body">
-                    <div
-                        class="issue-list-row"
-                        :style="getPriorityColor(issue)"
-                        v-for="issue in issues"
-                        :key="issue._id"
-                    >
-                        <div class="ticket-id">
-                            {{ issue.ticket_id }}
-                        </div>
-                        <div class="title">
-                            <span class="link" @click="goToTicket(issue._id)">
-                                {{ issue.content.title || "No title"}}
-                            </span>
-                        </div>
-                        <div class="status">
-                            <nitrozen-badge>
-                                {{ issue.status.display || 'Pending' }}
-                            </nitrozen-badge>
-                        </div>
-                        <div class="category">
-                            <nitrozen-badge>
-                                {{ issue.category.display }}
-                            </nitrozen-badge>
-                        </div>
+                <div
+                    class="issue-list-row"
+                    :style="getPriorityColor(issue)"
+                    v-for="issue in issues"
+                    :key="issue._id"
+                >
+                    <div class="ticket-id">
+                        {{ issue.ticket_id }}
+                    </div>
+                    <div class="title">
+                        <span class="link" @click="goToTicket(issue._id)">
+                            {{ issue.content.title || "No title"}}
+                        </span>
+                    </div>
+                    <div class="status">
+                        <nitrozen-badge>
+                            {{ issue.status.display || 'Pending' }}
+                        </nitrozen-badge>
+                    </div>
+                    <div class="category">
+                        <nitrozen-badge>
+                            {{ issue.category.display }}
+                        </nitrozen-badge>
                     </div>
                 </div>
             </div>

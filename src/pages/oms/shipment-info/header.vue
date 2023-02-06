@@ -236,10 +236,6 @@ export default {
                     value: 'status',
                 },
             ],
-            selectedStageTabIndex: 0,
-            issues: [],
-            quickActivityView: false,
-            activityLogsData: [],
             // dpLogsData: DP_LOGS,
             company_id: "",
             applicationId: ""
@@ -320,18 +316,7 @@ export default {
          * @author: Rohit Gupta
          */
         getReportedIssues() {
-            let get_tickets = this.company_id && this.applicationId ?
-            SupportService.fetchApplicationTickets(
-                this.company_id,
-                this.applicationId,
-                {
-                    limit: 200,
-                    page: 1,
-                    attachment_type: 'shipment',
-                    attachment_value: this.shipment.shipment_id,
-                }
-            ) :
-            SupportService.fetchTickets(this.company_id, {
+            let get_tickets = SupportService.fetchTickets({
                 limit: 200,
                 page: 1,
                 attachment_type: 'shipment',
