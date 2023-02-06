@@ -107,7 +107,7 @@
                             picker_type="date"
                             label="Select Date"
                             date_format="MMM Do, YY"
-                            v-model="uploadDateRange"
+                            v-model="selectedDate"
                             :clearable="false"
                             :not_before="notBefore"
                             :disabled="readOnlyMode || editingMode"
@@ -720,7 +720,7 @@
         mounted() {
             this.isApprover = this.$route.params.isApprover;
             this.noteType = this.$route.params.noteType;
-            this.getCommercialFeeType();
+            //this.getCommercialFeeType();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
                 this.dropdownLabel = 'Credit Note Type *';
@@ -1098,6 +1098,7 @@
                             this.noteNarration.value = this.tab.note_narration;
                             this.sellerId.value = this.tab.seller_id;
                             this.sellerName = this.tab.seller_name;
+                            this.selectedDate = this.tab.issued_at;
                             let temp = []
                             if (this.tab.note_details) {
                                 this.bagList.length = 0;
@@ -1239,7 +1240,7 @@
                             this.setPurposeList();
                             this.invoiceNumber.value = this.tab.invoice_number;
                             this.noteNarration.value = this.tab.note_narration;
-
+                            this.selectedDate = this.tab.issued_at;
                             
                             if (this.tab.note_details) {
                                 
@@ -1267,6 +1268,7 @@
                             this.remarks.value = this.tab.note_details[0].remark;
                             this.noteNarration.value = this.tab.note_narration;
                             this.purposeType.value = this.tab.purpose_id;
+                            this.selectedDate = this.tab.issued_at;
                             this.getSellerDetails();
                         }
                     })
@@ -1679,6 +1681,88 @@
             },
 
             // method to get Fee invoice details
+            getCnDetails(invoiceType = 'fee'){
+                let params = {
+                    data: {
+                        invoice_type: invoiceType,
+                        invoice_number: this.invoiceNumber.value
+                    }
+                };
+                if(invoiceType == 'service') {
+                    params.data = { ...params.data, shipment_ids: this.shipmentId.value }
+                }
+
+                const details = CreditDebitNoteServices.getServiceInvoiceDetails(params)
+                details
+                    .then((res) => {
+                        if(invoiceType == 'fee'){
+                            this.feeInvoiceDetails = [];
+                            this.feeInvoiceDetails = res.data.items;
+                        }
+                        if(invoiceType == 'service'){
+                            let ans = [];
+                            res.data.items.map(item => {
+                                ans.push(item.shipment_id)
+                            })
+                            let flag = false; // no shipment id is wrong
+                            this.shipmentId.value.map(s => {
+                                if (!ans.includes(s)) {
+                                    flag = true;
+                                    this.shipmentId.errorMessage = 'Incorrect Shipment ID';
+                                }
+                            })
+                            let data = res.data.items.map( i =>  {
+                                return {
+                                    "shipment_id": i.shipment_id,
+                                    "data": i,
+                                    "bag_id": i.bag_id
+                                }
+                            })
+
+                            this.bagList.length = 0;
+                            this.bagShipmentMapping = {};
+
+                            data.map((v) => {
+                                        this.bagList.push({
+                                            text: v.bag_id,
+                                            data: v.data,
+                                            value: v.bag_id+v.shipment_id
+                                        })
+                                        //this.bagShipmentMapping[v.bag_id] = v.data //v.shipment_id
+                                        this.bagShipmentMapping[v.bag_id+v.shipment_id] = v.data
+                                    })
+                            // adding extra bags
+                            res.data.items.map(v => {
+                                if (!this.bagId.value.includes(v.bag_id+v.shipment_id)) {
+                                    let key = v.bag_id+v.shipment_id;
+                                    let value = v;
+                                    Object.assign(this.extraBags,{[key]: value});
+                                }
+                            })
+                        }
+                        if(invoiceType == 'commercial'){
+                            this.FeeComponentTypeList = [];
+                            if( (Object.keys(res.data.items[0]).indexOf("type") > -1) ){
+                                this.FeeComponentTypeList = res.data.items.map((item) => {
+                                    return {
+                                        text: item.value,
+                                        value: item.type
+                                    }
+                                })
+                            }
+                            else{
+                                this.FeeComponentTypeList = res.data.items;
+                            }
+                        }
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError('Invoice number provided doesnt exists in system, please provide valid invoice_number');
+                    })
+                    .finally(() => {
+
+                    })
+            },
+
             async getFeeInvoiceDetails() { 
                 this.feeInvoiceDetails = [];
                 let res;
@@ -1777,6 +1861,9 @@
                             this.invoiceNumber.errorMessage = '';
                             if(this.selectedType === 'gst_fee'){
                                 this.getFeeInvoiceDetails();
+                            }
+                            if(this.selectedType === 'commercial'){
+                                this.getCnDetails('commercial');
                             }
                             /* if (!this.invoiceNumber.isValid) {
                                 this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";
