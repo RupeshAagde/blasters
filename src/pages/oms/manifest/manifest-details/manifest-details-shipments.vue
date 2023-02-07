@@ -158,10 +158,9 @@
                 v-if="
                     !manifestFetchInProgress &&
                     totalShipments == 0 &&
-                    shipmentsList.length == 0 &&
                     !isIntialState
                 "
-                helperText="No shipments found"
+                helperText="No shipments found / try searching by shipment ID"
             ></adm-no-content>
             <div class="empty-screen" v-if="isIntialState">
                 <inline-svg :src="'empty-orders'" />
