@@ -50,7 +50,7 @@
                         theme="secondary"
                         @click="updateSubscription('cancelled')"
                         v-strokeBtn
-                        >Cancel
+                        >Reject
                     </nitrozen-button>
                     <nitrozen-button
                         theme="secondary"
