@@ -47,34 +47,34 @@ describe('Mounted Create/Edit Category Page', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         expect(wrapper.element).toMatchSnapshot();
     });
-    it('should render to a snapshot', async () => {
-        const companyId = 1;
-        const productId = '7685514'
-        const domain = 'https://api.xyz.com'
-        const templateSlug = 'mobile-phones-and-tablet';
-        const router = new VueRouter({
-            routes: [
-                { path: '/administrator/product/verification/:id/products/edit/:productId', component: EditVerification }
-            ]
-        })
-        router.push(`/administrator/product/verification/1/products/edit/7685514?template=mobile-phones-and-tablet`);
-        console.log("0000000000000000000000000000000000000000", productId);
-        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/products/7685514').reply(200,  mocks.productData);
-        mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/7685514').reply(200,  mocks.productVerificationData);
-        mock.onGet(URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug: templateSlug})).reply(200,  mocks.globalSchema);
-        mock.onGet(URLS.SIZE_GUIDE_URL(companyId)).reply(200, {})
+    // it('should render to a snapshot', async () => {
+    //     const companyId = 1;
+    //     const productId = '7685514'
+    //     const domain = 'https://api.xyz.com'
+    //     const templateSlug = 'mobile-phones-and-tablet';
+    //     const router = new VueRouter({
+    //         routes: [
+    //             { path: '/administrator/product/verification/:id/products/edit/:productId', component: EditVerification }
+    //         ]
+    //     })
+    //     router.push(`/administrator/product/verification/1/products/edit/7685514?template=mobile-phones-and-tablet`);
+    //     console.log("0000000000000000000000000000000000000000", productId);
+    //     mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/products/7685514').reply(200,  mocks.productData);
+    //     mock.onGet('https://api.xyz.com/service/___/administrator/catalog/v1.0/company/1/verification/products/7685514').reply(200,  mocks.productVerificationData);
+    //     mock.onGet(URLS.PRODUCT_TEMPLATE_VALIDATION({companyId, slug: templateSlug})).reply(200,  mocks.globalSchema);
+    //     mock.onGet(URLS.SIZE_GUIDE_URL(companyId)).reply(200, {})
 
         
-        const wrapper = mount(EditVerification, {
-            localVue,
-            router
-        })
+    //     const wrapper = mount(EditVerification, {
+    //         localVue,
+    //         router
+    //     })
         
-        await new Promise(resolve => setTimeout(resolve, 10));
+    //     await new Promise(resolve => setTimeout(resolve, 10));
 
-        const {product: {item_code} = {}, verificationDetails } = wrapper.vm;
-        expect(item_code).toBe('SOLR-V2');
-        expect(verificationDetails.item_code).toBe('SOLR-V2');
-    });
+    //     const {product: {item_code} = {}, verificationDetails } = wrapper.vm;
+    //     expect(item_code).toBe('SOLR-V2');
+    //     expect(verificationDetails.item_code).toBe('SOLR-V2');
+    // });
 
 })

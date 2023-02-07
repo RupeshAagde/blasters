@@ -125,9 +125,15 @@
             <div class="page-container">
                 <a
                     class="cl-RoyalBlue"
-                    :href="`${fynd_partners_domain}/extensions/preview/${extension_id}`"
+                    :href="`${extension_domain}/extensions/preview/${extension_id}`"
                     target="_blank"
                     >Link to extension</a
+                >
+                <a v-if="companyId"
+                    class="cl-RoyalBlue extension-link"
+                    :href="`${fyndPlatformDomain}/company/${companyId}/extensions/${extension_id}`"
+                    target="_blank"
+                    >Launch extension</a
                 >
                 <nitrozen-input
                     :disabled="true"
@@ -156,6 +162,7 @@
                             v-model="categoryInfo.categoriesL1Array"
                             :value="categoryInfo.categoriesL1Array"
                             @change="onChangeCategoryL1()"
+                            ref="input-category-1"
                         ></nitrozen-dropdown>
                     </div>
                     <div>
@@ -167,6 +174,7 @@
                             v-model="categoryInfo.categoriesL2Array"
                             :value="categoryInfo.categoriesL2Array"
                             @change="onChangeCategoryL2()"
+                            ref="input-category-2"
                         ></nitrozen-dropdown>
                         <nitrozen-chips
                             class="nitrozen-form-input"
@@ -187,6 +195,38 @@
             </div>
             <loader v-if="inProgress" class="loading"></loader>
         </div>
+        <transition name="modal">
+            <nitrozen-dialog
+                ref="confirm_password_dialog"
+                title="Enter Password"
+                @close="()=>{this.review_data.password=''}"
+            >
+                <template slot="body">
+                    <div class="meta-container">
+                        <nitrozen-input
+                            class="search"
+                            type="password"
+                            label="Password*"
+                            placeholder="Enter password to update review status of extension"
+                            v-model="review_data.password"
+                            @change="errors['password'] = ''"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="errors['password']"
+                            >This field is required</nitrozen-error
+                        >
+                    </div>
+                </template>
+                <template slot="footer">
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        v-strokeBtn
+                        :showProgress="inProgress"
+                        @click="saveForm(review_data.current_status === 'published')"
+                        >{{this.review_data.current_status === 'published'? "Approve": "Reject"}}
+                    </nitrozen-button>
+                </template>
+            </nitrozen-dialog>
+        </transition>
     </div>
 </template>
 
@@ -233,6 +273,9 @@
             }
         }
     }
+    .extension-link {
+        padding-top: 15px;
+    }
 }
 .default-image {
     width: auto;
@@ -267,6 +310,7 @@ import {
     NitrozenInline,
     NitrozenDropdown,
     NitrozenBadge,
+    NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 
 import loader from '@/components/common/loader';
@@ -290,6 +334,7 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-inline': NitrozenInline,
         'nitrozen-badge': NitrozenBadge,
+        'nitrozen-dialog': NitrozenDialog,
         'page-empty': pageEmpty,
         'page-error': pageError,
         'page-header': pageHeader,
@@ -315,18 +360,26 @@ export default {
             },
             review_data: {
                 review_comments: '',
-                current_status: ''
+                current_status: '',
+                password: ''
+            },
+            errors: {
+                password: ''
             },
             error_comments: '',
             reviewer_name: '',
             reviewer_email: '',
             reviewer_phone: '',
-            showScopes: false
+            showScopes: false,
+            companyId: ''
         };
     },
     computed: {
         fynd_partners_domain() {
             return env.BOMBSHELL_MAIN_DOMAIN;
+        },
+        fyndPlatformDomain() {
+            return env.MIRAGE_MAIN_DOMAIN;
         },
         extension_id() {
             return this.extension_info.extension_id;
@@ -341,7 +394,10 @@ export default {
                     this.extension_info.listing_info.name) ||
                 'Extension Name'
             );
-        }
+        },
+        extension_domain() {
+            return env.BRAINSTORM_EXTENSION_DOMAIN;
+        },
     },
     mounted() {
         this.fetchExtension();
@@ -381,6 +437,7 @@ export default {
                     if (this.extension_info.current_status !== 'pending') {
                         this.getUserInfo(this.extension_info.reviewed_by);
                     }
+                    this.companyId = this.extension_info.admin_dev_account_uid;
                     this.categoryInfo.category_l1 =
                         extensionCategoriesInfo.data.data.category_l1.map(
                             (ext) => ({
@@ -472,6 +529,15 @@ export default {
                 this.$snackbar.global.showError('Missing required data');
                 return;
             }
+            if (!this.review_data.password.trim()) {
+                if (!this.$refs['confirm_password_dialog'].isModalVisible) {
+                    this.openPasswordModal();
+                }
+                else{
+                    this.errors['password'] = 'Password is required to update the status';
+                }
+                return;
+            }
             this.inProgress = true;
             //TODO: Add form dirty
             const { categories_l1, categories_l2 } = this.categoryInfo.category;
@@ -499,12 +565,21 @@ export default {
                     this.onCancel();
                 })
                 .catch((err) => {
-                    console.log(err);
+                    let errorMsg = 'Failed to update extension status';
+                    if (err.response && err.response.status == 403 && err.response.data && err.response.data.message) {
+                        errorMsg = err.response.data.message;
+                    }
+                    else {
+                        console.log(err);
+                    }
                     this.$snackbar.global.showError(
-                        'Failed to update extension status'
+                        errorMsg
                     );
                 })
-                .finally(() => (this.inProgress = false));
+                .finally(() => {
+                    this.inProgress = false; 
+                    this.$refs['confirm_password_dialog'].close()
+                });
         },
         onCancel() {
             this.$router
@@ -551,7 +626,6 @@ export default {
                 this.categoryInfo.category.categories_l1,
                 category_l2
             );
-            categoriesL1Array = categoriesL1Array;
         },
         onChangeCategoryL2() {
             let { category_l2, categoriesL2Array } = this.categoryInfo;
@@ -611,7 +685,17 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-        }
+        },
+        openPasswordModal() {
+            this.$refs['confirm_password_dialog'].open({
+                width: '500px',
+                showCloseButton: true,
+                dismissible: true,
+                neutralButtonLabel: false,
+                positiveButtonLabel: 'Proceed',
+                negativeButtonLabel: 'Cancel',
+            });
+        },
     }
 };
 </script>

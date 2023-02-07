@@ -63,9 +63,6 @@ export default {
         verified: {
             type: Boolean,
         },
-        required: {
-            type: Boolean,
-        },
          checked: {
             type: Boolean,
             default: false,

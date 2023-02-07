@@ -7,7 +7,7 @@
         >
         </page-header>
         <div class="main-container">
-            <div v-if="loading">
+            <div v-if="isLoading">
                 <loader></loader>
             </div>
             <div v-else-if="enabled" style="width: 100%">
@@ -30,7 +30,6 @@
     border-radius: 12px;
     top: 56.5px;
     background: #ffffff;
-    border-radius: 12px;
 }
 .img-container {
     display: flex;
@@ -71,7 +70,7 @@ export default {
     },
     data() {
         return {
-            enabled: false,
+            enabled: true,
             isLoading: false,
             not_found: false,
             isInitialLoad: false,
@@ -79,14 +78,14 @@ export default {
         };
     },
     mounted() {
-        this.getGeneralConfiguration();
+        //this.getGeneralConfiguration();
     },
     methods: {
         getGeneralConfiguration() {
             this.isLoading = true;
             SupportService.getGeneralConfig()
                 .then((response) => {
-                    if (response.data && response.data.integration && response.data.integration.enabled) {
+                    if (response.data && response.data.integration) {
                         this.enabled = true
                     } else {
                         this.enabled = false

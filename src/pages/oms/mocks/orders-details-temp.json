@@ -1,0 +1,739 @@
+{
+    "success": true,
+    "order": {
+        "fynd_order_id": "FY635A5634011F1E0012",
+        "shipment_count": 1,
+        "order_date": "2022-11-01T16:36:07+00:00"
+    },
+    "shipments": [
+        {
+            "shipment_id": "16673007666061079565",
+            "payment_mode": null,
+            "fulfilling_store": {
+                "id": 1,
+                "code": "HS-52b69",
+                "fulfillment_channel": "pulse",
+                "store_name": "Reliance Digital P. Ltd",
+                "contact_person": "Fahim Sakri",
+                "phone": "919594495254",
+                "address": "store YARI ROAD, ANDHERI WEST MUMBAI MAHARASHTRA 400061",
+                "city": "MUMBAI",
+                "state": "MAHARASHTRA",
+                "country": "INDIA",
+                "pincode": "400061",
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AALCA0442L1ZM",
+                            "verified": true,
+                            "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED"
+                        }
+                    },
+                    "gst_number": "27AALCA0442L1ZM",
+                    "display_name": "Reliance Digital P. Ltd",
+                    "gst_credentials": {
+                        "e_invoice": {
+                            "enabled": false
+                        },
+                        "e_waybill": {
+                            "enabled": false
+                        }
+                    },
+                    "notification_emails": [
+                        "fahimsakri@gmail.com"
+                    ],
+                    "product_return_config": {
+                        "on_same_store": true
+                    },
+                    "additional_contact_details": {
+                        "number": [
+                            "91 - 9594495254"
+                        ]
+                    },
+                    "ewaybill_portal_details": null
+                },
+                "fulfilment_type": null
+            },
+            "delivery_details": {
+                "name": "Testing team",
+                "email": "",
+                "phone": "5674532000",
+                "address": "home 12 12 Mandir Delhi Delhi 110023",
+                "city": "Delhi",
+                "state": "Delhi",
+                "country": "India",
+                "pincode": "110023",
+                "state_code": "07"
+            },
+            "billing_details": {
+                "name": null,
+                "email": "",
+                "phone": "5674532000",
+                "address": "home 12 Mandir Delhi Delhi 110023",
+                "city": "Delhi",
+                "state": "Delhi",
+                "country": "India",
+                "pincode": "110023",
+                "state_code": "07"
+            },
+            "dp_details": {
+                "id": null,
+                "name": null,
+                "awb_no": null,
+                "eway_bill_id": null,
+                "track_url": null,
+                "gst_tag": "sgst"
+            },
+            "journey_type": "forward",
+            "order": {
+                "fynd_order_id": "FY635A5634011F1E0012",
+                "affiliate_id": "5d5c304a4df829372e2ad6d1",
+                "ordering_channel": "Fynd_Store",
+                "source": null,
+                "tax_details": {
+                    "gstin": null
+                },
+                "order_date": "2022-11-01T16:36:07+00:00"
+            },
+            "gst_details": {
+                "value_of_good": 998.0,
+                "gst_fee": 0.0,
+                "brand_calculated_amount": 998.0,
+                "tax_collected_at_source": 0.0,
+                "gstin_code": "27AALCA0442L1ZM"
+            },
+            "shipment_quantity": 1,
+            "bag_status_history": [
+                {
+                    "status": "pending",
+                    "updated_at": "2022-11-01T16:36:07+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Pending",
+                    "display_name": "Pending",
+                    "forward": null
+                },
+                {
+                    "status": "placed",
+                    "updated_at": "2022-11-01T16:36:09+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Processing",
+                    "display_name": "Placed",
+                    "forward": null
+                },
+                {
+                    "status": "bag_confirmed",
+                    "updated_at": "2022-11-01T23:54:55+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Confirmed",
+                    "display_name": "Confirmed",
+                    "forward": null
+                }
+            ],
+            "bags": [
+                {
+                    "bag_id": 403512,
+                    "display_name": "Bag",
+                    "meta": {},
+                    "entity_type": "bag",
+                    "bag_configs": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": true,
+                        "is_customer_return_allowed": false,
+                        "is_active": true
+                    },
+                    "financial_breakup": [
+                        {
+                            "price_effective": 1199.0,
+                            "discount": 100.0,
+                            "amount_paid": 998.0,
+                            "coupon_effective_discount": 201.0,
+                            "delivery_charge": 0.0,
+                            "fynd_credits": 0.0,
+                            "cod_charges": 0.0,
+                            "refund_credit": 0.0,
+                            "cashback": 0.0,
+                            "refund_amount": 998.0,
+                            "added_to_fynd_cash": false,
+                            "cashback_applied": 0.0,
+                            "gst_tax_percentage": 0.0,
+                            "value_of_good": 998.0,
+                            "price_marked": 1299.0,
+                            "transfer_price": 0.0,
+                            "brand_calculated_amount": 998.0,
+                            "tax_collected_at_source": 0.0,
+                            "tcs_percentage": 0.0,
+                            "promotion_effective_discount": 0.0,
+                            "coupon_value": 201.0,
+                            "amount_paid_roundoff": 998,
+                            "size": "S",
+                            "total_units": 1,
+                            "hsn_code": null,
+                            "identifiers": {
+                                "sku_code": "6908888982"
+                            },
+                            "item_name": "Prod10-Red Ab",
+                            "gst_fee": 0.0,
+                            "gst_tag": "IGST"
+                        }
+                    ],
+                    "current_status": "bag_confirmed",
+                    "item": {
+                        "name": "Prod10-Red Ab",
+                        "brand": "Adhya",
+                        "slug_key": "prod10-red-ab-xkel4wurgb",
+                        "images": [
+                            "https://hdn-1.addsale.com/addsale/products/pictures/item/free/270x0/pepe-jeans/PROD10R2b/0/Nz6kdqj5yP-i3pzi1nppq-S22MCSLTGRNL0007-RED-1.jpg"
+                        ],
+                        "size": "S",
+                        "l1_category": [
+                            "Clothing"
+                        ],
+                        "l3_category": 133
+                    },
+                    "brand": {
+                        "start_date": null,
+                        "script_last_ran": null,
+                        "is_virtual_invoice": false,
+                        "invoice_prefix": null,
+                        "company": null,
+                        "modified_on": "2021-12-02T13:49:12",
+                        "logo": "https://hdn-1.addsale.com/x0/brands/pictures/square-logo/original/7JErAqLUd-Logo.png",
+                        "id": 74,
+                        "brand_name": "Adhya",
+                        "credit_note_expiry_days": null,
+                        "pickup_location": null,
+                        "credit_note_allowed": false,
+                        "created_on": "2021-12-02T08:41:04"
+                    },
+                    "gst_details": {
+                        "gstin_code": "27AALCA0442L1ZM",
+                        "gst_tag": "IGST",
+                        "hsn_code": null,
+                        "value_of_good": 998.0,
+                        "gst_tax_percentage": 0.0,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 998.0,
+                        "tax_collected_at_source": 0.0,
+                        "hsn_code_id": null,
+                        "gst_fee": 0.0,
+                        "igst_tax_percentage": 0.0,
+                        "sgst_tax_percentage": 0,
+                        "cgst_tax_percentage": 0,
+                        "igst_gst_fee": 0.0,
+                        "cgst_gst_fee": "0",
+                        "sgst_gst_fee": "0"
+                    },
+                    "article": {
+                        "uid": "63282a2d1c79fa844d52c205",
+                        "identifiers": {
+                            "sku_code": "6908888982"
+                        },
+                        "return_config": {
+                            "time": 10,
+                            "unit": "days",
+                            "returnable": true
+                        }
+                    },
+                    "quantity": 1.0,
+                    "identifier": null,
+                    "mark_as_returnable": false
+                }
+            ],
+            "company_id": 1,
+            "user": {
+                "last_name": "",
+                "first_name": "",
+                "id": null,
+                "email": null,
+                "gender": null,
+                "mobile": null,
+                "user_oid": null,
+                "mongo_user_id": null,
+                "is_anonymous_user": true
+            },
+            "delivery_slot": {
+                "slot": "By 07:00 AM",
+                "upper_bound": "2022-11-03T07:57:59+00:00",
+                "lower_bound": "2022-11-01T07:57:59+00:00",
+                "date": "2022-11-03T07:57:59+00:00",
+                "type": "order_window"
+            },
+            "total_items": 1.0,
+            "payment_methods": {
+                "NB": {
+                    "amount": 998.0,
+                    "mode": "NB",
+                    "name": "NB",
+                    "collect_by": "fynd",
+                    "refund_by": "fynd",
+                    "meta": {
+                        "logo_url": {
+                            "large": "https://hdn-1.fynd.com/payment/NB_HDFC.png",
+                            "small": "https://hdn-1.fynd.com/payment/NB_HDFC.png"
+                        },
+                        "payment_id": null,
+                        "merchant_code": "NB_HDFC",
+                        "payment_gateway": "Razorpay",
+                        "payment_identifier": "HDFC"
+                    }
+                }
+            },
+            "vertical": null,
+            "payments": {
+                "id": 4,
+                "mode": "NB",
+                "is_active": true,
+                "display_priority": 3,
+                "display_name": "Net Banking",
+                "logo": "https://hdn-1.fynd.com/payment/NB_HDFC.png",
+                "source": "NB_HDFC",
+                "payment_identifier": "HDFC",
+                "source_nickname": ""
+            },
+            "priority_text": null,
+            "status": {
+                "bag_list": [
+                    "403512"
+                ],
+                "id": 64031,
+                "shipment_id": "16673007666061079565",
+                "status": "bag_confirmed",
+                "created_at": "2022-11-01T23:54:55+00:00",
+                "current_shipment_status": "bag_confirmed",
+                "status_created_at": "2022-11-01T23:54:55"
+            },
+            "prices": {
+                "amount_paid": 998.0,
+                "refund_amount": 998.0,
+                "price_marked": 1299.0,
+                "cod_charges": 0.0,
+                "discount": 100.0,
+                "cashback_applied": 0.0,
+                "delivery_charge": 0.0,
+                "fynd_credits": 0.0,
+                "cashback": 0.0,
+                "price_effective": 1199.0,
+                "refund_credit": 0.0,
+                "value_of_good": 998.0,
+                "coupon_value": 201.0,
+                "tax_collected_at_source": 0.0,
+                "promotion_effective_discount": 0.0,
+                "amount_paid_roundoff": 998
+            },
+            "tracking_list": [
+                {
+                    "status": "processing",
+                    "is_passed": true,
+                    "time": "2022-11-01T16:36:09+00:00"
+                },
+                {
+                    "status": "confirmed",
+                    "is_passed": true,
+                    "time": "2022-11-01T23:54:55+00:00"
+                },
+                {
+                    "status": "dp_assigned",
+                    "is_passed": false,
+                    "time": ""
+                },
+                {
+                    "status": "in_transit",
+                    "is_passed": false,
+                    "time": ""
+                },
+                {
+                    "status": "out_for_delivery",
+                    "is_passed": false,
+                    "time": ""
+                },
+                {
+                    "status": "delivered",
+                    "is_passed": false,
+                    "time": ""
+                }
+            ],
+            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36",
+            "platform_logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/fynd_store_logo.png",
+            "packaging_type": "POLYB_M_1411P5_1486",
+            "enable_dp_tracking": false,
+            "store_invoice_id": null,
+            "can_process": false,
+            "promise": {
+                "min": "2022-11-01T07:57:59+00:00",
+                "max": "2022-11-03T07:57:59+00:00"
+            },
+            "tracking_url": "",
+            "meta": {
+                "dp_id": "7",
+                "weight": 1000,
+                "external": {},
+                "formatted": {
+                    "max": "Thu, 03 Nov",
+                    "min": "Tue, 01 Nov"
+                },
+                "timestamp": {
+                    "max": 1667462279,
+                    "min": 1667289479
+                },
+                "bag_weight": {
+                    "403512": 1000
+                },
+                "debug_info": {
+                    "stormbreaker_uuid": "c7545655-e9e2-4ebc-a033-f9e4363200e3"
+                },
+                "dp_options": {
+                    "4": {
+                        "name": "Ecom Express",
+                        "area_code": {
+                            "to_pincode": null,
+                            "from_pincode": null
+                        },
+                        "f_priority": 3,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 3,
+                        "fm_priority": 3,
+                        "lm_priority": 3,
+                        "payment_mode": "all",
+                        "rvp_priority": 3,
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "4"
+                    },
+                    "7": {
+                        "name": "Delhivery Express",
+                        "area_code": {
+                            "to_pincode": null,
+                            "from_pincode": null
+                        },
+                        "f_priority": 4,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 2,
+                        "fm_priority": 4,
+                        "lm_priority": 4,
+                        "payment_mode": "all",
+                        "rvp_priority": 2,
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "7"
+                    },
+                    "27": {
+                        "name": "Delhivery Surface I",
+                        "area_code": {
+                            "to_pincode": null,
+                            "from_pincode": null
+                        },
+                        "f_priority": 5,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 4,
+                        "fm_priority": 5,
+                        "lm_priority": 5,
+                        "payment_mode": "all",
+                        "rvp_priority": 4,
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "27"
+                    },
+                    "29": {
+                        "name": "Delhivery Surface II",
+                        "area_code": {
+                            "to_pincode": null,
+                            "from_pincode": null
+                        },
+                        "f_priority": 2,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 1,
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "payment_mode": "all",
+                        "rvp_priority": 1,
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "29"
+                    }
+                },
+                "order_type": null,
+                "dp_sort_key": "fm_priority",
+                "packaging_name": "POLYB_M_1411P5_1486",
+                "shipment_weight": 1000,
+                "assign_dp_from_sb": true,
+                "same_store_available": false,
+                "fulfilment_priority_text": null,
+                "shipment_volumetric_weight": 221,
+                "auto_trigger_dp_assignment_ACF": true
+            },
+            "shipment_created_at": "2022-11-01T16:36:07+00:00",
+            "mark_as_returnable": false,
+            "ordering_store": {
+                "mall_name": null,
+                "company_id": 3,
+                "is_archived": false,
+                "is_enabled_for_recon": false,
+                "id": 3,
+                "code": "HS-a1381",
+                "created_at": "2021-08-07T06:36:01+00:00",
+                "parent_store_id": null,
+                "name": "Test 2",
+                "store_address_json": {
+                    "area": "",
+                    "city": "Mumbai",
+                    "email": "parvezshaikh@gofynd.com",
+                    "phone": "919096686804",
+                    "state": "Maharashtra",
+                    "country": "India",
+                    "pincode": "400001",
+                    "version": "1.0",
+                    "address1": "POLARIS, 2ND FLOOR, ANDHERI",
+                    "address2": "",
+                    "landmark": "",
+                    "latitude": 19.2154967,
+                    "longitude": 72.83253429999999,
+                    "created_at": "2022-07-18 16:06:55",
+                    "updated_at": "2022-07-18 16:06:55",
+                    "address_type": "store",
+                    "contact_person": "Parvez Shaikh",
+                    "address_category": "store"
+                },
+                "fulfillment_channel": "pulse",
+                "packaging_material_count": 0,
+                "alohomora_user_id": null,
+                "login_username": null,
+                "latitude": null,
+                "mall_area": null,
+                "brand_id": null,
+                "location_type": "high_street",
+                "longitude": null,
+                "order_integration_id": null,
+                "vat_no": null,
+                "updated_at": "2022-05-24T15:43:25+00:00",
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 21,
+                                "minute": 30
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "url": "https://hdn-1.addsale.com/x0/company/3/stores/all/legal/documents/free/original/CLYxH_tub-download.png",
+                            "type": "gst",
+                            "value": "27AALCA0442L1ZM",
+                            "verified": true,
+                            "legal_name": "SHOPSENSE RETAIL TECHNOLOGIES PRIVATE LIMITED"
+                        }
+                    },
+                    "gst_number": "27AALCA0442L1ZM",
+                    "display_name": "Test 2",
+                    "gst_credentials": {
+                        "e_invoice": {
+                            "enabled": false
+                        },
+                        "e_waybill": {
+                            "enabled": false
+                        }
+                    },
+                    "notification_emails": [
+                        "parvezshaikh@gofynd.com"
+                    ],
+                    "product_return_config": {
+                        "on_same_store": true
+                    },
+                    "additional_contact_details": {
+                        "number": [
+                            "91 - 9096686804"
+                        ]
+                    },
+                    "ewaybill_portal_details": null
+                },
+                "store_active_from": null,
+                "is_active": false,
+                "address1": "POLARIS, 2ND FLOOR, ANDHERI",
+                "address2": "",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": "400001",
+                "store_email": "parvezshaikh@gofynd.com",
+                "contact_person": "Parvez Shaikh",
+                "phone": "919096686804"
+            }
+        }
+    ]
+}

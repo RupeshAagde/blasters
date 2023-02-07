@@ -1,0 +1,30 @@
+@import "@/less/media.less";
+
+* {
+  box-sizing: border-box;
+}
+
+// my media styles@
+@xxl: ~"only screen and (min-width: 1200px)";
+@xl: ~"only screen and (min-width: 1000px) and (max-width: 1200px)";
+@lg: ~"only screen and (min-width: 880px) and (max-width: 1000px)";
+@md: ~"only screen and (min-width: 768px) and (max-width: 880px)";
+@sm: ~"only screen and (max-width: 768px)";
+
+
+@dashboard-content-width-xxl: 100%;
+@dashboard-content-width-xl: 100%;
+@dashboard-content-width-lg: 100%;
+@dashboard-content-width-md: 100%;
+@dashboard-content-width-sm: 100%;
+
+@date-min-width: 15rem;
+
+@dashboard-center-graph-height: 20rem;
+
+.canvas-animation {
+  height: @dashboard-center-graph-height !important;
+  //transition: height 1s ease-in-out;
+}
+
+//@mid-screen:        ~"only screen and (max-width: @{xs-min})";

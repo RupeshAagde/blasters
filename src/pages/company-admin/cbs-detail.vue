@@ -449,7 +449,6 @@ export default {
         'list-deployment': deploymentList,
         'seller-request-list':sellerRequestList
     },
-    computed: {},
     data() {
         return {
             activeTabIndex: 0,

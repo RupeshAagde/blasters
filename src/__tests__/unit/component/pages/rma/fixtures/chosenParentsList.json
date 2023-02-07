@@ -1,0 +1,21 @@
+[
+    {
+        "storedVal": "7-|-Size not available-|-true-|-{}",
+        "id": 7,
+        "display_name": "Size not available",
+        "is_active": false,
+        "collapse": false,
+        "reasons": [
+            {
+                "id": "default0.30178376787559547",
+                "display_name": null,
+                "qc_type": "doorstep_qc",
+                "question_set": [
+                    "2-|-Check the brand",
+                    "1-|-check formal-shirt size "
+                ],
+                "storedVal": "6-|-Product out of stock-|-true-|-{}"
+            }
+        ]
+    }
+]

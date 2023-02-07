@@ -55,7 +55,7 @@ document.createRange = () => {
 
     range.getClientRects = () => {
         return {
-            item: (index) => null,
+            item: () => null,
             length: 0,
             *[Symbol.iterator]() {}
         };

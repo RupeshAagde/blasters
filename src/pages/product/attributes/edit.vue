@@ -58,7 +58,7 @@
                     ></nitrozen-input>
                 </div>
                 <!-- logo Image -->
-                <form-input class="mt-sm" label="Logo" :custom="true">
+                <form-input class="mt-sm" :custom="true">
                     <image-uploader-tile
                         label="Logo"
                         aspectRatio="1:1"
@@ -77,7 +77,7 @@
                         v-model="logo"
                         @delete="logo = ''"
                         @save="logo = $event"
-                        :fileName="attribute.name"
+                        :fileName="attribute.name || 'attribute-logo'"
                         namespace="products-attribute-logo"
                     ></image-uploader-tile>
                 </form-input>
@@ -487,7 +487,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    computed: {},
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {

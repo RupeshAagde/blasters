@@ -508,8 +508,6 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100%;
-    width: 100%;
     z-index: 100;
     --name-font-size: 16px;
 

@@ -1,0 +1,351 @@
+{
+    "data": {
+        "start_date": "2022-01-01",
+        "end_date": "2022-04-30",
+        "headers": [
+            "Brand",
+            "Channel",
+            "Bag ID",
+            "Shipment ID",
+            "Sale Type",
+            "Status",
+            "Recon Date",
+            "Settlement Date", 
+            "Payout Date",
+            "ESP",
+            "VOG",
+            "Transfer Price",
+            "Brand Calculated Amount",
+            "Commission %",
+            "Flat_Delivery_fee",
+            "Flat_Cod_fee",
+            "Commision",
+            "Processing Fee",
+            "Closing Fee",
+            "Packaging Fee",
+            "Cancellation Fee",
+            "Net Charges",
+            "Total GST",
+            "Total Charges",
+            "TDS",
+            "TCS",
+            "Net Payout"
+        ],
+        "items": [
+            [
+                "Diesel",
+                "ecomm",
+                "261801",
+                "16448169384751096712",
+                "Sale",
+                "recon",
+                1644796800,
+                1644883200,
+                1645315200,
+                "2999.00",
+                "2677.68",
+                "0.0",
+                "2999.0",
+                "11",
+                "0.00",
+                "0.00",
+                "329.89",
+                "0.0",
+                "0.0",
+                "0.0",
+                "0.0",
+                "329.89",
+                "59.38",
+                "389.27",
+                "0.0",
+                "0.00",
+                "-389.27"
+            ],
+            [
+                "Diesel",
+                "ecomm",
+                "281762",
+                "16486362583331420144",
+                "Sale",
+                "recon",
+                1648598400,
+                1648684800,
+                1649116800,
+                "4999.00",
+                "4463.39",
+                "0.0",
+                "4999.0",
+                "11",
+                "0.00",
+                "0.00",
+                "549.89",
+                "0.0",
+                "0.0",
+                "0.0",
+                "0.0",
+                "549.89",
+                "98.98",
+                "648.87",
+                "0.0",
+                "0.00",
+                "-648.87"
+            ],
+            [
+                "Diesel",
+                "ecomm",
+                "281764",
+                "16486374633051157546",
+                "Sale",
+                "recon",
+                1648598400,
+                1648684800,
+                1649116800,
+                "499.00",
+                "475.24",
+                "0.0",
+                "499.0",
+                "11",
+                "0.00",
+                "0.00",
+                "54.89",
+                "0.0",
+                "0.0",
+                "0.0",
+                "0.0",
+                "54.89",
+                "9.88",
+                "64.77",
+                "0.0",
+                "0.00",
+                "-64.77"
+            ],
+            [
+                "Diesel",
+                "ecomm",
+                "281765",
+                "16486374635041700337",
+                "Sale",
+                "recon",
+                1648598400,
+                1648684800,
+                1649116800,
+                "499.00",
+                "475.24",
+                "0.0",
+                "499.0",
+                "11",
+                "0.00",
+                "0.00",
+                "54.89",
+                "0.0",
+                "0.0",
+                "0.0",
+                "0.0",
+                "54.89",
+                "9.88",
+                "64.77",
+                "0.0",
+                "0.00",
+                "-64.77"
+            ],
+            [
+                "Diesel",
+                "ecomm",
+                "281834",
+                "16487191939061252149",
+                "Sale",
+                "recon",
+                1648684800,
+                1648684800,
+                1649116800,
+                "499.00",
+                "475.24",
+                "0.0",
+                "499.0",
+                "11",
+                "0.00",
+                "0.00",
+                "54.89",
+                "0.0",
+                "0.0",
+                "0.0",
+                "0.0",
+                "54.89",
+                "9.88",
+                "64.77",
+                "0.0",
+                "0.00",
+                "-64.77"
+            ]
+        ],
+        "primary_headers": [
+            "Brand",
+            "Channel",
+            "Bag ID",
+            "Sale Type",
+            "Recon Date",
+            "Payout Date",
+            "Status"
+        ],
+        "allowed_filters": [
+            "brand",
+            "channel",
+            "company",
+            "finance_status"
+        ],
+        "row_header_display_order": {},
+        "item_count": 17,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 17
+        }
+    },
+    "tab": {
+        "Brand": "Diesel",
+        "Channel": "ecomm",
+        "Bag ID": "17365926",
+        "Shipment ID": "16498233883221719854",
+        "Sale Type": "Sale",
+        "Status": "recon",
+        "Recon Date": "2022-04-21",
+        "Settlement Date": "2022-04-25",
+        "Payout Date": "2022-04-30",
+        "ESP": 5099.15,
+        "VOG": 4552.81,
+        "Transfer Price": "0.0",
+        "Brand Calculated Amount": "5099.15",
+        "Commission %": "13",
+        "Flat_Delivery_fee": 0,
+        "Flat_Cod_fee": 0,
+        "Commision": "591.87",
+        "Processing Fee": "0.0",
+        "Closing Fee": "0.0",
+        "Packaging Fee": "0.0",
+        "Cancellation Fee": "0.0",
+        "Net Charges": 591.87,
+        "Total GST": 106.54,
+        "Total Charges": "698.41",
+        "TDS": "50.99",
+        "TCS": 0,
+        "Net Payout": 4349.75,
+        "Claimable Loss": null,
+        "Non Claimable Loss": null
+    },
+    "selectedDropDownData": [
+        {
+            "text": "Recon",
+            "value": "recon"
+        },
+        {
+            "text": "Settled",
+            "value": "settled"
+        },
+        {
+            "text": "Dispute",
+            "value": "dispute"
+        },
+        {
+            "text": "Dispute Resolved",
+            "value": "dispute_resolved"
+        },
+        {
+            "text": "Dispute Recon",
+            "value": "dispute_recon"
+        },
+        {
+            "text": "Dispute Recon Reversal",
+            "value": "dispute_recon_reversal"
+        },
+        {
+            "text": "Settlement Initiated",
+            "value": "settlement_initiated"
+        }
+    ],
+    "dropdownData": [
+        "dispute"
+    ],
+    "returnedData": [
+        {
+            "text": "Dispute",
+            "value": "dispute"
+        }
+    ],
+    "e": {
+        "params": {
+            "data": {
+                "report_id": "5781b656-cb52-45fb-bd7a-9e20c4901dd7",
+                "start_date": "03-07-2022",
+                "end_date": "03-08-2022",
+                "page": 1,
+                "pageSize": 10,
+                "filters": {
+                    "company": [
+                        "33"
+                    ],
+                    "channel": [
+                        "fynd"
+                    ],
+                    "finance_status": [
+                        "processed"
+                    ]
+                },
+                "finance_date": "recon_date",
+                "meta": {
+                    "company": "RELIANCE JIO INFOCOMM LIMITED",
+                    "finance_status": "Due but not paid"
+                }
+            }
+        },
+        "companyList": [
+            {
+                "text": "aaaa",
+                "value": "aaaa"
+            }
+        ]
+    },
+    "sellerNames": [
+        {
+            "text": "Ashit Test (791)",
+            "value": "791"
+        },
+        {
+            "text": "my dev test (790)",
+            "value": "790"
+        },
+        {
+            "text": "test account - parita (789)",
+            "value": "789"
+        },
+        {
+            "text": "my shop - parita (788)",
+            "value": "788"
+        },
+        {
+            "text": "Flatdesigns Agency Studio (787)",
+            "value": "787"
+        },
+        {
+            "text": "Test Aditya (399)",
+            "value": "399"
+        },
+        {
+            "text": "AAA (786)",
+            "value": "786"
+        },
+        {
+            "text": "Prathamesh Testing (785)",
+            "value": "785"
+        },
+        {
+            "text": "GMFA Pvt Ltd (784)",
+            "value": "784"
+        },
+        {
+            "text": "Prathamesh Retail Ltd (783)",
+            "value": "783"
+        }
+    ]
+}

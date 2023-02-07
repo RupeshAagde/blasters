@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import { isBrowser, isNode } from 'browser-or-node';
+import { isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
 const envVars = root.env || {};
@@ -90,6 +90,12 @@ const URLS = {
     GET_WEBHOOK_REPORT: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/event_processed`);
     },
+    DOWNLOAD_WEBHOOK_REPORT: () => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/download`);
+    },
+    CHECK_STATUS_WEBHOOK_REPORT: (fileName) => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/download/file/${fileName}`);
+    },
     REGISTER_SUBSCRIBERS: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/subscriber`);
     },
@@ -104,6 +110,9 @@ const URLS = {
     },
     GET_FILTER_LIST: () => {
         return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/filters/`);
+    },
+    REPORT_HISTORY_URL: (suffix = 'history') => {
+        return urlJoin(SURESHOT_ADMIN_URL, `/v1.0/reports/`, suffix);
     },
 };
 

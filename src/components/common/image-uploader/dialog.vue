@@ -18,8 +18,10 @@
                             :maximumResolution="maximumResolution"
                             :recommendedResolution="recommendedResolution"
                             :showGallery="showGallery"
-                            v-model="imageURL"
+                            :value="imageURL"
+                            @input="imageURL = $event"
                             @cropped="$setCropping(false, true)"
+                            :isHDNImage="isHDNImage"
                             ref="imageuploaderpanel"
                         ></image-uploader-panel>
                         <div class="dialog-saperator" v-if="showGallery"></div>
@@ -46,7 +48,9 @@
                         >
                         <nitrozen-button
                             v-if="fileDomain == 'image' && imageURL && !edit"
-                            :disabled="loading"
+                            :disabled="
+                                loading || getMIMEType === 'image/svg+xml'
+                            "
                             theme="secondary"
                             @click="$setCropping(true)"
                             >Edit</nitrozen-button
@@ -65,15 +69,26 @@
                         >
                     </div>
                     <div class="footer-saperator"></div>
-                    <nitrozen-button
-                        v-show="!isHDNImage || isEmpty || isCropped"
-                        theme="secondary"
-                        :disabled="edit || loading || isEmpty"
-                        v-flat-btn
-                        @click="$saveImage"
-                    >
-                        Upload
-                    </nitrozen-button>
+                    <div class="action-buttons">
+                        <nitrozen-button
+                            v-show="(!isHDNImage && !isEmpty) || isCropped"
+                            theme="secondary"
+                            :disabled="edit || loading"
+                            v-flat-btn
+                            @click="$uploadImage"
+                        >
+                            Upload
+                        </nitrozen-button>
+                        <nitrozen-button
+                            v-show="(isHDNImage || isEmpty) && !isCropped"
+                            theme="secondary"
+                            :disabled="edit || loading"
+                            v-flat-btn
+                            @click="$selectImage"
+                        >
+                            Select
+                        </nitrozen-button>
+                    </div>
                 </template>
             </nitrozen-dialog>
         </div>
@@ -86,6 +101,8 @@ import ImageUploaderPanel from './panel.vue';
 import ImageUploaderList from './list.vue';
 import loader from '@/components/common/loader';
 import GrindorService from '@/services/grindor.service';
+import InlineSvg from '@/components/common/adm-inline-svg.vue';
+import { detectMobileWidth } from '@/helper/utils.js';
 import axios from 'axios';
 import mime from 'mime-types';
 
@@ -96,61 +113,61 @@ export default {
         NitrozenDialog,
         ImageUploaderPanel,
         ImageUploaderList,
-        loader,
+        InlineSvg,
+        loader
     },
     directives: {
-        flatBtn,
+        flatBtn
     },
     props: {
         label: {
             type: String,
-            default: 'image',
+            default: 'image'
         },
         fileTypes: {
             type: Array,
             default: () => {
                 return ['png', 'jpeg'];
-            },
+            }
         },
         fileDomain: {
             type: String,
-            default: 'image',
+            default: 'image'
         },
         maxSize: {
             type: Number, // in KB
-            default: 2048,
+            default: 2048
         },
         aspectRatio: {
-            type: String,
+            type: String
         },
         minimumResolution: {
-            type: Object,
+            type: Object
         },
         maximumResolution: {
-            type: Object,
+            type: Object
         },
         recommendedResolution: {
-            type: Object,
+            type: Object
         },
         value: {
-            type: String,
+            type: String
         },
         mediaFolder: {
-            type: String,
+            type: String
         },
         namespace: {
-            type: String,
+            type: String
         },
         fileName: {
-            type: String,
+            type: String
         },
         showGallery: {
             type: Boolean,
-            default: true,
+            default: true
         },
-        height: {
-            type: String,
-            default: ''
+        extensionSlug: {
+            type: String
         }
     },
     computed: {
@@ -172,13 +189,31 @@ export default {
         isEmpty() {
             return this.imageURL == '';
         },
+        getMIMEType() {
+            try {
+                const url = new URL(this.imageURL);
+                let mimeString = mime.lookup(url.toString());
+                if (mimeString) {
+                    return mimeString;
+                }
+                mimeString = this.imageURL
+                    .split(',')[0]
+                    .split(':')[1]
+                    .split(';')[0];
+                return mimeString;
+            } catch (e) {
+                return '';
+            }
+        }
     },
     mounted() {
-        this.$refs['dialog'].$on('close', (e) => {
+        this.$refs['dialog'].$on('close', e => {
             this.visible = false;
+            this.edit = false;
+            this.$refs.imageuploaderpanel ? this.$refs.imageuploaderpanel.croppedImageFile = '' : () => {}
         });
     },
-    data: function () {
+    data: function() {
         return {
             loading: false,
             data: null, // use for data transfer
@@ -186,27 +221,29 @@ export default {
             initialImageURL: '',
             edit: false,
             visible: false,
-            isCropped: false,
+            isCropped: false
         };
     },
     methods: {
+        detectMobileWidth,
         open() {
             this.visible = true;
             this.imageURL = this.initialImageURL = this.value;
             this.$refs['dialog'].open({
-                width: '950px',
-                height: this.height || '632px',
+                width: this.detectMobileWidth() ? '100%' : '950px',
+                height: this.detectMobileWidth() ? '100%' : '632px',
                 showCloseButton: true,
-                dismissible: false,
+                dismissible: false
             });
         },
         close(e) {
-            this.$refs['dialog'] && this.$refs['dialog'].close(e);
+            this.$refs['dialog'].close(e);
         },
-        $saveImage() {
+        $selectImage() {
             const imagePath =
                 this.$refs.imageuploaderpanel.croppedImageFile || this.imageURL;
             if (this.initialImageURL == imagePath) {
+                this.$emit('save', imagePath);
                 this.close();
                 return;
             }
@@ -215,6 +252,46 @@ export default {
                 this.close('delete');
                 return;
             }
+            //adding below try catch block to prevent using pre-uploaded image without min-max and resolution check
+            try{
+                this.getMeta(this.imageURL).then(data => {
+                    if (!this.validateMinimumResolution(data)) {
+                        this.$snackbar.global.showError(
+                            `Minimum required dimensions are ${this.minimumResolution.width} x ${this.minimumResolution.height}`
+                        );
+                        return;
+                    }
+                    if (!this.validateMaximumResolution(data)) {
+                        this.$snackbar.global.showError(
+                            `Maximum allowed dimensions are ${this.maximumResolution.width} x ${this.maximumResolution.height}`
+                        );
+                        return;
+                    }
+                    if (this.aspectR && this.getMIMEType != 'image/svg+xml') {
+                        const aspectQ = parseFloat((this.aspectR.x / this.aspectR.y).toFixed(
+                            2
+                        ));
+                        const imageQ = parseFloat((data.width / data.height).toFixed(2));
+                        if (
+                            !(aspectQ <= imageQ + 0.01 && aspectQ >= imageQ - 0.01)
+                        ) {
+                            this.$snackbar.global.showError(
+                                `Aspect ratio not matching with ${this.aspectRatio}, Please crop an image.`
+                            );
+                            return;
+                        }
+                    }
+                    // select image
+                    this.$emit('save', this.imageURL);
+                    this.close('save');
+                });
+            } catch(err){
+                console.log(err)
+            }
+        },
+        $uploadImage() {
+            const imagePath =
+                this.$refs.imageuploaderpanel.croppedImageFile || this.imageURL;
             var image = new Image();
             image.onload = () => {
                 if (!this.validateMinimumResolution(image)) {
@@ -223,11 +300,17 @@ export default {
                     );
                     return;
                 }
-                if (this.aspectR) {
-                    const aspectQ = (this.aspectR.x / this.aspectR.y).toFixed(
-                        2
+                if (!this.validateMaximumResolution(image)) {
+                    this.$snackbar.global.showError(
+                        `Maximum allowed dimensions are ${this.maximumResolution.width} x ${this.maximumResolution.height}`
                     );
-                    const imageQ = (image.width / image.height).toFixed(2);
+                    return;
+                }
+                if (this.aspectR && this.getMIMEType != 'image/svg+xml') {
+                    const aspectQ = parseFloat((this.aspectR.x / this.aspectR.y).toFixed(
+                        2
+                    ));
+                    const imageQ = parseFloat((image.width / image.height).toFixed(2));
                     if (
                         !(aspectQ <= imageQ + 0.01 && aspectQ >= imageQ - 0.01)
                     ) {
@@ -240,38 +323,30 @@ export default {
                 }
                 this.$setImage(this.resizeToMaximumResolution(image));
                 if (this.namespace && /^data:/i.test(this.imageURL)) {
-                    this.uploadToGrindor(this.dataURItoFile(this.imageURL))
-                        .then((cdn_url) => {
-                            this.isCropped = false;
-                            this.$emit('save', cdn_url);
-                            // this.$emit('input', cdn_url);
-                        })
-                        .finally(() => {
-                            this.close('save');
-                        });
-                } else if (!GrindorService.isHDNPath(this.imageURL)) {
+                    this.uploadToGrindor(
+                        this.dataURItoFile(this.imageURL)
+                    ).then(cdn_url => {
+                        this.imageURL = cdn_url;
+                        this.isCropped = false;
+                        this.$snackbar.global.showSuccess('Image Uploaded');
+                    });
+                } else if (!this.isHDNImage) {
                     // download external image file and upload to HDN
-                    this.externalURIToFile(this.imageURL).then((file) => {
+                    this.externalURIToFile(this.imageURL).then(file => {
                         if (file) {
-                            this.uploadToGrindor(file)
-                                .then((cdn_url) => {
-                                    this.isCropped = false;
-                                    this.$emit('save', cdn_url);
-                                    // this.$emit('input', cdn_url);
-                                })
-                                .finally(() => {
-                                    this.close('save');
-                                });
+                            this.uploadToGrindor(file).then(cdn_url => {
+                                this.imageURL = cdn_url;
+                                this.isCropped = false;
+                                this.$snackbar.global.showSuccess(
+                                    'Image Uploaded'
+                                );
+                            });
                         } else {
                             this.$snackbar.global.showError(
                                 `Failed to download external image`
                             );
                         }
                     });
-                } else {
-                    this.$emit('save', this.imageURL);
-                    // this.$emit('input', this.imageURL);
-                    this.close('save');
                 }
             };
             image.src = imagePath;
@@ -319,15 +394,15 @@ export default {
             return axios({
                 type: 'get',
                 url: nonCORSURL,
-                responseType: 'blob',
+                responseType: 'blob'
             })
-                .then((response) => {
+                .then(response => {
                     const f = response.data;
                     return new File([f], fileName, {
-                        type: mime.contentType(fileName),
+                        type: mime.contentType(fileName)
                     });
                 })
-                .catch((err) => {
+                .catch(err => {
                     console.error(err);
                     return null;
                 });
@@ -335,8 +410,20 @@ export default {
         validateMinimumResolution(image) {
             if (
                 this.minimumResolution &&
+                this.getMIMEType != 'image/svg+xml' &&
                 (image.width < this.minimumResolution.width ||
                     image.height < this.minimumResolution.height)
+            ) {
+                return false;
+            }
+            return true;
+        },
+        validateMaximumResolution(image) {
+            if (
+                this.maximumResolution &&
+                this.getMIMEType != 'image/svg+xml' &&
+                (image.width > this.maximumResolution.width ||
+                    image.height > this.maximumResolution.height)
             ) {
                 return false;
             }
@@ -376,8 +463,7 @@ export default {
         getNonCORSHDNURL(path, any) {
             try {
                 // to bypass HDN CORS issue
-                const url = new URL(path);
-                if (GrindorService.hdns.includes(url.hostname) || any) {
+                if (GrindorService.isHDNPath(path) || any) {
                     return `${GrindorService.getProxyURL()}?url=${path}`;
                 }
                 return path;
@@ -386,9 +472,9 @@ export default {
             }
         },
         $setCropping(edit, cropped = false) {
-            this.isCropped = cropped;
             this.$refs.imageuploaderpanel.cropping = edit;
             this.edit = edit;
+            this.isCropped = cropped;
         },
         $setImage(e) {
             if (this.edit) {
@@ -413,6 +499,11 @@ export default {
                     content_type: file.type,
                     size: file.size,
                 };
+                if(this.extensionSlug){
+                    body.params = {
+                     extension_slug: this.extensionSlug
+                    }
+                }
                 let request = { body };
                 this.loading = true;
                 return GrindorService.upload(this.namespace, body, file)
@@ -421,7 +512,7 @@ export default {
                             return data.cdn.url;
                         }
                     })
-                    .catch((err) => {
+                    .catch(err => {
                         this.$snackbar.global.showError(
                             err &&
                                 err.response &&
@@ -437,7 +528,16 @@ export default {
                     });
             }
         },
-    },
+        getMeta(url) {
+            return new Promise((resolve, reject) => {
+                var img = new Image();
+                img.addEventListener('load', function() {
+                    resolve({width: img.naturalWidth, height: img.naturalHeight});
+                });
+                img.src = url;
+            });
+        },
+    }
 };
 </script>
 
@@ -445,8 +545,21 @@ export default {
 .uploading {
     pointer-events: none;
 }
+::v-deep .nitrozen-dialog {
+    @media @mobile {
+        overflow-y: scroll;
+    }
+    .nitrozen-dialog-body {
+        @media @mobile {
+            min-height: auto;
+        }
+    }
+}
 .dialog-body {
     display: flex;
+    @media @mobile {
+        display: block;
+    }
     .image-uploader-panel {
         flex: 1;
     }
@@ -455,12 +568,19 @@ export default {
     }
     .image-uploader-list {
         flex: 1;
+        @media @mobile {
+            margin-top: 24px;
+        }
     }
 }
 .footer-event {
     width: 425px;
     display: flex;
     justify-content: flex-end;
+    @media @mobile {
+        width: 100%;
+        justify-content: start;
+    }
     ::v-deep button {
         font-size: 12px;
         .n-button-content {
@@ -473,5 +593,14 @@ export default {
 }
 .footer-saperator {
     flex: 1;
+}
+.action-buttons {
+    display: flex;
+    .copy {
+        cursor: pointer;
+        display: flex;
+        width: 40px;
+        height: 40px;
+    }
 }
 </style>

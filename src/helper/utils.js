@@ -1,8 +1,10 @@
-import { isBrowser, isNode } from 'browser-or-node';
+import {isBrowser} from 'browser-or-node';
 import CompanyService from '@/services/company-admin.service';
-import { Array, console } from 'window-or-global';
+import {Array, console} from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
-import { getNavigations } from '../pages/administrator/navigations';
+import {getNavigations} from '../pages/administrator/navigations';
+import get from "lodash/get";
+import moment from 'moment';
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -461,7 +463,27 @@ export const allowNumbersOnly = function (event) {
     return false;
 }
 
-export const DecimalNumbersOnly = function (event, el) {
+export const allowAlphaNumbericOnly = function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
+        return true; // allow control + A
+    }
+    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46 ||
+        event.keyCode == 37 || event.keyCode == 39) {
+        return true;
+    }
+    if (
+        (
+            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 65 && event.keyCode <= 90) ||
+            (event.keyCode >= 97 && event.keyCode <= 122)
+        )
+    ) {
+        return true;
+    }
+    event.preventDefault();
+    return false;
+}
+export const DecimalNumbersOnly = function (event,el){
     if (event.keyCode == 190) {
         if (el.indexOf('.') === -1) {
             return true;
@@ -478,27 +500,6 @@ export const DecimalNumbersOnly = function (event, el) {
         return true;
     }
     event.preventDefault()
-    return false;
-}
-
-export const allowAlphaNumbericOnly = function (event) {
-    if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
-        return true; // allow control + A
-    }
-    if (!event.shiftKey && event.keyCode == 8 || event.keyCode == 46
-        || event.keyCode == 37 || event.keyCode == 39) {
-        return true;
-    }
-    if (
-        (
-            (!event.shiftKey && event.keyCode >= 48 && event.keyCode <= 57) ||
-            (event.keyCode >= 65 && event.keyCode <= 90) ||
-            (event.keyCode >= 97 && event.keyCode <= 122)
-        )
-    ) {
-        return true;
-    }
-    event.preventDefault();
     return false;
 }
 
@@ -656,3 +657,54 @@ export const getAspectRatioFromString = function (aspectRatio = '1:1', getObject
         return gcd(b, a%b)
     }
 }
+
+export const  pickValues = function (obj, keys) {
+    return get(obj, keys.join('.'));
+};
+
+export const detectFPApp = () => {
+    if (isBrowser) {
+        return window._fpAppDetails;
+    }
+    return false;
+};
+
+/** OMS v2.1 */
+export const convertToOMSDate = date => {
+    return moment(date).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY LT');
+}
+
+export const downloadFile = path => {
+    //creating an invisible element
+    let element = document.createElement('a');
+    element.setAttribute('href', path);
+    element.setAttribute('download', path);
+    element.setAttribute('target', '_self');
+    // element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+};
+
+export const formatPrice = (value) => {
+    if(!isNaN(value)){
+        return value.toFixed(2);
+    }
+    return Number(0).toFixed(2);
+}
+
+export const numberToThousandString = (num)=> {
+    let val = Number(num)/1000;
+    return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
+}
+/** OMS v2.1 --END */
+
+export const toggleString = (status, style) => {
+    let str = status ? 'enabled' : 'disabled';
+    if (style === 'titleCase') {
+        str = titleCase(str);
+    } else if (style === 'upperCase') {
+        str = str.toUpperCase(str);
+    }
+        return str;
+    }

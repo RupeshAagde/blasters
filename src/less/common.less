@@ -38,10 +38,10 @@ button,
 input,
 textarea,
 select {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 ::placeholder {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 a {
     text-decoration: none;
@@ -196,7 +196,7 @@ h1.content-header {
     font-size: 36px;
     line-height: 55px;
     font-weight: bold;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     color: @Mako;
 }
 p.content-desc {
@@ -204,7 +204,7 @@ p.content-desc {
     font-size: 14px;
     line-height: 21px;
     color: @HomePageText;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     margin-top: 26px;
 }
 
@@ -375,3 +375,107 @@ p.content-desc {
         }
     }
 }
+
+.blaster-table {
+    width: 100%;
+    font-family: Inter;
+    font-size: 12px;
+    border: 1px solid @Iron;
+    border-radius: 4px;
+
+    tr:first-child {
+        background: @WhiteGray;
+        border: 1px solid #e0e0e0;
+        color: #4F4F4F;
+
+        td:first-child{
+            border-top-left-radius: 4px;
+        }
+    }
+    tr:not(:first-child) {
+        border-bottom: 1px solid @Iron;
+        color: #333333;
+    }
+    td {
+        vertical-align: middle;
+        padding: 18px 16px;
+    }
+}
+/*
+  use this class on elements where you need to show ellipses on elements.
+  Note: please give a max-width along with this class for the overflow to take effect.
+  By default it takes 70% width
+ */
+.limit-chars {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+  }
+
+  .link{
+    cursor: pointer;
+    color: #2e31be;
+    font-size: 12px;
+    font-family: Inter,sans-serif;
+}
+
+.from-container {
+    border: 1px solid #f9f9f9;
+    border-radius: 4px;
+    padding: 24px;
+    @media @mobile{
+        padding: 0;
+    }
+    .container {
+        position: relative;
+        border-radius: 4px;
+        box-sizing: border-box;
+        width: 100%;
+        flex-direction: column;
+        border: 1px solid #f9f9f9;
+        padding: 24px;
+        margin-bottom: 24px;
+        .field-wrap {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .remove {
+            position: absolute;
+            right: 0;
+            top: 9px;
+        }
+    }
+    .default {
+        background: #f9f9f9;
+    }
+}
+.bold-link {
+    color: #2E31BE;
+    text-align: right;
+    cursor: pointer;
+    margin-bottom: 0px;
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 13px;
+}
+.nitrozen-error-visible {
+    width: 100%;
+    color: #f33;
+    font-family: Inter,sans-serif;
+    font-size: 12px;
+    padding-top: 5px;
+}
+.nitrozen-label {
+    color: #9b9b9b;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.radio-inline {
+    margin-top: 12px;
+    display: inline-block;
+    margin-right: 24px;
+}  
