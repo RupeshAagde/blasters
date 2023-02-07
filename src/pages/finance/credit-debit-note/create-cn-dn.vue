@@ -366,7 +366,7 @@
                                     <nitrozen-inline
                                         :icon="'cross'"
                                         class="nitrozen-icon"
-                                        v-on:click="removeSearchInput(index), validateForm('shipmentId'), selectShipment(), getInvoiceDetails().then(()=>unselectBags())"
+                                        v-on:click="removeSearchInput(index), validateForm('shipmentId'), selectShipment(), getCnDetails('service').then(()=>unselectBags())"
                                     ></nitrozen-inline>
                                 </nitrozen-chips>
                                 <input
@@ -377,8 +377,8 @@
                                     ref="chips"
                                     v-model="chips"
                                     @input="validateForm('shipmentId'), selectShipment()"
-                                    @keyup.enter.space.188="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
-                                    @keydown.tab="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
+                                    @keyup.enter.space.188="getCnDetails('service'), selectShipment(), validateForm('shipmentId')"
+                                    @keydown.tab="getCnDetails('service'), selectShipment(), validateForm('shipmentId')"
                                 />
                             </div>
                             <div class="message" v-if="shipmentId.value">
@@ -396,7 +396,7 @@
                                 :disabled="readOnlyMode"
                                 :multiple=true
                                 :searchable="true"
-                                @change="getInvoiceDetails(), selectBags()"
+                                @change="getCnDetails('service'), selectBags()"
                             ></nitrozen-dropdown>
                             <div class="message" v-if="bagId.value">
                                 {{ bagSelected }}
@@ -416,7 +416,7 @@
                                         <nitrozen-inline
                                             icon="cross"
                                             class="nitrozen-icon"
-                                            @click="bagId.value.splice(index,1), getInvoiceDetails().then(()=>unselectBags())"
+                                            @click="bagId.value.splice(index,1), getCnDetails('service').then(()=>unselectBags())"
                                         >
                                         </nitrozen-inline>
                                     </nitrozen-chips>
@@ -1180,12 +1180,12 @@
                                     })
                                     temp = [...a]
                                 })
-                                const returned = this.getInvoiceDetails()
+                                const returnedService = this.getCnDetails('service');
                                 let chargeComponents = {}
                                 let orderId = {}
                                 let orderingChannel = {}
                                 let bag = {}
-                                returned.then(r => {
+                                returnedService.then(r => {
                                     r.data.items.map(v => {
                                         let key = v.bag_id+v.shipment_id
                                         let value = v.charge_components
@@ -1247,8 +1247,8 @@
                                 //this.feeInvoiceDetails = [...this.tab.note_details]
                                 let temp = [...this.tab.note_details]
 
-                                const ret = this.getFeeInvoiceDetails()
-                                ret.then(r => {
+                                const resCndetails = this.getCnDetails();
+                                resCndetails.then(r => {
                                     temp[0].charge_components = r.data.items[0].charge_components;
                                     temp[0].seller_id = r.data.items[0].seller_id;
                                     temp[0].seller_name = r.data.items[0].seller_name;
@@ -1742,17 +1742,12 @@
                         }
                         if(invoiceType == 'commercial'){
                             this.FeeComponentTypeList = [];
-                            if( (Object.keys(res.data.items[0]).indexOf("type") > -1) ){
-                                this.FeeComponentTypeList = res.data.items.map((item) => {
-                                    return {
-                                        text: item.value,
-                                        value: item.type
-                                    }
-                                })
-                            }
-                            else{
-                                this.FeeComponentTypeList = res.data.items;
-                            }
+                            this.feeType = {
+                                value: '',
+                                errorMessage: '',
+                                isValid: false
+                            },
+                            this.FeeComponentTypeList = res.data.items;
                         }
                     })
                     .catch((err) => {
@@ -1761,9 +1756,12 @@
                     .finally(() => {
 
                     })
+                if (this.readOnlyMode) {
+                    return details;
+                }
             },
 
-            async getFeeInvoiceDetails() { 
+            /* async getFeeInvoiceDetails() { 
                 this.feeInvoiceDetails = [];
                 let res;
                 const params = {
@@ -1843,7 +1841,7 @@
                         Object.assign(this.extraBags,{[key]: value});
                     }
                 })
-            },
+            }, */
 
             // method to validate  service invoice number 
             async validateServiceInvoice(){
@@ -1860,7 +1858,8 @@
                             this.invoiceNumber.isValid = res.data.success;
                             this.invoiceNumber.errorMessage = '';
                             if(this.selectedType === 'gst_fee'){
-                                this.getFeeInvoiceDetails();
+                                //this.getFeeInvoiceDetails();
+                                this.getCnDetails();
                             }
                             if(this.selectedType === 'commercial'){
                                 this.getCnDetails('commercial');
