@@ -139,14 +139,14 @@ const PLATFORM_CONFIGURATION_MENUS = [
         active: false,
         desc: 'Configure Business Registration'
     },
-    {
-        title: 'Seller Registration',
-        link: 'seller-registration',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Seller Registration'
-    },
+    // {
+    //     title: 'Seller Registration',
+    //     link: 'seller-registration',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Seller Registration'
+    // },
     {
         title: 'Business Details',
         link: 'platform/business-details',
@@ -171,14 +171,14 @@ const PLATFORM_CONFIGURATION_MENUS = [
         active: false,
         desc: 'Configure Product Details'
     },
-    {
-        title: 'Marketplace Config',
-        link: 'platform/marketplace/list',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure MarketPlaces'
-    },
+    // {
+    //     title: 'Marketplace Config',
+    //     link: 'platform/marketplace/list',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure MarketPlaces'
+    // },
     
     {
         title: 'Locations',

@@ -29,7 +29,7 @@
                     :key="index"
                 >
                     <div class="inline v-center">
-                        <img :src="extension.logo.small" class="card-avatar" />
+                        <img :src="extension.logo && extension.logo.small" class="card-avatar" />
                         <div>
                             {{ extension.name }}
                         </div>
@@ -41,12 +41,7 @@
                                 :checkboxValue="true"
                                 v-model="extension.sellerPanel"
                                 :id="extension._id"
-                                :disabled="
-                                    !parentState ||
-                                    sellerPanelDisabledExtensionNames.includes(
-                                        extension.name.toLowerCase()
-                                    )
-                                "
+                                :disabled="isSellerPanelDisabledExtension(extension)"
                             >
                                 Show in Seller Panel
                             </nitrozen-checkbox>
@@ -233,8 +228,11 @@ export default {
             return new Promise((resolve, reject) => {
                 let data = [];
                 this.lineItem.data.selectedData.map((extension) => {
-                    data.push(extension.id);
+                    if (extension.id) data.push(extension.id)
                 });
+                if (!data.length){
+                    return resolve([])
+                }
                 const query = {
                     _id: data,
                 };
@@ -299,6 +297,19 @@ export default {
             });
             //return this.selectedExtensionList.map(extension => extension._id);
         },
+        isSellerPanelDisabledExtension(extension) {
+            try {
+                let isDisable =
+                    !this.parentState ||
+                    this.sellerPanelDisabledExtensionNames.includes(
+                        extension.name && extension.name.toLowerCase()
+                    );
+                return isDisable;
+            } catch (err) {
+                console.log(err);
+                return true;
+            }
+        }
     },
     computed: {
         selectedExtensionList() {

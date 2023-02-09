@@ -235,6 +235,7 @@ export default {
                 });
         },
 
+        // to fetch all available marketplaces / sales channels
         getMarketPlacesList() {
             const query = {
                 choice_type: 'marketplaces',
@@ -249,6 +250,7 @@ export default {
                 });
             });
         },
+        // to fetch all available opt in application
         getOptInApplicationsList() {
             let params = {
                 page_no: 1,
@@ -266,6 +268,7 @@ export default {
                 });
             });
         },
+        // to fetch pre-saved admin configuration for 'business-registration'
         getSavedDetails() {
             return new Promise((resolve, reject) => {
                 InternalSettings.getAdminConfig(this.serverConfigIdentifier)
@@ -402,7 +405,7 @@ export default {
                                 (extension) => {
                                     return {
                                         id: extension.id,
-                                        sellerPanel: extension.seller_panel,
+                                        sellerPanel: extension.seller_panel || false,
                                     };
                                 }
                             ),
