@@ -123,7 +123,13 @@
                 <inline-svg :src="'payout-icon-finance'"></inline-svg>
                   <span class="txt">Payout Amount Sum: </span>
                   <span class="val">{{ this.parsedData.payout_amount}}</span>
+                  <span class="val val-words">( {{ this.parsedData.payout_amount_words }} )</span>
               </div>
+              <!-- <div class="payout-sum" ref="payouts" v-if="validationCompleted && payoutsExists">
+                <inline-svg :src="'payout-icon-finance'"></inline-svg>
+                  <span class="txt">Payout Amount Sum (In Words): </span>
+                  <span class="val">{{ this.parsedData.payout_amount_words}}</span>
+              </div> -->
           </div>
           <div class="right-content" v-if="validationCompleted">
             <nitrozen-button
@@ -253,6 +259,7 @@ export default {
         success:0,
         errors:0,
         payout_amount:0,
+        payout_amount_words:'',
       },
       tableData:{
         headers:[],
@@ -296,9 +303,6 @@ export default {
       this.$router.push({ name: 'upload-history-fin', params: {status: 'preprocess'}});
     },
       downloadFormat(){
-
-        console.log(this.selectedFileType);
-
       if(!this.selectedFileType){
         this.$snackbar.global.showError(
             `Please select option from dropdown`
@@ -492,7 +496,6 @@ export default {
             caller
                 .then(( res ) => {   
                   this.showValidatedScreen(res);
-                  console.log("in");
                   
                 })
                 .catch((err) => {
@@ -516,7 +519,8 @@ export default {
 
           if(dataVal.summary.length > 0){
             const payoutAmt = dataVal.summary[0];
-            this.parsedData.payout_amount = Object.values(payoutAmt)[0];
+            this.parsedData.payout_amount = Object.values(payoutAmt)[0][0];
+            this.parsedData.payout_amount_words = Object.values(payoutAmt)[0][1];
             this.payoutsExists = true;
           }
           else{
@@ -823,16 +827,19 @@ svg{
   border-bottom: 1px solid #E0E0E0;
   padding-bottom: 16px;
 .left-content{
+  max-width: 60%;
   .inline-svg{
     display: inline-block;
     vertical-align: middle;
   }
 }
 .right-content{
+  max-width: 40%;
   button{
     margin-left: 20px;
   }
 }
+
 }
 
 .title{
@@ -867,6 +874,12 @@ svg{
 
 .payout-sum{
   padding-top: 16px;
+
+  .val-words{
+    display: block;
+    font-size: 11px;
+    margin-top: 4px;
+  }
 }
 
 }

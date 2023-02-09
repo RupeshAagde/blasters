@@ -18,10 +18,12 @@
                     </span>
                 </div>
                 <upload-filters  @querychanged="queryChanged" /> <!-- @dates="setDates" @dateschanged="changedDates" -->
-                <div v-for="data in reportList" :key="data.id" class="report-list-container">
-                    <list-cards
-                        :data="data"
-                    />
+                <div class="list-section" :key="unique">
+                    <div v-for="data in reportList" :key="data.id" class="report-list-container">
+                        <list-cards
+                            :data="data"
+                        />
+                    </div>
                 </div>
                 <nitrozen-pagination
                     class="pagination-main"
@@ -87,6 +89,7 @@ export default {
             startDate:'',
             endDate:'',
             query:'',
+            unique:0,
             paginationObj: {
                 total: 0,
                 current: 1,
@@ -99,6 +102,12 @@ export default {
             }
         };
     },
+    watch: {
+    reportList() {
+        this.$forceUpdate();
+        this.unique++;
+    }
+  },
     computed:{
         ...mapGetters({
             userData: GET_USER_INFO,
@@ -201,6 +210,11 @@ export default {
         }
     }
 
+    .list-section{
+        width: 100%;
+        margin-bottom: 1rem;
+
+    }
     .report-list-container {
         width: 100%;
         margin-bottom: 1rem;
