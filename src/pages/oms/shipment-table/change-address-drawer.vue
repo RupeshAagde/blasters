@@ -141,8 +141,6 @@ export default {
         this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || ''
         this.email = this.shipment.user.email || ''
         this.phoneNumber = this.shipment.user.mobile || ''
-
-
     },
     methods: {
     onValueChange(inputType) {
