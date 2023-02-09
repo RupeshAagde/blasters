@@ -810,6 +810,19 @@ const URLS = {
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
 
+    //Panel settings
+
+    GET_PANEL_SETTINGS: () => {
+        return urlJoin(INTERNAL_SETTINGS, '/menu')
+    },
+
+    SAVE_PANEL_SETTINGS: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/menu')
+    },
+
+    GET_PERMISSION: () => {
+        return urlJoin(SKYWARP_PNL_URL, '/v1.0/permissions')
+    },
     //================ Credit Debit Note =================
     GET_LIST_DATA: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/get-data')

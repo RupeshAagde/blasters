@@ -207,6 +207,7 @@
                             :pageSize = pageObject.limit
                             :statusValueProp = statusValue
                             :sellerValueProp = sellerValue
+                            :channelValueProp= channelValue
                             :financeDateProp = financeDate
                             :companyChipsProp = companyChipsList
                         ></recon-filters>
@@ -299,6 +300,7 @@ export default {
             quickFilters: false,
             statusValue: [],
             sellerValue: [],
+            channelValue: [],
             companyChipsList: [],
             financeDate: '',
             tooltipText: 'Net payout = Amount - Shipping fee - Reverse shipping fee'
@@ -463,6 +465,7 @@ export default {
                 this.expandedRow  = false;
                 this.statusValue = [];
                 this.sellerValue =[];
+                this.channelValue = [];
                 this.financeDate = '';
                 if(e.params.data){
                     if(e.params.data.filters.finance_status.length){
@@ -473,6 +476,9 @@ export default {
                     }
                     if(e.params.data.finance_date.length){
                         this.financeDate = e.params.data.finance_date;
+                    }
+                    if(e.params.data.filters.channel.length){
+                        this.channelValue = e.params.data.filters.channel;
                     }
                     this.inProgress = true;
                     this.cachedParam = e.params;
