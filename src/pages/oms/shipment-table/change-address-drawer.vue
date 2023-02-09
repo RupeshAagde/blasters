@@ -104,7 +104,7 @@ import InlineSvg from '@/components/common/inline-svg.vue';
 export default {
     name: "change-address-drawer",
     props: {
-        shipmentId: String
+        shipment: Object
     },
     data() {
         return {
@@ -115,8 +115,8 @@ export default {
                     value: "home"
                 },
                 {
-                    text: "Store",
-                    value: "store"
+                    text: "Office",
+                    value: "office"
                 }
             ],
             area: "",
@@ -136,6 +136,13 @@ export default {
         InlineSvg,
         NitrozenDropdown,        
         NitrozenInput,
+    },
+    mounted(){
+        this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || ''
+        this.email = this.shipment.user.email || ''
+        this.phoneNumber = this.shipment.user.mobile || ''
+
+
     },
     methods: {
     onValueChange(inputType) {

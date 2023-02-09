@@ -333,6 +333,7 @@
                 >
                     <change-address-drawer
                         ref="change-address-drawer"
+                        :shipment="activeShipment"
                         @change="onAddressChange"
                     />
                     <template #footer>
