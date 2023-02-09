@@ -6,14 +6,6 @@ import {
     FETCH_ATTRIBUTES
 } from '../action.type'
 
-import {
-    SET_VARIANTS
-} from '../mutation.type'
-
-import {
-    GET_VARIANTS
-} from '../getters.type'
-
 import CatalogService from '@/services/catalog.service';
 import CompanyService from '@/services/company-admin.service';
 import sortBy from 'lodash/sortBy';

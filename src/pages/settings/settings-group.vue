@@ -107,7 +107,7 @@ export default {
             if(menu.link){
                 this.$router.push(menu.link)
             } else if(menu.eventName) {
-                this.$emit(menu.eventName)
+                this.$emit(menu.eventName, menu)
             }
         }
     }

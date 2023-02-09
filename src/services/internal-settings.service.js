@@ -77,8 +77,8 @@ const InternalSettingsService = {
         );
         return ApiService.put(URLS.PLATFORM_NAVBAR(), axiosOptions);
     },
-    getHomePage(){
-        const axiosOptions = Object.assign({}, getCommonHeaderOptions());
+    getHomePage(page_type){
+        const axiosOptions = Object.assign({ params: { page_type } }, getCommonHeaderOptions());
         return ApiService.get(URLS.PLATFORM_HOME_PAGE(), axiosOptions);
     },
     setHomePage(data){

@@ -1,4 +1,4 @@
-import { isBrowser, isNode } from 'browser-or-node';
+import { isNode } from 'browser-or-node';
 import { FETCH_USER_DATA, VALIDATE_USER } from '../../store/action.type';
 import { getNavigations } from '../../pages/administrator/navigations';
 

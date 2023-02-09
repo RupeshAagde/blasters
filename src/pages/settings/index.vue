@@ -10,7 +10,7 @@
             <section>
                 <settings-group title="General" :menus="general_menus"></settings-group>
                 <settings-group title="Custom Page and Tag" :menus="custom_menus"></settings-group>
-                <settings-group title="Customize" :menus="customize_menus" @openHome="openHomePage"></settings-group>
+                <settings-group title="Customize" :menus="customize_menus" @openHomePage="openHomePage"></settings-group>
                 <settings-group title="Platform Configurations" :menus="platform_configuration_menus"></settings-group>
             </section>
         </div>
@@ -31,7 +31,7 @@ import {
     NitrozenBadge
 } from '@gofynd/nitrozen-vue';
 import _ from 'lodash';
-import HomePage from "./home-page"
+import HomePage from './home-page';
 
 const GENERAL_MENUS = [
     {
@@ -57,7 +57,7 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Change platform pricing banner'
-    },
+    }
 ];
 const CUSTOM_MENUS = [
     {
@@ -68,7 +68,7 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Use this section to develop and manage custom webpages'
     },
-     {
+    {
         title: 'Custom Tags',
         link: 'platform/list-tags',
         icon: 'settings',
@@ -76,9 +76,9 @@ const CUSTOM_MENUS = [
         active: false,
         desc: 'Inject Script/CSS'
     }
-]
+];
 const CUSTOMIZE_MENUS = [
-{
+    {
         title: 'Navbar',
         link: 'platform/navbar',
         icon: 'settings',
@@ -95,15 +95,40 @@ const CUSTOMIZE_MENUS = [
         desc: 'Use this section to change platform footer'
     },
     {
-        title: 'Home Page',
-        link: '',
+        title: 'Seller Panel Sidebar',
+        link: 'platform/seller-panel',
         icon: 'settings',
-        permissions:[],
-        active:false,
-        desc: 'Update Home Page',
-        eventName: 'openHome'
+        permissions: [],
+        active: false,
+        desc: 'Configure navigation items'
     }
-]
+];
+const CUSTOM_PAGES = [
+    {
+        title: 'Home Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update home page',
+        key: 'home',
+        eventName: 'openHomePage'
+    },
+    {
+        title: 'Features Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update features page',
+        key: 'features',
+        eventName: 'openHomePage'
+    },
+    {
+        title: 'Pricing Page',
+        icon: 'settings',
+        active: false,
+        desc: 'Update pricing page',
+        key: 'pricing',
+        eventName: 'openHomePage'
+    }
+];
 
 const PLATFORM_CONFIGURATION_MENUS = [
     {
@@ -184,16 +209,17 @@ export default {
             pageLoading: false,
             pageError: false,
             general_menus: GENERAL_MENUS,
-            customize_menus: CUSTOMIZE_MENUS,
+            customize_menus: CUSTOMIZE_MENUS.concat(CUSTOM_PAGES),
             custom_menus: CUSTOM_MENUS,
-            platform_configuration_menus:PLATFORM_CONFIGURATION_MENUS
+            cutsom_pages: CUSTOM_PAGES,
+            platform_configuration_menus:PLATFORM_CONFIGURATION_MENUS,
         };
     },
     mounted() {},
     methods: {
         titleCase,
-        openHomePage(){
-            this.$refs["custom-home-page"].open()
+        openHomePage(menu){
+            this.$refs["custom-home-page"].open(menu)
         }
     }
 };

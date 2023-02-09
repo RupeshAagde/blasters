@@ -150,8 +150,7 @@
                                                         dateRangeChange($event, true)
                                                     " @searchInputChange="
     clearDateFilter()
-" v-model="dateSelected" placeholder="Select Date Range"
-                                                    :searchable="true" :multiple="false">
+" v-model="dateSelected" placeholder="Select Date Range" :searchable="true" :multiple="false">
                                                     <label>Date Range</label>
                                                 </nitrozen-dropdown>
                                             </div>
@@ -203,7 +202,7 @@
                                             Event
                                         </td>
                                         <td class="clickable line-height" @click="
-                                            sortTable('response.status')
+                                            sortTable('response.response_code')
                                         ">
                                             <div>Response</div>
                                             <div>Code</div>
@@ -257,7 +256,7 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    {{ method.status }}
+                                                    {{ method.response_code }}
                                                 </div>
                                             </td>
                                             <td>
@@ -277,7 +276,7 @@
 
                                             <td>
                                                 <div class="no-wrap">
-                                                    {{ epochToDate(method.last_attempted_on) }}
+                                                    {{ epochToDate(method.last_attempted_on / 1000) }}
                                                 </div>
                                             </td>
                                             <td class="clickable-payload" @click="
@@ -347,7 +346,7 @@ table tr:last-child td:last-child {
 
 .popup-btn {
     width: 45%;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
@@ -383,7 +382,7 @@ table tr:last-child td:last-child {
 .clear-section {
     cursor: pointer;
     align-self: center;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -410,7 +409,7 @@ table tr:last-child td:last-child {
 }
 
 .url-display-name {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -496,7 +495,7 @@ table tr:last-child td:last-child {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 90%;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -716,7 +715,7 @@ td {
 .clickable {
     cursor: pointer;
     font-size: 14px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 600;
 }
@@ -744,7 +743,6 @@ td {
 }
 
 .title {
-    margin-bottom: 3%;
     width: 30%;
     color: #41434c;
     font-weight: 700;
@@ -1283,7 +1281,7 @@ export default {
             subscriberIdNames: {},
             docUrl:
                 env.SEARCHLIGHT_MAIN_DOMAIN +
-                '/docs/company-settings/webhook/webhook',
+                '/docs/company-settings/webhook/',
             jobId: '',
             exportActive: false,
             exportStatus: true,

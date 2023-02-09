@@ -1,7 +1,5 @@
 import ApiService from './api.service';
 import URLS from './domain.service';
-import root from 'window-or-global';
-const envVars = root.env || {};
 
 const SupportService = {
     fetchTickets(params) {
@@ -81,6 +79,28 @@ const SupportService = {
     setGeneralConfig(data) {
         let axiosOption = { data: data };
         return ApiService.post(URLS.GET_GENERAL_CONGIF(), axiosOption);
+    },
+    categorySync(type){
+        return ApiService.get(URLS.CATEGORY_SYNC(type), {
+            params: {}
+        }); 
+    },
+    testApiKey(data,type){
+        let axiosOption = { data: data };
+        return ApiService.post(URLS.TEST_API_KEY(type), axiosOption);
+    },
+    getIntegrationDetails(type){
+        return ApiService.get(URLS.INTEGRATION_DETAILS(type), {
+            params: {}
+        }); 
+    },
+    updateIntegrationDetails(data,type){
+        let axiosOption = { data: data };
+        return ApiService.put(URLS.INTEGRATION_DETAILS(type), axiosOption);
+    },
+    createIntegration(data,type){
+        let axiosOption = { data: data };
+        return ApiService.post(URLS.INTEGRATION_DETAILS(type), axiosOption);
     },
     // Product Info
     // fetchProductInfo(slug) {

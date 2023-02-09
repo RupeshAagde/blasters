@@ -34,7 +34,7 @@ const actions = {
                 return res.data;
             })
             .catch((err) => {
-                console.log(err, 'error err');
+                console.error(err, 'error err');
             });
     }
 };

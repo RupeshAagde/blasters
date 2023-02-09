@@ -4,22 +4,22 @@
             <nitrozen-input
                 :value="
                     filter_data.query.title.trim() ||
-                    filter_data.query.code.trim()
+                        filter_data.query.code.trim()
                 "
                 :showSearchIcon="true"
                 class="search"
-                :placeholder="'Search Ticket ID or Title'"
+                :placeholder="'Search Ticket'"
                 v-model="searchText"
                 @input="debounceInput"
             />
             <div class="dropdown-filters">
                 <nitrozen-dropdown
+                    :searchable="false"
                     ref="company-dropdown"
-                    :searchable="true"
                     class="archived-filter"
-                    style="width: 215px"
-                    :label="'Company'"
                     v-model="selectedCompany"
+                    :label = "'Company'"
+                    :placeholder="'Company'"
                     :items="companies"
                     @change="fetchTickets"
                     @searchInputChange="companySearch"
@@ -29,9 +29,10 @@
                 <nitrozen-dropdown
                     :searchable="false"
                     class="type-filter"
-                    :label="'Status'"
                     v-if="filter_data.filters"
                     v-model="defaultStatus"
+                    :label = "'Status'"
+                    :placeholder="'Status'"
                     :items="filter_data.filters.statuses"
                     @change="fetchTickets"
                 ></nitrozen-dropdown>
@@ -39,19 +40,21 @@
                 <nitrozen-dropdown
                     :searchable="false"
                     class="applicable-on-filter"
-                    :label="'Priority'"
                     v-if="filter_data.filters"
                     v-model="defaultPriority"
+                    :label = "'Priority'"
+                    :placeholder="'Priority'"
                     :items="filter_data.filters.priorities"
                     @change="fetchTickets"
                 ></nitrozen-dropdown>
 
                 <nitrozen-dropdown
                     class="archived-filter"
-                    :searchable="true"
-                    :label="'Category'"
+                    :searchable="false"
                     v-if="filter_data.filters"
                     v-model="defaultCategory"
+                    :label = "'Category'"
+                    :placeholder="'Category'"
                     :items="filteredCategory"
                     @searchInputChange="categorySearch"
                     @change="fetchTickets"
@@ -67,57 +70,63 @@
                 @click="onTicketSelection(ticket)"
             >
                 <div class="card-content-section">
-                    <div class="card-content-line-2">
-                        Request #{{ ticket.ticket_id }} |
-                        {{ readableDate(new Date(ticket.createdAt)) }}
-                    </div>
                     <div class="card-content-line-1">
                         {{ ticket.content.title }}
+                        <!-- <inline-svg  :src="'kapture'"></inline-svg> -->
+                        <div v-if="ticket.integration && ticket.integration.freshdesk_synced" class="in-sync">
+                            <inline-svg
+                                :src="'freshdesk-grey-icon'"
+                            ></inline-svg>
+                            <span class="in-sync-decs">in-sync</span>
+                        </div>
                     </div>
-                    <div class="card-content-line-3">
-                        {{ ticketSubtitle(ticket) }}
-                    </div>
-                    <div class="card-content-line-3"
-                        v-if="ticket.assigned_to && ticket.assigned_to.first_name"
-                    >
-                        {{
-                            'Assigned to ' +
-                            ticket.assigned_to.first_name +
-                            ' ' +
-                            ticket.assigned_to.last_name
-                        }}
-                    </div>
-                </div>
-                <div class="card-badge-section right-container">
-                    <div class="states" v-if="ticket.status.key != 'closed'">
-                        <nitrozen-badge
-                            v-if="
-                                ticket.assigned_to != null &&
-                                ticket.assigned_to.source != null &&
-                                ticket.assigned_to.source
-                            "
-                            state="default"
-                        >
-                            {{
-                                ticket.assigned_to.source.first_name +
-                                ' ' +
-                                ticket.assigned_to.source.last_name
-                            }}</nitrozen-badge
-                        >
-                        <nitrozen-badge state="default">{{
-                            ticket.category.display
-                        }}</nitrozen-badge>
-                        <nitrozen-badge state="default">{{
-                            ticket.priority.display
-                        }}</nitrozen-badge>
-                        <nitrozen-badge state="default">{{
-                            ticket.status.display
-                        }}</nitrozen-badge>
-                    </div>
-                    <div v-else>
-                        <nitrozen-badge state="default">{{
-                            ticket.status.display
-                        }}</nitrozen-badge>
+                    <div class="card-content-line-2">
+                        <div class="left-container-content">
+                            <div class="date-content">
+                                <span class="content-label">Date</span>
+                                <span class="content-value">{{
+                                    readableDate(new Date(ticket.createdAt))
+                                }}</span>
+                            </div>
+                            <div class="priority-content">
+                                <span class="content-label">Priority</span>
+                                <span class="content-value">{{
+                                    ticket.priority.display
+                                }}</span>
+                            </div>
+                            <div class="category-content">
+                                <span class="content-label">Category</span>
+                                <span class="content-value">{{
+                                    ticket.category.display
+                                }}</span>
+                            </div>
+                        </div>
+                        <div class="right-container">
+                            <nitrozen-badge
+                                v-if="ticket.status.key === 'pending'"
+                                state="warn"
+                            >
+                                {{ ticket.status.display }}
+                            </nitrozen-badge>
+                            <nitrozen-badge
+                                v-if="ticket.status.key === 'closed'"
+                                state="default"
+                            >
+                                {{ ticket.status.display }}
+                            </nitrozen-badge>
+                            <nitrozen-badge
+                                v-if="ticket.status.key === 'resolved'"
+                                state="success"
+                            >
+                                {{ ticket.status.display }}
+                            </nitrozen-badge>
+                            <nitrozen-badge
+                                v-if="ticket.status.key === 'in_progress'"
+                                state="info"
+                            >
+                                {{ ticket.status.display }}
+                            </nitrozen-badge>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,10 +153,12 @@
     position: relative;
     .coupon-filters {
         display: flex;
+        background: #f8f8f8;
+        border-radius: 4px;
+        padding: 12px;
         .search {
             flex: 1;
-            max-width: 400px;
-            margin-top: 22px;
+            // max-width: 409px;
         }
         .dropdown-filters {
             display: flex;
@@ -157,13 +168,13 @@
                 padding-left: 10px;
             }
             .type-filter {
-                width: 130px;
+                // width: 130px;
             }
             .applicable-on-filter {
-                width: 130px;
+                // width: 130px;
             }
             .archived-filter {
-                width: 180px;
+                // width: 180px;
             }
         }
     }
@@ -173,11 +184,78 @@
         margin-top: 12px;
     }
 }
+
+.card-content-section {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .card-content-line-1 {
+        display: flex;
+        margin-bottom: 12px;
+        .in-sync {
+            color: #9b9b9b;
+            font-family: Inter, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+            margin-left: 12px;
+            display: flex;
+            .in-sync-decs {
+                margin-left: 4px;
+            }
+        }
+    }
+    .card-content-line-2 {
+        display: flex;
+        justify-content: space-between;
+        .left-container-content {
+            position: relative;
+            display: flex;
+            .category-content {
+                display: flex;
+                flex-direction: column;
+            }
+            .date-content {
+                margin-right: 72px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .priority-content {
+                margin-right: 72px;
+                display: flex;
+                flex-direction: column;
+            }
+            .content-label {
+                font-family: Inter, sans-serif;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 20px;
+                color: #9b9b9b;
+            }
+            .content-value {
+                font-family: Inter, sans-serif;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 22px;
+                color: #41434c;
+            }
+        }
+    }
+}
+
+::v-deep .nitrozen-dropdown-label {
+    display: none;
+}
 </style>
 
 <script>
 import uktInlineSvg from '@/components/common/ukt-inline-svg';
 import admInlineSvg from '@/components/common/adm-inline-svg';
+import inlineSvgVue from '@/components/common/inline-svg.vue';
 import admNoContent from '@/components/common/page-empty';
 import { debounce } from '@/helper/utils';
 import admShimmer from '@/components/common/shimmer';
@@ -211,7 +289,8 @@ export default {
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-pagination': NitrozenPagination,
         'adm-no-content': admNoContent,
-        'adm-shimmer': admShimmer
+        'adm-shimmer': admShimmer,
+        'inline-svg': inlineSvgVue
     },
     props: {},
     data() {
@@ -221,14 +300,15 @@ export default {
             companies: [
                 {
                     text: 'All',
-                    value: 'All',
+                    value: 'All'
                 }
             ],
-            selectedCompany: 'All',
+            checkingValue : "checking",
+            selectedCompany: '',
             isCompanyFromRoute: false,
-            defaultStatus: 'All',
-            defaultCategory: 'All',
-            defaultPriority: 'All',
+            defaultStatus: '',
+            defaultCategory: '',
+            defaultPriority: '',
             loading: false,
             show_schedule_modal: false,
             pagination: { ...PAGINATION },
@@ -252,11 +332,11 @@ export default {
             companySearchText: '',
             isFirstTime: true,
             searchText: '',
-            filteredCategory : []
+            filteredCategory: []
         };
     },
     mounted() {
-        this.getFilterDataFromRoute()
+        this.getFilterDataFromRoute();
         this.loadCompanies();
     },
     methods: {
@@ -309,7 +389,8 @@ export default {
             return SupportService.fetchTickets(params)
                 .then((res) => {
                     this.initial_data = res.data.items;
-                    this.filter_data.pagination.total = res.data.page.item_total;
+                    this.filter_data.pagination.total =
+                        res.data.page.item_total;
                     this.filter_data.filters = res.data.filters;
 
                     this.filter_data.filters.statuses = [
@@ -358,18 +439,23 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
-                    this.setFilterForRoute()
+                    this.setFilterForRoute();
                 });
         },
         getFilterDataFromRoute() {
             this.searchText = this.$route.query.search_text || this.searchText;
             this.defaultStatus = this.$route.query.status || this.defaultStatus;
-            this.defaultPriority = this.$route.query.priority || this.defaultPriority;
-            this.defaultCategory = this.$route.query.category || this.defaultCategory;
-            this.selectedCompany = this.$route.query.company_id || this.selectedCompany;
+            this.defaultPriority =
+                this.$route.query.priority || this.defaultPriority;
+            this.defaultCategory =
+                this.$route.query.category || this.defaultCategory;
+            this.selectedCompany =
+                this.$route.query.company_id || this.selectedCompany;
             var selectedCompanyName = this.$route.query.company_name || '';
-            this.filter_data.pagination.current = this.$route.query.page || this.filter_data.pagination.current;
-            this.filter_data.pagination.limit = this.$route.query.limit || this.filter_data.pagination.limit;
+            this.filter_data.pagination.current =
+                this.$route.query.page || this.filter_data.pagination.current;
+            this.filter_data.pagination.limit =
+                this.$route.query.limit || this.filter_data.pagination.limit;
             if (this.selectedCompany != 'All' && selectedCompanyName != '') {
                 this.companies.push({
                     value: this.selectedCompany,
@@ -401,17 +487,19 @@ export default {
 
             if (this.selectedCompany != 'All' && this.selectedCompany != '') {
                 params['company_id'] = this.selectedCompany;
-                var selectedObj = this.companies.find(obj => {
-                    return obj.value == this.selectedCompany
+                var selectedObj = this.companies.find((obj) => {
+                    return obj.value == this.selectedCompany;
                 });
                 if (selectedObj) {
                     params['company_name'] = selectedObj.text;
                 }
             }
 
-            this.$router.replace({
-                query: params
-            }).catch(()=>{});
+            this.$router
+                .replace({
+                    query: params
+                })
+                .catch(() => {});
         },
         onTicketSelection(ticket) {
             this.$router.push({
@@ -419,7 +507,7 @@ export default {
             });
         },
         readableDate(date) {
-            return moment(date).format('MMM Do YYYY, h:mm a');
+            return moment(date).format('MMM D, YYYY');
         },
         ticketSubtitle(ticket) {
             let subtitle = 'Created by ';
@@ -461,22 +549,26 @@ export default {
                         this.companies = [
                             {
                                 text: 'All',
-                                value: 'All',
+                                value: 'All'
                             }
                         ];
                     }
                     if (this.isCompanyFromRoute) {
-                        this.isCompanyFromRoute = false
+                        this.isCompanyFromRoute = false;
                         this.companies.push(
-                            ...res.data.items.filter(v => v.uid != this.selectedCompany)
-                            .map((v) => {
-                                return {
-                                    text: v.name,
-                                    value: v.uid
-                                };
-                            })
+                            ...res.data.items
+                                .filter((v) => v.uid != this.selectedCompany)
+                                .map((v) => {
+                                    return {
+                                        text: v.name,
+                                        value: v.uid
+                                    };
+                                })
                         );
-                        this.$refs['company-dropdown'].selectItem(1, this.companies[1]);
+                        this.$refs['company-dropdown'].selectItem(
+                            1,
+                            this.companies[1]
+                        );
                     } else {
                         this.companies.push(
                             ...res.data.items.map((v) => {
@@ -532,5 +624,5 @@ export default {
             this.fetchTickets();
         }
     }
-};
+}
 </script>

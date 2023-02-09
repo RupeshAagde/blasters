@@ -1,0 +1,439 @@
+{
+    "data": {
+        "items": [
+            {
+                "_id": "000000001",
+                "name": "CONFIRM_03092022_143004.CSV",
+                "type": "csv",
+                "user": {
+                    "uid": null,
+                    "avis_user_id": null,
+                    "mobile": null,
+                    "first_name": "John",
+                    "gender": null,
+                    "email": null,
+                    "last_name": "Doe",
+                    "is_anonymous_user": true
+                },
+                "uploaded_on": "2022-09-28T09:30:28.406Z",
+                "status": {
+                    "created_at": "2022-06-01T14:06:01.000Z",
+                    "status": "completed",
+                    "id": 62815,
+                    "shipment_id": "16540725608981120685",
+                    "status_created_at": "2022-06-01T14:06:01.000Z",
+                    "name": "Completed",
+                    "color_code": "#219653",
+                    "progress": 0,
+                    "total_items": 1,
+                    "success": 1,
+                    "failed": 0
+                },
+                "bags": [
+                    {
+                        "bag_id": 55526,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "success",
+                        "reason": null,
+                        "item": {
+                            "name": "Whole Almonds",
+                            "brand": "Britania",
+                            "slug_key": "whole-almonds",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "56789"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "WHOLE ALMONDS"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "WHOLE ALMONDS"
+                    }
+                ],
+                "fulfilling_store": {
+                    "id": 1,
+                    "code": "Jio-market-Store-1",
+                    "fulfillment_channel": "pulse",
+                    "store_name": "Jio Market Store 1",
+                    "contact_person": "",
+                    "phone": "9869174413",
+                    "address": "high_street Radisson Blu Bengaluru Outer Ring Road 90/4, Dr Puneeth Rajkumar Rd, Marathahalli Village, Marathahalli Bengaluru Karnataka 560037",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "India",
+                    "pincode": 560037,
+                    "fulfilment_type": "DFC"
+                }
+            },
+            {
+                "_id": "000000002",
+                "name": "PACK_03092022_143004.CSV",
+                "type": "csv",
+                "user": {
+                    "uid": null,
+                    "avis_user_id": null,
+                    "mobile": null,
+                    "first_name": "Jane",
+                    "gender": null,
+                    "email": null,
+                    "last_name": "Dias",
+                    "is_anonymous_user": true
+                },
+                "uploaded_on": "2021-01-04T18:30:00.000Z",
+                "status": {
+                    "created_at": "2022-06-01T14:06:01.000Z",
+                    "status": "partially_completed",
+                    "id": 62815,
+                    "shipment_id": "16540725608981120685",
+                    "status_created_at": "2022-06-01T14:06:01.000Z",
+                    "name": "Partially Completed",
+                    "color_code": "#F2C94C",
+                    "progress": 0,
+                    "total_items": 3,
+                    "success": 2,
+                    "failed": 1
+                },
+                "bags": [
+                    {
+                        "bag_id": 55526,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "success",
+                        "item": {
+                            "name": "Marie Gold",
+                            "brand": "Britania",
+                            "slug_key": "marie-gold",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "1234"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "MARIE GOLD"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "MARIE GOLD"
+                    },
+                    {
+                        "bag_id": 55527,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "failed",
+                        "reason": "Mandatory field cannot be blank",
+                        "item": {
+                            "name": "Nutri Choice",
+                            "brand": "Britania",
+                            "slug_key": "nutri-choice",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "3456"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "NUTRI CHOICE"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "NUTRI CHOICE"
+                    },
+                    {
+                        "bag_id": 55528,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "failed",
+                        "reason": "Mandatory field cannot be blank",
+                        "item": {
+                            "name": "Little Hearts",
+                            "brand": "Britania",
+                            "slug_key": "little-hearts",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "2345"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "LITTLE HEARTS"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "LITTLE HEARTS"
+                    }
+                ],
+                "fulfilling_store": {
+                    "id": 1,
+                    "code": "Jio-market-Store-1",
+                    "fulfillment_channel": "pulse",
+                    "store_name": "Jio Market Store 1",
+                    "contact_person": "",
+                    "phone": "9869174413",
+                    "address": "high_street Radisson Blu Bengaluru Outer Ring Road 90/4, Dr Puneeth Rajkumar Rd, Marathahalli Village, Marathahalli Bengaluru Karnataka 560037",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "India",
+                    "pincode": 560037,
+                    "fulfilment_type": "DFC"
+                }
+            },
+            {
+                "_id": "000000003",
+                "name": "CONFIRM_03092022_143004.XLS",
+                "type": "xls",
+                "user": {
+                    "uid": null,
+                    "avis_user_id": null,
+                    "mobile": null,
+                    "first_name": "Jonathan",
+                    "gender": null,
+                    "email": null,
+                    "last_name": "Dias",
+                    "is_anonymous_user": true
+                },
+                "uploaded_on": "2021-01-04T18:30:00.000Z",
+                "status": {
+                    "created_at": "2022-06-01T14:06:01.000Z",
+                    "status": "failed",
+                    "id": 62815,
+                    "shipment_id": "16540725608981120685",
+                    "status_created_at": "2022-06-01T14:06:01.000Z",
+                    "name": "Failed",
+                    "color_code": "#EB5757",
+                    "progress": 0,
+                    "total_items": 1,
+                    "success": 0,
+                    "failed": 1
+                },
+                "bags": [
+                    {
+                        "bag_id": 55526,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "failed",
+                        "reason": "Mandatory field cannot be blank",
+                        "item": {
+                            "name": "Nice Time",
+                            "brand": "Britania",
+                            "slug_key": "nice-time",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "1236"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "NICE TIME"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "NICE TIME"
+                    }
+                ],
+                "fulfilling_store": {
+                    "id": 1,
+                    "code": "Jio-market-Store-1",
+                    "fulfillment_channel": "pulse",
+                    "store_name": "Jio Market Store 1",
+                    "contact_person": "",
+                    "phone": "9869174413",
+                    "address": "high_street Radisson Blu Bengaluru Outer Ring Road 90/4, Dr Puneeth Rajkumar Rd, Marathahalli Village, Marathahalli Bengaluru Karnataka 560037",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "India",
+                    "pincode": 560037,
+                    "fulfilment_type": "DFC"
+                }
+            },
+            {
+                "_id": "000000004",
+                "name": "CONFIRM_03092022_143005.XLS",
+                "type": "xls",
+                "user": {
+                    "uid": null,
+                    "avis_user_id": null,
+                    "mobile": null,
+                    "first_name": "Jonathan",
+                    "gender": null,
+                    "email": null,
+                    "last_name": "Dias",
+                    "is_anonymous_user": true
+                },
+                "uploaded_on": "2021-01-04T18:30:00.000Z",
+                "status": {
+                    "created_at": "2022-06-01T14:06:01.000Z",
+                    "status": "failed",
+                    "id": 62815,
+                    "shipment_id": "16540725608981120685",
+                    "status_created_at": "2022-06-01T14:06:01.000Z",
+                    "name": "Failed",
+                    "color_code": "#EB5757",
+                    "progress": 0,
+                    "total_items": 2,
+                    "success": 0,
+                    "failed": 2
+                },
+                "bags": [
+                    {
+                        "bag_id": 55527,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "failed",
+                        "reason": "Mandatory field cannot be blank",
+                        "item": {
+                            "name": "Hide and Seek",
+                            "brand": "Britania",
+                            "slug_key": "hide-and-seek",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "1238"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "HIDE AND SEEK"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "HIDE AND SEEK"
+                    },
+                    {
+                        "bag_id": 55527,
+                        "display_name": "Bag",
+                        "entity_type": "bag",
+                        "current_status": "failed",
+                        "reason": "Mandatory field cannot be blank",
+                        "item": {
+                            "name": "Little Hearts",
+                            "brand": "Britania",
+                            "slug_key": "hide-and-seek",
+                            "images": [
+                                "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/7cuz5XY7p-91izJLBgdYL._SL1500_.jpg"
+                            ],
+                            "size": "OS",
+                            "l1_category": "",
+                            "l3_category": "3156",
+                            "code": "1238"
+                        },
+                        "brand": {
+                            "created_on": "2022-07-15T08:29:13+00:00",
+                            "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                            "company": null,
+                            "brand_name": "Britania",
+                            "modified_on": "2022-07-15T08:29:13+00:00",
+                            "id": 22
+                        },
+                        "article": {
+                            "uid": "62ece9146fbe4a93215c55c2",
+                            "identifiers": {
+                                "sku_code": "LITTLE HEARTS"
+                            }
+                        },
+                        "quantity": 1,
+                        "identifier": "LITTLE HEARTS"
+                    }
+                ],
+                "fulfilling_store": {
+                    "id": 1,
+                    "code": "Jio-market-Store-1",
+                    "fulfillment_channel": "pulse",
+                    "store_name": "Jio Market Store 1",
+                    "contact_person": "",
+                    "phone": "9869174413",
+                    "address": "high_street Radisson Blu Bengaluru Outer Ring Road 90/4, Dr Puneeth Rajkumar Rd, Marathahalli Village, Marathahalli Bengaluru Karnataka 560037",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "India",
+                    "pincode": 560037,
+                    "fulfilment_type": "DFC"
+                }
+            }
+        ],
+        "page": {
+            "current": 1,
+            "total": 4,
+            "has_previous": false,
+            "has_next": false,
+            "type": "number",
+            "limit": 10,
+            "size": 10
+        }
+    }
+}
