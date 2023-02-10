@@ -134,7 +134,7 @@
                     />
                     <adm-no-content
                         v-if="manifestData.length === 0"
-                        helperText="No manifests found / try searching by delivery partner, manifest ID, shipment ID"
+                        helperText="No manifests found"
                     ></adm-no-content>
                 </div>
 

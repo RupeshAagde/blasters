@@ -160,7 +160,7 @@
                     totalShipments == 0 &&
                     !isIntialState
                 "
-                helperText="No shipments found / try searching by shipment ID"
+                helperText="No shipments found"
             ></adm-no-content>
             <div class="empty-screen" v-if="isIntialState">
                 <inline-svg :src="'empty-orders'" />
