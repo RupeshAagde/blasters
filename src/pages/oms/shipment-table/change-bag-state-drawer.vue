@@ -24,6 +24,19 @@
                 />
             </div>
 
+           <div class="invoice-input">
+            <nitrozen-input
+                    v-if="inputStates.includes(selectedState) && selectedState == 'bag_invoiced'"
+                    :type="'textarea'"
+                    label="Invoice"
+                    v-model="invoiceId"
+                    placeholder="Please enter invoice id"
+                    :disabled="false"
+                    @input="onInputChange"
+                    @change="invoiceValidation"
+                />
+
+           </div>
             <div class="user-input">
                 <nitrozen-input
                     :type="'textarea'"
@@ -76,6 +89,8 @@ export default {
             reasons: [],
             selectedReason: '',
             selectedState: '',
+            inputStates: [],
+            invoiceId: ''
         }
     },
     components: {
@@ -86,6 +101,7 @@ export default {
         NitrozenInput
     },
     mounted() {
+         this.inputStates = Object.keys(this.shipment.next_possible_states)
         this.fetchBagStates();
         this.fetchReasons();
     },
@@ -107,7 +123,8 @@ export default {
                 {
                     state: this.selectedState ? this.selectedState : '',
                     reason: this.selectedReason ? this.selectedReason : '',
-                    remark: this.note ? this.note : ''
+                    remark: this.note ? this.note : '',
+                    store_invoice_id: this.invoiceId || ''
                 }
             );
         },
@@ -232,7 +249,23 @@ export default {
         onReasonChange() {
             this.emitChange();
         },
+        /**
+         * Event handler for change in store invoice id.
+         * 
+         * @author Sameer Shaikh <rushabhmshah@gofynd.com>
+         */
 
+        onInputChange(){
+            this.emitChange();
+        },
+        invoiceValidation(){
+            let regex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
+            if(!regex.test(this.invoiceId)){
+                this.$snackbar.global.showError('Invalid Invoice no: Only A-Z, a-z, 0-9, /, - without spaces and max 16 length are allowed'
+                );
+            }
+
+        },
         /**
          * Event handler for change in remarks.
          * 
@@ -255,6 +288,15 @@ export default {
 </script>
 
 <style lang="less" scoped> 
+
+.invoice-input ::v-deep .n-input-textarea{
+    line-height: 21px;
+    padding-top: 6px;
+    height: 36px;
+}
+.user-input{
+    margin-top: 10px;
+}
 .change-bag-state-container {
     position: relative;
 }

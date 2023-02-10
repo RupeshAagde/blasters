@@ -828,11 +828,16 @@ export default {
          * @param {Object} event The object containing changed values sent by the child component.
          */
         onBagChangeState(event) {
+            let invoiceRegex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
             if(event.state.length > 0 && event.remark.length > 9) {
                 if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
                 } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
+                    this.enableBagStateChange = false;
+                } else if(!reasonStates.includes(event.state) && event.state == 'bag_invoiced' && invoiceRegex.test(event.store_invoice_id)) {
+                    this.enableBagStateChange = true
+                } else if(!reasonStates.includes(event.state) && event.state == 'bag_invoiced' && !invoiceRegex.test(event.store_invoice_id)) {
                     this.enableBagStateChange = false;
                 } else if(!reasonStates.includes(event.state)) {
                     this.enableBagStateChange = true;
@@ -849,7 +854,7 @@ export default {
          */
         onStateChangeClick() {
             let changeBagStateDrawer = this.$refs['change-bag-state'];
-
+            
             /* Check if the selected state's value exists, else throw an error */
             if(changeBagStateDrawer.selectedState === undefined || changeBagStateDrawer.selectedState === null) {
                 this.$snackbar.global.showError(
@@ -902,6 +907,30 @@ export default {
                     entities: []
                 }
             }
+            /* Adding store_invoice_id incase of updating invoice number */
+        
+            // if(InvoiceRegex.test(changeBagStateDrawer.invoiceId)){
+                
+            // }
+            if(changeBagStateDrawer.selectedState == 'bag_invoiced' && Object.keys(this.activeShipmentDetails.next_possible_states).includes('bag_invoiced')){
+                payload.statuses[0].shipments[0]['data_updates'] = {
+                 products: [{
+                filters: [{}],
+                data: {
+                    store_invoice_id:  changeBagStateDrawer.invoiceId 
+                }
+                }],
+                entities: [{
+                filters: [{}],
+                data: {
+                    store_invoice_id: changeBagStateDrawer.invoiceId
+                }
+                }]
+            }
+
+            }
+          
+
 
             /* Hitting the API for changing the state */
             return OrderService.updateShipmentStatus(payload)
