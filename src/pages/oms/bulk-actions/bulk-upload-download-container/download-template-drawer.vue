@@ -62,11 +62,11 @@ export default {
         NitrozenInput
     },
     mounted() {
-        this.$emit('enableDownloadBtn', true)
+        this.$emit('toggleDownloadBtn', true)
     },
     methods: {
         changeTemplate() {
-            this.$emit('enableDownloadBtn')
+            this.$emit('toggleDownloadBtn')
         }, 
         callDownloadApi() {
             if(this.selectedTemplate) {

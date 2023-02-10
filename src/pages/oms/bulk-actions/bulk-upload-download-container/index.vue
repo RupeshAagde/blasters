@@ -26,22 +26,24 @@
         </div>
         <transition name="slide">
             <template v-if="isDownloadTemplate">
-                <side-drawer @close="closeDetails()" :title="`Download Template`" :footer="true">
+                <side-drawer @close="closeDownloadTemplateDrawer()" :title="`Download Template`" :footer="true">
                     <download-template-drawer
                         ref="download-template-drawer"
-                        @enableDownloadBtn="enableBtn($event)"
+                        @toggleDownloadBtn="enableBtn($event)"
                     >
                     </download-template-drawer>
                     <template #footer>
-                        <nitrozen-button
-                            class="button-submit"
-                            :disabled="!enableDownloadTemplate"
-                            theme="secondary"
-                            v-flatBtn
-                            @click="onDownloadTemplate"
-                        >
-                            Download
-                        </nitrozen-button>
+                        <div class="footer-change-style">
+                            <nitrozen-button
+                                class="button-submit"
+                                :disabled="!enableDownloadTemplate"
+                                theme="secondary"
+                                v-flatBtn
+                                @click="onDownloadTemplate"
+                            >
+                                Download
+                            </nitrozen-button>
+                        </div>
                     </template>
                 </side-drawer>
             </template>
@@ -108,7 +110,7 @@ export default {
         openDownloadTemplateDrawer() {
             this.isDownloadTemplate = true;
         },
-        closeDetails() {
+        closeDownloadTemplateDrawer() {
             this.isDownloadTemplate = false;
         },
         enableBtn(e) {
@@ -121,7 +123,7 @@ export default {
         },
         onDownloadTemplate() {
             this.$refs['download-template-drawer'].callDownloadApi();
-            // this.closeDetails();
+            // this.closeDownloadTemplateDrawer();
         },
         /**
          * Function to be called to hit API when a file needs to be uploaded.
@@ -365,7 +367,7 @@ export default {
 }
 
 ::v-deep .nitrozen-menu-item {
-    padding: 8px;
+    padding: 12px;
     margin-bottom: 8px;
 }
 
@@ -374,7 +376,8 @@ export default {
     row-gap: 1rem;
 }
 
-.button-submit {
-    margin-left: 72%;
+.footer-change-style {
+    display: flex;
+    justify-content: flex-end;
 }
 </style>
