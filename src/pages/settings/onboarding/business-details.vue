@@ -132,6 +132,7 @@ export default {
                     this.getCompositeTaxationComponent(safeAccess(res, 'composite_taxation')),
                 ];
             }).catch((error) => {
+                console.log(error, 'error')
                 this.pageLoading = false;
                 this.pageError = true
             });
@@ -223,7 +224,7 @@ export default {
                             lineItems: this.businessTypes.map(businessType => {
                                 return getCheckboxComponent(
                                     businessType.key,
-                                    businessType.value,
+                                    businessType.value, 
                                     true,
                                     this.getDocumentsGroup(businessType, safeAccess(legal_documents, businessType.key))
                                 )
@@ -306,7 +307,7 @@ export default {
 
         // Business Type List
         getDocumentsGroup(businessType, savedDocumentsData) {
-            return businessType.documents.map(documentClass => {
+            return businessType.documents && businessType.documents.map(documentClass => {
                 let matchingBusinessDocument = {};
                 if (savedDocumentsData) {
                     savedDocumentsData.map(savedDocument => {
