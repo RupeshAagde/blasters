@@ -1058,6 +1058,9 @@ const URLS = {
     LOCK_MANAGER_URL : () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/entity/lock-manager`);
     },
+    GET_TEMPLATE : () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
+    },
     SEND_SMS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/ninja/send-sms`);
     },

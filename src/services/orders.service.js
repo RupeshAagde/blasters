@@ -521,6 +521,10 @@ const OrderService = {
         let axiosOption = Object.assign({},getCommonHeaderOptions(), { data });
         return ApiService.post(URLS.LOCK_MANAGER_URL(), axiosOption)
     },
+    getDownloadTemplate(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_TEMPLATE(), axiosOption);
+    },
     postLinkV2BulkAction(data) {
         let axiosOptions = Object.assign(
             {},
