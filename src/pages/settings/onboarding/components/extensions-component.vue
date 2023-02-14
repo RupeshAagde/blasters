@@ -29,9 +29,12 @@
                     :key="index"
                 >
                     <div class="inline v-center">
-                        <img :src="extension.logo && extension.logo.small" class="card-avatar" />
-                        <div>
+                        <img :src="extension.logo && extension.logo.small" class="card-avatar" alt="logo" />
+                        <div v-if="extension.name">
                             {{ extension.name }}
+                        </div>
+                        <div v-else>
+                            {{ `unknown extension, extension id: ${extension.id}` }}
                         </div>
                     </div>
 
@@ -200,8 +203,12 @@ export default {
             });
             this.lineItem.data.selectedData.map((extension) => {
                 this.selectedExtensionIdsList.push(extension.id);
+                /**here adding additional property sellerpanel for preselected extension
+                 * adding _id property so we can show it in case extension isn't available in upcoming time
+                 */
                 this.extensionsData[extension.id] = {
                     sellerPanel: extension.sellerPanel,
+                    _id: extension.id,
                 };
             });
         },
@@ -295,7 +302,6 @@ export default {
                     sellerPanel: extension.sellerPanel || false,
                 };
             });
-            //return this.selectedExtensionList.map(extension => extension._id);
         },
         isSellerPanelDisabledExtension(extension) {
             try {

@@ -171,14 +171,14 @@ const PLATFORM_CONFIGURATION_MENUS = [
         active: false,
         desc: 'Configure Product Details'
     },
-    // {
-    //     title: 'Marketplace Config',
-    //     link: 'platform/marketplace/list',
-    //     icon: 'settings',
-    //     permissions: [],
-    //     active: false,
-    //     desc: 'Configure MarketPlaces'
-    // },
+    {
+        title: 'Marketplace Config',
+        link: 'platform/marketplace/list',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Configure MarketPlaces'
+    },
     
     {
         title: 'Locations',

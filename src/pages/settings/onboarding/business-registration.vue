@@ -356,7 +356,7 @@ export default {
                         return getToggleComponent(
                             optInApplication.id,
                             optInApplication.name,
-                            safeAccess(apiConfig,`optin_application.applications.${optInApplication.id}`),
+                            safeAccess(apiConfig,`optin_application.applications.${optInApplication.id}`) || false,
                             undefined,
                             { logo: optInApplication.logo }
                         );
