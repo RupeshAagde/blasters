@@ -79,7 +79,7 @@ import ComponentFactory from './components/component-factory.vue';
 import CatalogService from '../../../services/catalog.service';
 import safeAccess from 'safe-access';
 
-const PRODUCT_TEMPLATE_TYPE = 'product_template_types';
+// const PRODUCT_TEMPLATE_TYPE = 'product_template_types';
 export default {
     name: 'product-config',
     components: {
@@ -102,7 +102,7 @@ export default {
             pageTitle: 'Product',
             lineItems: [],
             serverConfigIdentifier: 'product',
-            templateTypes: [],
+            // templateTypes: [],
         };
     },
     methods: {
@@ -110,16 +110,17 @@ export default {
             this.pageLoading = true;
             this.pageError = false;
             // fetch choices data and product data
-            Promise.all([this.fetchData(), this.fetchChoices()]).then((data) => {
+            // Promise.all([this.fetchData(), this.fetchChoices()]).then((data) => {
+            Promise.all([this.fetchData()]).then((data) => {
                 let storedConfig = data[0];
-                let templateTypeChoices = data[1] || [];
-                this.templateTypes = templateTypeChoices || [];
+                // let templateTypeChoices = data[1] || [];
+                // this.templateTypes = templateTypeChoices || [];
                 this.lineItems = [
                     this.getProductUpdateComponent(storedConfig),
                     this.getNationalPricingComponent(storedConfig),
                     this.getReturnConfigurationOnProduct(storedConfig),
                     this.getAutoVerifyComponent(storedConfig),
-                    this.getProductTemplateComponent(storedConfig),
+                    // this.getProductTemplateComponent(storedConfig),
                 ];
                 this.pageLoading = false;
             }).catch((error) => {
@@ -127,21 +128,21 @@ export default {
                 this.pageError = true
             });
         },
-        fetchChoices() {
-            let params = {
-                choice_type: PRODUCT_TEMPLATE_TYPE
-            }
-            return new Promise((resolve, reject) => {
-                CatalogService.fetchChoices(params)
-                    .then((res) => {
-                        return resolve(res.data.items);
-                    })
-                    .catch((err) => {
-                        this.$snackbar.global.showError('Failed to Load Product Template Types',{duration: 2000});
-                        return reject(err);                      
-                    })
-            })
-        },
+        // fetchChoices() {
+        //     let params = {
+        //         choice_type: PRODUCT_TEMPLATE_TYPE
+        //     }
+        //     return new Promise((resolve, reject) => {
+        //         CatalogService.fetchChoices(params)
+        //             .then((res) => {
+        //                 return resolve(res.data.items);
+        //             })
+        //             .catch((err) => {
+        //                 this.$snackbar.global.showError('Failed to Load Product Template Types',{duration: 2000});
+        //                 return reject(err);                      
+        //             })
+        //     })
+        // },
         fetchData() {
             return new Promise((resolve, reject) => {
                 InternalSettings.getAdminConfig(this.serverConfigIdentifier)
@@ -175,7 +176,7 @@ export default {
                     return_config: {
                         enabled: safeAccess(formData, 'return_config.enabled') || false,
                     },
-                    product_template_type: safeAccess(formData, 'product_template.product_template_type')
+                    // product_template_type: safeAccess(formData, 'product_template.product_template_type')
                 },
             };
             InternalSettings.saveAdminConfig(this.serverConfigIdentifier, updateData)
@@ -239,21 +240,21 @@ export default {
                 ]
             );
         },
-        getProductTemplateComponent(apiConfig) {
-            return getGroupComponent(
-                'product_template',
-                'Product Template Type',
-                [
-                    getDropDownComponent(
-                        'product_template_type',
-                        'Select Product Template',
-                        safeAccess(apiConfig, 'product_template_type'),
-                        undefined,
-                        this.templateTypes
-                    )
-                ]
-            )
-        }
+        // getProductTemplateComponent(apiConfig) {
+        //     return getGroupComponent(
+        //         'product_template',
+        //         'Product Template Type',
+        //         [
+        //             getDropDownComponent(
+        //                 'product_template_type',
+        //                 'Select Product Template',
+        //                 safeAccess(apiConfig, 'product_template_type'),
+        //                 undefined,
+        //                 this.templateTypes
+        //             )
+        //         ]
+        //     )
+        // }
     },
 };
 </script>

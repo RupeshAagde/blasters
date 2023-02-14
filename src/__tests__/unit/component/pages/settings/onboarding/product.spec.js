@@ -34,7 +34,7 @@ describe('Mounted Product Component', () => {
             200,
             MOCK_DATA
         );
-        mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'product_template_types' } }).reply(200, {data: {items: []}});
+        // mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'product_template_types' } }).reply(200, {data: {items: []}});
         wrapper = mount(Product, {
             localVue,
             router
@@ -45,7 +45,7 @@ describe('Mounted Product Component', () => {
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
-        expect(wrapper.vm.lineItems.length).toBe(5);
+        expect(wrapper.vm.lineItems.length).toBe(4);
         mock.reset();
 	});
 
@@ -67,7 +67,7 @@ describe('Mounted Product Component', () => {
             MOCK_DATA
         );
         mock.onPatch(URLS.ADMIN_PANEL_CONFIG('product'), MOCK_DATA).reply(200);
-        mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'product_template_types' } }).reply(200, {data: {items: []}});
+        // mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: 'product_template_types' } }).reply(200, {data: {items: []}});
         wrapper = mount(Product, {
             localVue,
             router
@@ -78,7 +78,7 @@ describe('Mounted Product Component', () => {
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
-        expect(wrapper.vm.lineItems.length).toBe(5);
+        expect(wrapper.vm.lineItems.length).toBe(4);
         
         const postBtn = wrapper.find('#save');
         expect(postBtn.exists()).toBe(true)
