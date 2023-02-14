@@ -34,7 +34,7 @@
                             {{ extension.name }}
                         </div>
                         <div v-else>
-                            {{ `unknown extension, extension id: ${extension.id}` }}
+                            {{ `unknown extension, extension id: ${extension._id}` }}
                         </div>
                     </div>
 
