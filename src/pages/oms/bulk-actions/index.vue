@@ -256,7 +256,10 @@ export default {
          * @param {object} data The data emitted from the bulk-list component which has the selected card
          */
         onCardClick(data) {
-            OrderService.fetchBulkListDetailedData(data)
+            let params = {
+                batch_id: data
+            }
+            OrderService.fetchBulkListDetailedData(params)
                 .then(({ data }) => {
                     this.selectedDataDetails = data;
                     this.displayDetails = true;
