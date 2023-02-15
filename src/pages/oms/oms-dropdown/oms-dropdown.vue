@@ -164,7 +164,7 @@ export default {
                 return item.value == 'reassign_store'
                 }), 1)
             }
-            if(this.activeShipment.status.status !== 'delivery_done'){
+            if( !['delivery_done', 'return_request_cancelled'].includes(this.activeShipment.status.status)){
                 this.items.splice(this.items.findIndex((item)=>{
                 return item.value == 'change_address'
                 }), 1)
