@@ -127,6 +127,7 @@ import InternalMarketplaceAdminService from '@/services/internal-marketplaces.se
 
 import safeAccess from 'safe-access';
 import slugify from 'slugify';
+import isEmpty from 'lodash/isEmpty'
 export default {
     name: 'update-marketplace',
     components: {
@@ -401,7 +402,7 @@ export default {
             let isValid = true;
             this.$set(this.errors, prop, '');
 
-            if (!this.item[prop] || _.isEmpty(this.item[prop])) {
+            if (!this.item[prop] || isEmpty(this.item[prop])) {
                 isValid = false;
                 this.errors[prop] = `required`;
             }
