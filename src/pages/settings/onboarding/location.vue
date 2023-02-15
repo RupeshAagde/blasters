@@ -67,9 +67,10 @@
                                             placeholder="Enter Program Name"
                                             :required="true"
                                             :disabled="type.disabled"
+                                            @input="clearError(type, 'nameErr')"
                                         />
-                                        <nitrozen-error v-if="errors.name">
-                                            {{ errors.name }}
+                                        <nitrozen-error v-if="type.nameErr">
+                                            {{ type.nameErr }}
                                         </nitrozen-error>
                                     </div>
                                 </div>
@@ -84,7 +85,11 @@
                                             :showTooltip="true"
                                             tooltipText="Display name in seller panel"
                                             :disabled="type.disabled"
+                                            @input="clearError(type, 'codeErr')"
                                         />
+                                        <nitrozen-error v-if="type.codeErr">
+                                            {{ type.codeErr }}
+                                        </nitrozen-error>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +113,7 @@
     </div>
 </template>
 <script>
-import { NitrozenButton, flatBtn, NitrozenInput } from '@gofynd/nitrozen-vue';
+import { NitrozenButton, flatBtn, NitrozenInput, NitrozenError } from '@gofynd/nitrozen-vue';
 import PageHeader from '@/components/common/layout/page-header';
 import PageError from '@/components/common/page-error';
 import Loader from '@/components/common/loader';
@@ -130,6 +135,7 @@ export default {
         ComponentFactory,
         'nitrozen-checkbox': NitrozenCheckBox,
         NitrozenInput,
+        NitrozenError,
         InlineSvg
     },
     directives: {
@@ -205,13 +211,45 @@ export default {
         removeProgram(index) {
             this.programTypes.splice(index, 1);
         },
+        clearError(location, key){
+            if (location[key]){
+                delete location[key]
+            }
+        },
+        validateProgramType(programTypes) {
+            const nameRegex = /^[A-Za-z0-9 _-]*$/;
+            const codeRegex = /^[A-Za-z0-9]*$/;
+            let isValid = true;
+            programTypes.forEach((location) => {
+                if (location.name && location.name.trim()) {
+                    if (!nameRegex.test(location.name.trim())) {
+                        isValid = false;
+                        this.$set(location,'nameErr', 'field validation failed')
+                    }
+                } else {
+                    isValid = false;
+                    this.$set(location,'nameErr', 'program name is required')
+                }
+
+                if (location.short_code && location.short_code.trim()) {
+                    if (!codeRegex.test(location.short_code.trim())) {
+                        isValid = false;
+                        this.$set(location,'codeErr', 'field validation failed')
+                    }
+                } else {isValid = false; this.$set(location,'codeErr', 'program short code is required')}
+            });
+
+            return isValid;
+        },
         saveForm() {
+            let isValid = this.validateProgramType(this.programTypes);
+            if (!isValid) return;
             const updateData = {
                 configuration: {
                     program_types: this.programTypes.map((type) => {
                         return {
-                            name: type.name,
-                            short_code: type.short_code,
+                            name: type.name.trim(),
+                            short_code: type.short_code.trim(),
                             auto_verify: type.auto_verify
                         };
                     })
