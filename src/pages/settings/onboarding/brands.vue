@@ -163,7 +163,7 @@ export default {
                         documents:{
                             authorization_letter: safeAccess(formData, 'brand_documents.documents.authorization_letter'),
                             trademark_certificate: safeAccess(formData, 'brand_documents.documents.trademark_certificate'),
-                            trademark_counter_application: safeAccess(formData, 'brand_documents.documents.trademark_counter_application'),
+                            trademark_certificate_application: safeAccess(formData, 'brand_documents.documents.trademark_certificate_application'),
                             other: safeAccess(formData, 'brand_documents.documents.other')
                         }
                     },
@@ -229,9 +229,9 @@ export default {
                              safeAccess(apiConfig,'documents.documents.trademark_certificate')
                         ),
                         getCheckboxComponent(
-                            'trademark_counter_application',
-                            'Trademark Counter Application',
-                             safeAccess(apiConfig,'documents.documents.trademark_counter_application')
+                            'trademark_certificate_application',
+                            'Trademark Certificate Application',
+                             safeAccess(apiConfig,'documents.documents.trademark_certificate_application')
                         ),
                         getCheckboxComponent('other', 'Other', safeAccess(apiConfig,'documents.documents.other')),
                     ]),

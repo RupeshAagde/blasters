@@ -22,7 +22,7 @@
             "mandatory": true,
             "documents": {
                 "other": true,
-                "trademark_counter_application": true,
+                "trademark_certificate_application": true,
                 "trademark_certificate": true,
                 "authorization_letter": true
             },
