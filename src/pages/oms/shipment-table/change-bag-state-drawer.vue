@@ -17,10 +17,11 @@
                 />
                 <nitrozen-dropdown
                     label="Reason"
+                    :searchable="true"
                     @change="onReasonChange"
                     :items="reasons"
                     v-model="selectedReason"
-                    v-if="showReasons && reasons.length"
+                    v-if="showReasons"
                 />
             </div>
 
