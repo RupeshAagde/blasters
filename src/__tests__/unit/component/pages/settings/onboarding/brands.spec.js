@@ -7,7 +7,6 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
 import MOCK_DATA from '../fixtures/onboarding/brand.json';
-import AdminRoutes from '@/router/administrator/index.js';
 import URLS from "../../../../../../services/domain.service"
 import { Promise } from 'window-or-global';
 
@@ -20,35 +19,36 @@ describe('Mounted Brands Component', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({routes : [
-            {
-            path: '/administrator/settings/brand',
-            component: Brands
-            }
-        ]
+        router = new VueRouter({
+            routes: [
+                {
+                    path: '/administrator/settings/brand',
+                    component: Brands
+                }
+            ]
         });
         router.push('/administrator/settings/brand');
     });
-	
-	it('Get Brand Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(
+
+    it('Get Brand Success', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(
             200,
             MOCK_DATA
         );
         wrapper = mount(Brands, {
             localVue,
             router
-		});
-		await flushPromises();
+        });
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.lineItems.length).toBe(5);
         mock.reset();
-	});
+    });
 
-	it('Get Brand Error', async () => {
-        mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(500, {message: "Error"});
+    it('Get Brand Error', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(500, { message: "Error" });
         wrapper = mount(Brands, {
             localVue,
             router,
@@ -56,10 +56,10 @@ describe('Mounted Brands Component', () => {
         await flushPromises();
         expect(wrapper.vm.pageError).toBe(true);
         mock.reset();
-	});
+    });
 
     it('Submit Brand Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(
             200,
             MOCK_DATA
         );
@@ -68,10 +68,10 @@ describe('Mounted Brands Component', () => {
         wrapper = mount(Brands, {
             localVue,
             router
-		});
-        console.log("=route==>",wrapper.vm.$route)
+        });
+        console.log("=route==>", wrapper.vm.$route)
         await new Promise(resolve => setTimeout(resolve, 10));
-		await flushPromises();
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -81,5 +81,5 @@ describe('Mounted Brands Component', () => {
         expect(postBtn.exists()).toBe(true)
         postBtn.trigger('click')
         mock.reset();
-	});
+    });
 });

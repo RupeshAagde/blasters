@@ -9,7 +9,6 @@ import flushPromises from 'flush-promises';
 import MOCK_DATA from '../fixtures/onboarding/product.json';
 import URLS from "../../../../../../services/domain.service"
 import { Promise } from 'window-or-global';
-import mocks from "../../catalogue/mocks";
 
 let localVue, wrapper, router;
 const mock = new MockAdapter(axios);
@@ -19,18 +18,19 @@ describe('Mounted Product Component', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({routes : [
-            {
-            path: '/administrator/settings/product',
-            component: Product
-            }
-        ]
+        router = new VueRouter({
+            routes: [
+                {
+                    path: '/administrator/settings/product',
+                    component: Product
+                }
+            ]
         });
         router.push('/administrator/settings/product');
     });
-	
-	it('Get Product Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(
+
+    it('Get Product Success', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(
             200,
             MOCK_DATA
         );
@@ -38,19 +38,19 @@ describe('Mounted Product Component', () => {
         wrapper = mount(Product, {
             localVue,
             router
-		});
-        console.log("=route==>",wrapper.vm.$route)
+        });
+        console.log("=route==>", wrapper.vm.$route)
         await new Promise(resolve => setTimeout(resolve, 10));
-		await flushPromises();
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.lineItems.length).toBe(4);
         mock.reset();
-	});
+    });
 
     it('Get Product Error', async () => {
-        mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(500, {message: "Error"});
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(500, { message: "Error" });
         wrapper = mount(Product, {
             localVue,
             router,
@@ -58,11 +58,11 @@ describe('Mounted Product Component', () => {
         await flushPromises();
         expect(wrapper.vm.pageError).toBe(true);
         mock.reset();
-	});
+    });
 
 
     it('Update Product Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('product')).reply(
             200,
             MOCK_DATA
         );
@@ -71,18 +71,18 @@ describe('Mounted Product Component', () => {
         wrapper = mount(Product, {
             localVue,
             router
-		});
-        console.log("=route==>",wrapper.vm.$route)
+        });
+        console.log("=route==>", wrapper.vm.$route)
         await new Promise(resolve => setTimeout(resolve, 10));
-		await flushPromises();
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.lineItems.length).toBe(4);
-        
+
         const postBtn = wrapper.find('#save');
         expect(postBtn.exists()).toBe(true)
         postBtn.trigger('click')
         mock.reset();
-	});
+    });
 });

@@ -1,1 +1,21 @@
-{"description":"This is Fynd Marketplace","validation":{"location":{"documents":{"cin":true,"gst":true,"pan":true},"stage":"verified"},"brand":{"assets":true,"stage":"verified"}},"slug":"fynd","name":"Fynd","logo":"","app_id":"000000000000000000000001"}
+{
+    "description": "This is Fynd Marketplace",
+    "validation": {
+        "location": {
+            "documents": {
+                "cin": true,
+                "gst": true,
+                "pan": true
+            },
+            "stage": "verified"
+        },
+        "brand": {
+            "assets": true,
+            "stage": "verified"
+        }
+    },
+    "slug": "fynd",
+    "name": "Fynd",
+    "logo": "",
+    "app_id": "000000000000000000000001"
+}

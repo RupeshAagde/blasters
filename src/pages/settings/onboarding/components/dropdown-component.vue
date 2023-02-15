@@ -3,15 +3,52 @@
     <div class="margin inline" v-else>
         <div class="choice-dropdown">
             <nitrozen-dropdown
+                v-model="lineItem.data.currentValue"
                 :label="this.lineItem.text"
                 :items="this.choicesList"
-                v-model="lineItem.data.currentValue"
                 :placeholder="this.lineItem.text"
                 :disabled="!parentState"
-            ></nitrozen-dropdown>
+            />
         </div>
     </div>
 </template>
+
+<script>
+import { NitrozenDropdown } from '@gofynd/nitrozen-vue';
+
+export default {
+    name: 'dropdown-component',
+    components: {
+        NitrozenDropdown
+    },
+    props: ['lineItem', 'parentState'],
+
+    data() {
+        return {
+            pageLoading: false,
+            choicesList: []
+        };
+    },
+    mounted() {
+        this.choicesList = this.getDropDownChoiceList(
+            this.lineItem.additionalParams
+        );
+    },
+    methods: {
+        saveForm() {
+            return this.lineItem.data.currentValue;
+        },
+        getDropDownChoiceList(items) {
+            return items.map((item) => {
+                return {
+                    text: item.value,
+                    value: item.key
+                };
+            });
+        }
+    }
+};
+</script>
 
 <style lang="less" scoped>
 @import '../../../../pages/less/page-header.less';
@@ -29,41 +66,6 @@
     width: 400px;
 }
 ::v-deep .nitrozen-dropdown-label {
-   color: @Black;
+    color: @Black;
 }
-
 </style>
-
-<script>
-import { NitrozenDropdown } from '@gofynd/nitrozen-vue';
-
-export default {
-    name: 'dropdown-component',
-    props: ['lineItem','parentState'],
-    components: {
-        NitrozenDropdown,
-    },
-    mounted() {
-        this.choicesList = this.getDropDownChoiceList(this.lineItem.additionalParams);
-    },
-    data() {
-        return {
-            pageLoading: false,
-            choicesList: [],
-        };
-    },
-    methods: {
-        saveForm() {
-            return this.lineItem.data.currentValue;
-        },
-        getDropDownChoiceList(items) {
-            return items.map((item) => {
-                return {
-                    text: item.value,
-                    value: item.key,
-                };
-            });
-        }
-    },
-};
-</script>

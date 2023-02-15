@@ -1,6 +1,10 @@
 <template>
     <div class="document-section">
-        <div class="inline apart document-list" v-for="(item, index) in lineItem.data.lineItems" :key="index">
+        <div
+            class="inline apart document-list"
+            v-for="(item, index) in lineItem.data.lineItems"
+            :key="index"
+        >
             <div class="inline">
                 <div class="vertical">
                     <div class="cl-Mako dark-xs mr-xs">
@@ -18,21 +22,35 @@
                 <nitrozen-badge v-if="parentState" state="info" class="badge">
                     Configure
                 </nitrozen-badge>
-                <nitrozen-slide-dialog ref="dialog" :title="item.text" @close="close(item, $event)" :id="item.id">
+                <nitrozen-slide-dialog
+                    ref="dialog"
+                    :title="item.text"
+                    @close="close(item, $event)"
+                    :id="item.id"
+                >
                     <template slot="header">
                         <div class="inline apart header">
                             <div class="inline listed">
                                 <div>{{ item.text }}</div>
                                 <div class="cl-Mako dark-xs mr-xs">
-                                    Select the required documents to collect from the seller
+                                    Select the required documents to collect
+                                    from the seller
                                 </div>
                             </div>
                         </div>
                     </template>
                     <div slot="body" class="dialog-body">
-                        <div v-for="nestedItem in item.data.lineItems" :key="nestedItem.id" class="border">
-                            <component-factory :lineItem="nestedItem" ref="getData" :parentState="parentState"
-                                textClass="group-header"></component-factory>
+                        <div
+                            v-for="nestedItem in item.data.lineItems"
+                            :key="nestedItem.id"
+                            class="border"
+                        >
+                            <component-factory
+                                :lineItem="nestedItem"
+                                ref="getData"
+                                :parentState="parentState"
+                                textClass="group-header"
+                            ></component-factory>
                         </div>
                     </div>
                 </nitrozen-slide-dialog>
@@ -41,6 +59,83 @@
     </div>
 </template>
 
+<script>
+import { NitrozenBadge } from '@gofynd/nitrozen-vue';
+import Slider from '@/components/common/slider-dialog.vue';
+
+export default {
+    name: 'documents',
+    components: {
+        ComponentFactory: () => import('./component-factory.vue'),
+        'nitrozen-badge': NitrozenBadge,
+        'nitrozen-slide-dialog': Slider
+    },
+    props: ['lineItem', 'parentState'],
+    computed: {
+        selectedDocuments() {
+            let data = {};
+            this.lineItem.data.lineItems.map((item) => {
+                let selectedDocuments = [];
+                item.data.lineItems.map((subItem) => {
+                    if (subItem.data.currentValue) {
+                        selectedDocuments.push(subItem.text);
+                    }
+                });
+                data[item.id] = selectedDocuments;
+            });
+            return data;
+        }
+    },
+    watch: {
+        parentState: function(newVal) {
+            if (!newVal) {
+                this.lineItem.data.lineItems.map((item) => {
+                    item.data.currentValue = newVal;
+                });
+            } else {
+                this.lineItem.data.lineItems.map((item) => {
+                    item.data.currentValue = item.data.isSelected;
+                });
+            }
+        }
+    },
+    methods: {
+        openDialog(id) {
+            this.$refs.dialog[id].open({
+                width: '505px',
+                showCloseButton: true,
+                dismissible: true,
+                positiveButtonLabel: 'Save',
+                negativeButtonLabel: 'Cancel',
+                neutralButtonLabel: false
+            });
+        },
+        close(item, event) {
+            if (event == 'Cancel' || event == 'close') {
+                if (item.data.lineItems) {
+                    item.data.lineItems.map((lineItem) => {
+                        lineItem.data.currentValue = lineItem.data.isSelected;
+                    });
+                }
+            }
+        },
+        saveForm() {
+            let data = {};
+            let counter = 0;
+            this.lineItem.data.lineItems.map((businessType) => {
+                data[businessType.id] = {};
+                businessType.data.lineItems.map((documentType) => {
+                    data[businessType.id][documentType.id] = this.$refs.getData[
+                        counter
+                    ].saveForm();
+                    counter++;
+                });
+            });
+            return data;
+        }
+    }
+};
+</script>
 <style lang="less" scoped>
 @import '../../../../pages/less/page-header.less';
 @import '../../../../pages/less/page-ui.less';
@@ -97,94 +192,3 @@
     text-transform: capitalize;
 }
 </style>
-
-
-<script>
-import {
-    NitrozenCheckBox,
-    NitrozenButton,
-    NitrozenDialog,
-    NitrozenInline,
-    NitrozenBadge,
-} from '@gofynd/nitrozen-vue';
-import inlinesvg from '@/components/common/inline-svg';
-import Slider from '@/components/common/slider-dialog.vue'
-
-
-export default {
-    name: 'documents',
-    components: {
-        ComponentFactory: () => import('./component-factory.vue'),
-        'nitrozen-checkbox': NitrozenCheckBox,
-        'nitrozen-button': NitrozenButton,
-        'nitrozen-dialog': NitrozenDialog,
-        'nitrozen-inline': NitrozenInline,
-        'nitrozen-badge': NitrozenBadge,
-        'inline-svg': inlinesvg,
-        'nitrozen-slide-dialog': Slider,
-    },
-    props: ['lineItem', 'parentState'],
-    watch: {
-        parentState: function (newVal, oldVal) {
-            if (!newVal) {
-                this.lineItem.data.lineItems.map((item) => {
-                    item.data.currentValue = newVal;
-                });
-            } else {
-                this.lineItem.data.lineItems.map((item) => {
-                    item.data.currentValue = item.data.isSelected;
-                });
-            }
-        },
-    },
-    methods: {
-        openDialog(id) {
-            this.$refs.dialog[id].open({
-                width: '505px',
-                showCloseButton: true,
-                dismissible: true,
-                positiveButtonLabel: 'Save',
-                negativeButtonLabel: 'Cancel',
-                neutralButtonLabel: false,
-            });
-        },
-        close(item, event) {
-            if (event == 'Cancel' || event == 'close') {
-                if (item.data.lineItems) {
-                    item.data.lineItems.map((lineItem) => {
-                        lineItem.data.currentValue = lineItem.data.isSelected;
-                    });
-                }
-            }
-        },
-        saveForm() {
-            let data = {};
-            let counter = 0;
-            this.lineItem.data.lineItems.map((businessType) => {
-                data[businessType.id] = {};
-                businessType.data.lineItems.map((documentType) => {
-                    data[businessType.id][documentType.id] =
-                        this.$refs.getData[counter].saveForm();
-                    counter++;
-                });
-            });
-            return data;
-        },
-    },
-    computed: {
-        selectedDocuments() {
-            let data = {};
-            this.lineItem.data.lineItems.map((item) => {
-                let selectedDocuments = [];
-                item.data.lineItems.map((subItem) => {
-                    if (subItem.data.currentValue) {
-                        selectedDocuments.push(subItem.text);
-                    }
-                });
-                data[item.id] = selectedDocuments;
-            });
-            return data;
-        },
-    },
-};
-</script>

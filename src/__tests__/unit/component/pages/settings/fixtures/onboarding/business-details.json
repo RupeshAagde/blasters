@@ -1,5 +1,440 @@
 {
-    "business_details":{"configuration_type":"business-details","configuration":{"company_type":{"enabled":true,"types":{"distributor":true,"franchise":false,"mbo":true,"manufacturer-owner":true}},"annual_turnover":{"mandatory":true,"enabled":true},"website_url":{"mandatory":false,"enabled":false},"about_business":{"mandatory":true,"enabled":true},"legal_documents":{"enabled":true,"private":[{"key":"gst","enabled":true,"required":["url","value"]},{"key":"pan","enabled":true,"required":[]},{"key":"digital-signature","enabled":true,"required":[]},{"key":"moa","enabled":false,"required":[]},{"key":"cin","enabled":false,"required":[]},{"key":"authorisation-letter","enabled":false,"required":[]}],"LLP/Partnership":[{"key":"gst","enabled":true,"required":[]},{"key":"pan","enabled":true,"required":[]},{"key":"digital-signature","enabled":true,"required":[]},{"key":"partnership-deed","enabled":true,"required":[]}],"HUF/Proprietorship":[{"key":"gst","enabled":true,"required":["value"]},{"key":"pan","enabled":true,"required":["value"]},{"key":"digital-signature","enabled":true,"required":[]}]},"composite_taxation":{"enabled":false}}},
-    "company_type":{"items":[{"key":"distributor","value":"Distributor"},{"key":"franchise","value":"Franchise"},{"key":"mbo","value":"MBO"},{"key":"manufacturer-owner","value":"Owner/Manufacturer"}],"type":"company_type"},
-    "business_type":{"items":[{"key":"Private","value":"Private","documents":[{"key":"gst","value":"GST","required":true,"schema":{"title":"GST","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"}},"required":["url","value"]}},{"key":"pan","value":"PAN","required":true,"schema":{"title":"PAN","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"},"legal_name":{"title":"Legal Name","type":"string"}},"required":["url","value","legal_name"]}},{"key":"digital-signature","value":"Digital Signature","required":true,"schema":{"title":"Signature","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}},{"key":"moa","value":"MOA","required":false,"schema":{"title":"MOA","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}},{"key":"cin","value":"CIN","required":false,"schema":{"title":"CIN","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"}},"required":["url","value"]}},{"key":"authorization-letter","value":"Authorisation Letter","required":false,"schema":{"title":"AuthorizationLetter","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}}]},{"key":"LLP-Partnership","value":"LLP/Partnership","documents":[{"key":"gst","value":"GST","required":true,"schema":{"title":"GST","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"}},"required":["url","value"]}},{"key":"pan","value":"PAN","required":true,"schema":{"title":"PAN","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"},"legal_name":{"title":"Legal Name","type":"string"}},"required":["url","value","legal_name"]}},{"key":"digital-signature","value":"Digital Signature","required":true,"schema":{"title":"Signature","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}},{"key":"partnership-deed","value":"Partnership Deed","required":true,"schema":{"title":"PartnershipDeed","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}}]},{"key":"HUF-Proprietorship","value":"HUF/Proprietorship","documents":[{"key":"gst","value":"GST","required":true,"schema":{"title":"GST","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"}},"required":["url","value"]}},{"key":"pan","value":"PAN","required":true,"schema":{"title":"PAN","type":"object","properties":{"url":{"title":"Url","type":"string"},"value":{"title":"Value","type":"string"},"legal_name":{"title":"Legal Name","type":"string"}},"required":["url","value","legal_name"]}},{"key":"digital-signature","value":"Digital Signature","required":true,"schema":{"title":"Signature","type":"object","properties":{"url":{"title":"Url","type":"string"}},"required":["url"]}}]}],"type":"business_type"}
+    "business_details": {
+        "configuration_type": "business-details",
+        "configuration": {
+            "company_type": {
+                "enabled": true,
+                "types": {
+                    "distributor": true,
+                    "franchise": false,
+                    "mbo": true,
+                    "manufacturer-owner": true
+                }
+            },
+            "annual_turnover": {
+                "mandatory": true,
+                "enabled": true
+            },
+            "website_url": {
+                "mandatory": false,
+                "enabled": false
+            },
+            "about_business": {
+                "mandatory": true,
+                "enabled": true
+            },
+            "legal_documents": {
+                "enabled": true,
+                "private": [
+                    {
+                        "key": "gst",
+                        "enabled": true,
+                        "required": [
+                            "url",
+                            "value"
+                        ]
+                    },
+                    {
+                        "key": "pan",
+                        "enabled": true,
+                        "required": []
+                    },
+                    {
+                        "key": "digital-signature",
+                        "enabled": true,
+                        "required": []
+                    },
+                    {
+                        "key": "moa",
+                        "enabled": false,
+                        "required": []
+                    },
+                    {
+                        "key": "cin",
+                        "enabled": false,
+                        "required": []
+                    },
+                    {
+                        "key": "authorisation-letter",
+                        "enabled": false,
+                        "required": []
+                    }
+                ],
+                "LLP/Partnership": [
+                    {
+                        "key": "gst",
+                        "enabled": true,
+                        "required": []
+                    },
+                    {
+                        "key": "pan",
+                        "enabled": true,
+                        "required": []
+                    },
+                    {
+                        "key": "digital-signature",
+                        "enabled": true,
+                        "required": []
+                    },
+                    {
+                        "key": "partnership-deed",
+                        "enabled": true,
+                        "required": []
+                    }
+                ],
+                "HUF/Proprietorship": [
+                    {
+                        "key": "gst",
+                        "enabled": true,
+                        "required": [
+                            "value"
+                        ]
+                    },
+                    {
+                        "key": "pan",
+                        "enabled": true,
+                        "required": [
+                            "value"
+                        ]
+                    },
+                    {
+                        "key": "digital-signature",
+                        "enabled": true,
+                        "required": []
+                    }
+                ]
+            },
+            "composite_taxation": {
+                "enabled": false
+            }
+        }
+    },
+    "company_type": {
+        "items": [
+            {
+                "key": "distributor",
+                "value": "Distributor"
+            },
+            {
+                "key": "franchise",
+                "value": "Franchise"
+            },
+            {
+                "key": "mbo",
+                "value": "MBO"
+            },
+            {
+                "key": "manufacturer-owner",
+                "value": "Owner/Manufacturer"
+            }
+        ],
+        "type": "company_type"
+    },
+    "business_type": {
+        "items": [
+            {
+                "key": "Private",
+                "value": "Private",
+                "documents": [
+                    {
+                        "key": "gst",
+                        "value": "GST",
+                        "required": true,
+                        "schema": {
+                            "title": "GST",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "pan",
+                        "value": "PAN",
+                        "required": true,
+                        "schema": {
+                            "title": "PAN",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                },
+                                "legal_name": {
+                                    "title": "Legal Name",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value",
+                                "legal_name"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "digital-signature",
+                        "value": "Digital Signature",
+                        "required": true,
+                        "schema": {
+                            "title": "Signature",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "moa",
+                        "value": "MOA",
+                        "required": false,
+                        "schema": {
+                            "title": "MOA",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "cin",
+                        "value": "CIN",
+                        "required": false,
+                        "schema": {
+                            "title": "CIN",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "authorization-letter",
+                        "value": "Authorisation Letter",
+                        "required": false,
+                        "schema": {
+                            "title": "AuthorizationLetter",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "LLP-Partnership",
+                "value": "LLP/Partnership",
+                "documents": [
+                    {
+                        "key": "gst",
+                        "value": "GST",
+                        "required": true,
+                        "schema": {
+                            "title": "GST",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "pan",
+                        "value": "PAN",
+                        "required": true,
+                        "schema": {
+                            "title": "PAN",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                },
+                                "legal_name": {
+                                    "title": "Legal Name",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value",
+                                "legal_name"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "digital-signature",
+                        "value": "Digital Signature",
+                        "required": true,
+                        "schema": {
+                            "title": "Signature",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "partnership-deed",
+                        "value": "Partnership Deed",
+                        "required": true,
+                        "schema": {
+                            "title": "PartnershipDeed",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "HUF-Proprietorship",
+                "value": "HUF/Proprietorship",
+                "documents": [
+                    {
+                        "key": "gst",
+                        "value": "GST",
+                        "required": true,
+                        "schema": {
+                            "title": "GST",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "pan",
+                        "value": "PAN",
+                        "required": true,
+                        "schema": {
+                            "title": "PAN",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "title": "Value",
+                                    "type": "string"
+                                },
+                                "legal_name": {
+                                    "title": "Legal Name",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url",
+                                "value",
+                                "legal_name"
+                            ]
+                        }
+                    },
+                    {
+                        "key": "digital-signature",
+                        "value": "Digital Signature",
+                        "required": true,
+                        "schema": {
+                            "title": "Signature",
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "title": "Url",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "type": "business_type"
+    }
 }

@@ -8,7 +8,6 @@ import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
 import MOCK_DATA from '../fixtures/onboarding/list-marketplaces.json';
 import URLS from "../../../../../../services/domain.service"
-import { Promise } from 'window-or-global';
 
 
 let localVue, wrapper, router;
@@ -19,26 +18,27 @@ describe('Mounted ListMarketplace Component', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({routes : [
-            {
-            path: '/administrator/settings/marketplace/list',
-            component: ListMarketplace
-            }
-        ]
+        router = new VueRouter({
+            routes: [
+                {
+                    path: '/administrator/settings/marketplace/list',
+                    component: ListMarketplace
+                }
+            ]
         });
         router.push('/administrator/settings/marketplace/list');
     });
-	
-	it('Get ListMarketplace Success', async () => {
-		mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('')).reply(
+
+    it('Get ListMarketplace Success', async () => {
+        mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('')).reply(
             200,
             MOCK_DATA
         );
         wrapper = mount(ListMarketplace, {
             localVue,
             router
-		});
-		await flushPromises();
+        });
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -46,10 +46,10 @@ describe('Mounted ListMarketplace Component', () => {
         expect(wrapper.vm.pageLoading).toBe(false);
         expect(wrapper.vm.rawMarketplacesList.length).toBe(10);
         mock.reset();
-	});
+    });
 
-	it('Get ListMarketplace Error', async () => {
-        mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('')).reply(500, {message: "Error"});
+    it('Get ListMarketplace Error', async () => {
+        mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('')).reply(500, { message: "Error" });
         wrapper = mount(ListMarketplace, {
             localVue,
             router,
@@ -57,5 +57,5 @@ describe('Mounted ListMarketplace Component', () => {
         await flushPromises();
         expect(wrapper.vm.pageError).toBe(true);
         mock.reset();
-	});
+    });
 });

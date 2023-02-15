@@ -5,7 +5,7 @@
                 <template
                     v-if="
                         lineItem.additionalParams &&
-                        lineItem.additionalParams.logo
+                            lineItem.additionalParams.logo
                     "
                 >
                     <img
@@ -23,9 +23,9 @@
                 :id="lineItem.id"
                 :disabled="
                     !parentState ||
-                    (lineItem.additionalParams
-                        ? lineItem.additionalParams.disabled
-                        : false)
+                        (lineItem.additionalParams
+                            ? lineItem.additionalParams.disabled
+                            : false)
                 "
             >
             </nitrozen-checkbox>
@@ -49,6 +49,47 @@
     </div>
 </template>
 
+<script>
+import { NitrozenCheckBox } from '@gofynd/nitrozen-vue';
+
+export default {
+    name: 'checkbox-component',
+    components: {
+        'nitrozen-checkbox': NitrozenCheckBox,
+        ComponentFactory: () => import('./component-factory.vue')
+    },
+    props: ['lineItem', 'parentState', 'textClass'],
+    watch: {
+        parentState: function(newVal) {
+            if (!newVal) {
+                this.lineItem.data.currentValue = newVal;
+            } else {
+                this.lineItem.data.currentValue = this.lineItem.data.isSelected;
+            }
+        }
+    },
+    methods: {
+        saveForm() {
+            let data = {
+                enabled: this.lineItem.data.currentValue
+            };
+            if (
+                this.lineItem.data.currentValue &&
+                this.lineItem.data.lineItems
+            ) {
+                this.lineItem.data.lineItems.map((item, index) => {
+                    data[item.id] = this.$refs.getData[index].saveForm();
+                });
+            }
+            if (!this.lineItem.data.lineItems) {
+                return this.lineItem.data.currentValue;
+            } else {
+                return data;
+            }
+        }
+    }
+};
+</script>
 <style lang="less" scoped>
 @import '../../../../pages/less/page-header.less';
 @import '../../../../pages/less/page-ui.less';
@@ -120,46 +161,3 @@
     }
 }
 </style>
-
-<script>
-import { NitrozenCheckBox } from '@gofynd/nitrozen-vue';
-
-export default {
-    name: 'checkbox-component',
-    components: {
-        'nitrozen-checkbox': NitrozenCheckBox,
-        ComponentFactory: () => import('./component-factory.vue'),
-    },
-    props: ['lineItem', 'parentState', 'textClass'],
-    watch: {
-        parentState: function (newVal, oldVal) {
-            if (!newVal) {
-                this.lineItem.data.currentValue = newVal;
-            } else {
-                this.lineItem.data.currentValue = this.lineItem.data.isSelected;
-            }
-        },
-    },
-    methods: {
-        saveForm() {
-            let data = {
-                enabled: this.lineItem.data.currentValue,
-            };
-            if (
-                this.lineItem.data.currentValue &&
-                this.lineItem.data.lineItems
-            ) {
-                this.lineItem.data.lineItems.map((item, index) => {
-                    data[item.id] = this.$refs.getData[index].saveForm();
-                });
-            }
-            if (!this.lineItem.data.lineItems) {
-                return this.lineItem.data.currentValue;
-            } else {
-                return data;
-            }
-        },
-    },
-};
-</script>
-

@@ -1,24 +1,50 @@
 <template>
     <div :class="`margin ${textClass}`">
-         <div :class="`text inline apart ${textClass}`">
+        <div :class="`text inline apart ${textClass}`">
             <div class="inline v-center">
-                {{ lineItem.text }} 
+                {{ lineItem.text }}
             </div>
-            <nitrogen-button :theme="'secondary'" class="btn-height" @click="onClickBtn()">
-                {{lineItem.additionalParams.btnLabel}}
+            <nitrogen-button
+                :theme="'secondary'"
+                class="btn-height"
+                @click="onClickBtn()"
+            >
+                {{ lineItem.additionalParams.btnLabel }}
             </nitrogen-button>
-         </div>
+        </div>
         <div class="border-top nested-class">
-            <div v-for="nestedItem in lineItem.data.lineItems" :key="nestedItem.id" class="nested-item">
+            <div
+                v-for="nestedItem in lineItem.data.lineItems"
+                :key="nestedItem.id"
+                class="nested-item"
+            >
                 <component-factory
-                       :lineItem="nestedItem"
-                       :parentState="lineItem.data.currentValue"
-                        ref="getData"
+                    :lineItem="nestedItem"
+                    :parentState="lineItem.data.currentValue"
+                    ref="getData"
                 ></component-factory>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import { NitrozenButton } from '@gofynd/nitrozen-vue';
+
+export default {
+    name: 'button-component',
+    components: {
+        'nitrogen-button': NitrozenButton,
+        ComponentFactory: () => import('./component-factory.vue')
+    },
+    props: ['lineItem', 'textClass', 'parentState'],
+    methods: {
+        onClickBtn() {
+            this.$emit('btnClicked', this.lineItem.id);
+        }
+    }
+};
+</script>
 
 <style lang="less" scoped>
 @import '../../../../pages/less/page-header.less';
@@ -42,7 +68,7 @@
     }
 }
 
-.group-header{
+.group-header {
     font-weight: 600;
     font-size: 14px;
 }
@@ -56,31 +82,9 @@
     &.v-center {
         align-items: center;
     }
-
 }
 .border-top {
     margin-top: 10px;
     border-top: 1px solid @Iron;
 }
 </style>
-
-<script>
-import {
-   NitrozenButton
-} from '@gofynd/nitrozen-vue';
-
-export default {
-    name: 'button-component',
-    props: ['lineItem', 'textClass', 'parentState'],
-    components: {
-        'nitrogen-button': NitrozenButton,
-        ComponentFactory: () => import('./component-factory.vue') 
-    },
-    methods: {
-        onClickBtn() {
-            this.$emit('btnClicked',this.lineItem.id)
-        }
-    },
-};
-</script>
-

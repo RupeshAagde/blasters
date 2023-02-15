@@ -16,45 +16,46 @@ describe('Mounted Location Component', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        router = new VueRouter({routes : [
-            {
-                path: '/administrator/settings/location',
-                component: Location
-            }
-        ]
+        router = new VueRouter({
+            routes: [
+                {
+                    path: '/administrator/settings/location',
+                    component: Location
+                }
+            ]
         });
         router.push('/administrator/settings/location');
     });
-	
-	it('Get Location Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(
+
+    it('Get Location Success', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(
             200,
             MOCK_DATA
         );
         wrapper = mount(Location, {
             localVue,
             router
-		});
-		await flushPromises();
+        });
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.lineItems.length).toBe(1);
-	});
+    });
 
     it('Get Location Error', async () => {
-        mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(500, {message: "Error"});
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(500, { message: "Error" });
         wrapper = mount(Location, {
             localVue,
             router,
         })
         await flushPromises();
         expect(wrapper.vm.pageError).toBe(true);
-	});
+    });
 
 
     it('Update Location Success', async () => {
-		mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(
             200,
             MOCK_DATA
         );
@@ -62,16 +63,15 @@ describe('Mounted Location Component', () => {
         wrapper = mount(Location, {
             localVue,
             router
-		});
-        // await new Promise(resolve => setTimeout(resolve, 10));
-		await flushPromises();
+        });
+        await flushPromises();
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
         expect(wrapper.vm.lineItems.length).toBe(1);
-        
+
         const postBtn = wrapper.find('#save');
         expect(postBtn.exists()).toBe(true)
         postBtn.trigger('click')
-	});
+    });
 });

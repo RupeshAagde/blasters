@@ -415,9 +415,123 @@
             "has_next": true
         }
     },
-    "selected_extensions":{"items":[{" logo":{"small":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png","large":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png"},"callbacks":{"setup":"https://reviews.extensions.jiomarketx0.de/fp/setup","auth":"https://reviews.extensions.jiomarketx0.de/fp/auth","install":"https://reviews.extensions.jiomarketx0.de/fp/install","uninstall":"https://reviews.extensions.jiomarketx0.de/fp/uninstall","auto_install":"https://reviews.extensions.jiomarketx0.de/fp/auto_install"},"description":"Reviews and Ratings extension","whitelisted_urls":[],"ext_version":"1.0.0","extention_type":"public","is_application_level":false,"is_saleschannel":false,"scope":["company/product","company/order","company/application/storage","company/application/settings"],"is_hidden":false,"_id":"62699af29eb4c517776eb2e1","name":"Reviews and Ratings","base_url":"https://reviews.extensions.jiomarketx0.de","developed_by_name":"Kaa","contact_email":"aa@gmail.com","organization_id":"624ebeb93182696b95e6378d","created_at":"2022-04-27T19:35:14.603Z","modified_at":"2022-06-16T15:17:42.303Z","__v":0,"is_coming_soon":false},{"logo":{"small":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png","large":"https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png"},"callbacks":{"setup":"https://algolia.extensions.jiomarketx0.de/fp/setup","auth":"https://algolia.extensions.jiomarketx0.de/fp/auth","install":"https://algolia.extensions.jiomarketx0.de/fp/install","uninstall":"https://algolia.extensions.jiomarketx0.de/fp/uninstall","auto_install":"https://algolia.extensions.jiomarketx0.de/fp/auto_install"},"description":"Power your store with the Algolia search","whitelisted_urls":[],"ext_version":"1.0.0","extention_type":"public","is_application_level":true,"is_saleschannel":false,"scope":["company/product","company/application/catalogue"],"is_hidden":false,"_id":"626a179d9eb4c54d896eb2ea","name":"Algolia","base_url":"https://algolia.extensions.jiomarketx0.de","developed_by_name":"Kaa","contact_email":"sourabhnilakhe@gofynd.com","organization_id":"624ebeb93182696b95e6378d","created_at":"2022-04-28T04:27:09.526Z","modified_at":"2022-06-16T15:17:42.308Z","__v":0,"is_coming_soon":false}],"page":{"type":"number","current":1,"size":10,"item_total":2,"has_next":false}},
-    "marketplaces":{"items":[{"key":"Amazon","value":"amazon","priority":1,"logo":"https://hdn-1.fynd.com/misc/general/free/original/ovS-Ady6mT-shfsffAS6-Logo.png"},{"key":"Flipkart","value":"flipkart","priority":2,"logo":"https://hdn-1.fynd.com/misc/general/free/original/cbmUDU-qYC-85HHiWr3Y-Logo.png"},{"key":"Myntra","value":"myntra","priority":3,"logo":"https://hdn-1.fynd.com/misc/general/free/original/tQ5hce2CVI-A1S7vx700-Logo.png"},{"key":"Ajio","value":"ajio","priority":4,"logo":"https://hdn-1.fynd.com/misc/general/free/original/34oZk4tO9S-ZqiZADj8N-Logo.png"},{"key":"Tata Cliq","value":"tata_cliq","priority":5,"logo":"https://hdn-1.fynd.com/misc/general/free/original/MFcj6I_tPf-VI6xyr7YH-Logo.png"}],"type":"marketplaces"},
-    "applications":{
+    "selected_extensions": {
+        "items": [
+            {
+                " logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/0usFtYLTI-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://reviews.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://reviews.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://reviews.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://reviews.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://reviews.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Reviews and Ratings extension",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": false,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/product",
+                    "company/order",
+                    "company/application/storage",
+                    "company/application/settings"
+                ],
+                "is_hidden": false,
+                "_id": "62699af29eb4c517776eb2e1",
+                "name": "Reviews and Ratings",
+                "base_url": "https://reviews.extensions.jiomarketx0.de",
+                "developed_by_name": "Kaa",
+                "contact_email": "aa@gmail.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-27T19:35:14.603Z",
+                "modified_at": "2022-06-16T15:17:42.303Z",
+                "__v": 0,
+                "is_coming_soon": false
+            },
+            {
+                "logo": {
+                    "small": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png",
+                    "large": "https://hdn-1.jiomarketx0.de/x0/misc/pictures/free-icon/original/wkaqeVpw3-3AqRPZ_hA-logo.png"
+                },
+                "callbacks": {
+                    "setup": "https://algolia.extensions.jiomarketx0.de/fp/setup",
+                    "auth": "https://algolia.extensions.jiomarketx0.de/fp/auth",
+                    "install": "https://algolia.extensions.jiomarketx0.de/fp/install",
+                    "uninstall": "https://algolia.extensions.jiomarketx0.de/fp/uninstall",
+                    "auto_install": "https://algolia.extensions.jiomarketx0.de/fp/auto_install"
+                },
+                "description": "Power your store with the Algolia search",
+                "whitelisted_urls": [],
+                "ext_version": "1.0.0",
+                "extention_type": "public",
+                "is_application_level": true,
+                "is_saleschannel": false,
+                "scope": [
+                    "company/product",
+                    "company/application/catalogue"
+                ],
+                "is_hidden": false,
+                "_id": "626a179d9eb4c54d896eb2ea",
+                "name": "Algolia",
+                "base_url": "https://algolia.extensions.jiomarketx0.de",
+                "developed_by_name": "Kaa",
+                "contact_email": "sourabhnilakhe@gofynd.com",
+                "organization_id": "624ebeb93182696b95e6378d",
+                "created_at": "2022-04-28T04:27:09.526Z",
+                "modified_at": "2022-06-16T15:17:42.308Z",
+                "__v": 0,
+                "is_coming_soon": false
+            }
+        ],
+        "page": {
+            "type": "number",
+            "current": 1,
+            "size": 10,
+            "item_total": 2,
+            "has_next": false
+        }
+    },
+    "marketplaces": {
+        "items": [
+            {
+                "key": "Amazon",
+                "value": "amazon",
+                "priority": 1,
+                "logo": "https://hdn-1.fynd.com/misc/general/free/original/ovS-Ady6mT-shfsffAS6-Logo.png"
+            },
+            {
+                "key": "Flipkart",
+                "value": "flipkart",
+                "priority": 2,
+                "logo": "https://hdn-1.fynd.com/misc/general/free/original/cbmUDU-qYC-85HHiWr3Y-Logo.png"
+            },
+            {
+                "key": "Myntra",
+                "value": "myntra",
+                "priority": 3,
+                "logo": "https://hdn-1.fynd.com/misc/general/free/original/tQ5hce2CVI-A1S7vx700-Logo.png"
+            },
+            {
+                "key": "Ajio",
+                "value": "ajio",
+                "priority": 4,
+                "logo": "https://hdn-1.fynd.com/misc/general/free/original/34oZk4tO9S-ZqiZADj8N-Logo.png"
+            },
+            {
+                "key": "Tata Cliq",
+                "value": "tata_cliq",
+                "priority": 5,
+                "logo": "https://hdn-1.fynd.com/misc/general/free/original/MFcj6I_tPf-VI6xyr7YH-Logo.png"
+            }
+        ],
+        "type": "marketplaces"
+    },
+    "applications": {
         "items": [
             {
                 "name": "Fynd",

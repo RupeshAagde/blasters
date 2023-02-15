@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div v-if="label" class="n-input-label-container"><label class="n-input-label">{{label}}</label></div>
+        <div v-if="label" class="n-input-label-container">
+            <label class="n-input-label">{{ label }}</label>
+        </div>
         <div class="image-uploader-container">
             <div class="image-uploader">
                 <div v-if="value" class="image">
@@ -10,20 +12,18 @@
                         v-if="!loading"
                         @click.stop="openDialog()"
                     >
-                        <inline-svg
-                            title="Edit image"
-                            src="image-edit"
-                        ></inline-svg>
+                        <inline-svg title="Edit image" src="image-edit" />
                     </div>
                 </div>
                 <div v-else class="no-image" @click.stop="openDialog">
-                    <inline-svg src="plus-black" class="add-image"></inline-svg>
+                    <inline-svg src="plus-black" class="add-image" />
                 </div>
             </div>
-            <loader class="image-uploading" v-if="loading"></loader>
+            <loader class="image-uploading" v-if="loading" />
         </div>
         <image-uploader-dialog
             ref="dialog"
+            v-model="value"
             :label="label"
             :fileTypes="fileTypes"
             :maxSize="maxSize"
@@ -37,14 +37,12 @@
             :showGallery="showGallery"
             @delete="$emit('delete', $event)"
             @save="$emit('save', $event)"
-            v-model="value"
-        ></image-uploader-dialog>
+        />
     </div>
 </template>
 
 <script>
 // Copied from mirage on 20/07/2020
-import { NitrozenDialog } from '@gofynd/nitrozen-vue';
 import loader from '@/components/common/loader';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import { formatBytes } from '@/helper/digital-storage.util';
@@ -54,7 +52,6 @@ export default {
     name: 'mini-image-uploader',
     components: {
         ImageUploaderDialog,
-        NitrozenDialog,
         InlineSvg,
         loader
     },

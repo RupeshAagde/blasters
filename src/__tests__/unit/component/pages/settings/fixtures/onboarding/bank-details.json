@@ -1,1 +1,17 @@
-{"unique_external_id":"1","cancelled_cheque":{"enabled":true,"document_mandatory":false},"penny_drop":{"enabled":true,"service_provider":1},"service_providers":[{"code":"ccavenue","display_name":"Ccavenue"}]}
+{
+    "unique_external_id": "1",
+    "cancelled_cheque": {
+        "enabled": true,
+        "document_mandatory": false
+    },
+    "penny_drop": {
+        "enabled": true,
+        "service_provider": 1
+    },
+    "service_providers": [
+        {
+            "code": "ccavenue",
+            "display_name": "Ccavenue"
+        }
+    ]
+}

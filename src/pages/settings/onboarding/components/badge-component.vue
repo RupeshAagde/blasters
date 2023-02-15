@@ -1,9 +1,26 @@
 <template>
     <div class="inline info-badge">
-        <nitrozen-inline icon="info"></nitrozen-inline>
+        <nitrozen-inline icon="info" />
         <div class="text">{{ lineItem.text }}</div>
     </div>
 </template>
+
+<script>
+import { NitrozenInline } from '@gofynd/nitrozen-vue';
+
+export default {
+    name: 'badge-component',
+    components: {
+        NitrozenInline
+    },
+    props: ['lineItem'],
+    methods: {
+        saveForm() {
+            return undefined;
+        }
+    }
+};
+</script>
 
 <style lang="less" scoped>
 @import '../../../../pages/less/page-header.less';
@@ -25,21 +42,3 @@
     color: @Mako;
 }
 </style>
-
-<script>
-import { NitrozenInline } from '@gofynd/nitrozen-vue';
-
-export default {
-    name: 'badge-component',
-    props: ['lineItem'],
-    components: {
-        NitrozenInline,
-    },
-    methods: {
-        saveForm() {
-            return undefined;
-        },
-    },
-};
-</script>
-

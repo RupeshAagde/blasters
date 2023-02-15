@@ -22,22 +22,21 @@
         <div class="main-container">
             <div class="search-marketplaces">
                 <nitrozen-input
+                    v-model="searchText"
                     :showSearchIcon="true"
                     placeholder="Search by application name or slug"
                     class="search"
-                    @input="searchMarketPlaces()"
-                    v-model="searchText"
                     type="search"
-                ></nitrozen-input>
+                    @input="searchMarketPlaces()"
+                />
             </div>
             <div class="marketplace-list-container">
-                <page-error v-if="pageError"></page-error>
-                <adm-shimmer
-                    v-else-if="pageLoading && !pageError"
-                    :count="4"
-                ></adm-shimmer>
+                <page-error v-if="pageError" />
+                <adm-shimmer v-else-if="pageLoading && !pageError" :count="4" />
                 <div
-                    v-else-if="!pageLoading && !pageError && marketplacesList.length"
+                    v-else-if="
+                        !pageLoading && !pageError && marketplacesList.length
+                    "
                     class="marketplace-card-list"
                 >
                     <div
@@ -58,8 +57,8 @@
                                 <div class="full-name">
                                     {{ marketplace.name }}
                                 </div>
-                                <div class="info">{{marketplace.slug}}</div>
-                                <div class="info">{{marketplace.app_id}}</div>
+                                <div class="info">{{ marketplace.slug }}</div>
+                                <div class="info">{{ marketplace.app_id }}</div>
                             </div>
                             <div class="inline">
                                 <div class="card-item">
@@ -67,7 +66,7 @@
                                         Brands
                                     </div>
                                     <div class="card-content-line-3">
-                                        {{marketplace.brand}}
+                                        {{ marketplace.brand }}
                                     </div>
                                 </div>
                                 <div class="card-item">
@@ -75,7 +74,7 @@
                                         Locations
                                     </div>
                                     <div class="card-content-line-3">
-                                         {{marketplace.location || "All" }}
+                                        {{ marketplace.location || 'All' }}
                                     </div>
                                 </div>
                                 <div class="card-item">
@@ -83,20 +82,21 @@
                                         Products
                                     </div>
                                     <div class="card-content-line-3">
-                                         {{marketplace.product || "All"}}
+                                        {{ marketplace.product || 'All' }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-cta">
-                            <inline-svg class="arrow-next" :src="'arrow-nitrozen'" />
+                            <inline-svg
+                                class="arrow-next"
+                                :src="'arrow-nitrozen'"
+                            />
                         </div>
                     </div>
                 </div>
                 <div v-else>
-                    <adm-no-content
-                        :helperText="'No marketplaces found'"
-                    ></adm-no-content>
+                    <adm-no-content :helperText="'No marketplaces found'" />
                 </div>
                 <nitrozen-pagination
                     v-if="marketplacesList.length"
@@ -104,7 +104,7 @@
                     v-model="pagination"
                     :pageSizeOptions="[5, 10, 25, 50, 100]"
                     @change="paginationChange"
-                ></nitrozen-pagination>
+                />
             </div>
         </div>
     </div>
@@ -114,7 +114,6 @@
 import PageHeader from '@/components/common/layout/page-header';
 import Shimmer from '@/components/common/shimmer';
 import pageerror from '@/components/common/page-error';
-import admInlineSVG from '@/components/common/adm-inline-svg';
 import inlineSVG from '@/components/common/inline-svg';
 import InternalMarketplaceAdminService from '@/services/internal-marketplaces.service';
 import admNoContent from '@/components/common/page-empty';
@@ -122,36 +121,29 @@ const DEFAULT_IMAGE = '/public/assets/admin/pngs/default-profile.png';
 import { debounce } from '@/helper/utils';
 import safeAccess from 'safe-access';
 
-
 import {
     NitrozenInput,
-    NitrozenDropdown,
     NitrozenPagination,
     strokeBtn,
     flatBtn,
-    NitrozenBadge,
-    NitrozenDialog,
-    NitrozenButton,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 export default {
     name: 'marketplace-list',
     components: {
-        'adm-inline-svg': admInlineSVG,
         'inline-svg': inlineSVG,
         'page-error': pageerror,
         'nitrozen-input': NitrozenInput,
         'nitrozen-pagination': NitrozenPagination,
-        'nitrozen-badge': NitrozenBadge,
-        'nitrozen-dialog': NitrozenDialog,
-        NitrozenDropdown,
+
         'adm-no-content': admNoContent,
         'adm-shimmer': Shimmer,
         'nitrozen-button': NitrozenButton,
-        'page-header': PageHeader,
+        'page-header': PageHeader
     },
     directives: {
         strokeBtn,
-        flatBtn,
+        flatBtn
     },
     data() {
         return {
@@ -164,37 +156,42 @@ export default {
             },
             rawMarketplacesList: [],
             searchText: '',
-            pageTitle: 'Application',
+            pageTitle: 'Application'
         };
     },
     computed: {
         default_img() {
             return DEFAULT_IMAGE;
         },
-        marketplacesList(){
-            return this.rawMarketplacesList.map(rawMarketplace => {
+        marketplacesList() {
+            return this.rawMarketplacesList.map((rawMarketplace) => {
                 return {
                     validation: {
                         location: {
                             documents: [{}, {}, {}],
-                            stage: 'verified',
+                            stage: 'verified'
                         },
                         brand: {
                             assets: true,
-                            stage: 'verified',
-                        },
-
+                            stage: 'verified'
+                        }
                     },
-                    location: safeAccess(rawMarketplace, 'validation.location.stage'),
+                    location: safeAccess(
+                        rawMarketplace,
+                        'validation.location.stage'
+                    ),
                     brand: safeAccess(rawMarketplace, 'validation.brand.stage'),
-                    product: safeAccess(rawMarketplace, 'validation.product.stage'),
+                    product: safeAccess(
+                        rawMarketplace,
+                        'validation.product.stage'
+                    ),
                     slug: rawMarketplace.slug,
                     _id: rawMarketplace._id,
                     name: rawMarketplace.name,
-                    logo:rawMarketplace.logo,
-                    app_id: rawMarketplace.app_id,
-                }
-            })
+                    logo: rawMarketplace.logo,
+                    app_id: rawMarketplace.app_id
+                };
+            });
         }
     },
     mounted() {
@@ -208,9 +205,10 @@ export default {
                 .then(({ data }) => {
                     this.pageLoading = false;
                     this.rawMarketplacesList = data.items || [];
-                    this.pagination.total = safeAccess(data, 'page.item_total') || 0;
+                    this.pagination.total =
+                        safeAccess(data, 'page.item_total') || 0;
                 })
-                .catch((err) => {
+                .catch(() => {
                     this.pageLoading = false;
                     this.pageError = true;
                 });
@@ -223,29 +221,29 @@ export default {
         },
         addMarketplace() {
             this.$router.push({
-                path: `/administrator/settings/platform/marketplace/add`,
+                path: `/administrator/settings/platform/marketplace/add`
             });
         },
         editmarketplace(marketplace) {
             this.$router.push({
-                path: `/administrator/settings/platform/marketplace/edit/${marketplace.app_id}`,
+                path: `/administrator/settings/platform/marketplace/edit/${marketplace.app_id}`
             });
         },
         getMarketplaceImage(marketplace) {
             let image = DEFAULT_IMAGE;
             return marketplace.logo || image;
         },
-        searchMarketPlaces: debounce(function () {
+        searchMarketPlaces: debounce(function() {
             this.getmarketplaces(this.getSearchParams());
         }, 100),
-        getSearchParams(){
+        getSearchParams() {
             return {
                 page_no: this.pagination.current,
                 page_size: this.pagination.limit,
-                q:this.searchText
-            }
+                q: this.searchText
+            };
         }
-    },
+    }
 };
 </script>
 
@@ -266,7 +264,7 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 24px;
-        padding:12px;
+        padding: 12px;
         background-color: @Alabaster2;
         .search {
             width: 100%;
@@ -299,7 +297,7 @@ export default {
         .marketplace-card-list {
             margin-top: 12px;
             .container {
-                border: 1px solid #E0E0E0;
+                border: 1px solid #e0e0e0;
                 border-radius: 4px;
                 height: 70px;
                 display: flex;
@@ -383,7 +381,7 @@ export default {
                         text-transform: capitalize;
                     }
                 }
-                .card-cta{
+                .card-cta {
                     display: flex;
                     align-items: center;
                     justify-content: center;

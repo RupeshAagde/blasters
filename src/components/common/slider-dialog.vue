@@ -15,13 +15,12 @@
                         <slot name="header">
                             {{ title }}
                         </slot>
-                        <div @click="close($event, 'close')" v-if="showCloseButton">
-                        <inline-svg
-                            title="close"
-                            src="cross-black"
-                        ></inline-svg>
+                        <div
+                            @click="close($event, 'close')"
+                            v-if="showCloseButton"
+                        >
+                            <inline-svg title="close" src="cross-black" />
                         </div>
-                         
                     </header>
 
                     <section class="nitrozen-dialog-body" :id="id + '_desc'">
@@ -62,43 +61,38 @@
 </template>
 
 <script>
-import {
-    NitrozenButton,
-    NitrozenInline,
-    flatBtn,
-    strokeBtn,
-} from '@gofynd/nitrozen-vue';
+import { NitrozenButton, flatBtn, strokeBtn } from '@gofynd/nitrozen-vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 export default {
     name: 'nitrozen-slide-dialog',
     components: {
         NitrozenButton,
-        NitrozenInline,
+
         InlineSvg
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     props: {
         /**
          * Unique identifier
          */
         id: {
-            type: [Number, String],
+            type: [Number, String]
         },
         /**
          * title of dialog
          */
         title: {
-            type: String,
+            type: String
         },
         /**
          * theme of button
          */
         theme: {
-            type: String,
-        },
+            type: String
+        }
     },
     data: () => {
         return {
@@ -113,6 +107,14 @@ export default {
             showCloseButton: false,
             positiveButtonDisabled: false
         };
+    },
+    created() {
+        if (typeof document !== 'undefined') {
+            document.addEventListener('keydown', this.handleESCKey);
+        }
+    },
+    destroyed() {
+        document.removeEventListener('keydown', this.handleESCKey);
     },
     methods: {
         onBeforeEnter(el) {
@@ -147,7 +149,7 @@ export default {
             if (config.data != undefined) {
                 this.data = config.data;
             }
-            if('positiveButtonDisabled' in config){
+            if ('positiveButtonDisabled' in config) {
                 this.positiveButtonDisabled = config.positiveButtonDisabled;
             }
             this.$emit('open');
@@ -175,7 +177,7 @@ export default {
                 this.close(e);
             }
         },
-        handleESCKey: function (event) {
+        handleESCKey: function(event) {
             // ESC key detection
             if (event.keyCode == 27 && this.dismissible && this.isOpen()) {
                 event.preventDefault();
@@ -183,20 +185,12 @@ export default {
                 this.close(event, 'close');
             }
         },
-        updateConfig(config = {}){
-            if('positiveButtonDisabled' in config){
+        updateConfig(config = {}) {
+            if ('positiveButtonDisabled' in config) {
                 this.positiveButtonDisabled = config.positiveButtonDisabled;
             }
         }
-    },
-    created() {
-        if (typeof document !== 'undefined') {
-            document.addEventListener('keydown', this.handleESCKey);
-        }
-    },
-    destroyed() {
-        document.removeEventListener('keydown', this.handleESCKey);
-    },
+    }
 };
 </script>
 
@@ -290,7 +284,6 @@ export default {
         overflow: auto;
         height: calc(100% - 200px);
     }
-
 }
 .cross-icon {
     ::v-deep svg {

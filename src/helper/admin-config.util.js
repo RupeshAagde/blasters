@@ -1,4 +1,4 @@
-const getCheckboxComponent = (id, text, value, lineItems = undefined, additionalParams=undefined) => {
+const getCheckboxComponent = (id, text, value, lineItems = undefined, additionalParams = undefined) => {
     return {
         id: id,
         type: 'checkbox',
@@ -12,7 +12,7 @@ const getCheckboxComponent = (id, text, value, lineItems = undefined, additional
     };
 
 }
-const getButtonComponent = (id, text, lineItems = undefined, additionalParams=undefined) => {
+const getButtonComponent = (id, text, lineItems = undefined, additionalParams = undefined) => {
     return {
         id: id,
         type: 'button',
@@ -24,7 +24,7 @@ const getButtonComponent = (id, text, lineItems = undefined, additionalParams=un
         additionalParams
     };
 }
-const getDropDownComponent = (id, text, value, lineItems = undefined, additionalParams=undefined) => {
+const getDropDownComponent = (id, text, value, lineItems = undefined, additionalParams = undefined) => {
     return {
         id: id,
         type: 'dropdown',
@@ -37,7 +37,7 @@ const getDropDownComponent = (id, text, value, lineItems = undefined, additional
         additionalParams
     };
 }
-const getToggleComponent = (id, text, value, lineItems = undefined, additionalParams=undefined) => {
+const getToggleComponent = (id, text, value, lineItems = undefined, additionalParams = undefined) => {
     return {
         id: id,
         type: 'toggle',
@@ -51,7 +51,7 @@ const getToggleComponent = (id, text, value, lineItems = undefined, additionalPa
     };
 }
 
-const getGroupComponent = (id, text, lineItems = undefined, additionalParams=undefined) => {
+const getGroupComponent = (id, text, lineItems = undefined, additionalParams = undefined) => {
     return {
         id: id,
         type: 'group',
@@ -79,29 +79,29 @@ const getRadioGroup = (id, text, value, lineItems) => {
     return {
         type: 'radio_group',
         id: id,
-        text: text, 
-        data:{
+        text: text,
+        data: {
             currentValue: value,
             lineItems: lineItems
         }
-        
+
     }
 }
 
 const getBadge = (id, text) => {
     return {
-        type:'badge',
+        type: 'badge',
         id: id,
         text: text
     }
 }
 
-const getRangeComponent = (id, text, from, to, additionalParams=undefined) => {
+const getRangeComponent = (id, text, from, to, additionalParams = undefined) => {
     return {
         id: id,
         type: 'range',
         text: text,
-        data:{
+        data: {
             from: from,
             to: to
         },
@@ -109,4 +109,4 @@ const getRangeComponent = (id, text, from, to, additionalParams=undefined) => {
     };
 }
 
-export { getDropDownComponent,getButtonComponent, getCheckboxComponent, getToggleComponent, getRadioComponent, getRadioGroup, getGroupComponent, getBadge, getRangeComponent}
+export { getDropDownComponent, getButtonComponent, getCheckboxComponent, getToggleComponent, getRadioComponent, getRadioGroup, getGroupComponent, getBadge, getRangeComponent }

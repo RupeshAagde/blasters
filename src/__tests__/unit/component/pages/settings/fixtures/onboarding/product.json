@@ -1,1 +1,19 @@
-{"configuration_type":"product","configuration":{"auto_verify":{"enabled":true},"national_pricing":{"enabled":false},"return_config":{"enabled":false},"product_update":{"product_verification_media_mandatory":false,"gst_exemption_applicable":false,"restricted_gategory_rules_applicable":true}}}
+{
+    "configuration_type": "product",
+    "configuration": {
+        "auto_verify": {
+            "enabled": true
+        },
+        "national_pricing": {
+            "enabled": false
+        },
+        "return_config": {
+            "enabled": false
+        },
+        "product_update": {
+            "product_verification_media_mandatory": false,
+            "gst_exemption_applicable": false,
+            "restricted_gategory_rules_applicable": true
+        }
+    }
+}
