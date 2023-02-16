@@ -13,7 +13,7 @@
                         v-flatBtn
                         ref="save-button"
                         @click="addMarketplace"
-                        >Create Application</nitrozen-button
+                        >Create Marketplace</nitrozen-button
                     >
                 </div>
             </page-header>
@@ -156,7 +156,7 @@ export default {
             },
             rawMarketplacesList: [],
             searchText: '',
-            pageTitle: 'Application'
+            pageTitle: 'Marketplace'
         };
     },
     computed: {
