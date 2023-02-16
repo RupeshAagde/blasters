@@ -29,7 +29,7 @@
                     </span>
                 </p>
                 <p class="upload-info">
-                    Uploaded by: {{ reportData.created_by }} • 
+                    Uploaded by: {{ reportData.full_name }} • 
                     Uploaded on: {{ toDateTimeString(reportData.created_at) }}
                 </p>
             </div>
