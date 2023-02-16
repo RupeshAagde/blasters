@@ -11,7 +11,7 @@
                 <settings-group title="General" :menus="general_menus"></settings-group>
                 <settings-group title="Custom Page and Tag" :menus="custom_menus"></settings-group>
                 <settings-group title="Customize" :menus="customize_menus" @openHomePage="openHomePage"></settings-group>
-                <settings-group title="Platform Configurations" :menus="platform_configuration_menus"></settings-group>
+                <settings-group v-if="platform_configuration_menus.length" title="Platform Configurations" :menus="platform_configuration_menus"></settings-group>
             </section>
         </div>
         <home-page ref="custom-home-page"></home-page>
@@ -131,55 +131,54 @@ const CUSTOM_PAGES = [
 ];
 
 const PLATFORM_CONFIGURATION_MENUS = [
-    {
-        title: 'Business Registration',
-        link: 'platform/business-registration',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Business Registration'
-    },
-    {
-        title: 'Business Details',
-        link: 'platform/business-details',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Business Details'
-    },
-    {
-        title: 'Brand',
-        link: 'platform/brand',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Brand Details'
-    },
-    {
-        title: 'Product',
-        link: 'platform/product',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure Product Details'
-    },
-    {
-        title: 'Marketplace',
-        link: 'platform/marketplace/list',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure MarketPlaces'
-    },
-    
-    {
-        title: 'Locations',
-        link: 'platform/location',
-        icon: 'settings',
-        permissions: [],
-        active: false,
-        desc: 'Configure location programs'
-    }
+    // {
+    //     title: 'Business Registration',
+    //     link: 'platform/business-registration',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Business Registration'
+    // },
+    // {
+    //     title: 'Business Details',
+    //     link: 'platform/business-details',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Business Details'
+    // },
+    // {
+    //     title: 'Brand',
+    //     link: 'platform/brand',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Brand Details'
+    // },
+    // {
+    //     title: 'Product',
+    //     link: 'platform/product',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Product Details'
+    // },
+    // {
+    //     title: 'Marketplace',
+    //     link: 'platform/marketplace/list',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure MarketPlaces'
+    // },
+    // {
+    //     title: 'Locations',
+    //     link: 'platform/location',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure location programs'
+    // }
 ]
 export default {
     name: 'settings',
