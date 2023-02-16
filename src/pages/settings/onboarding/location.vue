@@ -217,8 +217,8 @@ export default {
             }
         },
         validateProgramType(programTypes) {
-            const nameRegex = /^[A-Za-z0-9 _-]*$/;
-            const codeRegex = /^[A-Za-z0-9]*$/;
+            const nameRegex = /^[A-Za-z0-9 _-]{1,100}$/;
+            const codeRegex = /^[A-Za-z0-9]{1,100}$/;
             let isValid = true;
             programTypes.forEach((location) => {
                 if (location.name && location.name.trim()) {
