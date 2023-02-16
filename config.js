@@ -445,13 +445,6 @@ const conf = convict({
             env: 'QUE_ADMIN_URL',
             arg: 'que_admin_url'
         },
-        QUE_ADMIN_SVC: {
-            doc: 'Internal Marketpalces Kube Service',
-            format: String,
-            default: '',
-            env: 'QUE_ADMIN_SVC',
-            arg: 'que_admin_svc'
-        },
         EXTENSION_PAGE_URL: {
             doc: 'Extension Page URLS',
             format: String,
