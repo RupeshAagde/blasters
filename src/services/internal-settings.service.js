@@ -144,7 +144,16 @@ const InternalSettingsService = {
             getCommonHeaderOptions()
         );
         return ApiService.put(URLS.PLATFORM_PRICING_BANNER(), axiosOptions);
-    }
+    },
+    /* changes from jiomarket: cbs configuration */
+    getAdminConfig(id){
+        let axiosOption = Object.assign({},getCommonHeaderOptions());
+        return ApiService.get(URLS.ADMIN_PANEL_CONFIG(id), axiosOption);
+    },
+    saveAdminConfig(id, data){
+        const axiosOptions = Object.assign({},{data}, getCommonHeaderOptions());
+        return ApiService.patch(URLS.ADMIN_PANEL_CONFIG(id), axiosOptions);
+    },
     
 };
 export default InternalSettingsService;

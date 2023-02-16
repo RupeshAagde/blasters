@@ -126,6 +126,10 @@ const HEDWIG_ADMIN_SVC = isNode ?
     envVars.HEDWIG_ADMIN_SVC;
 
 
+const INTERNAL_MARKETPLACES_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.QUE_ADMIN_URL :
+    envVars.QUE_ADMIN_URL;
+
 const URLS = {
     // User Profile API's
     USER_PROFILE: () => {
@@ -809,6 +813,14 @@ const URLS = {
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
+    /* changes from jiomarket: cbs configuration */
+    INTERNAL_MARKETPLACES_ADMIN_SERVICE: (id = '') => {
+        return urlJoin(INTERNAL_MARKETPLACES_ADMIN_URL, '/v1.0/channel/', id);
+    },
+    ADMIN_PANEL_CONFIG: (id) => {
+        return  urlJoin(WHEELJACK_ACPR_URL, '/v1.0/platform-configuration/', id)
+    },
+
 
     //Panel settings
 
@@ -991,9 +1003,6 @@ const URLS = {
     },
     FETCH_MANIFEST_DETAILS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/details`);
-    },
-    FETCH_ANNOUNCEMENT_NOTE: () => {
-        return urlJoin(AVIS_ADMIN_URL, `/v1.0/announcements`);
     },
     UPDATE_SHIPMENT_STATUS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/shipment/status-internal`);
