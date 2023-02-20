@@ -1025,6 +1025,9 @@ const URLS = {
     GET_BULK_ACTION_LIST: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/listing`);
     },
+    GET_BULK_DOWNLOAD_TEMPLATE_LIST: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template-slugs`);
+    },
     FETCH_BULK_LIST_DETAILED_DATA: (data) => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/details`);
     },

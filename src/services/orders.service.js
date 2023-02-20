@@ -353,6 +353,10 @@ const OrderService = {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
         return ApiService.get(URLS.GET_BULK_ACTION_LIST(), axiosOption);
     },
+    fetchBulkDownloadTemplateList() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.GET_BULK_DOWNLOAD_TEMPLATE_LIST(), axiosOption);
+    },
     fetchBulkGenerateExcel(params) {
         let axiosOption = Object.assign(
             {},

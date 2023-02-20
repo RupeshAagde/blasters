@@ -23,30 +23,11 @@ import InlineSvg from '@/components/common/inline-svg.vue';
 /* Service imports */
 import OrderService from '@/services/orders.service.js';
 
-
-const TEMPLATES = [
-    {
-        text: 'Cancellation', 
-        value: 'CANCEL_SHIPMENT'
-    },
-    {
-        text: 'Fluid', 
-        value: 'FLUID_STATE_TRANSITION'
-    },
-    {
-        text: 'DP Assignment', 
-        value: 'MANUAL_DP_ASSIGNMENT'
-    },
-    {
-        text: 'History',
-        value: 'NINJA_HISTORY'
-    }
-]
 export default {
     name: "download-template-drawer",
     data() {
         return {
-            differentTemplates: cloneDeep(TEMPLATES),
+            differentTemplates: [],
             selectedTemplate: '',
         }
     },
@@ -63,6 +44,7 @@ export default {
     },
     mounted() {
         this.$emit('toggleDownloadBtn', true)
+        this.fetchTemplateList();
     },
     methods: {
         changeTemplate() {
@@ -101,7 +83,18 @@ export default {
                     );
                 })
             }
-        } 
+        },
+        fetchTemplateList() {
+            const list =  OrderService.fetchBulkDownloadTemplateList()
+            return list
+            .then((data) => {
+                this.differentTemplates = data.data.template_x_slug;
+            })
+            .catch((error) => {
+                this.$snackbar.global.showError('Unable to get the list of templates');
+                console.error("Error in getting the template list:   ", error);
+            })
+        }
     }
 }
 </script>
