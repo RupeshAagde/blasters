@@ -1,10 +1,7 @@
 <template>
     <div class="reassign-store-head">
-        <div class="title">
-            <span>Following stores are available for the reassignment for Bag ID: {{ bagId }}</span>
-        </div>
-
-        <template v-if="stores && stores.length && reasons && reasons.length">
+        <div v-if="stores && stores.length && reasons && reasons.length">
+            <span class="title">Following stores are available for the reassignment</span>
             <div class="inputs-dropdowns">
                 <!-- <nitrozen-input
                     :showSearchIcon="true"
@@ -55,7 +52,7 @@
                     </div>
                 </div>
             </div>
-        </template>
+        </div>
         <div class="no-content" v-if="!stores.length || !reasons.length">
             <adm-no-content
                 helperText="No store/reasons found"
@@ -137,7 +134,7 @@ export default {
 .reassign-store-head {
     padding-bottom: 60px;
     .title {
-        margin-bottom: 16px;
+        // margin-bottom: 16px;
         font-weight: 600;
         font-size: 16px;
         line-height: 120%;
@@ -153,6 +150,7 @@ export default {
 
 .dropdown-reason {
     width: 48%;
+    padding-top: 16px;
 }
 
 .labels {
