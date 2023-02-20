@@ -23,7 +23,7 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
-                                placeholder="Auto"
+                                :placeholder="filterType ? filterType : 'Auto'"
                             />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
@@ -882,7 +882,10 @@ export default {
             this.activeLaneIndex = laneIndex;
             this.lane = laneData.value;
             this.pagination.current = 1;
-            this.setRouteQuery({lane: this.lane, page: 1 });
+            if(this.search.length == 0) {
+                this.filterType = "Auto";
+            }
+            this.setRouteQuery({lane: this.lane, page: 1, search_type: this.filterType });
         },
         changeView(e) {
             this.selectedView = e;
@@ -1023,9 +1026,12 @@ export default {
                 this.selectedStageTabIndex = 0;
                 this.lane = 'new'
             }
+            if(this.search.length == 0) {
+                this.filterType = "Auto";
+            }
             this.superLaneChangeFetchInProgress = this.selectedStageTab !== this.$route.query.super_lane;
             this.pagination.current = 1;
-            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab});
+            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab, search_type: this.filterType});
             // this.fetchSuperLanes({super_lane: this.selectedStageTab, page: 1})
             // this.setRouteQuery({ super_lane: this.selectedStageTab, lane: this.lane, page: 1 });
             // reset page number
