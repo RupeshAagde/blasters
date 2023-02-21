@@ -57,6 +57,7 @@
                                 <div class="companies-dropdown-list">
                                     <nitrozen-dropdown 
                                         label="Company"
+                                        ref="search-company-dropdown"
                                         class="filter-dropdown filter-item filter-input-sm"
                                         :searchable="true"
                                         :items="companiesList"
@@ -70,6 +71,7 @@
                             <nitrozen-dropdown
                                 label="Fulfilment Location"
                                 class="filter-dropdown filter-input-sm filter-item"
+                                ref="search-store-dropdown"
                                 :searchable="true"
                                 :items="filteredStores"
                                 v-model="selectedStore"
@@ -187,6 +189,7 @@
                     </div> -->
                     <div v-else-if="!inProgress && pageError">
                         <page-error
+                            ref="call-api-function"
                             :errorText="errorText"
                             @tryAgain="callApiFunctions(selectedView)"
                         ></page-error>

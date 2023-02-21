@@ -1,0 +1,2283 @@
+{"ordersResponseData": {
+    "items": [
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 13280,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 13280,
+                "order_platform": "platform-site",
+                "ordering_store": 3664,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "Shetty & Co",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 7996,
+            "order_id": "FY63B6707B0E74DA9305",
+            "order_created_time": "2023-01-05T12:08:52.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16729007318791195510",
+                    "bags": [
+                        {
+                            "bag_id": 415471,
+                            "item": {
+                                "name": "SHOES1234",
+                                "code": "SHOEP1",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/EtMKiTFQR-HERO_d7a23b39-3161-4366-a686-08d73366b1da_1200x.jpg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 1499,
+                                "refund_amount": 1499,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1001,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 1499,
+                                "refund_credit": 0,
+                                "value_of_good": 1338.39
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "Sec-2",
+                                "city": "Navi Mumbai",
+                                "name": "Shubham Vehale",
+                                "email": "",
+                                "phone": "9834586311",
+                                "state": "Maharashtra",
+                                "address": "Sec-2",
+                                "country": "India",
+                                "pincode": "400708",
+                                "version": "1.0",
+                                "address1": "Sec-2,Sec-2,Airoli,Navi Mumbai,Maharashtra,India,400708",
+                                "address2": "",
+                                "landmark": "Airoli",
+                                "latitude": 19.1598726,
+                                "area_code": "400708",
+                                "longitude": 72.9992013,
+                                "created_at": "2023-01-05 12:08:51",
+                                "updated_at": "2023-01-05 12:08:51",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Shubham Vehale",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 1499,
+                        "refund_amount": 1499,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1001,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 1499,
+                        "refund_credit": 0,
+                        "value_of_good": 1338.39
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16729007321631056199",
+                    "bags": [
+                        {
+                            "bag_id": 415472,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 2499,
+                                "refund_amount": 2499,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2117.8
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "Sec-2",
+                                "city": "Navi Mumbai",
+                                "name": "Shubham Vehale",
+                                "email": "",
+                                "phone": "9834586311",
+                                "state": "Maharashtra",
+                                "address": "Sec-2",
+                                "country": "India",
+                                "pincode": "400708",
+                                "version": "1.0",
+                                "address1": "Sec-2,Sec-2,Airoli,Navi Mumbai,Maharashtra,India,400708",
+                                "address2": "",
+                                "landmark": "Airoli",
+                                "latitude": 19.1598726,
+                                "area_code": "400708",
+                                "longitude": 72.9992013,
+                                "created_at": "2023-01-05 12:08:51",
+                                "updated_at": "2023-01-05 12:08:51",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Shubham Vehale",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2499,
+                        "refund_amount": 2499,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2117.8
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "shubhamvehale@gofynd.com",
+                "mobile": "9834586311",
+                "name": "Shubham Vehale"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "3,998.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "0"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "3,998.00"
+                }
+            ],
+            "total_order_value": 3998
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 10598,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 10598,
+                "order_platform": "platform-site",
+                "ordering_store": 3664,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "Shetty & Co",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 23988,
+            "order_id": "FY63B66C570E2A24446A",
+            "order_created_time": "2023-01-05T11:51:12.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728996719691841501",
+                    "bags": [
+                        {
+                            "bag_id": 415469,
+                            "item": {
+                                "name": "SHOES1234",
+                                "code": "SHOEP1",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/EtMKiTFQR-HERO_d7a23b39-3161-4366-a686-08d73366b1da_1200x.jpg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 1499,
+                                "refund_amount": 1499,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1001,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 1499,
+                                "refund_credit": 0,
+                                "value_of_good": 1338.39
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "Sec-2",
+                                "city": "Navi Mumbai",
+                                "name": "Shubham Vehale",
+                                "email": "",
+                                "phone": "9834586311",
+                                "state": "Maharashtra",
+                                "address": "Sec-2",
+                                "country": "India",
+                                "pincode": "400708",
+                                "version": "1.0",
+                                "address1": "Sec-2,Sec-2,Airoli,Navi Mumbai,Maharashtra,India,400708",
+                                "address2": "",
+                                "landmark": "Airoli",
+                                "latitude": 19.1598726,
+                                "area_code": "400708",
+                                "longitude": 72.9992013,
+                                "created_at": "2023-01-05 11:51:11",
+                                "updated_at": "2023-01-05 11:51:11",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Shubham Vehale",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 1499,
+                        "refund_amount": 1499,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1001,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 1499,
+                        "refund_credit": 0,
+                        "value_of_good": 1338.39
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16728996722331455386",
+                    "bags": [
+                        {
+                            "bag_id": 415470,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 2499,
+                                "refund_amount": 2499,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2117.8
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "Sec-2",
+                                "city": "Navi Mumbai",
+                                "name": "Shubham Vehale",
+                                "email": "",
+                                "phone": "9834586311",
+                                "state": "Maharashtra",
+                                "address": "Sec-2",
+                                "country": "India",
+                                "pincode": "400708",
+                                "version": "1.0",
+                                "address1": "Sec-2,Sec-2,Airoli,Navi Mumbai,Maharashtra,India,400708",
+                                "address2": "",
+                                "landmark": "Airoli",
+                                "latitude": 19.1598726,
+                                "area_code": "400708",
+                                "longitude": 72.9992013,
+                                "created_at": "2023-01-05 11:51:11",
+                                "updated_at": "2023-01-05 11:51:11",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Shubham Vehale",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2499,
+                        "refund_amount": 2499,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2117.8
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "shubhamvehale@gofynd.com",
+                "mobile": "9834586311",
+                "name": "Shubham Vehale"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "3,998.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "0"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "3,998.00"
+                }
+            ],
+            "total_order_value": 11994
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 13114,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 13114,
+                "order_platform": "platform-site",
+                "ordering_store": 3664,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "Shetty & Co",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 1000,
+            "order_id": "FY63B6598F0E5251A720",
+            "order_created_time": "2023-01-05T10:31:04.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728948643901262575",
+                    "bags": [
+                        {
+                            "bag_id": 415458,
+                            "item": {
+                                "name": "testcamera",
+                                "code": "TESTCAMERA",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/BbbnmRBGH-ABD16.png"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 100,
+                                "refund_amount": 100,
+                                "price_marked": 100,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 0,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 100,
+                                "refund_credit": 0,
+                                "value_of_good": 84.75
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "DOSTI ELITE, A-2, Rd Number 29, Air Force Quarters",
+                                "city": "Mumbai",
+                                "name": "Sumanth",
+                                "email": "",
+                                "phone": "9398257377",
+                                "state": "Maharashtra",
+                                "address": " Fynd Office, Elite",
+                                "country": "India",
+                                "pincode": "400022",
+                                "version": "1.0",
+                                "address1": " Fynd Office, Elite,Dosti Elite, A-2, Rd Number 29, Air Force Quarters, Sion East, Sion,Mumbai,Maharashtra,India,400022",
+                                "address2": "",
+                                "landmark": " Sion East, Sion",
+                                "latitude": 19.0425604,
+                                "area_code": "400022",
+                                "longitude": 72.8638089,
+                                "created_at": "2023-01-05 10:31:04",
+                                "updated_at": "2023-01-05 10:31:04",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Sumanth",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 100,
+                        "refund_amount": 100,
+                        "price_marked": 100,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 0,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 100,
+                        "refund_credit": 0,
+                        "value_of_good": 84.75
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16728950518151659692",
+                    "bags": [
+                        {
+                            "bag_id": 415459,
+                            "item": {
+                                "name": "testcamera",
+                                "code": "TESTCAMERA",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/BbbnmRBGH-ABD16.png"
+                                ]
+                            },
+                            "current_status": "refund_completed",
+                            "prices": {
+                                "amount_paid": 100,
+                                "refund_amount": 100,
+                                "price_marked": 100,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 0,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 100,
+                                "refund_credit": 0,
+                                "value_of_good": 84.75
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "DOSTI ELITE, A-2, Rd Number 29, Air Force Quarters",
+                                "city": "Mumbai",
+                                "name": "Sumanth",
+                                "email": "",
+                                "phone": "9398257377",
+                                "state": "Maharashtra",
+                                "address": " Fynd Office, Elite",
+                                "country": "India",
+                                "pincode": "400022",
+                                "version": "1.0",
+                                "address1": " Fynd Office, Elite,Dosti Elite, A-2, Rd Number 29, Air Force Quarters, Sion East, Sion,Mumbai,Maharashtra,India,400022",
+                                "address2": "",
+                                "landmark": " Sion East, Sion",
+                                "latitude": 19.0425604,
+                                "area_code": "400022",
+                                "longitude": 72.8638089,
+                                "created_at": "2023-01-05 10:31:04",
+                                "updated_at": "2023-01-05 10:31:04",
+                                "address_type": "home",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Sumanth",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "cancelled_fynd",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 100,
+                        "refund_amount": 100,
+                        "price_marked": 100,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 0,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 100,
+                        "refund_credit": 0,
+                        "value_of_good": 84.75
+                    },
+                    "operational_status": "cancelled_fynd",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "sumanthabburi@gofynd.com",
+                "mobile": "9398257377",
+                "name": "sumanth abburi"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "200.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "0"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "200.00"
+                }
+            ],
+            "total_order_value": 500
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12518,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12518,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 34869,
+            "order_id": "FY63B5220B0E675B1599",
+            "order_created_time": "2023-01-04T12:21:57.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728151166681842401",
+                    "bags": [
+                        {
+                            "bag_id": 414351,
+                            "item": {
+                                "name": "NEWVARIANT11",
+                                "code": "FR-902",
+                                "images": [
+                                    "https://hdn-1.addsale.com/x0/products/pictures/item/free/270x0/HD1hz1Y92-hAmAOzmRcS-2.jpg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 212.01,
+                                "refund_amount": 212.01,
+                                "price_marked": 1212,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1000,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 212,
+                                "refund_credit": 0,
+                                "value_of_good": 192.73
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:21:56",
+                                "updated_at": "2023-01-04 12:21:56",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 212.01,
+                        "refund_amount": 212.01,
+                        "price_marked": 1212,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1000,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 212,
+                        "refund_credit": 0,
+                        "value_of_good": 192.73
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16728151168901341103",
+                    "bags": [
+                        {
+                            "bag_id": 414352,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "return_not_accepted",
+                            "prices": {
+                                "amount_paid": 2474.22,
+                                "refund_amount": 2474.22,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2356.41
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 24.771559881,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 3
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:21:56",
+                                "updated_at": "2023-01-04 12:21:56",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "return_not_accepted",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2474.22,
+                        "refund_amount": 2474.22,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2356.41
+                    },
+                    "operational_status": "return_not_accepted",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16729054509481545169",
+                    "bags": [
+                        {
+                            "bag_id": 414353,
+                            "item": {
+                                "name": "Reebook",
+                                "code": "AR-001",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/a17gCrIyx-Armani.jpeg"
+                                ]
+                            },
+                            "current_status": "return_dp_out_for_pickup",
+                            "prices": {
+                                "amount_paid": 1188.1,
+                                "refund_amount": 1188.1,
+                                "price_marked": 1500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 300,
+                                "cashback_applied": 0,
+                                "delivery_charge": 0,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 1200,
+                                "refund_credit": 0,
+                                "value_of_good": 1131.52
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 11.8951067856,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 3
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:21:56",
+                                "updated_at": "2023-01-04 12:21:56",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "return_dp_out_for_pickup",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 1188.1,
+                        "refund_amount": 1188.1,
+                        "price_marked": 1500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 300,
+                        "cashback_applied": 0,
+                        "delivery_charge": 0,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 1200,
+                        "refund_credit": 0,
+                        "value_of_good": 1131.52
+                    },
+                    "operational_status": "return_dp_out_for_pickup",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "3,911.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "0"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "3,874.33"
+                }
+            ],
+            "total_order_value": 11623
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12497,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12497,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 2489,
+            "order_id": "FY63B520900EE2630E3B",
+            "order_created_time": "2023-01-04T12:15:38.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728147379371278757",
+                    "bags": [
+                        {
+                            "bag_id": 414330,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "store_reassigned",
+                            "prices": {
+                                "amount_paid": 2489,
+                                "refund_amount": 2489,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 100,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2275.24
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 110,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 1
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:15:37",
+                                "updated_at": "2023-01-04 12:15:37",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "store_reassigned",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2489,
+                        "refund_amount": 2489,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 100,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2275.24
+                    },
+                    "operational_status": "store_reassigned",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "2,499.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "100.00"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "2,489.00"
+                }
+            ],
+            "total_order_value": 2489
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12487,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12487,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 11703,
+            "order_id": "FY63B51D3B0E15E6973E",
+            "order_created_time": "2023-01-04T12:01:24.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728138843601121919",
+                    "bags": [
+                        {
+                            "bag_id": 414318,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "rto_in_transit",
+                            "prices": {
+                                "amount_paid": 2488.59,
+                                "refund_amount": 2488.59,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 63.89,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2309.23
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 74.3146796431,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 1
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:01:24",
+                                "updated_at": "2023-01-04 12:01:24",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "rto_in_transit",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2488.59,
+                        "refund_amount": 2488.59,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 63.89,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2309.23
+                    },
+                    "operational_status": "rto_in_transit",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16728138847431461234",
+                    "bags": [
+                        {
+                            "bag_id": 414320,
+                            "item": {
+                                "name": "NEWVARIANT11",
+                                "code": "FR-902",
+                                "images": [
+                                    "https://hdn-1.addsale.com/x0/products/pictures/item/free/270x0/HD1hz1Y92-hAmAOzmRcS-2.jpg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 217.42,
+                                "refund_amount": 217.42,
+                                "price_marked": 1212,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1000,
+                                "cashback_applied": 0,
+                                "delivery_charge": 5.42,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 212,
+                                "refund_credit": 0,
+                                "value_of_good": 192.73
+                            },
+                            "applied_promos": [],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:01:24",
+                                "updated_at": "2023-01-04 12:01:24",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 217.42,
+                        "refund_amount": 217.42,
+                        "price_marked": 1212,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1000,
+                        "cashback_applied": 0,
+                        "delivery_charge": 5.42,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 212,
+                        "refund_credit": 0,
+                        "value_of_good": 192.73
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                },
+                {
+                    "shipment_id": "16729030414521142994",
+                    "bags": [
+                        {
+                            "bag_id": 414319,
+                            "item": {
+                                "name": "Reebook",
+                                "code": "AR-001",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/a17gCrIyx-Armani.jpeg"
+                                ]
+                            },
+                            "current_status": "refund_completed",
+                            "prices": {
+                                "amount_paid": 1194.99,
+                                "refund_amount": 1194.99,
+                                "price_marked": 1500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 300,
+                                "cashback_applied": 0,
+                                "delivery_charge": 30.68,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 1200,
+                                "refund_credit": 0,
+                                "value_of_good": 1108.87
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 35.6853203569,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 1
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 12:01:24",
+                                "updated_at": "2023-01-04 12:01:24",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "cancelled_fynd",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 1194.99,
+                        "refund_amount": 1194.99,
+                        "price_marked": 1500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 300,
+                        "cashback_applied": 0,
+                        "delivery_charge": 30.68,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 1200,
+                        "refund_credit": 0,
+                        "value_of_good": 1108.87
+                    },
+                    "operational_status": "cancelled_fynd",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "3,911.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "99.99"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "3,901.00"
+                }
+            ],
+            "total_order_value": 3901
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12439,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12439,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 7487,
+            "order_id": "FY63B51A0E0FBD3C7E75",
+            "order_created_time": "2023-01-04T11:47:51.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16728130711931588832",
+                    "bags": [
+                        {
+                            "bag_id": 414226,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 2495.66,
+                                "refund_amount": 2495.66,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 33.33,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2345.08
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 36.6666666667,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 3
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-04 11:47:51",
+                                "updated_at": "2023-01-04 11:47:51",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2495.66,
+                        "refund_amount": 2495.66,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 33.33,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2345.08
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "2,499.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "33.33"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "2,495.66"
+                }
+            ],
+            "total_order_value": 7487
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12098,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12098,
+                "order_platform": "platform-site",
+                "ordering_store": 3664,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "shipment",
+                    "bag"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 5986,
+            "order_id": "FY63B479180E6E8B2078",
+            "order_created_time": "2023-01-04T00:21:05.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16727718650061977045",
+                    "bags": [
+                        {
+                            "bag_id": 413814,
+                            "item": {
+                                "name": "SHOES1234",
+                                "code": "SHOEP1",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/EtMKiTFQR-HERO_d7a23b39-3161-4366-a686-08d73366b1da_1200x.jpg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 1496.5,
+                                "refund_amount": 1496.5,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1001,
+                                "cashback_applied": 0,
+                                "delivery_charge": 25,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 1499,
+                                "refund_credit": 0,
+                                "value_of_good": 1401.43
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 27.5,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 4
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": " Wing-D, Railway Police Quarters",
+                                "city": "Mumbai",
+                                "name": "Sonal",
+                                "email": "",
+                                "phone": "8108433144",
+                                "state": "Maharashtra",
+                                "address": "101/Railway Police Quarters",
+                                "country": "India",
+                                "pincode": "400083",
+                                "version": "1.0",
+                                "address1": "101/Railway Police Quarters, Wing-D, Railway Police Quarters,Mumbai,Maharashtra,Mumbai,Maharashtra,India,400083",
+                                "address2": "",
+                                "landmark": "Mumbai,Maharashtra",
+                                "latitude": 19.1166191,
+                                "area_code": "400083",
+                                "longitude": 72.9374227,
+                                "created_at": "2023-01-04 00:21:05",
+                                "updated_at": "2023-01-04 00:21:05",
+                                "address_type": "office",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Sonal",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 1496.5,
+                        "refund_amount": 1496.5,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1001,
+                        "cashback_applied": 0,
+                        "delivery_charge": 25,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 1499,
+                        "refund_credit": 0,
+                        "value_of_good": 1401.43
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "sonalnalawade@gofynd.com",
+                "mobile": "8108433144",
+                "name": "Sonal Nalawade"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "1,499.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "25.00"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "1,496.50"
+                }
+            ],
+            "total_order_value": 5986
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 12012,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 12012,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "bag",
+                    "shipment"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 7487,
+            "order_id": "FY63B46FE90EDE67AA4A",
+            "order_created_time": "2023-01-03T23:41:54.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16727695143761098255",
+                    "bags": [
+                        {
+                            "bag_id": 413666,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 2495.66,
+                                "refund_amount": 2495.66,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 33.33,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2345.08
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 36.6666666667,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 3
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-03 23:41:54",
+                                "updated_at": "2023-01-03 23:41:54",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2495.66,
+                        "refund_amount": 2495.66,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 33.33,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2345.08
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "2,499.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "33.33"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "2,495.66"
+                }
+            ],
+            "total_order_value": 7487
+        },
+        {
+            "meta": {
+                "files": [],
+                "staff": {},
+                "cart_id": 11994,
+                "comment": "",
+                "extra_meta": {},
+                "order_tags": null,
+                "order_type": "HomeDelivery",
+                "employee_id": null,
+                "payment_type": "fynd",
+                "mongo_cart_id": 11994,
+                "order_platform": "platform-site",
+                "ordering_store": 3223,
+                "currency_symbol": "?",
+                "order_child_entities": [
+                    "bag",
+                    "shipment"
+                ]
+            },
+            "channel": {
+                "name": "shettyco1",
+                "logo": "https://fynd-static.s3.amazonaws.com/mode_of_payment/ecomm_logo.png"
+            },
+            "order_value": 7487,
+            "order_id": "FY63B46C320E0FAE2150",
+            "order_created_time": "2023-01-03T23:26:03.000Z",
+            "shipments": [
+                {
+                    "shipment_id": "16727685627331164792",
+                    "bags": [
+                        {
+                            "bag_id": 413641,
+                            "item": {
+                                "name": "Black Shirt",
+                                "code": "BS-12",
+                                "images": [
+                                    "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/products/pictures/item/free/270x0/6sEg_8Xok-Black-Shirt.jpeg"
+                                ]
+                            },
+                            "current_status": "placed",
+                            "prices": {
+                                "amount_paid": 2495.66,
+                                "refund_amount": 2495.66,
+                                "price_marked": 2500,
+                                "cod_charges": 0,
+                                "coupon_value": 0,
+                                "discount": 1,
+                                "cashback_applied": 0,
+                                "delivery_charge": 33.33,
+                                "fynd_credits": 0,
+                                "cashback": 0,
+                                "price_effective": 2499,
+                                "refund_credit": 0,
+                                "value_of_good": 2345.08
+                            },
+                            "applied_promos": [
+                                {
+                                    "amount": 36.6666666667,
+                                    "promo_id": "63b465edfa77377be9a9ae64",
+                                    "buy_rules": [
+                                        {
+                                            "item_criteria": {
+                                                "item_store": [
+                                                    3664
+                                                ]
+                                            },
+                                            "cart_conditions": {}
+                                        }
+                                    ],
+                                    "mrp_promotion": false,
+                                    "discount_rules": [
+                                        {
+                                            "type": "amount",
+                                            "value": 110
+                                        }
+                                    ],
+                                    "promotion_name": "110",
+                                    "promotion_type": "amount",
+                                    "promotion_group": "product",
+                                    "article_quantity": 3
+                                }
+                            ],
+                            "group_id": "",
+                            "parent_promo_bags": {},
+                            "delivery_address": {
+                                "area": "manglwari",
+                                "city": "Nagpur",
+                                "name": "Aditya Kalambe",
+                                "email": "adityakalambe@gofynd.com",
+                                "phone": "7276420350",
+                                "state": "Maharashtra",
+                                "address": "1",
+                                "country": "India",
+                                "pincode": "440001",
+                                "version": "1.0",
+                                "address1": "1,Manglwari,Govt Ploytechnic,Nagpur,Maharashtra,India,440001",
+                                "address2": "",
+                                "landmark": "Govt PloyTechnic",
+                                "latitude": 21.1583917,
+                                "area_code": "440001",
+                                "longitude": 79.0673302,
+                                "created_at": "2023-01-03 23:26:02",
+                                "updated_at": "2023-01-03 23:26:02",
+                                "address_type": "Commercial Building",
+                                "area_code_slug": "pincode",
+                                "contact_person": "Aditya Kalambe",
+                                "address_category": "delivery"
+                            }
+                        }
+                    ],
+                    "shipment_status": "placed",
+                    "total_bags": 1,
+                    "total_items": 1,
+                    "shipment_images": [],
+                    "prices": {
+                        "amount_paid": 2495.66,
+                        "refund_amount": 2495.66,
+                        "price_marked": 2500,
+                        "cod_charges": 0,
+                        "coupon_value": 0,
+                        "discount": 1,
+                        "cashback_applied": 0,
+                        "delivery_charge": 33.33,
+                        "fynd_credits": 0,
+                        "cashback": 0,
+                        "price_effective": 2499,
+                        "refund_credit": 0,
+                        "value_of_good": 2345.08
+                    },
+                    "operational_status": "placed",
+                    "custom_meta": []
+                }
+            ],
+            "user_info": {
+                "email": "adityakalambe@gofynd.com",
+                "mobile": "7276420350",
+                "name": "Aditya Kalambe"
+            },
+            "payment_mode": "NB",
+            "breakup_values": [
+                {
+                    "name": "sub_total",
+                    "display": "Sub Total",
+                    "value": "2,499.00"
+                },
+                {
+                    "name": "coupon",
+                    "display": "Coupon",
+                    "value": "0"
+                },
+                {
+                    "name": "referral_applied",
+                    "display": "Referral Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "cashback_applied",
+                    "display": "Cashback Applied",
+                    "value": "0"
+                },
+                {
+                    "name": "delivery_charges",
+                    "display": "Delivery Charges",
+                    "value": "33.33"
+                },
+                {
+                    "name": "total",
+                    "display": "Total",
+                    "value": "2,495.66"
+                }
+            ],
+            "total_order_value": 7487
+        }
+    ],
+    "success": true,
+    "filters": {},
+    "total_count": 15,
+    "page": {
+        "current": 1,
+        "total": 15,
+        "has_previous": false,
+        "has_next": true,
+        "type": "number",
+        "size": 10
+    }
+}
+}
