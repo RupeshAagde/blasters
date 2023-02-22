@@ -88,7 +88,13 @@ export default {
             const list =  OrderService.fetchBulkDownloadTemplateList()
             return list
             .then((data) => {
-                this.differentTemplates = data.data.template_x_slug;
+                if(data && data.data && data.data.template_x_slug) {
+                    this.differentTemplates = data.data.template_x_slug;
+                }
+                else {
+                    this.$snackbar.global.showError('Unable to get the list of templates');
+                    console.error("Unable to retrieve template_x_slug   ", data);
+                }
             })
             .catch((error) => {
                 this.$snackbar.global.showError('Unable to get the list of templates');
