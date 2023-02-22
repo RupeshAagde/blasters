@@ -883,7 +883,7 @@ export default {
             this.lane = laneData.value;
             this.pagination.current = 1;
             if(this.search.length == 0) {
-                this.filterType = "Auto";
+                this.filterType = "auto";
             }
             this.setRouteQuery({lane: this.lane, page: 1, search_type: this.filterType });
         },
@@ -1027,7 +1027,7 @@ export default {
                 this.lane = 'new'
             }
             if(this.search.length == 0) {
-                this.filterType = "Auto";
+                this.filterType = "auto";
             }
             this.superLaneChangeFetchInProgress = this.selectedStageTab !== this.$route.query.super_lane;
             this.pagination.current = 1;
