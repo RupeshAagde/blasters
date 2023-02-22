@@ -1,0 +1,368 @@
+{
+    "items": [
+        {
+            "_id": "63bc1ea88ff55e117c029255",
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "108.0.0.0"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "content": {
+                "title": "sadfasdfasdf",
+                "description": "PHA+YXNkZmFzZGZhc2RmPC9wPg==",
+                "attachments": [
+                    {
+                        "display": "Shipment ID",
+                        "type": "shipment",
+                        "value": "16732474358681725492"
+                    }
+                ]
+            },
+            "category": {
+                "key": "process",
+                "display": "Process",
+                "sub_categories": []
+            },
+            "source": "platform_panel",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Urgent",
+                "color": "#f90301",
+                "key": "urgent"
+            },
+            "created_by": {
+                "id": "c00795e027659a6ac4409b92",
+                "user": {
+                    "_id": "c00795e027659a6ac4409b92",
+                    "gender": null,
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Rohit",
+                    "lastName": "Gupta",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8451986726",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "rohitgupta@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "rohitgupta@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "rohitgupta@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2022-03-21T13:08:33.908Z",
+                    "updatedAt": "2022-03-21T13:08:33.908Z",
+                    "uid": "366",
+                    "account_type": "user",
+                    "first_name": "Rohit",
+                    "last_name": "Gupta",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8451986726",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2022-03-21T13:08:33.908Z",
+                    "updated_at": "2022-03-21T13:08:33.908Z"
+                }
+            },
+            "tags": [],
+            "integration": {
+                "type": "default"
+            },
+            "is_feedback_pending": false,
+            "createdAt": "2023-01-09T14:03:20.930Z",
+            "updatedAt": "2023-01-09T14:03:20.930Z",
+            "__v": 0,
+            "id": "63bc1ea88ff55e117c029255",
+            "created_at": "2023-01-09T14:03:20.930Z",
+            "updated_at": "2023-01-09T14:03:20.930Z"
+        },
+        {
+            "_id": "63bc1e90e61e32869b90ecde",
+            "context": {
+                "company_id": "1"
+            },
+            "created_on": {
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                "platform": "web",
+                "meta": {
+                    "browser": {
+                        "name": "Chrome",
+                        "version": "108.0.0.0"
+                    },
+                    "os": {
+                        "name": "macOS",
+                        "version": "10.15.7",
+                        "versionName": "Catalina"
+                    },
+                    "platform": {
+                        "type": "desktop",
+                        "vendor": "Apple"
+                    },
+                    "engine": {
+                        "name": "Blink"
+                    }
+                }
+            },
+            "content": {
+                "title": "sdfasdf",
+                "description": "PHA+c2FkZmFzZGZhc2Q8L3A+",
+                "attachments": [
+                    {
+                        "display": "Shipment ID",
+                        "type": "shipment",
+                        "value": "16732474358681725492"
+                    }
+                ]
+            },
+            "category": {
+                "key": "process",
+                "display": "Process",
+                "sub_categories": []
+            },
+            "source": "platform_panel",
+            "status": {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            "priority": {
+                "display": "Medium",
+                "color": "#f37736",
+                "key": "medium"
+            },
+            "created_by": {
+                "id": "c00795e027659a6ac4409b92",
+                "user": {
+                    "_id": "c00795e027659a6ac4409b92",
+                    "gender": null,
+                    "accountType": "user",
+                    "active": true,
+                    "firstName": "Rohit",
+                    "lastName": "Gupta",
+                    "phoneNumbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8451986726",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "emails": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "email": "rohitgupta@gofynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "rohitgupta@fynd.com"
+                        },
+                        {
+                            "active": true,
+                            "primary": false,
+                            "verified": true,
+                            "email": "rohitgupta@uniket.store"
+                        }
+                    ],
+                    "createdAt": "2022-03-21T13:08:33.908Z",
+                    "updatedAt": "2022-03-21T13:08:33.908Z",
+                    "uid": "366",
+                    "account_type": "user",
+                    "first_name": "Rohit",
+                    "last_name": "Gupta",
+                    "phone_numbers": [
+                        {
+                            "active": true,
+                            "primary": true,
+                            "verified": true,
+                            "phone": "8451986726",
+                            "countryCode": 91,
+                            "country_code": 91
+                        }
+                    ],
+                    "created_at": "2022-03-21T13:08:33.908Z",
+                    "updated_at": "2022-03-21T13:08:33.908Z"
+                }
+            },
+            "tags": [],
+            "integration": {
+                "type": "default"
+            },
+            "is_feedback_pending": false,
+            "createdAt": "2023-01-09T14:02:56.998Z",
+            "updatedAt": "2023-01-09T14:02:56.998Z",
+            "__v": 0,
+            "id": "63bc1e90e61e32869b90ecde",
+            "created_at": "2023-01-09T14:02:56.998Z",
+            "updated_at": "2023-01-09T14:02:56.998Z"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 2,
+        "has_next": false
+    },
+    "filters": {
+        "statuses": [
+            {
+                "display": "Pending",
+                "color": "#eae22b",
+                "key": "pending"
+            },
+            {
+                "display": "In Progress",
+                "color": "#ffa951",
+                "key": "in_progress"
+            },
+            {
+                "display": "Resolved",
+                "color": "#20c3a6",
+                "key": "resolved"
+            },
+            {
+                "display": "Closed",
+                "color": "#41434c",
+                "key": "closed"
+            }
+        ],
+        "priorities": [
+            {
+                "display": "Low",
+                "color": "#fed766",
+                "key": "low"
+            },
+            {
+                "display": "Medium",
+                "color": "#f37736",
+                "key": "medium"
+            },
+            {
+                "display": "High",
+                "color": "#fe4a49",
+                "key": "high"
+            },
+            {
+                "display": "Urgent",
+                "color": "#f90301",
+                "key": "urgent"
+            }
+        ],
+        "categories": [
+            {
+                "display": "Process",
+                "key": "process"
+            },
+            {
+                "display": "Order > Not processed",
+                "key": "order > not_processed"
+            }
+        ],
+        "all_categories": {
+            "freshdesk": [
+                {
+                    "_id": "6389f3f86873dc35d5f00ed7",
+                    "display": "Aggregator",
+                    "key": "aggregator",
+                    "sub_categories": [
+                        {
+                            "_id": "6389f3f86873dc35d5f00ed8",
+                            "display": "Article Not Mapped",
+                            "key": "article_not_mapped",
+                            "sub_categories": []
+                        }
+                    ],
+                    "group_id": 33000209253
+                }
+            ],
+            "default": [
+                {
+                    "_id": "639331408d978e4b4d7ccb90",
+                    "display": "Process",
+                    "key": "process",
+                    "sub_categories": []
+                },
+                {
+                    "_id": "6391c6fee2f565ac793b88df",
+                    "display": "Order",
+                    "key": "order",
+                    "sub_categories": [
+                        {
+                            "_id": "6391c6fee2f565ac793b88e0",
+                            "display": "Not processed",
+                            "key": "not_processed",
+                            "sub_categories": []
+                        },
+                        {
+                            "_id": "6391c6fee2f565ac793b88e1",
+                            "display": "Return",
+                            "key": "return",
+                            "sub_categories": []
+                        },
+                        {
+                            "_id": "6391c6fee2f565ac793b88e2",
+                            "display": "Processed",
+                            "key": "processed",
+                            "sub_categories": []
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

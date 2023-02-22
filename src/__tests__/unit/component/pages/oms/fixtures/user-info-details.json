@@ -1,0 +1,49 @@
+{
+    "user": {
+        "debug": {
+            "source": "grimlock",
+            "platform": "000000000000000000000001"
+        },
+        "gender": null,
+        "roles": [],
+        "active": true,
+        "consent": false,
+        "_id": "770cb4d3c750904c7bfe2907",
+        "emails": [
+            {
+                "active": true,
+                "primary": true,
+                "verified": true,
+                "email": "rohitgupta@gofynd.com"
+            },
+            {
+                "active": true,
+                "primary": false,
+                "verified": true,
+                "email": "rohitgupta@fynd.com"
+            },
+            {
+                "active": true,
+                "primary": false,
+                "verified": true,
+                "email": "rohitgupta@uniket.store"
+            }
+        ],
+        "username": "rohitgupta_gofynd_com_90610",
+        "uid": "267",
+        "account_type": "user",
+        "first_name": "Rohit",
+        "last_name": "Gupta",
+        "phone_numbers": [
+            {
+                "active": true,
+                "primary": true,
+                "verified": true,
+                "phone": "8451986726",
+                "country_code": 91
+            }
+        ],
+        "created_at": "2022-07-04T09:06:57.893Z",
+        "updated_at": "2022-07-04T09:06:57.893Z"
+    }
+}
