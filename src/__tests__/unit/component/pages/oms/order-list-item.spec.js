@@ -1,7 +1,7 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 
@@ -71,11 +71,11 @@ describe('OrderListItem', () => {
     });
 
     it('Navigate function when clicked checking if there are no undefined or null values in the route query', async () => {
-        const navigateFunction = jest.spyOn(wrapper.vm, 'navigate')
+        const navigateFunction = jest.spyOn(wrapper.vm, 'navigate');
         await flushPromises();
 
         const element = wrapper.find('.line-break');
-        element.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id, '0', ORDER_LIST_DATA.ordersResponseData.items[0].shipments[0].shipment_id)
+        element.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id, '0', ORDER_LIST_DATA.ordersResponseData.items[0].shipments[0].shipment_id);
         await wrapper.vm.$nextTick;
         expect(navigateFunction).toHaveBeenCalled();
     });

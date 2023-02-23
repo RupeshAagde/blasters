@@ -1,10 +1,9 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
-import URLS from '@/services/domain.service';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 
@@ -17,8 +16,11 @@ import ShipmentHeader from '@/pages/oms/shipment-info/header.vue';
 import BagsList from '@/pages/oms/bags-list/index.vue';
 import BagsListTable from '@/pages/oms/bags-list/table.vue';
 
+/* Services imports */
+import URLS from '@/services/domain.service';
+
 /* Mock imports */
-import SHIPMENT_TABLE from '../fixtures/shipment-table.json'
+import SHIPMENT_TABLE from '../fixtures/shipment-table.json';
 
 let wrapper, router, localVue;
 const mock = new MockAdapter(axios);
@@ -125,7 +127,7 @@ describe('ShipmentListItem', () => {
         expect(changeActiveShipmentFunction).toHaveBeenCalled();
     });
     
-    it('it calls the changeActiveShipment method', async () => {
+    it('it calls the displayConfirmScreen method', async () => {
         const displayConfirmScreenFunction = jest.spyOn(wrapper.vm, 'displayConfirmScreen');
         await flushPromises();
         // wrapper.setData({
@@ -143,7 +145,7 @@ describe('ShipmentListItem', () => {
         expect(displayConfirmScreenFunction).toHaveBeenCalled();
     }); 
 
-    it('it calls the updateStatus method with different parameters', async () => {
+    it('it calls the updateStatus method with API call status 200', async () => {
         const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         // wrapper.setData({
@@ -179,7 +181,7 @@ describe('ShipmentListItem', () => {
         expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method with different parameters', async () => {
+    it('it calls the updateStatus method with API call status 500', async () => {
         mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE({})).reply(500, {});
         const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
@@ -216,7 +218,7 @@ describe('ShipmentListItem', () => {
         expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method with different parameters', async () => {
+    it('it calls the updateStatus method with different params in the API post call', async () => {
         mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE({
             "statuses": [
                 {
@@ -274,7 +276,7 @@ describe('ShipmentListItem', () => {
         expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method wiht different parameters', async () => {
+    it('it calls the updateStatus method with setData = { showConfirmScreen = true }', async () => {
         const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         wrapper.setData({

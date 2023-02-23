@@ -10,9 +10,6 @@ import flushPromises from "flush-promises";
 /* Component imports */
 import InvoiceLabelMenu from '@/pages/oms/invoice-label-menu.vue';
 
-/* Services imports */
-import URLS from '@/services/domain.service';
-
 /* Mock imports */
 import INVOICE_LABEL_MOCK from './fixtures/invoice-label-menu-mocks.json'
 

@@ -1,9 +1,8 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import flushPromises from 'flush-promises';
 
 /* Component imports */
 import ActivityLogs from '@/pages/oms/shipment-info/activity-logs.vue'

@@ -228,7 +228,7 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        let element = wrapper.findComponent({ref:'call-api-function'})
+        let element = wrapper.findComponent({ref:'call-api-function'});
         element.vm.$emit('tryAgain', "orders");
         await wrapper.vm.$nextTick();
         expect(callApiFunctionsFunction).toHaveBeenCalled();
@@ -246,7 +246,7 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        let element = wrapper.findComponent({ref:'call-api-function'})
+        let element = wrapper.findComponent({ref:'call-api-function'});
         element.vm.$emit('tryAgain', "shipment");
         await wrapper.vm.$nextTick();
         expect(callApiFunctionsFunction).toHaveBeenCalled();
@@ -487,7 +487,7 @@ describe('Order/Shipment List Page', () => {
         let element = childComponent.find('.advanced-filter-dropdown')
         element.vm.$emit('change', [
             "000000000000000000000001"
-        ], 'sales_channel')
+        ], 'sales_channel');
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
@@ -510,7 +510,7 @@ describe('Order/Shipment List Page', () => {
         element.vm.$emit('searchInputChange', {
             "id": "nitrozen-dropdown-3oxvs9h1",
             "text": "express"
-        }, 0)
+        }, 0);
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
@@ -616,7 +616,6 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(ShipmentListItem)
-        let element = childComponent.find('.line-break')
         
         await wrapper.vm.$nextTick();
         expect(childComponent.vm.shipmentList.length).toBeGreaterThanOrEqual(0);

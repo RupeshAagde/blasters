@@ -1,7 +1,7 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 

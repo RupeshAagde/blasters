@@ -1,7 +1,7 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 
@@ -62,14 +62,7 @@ describe('ShipmentListItem', () => {
     });
 
     it('Navigate function when clicked checking if there are no undefined or null values in the route query', async () => {
-        let routequery = {
-            group_entity: "",
-            page_no: '1',
-            from_date: '12-07-2022',
-            to_date: '19-07-2022',
-            lane: 'new',
-            }
-
+        const navigateFunction = jest.spyOn(wrapper.vm, 'navigate');
         await flushPromises();
 
         const element = wrapper.find('.line-break');
@@ -77,5 +70,6 @@ describe('ShipmentListItem', () => {
         // cleansedQuery = this.query;
         await wrapper.vm.$nextTick;
 
+        expect(navigateFunction).toHaveBeenCalled();
     });
 });

@@ -18,7 +18,7 @@ const RoleModal = {
         open: () => { },
         close: () => { }
     }
-}
+};
 describe('ShipmentDpTracking', () => {
     beforeEach(async() => {
         localVue = createLocalVue();
@@ -44,8 +44,8 @@ describe('ShipmentDpTracking', () => {
             category: {
                 display: 'pending'
             }
-        }]
-        const isDrawerView = false
+        }];
+        const isDrawerView = false;
         wrapper = mount(ShipmentIssueListDialog, {
             localVue,
             router,
@@ -60,8 +60,8 @@ describe('ShipmentDpTracking', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
     it('ShipmentDpTracking renders', async() => {
-        const div = wrapper.find('div')
-        expect(div.exists()).toBe(true)
+        const div = wrapper.find('div');
+        expect(div.exists()).toBe(true);
     });
 
     it('it will call the onRowClick method', async () => {
@@ -71,8 +71,8 @@ describe('ShipmentDpTracking', () => {
         const goToTicketFunction = jest.spyOn(wrapper.vm, 'goToTicket');
         await flushPromises();
 
-        let element = wrapper.find('.link')
-        element.trigger('click', '54321')
+        let element = wrapper.find('.link');
+        element.trigger('click', '54321');
         await wrapper.vm.$nextTick();
 
         expect(goToTicketFunction).toHaveBeenCalled();

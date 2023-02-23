@@ -123,12 +123,12 @@ describe('Order Details Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(Header)
+        const childComponent = wrapper.findComponent(Header);
 
         const navigateToDetailsFunction = jest.spyOn(childComponent.vm, 'navigateToDetails');
         await flushPromises();
 
-        let element = childComponent.find('.back-btn')
+        let element = childComponent.find('.back-btn');
         element.trigger('click');
         
         expect(navigateToDetailsFunction).toHaveBeenCalled();
@@ -146,12 +146,12 @@ describe('Order Details Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(Header)
+        const childComponent = wrapper.findComponent(Header);
 
         const loadDataFunction = jest.spyOn(childComponent.vm, 'loadData');
         await flushPromises();
 
-        let element = childComponent.find('.refresh-icon-container')
+        let element = childComponent.find('.refresh-icon-container');
         element.trigger('click');
         
         expect(loadDataFunction).toHaveBeenCalledTimes(0);
@@ -171,12 +171,12 @@ describe('Order Details Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(ShipmentsList)
+        const childComponent = wrapper.findComponent(ShipmentsList);
 
         const statusUpdatedFunction = jest.spyOn(childComponent.vm, 'statusUpdated');
         await flushPromises();
 
-        let element = childComponent.find('.content-sys')
+        let element = childComponent.find('.content-sys');
         element.vm.$emit('statusUpdated');
         
         expect(statusUpdatedFunction).toHaveBeenCalledTimes(1);
