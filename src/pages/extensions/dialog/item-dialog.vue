@@ -126,7 +126,7 @@ export default {
     overflow-x: hidden;
     background-color: rgba(82, 78, 78, 0.52);
     transition: opacity 0.25s ease;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     .blaster-scrollbar;
     .flex-center();
     @media @mobile {

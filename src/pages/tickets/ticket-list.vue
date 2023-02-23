@@ -194,7 +194,7 @@
         margin-bottom: 12px;
         .in-sync {
             color: #9b9b9b;
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -228,7 +228,7 @@
                 flex-direction: column;
             }
             .content-label {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -236,7 +236,7 @@
                 color: #9b9b9b;
             }
             .content-value {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 14px;
@@ -507,7 +507,7 @@ export default {
             });
         },
         readableDate(date) {
-            return moment(date).format('DD/MM/YYYY');
+            return moment(date).format('MMM D, YYYY');
         },
         ticketSubtitle(ticket) {
             let subtitle = 'Created by ';

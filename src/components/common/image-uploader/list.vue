@@ -123,7 +123,7 @@ export default {
                     const imageURL = i.secure_url;
                     i.thumbnail_url = i.secure_url;
                     const url = new URL(imageURL);
-                    if (this.hdns.includes(url.hostname)) {
+                    if (GrindorService.isHDNPath(imageURL)) {
                         // prepare get original image url
                         const sizeToReplace = this.hdnSizes.find((hs) => {
                             return imageURL.includes(hs);
@@ -211,7 +211,6 @@ export default {
         },
         $loadImages() {
             this.imageList = [];
-            this;
             if (this.imageSource !== 'namespace_images') {
                 this.grindorPagination = { page: 0, nextPage: 1, limit: 16 };
             }

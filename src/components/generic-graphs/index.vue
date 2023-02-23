@@ -35,6 +35,7 @@
           :status-code="statusCode"
       ></custom-table-graph>
     </div>
+    
     <div v-else-if="graphType === availableGraphs.TABLE_V2">
       <table-v2
           :columns="columns"
@@ -46,6 +47,7 @@
           :extra-props="extraProps"
           :status-code="statusCode"
           :seed-filters="seedFilters"
+          :hyperlocal-page="hyperlocalPage"
           @reset-data="$emit('reset-data')"
       ></table-v2>
     </div>

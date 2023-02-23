@@ -502,7 +502,6 @@ export default {
     border-radius: 12px;
     top: 77px;
     background: #ffffff;
-    border-radius: 12px;
 
     .kapture-logo {
         padding: 24px;

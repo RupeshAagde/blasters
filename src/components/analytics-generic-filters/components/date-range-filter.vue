@@ -65,8 +65,8 @@ export default {
     excludedShortcuts: ['Last 15 days', 'Last 3 Months', 'Last Week', 'Last Month'],
     includedShortcuts: [{
       text: 'Yesterday',
-      start: moment().subtract(1, "day"),
-      end: moment().subtract(1, "day"),
+      start: moment().subtract(100, "day"),
+      end: moment().subtract(100, "day"),
       index: 1
     }],
     shouldShow : false

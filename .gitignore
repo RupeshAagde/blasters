@@ -93,3 +93,4 @@ sw.*
 # ignore snapshots
 __snapshots__/
 
+.scannerwork

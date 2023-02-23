@@ -1,6 +1,5 @@
 import {mapGetters} from "vuex";
 import {GET_USER_INFO} from "@/store/getters.type";
-import {ADMIN_FETCH_DASHBOARD_DATA} from "@/store/action.type";
 
 const DashboardCommonMixins = {
     computed: {

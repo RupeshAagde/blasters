@@ -1,6 +1,5 @@
 import ApiService from './api.service';
 import URLS from './domain.service';
-import root from 'window-or-global';
 import {
     getCommonHeaderOptions
 } from './utils.service';

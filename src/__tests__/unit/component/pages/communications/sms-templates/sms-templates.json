@@ -1,0 +1,3283 @@
+{
+    "listing": {
+      "items": [
+        {
+          "is_system": false,
+          "is_internal": false,
+          "description": "SMS for the referred user",
+          "priority": "high",
+          "tags": [],
+          "published": true,
+          "_id": "5f5cdb10adfb92280f434781",
+          "name": "referred-test-sms",
+          "template_variables": {
+            "records": {
+              "friend": "Prince",
+              "offer_msg": "Order karein aur payein 100% cashback of your delivery fee aapke pehle order par.",
+              "validity": 21
+            },
+            "ref_user": {
+              "firstName": "Prince",
+              "lastName": "Raj",
+              "phoneNumber": {
+                "phone": "7008963113",
+                "countryCode": 91
+              },
+              "email": "princeraj@gofynd.com"
+            },
+            "ref_application": {
+              "name": "Lorem ipsum dolor sit amet",
+              "banner": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              },
+              "logo": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              }
+            }
+          },
+          "message": {
+            "template_type": "nunjucks",
+            "template": "Hi {{records.friend}}! Welcome to {{ref_application.name}}. Order karein aur payein 100% cashback of your delivery fee aapke pehle order par.Offer valid for {{records.validity}} days only. T&C Apply"
+          },
+          "application": "000000000000000000000001",
+          "created_at": "2020-09-12T14:28:32.539Z",
+          "updated_at": "2020-09-17T10:59:03.427Z",
+          "slug": "referred-test-sms-a8aPnqqeP",
+          "__v": 0
+        },
+        {
+          "is_system": false,
+          "is_internal": false,
+          "description": "Send SMS to referee",
+          "priority": "high",
+          "tags": [],
+          "published": true,
+          "_id": "5f5cda3dadfb921a7b434780",
+          "name": "referee-test-msg",
+          "template_variables": {
+            "records": {
+              "friend": "Prince",
+              "referrer": "Piyush",
+              "validity": "21",
+              "offer_msg": "Apne order par free delivery paane ke liye unki madad karein pehle order mein."
+            },
+            "ref_user": {
+              "firstName": "Prince",
+              "lastName": "Raj",
+              "phoneNumber": {
+                "phone": "7008963113",
+                "countryCode": 91
+              },
+              "email": "princeraj@gofynd.com"
+            },
+            "ref_application": {
+              "name": "Lorem ipsum dolor sit amet",
+              "banner": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              },
+              "logo": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              }
+            }
+          },
+          "message": {
+            "template_type": "nunjucks",
+            "template": "Aapke dost {{records.friend}} ne {{ref_application.name}} App download kiya hai. Apne order par free delivery paane ke liye unki madad karein pehle order mein. Offer valid for {{records.validity}} days only. T&C apply."
+          },
+          "application": "000000000000000000000001",
+          "created_at": "2020-09-12T14:25:01.756Z",
+          "updated_at": "2020-09-17T11:00:20.458Z",
+          "slug": "referee-test-msg-e6P65g-jg",
+          "__v": 0
+        },
+        {
+          "is_system": false,
+          "is_internal": false,
+          "description": "dbjkkbv",
+          "priority": "low",
+          "tags": [
+            "dbkfbksdbjkgbjvd"
+          ],
+          "published": true,
+          "_id": "5e88346171450d01bb3a8e83",
+          "name": "dhfgkjadbd",
+          "template_variables": {
+            "hello": "world"
+          },
+          "message": {
+            "template_type": "static",
+            "template": "This is a test messagesJDFvhsdbvzfjkxbvkjsDBZxjcbSDKJBgjkvbsdfjKDv"
+          },
+          "application": "000000000000000000000001",
+          "created_at": "2020-04-04T07:16:49.275Z",
+          "updated_at": "2020-04-04T07:16:49.275Z",
+          "slug": "dhfgkjadbd-xm6asvcTR",
+          "__v": 0
+        }
+      ],
+      "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 3,
+        "has_next": false
+      }
+    },
+    "subscribedListing":{
+      "docs": [
+          {
+              "_id": "62d5389b15ce8b66db40238e",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this SMS template for notifying the customers, that their order is successfully placed.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "placed-sms-platform",
+              "name": "Online order placed",
+              "template_variables": {
+                  "orderID": "FY62C6E2C0019A2D1BF3",
+                  "seller_name": "Reliance Industries Limited (Owner)",
+                  "sla": "3-12",
+                  "platform_url": "https://partner.jiomarketx0.de/"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{seller_name}},\n\nYou have received a new order on JioMarket for fulfilment - {{orderID}}.\n\nPlease login to the JioMarket Seller {{platform_url}} Portal to view order details.\n\nJust to remind, SLA to accept the order is {{sla}} hours from order receipt and to dispatch the same is {{sla}} hours from order receipt."
+              },
+              "category": "platform",
+              "created_at": "2022-07-18T10:40:27.045Z",
+              "updated_at": "2022-07-18T10:40:27.045Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "637dc0615a36649640d0234e",
+              "is_system": true,
+              "is_internal": false,
+              "name": "Last Day of Subscription",
+              "description": "Use this SMS template for notifying the sellers, that their subscription is over.",
+              "slug": "subscription-ended-sms-platform",
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Your Fynd Platform {{planName}} plan is ending today! Why stop your e-commerce journey now? Renew your plan now."
+              },
+              "url_shorten": {
+                  "enabled": false
+              },
+              "priority": "high",
+              "tags": [],
+              "template_variables": {
+                  "planName": "Professional"
+              },
+              "published": true,
+              "category": "platform",
+              "created_at": "2022-11-23T06:40:33.960Z",
+              "updated_at": "2022-12-13T04:57:39.470Z",
+              "__v": 0
+          },
+          {
+              "_id": "637dc0625a36649640d02369",
+              "is_system": true,
+              "is_internal": false,
+              "name": "Days Before Subscription Ends",
+              "description": "Use this SMS template for notifying the customers, that their subscription will end T days.",
+              "slug": "days-before-subscription-ends-sms-platform",
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Your Fynd Platform {{planName}} plan is ending in {{TX}} days! \nDon’t miss out! Renew your plan soon."
+              },
+              "url_shorten": {
+                  "enabled": false
+              },
+              "priority": "high",
+              "tags": [],
+              "template_variables": {
+                  "planName": "Professional",
+                  "TX": "2"
+              },
+              "published": true,
+              "category": "platform",
+              "created_at": "2022-11-23T06:40:34.143Z",
+              "updated_at": "2022-11-23T08:33:01.149Z",
+              "__v": 0
+          },
+          {
+              "_id": "62c88625f2c9b888f724c4a0",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this sms template to convey seller that a company store requires corrections.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "company-store-correction-sms-template-platform",
+              "name": "Company Store Correction",
+              "template_variables": {
+                  "corrections": "Issue in brand details",
+                  "store_name": "",
+                  "company_owner": "",
+                  "link": "https://partner.jiomarket.com/"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{ company_owner }}, Location details submitted by you for {{ store_name }} need correction - {{ corrections }}. Please log into JioMarket for more details {{ link }}"
+              },
+              "category": "platform",
+              "created_at": "2022-07-08T19:31:49.072Z",
+              "updated_at": "2022-07-27T05:42:50.393Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "62c88625f2c9b846f324c49a",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this sms template to convey seller that a company legal documents require corrections.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "company-legal-docs-correction-sms-template-platform",
+              "name": "Company Legal Documents Correction",
+              "template_variables": {
+                  "company_name": "",
+                  "corrections": "Issue in legal documents",
+                  "company_owner": "",
+                  "link": "https://partner.jiomarket.com"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{ company_owner }}, Legal Documents submitted by you need correction - {{ corrections }}. Please log into JioMarket for more details {{ link }}"
+              },
+              "category": "platform",
+              "created_at": "2022-07-08T19:31:49.043Z",
+              "updated_at": "2022-07-27T05:42:50.362Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "62c88625f2c9b847fb24c4a6",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this sms template to convey seller about a gated category document expiry.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "company-gated-category-license-expiry-sms-platform",
+              "name": "Company Gated Category License Expiry SMS",
+              "template_variables": {
+                  "seller_name": "Seller Name",
+                  "license_number": "1231312131",
+                  "selling_location_name": "Location First",
+                  "suppression_date": "2022-07-06"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{ seller_name }}, Fssai License - {{ license_number }} submitted by you for location {{ selling_location_name }} will expire in 120 days. Please renew to avoid product suppression on JioMarket"
+              },
+              "category": "platform",
+              "created_at": "2022-07-08T19:31:49.145Z",
+              "updated_at": "2022-07-08T19:31:49.145Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "62c88625f2c9b83ea324c497",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this sms template to convey seller that a company business details require corrections.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "company-business-details-correction-sms-template-platform",
+              "name": "Company Business Details Correction",
+              "template_variables": {
+                  "company_name": "",
+                  "company_owner": "",
+                  "corrections": "Issue in business details",
+                  "link": "https://partner.jiomarket.com"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{ company_owner }}, Business details submitted by you need correction - {{ corrections }}. Please log into JioMarket for more details {{ link }}"
+              },
+              "category": "platform",
+              "created_at": "2022-07-08T19:31:49.009Z",
+              "updated_at": "2022-07-27T05:42:50.345Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "62c88624f2c9b8715824c494",
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this sms template to convey seller that a company brand has been rejected",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "slug": "company-brand-rejection-sms-template-platform",
+              "name": "Company Brand Rejection",
+              "template_variables": {
+                  "company_owner": "",
+                  "reject_reason": "issue in brand details",
+                  "brand_name": "",
+                  "link": "https://partner.jiomarket.com"
+              },
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{ company_owner }}, Brand details submitted by you for {{ brand_name }} on JioMarket has been rejected due to {{ reject_reason }}"
+              },
+              "category": "platform",
+              "created_at": "2022-07-08T19:31:48.995Z",
+              "updated_at": "2022-07-27T05:42:50.289Z",
+              "__v": 0,
+              "url_shorten": {
+                  "enabled": false
+              }
+          },
+          {
+              "_id": "637dc0625a36649640d02357",
+              "is_system": true,
+              "is_internal": false,
+              "name": "Account Blocked",
+              "description": "Use this SMS template for notifying the customers, that their account is blocked.",
+              "slug": "account-blocked-sms-platform",
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Your Fynd Platform account has been blocked! You can no longer access your account unless you subscribe to a plan."
+              },
+              "url_shorten": {
+                  "enabled": false
+              },
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "category": "platform",
+              "created_at": "2022-11-23T06:40:34.024Z",
+              "updated_at": "2022-12-13T04:57:39.542Z",
+              "__v": 0,
+              "template_variables": {}
+          },
+          {
+              "_id": "637dc0625a36649640d0237b",
+              "is_system": true,
+              "is_internal": false,
+              "name": "Credit Balance Deducted",
+              "description": "Use this SMS template for notifying the sellers, that their Credit Balance Deducted.",
+              "slug": "credit-balance-deducted-sms-platform",
+              "message": {
+                  "template_type": "nunjucks",
+                  "template": "Greetings from Fynd Platform. You have successfully made a transaction of ₹{{deduction}} using your credit balance."
+              },
+              "url_shorten": {
+                  "enabled": false
+              },
+              "priority": "high",
+              "tags": [],
+              "template_variables": {
+                  "deduction": "500"
+              },
+              "published": true,
+              "category": "platform",
+              "created_at": "2022-11-23T06:40:34.330Z",
+              "updated_at": "2022-12-13T04:57:39.662Z",
+              "__v": 0
+          }
+      ],
+      "total": 35,
+      "limit": 10,
+      "page": 1,
+      "totalPages": 4,
+      "pagingCounter": 1,
+      "hasPrevPage": false,
+      "hasNextPage": true,
+      "prevPage": null,
+      "nextPage": 2
+  },
+    "sms_providers":{"items":[{"override_dnd":true,"type":"application","provider":"netcore","_id":"616fedcaafb8831b52a099f2","name":"Netcore Default Test","description":"this is test","feedid":"362072","username":"9406928799","password":"mwgwg","senderid":"GOFYND","application":"000000000000000000000001","created_at":"2021-10-20T10:22:02.382Z","updated_at":"2021-10-22T06:04:45.734Z","slug":"test-application-netcore-Tq6jhI85H","__v":0,"entityid":"1301157840083680158"},{"override_dnd":false,"type":"application","provider":"netcore","_id":"616678f08646b8b3a42d0cd0","name":"test","feedid":"1234","username":"2312","password":"12","senderid":"12","application":"000000000000000000000001","created_at":"2021-10-13T06:13:04.935Z","updated_at":"2021-10-13T06:13:04.935Z","slug":"test-application-netcore-pVciPHT_d","__v":0}],"page":{"type":"number","current":1,"size":10,"item_total":2,"has_next":false}},
+    "default_providers":[{"_id":"610d07c07b47501b2b5c6cf2","name":"Fynd - Netcore","is_default":true},{"_id":"610d07c07b475079775c6cee","name":"Fynd - Telspiel"}],
+    "dummy-data-sources": [
+      {
+        "id": 1,
+        "name": "Data source 1"
+      },
+      {
+        "id": 2,
+        "name": "Data source 2"
+      }
+    ],
+    "sms-template-store": {
+      "name": "",
+      "description": "",
+      "message": "",
+      "priority": "low"
+    },
+    "user-data": {
+      "user": {
+        "debug": {
+          "source": "grimlock",
+          "platform": "platform"
+        },
+        "gender": "male",
+        "accountType": "user",
+        "roles": [],
+        "active": true,
+        "profilePicUrl": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/theme/pictures/free/original/default-profile_nxhzui.png",
+        "hasOldPasswordHash": false,
+        "_id": "5fbcd1c480d8996d5768f04a",
+        "firstName": "Parvez",
+        "lastName": "Shaikh",
+        "username": "919096686804_31579",
+        "phone_numbers": [
+          {
+            "active": true,
+            "primary": true,
+            "verified": true,
+            "phone": "9096686804",
+            "countryCode": 91
+          },
+          {
+            "active": true,
+            "primary": false,
+            "verified": false,
+            "countryCode": 91,
+            "phone": "9876543210"
+          }
+        ],
+        "emails": [
+          {
+            "active": true,
+            "primary": true,
+            "verified": false,
+            "email": "parvezshaikh@gofynd.com"
+          },
+          {
+            "active": true,
+            "primary": false,
+            "verified": false,
+            "email": "parvezshaikh@fynd.com"
+          },
+          {
+            "active": true,
+            "primary": false,
+            "verified": false,
+            "email": "parvezshaikh@uniket.store"
+          }
+        ],
+        "createdAt": "2020-11-24T09:26:28.994Z",
+        "updatedAt": "2021-02-08T18:20:50.742Z",
+        "uid": "5696"
+      }
+    },
+    "sms-template-to-clone": {
+      "is_system": true,
+      "is_internal": false,
+      "description": "Use this SMS template for notifying the customers, that their order is successfully placed.",
+      "priority": "high",
+      "tags": [],
+      "published": true,
+      "_id": "5e565a12343582051d211d2b",
+      "slug": "placed-sms",
+      "name": "Order Placed",
+      "template_variables": {
+        "email": "care@fynd.com",
+        "orderID": "Order ID FY5E53AFAA091115C235",
+        "brand": "SAPPER",
+        "name": "Alwira Sheikh",
+        "tracking_url": "http://go.fyndi.ng/track-order",
+        "articles": "Blue Solid Slim Fit Trackpants (28)",
+        "contact": 8767087087,
+        "ordering_channel": "ECOMM",
+        "credits": 0,
+        "slot": "By 9:00 PM",
+        "datetime": "Feb 28",
+        "cashback": 0,
+        "ref_application": {
+          "support_email": "care@fynd.com",
+          "app_information": {
+            "additional_data": {
+              "address_line": "Kurar village,Malad",
+              "city_pincode": "Mumbai - 400097",
+              "contactUs": "https://uniket-testing.addsale.link/contact-us",
+              "domain": "uniket-testing.addsale.link",
+              "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+            }
+          },
+          "domain": {
+            "name": "https://fynd.com"
+          },
+          "logo": {
+            "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+          }
+        }
+      },
+      "message": {
+        "template_type": "nunjucks",
+        "template": "Order Placed. Hey {{ name }}, {{ brand }} {{ orderID }} for {{ articles }} has been placed. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+      },
+      "created_at": "2020-02-26T11:44:18.409Z",
+      "updated_at": "2020-04-27T10:26:16.335Z",
+      "__v": 0
+    },
+    "app-subscription": {
+      "items": [
+        {
+          "template": {
+            "sms": {
+              "subscribed": true,
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for customers who cancelled their orders.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a10343582051d211d1c",
+                "slug": "cancelled_customer-sms",
+                "name": "Order cancelled by customer",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E54C4C809FA53C09E",
+                  "brand": "NIKE",
+                  "name": "Alwira S Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Black Sneakers (7)",
+                  "contact": 8767087087,
+                  "ordering_channel": "UNIKET",
+                  "refund_amount": 0,
+                  "refund_string": "",
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Mar 02",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Cancelled. {{ articles }} in your {{ brand }} Order {{ orderID }} has been cancelled by you. Refund of {{ refund_amount }} has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:16.519Z",
+                "updated_at": "2020-04-27T10:26:16.241Z",
+                "__v": 0
+              }
+            },
+            "email": {
+              "subscribed": true,
+              "template": "5e565a10343582051d211d1b"
+            }
+          },
+          "is_default": true,
+          "_id": "5e565a15343582051d211d47",
+          "application": "000000000000000000000001",
+          "event": {
+            "template": {
+              "email": {
+                "provider_type": "transaction",
+                "template": "5e565a10343582051d211d1b"
+              },
+              "sms": {
+                "provider_type": "transaction",
+                "template": "5e565a10343582051d211d1c"
+              },
+              "pushnotification": {
+                "template": null
+              }
+            },
+            "descriptions": "Select an email or SMS template for customers who cancelled their orders.",
+            "enabled": true,
+            "editable": true,
+            "group": "Order Cancellation",
+            "channels": [
+              "all"
+            ],
+            "priority": 1,
+            "_id": "5e565a10343582051d211d1d",
+            "slug": "cancelled_customer-event",
+            "event_name": "Cancelled by customer",
+            "created_at": "2020-02-26T11:44:16.650Z",
+            "updated_at": "2021-01-25T11:50:36.276Z",
+            "__v": 0
+          },
+          "slug": "cancelled_customer-event",
+          "created_at": "2020-02-26T11:44:21.582Z",
+          "updated_at": "2021-02-12T08:36:23.289Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "sms": {
+              "subscribed": true,
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for conveying that the ordered item is currently unavailable.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a10343582051d211d1f",
+                "slug": "cancelled_fynd-sms",
+                "name": "Order cancelled by admin",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E54C3620941DCECA0",
+                  "brand": "NIKE",
+                  "name": "Alwira S Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Black Sneakers (7)",
+                  "contact": 8767087087,
+                  "ordering_channel": "UNIKET",
+                  "refund_amount": 0,
+                  "refund_string": "",
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Mar 02",
+                  "cashback": 0,
+                  "phone_number": "8850130362",
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  },
+                  "country_code": "+91"
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Sorry, Order Declined. {{ articles }} from your {{ brand }} Order {{ orderID }} has been declined as it just went Out of Stock. Refund has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:16.919Z",
+                "updated_at": "2020-04-27T10:26:16.255Z",
+                "__v": 0
+              }
+            },
+            "email": {
+              "subscribed": true,
+              "template": "5e565a10343582051d211d1e"
+            }
+          },
+          "is_default": true,
+          "_id": "5e565a15343582051d211d46",
+          "application": "000000000000000000000001",
+          "event": {
+            "template": {
+              "email": {
+                "provider_type": "transaction",
+                "template": "5e565a10343582051d211d1e"
+              },
+              "sms": {
+                "provider_type": "transaction",
+                "template": "5e565a10343582051d211d1f"
+              },
+              "pushnotification": {
+                "template": null
+              }
+            },
+            "descriptions": "Select an email or SMS template for conveying that the ordered item is currently unavailable.",
+            "enabled": true,
+            "editable": true,
+            "group": "Order Cancellation",
+            "channels": [
+              "all"
+            ],
+            "priority": 2,
+            "_id": "5e565a11343582051d211d20",
+            "slug": "cancelled_fynd-event",
+            "event_name": "Cancelled by admin",
+            "created_at": "2020-02-26T11:44:17.040Z",
+            "updated_at": "2021-01-25T11:50:36.295Z",
+            "__v": 0
+          },
+          "slug": "cancelled_fynd-event",
+          "created_at": "2020-02-26T11:44:21.574Z",
+          "updated_at": "2021-02-12T08:36:23.384Z",
+          "__v": 0
+        }
+      ],
+      "page": {
+        "type": "number",
+        "current": 1,
+        "size": 200,
+        "item_total": 2,
+        "has_next": false
+      }
+    },
+    "system-events": [
+      {
+        "template": {
+          "email": {
+            "provider_type": "transaction",
+            "template": "5e565a10343582051d211d1b"
+          },
+          "sms": {
+            "provider_type": "transaction",
+            "template": {
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this SMS template for customers who cancelled their orders.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "_id": "5e565a10343582051d211d1c",
+              "slug": "cancelled_customer-sms",
+              "name": "Order cancelled by customer",
+              "template_variables": {
+                "email": "care@fynd.com",
+                "orderID": "Order ID FY5E54C4C809FA53C09E",
+                "brand": "NIKE",
+                "name": "Alwira S Sheikh",
+                "tracking_url": "http://go.fyndi.ng/track-order",
+                "articles": "Black Sneakers (7)",
+                "contact": 8767087087,
+                "ordering_channel": "UNIKET",
+                "refund_amount": 0,
+                "refund_string": "",
+                "source": "Cash on Delivery",
+                "credits": 0,
+                "slot": "By 9:00 PM",
+                "datetime": "Mar 02",
+                "cashback": 0,
+                "ref_application": {
+                  "support_email": "care@fynd.com",
+                  "app_information": {
+                    "additional_data": {
+                      "address_line": "Kurar village,Malad",
+                      "city_pincode": "Mumbai - 400097",
+                      "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                      "domain": "uniket-testing.addsale.link",
+                      "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                    }
+                  },
+                  "domain": {
+                    "name": "https://fynd.com"
+                  },
+                  "logo": {
+                    "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                  }
+                }
+              },
+              "message": {
+                "template_type": "nunjucks",
+                "template": "Cancelled. {{ articles }} in your {{ brand }} Order {{ orderID }} has been cancelled by you. Refund of {{ refund_amount }} has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+              },
+              "created_at": "2020-02-26T11:44:16.519Z",
+              "updated_at": "2020-04-27T10:26:16.241Z",
+              "__v": 0
+            }
+          },
+          "pushnotification": {
+            "template": null
+          }
+        },
+        "descriptions": "Select an email or SMS template for customers who cancelled their orders.",
+        "enabled": true,
+        "editable": true,
+        "group": "Order Cancellation",
+        "channels": [
+          "all"
+        ],
+        "priority": 1,
+        "_id": "5e565a10343582051d211d1d",
+        "slug": "cancelled_customer-event",
+        "event_name": "Cancelled by customer",
+        "created_at": "2020-02-26T11:44:16.650Z",
+        "updated_at": "2021-01-25T11:50:36.276Z",
+        "__v": 0
+      },
+      {
+        "template": {
+          "email": {
+            "provider_type": "transaction",
+            "template": "5e565a10343582051d211d1e"
+          },
+          "sms": {
+            "provider_type": "transaction",
+            "template": {
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this SMS template for conveying that the ordered item is currently unavailable.",
+              "priority": "low",
+              "tags": [],
+              "published": true,
+              "_id": "5e565a10343582051d211d1f",
+              "slug": "cancelled_fynd-sms",
+              "name": "Order cancelled by admin",
+              "template_variables": {
+                "email": "care@fynd.com",
+                "orderID": "Order ID FY5E54C3620941DCECA0",
+                "brand": "NIKE",
+                "name": "Alwira S Sheikh",
+                "tracking_url": "http://go.fyndi.ng/track-order",
+                "articles": "Black Sneakers (7)",
+                "contact": 8767087087,
+                "ordering_channel": "UNIKET",
+                "refund_amount": 0,
+                "refund_string": "",
+                "source": "Cash on Delivery",
+                "credits": 0,
+                "slot": "By 9:00 PM",
+                "datetime": "Mar 02",
+                "cashback": 0,
+                "phone_number": "8850130362",
+                "ref_application": {
+                  "support_email": "care@fynd.com",
+                  "app_information": {
+                    "additional_data": {
+                      "address_line": "Kurar village,Malad",
+                      "city_pincode": "Mumbai - 400097",
+                      "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                      "domain": "uniket-testing.addsale.link",
+                      "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                    }
+                  },
+                  "domain": {
+                    "name": "https://fynd.com"
+                  },
+                  "logo": {
+                    "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                  }
+                },
+                "country_code": "+91"
+              },
+              "message": {
+                "template_type": "nunjucks",
+                "template": "Sorry, Order Declined. {{ articles }} from your {{ brand }} Order {{ orderID }} has been declined as it just went Out of Stock. Refund has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+              },
+              "created_at": "2020-02-26T11:44:16.919Z",
+              "updated_at": "2020-04-27T10:26:16.255Z",
+              "__v": 0
+            }
+          },
+          "pushnotification": {
+            "template": null
+          }
+        },
+        "descriptions": "Select an email or SMS template for conveying that the ordered item is currently unavailable.",
+        "enabled": true,
+        "editable": true,
+        "group": "Order Cancellation",
+        "channels": [
+          "all"
+        ],
+        "priority": 2,
+        "_id": "5e565a11343582051d211d20",
+        "slug": "cancelled_fynd-event",
+        "event_name": "Cancelled by admin",
+        "created_at": "2020-02-26T11:44:17.040Z",
+        "updated_at": "2021-01-25T11:50:36.295Z",
+        "__v": 0
+      },
+      {
+        "template": {
+          "email": {
+            "provider_type": "transaction",
+            "template": "5e565a11343582051d211d21"
+          },
+          "sms": {
+            "provider_type": "transaction",
+            "template": {
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this SMS template for sending it to customers, whose orders have been successfully delivered.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "_id": "5e565a11343582051d211d22",
+              "slug": "delivery_done-sms",
+              "name": "Order delivered",
+              "template_variables": {
+                "email": "care@fynd.com",
+                "orderID": "Order ID FY5E53AFAA091115C235",
+                "brand": "SAPPER",
+                "name": "Alwira Sheikh",
+                "tracking_url": "http://go.fyndi.ng/track-order",
+                "articles": "Blue Solid Slim Fit Trackpants (28)",
+                "contact": 8767087087,
+                "ordering_channel": "ECOMM",
+                "credits": 0,
+                "slot": "By 9:00 PM",
+                "datetime": "Feb 28",
+                "cashback": 0,
+                "ref_application": {
+                  "support_email": "care@fynd.com",
+                  "app_information": {
+                    "additional_data": {
+                      "address_line": "Kurar village,Malad",
+                      "city_pincode": "Mumbai - 400097",
+                      "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                      "domain": "uniket-testing.addsale.link",
+                      "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                    }
+                  },
+                  "domain": {
+                    "name": "https://fynd.com"
+                  },
+                  "logo": {
+                    "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                  }
+                }
+              },
+              "message": {
+                "template_type": "nunjucks",
+                "template": "Delivered. {{ articles }} in your {{ brand }} Order {{ orderID }} has been delivered. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+              },
+              "created_at": "2020-02-26T11:44:17.284Z",
+              "updated_at": "2020-04-27T10:26:16.265Z",
+              "__v": 0
+            }
+          },
+          "pushnotification": {
+            "template": null
+          }
+        },
+        "descriptions": "Select an email or SMS template for sending it to customers, whose orders have been successfully delivered.",
+        "enabled": true,
+        "editable": true,
+        "group": "Order Processing",
+        "channels": [
+          "all"
+        ],
+        "priority": 6,
+        "_id": "5e565a11343582051d211d23",
+        "slug": "delivery_done-event",
+        "event_name": "Delivered",
+        "created_at": "2020-02-26T11:44:17.403Z",
+        "updated_at": "2021-01-25T11:50:36.389Z",
+        "__v": 0
+      },
+      {
+        "template": {
+          "email": {
+            "provider_type": "transaction",
+            "template": "5e565a11343582051d211d24"
+          },
+          "sms": {
+            "provider_type": "transaction",
+            "template": {
+              "is_system": true,
+              "is_internal": false,
+              "description": "Use this SMS template for notifying the customers, that their order is out for delivery.",
+              "priority": "high",
+              "tags": [],
+              "published": true,
+              "_id": "5e565a11343582051d211d25",
+              "slug": "out_for_delivery-sms",
+              "name": "Out for delivery",
+              "template_variables": {
+                "email": "care@fynd.com",
+                "orderID": "Order ID FY5E53AFAA091115C235",
+                "brand": "SAPPER",
+                "name": "Alwira Sheikh",
+                "tracking_url": "http://go.fyndi.ng/track-order",
+                "articles": "Blue Solid Slim Fit Trackpants (28)",
+                "contact": 8767087087,
+                "ordering_channel": "ECOMM",
+                "credits": 0,
+                "slot": "By 9:00 PM",
+                "datetime": "Feb 28",
+                "cashback": 0,
+                "ref_application": {
+                  "support_email": "care@fynd.com",
+                  "app_information": {
+                    "additional_data": {
+                      "address_line": "Kurar village,Malad",
+                      "city_pincode": "Mumbai - 400097",
+                      "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                      "domain": "uniket-testing.addsale.link",
+                      "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                    }
+                  },
+                  "domain": {
+                    "name": "https://fynd.com"
+                  },
+                  "logo": {
+                    "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                  }
+                }
+              },
+              "message": {
+                "template_type": "nunjucks",
+                "template": "Out for Delivery. {{ articles }} in {{ brand }} {{ orderID }} is out for delivery. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+              },
+              "created_at": "2020-02-26T11:44:17.664Z",
+              "updated_at": "2020-04-27T10:26:16.282Z",
+              "__v": 0
+            }
+          },
+          "pushnotification": {
+            "template": null
+          }
+        },
+        "descriptions": "Select an email or SMS template for notifying the customers, that their order is out for delivery.",
+        "enabled": true,
+        "editable": true,
+        "group": "Order Processing",
+        "channels": [
+          "all"
+        ],
+        "priority": 4,
+        "_id": "5e565a11343582051d211d26",
+        "slug": "out_for_delivery-event",
+        "event_name": "Out for delivery",
+        "created_at": "2020-02-26T11:44:17.789Z",
+        "updated_at": "2021-01-25T11:50:36.468Z",
+        "__v": 0
+      }
+    ],
+    "help-data": [
+      {
+        "links": {
+          "detail": "https://help.fynd.com/docs/en/admin-panel/wip"
+        },
+        "note": "WIP\n",
+        "path": "/about",
+        "points": [
+          "View information about application and the company."
+        ],
+        "jumbotronTitle": "About",
+        "jumbotronBody": "This section shows detailed information about the application in terms of its identity. Moreover, you can get the details of the company that owns this application. These data will assist for all future correspondence, which might require differentiating this application from others."
+      },
+      {
+        "links": {
+          "detail": "https://help.fynd.com/docs/en/platform-panel/marketing/announcements/"
+        },
+        "media": [
+          {
+            "link": "https://www.youtube.com/watch?v=vBRgJEpvWUY",
+            "title": "Announcements",
+            "type": "youtube"
+          }
+        ],
+        "note": "You can use announcements to notify your customers about new offers, current topics and trends.\n",
+        "path": "/announcements",
+        "points": [
+          "You can schedule an announcement by setting a date-time.",
+          "You can restrict announcements to one or more pages."
+        ],
+        "jumbotronTitle": "Announcements",
+        "jumbotronBody": "Use this section to broadcast information to your customers on any page of the website. Customize the text, its colour and background, for the announcement. Moreover, you can select the platforms on which the announcement would appear; such as Android, iOS or Web."
+      },
+      {
+        "links": {
+          "detail": "https://help.fynd.com/docs/en/platform-panel/company/developers/"
+        },
+        "note": "Use Application ID and Token to authorize the use of APIs and SDKs\n",
+        "path": "/apis",
+        "points": [
+          "API stands for Application Programming Interface",
+          "SDK stands for Software Development Kit"
+        ],
+        "jumbotronTitle": "APIs & SDKs",
+        "jumbotronBody": "Use this section to utilize platform APIs and SDKs that allow you to create systems and develop applications. Avail platform APIs to get data related to your e-commerce business. Moreover, you also get reusable SDK methods that support different programming languages."
+      },
+      {
+        "path": "/settings/seo/details",
+        "points": [
+          "Enter the application details (e.g. name of sales channel) that will be used in the meta fields i.e. title and description of all your web pages.",
+          "These details will be used by default unless you specify custom SEO fields for your web pages."
+        ]
+      }
+    ],
+    "sms-templates-store": {
+      "items": [
+        {
+          "is_system": false,
+          "is_internal": false,
+          "description": "Dummy sms",
+          "priority": "high",
+          "tags": [],
+          "published": true,
+          "_id": "5ffc0c65686b12451bfde5ba",
+          "name": "Dummy sms",
+          "template_variables": {
+            "hello": "world"
+          },
+          "message": {
+            "template_type": "static",
+            "template": "Hello,\nThanks for accepting invite"
+          },
+          "application": "000000000000000000000001",
+          "created_at": "2021-01-11T08:29:25.397Z",
+          "updated_at": "2021-01-11T08:29:25.397Z",
+          "slug": "Dummy-sms-e9FKMgQFN",
+          "__v": 0,
+          "display": "Dummy sms",
+          "value": "5ffc0c65686b12451bfde5ba"
+        },
+        {
+          "is_system": false,
+          "is_internal": false,
+          "description": "SMS for the referred user",
+          "priority": "high",
+          "tags": [],
+          "published": true,
+          "_id": "5f5cdb10adfb92280f434781",
+          "name": "referred-test-sms",
+          "template_variables": {
+            "records": {
+              "friend": "Prince",
+              "offer_msg": "Order karein aur payein 100% cashback of your delivery fee aapke pehle order par.",
+              "validity": 21
+            },
+            "ref_user": {
+              "firstName": "Prince",
+              "lastName": "Raj",
+              "phoneNumber": {
+                "phone": "7008963113",
+                "countryCode": 91
+              },
+              "email": "princeraj@gofynd.com"
+            },
+            "ref_application": {
+              "name": "Lorem ipsum dolor sit amet",
+              "banner": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              },
+              "logo": {
+                "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1584701476/production/system/pointblank/fynd_logo_qgupcq.png"
+              }
+            }
+          },
+          "message": {
+            "template_type": "nunjucks",
+            "template": "Hi {{records.friend}}! Welcome to {{ref_application.name}}. Order karein aur payein 100% cashback of your delivery fee aapke pehle order par.Offer valid for {{records.validity}} days only. T&C Apply"
+          },
+          "application": "000000000000000000000001",
+          "created_at": "2020-09-12T14:28:32.539Z",
+          "updated_at": "2020-09-17T10:59:03.427Z",
+          "slug": "referred-test-sms-a8aPnqqeP",
+          "__v": 0,
+          "display": "referred-test-sms",
+          "value": "5f5cdb10adfb92280f434781"
+        }
+      ],
+      "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 4,
+        "has_next": false
+      }
+    },
+    "comms-events-order": {
+      "Signup & login": 0,
+      "Order Processing": 1,
+      "Order Cancellation": 2,
+      "Order Return": 3,
+      "Order Refund": 4,
+      "Feedback": 5,
+      "Rewards": 6
+    },
+    "selected-template": {
+      "group": "Order Processing",
+      "child": {
+        "meta": {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a12343582051d211d2a"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for notifying the customers, that their order is successfully placed.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a12343582051d211d2b",
+                "slug": "placed-sms",
+                "name": "Order Placed",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Order Placed. Hey {{ name }}, {{ brand }} {{ orderID }} for {{ articles }} has been placed. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:18.409Z",
+                "updated_at": "2020-04-27T10:26:16.335Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for notifying the customers, that their order is successfully placed.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 1,
+          "_id": "5e565a12343582051d211d2c",
+          "slug": "placed-event",
+          "event_name": "Placed",
+          "created_at": "2020-02-26T11:44:18.486Z",
+          "updated_at": "2021-01-25T11:50:36.561Z",
+          "__v": 0
+        },
+        "name": "Placed"
+      }
+    },
+    "templates-clone": {
+      "is_system": false,
+      "is_internal": false,
+      "description": "Dummy sms",
+      "priority": "high",
+      "tags": [],
+      "published": true,
+      "_id": "5e565a11343582051d211d22",
+      "name": "Dummy sms",
+      "template_variables": {
+        "hello": "world"
+      },
+      "message": {
+        "template_type": "static",
+        "template": "Hello,\nThanks for accepting invite"
+      },
+      "application": "000000000000000000000001",
+      "created_at": "2021-01-11T08:29:25.397Z",
+      "updated_at": "2021-01-11T08:29:25.397Z",
+      "slug": "Dummy-sms-e9FKMgQFN",
+      "__v": 0
+    },
+    "create-sms-template-response": {
+      "is_system": false,
+      "is_internal": false,
+      "description": "Use this SMS template for notifying the customers, that their order is successfully placed.",
+      "priority": "high",
+      "tags": [],
+      "published": true,
+      "_id": "602a6ef0b38d6424695e8355",
+      "name": "Order Placed",
+      "meta": {
+        "type": "cloned",
+        "template": "5e565a12343582051d211d2b",
+        "is_system": true
+      },
+      "template_variables": {
+        "email": "care@fynd.com",
+        "orderID": "Order ID FY5E53AFAA091115C235",
+        "brand": "SAPPER",
+        "name": "Alwira Sheikh",
+        "tracking_url": "http://go.fyndi.ng/track-order",
+        "articles": "Blue Solid Slim Fit Trackpants (28)",
+        "contact": 8767087087,
+        "ordering_channel": "ECOMM",
+        "credits": 0,
+        "slot": "By 9:00 PM",
+        "datetime": "Feb 28",
+        "cashback": 0,
+        "ref_application": {
+          "support_email": "care@fynd.com",
+          "app_information": {
+            "additional_data": {
+              "address_line": "Kurar village,Malad",
+              "city_pincode": "Mumbai - 400097",
+              "contactUs": "https://uniket-testing.addsale.link/contact-us",
+              "domain": "uniket-testing.addsale.link",
+              "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+            }
+          },
+          "domain": {
+            "name": "https://fynd.com"
+          },
+          "logo": {
+            "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+          }
+        }
+      },
+      "message": {
+        "template_type": "nunjucks",
+        "template": "Order Placed. Hey {{ name }}, {{ brand }} {{ orderID }} for {{ articles }} has been placed. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+      },
+      "application": "000000000000000000000001",
+      "created_at": "2021-02-15T12:54:08.593Z",
+      "updated_at": "2021-02-15T12:54:08.593Z",
+      "slug": "Order-Placed-Qw_YuT7iI",
+      "__v": 0
+    },
+    "ADMIN_COMMS_GET_SMS_TEMPLATE": {
+      "name": "",
+      "description": "",
+      "message": "",
+      "priority": "low"
+    },
+    "ADMIN_COMMS_GET_SMS_TEMPLATE_TO_CLONE": {
+      "is_system": true,
+      "is_internal": false,
+      "description": "Use this SMS template for sending it to customers, whose orders have been successfully delivered.",
+      "priority": "high",
+      "tags": [],
+      "published": true,
+      "_id": "5e565a11343582051d211d22",
+      "slug": "delivery_done-sms",
+      "name": "Order delivered",
+      "template_variables": {
+        "email": "care@fynd.com",
+        "orderID": "Order ID FY5E53AFAA091115C235",
+        "brand": "SAPPER",
+        "name": "Alwira Sheikh",
+        "tracking_url": "http://go.fyndi.ng/track-order",
+        "articles": "Blue Solid Slim Fit Trackpants (28)",
+        "contact": 8767087087,
+        "ordering_channel": "ECOMM",
+        "credits": 0,
+        "slot": "By 9:00 PM",
+        "datetime": "Feb 28",
+        "cashback": 0,
+        "ref_application": {
+          "support_email": "care@fynd.com",
+          "app_information": {
+            "additional_data": {
+              "address_line": "Kurar village,Malad",
+              "city_pincode": "Mumbai - 400097",
+              "contactUs": "https://uniket-testing.addsale.link/contact-us",
+              "domain": "uniket-testing.addsale.link",
+              "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+            }
+          },
+          "domain": {
+            "name": "https://fynd.com"
+          },
+          "logo": {
+            "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+          }
+        }
+      },
+      "message": {
+        "template_type": "nunjucks",
+        "template": "Delivered. {{ articles }} in your {{ brand }} Order {{ orderID }} has been delivered. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+      },
+      "created_at": "2020-02-26T11:44:17.284Z",
+      "updated_at": "2020-04-27T10:26:16.265Z",
+      "__v": 0
+    },
+    "system-events-response": {
+      "items": [
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a10343582051d211d1b"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for customers who cancelled their orders.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a10343582051d211d1c",
+                "slug": "cancelled_customer-sms",
+                "name": "Order cancelled by customer",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E54C4C809FA53C09E",
+                  "brand": "NIKE",
+                  "name": "Alwira S Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Black Sneakers (7)",
+                  "contact": 8767087087,
+                  "ordering_channel": "UNIKET",
+                  "refund_amount": 0,
+                  "refund_string": "",
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Mar 02",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Cancelled. {{ articles }} in your {{ brand }} Order {{ orderID }} has been cancelled by you. Refund of {{ refund_amount }} has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:16.519Z",
+                "updated_at": "2020-04-27T10:26:16.241Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for customers who cancelled their orders.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Cancellation",
+          "channels": [
+            "all"
+          ],
+          "priority": 1,
+          "_id": "5e565a10343582051d211d1d",
+          "slug": "cancelled_customer-event",
+          "event_name": "Cancelled by customer",
+          "created_at": "2020-02-26T11:44:16.650Z",
+          "updated_at": "2021-01-25T11:50:36.276Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a10343582051d211d1e"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for conveying that the ordered item is currently unavailable.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a10343582051d211d1f",
+                "slug": "cancelled_fynd-sms",
+                "name": "Order cancelled by admin",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E54C3620941DCECA0",
+                  "brand": "NIKE",
+                  "name": "Alwira S Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Black Sneakers (7)",
+                  "contact": 8767087087,
+                  "ordering_channel": "UNIKET",
+                  "refund_amount": 0,
+                  "refund_string": "",
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Mar 02",
+                  "cashback": 0,
+                  "phone_number": "8850130362",
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  },
+                  "country_code": "+91"
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Sorry, Order Declined. {{ articles }} from your {{ brand }} Order {{ orderID }} has been declined as it just went Out of Stock. Refund has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:16.919Z",
+                "updated_at": "2020-04-27T10:26:16.255Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for conveying that the ordered item is currently unavailable.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Cancellation",
+          "channels": [
+            "all"
+          ],
+          "priority": 2,
+          "_id": "5e565a11343582051d211d20",
+          "slug": "cancelled_fynd-event",
+          "event_name": "Cancelled by admin",
+          "created_at": "2020-02-26T11:44:17.040Z",
+          "updated_at": "2021-01-25T11:50:36.295Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a11343582051d211d21"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for sending it to customers, whose orders have been successfully delivered.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a11343582051d211d22",
+                "slug": "delivery_done-sms",
+                "name": "Order delivered",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Delivered. {{ articles }} in your {{ brand }} Order {{ orderID }} has been delivered. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:17.284Z",
+                "updated_at": "2020-04-27T10:26:16.265Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for sending it to customers, whose orders have been successfully delivered.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 6,
+          "_id": "5e565a11343582051d211d23",
+          "slug": "delivery_done-event",
+          "event_name": "Delivered",
+          "created_at": "2020-02-26T11:44:17.403Z",
+          "updated_at": "2021-01-25T11:50:36.389Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a11343582051d211d24"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for notifying the customers, that their order is out for delivery.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a11343582051d211d25",
+                "slug": "out_for_delivery-sms",
+                "name": "Out for delivery",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Out for Delivery. {{ articles }} in {{ brand }} {{ orderID }} is out for delivery. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:17.664Z",
+                "updated_at": "2020-04-27T10:26:16.282Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for notifying the customers, that their order is out for delivery.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 4,
+          "_id": "5e565a11343582051d211d26",
+          "slug": "out_for_delivery-event",
+          "event_name": "Out for delivery",
+          "created_at": "2020-02-26T11:44:17.789Z",
+          "updated_at": "2021-01-25T11:50:36.468Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a11343582051d211d27"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to inform the customers, that there ordder is ready and will be soon picked up.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a12343582051d211d28",
+                "slug": "out_for_pickup-sms",
+                "name": "Out for pickup",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dear {{name}}, Your {{orderID}} for {{ articles }} of {{ brand }} is ready for pick up and will be delivered to you soon. For more details {{tracking_url}}"
+                },
+                "created_at": "2020-02-26T11:44:18.024Z",
+                "updated_at": "2021-01-25T11:50:36.494Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to inform the customers, that an executive will soon collect their items.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 7,
+          "_id": "5e565a12343582051d211d29",
+          "slug": "out_for_pickup-event",
+          "event_name": "Out for pickup",
+          "created_at": "2020-02-26T11:44:18.154Z",
+          "updated_at": "2021-01-25T11:50:36.501Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a12343582051d211d2a"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template for notifying the customers, that their order is successfully placed.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a12343582051d211d2b",
+                "slug": "placed-sms",
+                "name": "Order Placed",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Order Placed. Hey {{ name }}, {{ brand }} {{ orderID }} for {{ articles }} has been placed. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:18.409Z",
+                "updated_at": "2020-04-27T10:26:16.335Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template for notifying the customers, that their order is successfully placed.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 1,
+          "_id": "5e565a12343582051d211d2c",
+          "slug": "placed-event",
+          "event_name": "Placed",
+          "created_at": "2020-02-26T11:44:18.486Z",
+          "updated_at": "2021-01-25T11:50:36.561Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a12343582051d211d2d"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to inform the customers that their paid amount is successfully refunded.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a12343582051d211d2e",
+                "slug": "refund_completed-sms",
+                "name": "Refund completed",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "refund_amount": 1099,
+                  "value": 1099,
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Refund completed. Refund of Rs.{{ value }} has been completed. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:18.733Z",
+                "updated_at": "2020-04-27T10:26:16.345Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to inform the customers that their paid amount is successfully refunded.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Refund",
+          "channels": [
+            "all"
+          ],
+          "priority": 7,
+          "_id": "5e565a12343582051d211d2f",
+          "slug": "refund_completed-event",
+          "event_name": "Completed",
+          "created_at": "2020-02-26T11:44:18.850Z",
+          "updated_at": "2021-01-25T11:50:36.581Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a12343582051d211d30"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to notify the customers that a refund is initiated on their returned items.",
+                "priority": "high",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a13343582051d211d31",
+                "slug": "refund_initiated-sms",
+                "name": "Refund initiated",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "refund_amount": 1099,
+                  "value": 1099,
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Refund Initiated. Refund of Rs.{{ value }} has been initiated. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:19.083Z",
+                "updated_at": "2020-04-27T10:26:16.355Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to notify the customers that a refund is initiated on their returned items.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Refund",
+          "channels": [
+            "all"
+          ],
+          "priority": 6,
+          "_id": "5e565a13343582051d211d32",
+          "slug": "refund_initiated-event",
+          "event_name": "Initiated",
+          "created_at": "2020-02-26T11:44:19.203Z",
+          "updated_at": "2021-01-25T11:50:36.659Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a13343582051d211d33"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to convey that the customer has refused to receive the ordered item.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a13343582051d211d34",
+                "slug": "rejected_by_customer-sms",
+                "name": "Order rejected by customer",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E37F05009B99E69E2",
+                  "shipmentID": "SH-2020915-000000000-000000000",
+                  "brand": "BASICS",
+                  "name": "Kaushil",
+                  "articles": "Black Melange Casual Shirt (S)",
+                  "contact": 8767087087,
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "slot_date": "7th Feb 2020",
+                  "datetime": "07 Feb",
+                  "cashback": 0,
+                  "value": 500,
+                  "delivery_attempt_date": "7th Feb 2020",
+                  "reschedule_form_link ": "https://formlink",
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  },
+                  "tracking_url": "https://track.fynd.com/"
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dear {{ name }}, Order {{ shipmentID }} containing {{ brand }} - {{ articles }} was attempted by our delivery executive on {{delivery_attempt_date}} but was un-successful. A delivery re-attempt will be made tomorrow again.{% if reschedule_form_link %} Click here to reschedule : {{reschedule_form_link}}{% endif %}"
+                },
+                "created_at": "2020-02-26T11:44:19.415Z",
+                "updated_at": "2021-01-25T11:50:36.672Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to convey that the customer has refused to receive the ordered item.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Cancellation",
+          "channels": [
+            "all"
+          ],
+          "priority": 3,
+          "_id": "5e565a13343582051d211d35",
+          "slug": "rejected_by_customer-event",
+          "event_name": "Rejected by customer",
+          "created_at": "2020-02-26T11:44:19.532Z",
+          "updated_at": "2021-01-25T11:50:36.677Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a13343582051d211d36"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to notify the customer that their returned item has been accepted.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a13343582051d211d37",
+                "slug": "return_accepted-sms",
+                "name": "Order return accepted",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "refund_amount": 1099,
+                  "refund_string": "",
+                  "source": "Cash on Delivery",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Return Accepted. Hey {{ name }}, Return of {{ articles }} from {{ brand }} {{ orderID }} has been accepted. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:19.756Z",
+                "updated_at": "2020-04-27T10:26:16.436Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to notify the customer that their returned item has been accepted.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 2,
+          "_id": "5e565a13343582051d211d38",
+          "slug": "return_accepted-event",
+          "event_name": "Accepted",
+          "created_at": "2020-02-26T11:44:19.880Z",
+          "updated_at": "2021-01-25T11:50:36.753Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a13343582051d211d39"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to convey that an executive has received the returned item from the customer.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a14343582051d211d3a",
+                "slug": "return_bag_picked_by_dp-sms",
+                "name": "Returned bag picked up",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "bank_form_link": "https://formlink",
+                  "refund_amount": 999,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Return Picked Up. {{ articles }} from {{ brand }} {{ orderID }} has been picked up. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:20.116Z",
+                "updated_at": "2021-01-25T11:50:36.854Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to convey that an executive has received the returned item from the customer.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 4,
+          "_id": "5e565a14343582051d211d3b",
+          "slug": "return_bag_picked_by_dp-event",
+          "event_name": "Bag picked up by delivery partner",
+          "created_at": "2020-02-26T11:44:20.233Z",
+          "updated_at": "2021-01-25T11:50:36.860Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a14343582051d211d3c"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to notify the customer that the returning process of an item has been initiated.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a14343582051d211d3d",
+                "slug": "return_initiated-sms",
+                "name": "Order return initiated",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Return Scheduled. We have scheduled a pick up for {{ articles }} in your {{ brand }} Order {{ orderID }}. It will be picked in the next 2 to 3 days from your address. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:20.462Z",
+                "updated_at": "2020-09-21T09:05:06.676Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to notify the customer that the returning process of an item has been initiated.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 1,
+          "_id": "5e565a14343582051d211d3e",
+          "slug": "return_initiated-event",
+          "event_name": "Initiated",
+          "created_at": "2020-02-26T11:44:20.570Z",
+          "updated_at": "2021-01-25T11:50:36.952Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a14343582051d211d3f"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to notify the customer that their returned item has not been accepted.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a14343582051d211d40",
+                "slug": "return_not_accepted-sms",
+                "name": "Return not accepted",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E37F05009B99E69E2",
+                  "brand": "BASICS",
+                  "name": "Kaushil",
+                  "articles": "Black Melange Casual Shirt (S)",
+                  "contact": 8767087087,
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "slot_date": "7th Feb 2020",
+                  "datetime": "07 Feb",
+                  "cashback": 0,
+                  "value": 500,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  },
+                  "tracking_url": "https://track.fynd.com/"
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Return Rejected. Return of {{ articles }} in {{ brand }} {{ orderID }} has been rejected due to {{ reason }}. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:20.808Z",
+                "updated_at": "2020-04-27T10:26:16.643Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to notify the customer that their returned item has not been accepted.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 5,
+          "_id": "5e565a14343582051d211d41",
+          "slug": "return_not_accepted-event",
+          "event_name": "Not accepted",
+          "created_at": "2020-02-26T11:44:20.925Z",
+          "updated_at": "2021-01-25T11:50:37.052Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5e565a15343582051d211d42"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "In case a customer requests for a return and later cancels it, use this SMS template.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e565a15343582051d211d43",
+                "slug": "return_request_cancelled-sms",
+                "name": "Return request cancelled",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E4B8B9409AA7C82F4",
+                  "brand": "BEING HUMAN",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Ecru Printed T-Shirt (3XL)",
+                  "contact": 8767087087,
+                  "ordering_channel": "UNIKET",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 23",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Return Cancelled. Return request for {{ articles }} in your {{ brand }} Order {{ orderID }} has been cancelled. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-02-26T11:44:21.155Z",
+                "updated_at": "2020-04-27T10:26:16.730Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template, in case a customer requests for a return and later cancels it.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 3,
+          "_id": "5e565a15343582051d211d44",
+          "slug": "return_request_cancelled-event",
+          "event_name": "Request cancelled",
+          "created_at": "2020-02-26T11:44:21.267Z",
+          "updated_at": "2021-01-25T11:50:37.068Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template, for informing the customers that their order is successfully handed over to them.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e6a4b6d610dbf44166e74ba",
+                "slug": "handed_over_to_customer-sms",
+                "name": "Order Handed Over to Customer",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "delivered_at": "GT_Store, Vashi",
+                  "collection_date": "Fri, Nov 15",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Delivered: Your shipment for {{ articles }} with {{ orderID }} has been delivered today.\n"
+                },
+                "created_at": "2020-03-12T14:47:09.548Z",
+                "updated_at": "2020-04-27T10:26:16.271Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template for informing the customers, that their order is successfully handed over to them.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 5,
+          "_id": "5e6a4b6d610dbf3b146e74bb",
+          "slug": "handed_over_to_customer-event",
+          "event_name": "Handed over to customer",
+          "created_at": "2020-03-12T14:47:09.645Z",
+          "updated_at": "2021-01-25T11:50:36.450Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template, for notifying the customers, that their requested order has arrived at the store.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e6a4b6d610dbf01326e74b6",
+                "slug": "arrived_at_store-sms",
+                "name": "Order Arrived at Store",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "delivered_at": "GT_Store, Vashi",
+                  "collection_date": "Fri, Nov 15",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Delivered: Your shipment for {{ articles }} with {{ orderID }} has been delivered today at {{ delivered_at }}. You can collect it from store on or before {{ collection_date }}.\n"
+                },
+                "created_at": "2020-03-12T14:47:09.456Z",
+                "updated_at": "2020-04-27T10:26:16.146Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template for notifying the customers, that their requested order has arrived at the store.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 2,
+          "_id": "5e6a4b6d610dbf454e6e74b7",
+          "slug": "arrived_at_store-event",
+          "event_name": "Arrived at store",
+          "created_at": "2020-03-12T14:47:09.479Z",
+          "updated_at": "2021-01-25T11:50:36.171Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template, for notifying the customers, that their requested order is being dispatched to a store.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5e6a4b6d610dbf69b16e74b8",
+                "slug": "bag_packed-sms",
+                "name": "Order Packed",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "payment_mode": "NB",
+                  "shipmentID": "SH-2020915-000000000-000000000",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "delivered_at": "GT_Store, Vashi",
+                  "collection_date": "Fri, Nov 15",
+                  "action_date": "Fri, Nov 15",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "amount_paid": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dear {{ name }}, Your {{ orderID }} for {{ brand }} - {{ articles }} with  shipment {{ shipmentID }} is ready to be dispatched at {{ action_date }}.{% if payment_mode == 'COD' %} Please make cash ready of Rs. {{amount_paid}}{% endif %}.  For queries email: {{ ref_application.support_email }} or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-03-12T14:47:09.491Z",
+                "updated_at": "2021-01-25T11:50:36.180Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template for notifying the customers, that their requested order is being dispatched to a store.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 3,
+          "_id": "5e6a4b6d610dbf91c76e74b9",
+          "slug": "bag_packed-event",
+          "event_name": "Packed",
+          "created_at": "2020-03-12T14:47:09.534Z",
+          "updated_at": "2021-01-25T11:50:36.191Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Select an SMS template to inform your new users about the reward points granted for successfully signing-up through a referral invite.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5f633b15b490ea465b494bf2",
+                "slug": "referral-code-applied-to-referred-friend",
+                "name": "Reffered friend",
+                "template_variables": {
+                  "records": {
+                    "reffered_name": "Prince",
+                    "referree_name": "Piyush",
+                    "validity": "21"
+                  },
+                  "ref_user": {
+                    "firstName": "Prince",
+                    "lastName": "Raj",
+                    "phoneNumber": {
+                      "phone": "7008963113",
+                      "countryCode": 91
+                    },
+                    "email": "princeraj@gofynd.com"
+                  },
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Hi {{records.friend}}, thanks for signing up on {{ref_application.name}}. Yay! You have earned {{records.amount}} points. Shop now to get more exciting offers and discounts. Offer valid for {{records.validity}} days only. T&C Apply"
+                },
+                "created_at": "2020-09-17T10:31:49.297Z",
+                "updated_at": "2020-09-21T09:05:06.898Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template to inform your new users about the reward points granted for successfully signing-up through a referral invite.",
+          "enabled": true,
+          "editable": true,
+          "group": "Rewards",
+          "channels": [
+            "all"
+          ],
+          "priority": 2,
+          "_id": "5f633b15b490ea40dd494bf3",
+          "slug": "referral-code-applied-to-referred-friend",
+          "event_name": "Reffered friend",
+          "created_at": "2020-09-17T10:31:49.376Z",
+          "updated_at": "2021-01-25T11:50:37.194Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Select an SMS template to inform your customers about the reward points granted for successfully inviting others to sign-up.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5f633b15b490eaf13f494bf4",
+                "slug": "referral-code-applied-to-referrer",
+                "name": "Referrer",
+                "template_variables": {
+                  "records": {
+                    "reffered_name": "Prince",
+                    "referree_name": "Piyush",
+                    "validity": "21"
+                  },
+                  "ref_user": {
+                    "firstName": "Prince",
+                    "lastName": "Raj",
+                    "phoneNumber": {
+                      "phone": "7008963113",
+                      "countryCode": 91
+                    },
+                    "email": "princeraj@gofynd.com"
+                  },
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Your referred friend {{records.friend}}, has signed up on {{ref_application.name}}. It's your amazing bond and trust that keeps us motivated. Here's your {{records.referrer_amount}} points, keep shopping!"
+                },
+                "created_at": "2020-09-17T10:31:49.383Z",
+                "updated_at": "2020-09-21T09:05:06.970Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template to inform your customers about the reward points granted for successfully inviting others to sign-up.",
+          "enabled": true,
+          "editable": true,
+          "group": "Rewards",
+          "channels": [
+            "all"
+          ],
+          "priority": 2,
+          "_id": "5f633b15b490ea3c9b494bf5",
+          "slug": "referral-code-applied-to-referrer",
+          "event_name": "Referrer",
+          "created_at": "2020-09-17T10:31:49.386Z",
+          "updated_at": "2021-01-25T11:50:37.248Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template, for notifying the customers, that their requested order is being dispatched from a store.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5fe2e7da09c5fc4cde72e829",
+                "slug": "bag_picked-sms",
+                "name": "Order Picked",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "delivered_at": "GT_Store, Vashi",
+                  "collection_date": "Fri, Nov 15",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "amount_paid": 0,
+                  "cod": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dispatched : Your {{orderID}} for {{ brand }} - {{ articles }} has been dispatched.Track your shipment at: {{ tracking_url }}"
+                },
+                "created_at": "2020-12-23T06:46:50.383Z",
+                "updated_at": "2021-01-25T11:50:36.245Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an SMS template for notifying the customers, that their requested order is being dispatched from a store.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 3,
+          "_id": "5fe2e7da09c5fc72d272e82a",
+          "slug": "bag_picked-event",
+          "event_name": "Picked",
+          "created_at": "2020-12-23T06:46:50.393Z",
+          "updated_at": "2021-01-25T11:50:36.253Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5ff841fd864df30915c416e9"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to convey that the customer that delivery attempt has been failed.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5fe2e7da09c5fcef0a72e82b",
+                "slug": "delivery_attempt_failed-sms",
+                "name": "Order delivery attempt failed",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E37F05009B99E69E2",
+                  "shipmentID": "SH-2020915-000000000-000000000",
+                  "brand": "BASICS",
+                  "name": "Kaushil",
+                  "articles": "Black Melange Casual Shirt (S)",
+                  "contact": 8767087087,
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "slot_date": "7th Feb 2020",
+                  "datetime": "07 Feb",
+                  "cashback": 0,
+                  "value": 500,
+                  "delivery_attempt_date": "7th Feb 2020",
+                  "reschedule_form_link ": "https://formlink",
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  },
+                  "tracking_url": "https://track.fynd.com/"
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dear {{ name }}, Order {{ shipmentID }} containing {{ brand }} - {{ articles }} was attempted by our delivery executive on {{delivery_attempt_date}} but was un-successful. A delivery re-attempt will be made tomorrow again. Click here to reschedule : {{reschedule_form_link}}"
+                },
+                "created_at": "2020-12-23T06:46:50.432Z",
+                "updated_at": "2021-01-21T10:06:56.372Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to convey that delivery attempt has been failed.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Cancellation",
+          "channels": [
+            "all"
+          ],
+          "priority": 3,
+          "_id": "5fe2e7da09c5fc524f72e82c",
+          "slug": "delivery_attempt_failed-event",
+          "event_name": "Delivery Attempt Failed",
+          "created_at": "2020-12-23T06:46:50.438Z",
+          "updated_at": "2021-01-25T11:50:36.364Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": "5fe2e7da09c5fc7fee72e82d"
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to convey that an executive has received the returned item from the customer.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5fe2e7da09c5fc6c5272e82e",
+                "slug": "return_bag_picked-sms",
+                "name": "Returned bag picked up",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "shipmentID": "SH-2020915-000000000-000000000",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "cod": 0,
+                  "bank_form_link": "http://formlink.in",
+                  "refund_amount": 999,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Dear {{ name }}, your {{ brand }} - {{ shipmentID }} refund of {{ amount_paid }} is due and will be processed in the next 2-3 days.{% if payment_mode == 'COD' %}Please provide your bank details in the link below to initiate the payment {{bank_form_link}}{% endif %}"
+                },
+                "created_at": "2020-12-23T06:46:50.904Z",
+                "updated_at": "2021-01-25T11:50:36.768Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to convey that an executive has received the returned item from the customer.",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Return",
+          "channels": [
+            "all"
+          ],
+          "priority": 4,
+          "_id": "5fe2e7da09c5fc611c72e82f",
+          "slug": "return_bag_picked-event",
+          "event_name": "Return bag picked",
+          "created_at": "2020-12-23T06:46:50.909Z",
+          "updated_at": "2021-01-25T11:50:36.774Z",
+          "__v": 0
+        },
+        {
+          "template": {
+            "email": {
+              "provider_type": "transaction",
+              "template": null
+            },
+            "sms": {
+              "provider_type": "transaction",
+              "template": {
+                "is_system": true,
+                "is_internal": false,
+                "description": "Use this SMS template to inform the customers, that an executive will reach soon to collect the rejected items.",
+                "priority": "low",
+                "tags": [],
+                "published": true,
+                "_id": "5fe2e7da09c5fc047172e830",
+                "slug": "return_dp_out_for_pickup-sms",
+                "name": "Return Dp Out for pickup",
+                "template_variables": {
+                  "email": "care@fynd.com",
+                  "orderID": "Order ID FY5E53AFAA091115C235",
+                  "brand": "SAPPER",
+                  "name": "Alwira Sheikh",
+                  "tracking_url": "http://go.fyndi.ng/track-order",
+                  "articles": "Blue Solid Slim Fit Trackpants (28)",
+                  "contact": 8767087087,
+                  "ordering_channel": "ECOMM",
+                  "credits": 0,
+                  "slot": "By 9:00 PM",
+                  "datetime": "Feb 28",
+                  "cashback": 0,
+                  "ref_application": {
+                    "support_email": "care@fynd.com",
+                    "app_information": {
+                      "additional_data": {
+                        "address_line": "Kurar village,Malad",
+                        "city_pincode": "Mumbai - 400097",
+                        "contactUs": "https://uniket-testing.addsale.link/contact-us",
+                        "domain": "uniket-testing.addsale.link",
+                        "privacyPolicy": "https://fynd.freshdesk.com/support/solutions/articles/33000214398-privacy-policy"
+                      }
+                    },
+                    "domain": {
+                      "name": "https://fynd.com"
+                    },
+                    "logo": {
+                      "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1587981831/production/system/pointblank/fynd_logo_square_vunk4f.png"
+                    }
+                  }
+                },
+                "message": {
+                  "template_type": "nunjucks",
+                  "template": "Out for Pickup. {{ articles }} of {{ brand }} {{ orderID }} is/are out for return pick up. For queries email: {{ ref_application.support_email }}  or visit {{ tracking_url }}"
+                },
+                "created_at": "2020-12-23T06:46:50.982Z",
+                "updated_at": "2020-12-23T06:46:50.982Z",
+                "__v": 0
+              }
+            },
+            "pushnotification": {
+              "template": null
+            }
+          },
+          "descriptions": "Select an email or SMS template to inform the customers, that an executive will soon collect their rejected items.    ",
+          "enabled": true,
+          "editable": true,
+          "group": "Order Processing",
+          "channels": [
+            "all"
+          ],
+          "priority": 7,
+          "_id": "5fe2e7da09c5fc3da372e831",
+          "slug": "return_dp_out_for_pickup-event",
+          "event_name": "Return Dp Out for pickup",
+          "created_at": "2020-12-23T06:46:50.987Z",
+          "updated_at": "2021-01-25T11:50:36.874Z",
+          "__v": 0
+        }
+      ],
+      "page": {
+        "type": "number",
+        "current": 1,
+        "size": 200,
+        "item_total": 23,
+        "has_next": false
+      }
+    }
+  }

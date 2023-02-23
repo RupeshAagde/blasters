@@ -484,7 +484,7 @@ export default {
         }
     }
     .label {
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -514,7 +514,7 @@ export default {
     .modal-details-body {
         .modal-body-title {
             color: #212121;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             font-size: 16px;
             font-weight: 500;
             letter-spacing: 0;
@@ -523,7 +523,7 @@ export default {
         }
         .modal-body-description {
             color: @DustyGray2;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             font-size: 14px;
             letter-spacing: 0;
             line-height: 20px;

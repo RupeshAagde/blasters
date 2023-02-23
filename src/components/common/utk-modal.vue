@@ -7,7 +7,7 @@
             @keydown.esc="closeDialog"
             v-bind:class="modalClass"
         >
-            <div class="modal-container" v-click-outside="closeDialog">
+            <div class="modal-container" >
                 <div class="modal-header">
                     <div class="modal-title bold-sm">{{ title }}</div>
                     <div class="cross" @click="closeDialog" v-if="isCancelable">
@@ -34,7 +34,7 @@
     overflow-x: hidden;
     background-color: rgba(82, 78, 78, 0.52);
     transition: opacity 0.25s ease;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     .mirage-scrollbar;
     .flex-center();
     @media @mobile {

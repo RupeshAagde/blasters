@@ -143,7 +143,7 @@
         margin-left: 12px;
     }
     .label {
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;

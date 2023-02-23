@@ -233,7 +233,7 @@
         align-items: center;
     }
     .label {
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -340,7 +340,6 @@
             }
         }
         .right-container {
-            flex: 1;
             display: flex;
             flex: 1;
             flex-direction: row;

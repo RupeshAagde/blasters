@@ -86,7 +86,7 @@ export default {
 }
 
 .metrics > h6 {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
 }
 

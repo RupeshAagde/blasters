@@ -1,0 +1,146 @@
+[
+    {
+        "text": "Date Range",
+        "value": "date_range",
+        "type": "datetime"
+    },
+    {
+        "text": "Channel",
+        "value": "sales_channel",
+        "type": "multi_select",
+        "options": [
+            {
+                "text": "Jiomarket",
+                "value": "000000000000000000000001",
+                "name": "Jiomarket"
+            },
+            {
+                "text": "demo",
+                "value": "62d8086765453e759eba7e99",
+                "name": "demo"
+            },
+            {
+                "text": "Unicommerce",
+                "value": "62d981f865453e4da3ba8f53",
+                "name": "Unicommerce"
+            },
+            {
+                "text": "Test channel",
+                "value": "62de992c65453e85a7bab8a2",
+                "name": "Test channel"
+            },
+            {
+                "text": "JioMart",
+                "value": "62cd263e4d24b72de05522d5",
+                "name": "JioMart"
+            },
+            {
+                "text": "JioMart Local Dev Testing",
+                "value": "62d678eb5199ae452aeaa216",
+                "name": "JioMart Local Dev Testing"
+            },
+            {
+                "text": "JioMart MarketPlace Local Test",
+                "value": "62e388886e636171ad3b225d",
+                "name": "JioMart MarketPlace Local Test"
+            }
+        ]
+    },
+    {
+        "text": "Delivery Partner",
+        "value": "dp_ids",
+        "type": "multi_select",
+        "options": [
+            {
+                "text": "delhivery_jio",
+                "value": "19",
+                "name": "delhivery_jio"
+            },
+            {
+                "text": "ecom_jio",
+                "value": "1",
+                "name": "ecom_jio"
+            },
+            {
+                "text": "Dunzo Fashion",
+                "value": "40",
+                "name": "Dunzo Fashion"
+            },
+            {
+                "text": "shadowfax_jio",
+                "value": "26",
+                "name": "shadowfax_jio"
+            },
+            {
+                "text": "qwik_shipsy",
+                "value": "22",
+                "name": "qwik_shipsy"
+            },
+            {
+                "text": "xpressbees_jio",
+                "value": "20",
+                "name": "xpressbees_jio"
+            }
+        ]
+    },
+    {
+        "text": "Ordering Store",
+        "value": "ordering_store",
+        "type": "multi_select",
+        "options": [
+            {
+                "text": "Jio, Ghaziabad",
+                "value": "00001"
+            },
+            {
+                "text": "Andheri West",
+                "value": "00002"
+            }
+        ]
+    },
+    {
+        "text": "Time to dispatch",
+        "value": "time_to_dispatch",
+        "type": "multi_select",
+        "options": [
+            {
+                "text": "3 PM to 6 PM",
+                "value": "3 PM to 6 PM"
+            },
+            {
+                "text": "6 PM to 9 PM",
+                "value": "6 PM to 9 PM"
+            }
+        ]
+    },
+    {
+        "text": "Payment Mode",
+        "value": "payment_mode",
+        "type": "single_select",
+        "options": [
+            {
+                "text": "COD",
+                "value": "COD"
+            },
+            {
+                "text": "Prepaid",
+                "value": "PREPAID"
+            }
+        ]
+    },
+    {
+        "text": "Tags",
+        "value": "tags",
+        "type": "single_select",
+        "options": [
+            {
+                "text": "Breached",
+                "value": 1
+            },
+            {
+                "text": "Not Breached",
+                "value": -1
+            }
+        ]
+    }
+]
