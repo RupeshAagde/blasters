@@ -1,0 +1,74 @@
+{
+    "reasons": [
+        {
+            "id": 104,
+            "display_name": "Product not of good quality",
+            "qc_type": [],
+            "question_set": [],
+            "text": "Product not of good quality",
+            "value": 104
+        },
+        {
+            "id": 105,
+            "display_name": "Improper material",
+            "qc_type": [],
+            "question_set": [],
+            "text": "Improper material",
+            "value": 105
+        },
+        {
+            "id": 106,
+            "display_name": "Stain found on product",
+            "qc_type": [],
+            "question_set": [],
+            "text": "Stain found on product",
+            "value": 106
+        },
+        {
+            "id": 107,
+            "display_name": "Better price found elsewhere",
+            "qc_type": [],
+            "question_set": [],
+            "text": "Better price found elsewhere",
+            "value": 107
+        },
+        {
+            "id": 108,
+            "display_name": "Other reason",
+            "qc_type": [],
+            "question_set": [],
+            "text": "Other reason",
+            "value": 108
+        }
+    ],
+    "states": [
+        {
+            "text": "Cancelled Customer",
+            "value": "cancelled_customer"
+        },
+        {
+            "text": "Cancelled Fynd",
+            "value": "cancelled_fynd"
+        },
+        {
+            "text": "Bag Confirmed",
+            "value": "bag_confirmed"
+        },
+        {
+            "text": "Store Reassigned",
+            "value": "store_reassigned"
+        },
+        {
+            "text": "Bag Not Verified",
+            "value": "bag_not_verified"
+        },
+        {
+            "text": "Bag Not Confirmed",
+            "value": "bag_not_confirmed"
+        },
+        {
+            "text": "Cancellation Requested",
+            "value": "cancellation_requested"
+        }
+    ]
+}

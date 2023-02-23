@@ -114,9 +114,6 @@ export default {
                 console.error("Store reassign failed ", err)
             })
         },
-        onSearchInput(event) {
-            console.log("The event", event);
-        },
         changeEvent(e, selectedValue) {
             this.selectedStore = selectedValue;
             this.reassignStores();

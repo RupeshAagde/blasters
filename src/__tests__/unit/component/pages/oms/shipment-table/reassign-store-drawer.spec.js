@@ -1,0 +1,69 @@
+import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import flushPromises from "flush-promises";
+import ReassignStoreDrawer from '@/pages/oms/shipment-table/reassign-store-drawer.vue';
+import STORE_REASSIGN_DATA from '../fixtures/reassign-store.json'
+
+const mock = new MockAdapter(axios);
+let wrapper, router, localVue;
+const companyId = '';
+
+describe('store-reassign-drawer', () => {
+    beforeEach(async() => {
+        localVue = createLocalVue();
+        localVue.use(VueRouter);
+        router = new VueRouter({
+            routes: [
+                { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: ReassignStoreDrawer }
+            ]
+        })
+        router.push(`orders/FY63F47BF30DCB3BFB88/details`)
+        wrapper = mount(ReassignStoreDrawer, {
+            localVue,
+            router,
+            propsData: {
+                stores: STORE_REASSIGN_DATA.stores,
+                reasons: STORE_REASSIGN_DATA.reasons,
+                bagId: "426830",
+            },
+            data() {
+                return {
+                    search: "",
+                    selectedReason: "",
+                    selectedStore: "",
+                }
+            },
+        });
+        await flushPromises();
+    });
+    it('should render to a snapshot', () => {
+        expect(wrapper.element).toMatchSnapshot();
+    });
+    it('is a Vue instance', () => {
+        expect(wrapper.exists()).toBeTruthy();
+        const div = wrapper.find('div');
+        expect(div.exists()).toBe(true);
+    });
+    it("select reason and store", async () => {
+        let a = wrapper.find('.dropdown-reason');
+        let b = wrapper.find('.radio-button');
+        a.vm.$emit('input', 104)
+        a.vm.$emit('change')
+        b.trigger('click')
+        await flushPromises();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectedReason).toBe(104);
+        expect(wrapper.vm.selectedStore).toBe(3666);
+    });
+    it("dropdown outside click", async () => {
+        let a = wrapper.find('.dropdown');
+        a.trigger('focus')
+        a.trigger('blur')
+        await flushPromises();
+        await wrapper.vm.$nextTick();
+    });
+});
+
+
