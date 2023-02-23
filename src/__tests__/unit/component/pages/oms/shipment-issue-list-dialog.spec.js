@@ -1,12 +1,15 @@
 'use strict';
 
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
-import ShipmentIssueListDialog from '@/pages/oms/shipment-issue-list-dialog.vue';
+/* Package imports */
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-// import URLS from '@/services/domain.service';
 import flushPromises from "flush-promises";
+
+/* Component imports */
+import ShipmentIssueListDialog from '@/pages/oms/shipment-issue-list-dialog.vue';
+
 const mock = new MockAdapter(axios);
 let wrapper, router, localVue
 const RoleModal = {
@@ -61,86 +64,17 @@ describe('ShipmentDpTracking', () => {
         expect(div.exists()).toBe(true)
     });
 
-    // it('it will call the reportAnIssue method', async () => {
-    //     // wrapper.setData({
-    //     //     close: () => ''
-    //     // })
-    //     wrapper.setProps({
-    //         isDrawerView: true,
-    //     })
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'reportAnIssue');
-    //     await flushPromises();
-
-    //     let a = wrapper.find('.row-top')
-    //     a.vm.$emit('click')
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(clickEvent).toHaveBeenCalled();
-    // }); 
-
-    // it('it will call the reportAnIssue method when the isDrawerView is false', async () => {
-    //     // wrapper.setData({
-    //     //     close: () => ''
-    //     // });
-    //     wrapper.setProps({
-    //         isDrawerView: false,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'reportAnIssue');
-    //     await flushPromises();
-
-    //     let a = wrapper.find('.row-top')
-    //     a.vm.$emit('click')
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(wrapper.vm.isDrawerView).toBeFalsy();
-    // }); 
-
     it('it will call the onRowClick method', async () => {
-        // wrapper.setData({
-        //     close: () => ''
-        // })
-
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        // wrapper.setProps({
-        //     isDrawerView: true,
-        // })
-        const clickEvent = jest.spyOn(wrapper.vm, 'goToTicket');
+        const goToTicketFunction = jest.spyOn(wrapper.vm, 'goToTicket');
         await flushPromises();
 
-        let a = wrapper.find('.link')
-        a.trigger('click', '54321')
+        let element = wrapper.find('.link')
+        element.trigger('click', '54321')
         await wrapper.vm.$nextTick();
 
-        expect(clickEvent).toHaveBeenCalled();
+        expect(goToTicketFunction).toHaveBeenCalled();
     }); 
-
-    // it('it will call the open method', async () => {
-    //     const openMethod = jest.spyOn(wrapper.vm.WrappedComponent.$refs.shipmentIssueList, 'open()');
-    //     // const errorSnackbar = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
-
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'open');
-    //     await flushPromises();
-
-    //     wrapper.vm.open()
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(openMethod).toHaveBeenCalled();
-    // }); 
-
-    // it('it will call the close method', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'close');
-    //     await flushPromises();
-
-    //     wrapper.vm.close('oyi')
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(clickEvent).toHaveBeenCalled();
-    // }); 
-
 });

@@ -1,27 +1,26 @@
 'use strict';
 
-import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
-import OrderShipmentList from '@/pages/oms/index.vue';
-// import ManifestList from '@/pages/admin/oms/generate-manifest.vue';
-import AdvancedFilterDrawer from '@/pages/oms/advanced-filter-drawer.vue';
-import ShipmentListItem from '@/pages/oms/shipment-list-item.vue'
-// import OrderListItem from '@/pages/admin/oms/order-list-item.vue'
+/* Package imports */
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-// import ADMIN_URLS from '@/services/admin/admin-url.service';
+
+/* Component imports */
+import OrderShipmentList from '@/pages/oms/index.vue';
+import AdvancedFilterDrawer from '@/pages/oms/advanced-filter-drawer.vue';
+import ShipmentListItem from '@/pages/oms/shipment-list-item.vue';
+
+/* Services imports */
 import URLS from '@/services/domain.service';
-import MOCK_INDEX_DATA from './fixtures/mock-index.data.json'
-// import mockData from './../marketplaces/marketplaces-mock.json';
-// import ACCESS_MOCK_DATA from './../../../../fixtures/access-data.json';
+
+/* Mock imports */
+import MOCK_INDEX_DATA from './fixtures/mock-index.data.json';
 import ACCESS_MOCK_DATA from './fixtures/access-data-oms.json';
-// import moment from 'moment';
-// import cloneDeep from 'lodash/cloneDeep';
+
 
 import flushPromises from "flush-promises";
-import { wrap } from 'lodash';
 let localVue;
-let ordersKaData;
 const mock = new MockAdapter(axios);
 let wrapper, router
 const companyId = '1';
@@ -124,9 +123,9 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.pagination-main');
+        const element = wrapper.find('.pagination-main');
 
-        copyClick.vm.$emit('change', {
+        element.vm.$emit('change', {
             "limit": 20,
             "current": 1,
             "total": 81
@@ -151,43 +150,8 @@ describe('Order/Shipment List Page', () => {
     //     expect(clickEvent).toHaveBeenCalled();
     // });
 
-    // it('when the button is clicked it navigates to the manifest page (when fullfilment store is not selected)', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'navigateToManifest');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //         lane: 'ready_for_dispatch',
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const ManifestButClick = wrapper.find('.button-manifest')
-    //     ManifestButClick.vm.$emit('click');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
-    // it('when the button is clicked it navigates to the manifest page (when fullfilment store is selected)', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'navigateToManifest');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //         lane: 'ready_for_dispatch',
-    //         selectedStore: 'jio-location (jio-location)'
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const ManifestButClick = wrapper.find('.button-manifest')
-    //     ManifestButClick.vm.$emit('click');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
     it('When clicked the filter image, it opens the advanced filter section', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'advancedFilterSection');
+        const advancedFilterSectionFunction = jest.spyOn(wrapper.vm, 'advancedFilterSection');
         await flushPromises();
         wrapper.setData({
             orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
@@ -196,14 +160,13 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.advanced-filter');
-        copyClick.trigger('click');
+        const element = wrapper.find('.advanced-filter');
+        element.trigger('click');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(advancedFilterSectionFunction).toHaveBeenCalled();
     });
 
-    it('Whener the lane is changed this method is called "changeLaneType', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'changeLaneType');
+    it('Whenever the lane is changed this method is called "changeLaneType', async () => {
         await flushPromises();
         wrapper.setData({
             orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
@@ -213,14 +176,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.lane-types');
-        copyClick.trigger('click');
+        const element = wrapper.find('.lane-types');
+        element.trigger('click');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.activeLaneIndex).toBe(0);
     });
 
     it('it changes view as per the user (for example: shipment view to bulk view)', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'changeView');
+        const changeViewFunction = jest.spyOn(wrapper.vm, 'changeView');
         await flushPromises();
         wrapper.setData({
             orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
@@ -229,33 +192,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.views');
-        copyClick.vm.$emit('change', wrapper.vm.selectedView);
+        const element = wrapper.find('.views');
+        element.vm.$emit('change', wrapper.vm.selectedView);
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalledWith(wrapper.vm.selectedView);
+        expect(changeViewFunction).toHaveBeenCalledWith(wrapper.vm.selectedView);
     });    
 
-    // it('it searches each and every alphabet searched in fullfilment store filter', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'searchStore');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         inProgress: false,
-    //         isInitialLoad: false,
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.findComponent({ref:'search-company-dropdown'});
-    //     console.log(copyClick)
-    //     copyClick.vm.$emit('searchCompany', "jio");
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // }); 
-
     it('it searches each and every alphabet searched in fullfilment store filter', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'searchStore');
+        const searchStoreFunction = jest.spyOn(wrapper.vm, 'searchStore');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -266,14 +210,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.findComponent({ref:'search-store-dropdown'});
-        copyClick.vm.$emit('searchInputChange', "jio");
+        const element = wrapper.findComponent({ref:'search-store-dropdown'});
+        element.vm.$emit('searchInputChange', "jio");
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(searchStoreFunction).toHaveBeenCalled();
     }); 
 
-    it('it calls the apiFunction', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'callApiFunctions');
+    it('it calls the apiFunction for orders', async () => {
+        const callApiFunctionsFunction = jest.spyOn(wrapper.vm, 'callApiFunctions');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -284,14 +228,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        let a = wrapper.findComponent({ref:'call-api-function'})
-        a.vm.$emit('tryAgain', "orders");
+        let element = wrapper.findComponent({ref:'call-api-function'})
+        element.vm.$emit('tryAgain', "orders");
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(callApiFunctionsFunction).toHaveBeenCalled();
     }); 
 
-    it('it calls the apiFunction', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'callApiFunctions');
+    it('it calls the apiFunction for shipment', async () => {
+        const callApiFunctionsFunction = jest.spyOn(wrapper.vm, 'callApiFunctions');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -302,14 +246,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        let a = wrapper.findComponent({ref:'call-api-function'})
-        a.vm.$emit('tryAgain', "shipment");
+        let element = wrapper.findComponent({ref:'call-api-function'})
+        element.vm.$emit('tryAgain', "shipment");
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(callApiFunctionsFunction).toHaveBeenCalled();
     });
 
     it('it calls the clearSearchNCall', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'clearSearchNCall');
+        const clearSearchNCallFunction = jest.spyOn(wrapper.vm, 'clearSearchNCall');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -320,71 +264,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.date-picker-sqaure');
-        copyClick.trigger('click', "clearSearchNCall");
+        const element = wrapper.find('.date-picker-sqaure');
+        element.trigger('click', "clearSearchNCall");
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(clearSearchNCallFunction).toHaveBeenCalled();
     });
 
-    // it('it calls the setAutoRefresh', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'setAutoRefresh');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         inProgress: false,
-    //         isInitialLoad: false,
-    //         autoRefresh: true,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.find('.pad-right');
-    //     copyClick.vm.$emit('change');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
-    // it('it calls the setAutoRefresh', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'setAutoRefresh');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         inProgress: false,
-    //         isInitialLoad: false,
-    //         autoRefresh: false
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.find('.pad-right');
-    //     copyClick.vm.$emit('change');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
-    // it('should trigger beforeRouteEnter event', function () {
-    //     const spy = jest.spyOn(wrapper.vm.$options.beforeRouteEnter, '0'); // you can't just call view.vm.beforeRouteEnter(). The function exists only in $options object.
-      
-    //     const from = {}; // mock 'from' route
-    //     const to = {}; // mock 'to' route
-    //     wrapper.vm.$options.beforeRouteEnter[0](to, from, cb => cb(view.vm));
-      
-    //     expect(wrapper.vm.entered).to.be.true;
-    //     expect(spy).to.have.been.called;
-    //   });
-
-    // it('fetch orders method', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'fetchOrders');
-    //     await flushPromises();
-
-    //     let a = wrapper.vm.fetchOrders()
-    //     await flushPromises();
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // }); 
-
     it('it searches each and every alphabet searched in fullfilment store filter', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'selectStageTab');
+        const selectStageTabFunction = jest.spyOn(wrapper.vm, 'selectStageTab');
         await flushPromises();
         wrapper.setData({
             orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
@@ -394,8 +281,8 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.tab-item-custom');
-        copyClick.trigger('click', 1, {
+        const element = wrapper.find('.tab-item-custom');
+        element.trigger('click', 1, {
             "text": "Processed",
             "value": "processed",
             "options": [
@@ -431,11 +318,11 @@ describe('Order/Shipment List Page', () => {
             "total_items": 0
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(selectStageTabFunction).toHaveBeenCalled();
     }); 
 
     it('it changes the pagination method when the pagination is changed by the user', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'paginationChange');
+        const paginationChangeFunction = jest.spyOn(wrapper.vm, 'paginationChange');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -447,18 +334,18 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.pagination-main');
-        copyClick.vm.$emit('change', {
+        const element = wrapper.find('.pagination-main');
+        element.vm.$emit('change', {
             "limit": 5,
             "current": 2,
             "total": 70
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(paginationChangeFunction).toHaveBeenCalled();
     }); 
 
     it('it changes the types of filters to be applied (for example: chosing search type as shipment id)', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'changeFilterType');
+        const changeFilterTypeFunction = jest.spyOn(wrapper.vm, 'changeFilterType');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -516,38 +403,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.filter-type');
-        copyClick.vm.$emit('change');
+        const element = wrapper.find('.filter-type');
+        element.vm.$emit('change');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(changeFilterTypeFunction).toHaveBeenCalled();
     }); 
 
-    // it('it searches each and every alphabet searched in fullfilment store filter', async () => {
-    //     wrapper.setData({
-    //         shipmentData: MOCK_INDEX_DATA.shipmentsResponseData.items,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     let a = wrapper.vm.fetchShipments()
-    //     await wrapper.vm.$nextTick();
-    //     expect(a).toBeTruthy();
-    // }); 
-
-    // it('it searches each and every alphabet searched in fullfilment store filter', async () => {
-    //     mock.onGet(URLS.SHIPMENT_V2_LIST(MOCK_INDEX_DATA.shipmentParams)).reply(500, {})
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     let a = wrapper.vm.fetchShipments()
-    //     await wrapper.vm.$nextTick();
-    //     expect(a).toBeTruthy();
-    // }); 
-
     it('it closes the advanded filters slide when clicked', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'close');
+        const closeFunction = jest.spyOn(wrapper.vm, 'close');
         await flushPromises();
         wrapper.setData({
             advancedFilterView: true,
@@ -556,51 +419,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.slide-fade');
-        copyClick.trigger('click');
+        const element = wrapper.find('.slide-fade');
+        element.trigger('click');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(closeFunction).toHaveBeenCalled();
     });  
 
-    // it('it shows the data of the date range selected', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'dateRangeChange');
-    //     await flushPromises();
-    //     console.debug(wrapper.vm.orderDateRange[1])
-    //     wrapper.setData({
-    //         inProgress: false,
-    //         isInitialLoad: false,
-    //         notBefore: moment().subtract(3, 'months').toISOString(),
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.find('.date-picker');
-    //     copyClick.vm.$emit('input');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // }); 
-
-    // // THE BELOW TEST CASE CAN BE USED IN FUTURE... SO DONT DELETE IT---------
-    // // it('it checks if its a FP app or not', async () => {
-    // //     const clickEvent = jest.spyOn(wrapper.vm, 'resetFilter');
-    // //     await flushPromises();
-    // //     wrapper.setData({
-    // //         inProgress: false,
-    // //         isInitialLoad: false,
-    // //     });
-
-    // //     await wrapper.vm.$forceUpdate();
-    // //     await wrapper.vm.$nextTick();
-
-    // //     const copyClick = wrapper.find('.row-filter');
-    // //     copyClick.vm.$emit('click');
-    // //     await wrapper.vm.$nextTick();
-    // //     expect(clickEvent).toHaveBeenCalled();
-    // // }); 
-
     it('it will apply the advanced filters chosen by the user', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'applyAdvancedFilters');
+        const applyAdvancedFiltersFunction = jest.spyOn(wrapper.vm, 'applyAdvancedFilters');
         await flushPromises();
         wrapper.setData({
             advancedFilterView: true,
@@ -610,8 +436,8 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.slide-adv-filter');
-        copyClick.vm.$emit('applyFilters', {
+        const element = wrapper.find('.slide-adv-filter');
+        element.vm.$emit('applyFilters', {
             "closeDrawer": true,
             "data": {
                 "bag_status": [
@@ -621,11 +447,11 @@ describe('Order/Shipment List Page', () => {
             }
         }, {}, true, false);
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(applyAdvancedFiltersFunction).toHaveBeenCalled();
     }); 
 
     it('it detects any keyboard event has been done by the user', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'onSearchInput');
+        const onSearchInputFunction = jest.spyOn(wrapper.vm, 'onSearchInput');
         await flushPromises();
         wrapper.setData({
             inProgress: false,
@@ -635,46 +461,14 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.search');
-        copyClick.vm.$emit('keyup', {
+        const element = wrapper.find('.search');
+        element.vm.$emit('keyup', {
             "isTrusted": true,
             keyCode: 13
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(onSearchInputFunction).toHaveBeenCalled();
     }); 
-
-    // it('it detects any keyboard event has been done by the user', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'onSearchBlur');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         inProgress: false,
-    //         isInitialLoad: false,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.find('.search');
-    //     copyClick.vm.$emit('blur', {
-    //         "isTrusted": true,
-    //         target: {value: "16589124715791661046K"}
-    //     });
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
-    // it('it checks the and updates the role type of the user', async () => {
-    //     let a = wrapper.vm.checkUpdateRole;
-
-    //     await flushPromises();
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(a).toBeTruthy();
-
-    //     // expect(computed.checkUpdateRole.call(localThis)).toBe("1, 3, 5, 7, 9")
-
-    // });
 
     // // BELOW TEST CASES ARE FOR ADVANCED-FILTER-DRAWER COMPONENT -------------------------------------------------------------------
 
@@ -690,8 +484,8 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
-        let a = childComponent.find('.advanced-filter-dropdown')
-        a.vm.$emit('change', [
+        let element = childComponent.find('.advanced-filter-dropdown')
+        element.vm.$emit('change', [
             "000000000000000000000001"
         ], 'sales_channel')
 
@@ -712,8 +506,8 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
-        let a = childComponent.find('.advanced-filter-dropdown')
-        a.vm.$emit('searchInputChange', {
+        let element = childComponent.find('.advanced-filter-dropdown')
+        element.vm.$emit('searchInputChange', {
             "id": "nitrozen-dropdown-3oxvs9h1",
             "text": "express"
         }, 0)
@@ -765,38 +559,12 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
 
-        let a = childComponent.find('.filters-section')
-        a.trigger('click')
+        let element = childComponent.find('.filters-section')
+        element.trigger('click')
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
     }); 
-
-    // it('it calls the checkOutsideClick method', async () => {
-    //     jest.spyOn(wrapper.vm, 'closest').mockImplementationOnce(() => true)
-
-    //     wrapper.setData({
-    //         advancedFilterView: true,
-    //         advancedFilters: MOCK_INDEX_DATA.filtersResponseData.advance.Unfulfilled,
-    //         selectedAdvancedFilters: {},
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-        
-    //     const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
-
-    //     let a = childComponent.find('.filters-section')
-
-    //     a.vm.$emit('checkOutsideClick', {
-    //         "isTrusted": true,
-    //         "target": 'advanced-filter-dropdown'
-    //     })
-
-
-    //     await wrapper.vm.$nextTick();
-    //     expect(wrapper.vm.advancedFilterView).toBe(true);
-    // }); 
 
     it('it will call the resetFilters method and it will reset all the advanced filters applied by the user', async () => {
         wrapper.setData({
@@ -810,8 +578,8 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
 
-        let a = childComponent.find('.clear-button')
-        a.vm.$emit('click', {stopPropagation: ()=>{}})
+        let element = childComponent.find('.clear-button')
+        element.vm.$emit('click', {stopPropagation: ()=>{}})
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
@@ -829,30 +597,12 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
 
-        let a = childComponent.find('.apply-filter-button')
-        a.vm.$emit('click', {stopPropagation: ()=>{}})
+        let element = childComponent.find('.apply-filter-button')
+        element.vm.$emit('click', {stopPropagation: ()=>{}})
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
     }); 
-
-    // it('it will get the selected filters', async () => {
-    //     wrapper.setData({
-    //         advancedFilterView: true,
-    //         advancedFilters: MOCK_INDEX_DATA.filtersResponseData.advance.Unfulfilled,
-    //         selectedAdvancedFilters: {},
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-        
-    //     let a = wrapper.vm.getSelectedFilterText;
-
-    //     await flushPromises();
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(a).toBeTruthy();
-    // }); 
 
     // BELOW TEST CASES ARE FOR SHIPMENT LIST ITEM COMPONENT -------------------------------------------------------------------
 
@@ -866,7 +616,7 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(ShipmentListItem)
-        let a = childComponent.find('.line-break')
+        let element = childComponent.find('.line-break')
         
         await wrapper.vm.$nextTick();
         expect(childComponent.vm.shipmentList.length).toBeGreaterThanOrEqual(0);
@@ -882,32 +632,12 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(ShipmentListItem)
-        let a = childComponent.find('.line-break')
-        a.trigger('click', 'FY62E38B3801C15856C1', '16590794807021683429K')
+        let element = childComponent.find('.line-break')
+        element.trigger('click', 'FY62E38B3801C15856C1', '16590794807021683429K')
 
         await wrapper.vm.$nextTick();
         expect(childComponent.vm.shipmentList.length).toBeGreaterThanOrEqual(0);
     }); 
-
-    // it('it will give the sum of the price of all the bags ', async () => {
-    //      // const clickEvent = jest.spyOn(childComponent.vm, 'sumOfBagsPrice');
-    //     wrapper.setData({
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //         selectedView: 'shipment',
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-        
-    //     const childComponent = wrapper.findComponent(ShipmentListItem)
-    //     let a = childComponent.find('.line-break')
-       
-    //     a.trigger('click', MOCK_INDEX_DATA.shipmentsResponseData.items[0].bags)
-    //     await wrapper.vm.$nextTick();
-
-    //     let returnData = childComponent.vm.sumOfBagsPrice(MOCK_INDEX_DATA.shipmentsResponseData.items[0].bags)
-    //     expect(returnData).toBe(499);
-    // }); 
 
     it('it will open the bag dialog view', async () => {
        wrapper.setData({
@@ -919,35 +649,13 @@ describe('Order/Shipment List Page', () => {
        await wrapper.vm.$nextTick();
        
        const childComponent = wrapper.findComponent(ShipmentListItem)
-       let a = childComponent.find('.item-images')
+       let element = childComponent.find('.item-images')
 
-       a.trigger('click.stop', MOCK_INDEX_DATA.shipmentsResponseData.items[0])
+       element.trigger('click.stop', MOCK_INDEX_DATA.shipmentsResponseData.items[0])
        await wrapper.vm.$nextTick();
 
        expect(childComponent.vm.bagDialogView).toBe(true);
     });
-    
-    // it('it will return SLA percentage', async () => {
-    //     wrapper.setData({
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //         selectedView: 'shipment',
-    //     });
- 
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-        
-    //     const childComponent = wrapper.findComponent(ShipmentListItem)
-
-    //     let a = childComponent.findComponent({ref:'sla-indicator'})
-    //     a.trigger('sla_percent', MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.status_created_at, MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
-    //     await wrapper.vm.$nextTick();
-        
-    //     let returnData = childComponent.vm.displaySlaPercentage(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.shipment_created_at, MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
-    //     expect(childComponent.vm.bagDialogView).toBe(false);
-
-    //     // Actually we have to use the below expect statement ... but due to its dynamic nature (changes everytime as its connected to time) we are using above statement
-    //     // expect(returnData).toBe(118.41188972825881);
-    // });
 
     it('it will return SLA hours left', async () => {
         wrapper.setData({
@@ -960,7 +668,7 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(ShipmentListItem)
 
-        let a = childComponent.find('.sla-time')
+        let element = childComponent.find('.sla-time')
         
         let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
         expect(returnData).toBe(returnData);
@@ -977,7 +685,7 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(ShipmentListItem)
 
-        let a = childComponent.find('.sla-time')
+        let element = childComponent.find('.sla-time')
         
         let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
         expect(returnData).toBe(returnData);
@@ -988,170 +696,4 @@ describe('Order/Shipment List Page', () => {
         await flushPromises();
         expect(wrapper.vm.shipmentData.length).toBeGreaterThanOrEqual(0);
     });
-
-    // // it('dateRangeChange', async() => {
-    // //     wrapper.vm.dateRangeChange();
-    // //     await flushPromises();
-    // //     expect(wrapper.vm.orders.length).toBeGreaterThanOrEqual(1);
-    // // });
-    // // it('filterChange', async() => {
-    // //     wrapper.vm.filterChange();
-    // //     await flushPromises();
-    // //     expect(wrapper.vm.orders.length).toBeGreaterThanOrEqual(1);
-    // // });
-    // // it('searchStore', async() => {
-    // //     wrapper.vm.searchStore('test');
-    // //     await wrapper.vm.$nextTick();
-
-    // //     wrapper.vm.searchStore('');
-    // //     await wrapper.vm.$nextTick();
-    // // });
-
-    // // it('searchOrders', async() => {
-    // //     wrapper.vm.searchOrders();
-    // //     await wrapper.vm.$nextTick();
-    // // });
-
-    // // it('selectStageTab', async() => {
-    // //     wrapper.vm.selectStageTab({ index: 1 });
-    // //     await wrapper.vm.$nextTick();
-    // // });
-
-
-    // // it('error image', async () => {
-    // //     await flushPromises();
-    // //     wrapper.vm.getErrorImage({'profile_pic': ''});
-    // //     wrapper.vm.$nextTick();
-    // // });
-
-    // TEST CASES FOR BULK FOLDER PICKLIST.VUE COMPONENT 
-
-    // it('it calls the hideInvoiceError method', async () => {
-    //     const childComponent = wrapper.findComponent(OrderBulkPicklist)
-        
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'hideInvoiceError');
-    //     await flushPromises();
-
-    //     const copyClick = childComponent.find('.error');
-    //     copyClick.vm.$emit('close');
-    //     await childComponent.vm.$nextTick();
-    //     expect(childComponent.vm.showInvoiceError).toBeFalsy();
-    // }); 
-
-    // // it('it calls the generateBulkInvoice method if the selectedStore is not selected', async () => {
-    // //     const childComponent = wrapper.findComponent(OrderBulkPicklist)
-        
-    // //     const clickEvent = jest.spyOn(childComponent.vm, 'generateBulkInvoice');
-    // //     await flushPromises();
-    // //     childComponent.setData({
-    // //         toggleBulkInvoice: true
-    // //     });
-    // //     await wrapper.vm.$forceUpdate();
-    // //     await wrapper.vm.$nextTick();
-
-    // //     const copyClick = childComponent.find('.icons-item');
-    // //     copyClick.trigger('click');
-    // //     await childComponent.vm.$nextTick();
-    // //     expect(childComponent.vm.selectedStore).toBe("");
-    // // }); 
-
-    // // it('it calls the generateBulkInvoice method if the selectedStore is selected', async () => {
-    // //     // wrapper = shallowMount(OrderBulkPicklist, {
-    // //     //     localVue,
-    // //     //     router,
-    // //     //     stubs: {
-    // //     //         'csv-view': CsvView,
-    // //     //     },
-    // //     //     // computed: {
-    // //     //     //     accessDetail: () => ACCESS_MOCK_DATA,
-    // //     //     //     registeredMarketplaces: () => MARKETPLACE_DATA,
-    // //     //     //     companyApplications: () => APPLICATION_LIST_MOCK_DATA.items,
-    // //     //     // },
-    // //     // });
-    // //     // await flushPromises();
-
-    // //     const childComponent = wrapper.findComponent(OrderBulkPicklist)
-    // //     console.log(childComponent)
-
-    // //     // const mock = jest.fn(() => [
-    // //     //     {
-    // //     //         "shipment_id": "16606397866641780167K",
-    // //     //         "bag_total": 1,
-    // //     //         "order_date": "2022-08-16T14:19:47+00:00",
-    // //     //         "brand_name": "Generic",
-    // //     //         "bag_ids": [
-    // //     //             null
-    // //     //         ],
-    // //     //         "qty_obj": [
-    // //     //             {
-    // //     //                 "identifier": "32132142133",
-    // //     //                 "quantity": 1
-    // //     //             }
-    // //     //         ],
-    // //     //         "price": 300,
-    // //     //         "mrp": 500,
-    // //     //         "payment_mode": "PREPAID",
-    // //     //         "current_status": "bag_invoiced",
-    // //     //         "actual_current_status": "bag_invoiced",
-    // //     //         "display_current_status": "Bag Invoiced",
-    // //     //         "awb_no": "NA",
-    // //     //         "dp_name": "NA",
-    // //     //         "customer_name": "prudhvi",
-    // //     //         "delivery_city": "Mumbai",
-    // //     //         "customer_number": "9618835991",
-    // //     //         "delievery_pincode": "400022",
-    // //     //         "address": "2,Bangalore,Karnataka,Mumbai,Maharashtra,400022",
-    // //     //         "channel": "Jiomarket",
-    // //     //         "channel_shipment_id": "16606397866641780167K",
-    // //     //         "seller_identifier": "EAN:32132142133",
-    // //     //         "sku_code": "32132142133",
-    // //     //         "gstin": null,
-    // //     //         "order_id": "FY62FB5A2A01311CB73C",
-    // //     //         "store_invoice_id": "00000008AA000070",
-    // //     //         "actual_store_invoice_id": "00000008AA000070",
-    // //     //         "fulfillment_store": "jio-location"
-    // //     //     }
-    // //     // ]) 
-    // //     // wrapper.vm.$refs['csv-picklist'].grid.gridOptions.api.getSelectedRows = 
-        
-    // //     const clickEvent = jest.spyOn(childComponent.vm, 'generateBulkInvoice');
-    // //     await flushPromises();
-    // //     childComponent.setData({
-    // //         toggleBulkInvoice: true
-    // //     });
-    // //     await wrapper.vm.$forceUpdate();
-    // //     await wrapper.vm.$nextTick();
-
-    // //     childComponent.setProps({
-    // //         selectedStore: 8
-    // //     });
-    // //     await wrapper.vm.$forceUpdate();
-    // //     await wrapper.vm.$nextTick();
-
-    // //     childComponent.vm.generateBulkInvoice()
-    // //     // const copyClick = childComponent.find('.action-btn');
-    // //     // console.log(copyClick)
-    // //     // copyClick.trigger('click');
-    // //     await childComponent.vm.$nextTick();
-    // //     expect(childComponent.vm.selectedStore).toBe("");
-    // // }); 
-
-    // // it('it calls the action-btn method', async () => {
-    // //     const childComponent = wrapper.findComponent(OrderBulkPicklist)
-        
-    // //     // const clickEvent = jest.spyOn(childComponent.vm, 'action-btn');
-    // //     // await flushPromises();
-    // //     childComponent.setData({
-    // //         toggleBulkInvoice: true
-    // //     });
-    // //     await wrapper.vm.$forceUpdate();
-    // //     await wrapper.vm.$nextTick();
-
-    // //     const copyClick = childComponent.find('.action-btn');
-    // //     console.log(copyClick)
-    // //     copyClick.trigger('click');
-    // //     await childComponent.vm.$nextTick();
-    // //     expect(childComponent.vm.showInvoiceError).toBeFalsy();
-    // // }); 
-
 })

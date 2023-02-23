@@ -1,12 +1,14 @@
 'use strict';
 
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
-import ShipmentCancellationDialog from '@/pages/oms/shipment-cancellation-dialog.vue';
+/* Package imports */
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-// import SHIPMENT_LIST_DATA from './fixtures/shipment-list.json';
-// import flushPromises from "flush-promises";
+
+/* Component imports */
+import ShipmentCancellationDialog from '@/pages/oms/shipment-cancellation-dialog.vue';
+
 const mock = new MockAdapter(axios);
 let wrapper, router, localVue
 describe('ShipmentDpTracking', () => {
@@ -41,23 +43,4 @@ describe('ShipmentDpTracking', () => {
         const div = wrapper.find('template')
         expect(div.exists()).toBe(true)
     });
-
-    // it('it calls the copyReason method', async () => {
-    //     // const clickEvent = jest.spyOn(wrapper.vm, 'copyReason');
-    //     // // await flushPromises();
-    //     wrapper.setData({
-    //         cancellingShipments: SHIPMENT_LIST_DATA,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     wrapper.vm.copyReason()
-    //     // const copyClick = wrapper.find('.copy-reason');
-    //     // console.log(copyClick)
-    //     // copyClick.vm.$emit('click');
-    //     // await wrapper.vm.$nextTick();
-    //     // expect(clickEvent).toHaveBeenCalled();
-    // });
-
 });

@@ -62,21 +62,21 @@ describe('OrderListItem', () => {
     })
 
     it('copy to click if the order id is clicked', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'copyToClipboard');
+        const copyToClipboardFunction = jest.spyOn(wrapper.vm, 'copyToClipboard');
         await flushPromises();
-        const copyClick = wrapper.find('.order-id');
-        copyClick.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id);
+        const element = wrapper.find('.order-id');
+        element.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id);
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(copyToClipboardFunction).toHaveBeenCalled();
     });
 
     it('Navigate function when clicked checking if there are no undefined or null values in the route query', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'navigate')
+        const navigateFunction = jest.spyOn(wrapper.vm, 'navigate')
         await flushPromises();
 
-        const callAtClick = wrapper.find('.line-break');
-        callAtClick.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id, '0', ORDER_LIST_DATA.ordersResponseData.items[0].shipments[0].shipment_id)
+        const element = wrapper.find('.line-break');
+        element.trigger('click', ORDER_LIST_DATA.ordersResponseData.items.order_id, '0', ORDER_LIST_DATA.ordersResponseData.items[0].shipments[0].shipment_id)
         await wrapper.vm.$nextTick;
-        expect(clickEvent).toHaveBeenCalled();
+        expect(navigateFunction).toHaveBeenCalled();
     });
 });

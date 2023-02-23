@@ -41,9 +41,6 @@ describe('Header', () => {
             localVue,
             router,
             propsData: { shipment: detailsData, firstBag: firstBag },
-            // data() {
-            //     query = wrapper.vm.$route.query
-            // },
             computed: {
                 accessDetail: () => COMPUTED_DATA.accessDetail,
                 userinfo: () => COMPUTED_DATA.userinfo,
@@ -70,8 +67,8 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.findComponent({ref: "tabs"});
-        copyClick.vm.$emit('tab-change', {
+        const element = wrapper.findComponent({ref: "tabs"});
+        element.vm.$emit('tab-change', {
             "index": 1,
             "item": "DP Status"
         });
@@ -79,7 +76,7 @@ describe('Header', () => {
         expect(wrapper.vm.selectedStageTabIndex).toBe(1);
     });
 
-    it('it changes the tabs in the activity logs drawer)', async () => {
+    it('it changes the tabs in the activity logs drawer with different params)', async () => {
         wrapper.setData({
             quickActivityView: true,
             selectedStageTabIndex: 0
@@ -88,8 +85,8 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.findComponent({ref: "tabs"});
-        copyClick.vm.$emit('tab-change', {
+        const element = wrapper.findComponent({ref: "tabs"});
+        element.vm.$emit('tab-change', {
             "index": 0,
             "item": "Activity"
         });
@@ -105,8 +102,8 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find(".log-activity");
-        copyClick.trigger('click');
+        const element = wrapper.find(".log-activity");
+        element.trigger('click');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.quickActivityView).toBe(true);
     });
@@ -119,8 +116,8 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find(".side-drawer");
-        copyClick.vm.$emit('close');
+        const element = wrapper.find(".side-drawer");
+        element.vm.$emit('close');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.quickActivityView).toBe(false);
     });
@@ -136,8 +133,8 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.findComponent({ref: "shipmentIssueListDialog"});
-        copyClick.vm.$emit('closeDialog');
+        const element = wrapper.findComponent({ref: "shipmentIssueListDialog"});
+        element.vm.$emit('closeDialog');
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
     });
@@ -153,7 +150,7 @@ describe('Header', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        wrapper.vm.openDialog()
+        wrapper.vm.openDialog();
         await wrapper.vm.$nextTick();
         expect(clickEvent).toHaveBeenCalled();
     });

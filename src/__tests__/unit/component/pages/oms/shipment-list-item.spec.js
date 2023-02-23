@@ -59,65 +59,7 @@ describe('ShipmentListItem', () => {
     it('triggers a click', async () => {
         wrapper.trigger('click');
         await wrapper.vm.$nextTick();
-    })
-
-    // it('copy to click if the shipment id is clicked', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'copyToClipboard');
-    //     await flushPromises();
-    //     const copyClick = wrapper.find('.shipment-id');
-    //     copyClick.trigger('click', SHIPMENT_LIST_DATA[0].shipment_id);
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
-
-    // it('dialog view should run when the placed button is clicked', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'changeDialogView');
-    //     await flushPromises();
-        
-    //     const callAtClick = wrapper.find('.bags-item-images');
-    //     callAtClick.trigger('click', SHIPMENT_LIST_DATA[0].bags, SHIPMENT_LIST_DATA[0].shipment_id, SHIPMENT_LIST_DATA[0].shipment_status);
-    //     await wrapper.vm.$nextTick();
-        
-    //     let afterClickValue = wrapper.vm.bagDialogView;
-    //     expect(afterClickValue).toBe(true)
-    // });
-
-    // it('quickView', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'quickView');
-    //     await flushPromises();
-
-    //     const callAtClick = wrapper.find('.shipment-data');
-    //     callAtClick.trigger('click', ORDER_LIST_DATA[0].id);
-    //     await wrapper.vm.$nextTick();
-
-    //     let afterClickOrderID = wrapper.vm.orderNumId;
-    //     expect(afterClickOrderID).toBe("FY629724F00149EC6ECC")
-    // });
-
-    // it('this method shows the sum of prices when called', async() => {
-    //     let a = wrapper.vm.sumOfBagsPrice(SHIPMENT_LIST_DATA.items[0].bags);
-    //     await wrapper.vm.$nextTick();
-    //     expect(a).toBe(499);
-    // });
-
-    // it('Dialog view should get closed when this method runs', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'changeDialogView');
-    //     await flushPromises();
-        
-    //     const callAtClick = wrapper.find('.bags-item-images');
-    //     callAtClick.trigger('click', SHIPMENT_LIST_DATA[0].bags, SHIPMENT_LIST_DATA[0].shipment_id, SHIPMENT_LIST_DATA[0].shipment_status);
-    //     await wrapper.vm.$nextTick();
-
-    //     const closeEvent = jest.spyOn(wrapper.vm, 'close');
-    //     await flushPromises();
-
-    //     const call = wrapper.find('.drawer-view');
-    //     call.trigger('click');
-    //     await wrapper.vm.$nextTick();
-
-    //     let whenClosed = wrapper.vm.bagDialogView;
-    //     expect(whenClosed).toBe(false)
-    // });
+    });
 
     it('Navigate function when clicked checking if there are no undefined or null values in the route query', async () => {
         let routequery = {
@@ -128,11 +70,10 @@ describe('ShipmentListItem', () => {
             lane: 'new',
             }
 
-        const clickEvent = jest.spyOn(wrapper.vm, 'navigate')
         await flushPromises();
 
-        const callAtClick = wrapper.find('.line-break');
-        callAtClick.trigger('click', SHIPMENT_LIST_DATA.items[0].order_id, SHIPMENT_LIST_DATA.items[0].shipment_id)
+        const element = wrapper.find('.line-break');
+        element.trigger('click', SHIPMENT_LIST_DATA.items[0].order_id, SHIPMENT_LIST_DATA.items[0].shipment_id)
         // cleansedQuery = this.query;
         await wrapper.vm.$nextTick;
 

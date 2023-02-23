@@ -16,16 +16,9 @@ import ShipmentInfo from '@/pages/oms/shipment-info/index.vue';
 import ShipmentHeader from '@/pages/oms/shipment-info/header.vue';
 import BagsList from '@/pages/oms/bags-list/index.vue';
 import BagsListTable from '@/pages/oms/bags-list/table.vue';
-// import ShipmentIssueListDialog from '@/pages/admin/oms/shipment-issue-list-dialog.vue';
-
-import Actions from '@/pages/oms/shipment-table/actions.vue'
-import GET_EMPLOYEE_ACCESS_DETAIL from '../fixtures/employee-access-detail.json';
-import GET_USER_INFO from '../fixtures/user-info-details.json'
-import ADMIN_GET_SELLER_SUPPORT_CONFIG from '../fixtures/seller-support-config.json'
 
 /* Mock imports */
 import SHIPMENT_TABLE from '../fixtures/shipment-table.json'
-import { wrap } from 'lodash';
 
 let wrapper, router, localVue;
 const mock = new MockAdapter(axios);
@@ -49,8 +42,6 @@ const responseData =
 describe('ShipmentListItem', () => {
     beforeEach(async() => {
         localVue = createLocalVue();
-        // localVue.use(VueRouter);
-        // mock.reset();
         mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE({
             "statuses": [
                 {
@@ -84,10 +75,6 @@ describe('ShipmentListItem', () => {
             localVue,
             router,
             propsData: { data },
-            // data() {
-            //     // query = wrapper.vm.$route.query
-            //     // status = 'placed'
-            // },
             computed: {
                 checkReadRole() {
                     return true;
@@ -123,7 +110,7 @@ describe('ShipmentListItem', () => {
     });
 
     it('it calls the changeActiveShipment method', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'changeActiveShipment');
+        const changeActiveShipmentFunction = jest.spyOn(wrapper.vm, 'changeActiveShipment');
         await flushPromises();
         // wrapper.setData({
         //     advancedFilterView: true,
@@ -132,14 +119,14 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('changeShipment');
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('changeShipment');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(changeActiveShipmentFunction).toHaveBeenCalled();
     });
     
     it('it calls the changeActiveShipment method', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'displayConfirmScreen');
+        const displayConfirmScreenFunction = jest.spyOn(wrapper.vm, 'displayConfirmScreen');
         await flushPromises();
         // wrapper.setData({
         //     advancedFilterView: true,
@@ -148,16 +135,16 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('displayConfirmScreen', {
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('displayConfirmScreen', {
             "cancel": false
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(displayConfirmScreenFunction).toHaveBeenCalled();
     }); 
 
-    it('it calls the updateStatus method', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'updateStatus');
+    it('it calls the updateStatus method with different parameters', async () => {
+        const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         // wrapper.setData({
         //     showConfirmScreen: false,
@@ -166,8 +153,8 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('updateStatus', {
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('updateStatus', {
             "statuses": [
                 {
                     "shipments": {
@@ -189,12 +176,12 @@ describe('ShipmentListItem', () => {
             "force_transition": true
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method', async () => {
+    it('it calls the updateStatus method with different parameters', async () => {
         mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE({})).reply(500, {});
-        const clickEvent = jest.spyOn(wrapper.vm, 'updateStatus');
+        const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         // wrapper.setData({
         //     showConfirmScreen: false,
@@ -203,8 +190,8 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('updateStatus', {
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('updateStatus', {
             "statuses": [
                 {
                     "shipments": {
@@ -226,10 +213,10 @@ describe('ShipmentListItem', () => {
             "force_transition": true
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method', async () => {
+    it('it calls the updateStatus method with different parameters', async () => {
         mock.onPost(URLS.ORDER_SHIPMENTS_STATUS_UPDATE({
             "statuses": [
                 {
@@ -252,7 +239,7 @@ describe('ShipmentListItem', () => {
             "message": []
         });
 
-        const clickEvent = jest.spyOn(wrapper.vm, 'updateStatus');
+        const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         // wrapper.setData({
         //     showConfirmScreen: false,
@@ -261,8 +248,8 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('updateStatus', {
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('updateStatus', {
             "statuses": [
                 {
                     "shipments": {
@@ -284,11 +271,11 @@ describe('ShipmentListItem', () => {
             "force_transition": true
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(updateStatusFunction).toHaveBeenCalled();
     });
 
-    it('it calls the updateStatus method', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'updateStatus');
+    it('it calls the updateStatus method wiht different parameters', async () => {
+        const updateStatusFunction = jest.spyOn(wrapper.vm, 'updateStatus');
         await flushPromises();
         wrapper.setData({
             showConfirmScreen: true,
@@ -297,8 +284,8 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-shipment-table');
-        copyClick.vm.$emit('updateStatus', {
+        const element = wrapper.find('.container-shipment-table');
+        element.vm.$emit('updateStatus', {
             "statuses": [
                 {
                     "shipments": {
@@ -320,11 +307,11 @@ describe('ShipmentListItem', () => {
             "force_transition": true
         });
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(updateStatusFunction).toHaveBeenCalled();
     });
 
     it('it calls the close method', async () => {
-        const clickEvent = jest.spyOn(wrapper.vm, 'close');
+        const closeFunction = jest.spyOn(wrapper.vm, 'close');
         await flushPromises();
         wrapper.setData({
             showConfirmScreen: true,
@@ -333,209 +320,60 @@ describe('ShipmentListItem', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
 
-        const copyClick = wrapper.find('.container-in');
-        copyClick.vm.$emit('close');
+        const element = wrapper.find('.container-in');
+        element.vm.$emit('close');
         await wrapper.vm.$nextTick();
-        expect(clickEvent).toHaveBeenCalled();
+        expect(closeFunction).toHaveBeenCalled();
     }); 
 
     // BELOW TEST CASES ARE FOR THE CHILD COMPONENT .... THAT IS FOR TABLE.VUE (SHIPMENT-TABLE) FOLDER
 
     it('it will call the onRowClick method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
+        const childComponent = wrapper.findComponent(ShipmentTable);
 
-        const clickEvent = jest.spyOn(childComponent.vm, 'onRowClick');
+        const onRowClickFunction = jest.spyOn(childComponent.vm, 'onRowClick');
         await flushPromises();
 
-        let a = childComponent.find('.line-break')
-        a.trigger('click', '16593491868551604381K')
+        let element = childComponent.find('.line-break');
+        element.trigger('click', '16593491868551604381K');
         await wrapper.vm.$nextTick();
 
-        expect(clickEvent).toHaveBeenCalled();
+        expect(onRowClickFunction).toHaveBeenCalled();
     });
     
     it('it will call the copyShipmentId method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
+        const childComponent = wrapper.findComponent(ShipmentTable);
 
-        const clickEvent = jest.spyOn(childComponent.vm, 'copyShipmentId');
+        const copyShipmentIdFunction = jest.spyOn(childComponent.vm, 'copyShipmentId');
         await flushPromises();
 
-        let a = childComponent.find('.shipment-id')
-        a.trigger('click', '16593491868551604381K')
+        let element = childComponent.find('.shipment-id');
+        element.trigger('click', '16593491868551604381K');
         await wrapper.vm.$nextTick();
 
-        expect(clickEvent).toHaveBeenCalled();
+        expect(copyShipmentIdFunction).toHaveBeenCalled();
     }); 
 
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     // childComponent.setProps({
-    //     //     shipmentProcessing: false
-    //     // })
-
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'onStatusUpdate');
-    //     await flushPromises();
-
-    //     let a = childComponent.find('.actions-shipment')
-    //     a.vm.$emit('updateStatus', 'dp_assigned', undefined)
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(childComponent.vm.items.length).toBeGreaterThan(0);
-    // }); 
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     // childComponent.setProps({
-    //     //     shipmentProcessing: false
-    //     // })
-
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'onStatusUpdate');
-    //     await flushPromises();
-
-    //     let a = childComponent.find('.actions-shipment')
-    //     a.vm.$emit('updateStatus', 'bag_confirmed', undefined)
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(childComponent.vm.items.length).toBeGreaterThan(0);
-    // }); 
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     // childComponent.setProps({
-    //     //     shipmentProcessing: false
-    //     // })
-
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'onStatusUpdate');
-    //     await flushPromises();
-
-    //     let a = childComponent.find('.actions-shipment')
-    //     a.vm.$emit('updateStatus', 'cancel_order', undefined)
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(childComponent.vm.items.length).toBeGreaterThan(0);
-    // }); 
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     // childComponent.setProps({
-    //     //     shipmentProcessing: false
-    //     // })
-
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'onStatusUpdate');
-    //     await flushPromises();
-
-    //     let a = childComponent.find('.actions-shipment')
-    //     a.vm.$emit('updateStatus', 'bag_invoiced', undefined)
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(childComponent.vm.items.length).toBeGreaterThan(0);
-    // }); 
-
-
     it('it will call the onRejectMethod', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
+        const childComponent = wrapper.findComponent(ShipmentTable);
 
-        const clickEvent = jest.spyOn(childComponent.vm, 'onRejectChange');
+        const onRejectChangeFunction = jest.spyOn(childComponent.vm, 'onRejectChange');
         await flushPromises();
 
-        let a = childComponent.find('.cell-details')
-        a.vm.$emit('reject')
+        let element = childComponent.find('.cell-details');
+        element.vm.$emit('reject');
         await wrapper.vm.$nextTick();
 
         expect(childComponent.vm.items.length).toBeGreaterThan(0);
     }); 
 
-    // BELOW TEST CASES ARE FOR THE GRAND CHILD COMPO ... THAT IS THE ACTION.VUE (SHIPMENT-TABLE)
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     const clickEvent = jest.spyOn(childComponent.vm, 'onStatusUpdate');
-    //     await flushPromises();
-
-    //     let a = childComponent.find('.action')
-    //     a.vm.$emit('updateStatus', 'dp_assigned', undefined)
-    //     await wrapper.vm.$nextTick();
-
-    //     const grandChildComponent = childComponent.findComponent(Actions)
-        
-    //     // const clickEvent1 = jest.spyOn(grandChildComponent.vm, 'onStatusUpdate');
-    //     // await flushPromises();
-
-    //     // grandChildComponent.setData({
-    //     //     accessDetail: () => GET_EMPLOYEE_ACCESS_DETAIL,
-    //     // });
-
-    //     let b = grandChildComponent.find('.container-invoice-action')
-    //     console.log(b)
-    //     // b.vm.$emit('updateStatus', 'dp_assigned', undefined)
-    //     // await wrapper.vm.$nextTick();
-
-    //     // console.log(grandChildComponent.vm.locked)
-    //     // console.log(grandChildComponent.vm.ordering_channel)
-    //     console.log(grandChildComponent.vm.shipment.shipment_id)
-    //     // console.log(grandChildComponent.vm.rejectUpdate)
-    //     // expect(childComponent.vm.items.length).toBeGreaterThan(0);
-    // }); 
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     const grandChildComponent = childComponent.findComponent(Actions)
-        
-    //     const clickEvent1 = jest.spyOn(grandChildComponent.vm, 'onInvoiceChange');
-    //     await flushPromises();
-
-    //     grandChildComponent.setData({
-    //         accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
-    //         // checkUpdateRole: jest.fn(() => true),
-    //     });
-
-    //     wrapper.vm.$forceUpdate();
-    //     wrapper.vm.$nextTick();
-
-    //     let b = grandChildComponent.find('.container-invoice-action')
-    //     await wrapper.vm.$nextTick();
-    //     // b.vm.$emit('change')
-    //     // await wrapper.vm.$nextTick();
-
-    
-      
-    // }); 
-
-    // it('it will call the onRowClick method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-
-    //     const grandChildComponent = childComponent.findComponent(Actions)
-        
-    //     const clickEvent1 = jest.spyOn(grandChildComponent.vm, 'onInvoiceChange');
-    //     await flushPromises();
-
-    //     // grandChildComponent.setData({
-            
-    //     // });
-
-    //     let b = grandChildComponent.find('.shipment-action-button')
-    //     await wrapper.vm.$nextTick();
-    //     console.log(b)
-    //     // b.vm.$emit('change')
-    //     // await wrapper.vm.$nextTick();
-
-    
-      
-    // }); 
-
     // TEST CASE FOR GREAT GRAND CHILD SHIPMENT-INFO (INDEX.VUE)
 
     it('it will call the onRowClick method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo)
-        let b = greatGrandChildComponent.find('.delivery-details')
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo);
+        let element = greatGrandChildComponent.find('.delivery-details');
         await wrapper.vm.$nextTick();
 
         expect(childComponent.vm.items.length).toBeGreaterThan(0);
@@ -544,97 +382,27 @@ describe('ShipmentListItem', () => {
     // TEST CASE FOR GREAT GREAT GRAND CHILD SHIPMENT-INFO (HEADER.VUE)
 
     it('it will call the showShipmentActivity method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo)
-        const greatGreatGrandChildComponent = greatGrandChildComponent.findComponent(ShipmentHeader)
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo);
+        const greatGreatGrandChildComponent = greatGrandChildComponent.findComponent(ShipmentHeader);
 
-        const clickEvent = jest.spyOn(greatGreatGrandChildComponent.vm, 'showShipmentActivity');
+        const showShipmentActivityFunction = jest.spyOn(greatGreatGrandChildComponent.vm, 'showShipmentActivity');
         await flushPromises();
 
-        let b = greatGreatGrandChildComponent.find('.log-activity')
-        b.trigger('click')
+        let element = greatGreatGrandChildComponent.find('.log-activity');
+        element.trigger('click');
         await wrapper.vm.$nextTick();
 
         expect(greatGreatGrandChildComponent.vm.quickActivityView).toBeTruthly;
-    });     
-
-    // it('it will call the closeActivityDialog method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-    //     const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-    //     const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo)
-    //     const greatGreatGrandChildComponent = greatGrandChildComponent.findComponent(ShipmentHeader)
-
-    //     greatGreatGrandChildComponent.setData({
-    //         quickActivityView: true
-    //     });
-
-    //     const clickEvent = jest.spyOn(greatGreatGrandChildComponent.vm, 'closeActivityDialog');
-    //     await flushPromises();
-
-    //     let b = greatGreatGrandChildComponent.find('.slide-fade')
-    //     b.trigger('click')
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(greatGreatGrandChildComponent.vm.quickActivityView).toBeFalsy;
-    // });  
-
-    // it('it will call the closeIssueDialog method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-    //     const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-    //     const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo)
-    //     const greatGreatGrandChildComponent = greatGrandChildComponent.findComponent(ShipmentHeader)
-
-    //     greatGreatGrandChildComponent.setData({
-    //         quickIssueView: true
-    //     });
-
-    //     const clickEvent = jest.spyOn(greatGreatGrandChildComponent.vm, 'closeIssueDialog');
-    //     await flushPromises();
-
-    //     let b = greatGreatGrandChildComponent.find('.slide-fade')
-    //     b.trigger('click')
-    //     await wrapper.vm.$nextTick();
-
-    //     expect(greatGreatGrandChildComponent.vm.quickIssueView).toBeFalsy;
-    // });
-
-    // it('it will call the openIssueList method', async () => {
-    //     const childComponent = wrapper.findComponent(ShipmentTable)
-    //     const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-    //     const greatGrandChildComponent = grandChildComponent.findComponent(ShipmentInfo)
-    //     const greatGreatGrandChildComponent = greatGrandChildComponent.findComponent(ShipmentHeader)
-
-        
-    //     // greatGreatGrandChildComponent.setData({
-    //     //     // accessDetail: () => GET_EMPLOYEE_ACCESS_DETAIL,
-    //     //     // userinfo: () => GET_USER_INFO,
-    //     //     // support_config: () => ADMIN_GET_SELLER_SUPPORT_CONFIG,
-    //     //     checkReadRole: jest.fn(() => true),
-    //     //     checkUpdateRole: jest.fn(() => true),
-    //     //     ticketCreationStatus: jest.fn(() => true),
-    //     // });
-
-    //     greatGreatGrandChildComponent.vm.openIssueList()
-    //     await wrapper.vm.$nextTick();
-    //     // let b = greatGreatGrandChildComponent.find('.report-an-issue')
-    //     // console.log(b)
-    //     // b.trigger('click')
-    //     // await wrapper.vm.$nextTick();
-
-    //     expect(greatGreatGrandChildComponent.vm.quickIssueView).toBeTruthly;
-    // });
+    });      
 
     // THIS TEST CASE IS FOR BAGS LIST (INDEX.VUE)
 
     it('it will call the tableColumns computed property', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList)
-        
-        // greatGrandChildComponent.setProps({
-        //     status: 'placed'
-        // });
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList);
 
         greatGrandChildComponent.tableColumns;
         await wrapper.vm.$nextTick();
@@ -645,35 +413,20 @@ describe('ShipmentListItem', () => {
     // THIS TEST CASE IS FOR BAGS LIST (TABLE.VUE)
 
     it('it will call the increment method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList)
-        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable)
-        // console.log(ggGrandChildComponent)
-
-        // wrapper.setData({
-
-        // });
-
-        // await wrapper.vm.$forceUpdate();
-        // await wrapper.vm.$nextTick();
-
-        // let b = ggGrandChildComponent.find('.qty-reject')
-        // console.log(b)
-        // b.vm.$emit('increment', 413075, 0)
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList);
+        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable);
         ggGrandChildComponent.vm.increment(413075, 0);
 
         expect(ggGrandChildComponent.vm.items.length).toBeGreaterThan(0);
     });
 
     it('it will call the decrement method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList)
-        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable)
-
-        // let b = ggGrandChildComponent.find('.qty-reject')
-        // b.vm.$emit('decrement', 413075, 0)
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList);
+        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable);
 
         ggGrandChildComponent.vm.decrement(413075, 0);
 
@@ -681,28 +434,12 @@ describe('ShipmentListItem', () => {
     });
 
     it('it will call the onChange method', async () => {
-        const childComponent = wrapper.findComponent(ShipmentTable)
-        const grandChildComponent = childComponent.findComponent(ShipmentDetails)
-        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList)
-        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable)
-
-        // let b = ggGrandChildComponent.find('.qty-reject')
-        // b.vm.$emit('change', 413075, 0)
+        const childComponent = wrapper.findComponent(ShipmentTable);
+        const grandChildComponent = childComponent.findComponent(ShipmentDetails);
+        const greatGrandChildComponent = grandChildComponent.findComponent(BagsList);
+        const ggGrandChildComponent = greatGrandChildComponent.findComponent(BagsListTable);
         
         ggGrandChildComponent.vm.onChange(413075, 0);
         expect(ggGrandChildComponent.vm.items.length).toBeGreaterThan(0);
     });
-
-    // // BELOW TEST CASES ARE FOR THE INVOICE-LABEL-MENU
-
-    // it('it will call the onChange method', async () => {
-    //     const component = wrapper.findComponent(InvoiceLabelMenu)
-    //     console.log(component)
-
-    //     // let b = ggGrandChildComponent.find('.qty-reject')
-    //     // b.vm.$emit('change', 50557, 0)
-
-    //     // expect(ggGrandChildComponent.vm.items.length).toBeGreaterThan(0);
-    // });
-
 });
