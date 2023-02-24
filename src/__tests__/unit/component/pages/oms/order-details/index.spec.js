@@ -168,7 +168,7 @@ describe('Order Details Page', () => {
             orderData: MOCK_ORDER_RESPONSE_DATA
         });
  
-        await wrapper.vm.$forceUpdate();
+        // await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(ShipmentsList);
