@@ -35,30 +35,29 @@ describe('change-bag-state-drawer', () => {
         await flushPromises();
     });
     it('should render to a snapshot', () => {
-        console.log(wrapper.vm.bagStates[0].value)
         expect(wrapper.element).toMatchSnapshot();
     });
 
     it('should change selected bag state', async() => {
-        let a = wrapper.findComponent({ name: 'nitrozen-dropdown'})
-        a.vm.$emit('input', 'bag_confirmed')
-        a.vm.$emit('change')
+        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'})
+        bagStateDropdown.vm.$emit('input', 'bag_confirmed')
+        bagStateDropdown.vm.$emit('change')
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedState).toBe('bag_confirmed');
     });
 
     it('should render reason dropdown', async() => {
-        let a = wrapper.findComponent({ name: 'nitrozen-dropdown'})
-        a.vm.$emit('input', 'cancelled_customer')
-        a.vm.$emit('change')
+        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'})
+        bagStateDropdown.vm.$emit('input', 'cancelled_customer')
+        bagStateDropdown.vm.$emit('change')
         await flushPromises();
         await wrapper.vm.$nextTick();
         // checking second dropdown in dom
-        let b = wrapper.findAllComponents({name: 'nitrozen-dropdown'}).at(1);
-        expect(b.exists()).toBeTruthy();
-        b.vm.$emit('input', wrapper.vm.reasons[0].value)
-        b.vm.$emit('change')
+        let reasonDropdown = wrapper.findAllComponents({name: 'nitrozen-dropdown'}).at(1);
+        expect(reasonDropdown.exists()).toBeTruthy();
+        reasonDropdown.vm.$emit('input', wrapper.vm.reasons[0].value)
+        reasonDropdown.vm.$emit('change')
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedReason).toBe(wrapper.vm.reasons[0].value);
     });

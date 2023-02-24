@@ -47,22 +47,24 @@ describe('store-reassign-drawer', () => {
         expect(div.exists()).toBe(true);
     });
     it("select reason and store", async () => {
-        let a = wrapper.find('.dropdown-reason');
-        let b = wrapper.find('.radio-button');
-        a.vm.$emit('input', 104)
-        a.vm.$emit('change')
-        b.trigger('click')
+        let reasonDropdown = wrapper.find('.dropdown-reason');
+        let addressRadioBtn = wrapper.find('.radio-button');
+        reasonDropdown.vm.$emit('input', 104)
+        reasonDropdown.vm.$emit('change')
+        addressRadioBtn.trigger('click')
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedReason).toBe(104);
         expect(wrapper.vm.selectedStore).toBe(3666);
     });
     it("dropdown outside click", async () => {
-        let a = wrapper.find('.dropdown');
-        a.trigger('focus')
-        a.trigger('blur')
+        let dropdownDiv = wrapper.find('.dropdown');
+        let reasonDropdown = wrapper.find('.dropdown-reason');
+        dropdownDiv.trigger('focus')
+        dropdownDiv.trigger('blur')
         await flushPromises();
         await wrapper.vm.$nextTick();
+        expect(reasonDropdown.vm.showOptions).toBe(false);
     });
 });
 

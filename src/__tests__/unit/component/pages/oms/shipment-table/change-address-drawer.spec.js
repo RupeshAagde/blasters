@@ -38,18 +38,18 @@ describe('change-address-drawer', () => {
     });
 
     it('should change address type', async() => {
-        let a = wrapper.find('.employee')
-        a.vm.$emit('input', 'home');
-        a.vm.$emit('change');
+        let addressTypeDropdown = wrapper.find('.employee')
+        addressTypeDropdown.vm.$emit('input', 'home');
+        addressTypeDropdown.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedAddressType).toBe('home')
         // console.log(wrapper.vm.addressTyp)
     });
     it('should change name', async() => {
-        let a = wrapper.find('.search-input')
-        a.vm.$emit('input', 'test');
-        a.vm.$emit('change');
+        let nameInput = wrapper.find('.search-input')
+        nameInput.vm.$emit('input', 'test');
+        nameInput.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.name).toBe('test')
