@@ -34,9 +34,6 @@ describe('OrderListItem', () => {
             localVue,
             router,
             propsData: { data: orderList },
-            // data() {
-            //     query = wrapper.vm.$route.query
-            // },
             computed: {
                 companyApplications: () => APPLICATION_LIST_MOCK_DATA.items,
                 registeredMarketplaces: () => MARKETPLACE_DATA,
@@ -59,7 +56,7 @@ describe('OrderListItem', () => {
     it('triggers a click', async () => {
         wrapper.trigger('click');
         await wrapper.vm.$nextTick();
-    })
+    });
 
     it('copy to click if the order id is clicked', async () => {
         const copyToClipboardFunction = jest.spyOn(wrapper.vm, 'copyToClipboard');

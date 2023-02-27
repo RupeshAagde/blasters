@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { NitrozenPagination } from '@gofynd/nitrozen-vue';
 
 /* Component imports */
 import EditManifestDrawer from '@/pages/oms/manifest/edit-manifest-drawer.vue';
@@ -13,10 +14,10 @@ import ManifestHomePage from '@/pages/oms/manifest/index.vue';
 import ManifestDetailPage from '@/pages/oms/manifest/manifest-details/manifest-details.vue';
 
 /* Mock imports */
- import MANIFEST_SHIPMENT_LISTING from '../fixtures/manifest/manifest-shipment-listing.json';
+import MANIFEST_SHIPMENT_LISTING from '../fixtures/manifest/manifest-shipment-listing.json';
 
 /* Domain imports */
- import URLS from '@/services/domain.service';
+import URLS from '@/services/domain.service';
 
 let wrapper, router, localVue;
 
@@ -70,7 +71,7 @@ describe('EditManifestDrawer', () => {
     });
 
     it('on selection all the checkbox values should be true', async()=>{
-        const selectUnselectAllItem =  jest.spyOn(wrapper.vm, 'selectUnselectAllItem')
+        const selectUnselectAllItem =  jest.spyOn(wrapper.vm, 'selectUnselectAllItem');
         wrapper.setData({
             manifestList:  MANIFEST_SHIPMENT_LISTING.items,
             fetchInProgress: false,
@@ -82,12 +83,12 @@ describe('EditManifestDrawer', () => {
         wrapper.vm.selectUnselectAllItem();
         await wrapper.vm.$nextTick();
         await flushPromises();
-         await new Promise(resolve => setTimeout(resolve, 150));
-       expect(selectUnselectAllItem).toHaveBeenCalled();
+        await new Promise(resolve => setTimeout(resolve, 150));
+        expect(selectUnselectAllItem).toHaveBeenCalled();
     });
 
     it('on selection all the checkbox values should be true', async()=>{
-        const selectUnselectAllItem =  jest.spyOn(wrapper.vm, 'selectUnselectAllItem')
+        const selectUnselectAllItem =  jest.spyOn(wrapper.vm, 'selectUnselectAllItem');
         wrapper.setData({
             manifestList:  MANIFEST_SHIPMENT_LISTING.items,
             fetchInProgress: false,
@@ -105,8 +106,6 @@ describe('EditManifestDrawer', () => {
     
 
     it('Catch api fail for manifest listing', async ()=> {
-          const snackbarError = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
-
         wrapper = mount(EditManifestDrawer, {
             localVue,
             router,
@@ -121,16 +120,25 @@ describe('EditManifestDrawer', () => {
 
         mock.onGet(URLS.SHIPMENT_V2_LIST()).reply(400, {});
         await wrapper.vm.$nextTick();
-        // await new Promise(resolve => setTimeout(resolve, 10));
-         expect(wrapper.vm.fetchError).toBe(false);
-        // expect(snackbarError).toHaveBeenCalled()
-
+        expect(wrapper.vm.fetchError).toBe(false);
     });
 
     it('should add shipments', async()=>{
         wrapper.vm.addShipments();
-        
         expect(wrapper.emitted()['update']).toBeTruthy();
+    });
 
+    it(`should hide the alert if the user has clicked on 'Got It'`, async() => {
+        wrapper.setData({
+            displayAlert: true
+        });
+
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+
+        let element = wrapper.find('.action-text');
+        element.trigger('click');
+
+        expect(wrapper.vm.displayAlert).toBe(false);
     });
 });

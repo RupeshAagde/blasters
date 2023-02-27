@@ -3,15 +3,12 @@
 /* Package imports */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
 
 /* Component imports */
 import ShipmentIssueListDialog from '@/pages/oms/shipment-issue-list-dialog.vue';
 
-const mock = new MockAdapter(axios);
-let wrapper, router, localVue
+let wrapper, router, localVue;
 const RoleModal = {
     render: () => {},
     methods: {
@@ -19,6 +16,7 @@ const RoleModal = {
         close: () => { }
     }
 };
+
 describe('ShipmentDpTracking', () => {
     beforeEach(async() => {
         localVue = createLocalVue();

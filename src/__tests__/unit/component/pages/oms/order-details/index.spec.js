@@ -16,7 +16,8 @@ import ShipmentsList from '@/pages/oms/shipments-list/index.vue'
 import URLS from '@/services/domain.service';
 
 /* Mock imports */
-import MOCK_ORDER_RESPONSE_DATA from '../fixtures/order-details.json'
+import MOCK_ORDER_RESPONSE_DATA from '../fixtures/order-details.json';
+
 let localVue;
 const mock = new MockAdapter(axios);
 let wrapper, router
@@ -26,7 +27,6 @@ describe('Order Details Page', () => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
         mock.reset();
-        // mock.onGet(ADMIN_URLS.STORE_DETAILS()).reply(200, mockData.opt_in_stores);
         mock.onGet(URLS.ORDER_DETAILS_V2(companyId, null, { order_id: 'FY63BBBACA0F704F7E77' })).reply(200, MOCK_ORDER_RESPONSE_DATA)
         router = new VueRouter({
             routes: [
@@ -46,17 +46,13 @@ describe('Order Details Page', () => {
         wrapper = mount(OrderDetails, {
             localVue,
             router,
-            data() {
-                return {
-                    // orderData: MOCK_ORDER_RESPONSE_DATA
-                }
-            },
             computed: {
                 accessDetail: () => ACCESS_MOCK_DATA,
             }
         });
         await flushPromises();
     });
+
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
@@ -109,7 +105,7 @@ describe('Order Details Page', () => {
         expect(getShipmentFunction).toHaveBeenCalled();
     }); 
 
-    // BELOW TEST CASES IS FOR THE CHILD COMPONENT OF INDEX.VUE .... THAT IS HEADER.VUE
+    /* BELOW TEST CASES IS FOR THE CHILD COMPONENT OF INDEX.VUE .... THAT IS HEADER.VUE */
 
     it('it will call navigate to details method', async () => {
         wrapper.setData({
@@ -157,7 +153,7 @@ describe('Order Details Page', () => {
         expect(loadDataFunction).toHaveBeenCalledTimes(0);
     });
 
-    // BELOW TEST CASES IF FOR THE CHILD COMPONENT OF INDEX.VUE .... THAT IS IN FOLDER SHIPMENTS-LIST AND FILE INDEX.VUE
+    /* BELOW TEST CASES IF FOR THE CHILD COMPONENT OF INDEX.VUE .... THAT IS IN FOLDER SHIPMENTS-LIST AND FILE INDEX.VUE */
 
     it('it will call closeAlert method', async () => {
         wrapper.setData({
@@ -167,8 +163,7 @@ describe('Order Details Page', () => {
             noData: false,
             orderData: MOCK_ORDER_RESPONSE_DATA
         });
- 
-        // await wrapper.vm.$forceUpdate();
+
         await wrapper.vm.$nextTick();
         
         const childComponent = wrapper.findComponent(ShipmentsList);

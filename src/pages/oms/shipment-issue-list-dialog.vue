@@ -10,11 +10,6 @@
                 <div class="side-drawer-heade-title">Shipment Issues: {{shipment_id}}</div>
             </div> -->
             <div class="issue-list">
-                <!-- <div class="top-row">
-                    <nitrozen-button class="row-top" theme="secondary" @click="reportAnIssue">
-                        Create New
-                    </nitrozen-button>
-                </div> -->
                 <div class="issue-list-header">
                     <div class="ticket-id">Ticket #</div>
                     <div class="title">Title</div>
@@ -126,17 +121,6 @@ export default {
                 },
                 params: { ticket_id }
             });
-        },
-        reportAnIssue() {
-            this.$emit('closeDialog')
-            let routeData = this.$router.resolve({ name: 'company-support-create', query: { redirect_url: this.$route.fullPath, shipment: this.shipment_id } }); 
-            if(this.isDrawerView){
-                window.open(routeData.href, '_blank')
-            }else{
-                setTimeout(() => {
-                    this.$router.push(routeData.location)
-                });
-            }
         }
     }
 }

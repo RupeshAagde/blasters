@@ -6,11 +6,11 @@ import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 
 /* Component imports */
-import DetailsSection from '@/pages/oms/shipment-info/details-section.vue'
+import DetailsSection from '@/pages/oms/shipment-info/details-section.vue';
 
 /* Mock imports */
-import DETAILS_SECTION from '../fixtures/details-section.json'
-import COMPUTED_DATA from '../fixtures/computed_data.json'
+import DETAILS_SECTION from '../fixtures/details-section.json';
+import COMPUTED_DATA from '../fixtures/computed_data.json';
 
 let wrapper, router, localVue;
 describe('DetailsSection', () => {
@@ -22,7 +22,7 @@ describe('DetailsSection', () => {
             routes: [
                 { path: '/company/:company_id/orders/:orderId/details', name: 'company-order-details-v2', component: DetailsSection},
             ]
-        })
+        });
         router.push(`/company/1/orders/v2`);
 
         const detailsData = DETAILS_SECTION;
@@ -31,9 +31,6 @@ describe('DetailsSection', () => {
             localVue,
             router,
             propsData: { shipment: detailsData },
-            // data() {
-            //     query = wrapper.vm.$route.query
-            // },
             computed: {
                 accessDetail: () => COMPUTED_DATA.accessDetail,
                 orderRoles:() => COMPUTED_DATA.orderRoles
@@ -50,7 +47,7 @@ describe('DetailsSection', () => {
         expect(div.exists()).toBe(true);
     });
 
-    it('it opens the Pickup Slot drawer when clicked)', async () => {
+    it('it opens the pickup slot drawer when clicked when the user is on the second tab', async () => {
         wrapper.setData({
             selectedStageTabIndex: 2,
             isPickupSlot: false
@@ -65,7 +62,7 @@ describe('DetailsSection', () => {
         expect(wrapper.vm.isPickupSlot).toBe(false);
     }); 
 
-    it('it switched between tabs)', async () => {
+    it('switches between tabs)', async () => {
         await flushPromises();
         wrapper.setData({
             selectedStageTabIndex: 0,
@@ -83,7 +80,7 @@ describe('DetailsSection', () => {
         expect(wrapper.vm.selectedStageTabIndex).toBe(1);
     }); 
 
-    it('it switched between tabs when clicked on the same tab)', async () => {
+    it('it switched between tabs when clicked on the same tab', async () => {
         await flushPromises();
         wrapper.setData({
             selectedStageTabIndex: 1,
@@ -101,7 +98,7 @@ describe('DetailsSection', () => {
         expect(wrapper.vm.selectedStageTabIndex).toBe(1);
     }); 
 
-    it('it opens the Pickup Slot drawer when clicked)', async () => {
+    it('it closes the pickup slot drawer when close is clicked', async () => {
         wrapper.setData({
             isPickupSlot: true
         });
@@ -114,5 +111,4 @@ describe('DetailsSection', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.isPickupSlot).toBe(false);
     }); 
-
 });

@@ -438,13 +438,6 @@ export default {
             this.$router.push({ name: 'company-order-manifest' });
         },
 
-        applicationName() {
-            let appInfo = getAppInfo();
-            if(appInfo.name) {
-                return appInfo.name;
-            } else return 'Application';
-        },
-
         /**
          * This funcion hold all the logic for payload creation of
          * save process manifest api call

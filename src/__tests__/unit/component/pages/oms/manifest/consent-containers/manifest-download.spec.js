@@ -1,7 +1,7 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 
 /* Component imports */
@@ -38,7 +38,7 @@ describe('ManifestDownloadBox', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
-    it(' should emit download on click to the parent component', async () => {
+    it('should emit download on click to the parent component', async () => {
         let downloadBackButton = wrapper.find('.download-btn');
         downloadBackButton.trigger('click');
         await wrapper.vm.$nextTick();

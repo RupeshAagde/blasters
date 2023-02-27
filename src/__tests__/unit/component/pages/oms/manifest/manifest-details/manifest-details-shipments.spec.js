@@ -12,12 +12,11 @@ import ManifestHomePage from '@/pages/oms/manifest/index.vue';
 import ManifestDetailsShipments from '@/pages/oms/manifest/manifest-details/manifest-details-shipments.vue';
 
 /* Mock imports */
-import MANIFEST_DETAILS_RESPONSE from '../../fixtures/manifest/manifest-detail-response.json'
-import ORDER_ROLES from '../../fixtures/order-roles.json'
-import MANIFEST_SAVE_PROCESS_RESPONSE from '../../fixtures/manifest/manifest-save-process-response.json'
+import MANIFEST_DETAILS_RESPONSE from '../../fixtures/manifest/manifest-detail-response.json';
+import ORDER_ROLES from '../../fixtures/order-roles.json';
+import MANIFEST_SAVE_PROCESS_RESPONSE from '../../fixtures/manifest/manifest-save-process-response.json';
 
-
-/*Domanin imports */
+/* Domain service imports */
 import URLS from '@/services/domain.service';
 
 
@@ -42,7 +41,8 @@ const SHIPMENT_LIST =  [
         "items": 4,
         "isSelected": true
     }
-]
+];
+
 describe('ManifestDetailsShipments', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
@@ -50,8 +50,8 @@ describe('ManifestDetailsShipments', () => {
         localVue.use(VueRouter);
         router = new VueRouter({
             routes: [
-                 { path: '/orders/manifest', name: 'company-order-manifest', component: ManifestHomePage},
-                 { path: 'orders/manifest/:manifestId/',name: 'company-manifest-detail', component: ManifestDetailPage },
+                { path: '/orders/manifest', name: 'company-order-manifest', component: ManifestHomePage},
+                { path: 'orders/manifest/:manifestId/',name: 'company-manifest-detail', component: ManifestDetailPage },
             ],
         });
         router.push(`/company/1/orders/manifest/manifest-1101/`);
@@ -88,7 +88,6 @@ describe('ManifestDetailsShipments', () => {
                     render: () => { return },
                 }
             }
-           
         });
     });
 
@@ -101,7 +100,7 @@ describe('ManifestDetailsShipments', () => {
         expect(div.exists()).toBe(true);
     });
     
-    it('should select one rows calling debounce functionn', async()=> {
+    it('should select one rows calling debounce functionn', async () => {
         wrapper.setData({
             shipmentsList: SHIPMENT_LIST,
             checkboxShipmentData: {}
@@ -112,12 +111,11 @@ describe('ManifestDetailsShipments', () => {
         wrapper.vm.selectItem(1);
         await new Promise(resolve => setTimeout(resolve, 150));
         expect(dispalyButtonSelectAllFromResponse).toHaveBeenCalled();
-        
     });
 
-    it('should unselect one rows calling debounce functionn', async()=> {
+    it('should unselect one rows calling debounce function', async () => {
         wrapper.setData({
-            shipmentsList: [   {
+            shipmentsList: [{
                 "shipment_id": "16732742344951132260",
                 "shipment_created_time": "2023-01-09T19:53:55+00:00",
                 "order_id": "FY63BC23790F6BA18E3C",
@@ -125,7 +123,7 @@ describe('ManifestDetailsShipments', () => {
                 "awb": "5046512055852",
                 "items": 1,
                 "isSelected": false
-            },],
+            }],
             checkboxShipmentData: {}
         });
         await wrapper.vm.$forceUpdate();
@@ -136,7 +134,7 @@ describe('ManifestDetailsShipments', () => {
         expect(dispalyButtonSelectAllFromResponse).toHaveBeenCalled();    
     });
 
-    it('should select all checkbox when clicked on header checkbox', async()=>{
+    it('should select all checkbox when clicked on header checkbox when all items are selected', async()=>{
         wrapper.setData({
             shipmentsList: SHIPMENT_LIST,
             checkboxShipmentData: {},
@@ -149,9 +147,9 @@ describe('ManifestDetailsShipments', () => {
         wrapper.vm.selectUnSelectAllItem();
         await new Promise(resolve => setTimeout(resolve, 150));
         expect(wrapper.emitted()['keepAllRowsCheckedEvent']).toBeTruthy();
-
     });
-    it('should select all checkbox when clicked on header checkbox', async()=>{
+
+    it('should select all checkbox when clicked on header checkbox when only one item is selected', async()=>{
         wrapper.setData({
             shipmentsList: SHIPMENT_LIST,
             checkboxShipmentData: {},
@@ -165,5 +163,4 @@ describe('ManifestDetailsShipments', () => {
         await new Promise(resolve => setTimeout(resolve, 150));
         expect(wrapper.emitted()['keepAllRowsCheckedEvent']).toBeTruthy();
     });
-
-   });
+});

@@ -18,8 +18,7 @@ import ORDER_ROLES from '../../fixtures/order-roles.json';
 import ACCESS_DETAIl from '../../fixtures/access-detail.json';
 import MANIFEST_SAVE_PROCESS_RESPONSE from '../../fixtures/manifest/manifest-save-process-response.json';
 
-
-/*Domanin imports */
+/* Domain imports */
 import URLS from '@/services/domain.service';
 
 
@@ -44,7 +43,8 @@ const SHIPMENT_LIST =  [
         "items": 4,
         "isSelected": true
     }
-]
+];
+
 describe('ManifestDetailPage', () => {
     beforeEach(async () => {
         localVue = createLocalVue();
@@ -90,7 +90,7 @@ describe('ManifestDetailPage', () => {
         expect(routerBack).toHaveBeenCalled();
     });
   
-    it('on click of add shipments button it opens edit manifest drawer', async ()=>{
+    it('on click of add shipments button it opens edit manifest drawer', async () =>{
         wrapper.setData({
             editShipmentView: false,
             additionalShipmentCount:10,
@@ -104,10 +104,9 @@ describe('ManifestDetailPage', () => {
         let editmanifestbutton = wrapper.findComponent({ref: 'open-edit-manifest-drawer'});
         editmanifestbutton.trigger('click');
         expect(wrapper.vm.editShipmentView).toBe(true);   
+    });
 
-    })
-
-    it('Selected filters should be equal to the route query', async()=> {
+    it('Selected filters should be equal to the route query', async() => {
         router.push({
             name: 'company-manifest-detail',
             params:{manifestId: 'manifest-1101'},
@@ -122,11 +121,10 @@ describe('ManifestDetailPage', () => {
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        expect(wrapper.vm.noManifestId).toBe(false)
+        expect(wrapper.vm.noManifestId).toBe(false);
+    });
 
-     });
-
-    it('should should close consent drawer', async()=> {
+    it('should should close consent drawer', async() => {
         wrapper.setData({
             uploadConsentView: true,
             noManifestId: false,
@@ -139,11 +137,9 @@ describe('ManifestDetailPage', () => {
         closeDrawerButton.trigger('click');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.uploadConsentView).toBe(false);
-
     });
 
-    it('should call the add shipment api call and update manifest', async()=>{
-
+    it('should call the add shipment api call and update manifest', async() => {
         wrapper.setData({
             noManifestId: false,
             manifestFetchInProgress: false,
@@ -175,6 +171,5 @@ describe('ManifestDetailPage', () => {
         await wrapper.vm.$nextTick();
         await new Promise(resolve => setTimeout(resolve, 1000));
         expect(wrapper.vm.editShipmentView).toBe(false);
-        
     });
 });

@@ -22,7 +22,7 @@ import ACCESS_MOCK_DATA from './fixtures/access-data-oms.json';
 import flushPromises from "flush-promises";
 let localVue;
 const mock = new MockAdapter(axios);
-let wrapper, router
+let wrapper, router;
 const companyId = '1';
 
 const CsvView = {
@@ -71,7 +71,6 @@ describe('Order/Shipment List Page', () => {
             ]
         })
         router.push(`/company/1/orders`);
-        // router.push('/company/1/orders/manifest/:storeId')
         wrapper = mount(OrderShipmentList, {
             localVue,
             router,
@@ -102,9 +101,11 @@ describe('Order/Shipment List Page', () => {
         });
         await flushPromises();
     });
+    
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
+
     it('is a Vue instance', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
@@ -133,22 +134,6 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.pagination.total).toBe(81);
     });
-
-    // it('refresh icon is clicked it fetched all the new data and reloads all the data', async () => {
-    //     const clickEvent = jest.spyOn(wrapper.vm, 'searchOrders');
-    //     await flushPromises();
-    //     wrapper.setData({
-    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-    //     });
-
-    //     await wrapper.vm.$forceUpdate();
-    //     await wrapper.vm.$nextTick();
-
-    //     const copyClick = wrapper.find('.refresh-icon');
-    //     copyClick.trigger('click');
-    //     await wrapper.vm.$nextTick();
-    //     expect(clickEvent).toHaveBeenCalled();
-    // });
 
     it('When clicked the filter image, it opens the advanced filter section', async () => {
         const advancedFilterSectionFunction = jest.spyOn(wrapper.vm, 'advancedFilterSection');
@@ -470,20 +455,19 @@ describe('Order/Shipment List Page', () => {
         expect(onSearchInputFunction).toHaveBeenCalled();
     }); 
 
-    // // BELOW TEST CASES ARE FOR ADVANCED-FILTER-DRAWER COMPONENT -------------------------------------------------------------------
+    /* BELOW TEST CASES ARE FOR ADVANCED-FILTER-DRAWER COMPONENT */
 
     it('it finds the child component we want and runs the onMultiSelectChange method in it', async () => {
         wrapper.setData({
             advancedFilterView: true,
             advancedFilters: MOCK_INDEX_DATA.filtersResponseData.advance.Unfulfilled,
-            selectedAdvancedFilters: {},
-            // selectedFilters: {}
+            selectedAdvancedFilters: {}
         });
 
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
+        const childComponent = wrapper.findComponent(AdvancedFilterDrawer);
         let element = childComponent.find('.advanced-filter-dropdown')
         element.vm.$emit('change', [
             "000000000000000000000001"
@@ -491,22 +475,20 @@ describe('Order/Shipment List Page', () => {
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
-        // expect(a).toBe({ sales_channel: [ '000000000000000000000001' ] });
     }); 
 
     it('it search the input written by the user and calls searchFilterOptions function', async () => {
         wrapper.setData({
             advancedFilterView: true,
             advancedFilters: MOCK_INDEX_DATA.filtersResponseData.advance.Unfulfilled,
-            selectedAdvancedFilters: {},
-            // selectedFilters: {}
+            selectedAdvancedFilters: {}
         });
 
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
-        let element = childComponent.find('.advanced-filter-dropdown')
+        const childComponent = wrapper.findComponent(AdvancedFilterDrawer);
+        let element = childComponent.find('.advanced-filter-dropdown');
         element.vm.$emit('searchInputChange', {
             "id": "nitrozen-dropdown-3oxvs9h1",
             "text": "express"
@@ -514,20 +496,13 @@ describe('Order/Shipment List Page', () => {
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
-        // expect(a).toBe({ sales_channel: [ '000000000000000000000001' ] });
     }); 
 
     it('it will remove the chips of the particular advanced filter selected by the user', async () => {
         wrapper.setData({
             advancedFilterView: true,
             advancedFilters: MOCK_INDEX_DATA.filtersResponseData.advance.Unfulfilled,
-            selectedAdvancedFilters: {},
-            // selectedFilters: {}
-            // selectedFiltersOptions: {
-            //     "payment_mode": [
-            //         "COD"
-            //     ]
-            // },
+            selectedAdvancedFilters: {}
         });
 
         await wrapper.vm.$forceUpdate();
@@ -535,14 +510,9 @@ describe('Order/Shipment List Page', () => {
         
         const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
 
-        // let a = childComponent.find('.main-wrapper')
-        // console.log(a)
         childComponent.vm.removeChip([
             "payment_mode"
-        ], -1)
-        // a.vm.$emit('click', [
-        //     "payment_mode"
-        // ], 1)
+        ], -1);        
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
@@ -557,10 +527,10 @@ describe('Order/Shipment List Page', () => {
 
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
+        const childComponent = wrapper.findComponent(AdvancedFilterDrawer);
 
-        let element = childComponent.find('.filters-section')
-        element.trigger('click')
+        let element = childComponent.find('.filters-section');
+        element.trigger('click');
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
@@ -576,7 +546,7 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
+        const childComponent = wrapper.findComponent(AdvancedFilterDrawer);
 
         let element = childComponent.find('.clear-button')
         element.vm.$emit('click', {stopPropagation: ()=>{}})
@@ -595,16 +565,16 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(AdvancedFilterDrawer)
+        const childComponent = wrapper.findComponent(AdvancedFilterDrawer);
 
-        let element = childComponent.find('.apply-filter-button')
-        element.vm.$emit('click', {stopPropagation: ()=>{}})
+        let element = childComponent.find('.apply-filter-button');
+        element.vm.$emit('click', {stopPropagation: ()=>{}});
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.advancedFilterView).toBe(true);
     }); 
 
-    // BELOW TEST CASES ARE FOR SHIPMENT LIST ITEM COMPONENT -------------------------------------------------------------------
+    /* BELOW TEST CASES ARE FOR SHIPMENT LIST ITEM COMPONENT */
 
     it('it will just pass all the props to shipment list item component', async () => {
         wrapper.setData({
@@ -615,7 +585,7 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(ShipmentListItem)
+        const childComponent = wrapper.findComponent(ShipmentListItem);
         
         await wrapper.vm.$nextTick();
         expect(childComponent.vm.shipmentList.length).toBeGreaterThanOrEqual(0);
@@ -630,9 +600,9 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(ShipmentListItem)
-        let element = childComponent.find('.line-break')
-        element.trigger('click', 'FY62E38B3801C15856C1', '16590794807021683429K')
+        const childComponent = wrapper.findComponent(ShipmentListItem);
+        let element = childComponent.find('.line-break');
+        element.trigger('click', 'FY62E38B3801C15856C1', '16590794807021683429K');
 
         await wrapper.vm.$nextTick();
         expect(childComponent.vm.shipmentList.length).toBeGreaterThanOrEqual(0);
@@ -647,10 +617,10 @@ describe('Order/Shipment List Page', () => {
        await wrapper.vm.$forceUpdate();
        await wrapper.vm.$nextTick();
        
-       const childComponent = wrapper.findComponent(ShipmentListItem)
-       let element = childComponent.find('.item-images')
+       const childComponent = wrapper.findComponent(ShipmentListItem);
+       let element = childComponent.find('.item-images');
 
-       element.trigger('click.stop', MOCK_INDEX_DATA.shipmentsResponseData.items[0])
+       element.trigger('click.stop', MOCK_INDEX_DATA.shipmentsResponseData.items[0]);
        await wrapper.vm.$nextTick();
 
        expect(childComponent.vm.bagDialogView).toBe(true);
@@ -665,11 +635,9 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(ShipmentListItem)
-
-        let element = childComponent.find('.sla-time')
+        const childComponent = wrapper.findComponent(ShipmentListItem);
         
-        let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
+        let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time);
         expect(returnData).toBe(returnData);
     });
 
@@ -682,11 +650,9 @@ describe('Order/Shipment List Page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         
-        const childComponent = wrapper.findComponent(ShipmentListItem)
-
-        let element = childComponent.find('.sla-time')
+        const childComponent = wrapper.findComponent(ShipmentListItem);
         
-        let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time)
+        let returnData = childComponent.vm.displaySlaHoursLeft(MOCK_INDEX_DATA.shipmentsResponseData.items[0].shipment_status.meta.estimated_sla_time);
         expect(returnData).toBe(returnData);
     });
    

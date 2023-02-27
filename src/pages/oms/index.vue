@@ -265,64 +265,6 @@
         </transition>
 
         <transition name="slide">
-            <template v-if="showReturnStateDrawer">
-                <side-drawer
-                    :title="'Request Return'"
-                    @close="closeReturnStateDrawer"
-                    :footer="true"
-                >
-                    <div class="return-state-container">
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="return-dropdown "
-                                :items="returnNextStates"
-                                v-model="selectedReturnNextState"
-                                :label="'Request Return State'"
-                                @change="onNextReturnStateSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a state for requesting return.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="sales-channel-dropdown"
-                                :items="[]"
-                                v-model="salesChannels"
-                                :label="'Sales Channel'"
-                                @change="onSalesChannelSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a sales channel.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-input
-                                v-model="forwardShipmentId"
-                                :label="'Forward Shipment ID*'"
-                                @keyup="onKeyUpForwardShipmentID"
-                            />
-                            <nitrozen-error class="error-label" v-if="emptyForwardShipmentId">
-                                Kindly add a shipment ID.
-                            </nitrozen-error>
-                        </div>
-                    </div>
-                    <template #footer>
-                        <div class="submit-btn-container">
-                            <nitrozen-button
-                                theme="secondary"
-                                v-flatBtn
-                                @click="requestReturn"
-                            > Submit </nitrozen-button>
-                        </div>
-                    </template>
-                </side-drawer>
-            </template>
-        </transition>
-
-        <transition name="slide">
             <template v-if="debugShipmentView">
                 <side-drawer
                     :title="debugOrderId.length ? `Debug Order Info for ${debugOrderId}` : `Debug Shipment`"
@@ -530,7 +472,6 @@ export default {
             announcements:[],
             returnNextStates: cloneDeep(returnNextStates),
             selectedReturnNextState: '',
-            showReturnStateDrawer: false,
             returnStateErrorSubmit: false,
             actionCentreData: [],
 
@@ -602,32 +543,6 @@ export default {
                 this.fetchShipments();
             }
             this.fetchFilters();
-        },
-        onRequestReturn() {
-            this.showReturnStateDrawer = true;
-        },
-        closeReturnStateDrawer() {
-            this.showReturnStateDrawer = false;
-        },
-        requestReturn() {
-            /* Code for requesting return */
-            if(!this.selectedReturnNextState || !this.selectedReturnSalesChannel || !this.forwardShipmentId) {
-                if(!this.selectedReturnNextState) this.returnStateErrorSubmit = true;
-                if(!this.selectedReturnSalesChannel) this.returnSalesChannelError = true;
-                if(this.forwardShipmentId.length === 0) this.emptyForwardShipmentId = true;
-                this.$snackbar.global.showError(
-                    'Kindly ensure all required fields are complete before clicking on submit',
-                    2000
-                );
-            } else {
-                this.showReturnStateDrawer = false;
-                this.returnSalesChannelError = false;
-                this.emptyForwardShipmentId = false;
-            }
-        },
-        onNextReturnStateSelection() {
-            /* Code when the user selects a value from return dropdown */
-            this.returnStateErrorSubmit = false;
         },
         onSalesChannelSelection() {
             this.returnSalesChannelError = false;

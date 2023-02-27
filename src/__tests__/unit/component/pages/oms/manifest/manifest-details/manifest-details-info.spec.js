@@ -52,7 +52,6 @@ describe('ManifestDetailsInfo', () => {
                 pickupSlot: ()=> 'date',
                 salesChannel: ()=> 'salesChannel',
                 totalShipments: ()=> 10
-
             },
         });
     });
@@ -65,7 +64,4 @@ describe('ManifestDetailsInfo', () => {
       const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
-
-  
-
-   });
+});

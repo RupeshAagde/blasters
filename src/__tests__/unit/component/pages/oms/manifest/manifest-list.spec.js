@@ -44,5 +44,4 @@ describe('ManifestListItem', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
-
 });

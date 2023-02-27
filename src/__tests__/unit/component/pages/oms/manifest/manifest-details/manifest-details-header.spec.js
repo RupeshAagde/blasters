@@ -4,8 +4,6 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 
-
-
 /* Component imports */
 import ManifestDetailPage from '@/pages/oms/manifest/manifest-details/manifest-details.vue';
 import admpageheader from '@/components/common/layout/adm-page-header.vue';
@@ -54,4 +52,4 @@ describe('ManifestDetailsHeader', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.emitted()['back']).toBeTruthy();
     });
-   });
+});

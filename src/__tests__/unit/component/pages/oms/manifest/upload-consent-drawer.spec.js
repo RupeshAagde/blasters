@@ -95,16 +95,14 @@ describe('uploadConsentDrawer', () => {
         } );
     });
 
-  
-
     it('Click of dispatch button should take us to the manifest home page', async() => {
         mock.onPost(URLS.MANIFEST_DISPATCH()).reply(200, {
             "success": true,
-            "message": "Dispatched for manifest MN0000000191"} )
+            "message": "Dispatched for manifest MN0000000191"});
         wrapper.setData({
             manifestStatus: 'pdf_generated',
             declarationChecked: false
-        })
+        });
         await flushPromises();
         let routerBack = jest.spyOn(router, "push");
         await wrapper.vm.$forceUpdate();
@@ -113,18 +111,19 @@ describe('uploadConsentDrawer', () => {
         element.vm.$emit('click');
         await wrapper.vm.$nextTick();
         await flushPromises();
-
         expect(routerBack).toHaveBeenCalled();
     });
+
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
+
     it('upload consent drawer renders', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
 
-    it('manfiesf detaial catch api fail', async()=>{
+    it('manfiest detail catch api fail', async() => {
         const showError = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
         wrapper = mount(uploadConsentDrawer, {
             localVue,
@@ -141,27 +140,24 @@ describe('uploadConsentDrawer', () => {
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(showError).toHaveBeenCalled();
-
     });
    
-    it('should poll the manifest in positive case', async()=>{
+    it('should poll the manifest in positive case', async() => {
         wrapper = mount(uploadConsentDrawer, {
-        localVue,
-        router,
-        propsData: { entryPoint: 'home',
-        manifestId: 'MN0000000150',
-        orderRoles: ORDER_ROLES,
-        manifestStatus: 'complete'
-        },
-        computed: {
-            accessDetail: ()=> ACCESS_DETAIl
-        }
-    });
+            localVue,
+            router,
+            propsData: { entryPoint: 'home',
+            manifestId: 'MN0000000150',
+            orderRoles: ORDER_ROLES,
+            manifestStatus: 'complete'
+            },
+            computed: {
+                accessDetail: ()=> ACCESS_DETAIl
+            }
+        });
      
-    wrapper.vm.pollManifestDetails();
-     await new Promise(resolve => setTimeout(resolve, 2000)); 
-     expect(wrapper.vm.pdfGenerationInProgress).toBe(false) ;
-                    
+        wrapper.vm.pollManifestDetails();
+        await new Promise(resolve => setTimeout(resolve, 2000)); 
+        expect(wrapper.vm.pdfGenerationInProgress).toBe(false);            
     });
-   
 });

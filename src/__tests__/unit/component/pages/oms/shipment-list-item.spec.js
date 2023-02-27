@@ -33,10 +33,7 @@ describe('ShipmentListItem', () => {
         wrapper = mount(ShipmentListItem, {
             localVue,
             router,
-            propsData: { shipmentList: shipmentList },
-            // data() {
-            //     query = wrapper.vm.$route.query
-            // },
+            propsData: { shipmentList: shipmentList }, 
             computed: {
                 companyApplications: () => APPLICATION_LIST_MOCK_DATA.items,
                 registeredMarketplaces: () => MARKETPLACE_DATA,
@@ -66,8 +63,7 @@ describe('ShipmentListItem', () => {
         await flushPromises();
 
         const element = wrapper.find('.line-break');
-        element.trigger('click', SHIPMENT_LIST_DATA.items[0].order_id, SHIPMENT_LIST_DATA.items[0].shipment_id)
-        // cleansedQuery = this.query;
+        element.trigger('click', SHIPMENT_LIST_DATA.items[0].order_id, SHIPMENT_LIST_DATA.items[0].shipment_id);
         await wrapper.vm.$nextTick;
 
         expect(navigateFunction).toHaveBeenCalled();

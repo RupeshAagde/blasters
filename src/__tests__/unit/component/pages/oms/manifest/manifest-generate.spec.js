@@ -1,7 +1,7 @@
 'use strict';
 
 /* Package imports */
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import flushPromises from 'flush-promises';
 import axios from 'axios';
@@ -38,14 +38,12 @@ describe('GenerateManifestPage', () => {
             ],
         });
         router.push(`/company/1/orders/manifest/generate/`);
-        // mock.onGet(URLS.FILTERS_APPLICATION_V2()).reply(200, MANIFEST_FILTERS_MOCK);
         mock.onGet(URLS.FILTERS_V2()).reply(200, MANIFEST_FILTERS_MOCK);
         mock.onGet(URLS.GET_FULFILLMENT_CENTER()).reply(200, MANIFEST_FULLFILMENT_FILTER_MOCK);
-        mock.onGet(URLS.FETCH_PICKUP_SLOT()).reply(200, MANIFEST_PICKUPSLOT_RESPONSE) // add response as and when getting from kartik
-        mock.onGet(URLS.FETCH_MANIFEST_DETAILS()).reply(200, MANIFEST_DETAILS_RESPONSE)
-        mock.onPost(URLS.SAVE_PROCESS_MANIFEST(1)).reply(200, MANIFEST_SAVE_PROCESS_RESPONSE)
-        // mock.onGet(URLS.SHIPMENT_APPLICATION_V2_LIST()).reply(200, MANIFEST_SHIPMENT_LISTING)
-        mock.onGet(URLS.SHIPMENT_V2_LIST()).reply(200, MANIFEST_SHIPMENT_LISTING)
+        mock.onGet(URLS.FETCH_PICKUP_SLOT()).reply(200, MANIFEST_PICKUPSLOT_RESPONSE); // add response as and when getting from kartik
+        mock.onGet(URLS.FETCH_MANIFEST_DETAILS()).reply(200, MANIFEST_DETAILS_RESPONSE);
+        mock.onPost(URLS.SAVE_PROCESS_MANIFEST(1)).reply(200, MANIFEST_SAVE_PROCESS_RESPONSE);
+        mock.onGet(URLS.SHIPMENT_V2_LIST()).reply(200, MANIFEST_SHIPMENT_LISTING);
         
 
         wrapper = mount(GenerateManifestPage, {
@@ -149,6 +147,7 @@ describe('GenerateManifestPage', () => {
         const div = wrapper.find('div');
         expect(div.exists()).toBe(true);
     });
+
     it('should not make api call when manifest is generated already, but route to the home page', async () => {
         wrapper.setData({
             manifestGenerated: true,
@@ -193,7 +192,6 @@ describe('GenerateManifestPage', () => {
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        // wrapper.vm.processSaveManifest()
          const saveButton = wrapper.findComponent({ ref: 'save-btn' });
         saveButton.trigger('click', 'save');
         await wrapper.vm.$nextTick();
@@ -214,7 +212,7 @@ describe('GenerateManifestPage', () => {
         expect(wrapper.vm.showAlert).toBe(false);
     });
 
-    it('on back click it will route back to the manifest home page', async () => {
+    it('on back click it will route back to the manifest home page', async() => {
         wrapper.setData({
             manifestGenerated: true,
         })
@@ -228,15 +226,15 @@ describe('GenerateManifestPage', () => {
         expect(routerBack).toHaveBeenCalled();
     });
 
-    it('should search update the global params on change of the delivery parther', async()=>{
-        const dpChangeEvent = wrapper.findComponent({ref: 'delivery-partner-change'})
+    it('should search update the global params on change of the delivery parther', async() => {
+        const dpChangeEvent = wrapper.findComponent({ref: 'delivery-partner-change'});
         dpChangeEvent.vm.$emit('change');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.param.dp_ids).not.toBe('');
     });
 
-    it('should search options in the delivery parthers with text query', async()=> {
-        const dpOptionsSearchEvent = wrapper.findComponent({ref: 'delivery-partner-change'})
+    it('should search options in the delivery parthers with text query', async() => {
+        const dpOptionsSearchEvent = wrapper.findComponent({ref: 'delivery-partner-change'});
         dpOptionsSearchEvent.vm.$emit('searchInputChange', {
             "id": "nitrozen-dropdown-3xwil73x",
             "text": "delivery"
@@ -245,8 +243,8 @@ describe('GenerateManifestPage', () => {
         expect(wrapper.vm.dpOptions.length).not.toBe(MANIFEST_FILTERS_MOCK.advance[1].length);
     });
 
-    it('should search options in the delivery parthers with blank text query', async()=> {
-        const dpOptionsSearchEvent = wrapper.findComponent({ref: 'delivery-partner-change'})
+    it('should search options in the delivery parthers with blank text query', async() => {
+        const dpOptionsSearchEvent = wrapper.findComponent({ref: 'delivery-partner-change'});
         dpOptionsSearchEvent.vm.$emit('searchInputChange', {
             "id": "nitrozen-dropdown-3xwil73x",
             "text": ""
@@ -255,7 +253,7 @@ describe('GenerateManifestPage', () => {
         expect(wrapper.vm.dpOptions.length).toBe(0);
     });
 
-    it('should keep all the rows selected when clicked on this button', async()=>{
+    it('should keep all the rows selected when clicked on this button', async() => {
         wrapper.setData({
             showSelectAllResponse: true,
             isManifestGenerated: false,
@@ -263,18 +261,16 @@ describe('GenerateManifestPage', () => {
             showCheckboxAlert: true,
             inProgress: false,
             totalShipments: 100
-
-
         });
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-     const selectAllFromResponse = wrapper.findComponent({ref: 'checkbox-intro'});
-     selectAllFromResponse.trigger('click');
-     await wrapper.vm.$nextTick();
-     expect(wrapper.vm.keepRowsAllChecked).toBe(true);
+        const selectAllFromResponse = wrapper.findComponent({ref: 'checkbox-intro'});
+        selectAllFromResponse.trigger('click');
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.keepRowsAllChecked).toBe(true);
     });
 
-    it('calling debounce function to select all and it should set the keepAllRow flag to false', async()=>{
+    it('calling debounce function to select all and it should set the keepAllRow flag to false', async() => {
         wrapper.setData({
             keepRowsAllChecked: true,
         })
@@ -283,19 +279,17 @@ describe('GenerateManifestPage', () => {
         wrapper.vm.selectUnSelectAllItem();
         await new Promise(resolve => setTimeout(resolve, 150));   
         expect(wrapper.vm.keepRowsAllChecked).toBe(false);
- 
     });
 
-    it('calling debounc function to select one row at a time', async()=>{
+    it('calling debounce function to select one row at a time', async() => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         wrapper.vm.selectItem(1);
         await new Promise(resolve => setTimeout(resolve, 150)); 
-         expect(wrapper.vm.disableManifestGeneration).toBe(false);
-
+        expect(wrapper.vm.disableManifestGeneration).toBe(false);
     });
 
-    it('should close upload consent view', async()=>{
+    it('should close upload consent view', async() => {
         wrapper.setData({
             uploadConsentView: true
         });
@@ -305,6 +299,5 @@ describe('GenerateManifestPage', () => {
         closeEventn.trigger('click');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.uploadConsentView).toBe(false);
-
     });
 });
