@@ -235,14 +235,7 @@
                 >
                     <sms-drawer
                         ref="sms-drawer"
-                        :number="number"
-                        :fullName="fullName"
-                        :shipmentId="shipmentId"
-                        :orderId="orderId"
-                        :bagId="bagId"
-                        :brandName="brandName"
-                        :amountPaid="amountPaid"
-                        :paymentMode="paymentMode"
+                        :shipment="activeShipment"
                         @enableSubmitButton="enableSubmitButtonSms"
                         @closeDrawer="closeDetails()"
                     />
@@ -378,6 +371,7 @@ import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper
 
 /* Service imports */
 import OrderService from '@/services/orders.service'; 
+import URLS from '@/services/domain.service';
 
 
 
@@ -811,7 +805,7 @@ export default {
          */
         navigateToLogisticsPage() {
             if(this.activeId) {
-                window.open(`https://pulse-admin.fyndx1.de/firebolt/monitor/debug/${this.activeId}`, '_blank');
+                window.open(`https://pulse-admin.${URLS.PLATFORM_DOMAIN()}/firebolt/monitor/debug/${this.activeId}`, '_blank');
             } else {
                 console.error("Error in navigating to the logistics page as the active ID is undefined.");
                 this.$snackbar.global.showError(

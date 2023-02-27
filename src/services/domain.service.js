@@ -125,6 +125,10 @@ const HEDWIG_ADMIN_SVC = isNode ?
     envVars.BROWSER_CONFIG.HEDWIG_ADMIN_SVC :
     envVars.HEDWIG_ADMIN_SVC;
 
+const FYND_PLATFORM_DOMAIN = isNode ?
+    envVars.BROWSER_CONFIG.FYND_PLATFORM_DOMAIN :
+    envVars.FYND_PLATFORM_DOMAIN;
+
 
 const INTERNAL_MARKETPLACES_ADMIN_URL = isNode ?
     envVars.BROWSER_CONFIG.QUE_ADMIN_URL :
@@ -1032,7 +1036,7 @@ const URLS = {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/details`);
     },
     FETCH_BULK_ACTION_FAILED_REPORT: () => {
-        return urlJoin(AVIS_ADMIN_URL, `/v1.0/get-failed-shipment-records`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/get-failed-shipment-records`);
     },
     PROCESS_BULK_ACTION_INVOICE: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/invoice`);
@@ -1087,6 +1091,9 @@ const URLS = {
     },
     UPDATE_ADDRESS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/delight/update-address/`);
+    },
+    PLATFORM_DOMAIN: () => {
+        return FYND_PLATFORM_DOMAIN
     }
     /** OMSv2.1 -- END */
 };

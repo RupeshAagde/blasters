@@ -138,9 +138,19 @@ export default {
         NitrozenInput,
     },
     mounted(){
-        this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || ''
-        this.email = this.shipment.user.email || ''
-        this.phoneNumber = this.shipment.user.mobile || ''
+        this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || '';
+        this.email = this.shipment.user.email || '';
+        this.phoneNumber = this.shipment.user.mobile || '';
+        if(this.shipment.delivery_details){
+            this.area = this.shipment.delivery_details.area || '';
+            this.city = this.shipment.delivery_details.city || '';
+            this.country = this.shipment.delivery_details.country || 'India';
+            this.landmark = this.shipment.delivery_details.landmark || '';
+            this.state = this.shipment.delivery_details.state || '';
+            this.pincode = this.shipment.delivery_details.pincode || '';
+            this.selectedAddressType = this.shipment.delivery_details.address_type || '';
+            this.address = this.shipment.delivery_details.address || '';
+        }
     },
     methods: {
     onValueChange(inputType) {
@@ -180,7 +190,6 @@ export default {
             pincode: this.pincode,
             state: this.state,
             address_type: this.selectedAddressType,
-            address_category: this.selectedAddressType,
             country: this.country,
             shipment_id: this.shipmentId
         };

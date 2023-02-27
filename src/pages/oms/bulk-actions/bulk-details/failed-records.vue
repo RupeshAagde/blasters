@@ -123,7 +123,7 @@ export default {
             const get_excel = OrderService.fetchBulkActionFailedReport(params)
             return get_excel
             .then(({data}) => {
-                if(data.success) {
+                if(data) {
                     const url = data.cdn.url;
                     const link = document.createElement('a');
                     link.href = url;

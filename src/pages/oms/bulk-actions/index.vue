@@ -10,7 +10,7 @@
             <bulk-upload-download
                 ref="bulk-upload-download"
                 :globalFilters="globalFilters"
-                :selectedFilters="selectedFilters"
+                :selectedFilters="advancedSelectedFilters"
                 @makeFetchInvoiceList="callInvoiceListApi($event)"
                 @showAlert="showAlert"
                 @showAdvFilters="showAdvFilters"
@@ -170,7 +170,7 @@ export default {
          * @param {object} query The set of queries that will be emitted from the advanced-filters component
          */
         applyAdvancedFilters(data_obj) {
-            this.selectedFilters = data_obj.data;
+            this.advancedSelectedFilters = data_obj.data;
             if (data_obj.closeDrawer) this.close();
             /* Applying advanced filters */
             /* Hit the API call here */
@@ -214,7 +214,7 @@ export default {
          * @author: Rushabh Mulraj Shah
          */
         resetFilters() {
-            this.selectedFilters = {};
+            this.advancedSelectedFilters = {};
             this.$refs['advFilters'].initFilters();
         },
 
