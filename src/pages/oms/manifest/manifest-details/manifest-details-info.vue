@@ -39,7 +39,7 @@
             <div class="text-container">
                 <div class="greyed-text">Shipments</div>
                 <div class="strong-text">
-                    <span>{{ manifestDetailsShipmentCount }}</span>
+                    <span>{{ data.meta.total_shipment_prices_count.shipment_count }}</span>
                 </div>
             </div>
         </div>

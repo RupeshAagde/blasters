@@ -1,0 +1,25 @@
+{
+    "integration": {
+        "enabled": false
+    },
+    "_id": "62c27bff0540b004598c95b8",
+    "show_communication_info": true,
+    "show_support_dris": false,
+    "support_email": {
+        "value": "seller.support@jiomarket.com",
+        "description": "Reach out to our Seller Support team through an email to resolve your queries",
+        "enabled": true
+    },
+    "support_phone": {
+        "value": "18008896000",
+        "description": "Connect with our Seller Support team between 8AM to 8PM (Mon-Fri) to address your queries",
+        "enabled": true
+    },
+    "support_faq": {
+        "value": "https://partner.jiomarketx0.de/p/faqs",
+        "description": "Refer to this section and get answers for frequently asked questions",
+        "enabled": true
+    },
+    "available_integration": [],
+    "enable_dris": false
+}

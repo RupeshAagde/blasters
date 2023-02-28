@@ -158,7 +158,6 @@
                 v-if="
                     !manifestFetchInProgress &&
                     totalShipments == 0 &&
-                    shipmentsList.length == 0 &&
                     !isIntialState
                 "
                 helperText="No shipments found"

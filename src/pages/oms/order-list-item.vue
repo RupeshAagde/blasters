@@ -43,11 +43,6 @@
                 </td>
                 <td>
                     <div class="shipment-stats common-struct">
-                        <!-- <span
-                            >{{
-                                sumOfShipmentsPrice(orderData.shipments) | currencyformat
-                            }}
-                        </span> -->
                         <span
                             >{{
                                 orderData.total_order_value | currencyformat(2)
@@ -229,14 +224,6 @@ export default {
                     ...navigationObj
                 }
             })
-        },
-
-        sumOfShipmentsPrice(shipments) {
-            let sum = 0;
-            for (let items in shipments) {
-                sum += shipments[items].prices.amount_paid; 
-            }
-            return sum;
         },
 
         totalItems(shipments) {

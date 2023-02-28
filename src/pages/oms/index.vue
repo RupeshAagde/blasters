@@ -23,6 +23,7 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
+                                :placeholder="filterType ? filterType : 'Auto'"
                             />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
@@ -56,6 +57,7 @@
                                 <div class="companies-dropdown-list">
                                     <nitrozen-dropdown 
                                         label="Company"
+                                        ref="search-company-dropdown"
                                         class="filter-dropdown filter-item filter-input-sm"
                                         :searchable="true"
                                         :items="companiesList"
@@ -69,6 +71,7 @@
                             <nitrozen-dropdown
                                 label="Fulfilment Location"
                                 class="filter-dropdown filter-input-sm filter-item"
+                                ref="search-store-dropdown"
                                 :searchable="true"
                                 :items="filteredStores"
                                 v-model="selectedStore"
@@ -118,8 +121,8 @@
                                     @click="selectStageTab(index, item)"
                                     :active-index="selectedStageTabIndex">
                                     <span class="tab-item-text-custom">{{ item.text }}</span>
-                                    <span v-if="enterTapValue && item.value !== 'action_center'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
-                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_center'">{{ numberToThousandString(item.total_items) }}</span>
+                                    <span v-if="enterTapValue && item.value !== 'action_centre'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
+                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_centre'">{{ numberToThousandString(item.total_items) }}</span>
                                 </nitrozen-tab-item>
                             </ul>
                         </div>
@@ -186,6 +189,7 @@
                     </div> -->
                     <div v-else-if="!inProgress && pageError">
                         <page-error
+                            ref="call-api-function"
                             :errorText="errorText"
                             @tryAgain="callApiFunctions(selectedView)"
                         ></page-error>
@@ -257,64 +261,6 @@
                         </a>
                     </div>
                 </div>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="showReturnStateDrawer">
-                <side-drawer
-                    :title="'Request Return'"
-                    @close="closeReturnStateDrawer"
-                    :footer="true"
-                >
-                    <div class="return-state-container">
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="return-dropdown "
-                                :items="returnNextStates"
-                                v-model="selectedReturnNextState"
-                                :label="'Request Return State'"
-                                @change="onNextReturnStateSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a state for requesting return.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="sales-channel-dropdown"
-                                :items="[]"
-                                v-model="salesChannels"
-                                :label="'Sales Channel'"
-                                @change="onSalesChannelSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a sales channel.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-input
-                                v-model="forwardShipmentId"
-                                :label="'Forward Shipment ID*'"
-                                @keyup="onKeyUpForwardShipmentID"
-                            />
-                            <nitrozen-error class="error-label" v-if="emptyForwardShipmentId">
-                                Kindly add a shipment ID.
-                            </nitrozen-error>
-                        </div>
-                    </div>
-                    <template #footer>
-                        <div class="submit-btn-container">
-                            <nitrozen-button
-                                theme="secondary"
-                                v-flatBtn
-                                @click="requestReturn"
-                            > Submit </nitrozen-button>
-                        </div>
-                    </template>
-                </side-drawer>
             </template>
         </transition>
 
@@ -526,7 +472,6 @@ export default {
             announcements:[],
             returnNextStates: cloneDeep(returnNextStates),
             selectedReturnNextState: '',
-            showReturnStateDrawer: false,
             returnStateErrorSubmit: false,
             actionCentreData: [],
 
@@ -598,32 +543,6 @@ export default {
                 this.fetchShipments();
             }
             this.fetchFilters();
-        },
-        onRequestReturn() {
-            this.showReturnStateDrawer = true;
-        },
-        closeReturnStateDrawer() {
-            this.showReturnStateDrawer = false;
-        },
-        requestReturn() {
-            /* Code for requesting return */
-            if(!this.selectedReturnNextState || !this.selectedReturnSalesChannel || !this.forwardShipmentId) {
-                if(!this.selectedReturnNextState) this.returnStateErrorSubmit = true;
-                if(!this.selectedReturnSalesChannel) this.returnSalesChannelError = true;
-                if(this.forwardShipmentId.length === 0) this.emptyForwardShipmentId = true;
-                this.$snackbar.global.showError(
-                    'Kindly ensure all required fields are complete before clicking on submit',
-                    2000
-                );
-            } else {
-                this.showReturnStateDrawer = false;
-                this.returnSalesChannelError = false;
-                this.emptyForwardShipmentId = false;
-            }
-        },
-        onNextReturnStateSelection() {
-            /* Code when the user selects a value from return dropdown */
-            this.returnStateErrorSubmit = false;
         },
         onSalesChannelSelection() {
             this.returnSalesChannelError = false;
@@ -881,7 +800,10 @@ export default {
             this.activeLaneIndex = laneIndex;
             this.lane = laneData.value;
             this.pagination.current = 1;
-            this.setRouteQuery({lane: this.lane, page: 1 });
+            if(this.search.length == 0) {
+                this.filterType = "auto";
+            }
+            this.setRouteQuery({lane: this.lane, page: 1, search_type: this.filterType });
         },
         changeView(e) {
             this.selectedView = e;
@@ -1022,9 +944,12 @@ export default {
                 this.selectedStageTabIndex = 0;
                 this.lane = 'new'
             }
+            if(this.search.length == 0) {
+                this.filterType = "auto";
+            }
             this.superLaneChangeFetchInProgress = this.selectedStageTab !== this.$route.query.super_lane;
             this.pagination.current = 1;
-            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab});
+            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab, search_type: this.filterType});
             // this.fetchSuperLanes({super_lane: this.selectedStageTab, page: 1})
             // this.setRouteQuery({ super_lane: this.selectedStageTab, lane: this.lane, page: 1 });
             // reset page number

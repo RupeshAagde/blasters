@@ -77,12 +77,20 @@ export default {
         placeholder: {
             type: String,
             default: 'Select'
+        }, 
+        activeShipment: {
+            type: Object,      
+            required: true,
+            default: () => {}
         }
     },
     data() {
         return {
             showItems: false
         }
+    },
+    mounted() {
+     this.removeAdminOptions()
     },
     methods: {
         /**
@@ -94,7 +102,6 @@ export default {
         close() {
             this.showItems = false;
         },
-
         /**
          * Method when the component goes out of focus.
          * 
@@ -145,7 +152,31 @@ export default {
          */
         toggleDisplay() {
             this.showItems = !this.showItems;
-        }
+        },
+        /**
+         * This will remove the admin actions items based on the conditions
+         * @author Sameer Shaikh
+         * 
+         */
+        removeAdminOptions(){
+            if(!['placed', 'store_reassigned'].includes(this.activeShipment.status.status) ){
+                this.items.splice(this.items.findIndex((item)=>{
+                return item.value == 'reassign_store'
+                }), 1)
+            }
+            if( !['delivery_done', 'return_request_cancelled'].includes(this.activeShipment.status.status)){
+                this.items.splice(this.items.findIndex((item)=>{
+                return item.value == 'change_address'
+                }), 1)
+            }
+            if(!this.activeShipment.dp_details.id || this.activeShipment.dp_details.id == ""){
+                this.items.splice(this.items.findIndex((item)=>{
+                return item.value == 'create_invoice_s3'
+                }), 1)
+               
+            }
+         }
+
     }
 }
 </script>

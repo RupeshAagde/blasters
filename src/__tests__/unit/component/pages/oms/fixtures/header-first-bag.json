@@ -1,0 +1,138 @@
+{
+    "user_note": "mereko mast laga ye feature",
+    "bag_id": 46120,
+    "display_name": "Bag",
+    "entity_type": "bag",
+    "bag_configs": {
+        "is_returnable": true,
+        "can_be_cancelled": true,
+        "enable_tracking": false,
+        "is_customer_return_allowed": false,
+        "allow_force_return": false
+    },
+    "financial_breakup": [
+        {
+            "price_effective": 300,
+            "discount": 200,
+            "amount_paid": 300,
+            "coupon_effective_discount": 0,
+            "delivery_charge": 0,
+            "fynd_credits": 0,
+            "cod_charges": 0,
+            "refund_credit": 0,
+            "cashback": 0,
+            "refund_amount": 300,
+            "added_to_fynd_cash": false,
+            "cashback_applied": 0,
+            "gst_tax_percentage": 5,
+            "value_of_good": 285.71,
+            "price_marked": 500,
+            "transfer_price": 0,
+            "brand_calculated_amount": 300,
+            "promotion_effective_discount": 0,
+            "coupon_value": 0,
+            "pm_price_split": {
+                "COD": 300
+            },
+            "size": "OS",
+            "total_units": 1,
+            "hsn_code": null,
+            "identifiers": {
+                "sku_code": "DAIRY1"
+            },
+            "item_name": "FYND Blue Diary",
+            "gst_fee": "14.28",
+            "gst_tag": "IGST"
+        }
+    ],
+    "current_status": "placed",
+    "item": {
+        "name": "FYND Blue Diary",
+        "brand": "Dabur",
+        "slug_key": "fynd-blue-dairy",
+        "images": [
+            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+        ],
+        "size": "OS",
+        "l1_category": "",
+        "l3_category": "754",
+        "sub_items": [
+            {
+                "name": "FYND Blue Diary Cover",
+                "brand": "Dabur",
+                "slug_key": "fynd-blue-dairy-cover",
+                "images": [
+                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                ],
+                "size": "OS",
+                "l1_category": "",
+                "l3_category": "754"
+            },
+            {
+                "name": "FYND Pen",
+                "brand": "Dabur",
+                "slug_key": "fynd-pen",
+                "images": [
+                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                ],
+                "size": "OS",
+                "l1_category": "",
+                "l3_category": "754"
+            },
+            {
+                "name": "FYND Book Sticker",
+                "brand": "Dabur",
+                "slug_key": "fynd-book-sticker",
+                "images": [
+                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                ],
+                "size": "OS",
+                "l1_category": "",
+                "l3_category": "754"
+            }
+        ]
+    },
+    "brand": {
+        "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+        "modified_on": "2022-07-15T13:18:48+00:00",
+        "id": 25,
+        "company": null,
+        "created_on": "2022-07-15T13:18:48+00:00",
+        "brand_name": "Dabur"
+    },
+    "gst_details": {
+        "gstin_code": null,
+        "gst_tag": "IGST",
+        "hsn_code": null,
+        "value_of_good": 285.71,
+        "gst_tax_percentage": 5,
+        "is_default_hsn_code": true,
+        "brand_calculated_amount": 300,
+        "gst_fee": "14.28"
+    },
+    "article": {
+        "uid": "62d2c55d6480a8f4e2a167d0",
+        "identifiers": {
+            "sku_code": "DAIRY1"
+        },
+        "return_config": {
+            "time": 0,
+            "unit": "days",
+            "returnable": false
+        }
+    },
+    "quantity": 1,
+    "identifier": "DAIRY1",
+    "mark_as_returnable": false,
+    "require_serial_number": true,
+    "variants": [
+        {
+            "text": "Blue"
+        },
+        {
+            "text": "Fynd Anniversary Special"
+        }
+    ],
+    "rejected": 0,
+    "reasons": []
+}

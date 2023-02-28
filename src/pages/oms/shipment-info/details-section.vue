@@ -85,29 +85,32 @@
                         shipment.meta.einvoice_info.invoice
                     "
                 > -->
-                <div v-if="shipment.meta.einvoice_info && shipment.meta.einvoice_info.invoice">
+                <div v-if="shipment.meta.einvoice_info && (shipment.meta.einvoice_info.invoice || shipment.meta.einvoice_info.credit_note)">
                     <div class="header-title">E-Invoice</div>
                     <br />
-                    <div 
-                        class="fail-einvoice" 
-                        v-if="
-                            shipment.meta.einvoice_info.invoice.message &&
-                            shipment.meta.einvoice_info.invoice.message[0] &&
-                            shipment.meta.einvoice_info.invoice.message[0].ErrorCode &&
-                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage
-                        ">
+                    <div class="fail-einvoice" v-if="(shipment.meta.einvoice_info.invoice.message && 
+                        shipment.meta.einvoice_info.invoice.message[0] &&
+                        shipment.meta.einvoice_info.invoice.message[0].ErrorCode &&
+                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage) ||
+
+                            (shipment.meta.einvoice_info.credit_note.message && 
+                        shipment.meta.einvoice_info.credit_note.message[0] &&
+                        shipment.meta.einvoice_info.credit_note.message[0].ErrorCode &&
+                            shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage)">
                         <div class="details-data">Not generated</div>
                         <nitrozen-tooltip
                             position="top"
                         >
                         <span class="fail-tooltip-einvoice">
-                            <p class="einvoice-head">Error while generating E-Invoice</p>
+                            <p class="einvoice-head">Error while generating e-invoice</p>
                             <p>
                                 <span class="einvoice-error-code">
                                     Error Code: 
                                 </span>
                                 <span>
-                                    {{shipment.meta.einvoice_info.invoice.message[0].ErrorCode }}
+                                    {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.message[0] && shipment.meta.einvoice_info.credit_note.message[0].ErrorCode) ? 
+                                        shipment.meta.einvoice_info.credit_note.message[0].ErrorCode : 
+                                            shipment.meta.einvoice_info.invoice.message[0].ErrorCode }}
                                 </span>
                             </p>
                             <p>
@@ -115,25 +118,33 @@
                                     Error: 
                                 </span>
                                 <span>
-                                    {{ shipment.meta.einvoice_info.invoice.message[0].ErrorMessage }}
+                                    {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.message[0] && shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage) ? 
+                                        shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage : 
+                                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage }}
                                 </span>
                             </p>
                         </span>
                         </nitrozen-tooltip>
                     </div>
-                    <div class="success-einvoice" v-if="shipment.meta.einvoice_info.invoice.Irn">
-                        <div class="details-data">{{ shipment.meta.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
-                        <div @click="copyToClipboard($event, shipment.meta.einvoice_info.invoice.Irn )">
-                            <inline-svg class="svg-copy" src="copy"></inline-svg>
+                    <div class="success-einvoice" v-if="shipment.meta.einvoice_info.invoice.Irn || shipment.meta.einvoice_info.credit_note.Irn">
+                        <div class="details-data">{{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                                shipment.meta.einvoice_info.credit_note.Irn.slice(0, 12) : 
+                                    shipment.meta.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
+                        <div @click="copyToClipboard($event, (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                            shipment.meta.einvoice_info.credit_note.Irn : 
+                                shipment.meta.einvoice_info.invoice.Irn)">
+                            <inline-svg class="svg-copy" src="copy-icon"></inline-svg>
                         </div>
                         <nitrozen-tooltip
                             position="top"
                         >
                         <span class="success-tooltip-einvoice">
-                            <p class="einvoice-head">Successfully generated E-Invoice</p>
+                            <p class="einvoice-head">Successfully generated e-invoice</p>
                             <p class="einvoice-details">
                                 <span class="einvoice-head">IRN: </span>
-                                <span> {{ shipment.meta.einvoice_info.invoice.Irn }}</span>
+                                <span> {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                                        shipment.meta.einvoice_info.credit_note.Irn : 
+                                            shipment.meta.einvoice_info.invoice.Irn}}</span>
                             </p>
                         </span>
                         </nitrozen-tooltip>

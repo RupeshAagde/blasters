@@ -61,7 +61,7 @@
      
         <div class="footer-box">
             <nitrozen-button class="clear-button" :theme="'secondary'" @click="resetFilters($event)" :disabled="!isAnyFilterSelected">Clear All</nitrozen-button>
-            <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()" :disabled="!isAnyFilterSelected">Apply Filter</nitrozen-button>
+            <nitrozen-button class="apply-filter-button" v-flatBtn :theme="'secondary'" @click.stop="applyFilters()">Apply Filter</nitrozen-button>
        </div>
    </div>
 </template>
@@ -275,7 +275,7 @@ export default {
         },
         loadFilters(){
             // Load Filters initially
-            this.selectedFilters = this.advancedSelectedFilters;
+            this.selectedFilters = cloneDeep(this.advancedSelectedFilters);
         },
         onMultiSelectChange(selection, val) {
             if(typeof(selection) == 'number') {

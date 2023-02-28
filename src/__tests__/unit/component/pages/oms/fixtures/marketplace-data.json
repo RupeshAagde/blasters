@@ -1,0 +1,511 @@
+{
+    "ajio_in": {
+        "app_id": "5e145da26470cffad8ff869d",
+        "token": "pDq1wjna",
+        "configuration": {
+            "_id": "5f30bfe0c1d66911bbb2685a",
+            "isActive": true,
+            "storeMappingEnabled": true,
+            "companyId": 1,
+            "marketplace": "ajio_in",
+            "storeMapping": [
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada477d755bbf",
+                    "storeId": 1,
+                    "marketplaceStoreId": "123",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada5c83755bc0",
+                    "storeId": 10,
+                    "marketplaceStoreId": "qaz"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada14b5755bc1",
+                    "storeId": 11043,
+                    "marketplaceStoreId": "ABC-1-116",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada78f4755bc2",
+                    "storeId": 11044,
+                    "marketplaceStoreId": "ABC-1-0",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada2b0c755bc3",
+                    "storeId": 11045,
+                    "marketplaceStoreId": "ABC-1-1",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada49df755bc4",
+                    "storeId": 11046,
+                    "marketplaceStoreId": "ABC-1-2",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada712c755bc5",
+                    "storeId": 11047,
+                    "marketplaceStoreId": "ABC-1-3",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadafb6d755bc6",
+                    "storeId": 11048,
+                    "marketplaceStoreId": "ABC-1-4",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaf27c755bc7",
+                    "storeId": 11049,
+                    "marketplaceStoreId": "ABC-1-5",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada9b80755bc8",
+                    "storeId": 11050,
+                    "marketplaceStoreId": "ABC-1-6",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada4ae2755bc9",
+                    "storeId": 11051,
+                    "marketplaceStoreId": "ABC-1-7",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada8651755bca",
+                    "storeId": 11052,
+                    "marketplaceStoreId": "ABC-1-8",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadadd39755bcb",
+                    "storeId": 11053,
+                    "marketplaceStoreId": "ABC-1-9",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada0728755bcc",
+                    "storeId": 11054,
+                    "marketplaceStoreId": "ABC-1-10",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada66e8755bcd",
+                    "storeId": 11055,
+                    "marketplaceStoreId": "ABC-1-11",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada926a755bce",
+                    "storeId": 11056,
+                    "marketplaceStoreId": "ABC-1-12",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadab6c0755bcf",
+                    "storeId": 11057,
+                    "marketplaceStoreId": "ABC-1-13",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada269d755bd0",
+                    "storeId": 11058,
+                    "marketplaceStoreId": "ABC-1-14",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada5576755bd1",
+                    "storeId": 11059,
+                    "marketplaceStoreId": "ABC-1-15",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada1a47755bd2",
+                    "storeId": 11060,
+                    "marketplaceStoreId": "ABC-1-16",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada2cb1755bd3",
+                    "storeId": 11061,
+                    "marketplaceStoreId": "ABC-1-17",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada07ba755bd4",
+                    "storeId": 11062,
+                    "marketplaceStoreId": "ABC-1-18",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada9b4c755bd5",
+                    "storeId": 11063,
+                    "marketplaceStoreId": "ABC-1-19",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaffd4755bd6",
+                    "storeId": 11064,
+                    "marketplaceStoreId": "ABC-1-20",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada7297755bd7",
+                    "storeId": 11065,
+                    "marketplaceStoreId": "ABC-1-21",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaa3dc755bd8",
+                    "storeId": 11066,
+                    "marketplaceStoreId": "ABC-1-22",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada2338755bd9",
+                    "storeId": 11067,
+                    "marketplaceStoreId": "ABC-1-23",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada067d755bda",
+                    "storeId": 11068,
+                    "marketplaceStoreId": "ABC-1-24",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada0aeb755bdb",
+                    "storeId": 11069,
+                    "marketplaceStoreId": "ABC-1-25",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada0a1a755bdc",
+                    "storeId": 11070,
+                    "marketplaceStoreId": "ABC-1-26",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada6e1c755bdd",
+                    "storeId": 11071,
+                    "marketplaceStoreId": "ABC-1-27",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada231f755bde",
+                    "storeId": 11072,
+                    "marketplaceStoreId": "ABC-1-28",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada7161755bdf",
+                    "storeId": 11073,
+                    "marketplaceStoreId": "ABC-1-29",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada28be755be0",
+                    "storeId": 11074,
+                    "marketplaceStoreId": "ABC-1-30",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada0796755be1",
+                    "storeId": 11075,
+                    "marketplaceStoreId": "ABC-1-31",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada9e38755be2",
+                    "storeId": 11076,
+                    "marketplaceStoreId": "ABC-1-32",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada9dd5755be3",
+                    "storeId": 11077,
+                    "marketplaceStoreId": "ABC-1-33",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaf082755be4",
+                    "storeId": 11078,
+                    "marketplaceStoreId": "ABC-1-34",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada693c755be5",
+                    "storeId": 11079,
+                    "marketplaceStoreId": "ABC-1-35",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada68ba755be6",
+                    "storeId": 11080,
+                    "marketplaceStoreId": "ABC-1-36",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada9469755be7",
+                    "storeId": 11081,
+                    "marketplaceStoreId": "ABC-1-37",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada82fd755be8",
+                    "storeId": 11082,
+                    "marketplaceStoreId": "ABC-1-38",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada6322755be9",
+                    "storeId": 11083,
+                    "marketplaceStoreId": "ABC-1-39",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada2008755bea",
+                    "storeId": 11084,
+                    "marketplaceStoreId": "ABC-1-40",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada46ce755beb",
+                    "storeId": 11085,
+                    "marketplaceStoreId": "ABC-1-41",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada8360755bec",
+                    "storeId": 11086,
+                    "marketplaceStoreId": "ABC-1-42",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada327f755bed",
+                    "storeId": 11087,
+                    "marketplaceStoreId": "ABC-1-43",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada4355755bee",
+                    "storeId": 11088,
+                    "marketplaceStoreId": "ABC-1-44",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadac149755bef",
+                    "storeId": 11089,
+                    "marketplaceStoreId": "ABC-1-45",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaf8c4755bf0",
+                    "storeId": 11090,
+                    "marketplaceStoreId": "ABC-1-46",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada2023755bf1",
+                    "storeId": 11091,
+                    "marketplaceStoreId": "ABC-1-47",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada6e5b755bf2",
+                    "storeId": 11092,
+                    "marketplaceStoreId": "ABC-1-48",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada8218755bf3",
+                    "storeId": 11093,
+                    "marketplaceStoreId": "ABC-1-49",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada95d9755bf4",
+                    "storeId": 11094,
+                    "marketplaceStoreId": "ABC-1-50",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada598d755bf5",
+                    "storeId": 11095,
+                    "marketplaceStoreId": "ABC-1-51",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada06bd755bf6",
+                    "storeId": 11096,
+                    "marketplaceStoreId": "ABC-1-52",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadaa881755bf7",
+                    "storeId": 11097,
+                    "marketplaceStoreId": "ABC-1-53",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada3f70755bf8",
+                    "storeId": 11098,
+                    "marketplaceStoreId": "ABC-1-54",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada67f6755bf9",
+                    "storeId": 11099,
+                    "marketplaceStoreId": "ABC-1-55",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada1029755bfa",
+                    "storeId": 11100,
+                    "marketplaceStoreId": "ABC-1-56",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada3ba8755bfb",
+                    "storeId": 11101,
+                    "marketplaceStoreId": "ABC-1-57",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada17be755bfc",
+                    "storeId": 11102,
+                    "marketplaceStoreId": "ABC-1-58",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dadafd6e755bfd",
+                    "storeId": 11103,
+                    "marketplaceStoreId": "ABC-1-59",
+                    "meta": "[object Object]"
+                },
+                {
+                    "enabled": true,
+                    "_id": "5fb4a5d918dada3e65755bfe",
+                    "storeId": 11104,
+                    "marketplaceStoreId": "ABC-1-60",
+                    "meta": "[object Object]"
+                }
+            ],
+            "createdAt": "2020-08-10T03:32:49.187Z",
+            "updatedAt": "2020-11-18T04:40:57.643Z",
+            "__v": 37
+        },
+        "isActive": true
+    },
+    "flipkartAssured": {
+        "app_id": "5f1ac7c6c3eb17003e030b75",
+        "token": "Q0AqQnAH9"
+    },
+    "myntra_in": { 
+        "app_id": "5e04b9c063ef814063c7b25e", 
+        "token": "IVKRNzfNL",
+        "configuration": {
+            "sync": {
+                "inventory": true,
+                "price": false
+            },
+            "merchant_id": "5T0dnr50",
+            "secret_key": "k7Ars4QHVWIV5iL5DZirZZSZCdbfTMoMfNJE1"
+        } 
+    },
+    "tatacliq_in": {
+        "app_id": "5e04b9c063ef814059c7b25b",
+        "token": "LWbrviGMY",
+        "configuration": {
+            "_id": "5fb4d4b418dada7473755c04",
+            "isActive": true,
+            "storeMappingEnabled": true,
+            "companyId": 1,
+            "marketplace": "tatacliq_in",
+            "storeMapping": [
+                {
+                    "enabled": true,
+                    "_id": "5fb4d51418dada6c11755c0a",
+                    "storeId": 1,
+                    "marketplaceStoreId": "123"
+                }
+            ],
+            "createdAt": "2020-11-18T08:00:53.160Z",
+            "updatedAt": "2020-11-18T08:02:28.573Z",
+            "__v": 2
+        },
+        "isActive": true
+    },
+    "amazon_in": { "app_id": "5e04b9c063ef81b010c7b25c", "token": "QsgsUK2F" },
+    "shopify": { "app_id": "5f687d659bcce552f6cae972", "token": "8WiINqCgf" },
+    "tatacliqluxury": {
+        "app_id": "5f715bb88beafc004c843c74",
+        "token": "Ej64t9geh"
+    }
+}

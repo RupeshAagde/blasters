@@ -1,0 +1,599 @@
+{
+    "items": [
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000150",
+            "company_id": 597,
+            "created_at": "2022-12-29T12:01:04+00:00",
+            "created_by": "rushabhmshah_gofynd_com_39012",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "to_date": "29-12-2022",
+                "from_date": "29-09-2022",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "30-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16704175351701110425,16714568867191552620"
+            },
+            "meta": {
+                "filters": {
+                    "pickup_slot_start_time": 1673443987269,
+                    "pickup_slot_end_time": 1673443987269,
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "to_date": "29-12-2022",
+                    "from_date": "29-09-2022",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "30-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16704175351701110425,16714568867191552620",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 11005.49,
+                    "shipment_count": 3
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1115197/MN0000000150.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1115197/MN0000000150.pdf",
+                        "entity": "MN0000000150",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672315261621",
+            "user_id": "fe6a334639207d6f5499436a",
+            "id": "63ad817fc0feecf292c6eae4"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000137",
+            "company_id": 597,
+            "created_at": "2022-12-29T11:44:15+00:00",
+            "created_by": "rushabhmshah_gofynd_com_39012",
+            "filters": {
+                "pickup_slot_start_time": "Wed Jan 11 2023 19:07:50 GMT+0530 (India Standard Time)",
+                "pickup_slot_end_time": "Wed Jan 10 2023 19:07:50 GMT+0530 (India Standard Time)",
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "to_date": "29-12-2022",
+                "from_date": "30-09-2022",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "30-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16714472843441354004",
+                "unmap_old_shipments": true
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "to_date": "29-12-2022",
+                    "from_date": "30-09-2022",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "30-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16714472843441354004",
+                    "unmap_old_shipments": true,
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 1349.1,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "consent": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/misc/general/free/original/2ltQkQl3m-MN0000000246.pdf",
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2023/01/11/1983100/MN0000000246.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2023/01/11/1983100/MN0000000246.pdf",
+                        "entity": "MN0000000246",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672314239100",
+            "user_id": "fe6a334639207d6f5499436a",
+            "id": "63ad7d8dc0feecf292c38aab"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000149",
+            "company_id": 597,
+            "created_at": "2022-12-29T08:11:17+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 29,
+                "stores": 3664,
+                "dp_name": "Delhivery Surface II",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "29-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": ""
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 29,
+                    "stores": 3664,
+                    "dp_name": "Delhivery Surface II",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "29-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 6747.3,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1403998/MN0000000149.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1403998/MN0000000149.pdf",
+                        "entity": "MN0000000149",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672301476095",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ad4ba4c0feecf292982363"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000148",
+            "company_id": 597,
+            "created_at": "2022-12-29T08:07:20+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "29-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16720651536731558303"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "29-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16720651536731558303",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 5150,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1630272/MN0000000148.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1630272/MN0000000148.pdf",
+                        "entity": "MN0000000148",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672301237864",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ad4ab6c0feecf2929762d8"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000147",
+            "company_id": 597,
+            "created_at": "2022-12-29T07:49:21+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "29-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16720482687961201854"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "29-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16720482687961201854",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 1649,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1372544/MN0000000147.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1372544/MN0000000147.pdf",
+                        "entity": "MN0000000147",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672300159808",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ad4680c0feecf29293df1c"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000146",
+            "company_id": 597,
+            "created_at": "2022-12-29T07:45:42+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "29-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16718974194351327674"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "29-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16718974194351327674",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 1349.1,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1248700/MN0000000146.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1248700/MN0000000146.pdf",
+                        "entity": "MN0000000146",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672299940604",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ad45a5c0feecf2929322e0"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000144",
+            "company_id": 597,
+            "created_at": "2022-12-29T07:35:19+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "to_date": "28-12-2022",
+                "from_date": "28-09-2022",
+                "date_range": {
+                    "to_date": "29-12-2022",
+                    "from_date": "30-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16715538020471389229"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "to_date": "28-12-2022",
+                    "from_date": "28-09-2022",
+                    "date_range": {
+                        "to_date": "29-12-2022",
+                        "from_date": "30-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16715538020471389229",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 6123.2,
+                    "shipment_count": 3
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/29/1466737/MN0000000144.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1466737/MN0000000144.pdf",
+                        "entity": "MN0000000144",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672299317031",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ad4335c0feecf2929109d6"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000143",
+            "company_id": 597,
+            "created_at": "2022-12-28T17:42:08+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "28-12-2022",
+                    "from_date": "28-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "selected_shipments": "16716326909351972701"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "28-12-2022",
+                        "from_date": "28-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "selected_shipments": "16716326909351972701",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                },
+                "total_shipment_prices_count": {
+                    "total_price": 2249.1,
+                    "shipment_count": 1
+                }
+            },
+            "pdf_meta": {
+                "media_updates": [
+                    {
+                        "code": 200,
+                        "file": {
+                            "key": "x0/documents/manifest/PDFs/2022/12/28/1771000/MN0000000143.pdf",
+                            "bucket": "fynd-staging-assets-private",
+                            "region": "ap-south-1"
+                        },
+                        "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/28/1771000/MN0000000143.pdf",
+                        "entity": "MN0000000143",
+                        "status": true,
+                        "private": true,
+                        "media_type": "manifest"
+                    }
+                ]
+            },
+            "status": "pdf_generated",
+            "uid": "1672249327936",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ac7ff0c0feecf292f12b1a"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000142",
+            "company_id": 597,
+            "created_at": "2022-12-28T17:39:20+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "28-12-2022",
+                    "from_date": "28-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "deselected_shipments": "16720578088711539284"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "28-12-2022",
+                        "from_date": "28-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "deselected_shipments": "16720578088711539284",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                }
+            },
+            "pdf_meta": {},
+            "status": "save",
+            "uid": "1672249160225",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ac7f48c0feecf292f0a544"
+        },
+        {
+            "is_active": true,
+            "manifest_id": "MN0000000140",
+            "company_id": 597,
+            "created_at": "2022-12-28T17:39:12+00:00",
+            "created_by": "sameershaikh_gofynd_com_70041",
+            "filters": {
+                "lane": "ready_for_dispatch",
+                "dp_ids": 22,
+                "stores": 3664,
+                "dp_name": "Fyndr",
+                "date_range": {
+                    "to_date": "28-12-2022",
+                    "from_date": "28-09-2022"
+                },
+                "store_name": "Store name ---Shetty & Co",
+                "sales_channels": "",
+                "deselected_shipments": "16716326909351972701,16720487803551682415"
+            },
+            "meta": {
+                "filters": {
+                    "lane": "ready_for_dispatch",
+                    "dp_ids": 22,
+                    "stores": 3664,
+                    "dp_name": "Fyndr",
+                    "date_range": {
+                        "to_date": "28-12-2022",
+                        "from_date": "28-09-2022"
+                    },
+                    "store_name": "Store name ---Shetty & Co",
+                    "sales_channels": "",
+                    "deselected_shipments": "16716326909351972701,16720487803551682415",
+                    "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+                }
+            },
+            "pdf_meta": {},
+            "status": "save",
+            "uid": "1672249151732",
+            "user_id": "5f0c62937122ea6732a3d697",
+            "id": "63ac7f40c0feecf292f09d7e"
+        }
+    ],
+    "page": {
+        "current": "1",
+        "total": 21,
+        "has_previous": false,
+        "has_next": true,
+        "type": "number",
+        "size": "10"
+    }
+}

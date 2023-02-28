@@ -82,13 +82,11 @@ import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
 import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
-const OrdersPage = () => import('@/pages/orders');
 import RMAPage from '@/pages/rma';
 import RMARulesListing from '@/pages/rma/rules-listing';
 import RMASetup from '@/pages/rma/rma-setup.vue';
 import Rules from '@/pages/rma/rules';
 const OrdersNinjaPage = () => import('@/pages/orders/ninja')
-const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
 import CategoryConfig from '@/pages/packaging/category-config.vue'
 import PackagingCreate from '@/pages/packaging/create-packaging.vue'
@@ -1072,30 +1070,11 @@ export default [
 
             // ========================== Orders ==========================
             {
-                name: 'orders',
-                path: 'orders/list',
-                component: OrdersPage,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['order']);
-                }
-            },
-            {
                 name: 'orders-hyperlocal-tracking',
                 path: 'orders/hyperlocal-tracking',
                 component: OrdersNinjaPage,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['order']);
-                }
-            },
-            {
-                name: 'application-order-details',
-                path: '/order/:orderId/shipments',
-                component: OrderDetails,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['order']);
-                },
-                meta: {
-                    name: 'Application Order Details'
                 }
             },
             // =============================================================
