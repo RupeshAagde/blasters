@@ -1,16 +1,14 @@
 /* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
 
 /* Component import */
 import ChangeAddress from '@/pages/oms/shipment-table/change-address-drawer.vue';
+
 /* Mock import */
 import SHIPMENT from '../fixtures/shipment.json'
 
-const mock = new MockAdapter(axios);
 let wrapper, router, localVue;
 
 describe('change-address-drawer', () => {
@@ -32,9 +30,11 @@ describe('change-address-drawer', () => {
         });
         await flushPromises();
     });
+
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
+
     it('is a Vue instance', () => {
         expect(wrapper.exists()).toBeTruthy();
         const div = wrapper.find('div');
@@ -42,23 +42,23 @@ describe('change-address-drawer', () => {
     });
 
     it('should change address type', async() => {
-        let addressTypeDropdown = wrapper.find('.employee')
+        let addressTypeDropdown = wrapper.find('.employee');
         addressTypeDropdown.vm.$emit('input', 'home');
         addressTypeDropdown.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedAddressType).toBe('home');
-        // console.log(wrapper.vm.addressTyp)
     });
+
     it('should change name', async() => {
-        let nameInput = wrapper.find('.search-input')
+        let nameInput = wrapper.find('.search-input');
         nameInput.vm.$emit('input', 'test');
         nameInput.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
-        expect(wrapper.vm.name).toBe('test')
-        // console.log(wrapper.vm.addressTyp)
+        expect(wrapper.vm.name).toBe('test');
     });
+
     it('form validation should pass', async() => {
         await wrapper.setData({email: 'test@test.com'});
         wrapper.vm.onValueChange('email');
@@ -70,6 +70,7 @@ describe('change-address-drawer', () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.validForm).toBe(true);
     });
+    
     it('form validation should fail', async() => {
         await wrapper.setData({email: 'testtestcom'});
         wrapper.vm.onValueChange('email');

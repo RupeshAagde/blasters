@@ -7,12 +7,14 @@ import flushPromises from "flush-promises";
 
 /* Component import */
 import ChangeBagStateDrawer from '@/pages/oms/shipment-table/change-bag-state-drawer.vue';
+
 /* Mock import */
 import SHIPMENT from '../fixtures/shipment.json';
 import MOCK_TRANSITION from '../fixtures/transitions.json';
 import MOCK_REASONS from '../fixtures/state-reasons.json';
+
 /* Service import */
-import URLS from '@/services/domain.service.js'
+import URLS from '@/services/domain.service.js';
 
 const mock = new MockAdapter(axios);
 let wrapper, router, localVue;
@@ -39,34 +41,34 @@ describe('change-bag-state-drawer', () => {
         });
         await flushPromises();
     });
+
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
     it('should change selected bag state', async() => {
-        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'})
-        bagStateDropdown.vm.$emit('input', 'bag_confirmed')
-        bagStateDropdown.vm.$emit('change')
+        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'});
+        bagStateDropdown.vm.$emit('input', 'bag_confirmed');
+        bagStateDropdown.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedState).toBe('bag_confirmed');
     });
 
     it('should render reason dropdown', async() => {
-        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'})
-        bagStateDropdown.vm.$emit('input', 'cancelled_customer')
-        bagStateDropdown.vm.$emit('change')
+        let bagStateDropdown = wrapper.findComponent({ name: 'nitrozen-dropdown'});
+        bagStateDropdown.vm.$emit('input', 'cancelled_customer');
+        bagStateDropdown.vm.$emit('change');
         await flushPromises();
         await wrapper.vm.$nextTick();
         // checking second dropdown in dom
         let reasonDropdown = wrapper.findAllComponents({name: 'nitrozen-dropdown'}).at(1);
         expect(reasonDropdown.exists()).toBeTruthy();
-        reasonDropdown.vm.$emit('input', wrapper.vm.reasons[0].value)
-        reasonDropdown.vm.$emit('change')
+        reasonDropdown.vm.$emit('input', wrapper.vm.reasons[0].value);
+        reasonDropdown.vm.$emit('change');
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedReason).toBe(wrapper.vm.reasons[0].value);
     });
-
 });
 
 describe('change-bag-state-drawer unable to fetch', () => {
@@ -91,6 +93,7 @@ describe('change-bag-state-drawer unable to fetch', () => {
         });
         await flushPromises();
     });
+
     it('bag states should be empty', () => {
         expect(wrapper.vm.bagStates).toStrictEqual([]);
     });
@@ -118,6 +121,7 @@ describe('change-bag-state-drawer no reason/store', () => {
         });
         await flushPromises();
     });
+    
     it('reasons should be empty', () => {
         expect(wrapper.vm.reasons).toStrictEqual([]);
     });

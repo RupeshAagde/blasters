@@ -4,19 +4,22 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
+
 /* Component import */
 import SmsDrawer from '@/pages/oms/shipment-table/sms-drawer.vue';
+
 /* Mock import */
 import MOCK_SHIPMENT_DATA from '../fixtures/shipment.json';
 import MOCK_SMS_DATA from '../fixtures/sms-drawer-data.json';
+
 /* Service import */
-import URLS from '@/services/domain.service.js'
+import URLS from '@/services/domain.service.js';
 
 
 const mock = new MockAdapter(axios);
 let wrapper, router, localVue;
 
-describe('sms-drawer', () => {
+describe('SMS Drawer', () => {
     beforeEach(async() => {
         localVue = createLocalVue();
         localVue.use(VueRouter);
@@ -44,17 +47,13 @@ describe('sms-drawer', () => {
         await flushPromises();
     })
 
-    // afterEach(() => {
-    //     wrapper.destroy()
-    // })
-
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
     it('renders two dropdowns', () => {
         expect(wrapper.findAll('.dropdown')).toHaveLength(2);
-    })
+    });
 
     it('selects SMS template and recipient', async () => {
         await wrapper.findComponent({ref: 'templateDropdown'}).vm.$emit('input', 'delayed_shipment');
@@ -74,7 +73,7 @@ describe('sms-drawer', () => {
     });
 
     it('generate all sms templates', async() => {
-        let smsTemplateDropdown =  wrapper.findComponent({ref: 'templateDropdown'})
+        let smsTemplateDropdown =  wrapper.findComponent({ref: 'templateDropdown'});
         await smsTemplateDropdown.vm.$emit('input', 'custom_delayed_shipment');
         expect(wrapper.vm.selectedTemplate).toBe('custom_delayed_shipment');
         await smsTemplateDropdown.vm.$emit('input', 'not_reachable');
@@ -86,14 +85,14 @@ describe('sms-drawer', () => {
         await smsTemplateDropdown.vm.$emit('input', 'refund');
         expect(wrapper.vm.selectedTemplate).toBe('refund');
         await wrapper.vm.$nextTick();
-    })
+    });
+
     it('send sms', async () => {
-        let smsTemplateDropdown =  wrapper.findComponent({ref: 'templateDropdown'})
+        let smsTemplateDropdown =  wrapper.findComponent({ref: 'templateDropdown'});
         await smsTemplateDropdown.vm.$emit('input', 'delayed_shipment');
         await wrapper.findComponent({ref: 'recipientDropdown'}).vm.$emit('input', '+123456789');
         wrapper.vm.sendSmsToCustomer();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedTemplate).toBe('delayed_shipment');
-    })
-
+    });
 });
