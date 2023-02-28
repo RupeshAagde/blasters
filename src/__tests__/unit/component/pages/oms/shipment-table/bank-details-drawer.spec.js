@@ -1,7 +1,10 @@
+/* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import BankDetailsDrawer from '@/pages/oms/shipment-table/bank-details-drawer.vue';
 import flushPromises from "flush-promises";
+
+/* Component import */
+import BankDetailsDrawer from '@/pages/oms/shipment-table/bank-details-drawer.vue';
 
 
 let wrapper, router, localVue;
@@ -20,7 +23,7 @@ describe('sms-drawer', () => {
             localVue,
             router
         });
-        await flushPromises()
+        await flushPromises();
     })
 
     it('should render to a snapshot', () => {
@@ -29,6 +32,6 @@ describe('sms-drawer', () => {
 
     it('input count test', async() => {
         let inputs = wrapper.findAll('.search-input');
-        expect(inputs).toHaveLength(6)
+        expect(inputs).toHaveLength(6);
     })
 });

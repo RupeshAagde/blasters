@@ -1,9 +1,12 @@
-import { mount, shallowMount, config, createLocalVue } from '@vue/test-utils';
+/* Package import */
+import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
+/* Component import */
 import ReassignStoreDrawer from '@/pages/oms/shipment-table/reassign-store-drawer.vue';
+/* Mock import */
 import STORE_REASSIGN_DATA from '../fixtures/reassign-store.json'
 
 const mock = new MockAdapter(axios);
@@ -19,7 +22,7 @@ describe('store-reassign-drawer', () => {
                 { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: ReassignStoreDrawer }
             ]
         })
-        router.push(`orders/FY63F47BF30DCB3BFB88/details`)
+        router.push(`orders/FY63F47BF30DCB3BFB88/details`);
         wrapper = mount(ReassignStoreDrawer, {
             localVue,
             router,
@@ -50,8 +53,8 @@ describe('store-reassign-drawer', () => {
         let reasonDropdown = wrapper.find('.dropdown-reason');
         let addressRadioBtn = wrapper.find('.radio-button');
         reasonDropdown.vm.$emit('input', 104)
-        reasonDropdown.vm.$emit('change')
-        addressRadioBtn.trigger('click')
+        reasonDropdown.vm.$emit('change');
+        addressRadioBtn.trigger('click');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedReason).toBe(104);
@@ -60,8 +63,8 @@ describe('store-reassign-drawer', () => {
     it("dropdown outside click", async () => {
         let dropdownDiv = wrapper.find('.dropdown');
         let reasonDropdown = wrapper.find('.dropdown-reason');
-        dropdownDiv.trigger('focus')
-        dropdownDiv.trigger('blur')
+        dropdownDiv.trigger('focus');
+        dropdownDiv.trigger('blur');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(reasonDropdown.vm.showOptions).toBe(false);

@@ -1,11 +1,15 @@
+/* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
+/* Component import */
 import SmsDrawer from '@/pages/oms/shipment-table/sms-drawer.vue';
+/* Mock import */
 import MOCK_SHIPMENT_DATA from '../fixtures/shipment.json';
 import MOCK_SMS_DATA from '../fixtures/sms-drawer-data.json';
+/* Service import */
 import URLS from '@/services/domain.service.js'
 
 
@@ -21,7 +25,7 @@ describe('sms-drawer', () => {
                 { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: SmsDrawer }
             ]
         });
-        mock.onPost(URLS.SEND_SMS()).reply(200, MOCK_SMS_DATA.response)
+        mock.onPost(URLS.SEND_SMS()).reply(200, MOCK_SMS_DATA.response);
         router.push(`orders/FY63F47BF30DCB3BFB88/details`);
         wrapper = mount(SmsDrawer, {
             localVue,
@@ -37,7 +41,7 @@ describe('sms-drawer', () => {
             number: ['+123456789', '+987654321']
             }
         });
-        await flushPromises()
+        await flushPromises();
     })
 
     // afterEach(() => {
@@ -49,21 +53,21 @@ describe('sms-drawer', () => {
     });
 
     it('renders two dropdowns', () => {
-        expect(wrapper.findAll('.dropdown')).toHaveLength(2)
+        expect(wrapper.findAll('.dropdown')).toHaveLength(2);
     })
 
     it('selects SMS template and recipient', async () => {
         await wrapper.findComponent({ref: 'templateDropdown'}).vm.$emit('input', 'delayed_shipment');
         await wrapper.findComponent({ref: 'recipientDropdown'}).vm.$emit('input', '+123456789');
-        await wrapper.findComponent({ref: 'templateDropdown'}).vm.$emit('change')
+        await wrapper.findComponent({ref: 'templateDropdown'}).vm.$emit('change');
         expect(wrapper.vm.selectedTemplate).toBe('delayed_shipment');
         expect(wrapper.vm.selectedNumber).toBe('+123456789');
     })
 
     it("dropdown outside click sms-drawer", async () => {
         let dropdownDiv = wrapper.find('.dropdown');
-        dropdownDiv.trigger('focus')
-        dropdownDiv.trigger('blur')
+        dropdownDiv.trigger('focus');
+        dropdownDiv.trigger('blur');
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(dropdownDiv.findComponent({ name: 'nitrozen-dropdown'}).vm.showOptions).toBe(false);
@@ -87,7 +91,7 @@ describe('sms-drawer', () => {
         let smsTemplateDropdown =  wrapper.findComponent({ref: 'templateDropdown'})
         await smsTemplateDropdown.vm.$emit('input', 'delayed_shipment');
         await wrapper.findComponent({ref: 'recipientDropdown'}).vm.$emit('input', '+123456789');
-        wrapper.vm.sendSmsToCustomer()
+        wrapper.vm.sendSmsToCustomer();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.selectedTemplate).toBe('delayed_shipment');
     })

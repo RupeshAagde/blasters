@@ -1,12 +1,17 @@
+/* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
+
+/* Component import */
 import ChangeBagStateDrawer from '@/pages/oms/shipment-table/change-bag-state-drawer.vue';
+/* Mock import */
 import SHIPMENT from '../fixtures/shipment.json';
 import MOCK_TRANSITION from '../fixtures/transitions.json';
 import MOCK_REASONS from '../fixtures/state-reasons.json';
+/* Service import */
 import URLS from '@/services/domain.service.js'
 
 const mock = new MockAdapter(axios);

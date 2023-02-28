@@ -1,10 +1,16 @@
+/* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from "flush-promises";
+
+/* Component import */
 import CallDrawer from '@/pages/oms/shipment-table/call-drawer.vue';
+
+/* Mock import */
 import MOCK_SHIPMENT_DATA from '../fixtures/shipment.json';
+/* Service import */
 import URLS from '@/services/domain.service.js'
 
 
@@ -28,7 +34,7 @@ describe('sms-drawer', () => {
                 shipment: MOCK_SHIPMENT_DATA.placed
             }
         });
-        await flushPromises()
+        await flushPromises();
     })
 
     it('should render to a snapshot', () => {

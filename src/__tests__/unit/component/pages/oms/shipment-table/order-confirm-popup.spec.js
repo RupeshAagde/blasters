@@ -1,7 +1,9 @@
+/* Package import */
 import { mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
-import OrderConfirmPopup from '@/pages/oms/shipment-table/order-confirm-popup.vue';
 import flushPromises from "flush-promises";
+/* Component import */
+import OrderConfirmPopup from '@/pages/oms/shipment-table/order-confirm-popup.vue';
 
 
 let wrapper, router, localVue;
