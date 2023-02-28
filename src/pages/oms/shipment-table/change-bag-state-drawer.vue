@@ -102,7 +102,9 @@ export default {
         NitrozenInput
     },
     mounted() {
-         this.inputStates = Object.keys(this.shipment.next_possible_states)
+        if(this.shipment && this.shipment.next_possible_states){
+            this.inputStates = Object.keys(this.shipment.next_possible_states)
+        }
         this.fetchBagStates();
         this.fetchReasons();
     },
