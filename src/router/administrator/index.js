@@ -42,6 +42,7 @@ import SellerPanelSettingsVue from './../../pages/settings/seller-panel.vue';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
 import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
+import SupportConfiguration from './../../pages/settings/support-configuration/index.vue'
 import CategoryList from '@/pages/product/category/list';
 import BusinessRegistration from './../../pages/settings/onboarding/business-registration.vue';
 import BusinessDetails from './../../pages/settings/onboarding/business-details.vue';
@@ -1272,6 +1273,14 @@ export default [
                     ]);
                 } 
             },
+            {
+                name: 'Partners-Support-Configuration',
+                path: '/administrator/settings/partners/contact-configuration',
+                component: SupportConfiguration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            }
         ]
     },
     {
@@ -1282,4 +1291,5 @@ export default [
             return checkUserPermission(to, from, next, ['settings']);
         }
     }
+
 ];
