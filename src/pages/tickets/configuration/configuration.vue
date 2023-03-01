@@ -393,7 +393,7 @@ export default {
             }
         },
         getGeneralConfiguration() {
-            SupportService.getGeneralConfig()
+            SupportService.getGeneralConfig(this.type)
                 .then((response) => {
                     this.setPageData(response.data);
                 })
