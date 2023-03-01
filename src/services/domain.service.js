@@ -45,6 +45,10 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
     envVars.HIGHBROW_ADMIN_URL;
 
+const PARTNER_LEADS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
+    envVars.HIGHBROW_PARTNER_URL;
+
 const ADMIN_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
@@ -541,10 +545,10 @@ const URLS = {
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
-    GET_GENERAL_CONGIF: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    GET_GENERAL_CONGIF: (type) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config/${type}`);
     },
-    GENERAL_CONGIF: () => {
+    SET_GENERAL_CONGIF: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
     CATEGORY_SYNC: (type) => {
