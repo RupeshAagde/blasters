@@ -6,6 +6,7 @@ RUN apk add --no-cache --virtual .build-deps \
         g++ \
         binutils-gold \
         curl \
+        git \
         gnupg \
         libgcc \
         linux-headers \
