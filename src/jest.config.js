@@ -27,4 +27,16 @@ module.exports = {
     'router',
     'pipes'],
   bail: true,
+  reporters: [
+    "default",
+    [
+        "@reportportal/agent-js-jest",
+        {
+          "token": "49ec1be3-8bfe-48ca-bd15-27df7bb10f2c",
+          "endpoint": "https://reportportal.fynd.engineering/api/v1",
+          "project": "fynd-platform",
+          "launch": "blaster"
+        }
+    ]
+  ]
 }
