@@ -45,6 +45,10 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
     envVars.HIGHBROW_ADMIN_URL;
 
+const PARTNER_LEADS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
+    envVars.HIGHBROW_PARTNER_URL;
+
 const ADMIN_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
@@ -124,6 +128,10 @@ const WHEELJACK_PCPR_URL = isNode ?
 const HEDWIG_ADMIN_SVC = isNode ?
     envVars.BROWSER_CONFIG.HEDWIG_ADMIN_SVC :
     envVars.HEDWIG_ADMIN_SVC;
+
+const FYND_PLATFORM_DOMAIN = isNode ?
+    envVars.BROWSER_CONFIG.FYND_PLATFORM_DOMAIN :
+    envVars.FYND_PLATFORM_DOMAIN;
 
 
 const INTERNAL_MARKETPLACES_ADMIN_URL = isNode ?
@@ -537,10 +545,10 @@ const URLS = {
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
-    GET_GENERAL_CONGIF: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    GET_GENERAL_CONGIF: (type) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config/${type}`);
     },
-    GENERAL_CONGIF: () => {
+    SET_GENERAL_CONGIF: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
     CATEGORY_SYNC: (type) => {
@@ -1011,7 +1019,7 @@ const URLS = {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/generate/file`);
     },
     POST_V2_LINK_BULK_ACTION: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/upload`);
     },
     UPLOAD_CONSENT:() => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/uploadConsent`);
@@ -1023,19 +1031,25 @@ const URLS = {
         return urlJoin(HEDWIG_ADMIN_SVC, `/v1.0/tracking`);
     },
     GET_BULK_ACTION_LIST: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/listing`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/listing`);
+    },
+    GET_BULK_DOWNLOAD_TEMPLATE_LIST: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template-slugs`);
     },
     FETCH_BULK_LIST_DETAILED_DATA: (data) => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-get-data/${data}`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/details`);
     },
     FETCH_BULK_ACTION_FAILED_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-failed-report`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/get-failed-shipment-records`);
     },
     PROCESS_BULK_ACTION_INVOICE: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/invoice`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/invoice`);
     },
     FETCH_BULK_INVOICE_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/download/invoice-label`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/download/invoice-label`);
+    },
+    DOWNLOAD_BULK_ACTION_TEMPLATE: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
     },
     SAVE_PROCESS_MANIFEST: ()=>{
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/process-manifest`);
@@ -1054,6 +1068,9 @@ const URLS = {
     },
     LOCK_MANAGER_URL : () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/entity/lock-manager`);
+    },
+    GET_TEMPLATE : () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
     },
     SEND_SMS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/ninja/send-sms`);
@@ -1078,6 +1095,9 @@ const URLS = {
     },
     UPDATE_ADDRESS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/delight/update-address/`);
+    },
+    PLATFORM_DOMAIN: () => {
+        return FYND_PLATFORM_DOMAIN
     }
     /** OMSv2.1 -- END */
 };

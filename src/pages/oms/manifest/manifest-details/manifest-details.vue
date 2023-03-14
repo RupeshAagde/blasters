@@ -76,6 +76,7 @@
                         v-model="shipmentSearchText"
                         @blur="onSearch"
                         @keyup.enter="onSearch"
+                        @input="onSearchCross"
                     ></nitrozen-input>
                 </div>
                 <details-shipments
@@ -637,6 +638,12 @@ export default {
                     search_value: this.shipmentSearchText,
                 });
             } else this.fetchManifestDetails(this.manifestId);
+        },
+
+        onSearchCross() {
+            if(this.shipmentSearchText == 0) {
+                this.fetchManifestDetails(this.manifestId);
+            }
         },
 
         onSearchInput(event) {},

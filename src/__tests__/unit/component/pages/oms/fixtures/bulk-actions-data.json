@@ -1,0 +1,318 @@
+{
+    "global": [
+        {
+            "text": "Shipment Status",
+            "value": "bag_status",
+            "type": "multi_select",
+            "options": [
+                {
+                    "text": "New",
+                    "value": "placed"
+                },
+                {
+                    "text": "Confirmed",
+                    "value": "bag_confirmed"
+                },
+                {
+                    "text": "To Be Packed",
+                    "value": "dp_assigned"
+                },
+                {
+                    "text": "Return Delivered",
+                    "value": "return_bag_delivered"
+                }
+            ]
+        }
+    ],
+    "advance": [
+        {
+            "text": "Tags",
+            "value": "tags",
+            "type": "multi_select",
+            "required": false,
+            "options": [
+                {
+                    "value": "speed_delivery",
+                    "text": "Speed Delivery",
+                    "name": "shipment"
+                },
+                {
+                    "value": "one_day_delivery",
+                    "text": "One Day delivery",
+                    "name": "shipment"
+                },
+                {
+                    "value": "international",
+                    "text": "International Order",
+                    "name": "order"
+                },
+                {
+                    "value": "express_day",
+                    "text": "Express Day",
+                    "name": "shipment"
+                },
+                {
+                    "value": "b2b",
+                    "text": "B2B",
+                    "name": "order"
+                }
+            ]
+        },
+        {
+            "text": "Sales Channel",
+            "value": "sales_channels",
+            "type": "multi_select",
+            "required": false,
+            "options": [
+                {
+                    "text": "FashionHouse",
+                    "value": "613f207e3006094498437acb",
+                    "name": "FashionHouse"
+                },
+                {
+                    "text": "Autocomplete",
+                    "value": "616681384cfe188b284eb20d",
+                    "name": "Autocomplete"
+                },
+                {
+                    "text": "Test",
+                    "value": "61706b4208dff61581693c2b",
+                    "name": "Test"
+                },
+                {
+                    "text": "Platform Test",
+                    "value": "61b8a177b8f4320b3b4f406e",
+                    "name": "Platform Test"
+                },
+                {
+                    "text": "TestEXT",
+                    "value": "62397eaa1119b68479cb61ec",
+                    "name": "TestEXT"
+                },
+                {
+                    "text": "Test 2",
+                    "value": "623abcb31119b6792acb6af6",
+                    "name": "Test 2"
+                },
+                {
+                    "text": "Shoukath-test",
+                    "value": "628e06133f255270fac264fc",
+                    "name": "Shoukath-test"
+                },
+                {
+                    "text": "testMe",
+                    "value": "629db9f9d7c74d39cdf9131e",
+                    "name": "testMe"
+                },
+                {
+                    "text": "Test Category",
+                    "value": "629f2723d7c74d73dbf91b2f",
+                    "name": "Test Category"
+                },
+                {
+                    "text": "Test Category",
+                    "value": "62a714abe4859e6efe536918",
+                    "name": "Test Category"
+                },
+                {
+                    "text": "serviceability",
+                    "value": "62baef211b0c8dd05218f9fe",
+                    "name": "serviceability"
+                },
+                {
+                    "text": "test_Akhilesh",
+                    "value": "62d9394b9cb65b9082fa27cb",
+                    "name": "test_Akhilesh"
+                },
+                {
+                    "text": "Subhash Store",
+                    "value": "62e0e2cb6a867120850fa4ed",
+                    "name": "Subhash Store"
+                },
+                {
+                    "text": "test cbs",
+                    "value": "62f33f14ec1e267524ef70f4",
+                    "name": "test cbs"
+                },
+                {
+                    "text": "AnupSalesChannel",
+                    "value": "62f5fd79ec1e263b79ef7a1c",
+                    "name": "AnupSalesChannel"
+                },
+                {
+                    "text": "Myntra",
+                    "value": "612f229688de4807b1eaaf08",
+                    "name": "Myntra"
+                },
+                {
+                    "text": "myntra-sujoy",
+                    "value": "62445236d4cc749faccf213e",
+                    "name": "myntra-sujoy"
+                },
+                {
+                    "text": "TataCliq orders",
+                    "value": "62186fce51e60369e2b093e6",
+                    "name": "TataCliq orders"
+                },
+                {
+                    "text": "Nykaa Fashion new UI test",
+                    "value": "6218cb7751e60324dbb0981f",
+                    "name": "Nykaa Fashion new UI test"
+                },
+                {
+                    "text": "Nykaa",
+                    "value": "622adfb367ff4fbc86db05b1",
+                    "name": "Nykaa"
+                },
+                {
+                    "text": "Ajio VMS",
+                    "value": "62161168418afff2c1228da8",
+                    "name": "Ajio VMS"
+                },
+                {
+                    "text": "fynd",
+                    "value": "000000000000000000000001",
+                    "name": "fynd"
+                },
+                {
+                    "text": "uniket_wholesale",
+                    "value": "000000000000000000000004",
+                    "name": "uniket_wholesale"
+                }
+            ]
+        },
+        {
+            "text": "Delivery Partner",
+            "value": "dp_ids",
+            "type": "multi_select",
+            "required": true,
+            "options": [
+                {
+                    "text": "Lalamove",
+                    "value": "31",
+                    "name": "Lalamove"
+                },
+                {
+                    "text": "Shadowfax",
+                    "value": "24",
+                    "name": "Shadowfax"
+                },
+                {
+                    "text": "Wefast",
+                    "value": "35",
+                    "name": "Wefast"
+                },
+                {
+                    "text": "Delhivery Surface I",
+                    "value": "27",
+                    "name": "Delhivery Surface I"
+                },
+                {
+                    "text": "Delhivery Express",
+                    "value": "7",
+                    "name": "Delhivery Express"
+                },
+                {
+                    "text": "Xpressbees Surface",
+                    "value": "37",
+                    "name": "Xpressbees Surface"
+                },
+                {
+                    "text": "Ecom Jewellery",
+                    "value": "42",
+                    "name": "Ecom Jewellery"
+                },
+                {
+                    "text": "Delhivery Surface II",
+                    "value": "29",
+                    "name": "Delhivery Surface II"
+                },
+                {
+                    "text": "Ecom B2B",
+                    "value": "34",
+                    "name": "Ecom B2B"
+                },
+                {
+                    "text": "Delhivery B2B",
+                    "value": "32",
+                    "name": "Delhivery B2B"
+                },
+                {
+                    "text": "Bluedart Express",
+                    "value": "33",
+                    "name": "Bluedart Express"
+                },
+                {
+                    "text": "Fyndr International",
+                    "value": "43",
+                    "name": "Fyndr International"
+                },
+                {
+                    "text": "Xpressbees Air",
+                    "value": "36",
+                    "name": "Xpressbees Air"
+                },
+                {
+                    "text": "Bluedart Surface",
+                    "value": "12",
+                    "name": "Bluedart Surface"
+                },
+                {
+                    "text": "Fyndr",
+                    "value": "22",
+                    "name": "Fyndr"
+                },
+                {
+                    "text": "Dunzo Fashion",
+                    "value": "40",
+                    "name": "Dunzo Fashion"
+                },
+                {
+                    "text": "Ecom Express",
+                    "value": "4",
+                    "name": "Ecom Express"
+                },
+                {
+                    "text": "Ekart",
+                    "value": "28",
+                    "name": "Ekart"
+                },
+                {
+                    "text": "Delhivery 15kg B2C",
+                    "value": "38",
+                    "name": "Delhivery 15kg B2C"
+                }
+            ]
+        },
+        {
+            "text": "Payment Methods",
+            "value": "payment_methods",
+            "type": "single_select",
+            "options": [
+                {
+                    "text": "COD",
+                    "value": "COD"
+                },
+                {
+                    "text": "Prepaid",
+                    "value": "PREPAID"
+                }
+            ]
+        },
+        {
+            "text": "Time to Dispatch",
+            "value": "time_to_dispatch",
+            "type": "single_select",
+            "options": [
+                {
+                    "text": "Breached",
+                    "value": 1
+                },
+                {
+                    "text": "Not Breached",
+                    "value": -1
+                }
+            ]
+        }
+    ]
+}

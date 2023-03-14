@@ -153,8 +153,8 @@ export default {
          * @returns A boolean value showing whether a number is valid.
          */
         checkValidityOfNumber(value) {
-            let regExp = /[a-zA-Z!@#$%^&*()_{}|:;"'<,>.?~+-=`]/g;
-            return value.toString().length === 10 && !regExp.test(value);
+            let regExp = /^\d+$/;
+            return value.toString().length === 10 && regExp.test(value);
         },
 
         /**

@@ -1,0 +1,74 @@
+{
+  "stores": [
+    {
+        "store_id": 3666,
+        "name": "sandalwoods_345",
+        "address1": "test kandivali",
+        "address2": "Marine Lines",
+        "contact": "917276420350",
+        "distance": 0,
+        "city": "Mumbai",
+        "quantity": 1,
+        "store_code": "hhjfd",
+        "text": "sandalwoods_345",
+        "value": 3666,
+        "address": "test kandivali Marine Lines Mumbai"
+    },
+    {
+      "store_id": 3667,
+      "name": "sandalwoods_345",
+      "address1": "test kandivali",
+      "address2": "Marine Lines",
+      "contact": "917276420350",
+      "distance": 0,
+      "city": "Mumbai",
+      "quantity": 1,
+      "store_code": "hhjfa",
+      "text": "sandalwoods_346",
+      "value": 3667,
+      "address": "test kandivali Marine Lines Mumbai"
+    }
+  ],
+  "reasons": [
+    {
+        "id": 104,
+        "display_name": "Product not of good quality",
+        "qc_type": [],
+        "question_set": [],
+        "text": "Product not of good quality",
+        "value": 104
+    },
+    {
+        "id": 105,
+        "display_name": "Improper material",
+        "qc_type": [],
+        "question_set": [],
+        "text": "Improper material",
+        "value": 105
+    },
+    {
+        "id": 106,
+        "display_name": "Stain found on product",
+        "qc_type": [],
+        "question_set": [],
+        "text": "Stain found on product",
+        "value": 106
+    },
+    {
+        "id": 107,
+        "display_name": "Better price found elsewhere",
+        "qc_type": [],
+        "question_set": [],
+        "text": "Better price found elsewhere",
+        "value": 107
+    },
+    {
+        "id": 108,
+        "display_name": "Other reason",
+        "qc_type": [],
+        "question_set": [],
+        "text": "Other reason",
+        "value": 108
+    }
+]
+}

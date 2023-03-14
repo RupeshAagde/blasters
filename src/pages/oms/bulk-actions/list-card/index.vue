@@ -38,7 +38,7 @@
             </div>
             <div tabindex="0" class="menu-item" @blur="handleMenuBlur">
                 <nitrozen-menu class="actions-menu" mode="vertical" ref="menu">
-                    <nitrozen-menu-item class="navigate-to-export" @click="download()">
+                    <nitrozen-menu-item class="navigate-to-export" @click.stop="download()">
                         <adm-inline-svg :src="'oms-download'" class="menu-item-icon" />
                         <span>Download File</span> 
                     </nitrozen-menu-item>
@@ -260,7 +260,7 @@ export default {
          */
         download() {
             /* The download will be called here. */
-            const url = this.data.excel_url;
+            const url = this.data.file_url;
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', this.data.file_name);

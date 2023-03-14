@@ -1,0 +1,104 @@
+{
+    "manifest_details": [
+      {
+        "is_active": true,
+        "manifest_id": "MN0000000150",
+        "company_id": 597,
+        "created_at": "29-12-2022",
+        "created_by": "rushabhmshah_gofynd_com_39012",
+        "filters": {
+          "lane": "ready_for_dispatch",
+          "dp_ids": 22,
+          "stores": 3664,
+          "dp_name": "Fyndr",
+          "to_date": "29-12-2022",
+          "from_date": "29-09-2022",
+          "date_range": {
+            "to_date": "29-12-2022",
+            "from_date": "30-09-2022"
+          },
+          "store_name": "Store name ---Shetty & Co",
+          "sales_channels": "",
+          "selected_shipments": "16704175351701110425,16714568867191552620"
+        },
+        "meta": {
+          "filters": {
+            "lane": "ready_for_dispatch",
+            "dp_ids": 22,
+            "stores": 3664,
+            "dp_name": "Fyndr",
+            "to_date": "29-12-2022",
+            "from_date": "29-09-2022",
+            "date_range": {
+              "to_date": "29-12-2022",
+              "from_date": "30-09-2022"
+            },
+            "store_name": "Store name ---Shetty & Co",
+            "sales_channels": "",
+            "selected_shipments": "16704175351701110425,16714568867191552620",
+            "logo": "https://lh3.googleusercontent.com/t4RL9k-H38WY_Q49kyV8dB_3Wqr2wYyOi8uQdawHJBexcC-SGOuFaYDAKr6ZDLan9mU"
+          },
+          "total_shipment_prices_count": {
+            "total_price": 11005.49,
+            "shipment_count": 3
+          }
+        },
+        "pdf_meta": {
+          "media_updates": [
+            {
+              "code": 200,
+              "file": {
+                "key": "x0/documents/manifest/PDFs/2022/12/29/1115197/MN0000000150.pdf",
+                "bucket": "fynd-staging-assets-private",
+                "region": "ap-south-1"
+              },
+              "link": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/manifest/PDFs/2022/12/29/1115197/MN0000000150.pdf",
+              "entity": "MN0000000150",
+              "status": true,
+              "private": true,
+              "media_type": "manifest"
+            }
+          ]
+        },
+        "status": "pdf_generated",
+        "uid": "1672315261621",
+        "user_id": "fe6a334639207d6f5499436a",
+        "id": "63ad817fc0feecf292c6eae4"
+      }
+    ],
+    "items": [
+      {
+        "shipment_id": "16721437816251758222",
+        "order_id": "FY63AAE3A30E89973FBC",
+        "invoice_id": "768768",
+        "awb": "1979512205063",
+        "shipment_created_at": "2022-12-27T17:53:02+00:00",
+        "item_qty": 3
+      },
+      {
+        "shipment_id": "16704175351701110425",
+        "order_id": "FY63908C7E10C2083F64",
+        "invoice_id": "dasdaidia",
+        "awb": "3347451306062",
+        "shipment_created_at": "2022-12-07T18:22:15+00:00",
+        "item_qty": 5
+      },
+      {
+        "shipment_id": "16714568867191552620",
+        "order_id": "FY63A068760F3E58C4A4",
+        "invoice_id": "uyfyjh",
+        "awb": "8270443061774",
+        "shipment_created_at": "2022-12-19T19:04:47+00:00",
+        "item_qty": 2
+      }
+    ],
+    "page": {
+      "current": 1,
+      "total": 3,
+      "has_previous": false,
+      "has_next": false,
+      "type": "number",
+      "size": 20
+    },
+    "additional_shipment_count": 315
+  }

@@ -3,10 +3,10 @@
          <nitrozen-dropdown
             class="employee"
             label="Select Address Type"
-            placeholder="Enter Account Number"
+            placeholder="Select Address Type"
             :items="addressTypes"
             v-model="selectedAddressType"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -15,7 +15,7 @@
             type="text"
             :placeholder="`Customer`"
             v-model="name"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -24,25 +24,25 @@
             type="email"
             :placeholder="`Enter Email`"
             v-model="email"
-            @change="onValueChange"
+            @change="onValueChange('email')"
         />
 
         <nitrozen-input
             class="search-input"
             label="Phone*"
-            type="text"
+            type="tel"
             :placeholder="`Enter Phone Number`"
             v-model="phoneNumber"
-            @change="onValueChange"
+            @change="onValueChange('phone')"
         />
         
         <nitrozen-input
             class="search-input"
             label="Pincode*"
-            type="text"
+            type="tel"
             :placeholder="`Enter Pincode`"
             v-model="pincode"
-            @change="onValueChange"
+            @change="onValueChange('pincode')"
         />
 
         <nitrozen-input
@@ -51,7 +51,7 @@
             type="text"
             :placeholder="`Enter City`"
             v-model="city"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -60,7 +60,7 @@
             type="text"
             :placeholder="`Enter State`"
             v-model="state"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -69,7 +69,7 @@
             type="text"
             :placeholder="`Enter Area`"
             v-model="area"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -78,7 +78,7 @@
             type="text"
             :placeholder="`Enter Landmark`"
             v-model="landmark"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
 
         <nitrozen-input
@@ -89,7 +89,7 @@
             v-model="address"
             :showTooltip="true"
             tooltipText="Enter your address"
-            @change="onValueChange"
+            @change="onValueChange('')"
         />
     </div>
 </template>
@@ -104,7 +104,7 @@ import InlineSvg from '@/components/common/inline-svg.vue';
 export default {
     name: "change-address-drawer",
     props: {
-        shipmentId: String
+        shipment: Object
     },
     data() {
         return {
@@ -115,8 +115,8 @@ export default {
                     value: "home"
                 },
                 {
-                    text: "Store",
-                    value: "store"
+                    text: "Office",
+                    value: "office"
                 }
             ],
             area: "",
@@ -128,7 +128,8 @@ export default {
             selectedAddressType: "",
             phoneNumber: "",
             pincode: "",
-            state: ""
+            state: "",
+            validForm: false
         }
     },
     components: {
@@ -136,27 +137,73 @@ export default {
         NitrozenDropdown,        
         NitrozenInput,
     },
-    methods: {
-        onValueChange() {
-            let addressObj = {
-                name: this.name,
-                phone: this.phoneNumber,
-                email: this.email,
-                area: this.area,
-                landmark: this.landmark,
-                city: this.city,
-                address: this.address,
-                pincode: this.pincode,
-                state: this.state,
-                address_type: this.selectedAddressType,
-                address_category: this.selectedAddressType,
-                country: this.country,
-                shipment_id: this.shipmentId
-            };
-
-            this.$emit('change', addressObj);
+    mounted(){
+        this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || '';
+        this.email = this.shipment.user.email || '';
+        this.phoneNumber = this.shipment.user.mobile || '';
+        if(this.shipment.delivery_details){
+            this.area = this.shipment.delivery_details.area || '';
+            this.city = this.shipment.delivery_details.city || '';
+            this.country = this.shipment.delivery_details.country || 'India';
+            this.landmark = this.shipment.delivery_details.landmark || '';
+            this.state = this.shipment.delivery_details.state || '';
+            this.pincode = this.shipment.delivery_details.pincode || '';
+            this.selectedAddressType = this.shipment.delivery_details.address_type || '';
+            this.address = this.shipment.delivery_details.address || '';
         }
+    },
+    methods: {
+    onValueChange(inputType) {
+
+    let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    let numRegex = new RegExp(/^\s*\d*\s*$/)
+
+    switch (inputType) {
+        case 'email':
+            if (emailRegex.test(this.email)) {
+            } else {
+                this.$snackbar.global.showError('Please enter a valid email address');
+            }
+            break;
+        case 'phone':
+            if (numRegex.test(this.phoneNumber) ) {
+            } else {
+                this.$snackbar.global.showError('Please enter numbers only for phone number');
+            }
+            break;
+        case 'pincode':
+            if (numRegex.test(this.pincode)) {
+            } else {
+                this.$snackbar.global.showError('Please enter numbers only for pincode number');
+            }
+            break;
     }
+
+        let addressObj = {
+            name: this.name,
+            phone: this.phoneNumber,
+            email: this.email,
+            area: this.area,
+            landmark: this.landmark,
+            city: this.city,
+            address: this.address,
+            pincode: this.pincode,
+            state: this.state,
+            address_type: this.selectedAddressType,
+            country: this.country,
+            shipment_id: this.shipmentId
+        };
+
+        if(emailRegex.test(this.email) && numRegex.test(this.phoneNumber) && numRegex.test(this.pincode)){
+            this.validForm = true
+        } else {
+            this.validForm = false
+        }
+    
+        this.$emit('change', addressObj, this.validForm);
+    
+    }
+}
 }
 </script>
 

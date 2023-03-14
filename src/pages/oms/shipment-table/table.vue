@@ -51,7 +51,20 @@
                         </div>
                     </td>
                     <td class="actions" v-if="!shipmentProcessing">
-                        <admin-actions @change="performMenuAction" />
+                        <div class="admin-action"    v-if="activeShipmentDetails.shipment_id == activeId">
+                            <invoice-label-actions
+                             
+                                class="action-s"
+                                :shipment="activeShipmentDetails"
+                                :ordering_channel="activeShipmentDetails && activeShipmentDetails.order.ordering_channel"
+                                :locked="activeShipmentDetails && activeShipmentDetails.lock_status"
+                                :readOnlyMode="readOnlyMode"
+                            >
+                            </invoice-label-actions>
+                            <admin-actions 
+                                @change="performMenuAction"
+                                :activeShipment="activeShipment" />
+                        </div>
                     </td>
                     <!-- <td>
                         <div tabindex="0" @blur="handleMenuBlur"> 
@@ -94,7 +107,6 @@
         <table class="mirage-table list-table" v-if="items.length > 0">
             <template v-for="item in otherShipments">
                 <tr 
-                    :key="item.shipment_id" 
                     class="line-break" 
                     @click="onRowClick(item.shipment_id)"
                     :class="{activeRow: item.shipment_id === activeId}">
@@ -137,16 +149,29 @@
                             :rejectUpdate="rejectUpdate"
                             :readOnlyMode="readOnlyMode"
                         ></shipment-actions> -->
-
-                        <admin-actions 
-                            v-if="
-                                !(shipmentProcessing && item.shipment_id === activeId) && 
-                                item.order && 
-                                item.order.ordering_channel && 
-                                item.shipment_id === activeId
-                            "
-                            @change="performMenuAction"
-                        />
+                        <div class="admin-action">
+                            <invoice-label-actions
+                                class="action-s"
+                                v-if="!(shipmentProcessing && item.shipment_id === activeId) && item.order && item.order.ordering_channel && item.shipment_id === activeId"
+                                :shipment="item"
+                                :ordering_channel="item && item.order.ordering_channel"
+                                :locked="item && item.lock_status"
+                                @updateStatus="onStatusUpdate"
+                                :rejectUpdate="rejectUpdate"
+                                :readOnlyMode="readOnlyMode"
+                            >
+                            </invoice-label-actions>
+                            <admin-actions 
+                                v-if="
+                                    !(shipmentProcessing && item.shipment_id === activeId) && 
+                                    item.order && 
+                                    item.order.ordering_channel && 
+                                    item.shipment_id === activeId
+                                "
+                                @change="performMenuAction"
+                                :activeShipment="activeShipment"
+                            />
+                        </div>
                     </td>
                     <!-- <td>
                         <div tabindex="0" @blur="() => $refs.menus[index].closeMenu()">
@@ -210,14 +235,7 @@
                 >
                     <sms-drawer
                         ref="sms-drawer"
-                        :number="number"
-                        :fullName="fullName"
-                        :shipmentId="shipmentId"
-                        :orderId="orderId"
-                        :bagId="bagId"
-                        :brandName="brandName"
-                        :amountPaid="amountPaid"
-                        :paymentMode="paymentMode"
+                        :shipment="activeShipment"
                         @enableSubmitButton="enableSubmitButtonSms"
                         @closeDrawer="closeDetails()"
                     />
@@ -303,11 +321,12 @@
                 <side-drawer
                     class="change-address-drawer"
                     @close="closeDetails()"
-                    :title="`Change Adress`"
+                    :title="`Change Address`"
                     :footer="true"
                 >
                     <change-address-drawer
                         ref="change-address-drawer"
+                        :shipment="activeShipment"
                         @change="onAddressChange"
                     />
                     <template #footer>
@@ -345,12 +364,14 @@ import CallDrawer from './call-drawer.vue';
 import ReassignStoreDrawer from './reassign-store-drawer.vue';
 import ChangeAddressDrawer from './change-address-drawer.vue';
 import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
+import invoiceLabelAction from './invoice-label-action.vue';
 
 /* Helper imports */
 import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper/utils.js';
 
 /* Service imports */
-import OrderService from '@/services/orders.service';
+import OrderService from '@/services/orders.service'; 
+import URLS from '@/services/domain.service';
 
 
 
@@ -384,10 +405,16 @@ export default {
         CallDrawer,
         'reassign-store': ReassignStoreDrawer,
         ChangeAddressDrawer,
-        AdminActions
+        AdminActions,
+        'invoice-label-actions': invoiceLabelAction
     },
     directives: {
         flatBtn,
+    },
+    computed:{
+        activeShipment(){
+            return this.items.find(i => i.shipment_id == this.activeId, {})
+        },
     },
     data() {
         return {
@@ -677,7 +704,7 @@ export default {
             this.$refs['call-drawer'].callCustomer();
         },
         fetchReasons() {
-            OrderService.getReasons(this.shipmentId, this.bagId, this.status)
+            OrderService.getReasons(this.activeShipment.shipment_id, this.activeShipment.bags[0].bag_id.toString(), this.activeShipment.status.status)
             .then((res)=>{
                 if(res.data.success == true) {
                     this.reasons = res.data.reasons.map(reason => {
@@ -778,7 +805,7 @@ export default {
          */
         navigateToLogisticsPage() {
             if(this.activeId) {
-                window.open(`https://pulse-admin.fyndx1.de/firebolt/monitor/debug/${this.activeId}`, '_blank');
+                window.open(`https://pulse-admin.${URLS.PLATFORM_DOMAIN()}/firebolt/monitor/debug/${this.activeId}`, '_blank');
             } else {
                 console.error("Error in navigating to the logistics page as the active ID is undefined.");
                 this.$snackbar.global.showError(
@@ -795,16 +822,20 @@ export default {
          * @param {Object} event The object containing changed values sent by the child component.
          */
         onBagChangeState(event) {
+            let invoiceRegex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
-            if(event.state.length > 0 && event.remark.length > 0) {
-                if(reasonStates.includes(event.state) && event.reason.length > 0) {
+            if(event.state.length > 0 && event.remark.length > 9) {
+                if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
-                } else if(reasonStates.includes(event.state) && event.reason.length === 0) {
+                } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
+                    this.enableBagStateChange = false;
+                } else if(!reasonStates.includes(event.state) && event.state == 'bag_invoiced' && invoiceRegex.test(event.store_invoice_id)) {
+                    this.enableBagStateChange = true
+                } else if(!reasonStates.includes(event.state) && event.state == 'bag_invoiced' && !invoiceRegex.test(event.store_invoice_id)) {
                     this.enableBagStateChange = false;
                 } else if(!reasonStates.includes(event.state)) {
                     this.enableBagStateChange = true;
-                }
-                this.enableBagStateChange = true;
+                } 
             } else {
                 this.enableBagStateChange = false;
             }
@@ -817,7 +848,7 @@ export default {
          */
         onStateChangeClick() {
             let changeBagStateDrawer = this.$refs['change-bag-state'];
-
+            
             /* Check if the selected state's value exists, else throw an error */
             if(changeBagStateDrawer.selectedState === undefined || changeBagStateDrawer.selectedState === null) {
                 this.$snackbar.global.showError(
@@ -826,7 +857,7 @@ export default {
                 );
                 return;
             }
-
+            
             /* Basic payload structure (without reasons) */
             let payload = {
                 statuses: [
@@ -846,7 +877,7 @@ export default {
                 lock_after_transition: false,
                 unlock_before_transition: false
             };
-
+            
             /* Adding reasons for cancelled states */
             let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
             if(reasonStates.includes(changeBagStateDrawer.selectedState)) {
@@ -857,7 +888,7 @@ export default {
                     reasonText = selectedReason.text;
                 }
 
-                payload.statuses.shipments[0]['reasons'] = {
+                payload.statuses[0].shipments[0]['reasons'] = {
                     products: [
                         {
                             filters: [{}],
@@ -870,6 +901,30 @@ export default {
                     entities: []
                 }
             }
+            /* Adding store_invoice_id incase of updating invoice number */
+        
+            // if(InvoiceRegex.test(changeBagStateDrawer.invoiceId)){
+                
+            // }
+            if(changeBagStateDrawer.selectedState == 'bag_invoiced' && Object.keys(this.activeShipmentDetails.next_possible_states).includes('bag_invoiced')){
+                payload.statuses[0].shipments[0]['data_updates'] = {
+                 products: [{
+                filters: [{}],
+                data: {
+                    store_invoice_id:  changeBagStateDrawer.invoiceId 
+                }
+                }],
+                entities: [{
+                filters: [{}],
+                data: {
+                    store_invoice_id: changeBagStateDrawer.invoiceId
+                }
+                }]
+            }
+
+            }
+          
+
 
             /* Hitting the API for changing the state */
             return OrderService.updateShipmentStatus(payload)
@@ -886,10 +941,17 @@ export default {
                             this.$emit('statusUpdated', this.activeShipmentDetails.shipment_id);
                         }, 500);
                     } else {
-                        this.$snackbar.global.showError(
+                          if(this.activeShipmentDetails.lock_status){
+                            this.$snackbar.global.showError(
+                            statusResponse.message,
+                            3000);
+
+                          }else{
+                            this.$snackbar.global.showError(
                             `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
                             3000
                         );
+                          }
                         console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0].message);
                     }
                 } else {
@@ -918,13 +980,14 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          * @param {Object} event The address object shared by the change-address-drawer component.
          */
-        onAddressChange(event) {
+        onAddressChange(event, validForm) {
             if(
                 event.name.length > 0 &&
-                event.phone.length > 0 &&
-                event.pincode.length > 0 &&
+                event.phone.toString().length > 0 &&
+                event.pincode.toString().length > 0 &&
                 event.city.length > 0 &&
-                event.state.length > 0
+                event.state.length > 0 &&
+                validForm
             ) {
                 this.enableAddressUpdation = true;
             } else {
@@ -1040,6 +1103,9 @@ tr.list-table.activeRow:hover{
 
 .actions {
     width: 35%;
+    .admin-action{
+        display: flex;
+    }
 }
 
 .no-wrap {

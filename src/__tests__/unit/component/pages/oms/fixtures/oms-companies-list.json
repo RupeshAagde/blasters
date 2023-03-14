@@ -1,0 +1,1057 @@
+{
+    "page": {
+        "current": 1,
+        "type": "number",
+        "size": 42,
+        "has_previous": false,
+        "has_next": true,
+        "item_total": 839
+    },
+    "items": [
+        {
+            "created_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "modified_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "addresses": [
+                {
+                    "address1": "ASDADAS",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "ASDADAS",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-24T12:23:59.852000",
+            "uid": 839,
+            "verified_on": "2023-02-24T12:24:00.441000",
+            "name": "test2132",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-24T12:23:59.852000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "deeputiwari@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "b5f40d42aed3f424dbb9cbd6",
+                "username": "abhishekmishra_gofynd_com_43825"
+            },
+            "modified_by": {
+                "user_id": "b5f40d42aed3f424dbb9cbd6",
+                "username": "abhishekmishra_gofynd_com_43825"
+            },
+            "addresses": [
+                {
+                    "address1": "C-001",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 75.7138884,
+                    "pincode": 400001,
+                    "latitude": 19.7514798,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "C-001",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 75.7138884,
+                    "pincode": 400001,
+                    "latitude": 19.7514798,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-21T06:07:49.934000",
+            "uid": 838,
+            "verified_on": "2023-02-21T06:07:50.656000",
+            "name": "Shopsense",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-21T06:07:49.934000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "abhishekmishra@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "modified_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "addresses": [
+                {
+                    "address1": "TEST",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "TEST",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-20T11:02:25.379000",
+            "uid": 837,
+            "verified_on": "2023-02-20T11:02:25.967000",
+            "name": "tewfujwe",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-20T11:02:25.379000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "deeputiwari@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "modified_by": {
+                "user_id": "3fad8d4ea8098b4ced799e3f",
+                "username": "deeputiwari_gofynd_com_41952"
+            },
+            "addresses": [
+                {
+                    "address1": "TEST",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "TEST",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400078,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T18:43:13.368000",
+            "uid": 836,
+            "verified_on": "2023-02-16T18:43:13.958000",
+            "name": "DT_123",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T18:43:13.368000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "deeputiwari@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "757bf08ff5dd4ba95f8778cf",
+                "username": "mdnehalahmed_fynd_external_com_90136"
+            },
+            "modified_by": {
+                "user_id": "757bf08ff5dd4ba95f8778cf",
+                "username": "mdnehalahmed_fynd_external_com_90136"
+            },
+            "addresses": [
+                {
+                    "address1": "ANDHERI",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.8776559,
+                    "pincode": 400016,
+                    "latitude": 19.0759837,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "ANDHERI",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.8776559,
+                    "pincode": 400016,
+                    "latitude": 19.0759837,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T09:27:00.043000",
+            "uid": 835,
+            "verified_on": "2023-02-16T09:27:00.640000",
+            "name": "PlatformConfiguration",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T09:27:00.043000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "mdnehalahmed@fynd-external.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "baf36b3de9e7668ae347a09e",
+                "username": "919619123947_88722"
+            },
+            "modified_by": {
+                "user_id": "baf36b3de9e7668ae347a09e",
+                "username": "919619123947_88722"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T07:52:20.371000",
+            "uid": 834,
+            "verified_on": "2023-02-16T07:52:20.902000",
+            "name": "Team Akatsuki",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T07:52:20.371000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "baf36b3de9e7668ae347a09e",
+                "username": "919619123947_88722"
+            },
+            "modified_by": {
+                "user_id": "baf36b3de9e7668ae347a09e",
+                "username": "919619123947_88722"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T07:29:12.983000",
+            "uid": 833,
+            "verified_on": "2023-02-16T07:29:13.497000",
+            "name": "development vishal 8",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T07:29:12.983000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T07:05:30.555000",
+            "uid": 832,
+            "verified_on": "2023-02-16T07:05:31.275000",
+            "name": "Testing Account 7",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T07:05:30.555000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T06:56:46.232000",
+            "uid": 831,
+            "verified_on": "2023-02-16T06:56:46.827000",
+            "name": "Development account 6",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T06:56:46.232000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T06:45:13.740000",
+            "uid": 830,
+            "verified_on": "2023-02-16T06:45:14.312000",
+            "name": "testing 5",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T06:45:13.740000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T06:37:04.176000",
+            "uid": 829,
+            "verified_on": "2023-02-16T06:37:04.838000",
+            "name": "done 4",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T06:37:04.176000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T06:29:31.632000",
+            "uid": 828,
+            "verified_on": "2023-02-16T06:29:32.201000",
+            "name": "testing account 1",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T06:29:31.632000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T06:14:45.391000",
+            "uid": 827,
+            "verified_on": "2023-02-16T06:14:46.120000",
+            "name": "Test Account 3",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T06:14:45.391000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T05:58:17.357000",
+            "uid": 826,
+            "verified_on": "2023-02-16T05:58:18.059000",
+            "name": "Vishal Test 2",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T05:58:17.357000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T05:53:51.811000",
+            "uid": 825,
+            "verified_on": "2023-02-16T05:53:52.360000",
+            "name": "vishal test",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T05:53:51.811000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "modified_by": {
+                "user_id": "cd80d728be8588ef35c90d4b",
+                "username": "rahulrtambe_gofynd_com_80607"
+            },
+            "addresses": [
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "WEWORK VIJAY DIAMOND,",
+                    "city": "MUMBAI",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.88261,
+                    "pincode": 400093,
+                    "latitude": 19.07283,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-16T05:45:42.173000",
+            "uid": 824,
+            "verified_on": "2023-02-16T05:45:42.841000",
+            "name": "Developer test account 1",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-16T05:45:42.173000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "aayushvjain@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "fa077eeb5705de87cc522938",
+                "username": "joeljulian_gofynd_com_65128"
+            },
+            "modified_by": {
+                "user_id": "fa077eeb5705de87cc522938",
+                "username": "joeljulian_gofynd_com_65128"
+            },
+            "addresses": [
+                {
+                    "address1": "APT. 497,2989 GILL BURG",
+                    "city": "SOMESHWAR",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 75.0642549,
+                    "pincode": 884506,
+                    "latitude": 13.4891523,
+                    "state": "KARNATAKA"
+                },
+                {
+                    "address1": "APT. 497,2989 GILL BURG",
+                    "city": "SOMESHWAR",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 75.0642549,
+                    "pincode": 884506,
+                    "latitude": 13.4891523,
+                    "state": "KARNATAKA"
+                }
+            ],
+            "modified_on": "2023-02-15T08:20:48.643000",
+            "uid": 823,
+            "verified_on": "2023-02-15T08:20:49.397000",
+            "name": "auto_company_15120231350794",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-15T08:20:48.643000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "joeljulian@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "e65f46eb6ceea9a2c4037b9b",
+                "username": "girikumar_gofynd_com_51726"
+            },
+            "modified_by": {
+                "user_id": "e65f46eb6ceea9a2c4037b9b",
+                "username": "girikumar_gofynd_com_51726"
+            },
+            "addresses": [
+                {
+                    "address1": "VEMPALLI",
+                    "city": "CUDDAPAH",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 78.8242089,
+                    "pincode": 516329,
+                    "latitude": 14.4673154,
+                    "state": "ANDHRA PRADESH"
+                },
+                {
+                    "address1": "VEMPALLI",
+                    "city": "CUDDAPAH",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 78.8242089,
+                    "pincode": 516329,
+                    "latitude": 14.4673154,
+                    "state": "ANDHRA PRADESH"
+                }
+            ],
+            "modified_on": "2023-02-14T09:53:57.966000",
+            "uid": 822,
+            "verified_on": "2023-02-14T09:53:58.513000",
+            "name": "Girikumar",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-14T09:53:57.966000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "girikumar@gofynd.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "3399fac34ba646f87cdd45f7",
+                "username": "qaaditya0505_gmail_com_83828"
+            },
+            "modified_by": {
+                "user_id": "3399fac34ba646f87cdd45f7",
+                "username": "qaaditya0505_gmail_com_83828"
+            },
+            "addresses": [
+                {
+                    "address1": "MANGLWARI,NAGPUR",
+                    "city": "NAGPUR",
+                    "address_type": "office",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 79.0881546,
+                    "pincode": 440001,
+                    "latitude": 21.1458004,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "MANGLWARI,NAGPUR",
+                    "city": "NAGPUR",
+                    "address_type": "registered",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 79.0881546,
+                    "pincode": 440001,
+                    "latitude": 21.1458004,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-10T06:42:11.009000",
+            "uid": 821,
+            "verified_on": "2023-02-10T06:42:11.599000",
+            "name": "Mohit&co",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-10T06:42:11.009000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "qaaditya0505@gmail.com"
+            ],
+            "company_type": "mbo"
+        },
+        {
+            "created_by": {
+                "user_id": "9845792336ff69e089bf463b",
+                "username": "akashkotian_fynd_com_51147"
+            },
+            "modified_by": {
+                "user_id": "9845792336ff69e089bf463b",
+                "username": "akashkotian_fynd_com_51147"
+            },
+            "addresses": [
+                {
+                    "address1": "ROOSEVELT HOUSE",
+                    "city": "MUMBAI",
+                    "landmark": "",
+                    "address_type": "office",
+                    "address2": "",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.8776559,
+                    "pincode": 400001,
+                    "latitude": 19.0759837,
+                    "state": "MAHARASHTRA"
+                },
+                {
+                    "address1": "ROOSEVELT HOUSE",
+                    "city": "MUMBAI",
+                    "landmark": "",
+                    "address_type": "registered",
+                    "address2": "",
+                    "country": "INDIA",
+                    "country_code": "IN",
+                    "longitude": 72.8776559,
+                    "pincode": 400001,
+                    "latitude": 19.0759837,
+                    "state": "MAHARASHTRA"
+                }
+            ],
+            "modified_on": "2023-02-09T05:48:26.758000",
+            "uid": 820,
+            "verified_on": "2023-02-09T05:48:27.364000",
+            "business_type": "ltd/pvt ltd",
+            "name": "The Old Store PVT LTD",
+            "stage": "verified",
+            "business_country_info": {
+                "country": "India",
+                "country_code": "IN"
+            },
+            "created_on": "2023-02-09T05:44:49.073000",
+            "verified_by": {
+                "user_id": "0",
+                "username": "WheelJack"
+            },
+            "notification_emails": [
+                "akashkotian@fynd.com"
+            ],
+            "company_type": "manufacturer-owner"
+        }
+    ]
+}

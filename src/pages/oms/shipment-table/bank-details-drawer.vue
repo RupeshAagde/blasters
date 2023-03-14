@@ -52,17 +52,12 @@
 
 <script>
 /* Components import */
-import { NitrozenDropdown, NitrozenInput } from '@gofynd/nitrozen-vue';
-import InlineSvg from '@/components/common/inline-svg.vue';
-import admNoContent from '@/components/common/adm-no-content.vue';
+import { NitrozenInput } from '@gofynd/nitrozen-vue';
 
-/* Package imports */
-import moment from 'moment';
 
 export default {
     name: "bank-details-drawer",
     props: {
-    //    dpOptionsData: Object,
     },
     data() {
         return {
@@ -75,23 +70,8 @@ export default {
         }
     },
     components: {
-        InlineSvg,
-        NitrozenDropdown,
-        admNoContent,
         NitrozenInput,
     },
-    mounted() {
-        
-    },
-    computed: {
-        
-    },
-    methods: {
-        selectedEmployee() {
-            console.log("Selected bag stage:: :", this.employee);
-        },
-    }
-
 }
 </script>
 

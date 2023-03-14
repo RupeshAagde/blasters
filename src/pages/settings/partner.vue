@@ -65,6 +65,14 @@ const GENERAL_MENUS = [
         permissions: [],
         active: false,
         desc: 'Update extensions listing page'
+    },
+    {
+        title: 'Support Configuration',
+        link: 'partners/contact-configuration',
+        icon: 'settings',
+        permissions: [],
+        active: false,
+        desc: 'Update extensions listing page'
     }
 ];
 

@@ -12,6 +12,14 @@ export const DETAILS_INFO_MAPPING = [
                 display_name: 'Address',
             },
             {
+                key: 'delivery_details.area',
+                display_name: 'Area',
+            },
+            {
+                key: 'delivery_details.landmark',
+                display_name: 'Landmark',
+            },
+            {
                 key: 'delivery_details.pincode',
                 display_name: 'PIN Code',
             },

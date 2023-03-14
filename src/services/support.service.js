@@ -73,12 +73,12 @@ const SupportService = {
         let axiosOption = { data: categories };
         return ApiService.post(URLS.FETCH_CATEGORIES(), axiosOption);
     },
-    getGeneralConfig(){
-        return ApiService.get(URLS.GET_GENERAL_CONGIF(), {});
+    getGeneralConfig(type){
+        return ApiService.get(URLS.GET_GENERAL_CONGIF(type), {});
     },
     setGeneralConfig(data) {
         let axiosOption = { data: data };
-        return ApiService.post(URLS.GET_GENERAL_CONGIF(), axiosOption);
+        return ApiService.post(URLS.SET_GENERAL_CONGIF(), axiosOption);
     },
     categorySync(type){
         return ApiService.get(URLS.CATEGORY_SYNC(type), {

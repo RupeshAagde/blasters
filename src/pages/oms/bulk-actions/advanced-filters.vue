@@ -245,7 +245,11 @@ export default {
          */
         loadFilters() {
             // Load Filters initially
-            this.selectedFilters = this.advancedSelectedFilters;
+            this.selectedFilters = cloneDeep(this.advancedSelectedFilters);
+            if(this.selectedFilters.from_date && this.selectedFilters.to_date){
+                this.orderDateRange[0] = moment(this.selectedFilters.from_date, 'DD-MM-YYYY').toISOString();
+                this.orderDateRange[1] = moment(this.selectedFilters.to_date, 'DD-MM-YYYY').toISOString();
+            }
         },
 
         /**

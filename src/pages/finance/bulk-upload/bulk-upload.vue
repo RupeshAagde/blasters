@@ -519,7 +519,9 @@ export default {
 
           if(dataVal.summary.length > 0){
             const payoutAmt = dataVal.summary[0];
-            this.parsedData.payout_amount = Object.values(payoutAmt)[0][0];
+            let formatedAmt = Object.values(payoutAmt)[0][0];
+            formatedAmt = formatedAmt.toLocaleString("en-IN");
+            this.parsedData.payout_amount = formatedAmt;
             this.parsedData.payout_amount_words = Object.values(payoutAmt)[0][1];
             this.payoutsExists = true;
           }

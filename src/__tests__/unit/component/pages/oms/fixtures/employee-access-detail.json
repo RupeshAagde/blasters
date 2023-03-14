@@ -1,0 +1,67 @@
+{
+    "store_access": {
+        "access_type": "company",
+        "values": []
+    },
+    "roles": [
+        "admin"
+    ],
+    "owner": false,
+    "permissions": [
+        "staff",
+        "profile",
+        "saleschannel",
+        "product",
+        "order",
+        "extension",
+        "developer",
+        "marketplace",
+        "otherseller",
+        "billing",
+        "payment",
+        "settings",
+        "audit-trail"
+    ],
+    "accepted": false,
+    "order_role": "full_access",
+    "_id": "62c2aec8597ee84a496cde45",
+    "title": "Staff",
+    "company": 1,
+    "user": "770cb4d3c750904c7bfe2907",
+    "__v": 0,
+    "super_user": true,
+    "staff": true,
+    "application_permissions": [
+        {
+            "_id": "62c2aec8597ee858526cde46",
+            "enabled": true,
+            "roles": [
+                "admin"
+            ],
+            "permissions": [
+                "settings",
+                "staff",
+                "marketing",
+                "communication",
+                "catalogue",
+                "customer",
+                "analytics",
+                "storage",
+                "support",
+                "point_of_sale",
+                "order"
+            ],
+            "order_incent": false,
+            "stores": [],
+            "application": "623c54c51123cb8d9eeca294",
+            "title": "Staff",
+            "user": "770cb4d3c750904c7bfe2907",
+            "created_at": "2022-07-04T09:11:36.104Z",
+            "modified_at": "2022-07-04T09:11:36.104Z",
+            "__v": 0,
+            "super_user": true
+        }
+    ],
+    "created_at": "2022-07-04T09:11:36.091Z",
+    "updated_at": "2022-07-04T09:11:36.091Z"
+}
