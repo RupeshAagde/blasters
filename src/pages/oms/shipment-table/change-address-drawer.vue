@@ -156,7 +156,7 @@ export default {
     onValueChange(inputType) {
 
     let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    let numRegex = new RegExp(/^\s*\d*\s*$/)
+    let numRegex = new RegExp(/^\d+$/);
 
     switch (inputType) {
         case 'email':
@@ -166,15 +166,15 @@ export default {
             }
             break;
         case 'phone':
-            if (numRegex.test(this.phoneNumber) ) {
+            if (numRegex.test(this.phoneNumber) && this.phoneNumber.toString().length === 10 ) {
             } else {
-                this.$snackbar.global.showError('Please enter numbers only for phone number');
+                this.$snackbar.global.showError('Please enter valid 10 digit phone number');
             }
             break;
         case 'pincode':
-            if (numRegex.test(this.pincode)) {
+            if (numRegex.test(this.pincode) && this.pincode.toString().length === 6 ) {
             } else {
-                this.$snackbar.global.showError('Please enter numbers only for pincode number');
+                this.$snackbar.global.showError('Please enter valid 6 digit pincode number');
             }
             break;
     }
@@ -194,7 +194,12 @@ export default {
             shipment_id: this.shipmentId
         };
 
-        if(emailRegex.test(this.email) && numRegex.test(this.phoneNumber) && numRegex.test(this.pincode)){
+        if(emailRegex.test(this.email) && 
+            numRegex.test(this.phoneNumber) && 
+            this.phoneNumber.toString().length === 10 && 
+            numRegex.test(this.pincode) && 
+            this.pincode.toString().length === 6
+        ){
             this.validForm = true
         } else {
             this.validForm = false

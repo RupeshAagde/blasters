@@ -67,9 +67,17 @@
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
                                         </div>
+                                        <div v-if="status.meta && status.meta.recordpath"> 
+                                            <div class="recording"> 
+                                                <span class="message-label"> Recording: </span> 
+                                                <audio controls>
+                                                    <source :src="urlDecode(status.meta.recordpath)" type="audio/wav">
+                                                </audio>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="user-new">{{ status.user }}</div>
                                 </div>
-                                <div class="user-new">{{ status.user }}</div>
                             </div>
                         </div>
                     </div>
@@ -324,6 +332,9 @@ export default {
                 return value //moment(value).format('Do MMMM, YYYY');
             }
         },
+        urlDecode(url){
+            return decodeURIComponent(url);
+        },
     },
 };
 </script>
@@ -379,11 +390,16 @@ export default {
                 .message-label{
                     font-weight: 600;
                 }
+                .recording{
+                    display: flex;
+                    align-items: center;
+                }
             }
             .user-new{
                 font-weight: 300;
                 text-align: end;
                 padding-left: 15px;
+                padding-top: 15px;
             }
         }
     }

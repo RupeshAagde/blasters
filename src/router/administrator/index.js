@@ -1106,7 +1106,7 @@ export default [
             },
             {
                 name: 'company-order-bulk-v2',
-                path: 'orders/bulk',
+                path: 'orders-bulk',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1119,7 +1119,7 @@ export default [
             },
             {
                 name: 'company-order-manifest',
-                path: 'orders/manifest/',
+                path: 'orders-manifest/',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1132,7 +1132,7 @@ export default [
             },
             {
                 name: 'company-manifest-detail',
-                path: 'orders/manifest/:manifestId/',  //need at aadd a storng 
+                path: 'orders-manifest/:manifestId/',  //need at aadd a storng 
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1145,7 +1145,7 @@ export default [
             },
             {
                 name: 'company-manifest-generate',
-                path: 'orders/manifest/generate/',
+                path: 'orders-manifest/generate/',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);

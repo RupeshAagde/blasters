@@ -75,6 +75,7 @@ export AVIS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administra
 export COMPUTRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export COMPUTRON_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export HEDWIG_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
+export HEDWIG_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
 
 #ENV's
 export SENTRY_DSN=''
