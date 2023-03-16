@@ -206,7 +206,7 @@
                 >
                     <change-bag-state-drawer
                         ref="change-bag-state"
-                        :shipment="activeShipmentDetails"
+                        :shipment="activeShipment"
                         @change="onBagChangeState"
                     />
                     <template #footer>
