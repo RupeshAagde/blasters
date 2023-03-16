@@ -31,7 +31,7 @@ let jestConfig = {
   bail: true
 }
 
-if(!local){
+if(!conf.get('local')){
   jestConfig['reporters'] = [
     "default",
     [
