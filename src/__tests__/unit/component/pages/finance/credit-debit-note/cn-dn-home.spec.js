@@ -216,7 +216,7 @@ describe('credit-debit-note home page', () => {
         await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
         const searchBar = wrapper.findComponent({ref: 'search-bar'});
-        searchBar.vm.$emit('input', {});
+        searchBar.vm.$emit('input', 'ACN/00252/22-23');
         wrapper.vm.changeNoteType({text: 'aaa'});
         await new Promise(resolve => setTimeout(resolve, 1000));
         await wrapper.vm.$nextTick();

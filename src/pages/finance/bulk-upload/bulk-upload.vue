@@ -533,7 +533,6 @@ export default {
           this.tableData.headers = dataVal.json.headers;
           this.tableData.items = (dataVal.json.rows.length > this.maxDisplay) ? dataVal.json.rows.slice(0,this.maxDisplay) : dataVal.json.rows;
 
-          console.log(this.tableData.items);
           
 
         },
@@ -554,6 +553,7 @@ export default {
           this.parsedData.totalRecords = 0;
           this.$refs.validateImg.style.display = "block";
           this.fileSelected = false;
+          this.startLoader = false;
           this.file = new Blob(); 
 
         },
