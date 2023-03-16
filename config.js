@@ -597,6 +597,27 @@ const conf = convict({
         default: '0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5',
         env: 'BEEFREE_CLIENT_SECRET',
         arg: 'beefree_client_secret'
+    },
+    REPORT_PORTAL_ACCESS_TOKEN: {
+        doc: 'Report Portal Access Token',
+        format: String,
+        default: '',
+        env: "REPORT_PORTAL_ACCESS_TOKEN",
+        arg: 'report portal access token'
+    },
+    REPORT_PORTAL_ENDPOINT: {
+        doc: 'Report Portal Endpoint',
+        format: String,
+        default: '',
+        env: 'REPORT_PORTAL_ENDPOINT',
+        arg: 'report portal endpoint'
+    },
+    REPORT_PORTAL_PROJECT: {
+        doc: 'Report Portal Project',
+        format: String,
+        default: 'fynd-platform',
+        env: 'REPORT_PORTAL_PROJECT',
+        arg: 'report portal project'
     }
 });
 

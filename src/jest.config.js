@@ -1,3 +1,4 @@
+const conf = require('../config')
 module.exports = {
   verbose: true,
   coverageReporters: ['json-summary', 'lcov'],
@@ -32,10 +33,10 @@ module.exports = {
     [
         "@reportportal/agent-js-jest",
         {
-          "token": "49ec1be3-8bfe-48ca-bd15-27df7bb10f2c",
-          "endpoint": "https://reportportal.fynd.engineering/api/v1",
-          "project": "fynd-platform",
-          "launch": "blaster"
+          "token": conf.get('REPORT_PORTAL_ACCESS_TOKEN'),
+          "endpoint": conf.get('REPORT_PORTAL_ENDPOINT'),
+          "project": conf.get('REPORT_PORTAL_PROJECT'),
+          "launch": 'blaster'
         }
     ]
   ]
