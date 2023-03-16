@@ -10,7 +10,7 @@
                 </div>
                 <div class="connector" :class="{active: item.is_passed}"></div>
             </div>
-            <p class="status">{{ item.display_name || convertSnakeCaseToString(item.status) }}</p>
+            <p class="status">{{ item.text || convertSnakeCaseToString(item.status) }}</p>
             <div class="time" v-if="item.is_passed">
                 <p>{{ dateInOMSFormat(item.time) }}</p>
             </div>
