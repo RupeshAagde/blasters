@@ -98,7 +98,6 @@
                             :disabled="readOnlyMode || editingMode"
                             @change="resetForm"
                         ></nitrozen-dropdown>
-                    <!-- <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error> -->
                 </div>
 
                 <div class="date-picker-wrap">
@@ -184,7 +183,6 @@
                                 @blur="validateServiceInvoice"
                                 @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
-                            <!-- @keyup.enter.tab="validateServiceInvoice" -->
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                         </div>
                     </div>
@@ -283,7 +281,6 @@
                             @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
-                        <!-- @keyup.enter.tab="validateServiceInvoice" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -439,7 +436,6 @@
                         >
                             <template 
                                 v-slot:header
-                                class="header"
                             >
                                 <div class="tick-row">
                                     <span class="first-header">Bag ID: {{ bag.bag_id }}</span>
@@ -1269,6 +1265,7 @@
                             this.noteNarration.value = this.tab.note_narration;
                             this.purposeType.value = this.tab.purpose_id;
                             this.selectedDate = this.tab.issued_at;
+                            this.getCnDetails('commercial');
                             this.getSellerDetails();
                         }
                     })
@@ -1314,7 +1311,7 @@
                                 "purpose_id" : this.purposeType.value,
                                 "note_narration" : this.noteNarration.value,
                                 "status" : "Init",
-                                "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                "invoice_number" : this.invoiceNumber.value,
                                 "is_active" : true,
                                 "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
@@ -1326,16 +1323,16 @@
                                         "purpose_id": this.purposeType.value,
                                         "total_amount": this.creditDebitNoteAmount.value * 1,
                                         "is_active": true,
-                                        "sac_code": null,
-                                        "sgst_tax_rate": null,
-                                        "cgst_tax_rate": null,
-                                        "igst_tax_rate": null,
+                                        "sac_code": "",
+                                        "sgst_tax_rate": 0,
+                                        "cgst_tax_rate": 0,
+                                        "igst_tax_rate": 0,
                                         "gross_amount": this.creditDebitNoteAmount.value * 1,
                                         "remark": this.remarks.value,
                                         "kapture_sr_id": this.kaptureId.value,
                                         "shipment_id": this.shipmentIdCommercial.value,
                                         "note_narration": this.noteNarration.value,
-                                        "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                        "invoice_number" : this.invoiceNumber.value,
                                     }
                                 ]
                             }
@@ -1355,7 +1352,7 @@
                                 "purpose_id" : this.purposeType.value, 
                                 "note_narration" : this.noteNarration.value,
                                 "status" : "Init",
-                                "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                "invoice_number" : this.invoiceNumber.value,
                                 "is_active" : true,
                                 "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
@@ -1365,16 +1362,16 @@
                                         "purpose_id": this.purposeType.value,
                                         "total_amount": this.creditDebitNoteAmount.value * 1,
                                         "is_active": true,
-                                        "sac_code": null,
-                                        "sgst_tax_rate": null,
-                                        "cgst_tax_rate": null,
-                                        "igst_tax_rate": null,
+                                        "sac_code": '',
+                                        "sgst_tax_rate": 0,
+                                        "cgst_tax_rate": 0,
+                                        "igst_tax_rate": 0,
                                         "gross_amount": this.creditDebitNoteAmount.value * 1,
                                         "remark": this.remarks.value,
                                         "kapture_sr_id": this.kaptureId.value,
-                                        "shipment_id": this.shipmentIdCommercial.value,
+                                        "shipment_id": this.shipmentIdCommercial.value ? this.shipmentIdCommercial.value : '',
                                         "note_narration": this.noteNarration.value,
-                                        "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                        "invoice_number" : this.invoiceNumber.value,
                                     }
                                 ]
                         }
@@ -1742,11 +1739,13 @@
                         }
                         if(invoiceType == 'commercial'){
                             this.FeeComponentTypeList = [];
-                            this.feeType = {
-                                value: '',
-                                errorMessage: '',
-                                isValid: false
-                            },
+                            if(!this.readOnlyMode){
+                                this.feeType = {
+                                    value: '',
+                                    errorMessage: '',
+                                    isValid: false
+                                };
+                            }
                             this.FeeComponentTypeList = res.data.items;
                         }
                     })
