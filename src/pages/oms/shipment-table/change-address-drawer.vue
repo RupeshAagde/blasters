@@ -168,13 +168,13 @@ export default {
         case 'phone':
             if (numRegex.test(this.phoneNumber) && this.phoneNumber.toString().length === 10 ) {
             } else {
-                this.$snackbar.global.showError('Please enter numbers only for phone number');
+                this.$snackbar.global.showError('Please enter valid 10 digit phone number');
             }
             break;
         case 'pincode':
             if (numRegex.test(this.pincode) && this.pincode.toString().length === 6 ) {
             } else {
-                this.$snackbar.global.showError('Please enter numbers only for pincode number');
+                this.$snackbar.global.showError('Please enter valid 6 digit pincode number');
             }
             break;
     }
