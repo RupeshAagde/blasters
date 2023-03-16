@@ -1,5 +1,5 @@
 <template>
-    <div class="oms-dropdown" @blur="onBlur" :style="css">
+    <div class="oms-dropdown" tabindex="0" @blur="onBlur" :style="css">
         <span class="label" v-if="label.length">Label</span>
         <div class="dropdown-box" @click="toggleDisplay">
             <span class="placeholder-text">
