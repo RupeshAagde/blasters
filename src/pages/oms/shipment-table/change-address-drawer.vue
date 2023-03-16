@@ -194,7 +194,12 @@ export default {
             shipment_id: this.shipmentId
         };
 
-        if(emailRegex.test(this.email) && numRegex.test(this.phoneNumber) && numRegex.test(this.pincode)){
+        if(emailRegex.test(this.email) && 
+            numRegex.test(this.phoneNumber) && 
+            this.phoneNumber.toString().length === 10 && 
+            numRegex.test(this.pincode) && 
+            this.pincode.toString().length === 6
+        ){
             this.validForm = true
         } else {
             this.validForm = false
