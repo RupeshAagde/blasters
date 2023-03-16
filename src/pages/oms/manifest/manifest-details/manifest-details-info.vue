@@ -38,8 +38,11 @@
         <div class="items" id="shipments-count">
             <div class="text-container">
                 <div class="greyed-text">Shipments</div>
-                <div class="strong-text">
+                <div class="strong-text" v-if="data && data.meta && data.meta.total_shipment_prices_count && data.meta.total_shipment_prices_count.shipment_count">
                     <span>{{ data.meta.total_shipment_prices_count.shipment_count }}</span>
+                </div>
+                <div class="strong-text" v-else>
+                    <span>0</span>
                 </div>
             </div>
         </div>

@@ -143,9 +143,19 @@
                     v-if="manifestData && manifestData.length"
                 >
                     <nitrozen-pagination
+                        ref="pagination-main"
+                        v-show="selectedStageTabIndex == 0"
                         class="pagination-main"
                         name="Manifest"
-                        v-model="pagination"
+                        v-model="paginations[0]"
+                        @change="paginationChange"
+                        :pageSizeOptions="pageSizeOptions"
+                    />
+                    <nitrozen-pagination
+                        v-show="selectedStageTabIndex == 1"
+                        class="pagination-main"
+                        name="Manifest"
+                        v-model="paginations[1]"
                         @change="paginationChange"
                         :pageSizeOptions="pageSizeOptions"
                     />
@@ -217,6 +227,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
+import isEqual from 'lodash/isEqual';
 import {
     NitrozenButton,
     NitrozenToggleBtn,
@@ -250,11 +261,7 @@ import CompanyAdminService from '@/services/company-admin.service.js';
 
 /* Helper imports */
 import { dateRangeShortcuts } from '@/helper/datetime.util';
-import { mapGetters } from 'vuex';
-
-
-
-
+import { removeEmpty } from '@/helper/utils'
 
 export default {
     name: 'manifest-home-page',
@@ -281,16 +288,13 @@ export default {
     },
     directives: { flatBtn, strokeBtn, clickOutside },
     computed: {
-        ...mapGetters({
-            // accessDetail: GET_EMPLOYEE_ACCESS_DETAIL,
-            accessDetail: {},
-        }),
         isApplicationLevel() {
             return this.applicationId ? true : false;
         },
     },
     data() {
         return {
+            accessDetail: {},
             applicationId: this.$route.params.applicationId,
             activeStatus: true,
             advancedFilterView: false,
@@ -323,11 +327,18 @@ export default {
                 moment().subtract(1, 'weeks').toISOString(),
                 moment().toISOString(),
             ],
-            pagination: {
-                limit: 10,
-                total: 1,
-                current: 1,
-            },
+            paginations: [
+                {
+                    limit: 10,
+                    total: 1,
+                    current: 1,
+                }, 
+                {
+                    limit: 10,
+                    total: 1,
+                    current: 1,
+                },
+            ],
             pageSizeOptions: [10, 20, 50, 100, 200],
             selectedCompany: '',
             selectedStageTabIndex: 0,
@@ -338,35 +349,14 @@ export default {
             manifestId: '',
             globalParams: {},
             filterApplied: false,
+            internalChange: false,
         };
     },
     mounted() {
-        this.globalParams['page_no'] = this.pagination.current;
-        this.globalParams['page_size'] = this.pagination.limit;
-        this.globalParams['status'] = 'active';
-        this.globalParams['from_date'] = moment(this.orderDateRange[0]).format(
-            'DD-MM-YYYY'
-        );
-        this.globalParams['to_date'] = moment(this.orderDateRange[1]).format(
-            'DD-MM-YYYY'
-        );
         this.fetchCompanies();
-
         this.fetchFilters();
-        if(!isEmpty(this.$route.query)){
-            let d = {}
-            for(let item in this.$route.query ){
-                d[item] = this.$route.query[item].split(',')
-            }
-            this.selectedAdvancedFilters = d
-
-            this.filterApplied = true
-            this.advanceFilterApplied({}, 'mounted')
-        } else {
-            this.filterApplied = false
-            this.fetchManifestsList();
-        }
-
+        this.populateFromUrl();
+        this.syncUrlQuery();
     },
     watch: {
         searchText(newValue, oldValue) {
@@ -374,33 +364,46 @@ export default {
                 this.globalParams['search_value'] = '';
                 this.fetchManifestsList();
             }
-        }
+        },
+        $route(a, b){
+            if(!this.internalChange){
+                this.populateFromUrl();
+            }
+            this.internalChange = false
+        },
     },
     methods: {
         isEmpty,
+        isEqual,
+        removeEmpty,
 
         advanceFilterApplied(e, location) {
             if (location == 'filter') {
                 let query = {};
+                let routerQuery = cloneDeep(this.$route.query);
+                this.internalChange = true;
                 if(!isEmpty(e.data)) {
                     this.selectedAdvancedFilters = e.data
                     for (let item in e.data) {
                         if(e.data[item] === undefined || e.data[item] === null || e.data[item].length === 0) {
                         delete e.data[item];
-                        delete this.globalParams[item];
-
-                    } else {
-                        query[item] = e.data[item].toString();
-                        this.globalParams[item] =  e.data[item].toString();
-                    }
-                  if(Object.keys(e.data).length == 0){
-                    this.filterApplied = false;
-
-                    this.$router.push({ path: this.$route.path, query }).catch(() => {});;
-                  }else{
-                    this.$router.push({ path: this.$route.path, query }).catch(() => {});;
-                    this.filterApplied = true
-                  }
+                            delete this.globalParams[item];
+                            delete routerQuery[item];
+                        } else {
+                            query[item] = e.data[item].toString();
+                            this.globalParams[item] =  e.data[item].toString();
+                        }
+                    if(Object.keys(e.data).length == 0){
+                            this.filterApplied = false;
+                        }else{
+                            this.filterApplied = true;
+                        }
+                        this.$router.push({ query: {
+                                ...routerQuery,
+                                ...query
+                            } 
+                        }).catch(() => {});
+                        this.fetchManifestsList();
                 }
 
                 this.fetchManifestsList();
@@ -409,10 +412,11 @@ export default {
                     for(let item in this.$route.query) {
                     if(this.$route.query[item] === undefined || this.$route.query[item] === null || this.$route.query[item].length === 0) {
                         delete this.$route.query[item];
+                        delete routerQuery[item];
                     }
                 }
-                    this.$router.push({ path: this.$route.path, query }).catch(() => {});;
-                    this.filterApplied = false
+                    this.$router.push({ query }).catch(() => {});
+                    this.filterApplied = false;
                 }
 
             } else {
@@ -423,7 +427,7 @@ export default {
                     } else{
                         this.globalParams[item] =  this.$route.query[item];
                     }
-                    this.$router.push({ path: this.$route.path, query }).catch(() => {});;
+                    this.$router.push({ path: this.$route.path, query }).catch(() => {});
 
                 }
                 this.fetchManifestsList();
@@ -573,7 +577,7 @@ export default {
                         if (res.data.advanced_filters)
                             this.advancedFilters = res.data.advanced_filters;
                         if(res && res.data && res.data.page) {
-                            this.pagination = {
+                            this.paginations[this.selectedStageTabIndex] = {
                                 ...res.data.page,
                                 limit: res.data.page.size,
                             };
@@ -689,12 +693,20 @@ export default {
          * @author: Rushabh Mulraj Shah
          */
         onDateRangeChange() {
+            this.internalChange = true;
             (this.globalParams['from_date'] = moment(
                 this.orderDateRange[0]
             ).format('DD-MM-YYYY')),
                 (this.globalParams['to_date'] = moment(
                     this.orderDateRange[1]
                 ).format('DD-MM-YYYY'));
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    from_date: this.globalParams['from_date'],
+                    to_date: this.globalParams['to_date']
+                }
+            });
             this.fetchManifestsList();
         },
 
@@ -704,7 +716,18 @@ export default {
          * @author: Rushabh Mulraj Shah
          */
         onFulfillmentCenterChange() {
-            this.globalParams['store_id'] = this.selectedStore;
+            this.internalChange = true;
+            let query = cloneDeep(this.$route.query);
+            if(!this.selectedStore){
+                delete query.store_id;
+                delete this.globalParams.store_id;
+            } else {
+                this.globalParams['store_id'] = this.selectedStore;
+                query.store_id = this.globalParams['store_id'];
+            }
+            this.$router.push({
+                query: query
+            });
             this.fetchManifestsList();
         },
 
@@ -732,15 +755,23 @@ export default {
          * @param {object} e The event object
          */
         onTabChange(e) {
-            if (this.selectedStageTabIndex == e.index) {
-                return;
-            } else {
-                this.selectedStageTabIndex = e.index;
-                this.activeStatus = e.item === 'Active';
-                this.globalParams['status'] =
-                    e.item === 'Active' ? 'active' : 'closed';
-                this.fetchManifestsList();
-            }
+            if (this.selectedStageTabIndex == e.index) return;
+            this.internalChange = true;
+            this.selectedStageTabIndex = e.index;
+            this.activeStatus = e.item === 'Active';
+            this.globalParams['status'] =
+                e.item === 'Active' ? 'active' : 'closed';
+            this.globalParams['page_no'] = this.paginations[this.selectedStageTabIndex].current;
+            this.globalParams['page_size'] = this.paginations[this.selectedStageTabIndex].limit;
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    status: this.globalParams['status'],
+                    page_no: this.globalParams['page_no'],
+                    page_size: this.globalParams['page_size']
+                }
+            })
+            this.fetchManifestsList();
         },
 
         openUploadConsentDrawer(manifestId) {
@@ -756,9 +787,17 @@ export default {
          */
         paginationChange(pageObj) {
             let { current, limit, size } = cloneDeep(pageObj);
-
+            this.internalChange = true;
             this.globalParams['page_no'] = current;
             this.globalParams['page_size'] = limit;
+
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    page_no: this.globalParams['page_no'],
+                    page_size: this.globalParams['page_size']
+                }
+            });
 
             this.fetchManifestsList();
         },
@@ -796,8 +835,8 @@ export default {
              * we are removing the store from component data
              * */
             if (text.length === 0) {
-                this.selectedStore = ''
-                this.onFulfillmentCenterChange()
+                this.selectedStore = '';
+                this.onFulfillmentCenterChange();
             } else {
                 this.fetchFulfillmentCentres({ q: text });
             }
@@ -808,6 +847,62 @@ export default {
              *show mirage alert on for downloading file
              */
             this.isDocDownloading = state;
+        },
+
+        syncUrlQuery(){
+            this.internalChange = true;
+            this.$router.push({
+                query: this.globalParams
+            }).catch(() => {})
+        },
+        populateFromUrl(){
+            let {
+                to_date,
+                from_date,
+                page_no,
+                page_size,
+                status,
+                store_id,
+                ...otherQuery
+            } = this.$route.query;
+            let newParams = {};
+            let advanceParams = {};
+            this.orderDateRange[0] = from_date ? moment(from_date, 'DD-MM-YYYY').toISOString() : this.orderDateRange[0];
+            newParams['from_date'] = from_date || moment(this.orderDateRange[0]).format('DD-MM-YYYY');
+
+            this.orderDateRange[1] = to_date ? moment(to_date, 'DD-MM-YYYY').toISOString() : this.orderDateRange[1];
+            newParams['to_date'] = to_date || moment(this.orderDateRange[1]).format('DD-MM-YYYY');
+
+            this.selectedStageTabIndex = status ? (status == 'active' ? 0 : 1) : this.selectedStageTabIndex;
+            newParams['status'] = this.selectedStageTabIndex == 1 ? 'closed' : 'active';
+            this.activeStatus = status == 'active';
+            this.$refs.tabs.selectTab(this.selectedStageTabIndex, this.manifestLaneData[this.selectedStageTabIndex].text);
+
+            this.paginations[this.selectedStageTabIndex].current = page_no || this.paginations[this.selectedStageTabIndex].current;
+            newParams['page_no'] = page_no || this.paginations[this.selectedStageTabIndex].current;
+
+            this.paginations[this.selectedStageTabIndex].limit = page_size || this.paginations[this.selectedStageTabIndex].limit;
+            newParams['page_size'] = page_size || this.paginations[this.selectedStageTabIndex].limit;
+
+            
+            if(store_id){
+                this.selectedStore = store_id;
+                newParams['store_id'] = store_id;
+            } else {
+                this.selectedStore = '';
+            }
+            this.filterApplied = false;
+            for(let key in this.removeEmpty(otherQuery)){
+                advanceParams[key] = otherQuery[key].split(',');
+                this.filterApplied = true;
+            }
+            this.selectedAdvancedFilters = advanceParams;
+            this.globalParams = {
+                ...newParams,
+                ...advanceParams
+            }
+            // this.setGlobalParams()
+            this.fetchManifestsList();
         },
     },
 };
@@ -858,7 +953,7 @@ export default {
 
             .filter-input-sm {
                 min-width: 120px;
-                width: 20%;
+                // width: 20%;
 
                 @media @mobile {
                     width: 100%;

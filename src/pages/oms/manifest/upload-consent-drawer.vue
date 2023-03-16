@@ -16,7 +16,6 @@
             <div class="content">
                 <manifest-download-box
                     @download="downloadManifest()"
-                    :orderRoles="orderRoles"
                     :status="manifestStatus"
                     :downloadUrl="downloadUrl"
                     :pdfGenerationInProgress="pdfGenerationInProgress"
@@ -26,7 +25,6 @@
                     class="manifest-upload-box"
                     :status="manifestStatus"
                     @upload="onUpload($event)"
-                    :orderRoles="orderRoles"
                 ></manifest-upload-box>
             </div>
             <mirage-alert
@@ -47,7 +45,7 @@
             </mirage-alert>
         </div>
 
-        <div class="footer-box">
+        <div class="footer-box" v-if="manifestStatus && manifestStatus != 'complete'">
             <div class="declaration-note">
                 <p>
                     <span class="checked-box">
@@ -57,6 +55,7 @@
                 </p>
             </div>
             <nitrozen-button
+                v-if="manifestStatus && manifestStatus != 'complete'"
                 :disabled="manifestStatus !== 'pdf_generated' || !declarationChecked"
                 ref="apply-filter-button"
                 class="apply-filter-button"
@@ -118,11 +117,6 @@ export default {
             required: true,
             default: ''
         },
-        orderRoles: {
-            type: Array,
-            required: true,
-            default: []
-        },
         manifestId: {
             type: String,
             required: true,
@@ -169,7 +163,7 @@ export default {
             this.isUploadingOrDownloading = true;
             this.fileState = 'downloaded';
 
-            return GrindorService.getPublicUrl({
+            return GrindorService.getPublicUrl('', {
                 expiry: 300,
                 urls: [this.downloadUrl],
             })
@@ -354,7 +348,6 @@ export default {
                     .finally(() => {
                         this.isUploadingOrDownloading = false;
                         this.fileState = 'uploaded';
-                        console.log(this.manifestStatus)
                         if(this.manifestStatus == 'complete') {
                         if(this.entryPoint == 'home') {
                             this.$emit('dispatch')
