@@ -1,5 +1,6 @@
 const conf = require('../config')
-module.exports = {
+const { REPORT_PORTAL_ACCESS_TOKEN,REPORT_PORTAL_ENDPOINT,REPORT_PORTAL_PROJECT, local } = conf.get();
+let jestConfig = {
   verbose: true,
   coverageReporters: ['json-summary', 'lcov'],
   moduleFileExtensions: ['js', 'json', 'vue'],
@@ -27,17 +28,23 @@ module.exports = {
     'mixins',
     'router',
     'pipes'],
-  bail: true,
-  reporters: [
+  bail: true
+}
+
+if(!local){
+  jestConfig['reporters'] = [
     "default",
     [
         "@reportportal/agent-js-jest",
         {
-          "token": conf.get('REPORT_PORTAL_ACCESS_TOKEN'),
-          "endpoint": conf.get('REPORT_PORTAL_ENDPOINT'),
-          "project": conf.get('REPORT_PORTAL_PROJECT'),
-          "launch": 'blaster'
+          "token": REPORT_PORTAL_ACCESS_TOKEN,
+          "endpoint": REPORT_PORTAL_ENDPOINT,
+          "project": REPORT_PORTAL_PROJECT,
+          "launch": 'blaster',
+          "logLaunchLink": true
         }
     ]
   ]
 }
+
+module.exports = jestConfig;

@@ -618,6 +618,13 @@ const conf = convict({
         default: 'fynd-platform',
         env: 'REPORT_PORTAL_PROJECT',
         arg: 'report portal project'
+    },
+    local: {
+        doc: 'Local',
+        format: Boolean,
+        default: false,
+        env: 'LOCAL_ENV',
+        arg: 'LOCAL_ENV'
     }
 });
 

@@ -78,5 +78,6 @@ export CDN_ITEM_DOMAINS=https://hdn-1.addsale.com
 export NEW_RELIC_APP_NAME=blaster
 export NEW_RELIC_LICENSE_KEY=''
 export CDN_ITEM_BASE_PATH=https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/
+export LOCAL_ENV=true
 
 npm run test -- -u 
