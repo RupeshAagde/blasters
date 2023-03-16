@@ -333,7 +333,7 @@ export default {
             }
         },
         urlDecode(url){
-            return decodeURIComponent(url)
+            return decodeURIComponent(url);
         },
     },
 };

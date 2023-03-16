@@ -156,7 +156,7 @@ export default {
     onValueChange(inputType) {
 
     let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    let numRegex = new RegExp(/^\d+$/)
+    let numRegex = new RegExp(/^\d+$/);
 
     switch (inputType) {
         case 'email':
