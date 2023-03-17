@@ -601,14 +601,14 @@ const conf = convict({
     REPORT_PORTAL_ACCESS_TOKEN: {
         doc: 'Report Portal Access Token',
         format: String,
-        default: '49ec1be3-8bfe-48ca-bd15-27df7bb10f2c',
+        default: '',
         env: "REPORT_PORTAL_ACCESS_TOKEN",
         arg: 'report portal access token'
     },
     REPORT_PORTAL_ENDPOINT: {
         doc: 'Report Portal Endpoint',
         format: String,
-        default: 'https://reportportal.fynd.engineering/api/v1',
+        default: '',
         env: 'REPORT_PORTAL_ENDPOINT',
         arg: 'report portal endpoint'
     },
