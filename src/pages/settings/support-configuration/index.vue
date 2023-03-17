@@ -17,23 +17,28 @@
                 </nitrozen-button>
             </page-header>
         </div>
-        <support-Communication
-            ref="support"
-            class="supportCommunication"
-            :type="type"
-        ></support-Communication>
+        <div class="container">
+            <support-Communication
+                ref="support"
+                class="supportCommunication"
+                :type="type"
+            ></support-Communication>
+            <supportIntegration :type="type" />
+        </div>
     </div>
 </template>
 
 <script>
 import { PageHeader } from '@/components/common';
 import supportCommunication from './supportCommunication.vue';
+import supportIntegration from './support-integration.vue';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 export default {
     name: 'support-configuration',
     components: {
         PageHeader,
         'support-Communication': supportCommunication,
+        supportIntegration,
         NitrozenButton
     },
     data() {
@@ -60,9 +65,17 @@ export default {
 .panel {
     display: flex;
     flex-direction: column;
-    .supportCommunication {
+    // .supportCommunication {
+    //     position: relative;
+    //     // margin: 24px;
+    //     top: 56.5px;
+    // }
+    .container{
         position: relative;
         margin: 24px;
+        padding: 24px;
+        background: #ffffff;
+        border-radius: 12px;
         top: 56.5px;
     }
 }
