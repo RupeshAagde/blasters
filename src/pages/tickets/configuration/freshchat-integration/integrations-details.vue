@@ -24,7 +24,6 @@
                         class="host-url"
                         label="Host URL"
                         v-model="integrationsData.configuration.host"
-                        :disabled = true
                         ></nitrozen-input>
                     <div
                         title="Click to copy"
@@ -45,7 +44,6 @@
                         class="api-key"
                         label="App Token"
                         v-model="integrationsData.configuration.token"
-
                     ></nitrozen-input>
                     <div
                         title="Click to copy"
@@ -60,7 +58,6 @@
                         class="api-key"
                         label="Site ID"
                         v-model="integrationsData.configuration.siteId"
-
                     ></nitrozen-input>
                     <div
                         title="Click to copy"
