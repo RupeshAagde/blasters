@@ -28,7 +28,8 @@
                     <div
                         title="Click to copy"
                         class="copy"
-                        @click.stop="copiedWebhookUrl"
+                        @click.stop="copiedUrl"
+                        ref="host-url-copy"
                     >
                         <inline-svg src="copy-icon"></inline-svg>
                     </div>
@@ -48,7 +49,8 @@
                     <div
                         title="Click to copy"
                         class="copy"
-                        @click.stop="copiedWebhookApiKey"
+                        @click.stop="copiedApiKey"
+                        ref="api-key-copy"
                     >
                         <inline-svg src="copy-icon"></inline-svg>
                     </div>
@@ -62,7 +64,8 @@
                     <div
                         title="Click to copy"
                         class="copy"
-                        @click.stop="copiedWebhookApiKey"
+                        @click.stop="copiedSiteIdKey"
+                        ref="siteId-copy"
                     >
                         <inline-svg src="copy-icon"></inline-svg>
                     </div>
@@ -83,7 +86,7 @@ import { copyToClipboard } from './../../../../helper/utils.js';
 
 export default {
     name: 'integrations-details',
-    props: ['type', 'token', 'siteId', 'host', 'integrationsData'],
+    props: ['token', 'siteId', 'host', 'integrationsData'],
 
     components: {
         PageHeader,
@@ -91,30 +94,22 @@ export default {
         NitrozenInput,
         'inline-svg': inlineSvgVue,
     },
-
-    data() {
-        return {
-            step: 'freshchat',
-            isIntegrationDisable: true,
-            isIntegrated: false,
-
-        };
-    },
-    mounted() {
-    },
     methods: {
         save(){
-            this.isIntegrated = true;
             this.$emit('integration')
         },
-        copiedWebhookUrl(){
-            copyToClipboard(this.webhookUrl);
+        copiedUrl(){
+            copyToClipboard(this.integrationsData.configuration.host);
             this.$snackbar.global.showInfo('Copied to clipboard', 1000);
         },
-        copiedWebhookApiKey() {
-            copyToClipboard(this.webhookApikey);
+        copiedApiKey() {
+            copyToClipboard(this.integrationsData.configuration.token);
             this.$snackbar.global.showInfo('Copied to clipboard', 1000);
-        }
+        },
+        copiedSiteIdKey() {
+            copyToClipboard(this.integrationsData.configuration.siteId);
+            this.$snackbar.global.showInfo('Copied to clipboard', 1000);
+        },
     }
 };
 </script>

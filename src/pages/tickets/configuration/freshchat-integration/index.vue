@@ -62,14 +62,11 @@
                 <div class="right-container">
                     <div v-if="step === 'Api_Key_Integration'">
                         <integrationsDetails
-                            :type="IntegrationType"
-
                             :token="token"
                             :siteId="siteId"
                             :host="host"
                             :integrationsData="integrationsData"
                             @integration="setIntegration($event)"
-                            @updatedData="setPageData($event,response)"
                         />
                     </div>
                 </div>
@@ -92,22 +89,11 @@ export default {
         NitrozenButton,
         NitrozenInput,
         'inline-svg': inlineSvgVue,
-        // createTicketAPI,
-        // categoryMapping,
-        // ticketSetting,
-        // webhook,
         integrationsDetails
     },
     data() {
         return {
             step: 'Api_Key_Integration',
-            fulfillment: {
-                Api_Key_Integration: { is_completed: false },
-            },
-            isSavebtnDisable: true,
-            saveDetail: false,
-            IntegrationType: 'freshdesk',
-
             token: '',
             siteId: '',
             host: '',
@@ -115,7 +101,7 @@ export default {
         };
     },
     mounted() {
-        this.getfreschatDetails();
+        this.getfreshchatDetails();
     },
     methods: {
         setPageData(response){
@@ -125,15 +111,9 @@ export default {
             this.siteId = siteId;
             this.host = host;
         },
-        async getfreschatDetails() {
+        async getfreshchatDetails() {
             const { data: { items } } = await CredentialsService.fetchCredential('partner', "freshchat")
             this.setPageData(items[0]);
-        },
-        completedStep() {
-            if (this.token && this.host && this.siteId) {
-                this.step = 'Api_Key_Integration';
-                this.fulfillment.Api_Key_Integration.is_completed = true;
-            }
         },
         async setIntegration() {
             let id = this.integrationsData._id
