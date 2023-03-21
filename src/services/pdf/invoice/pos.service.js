@@ -155,7 +155,7 @@ export class InvoicePosTemplateService {
 
     getDpSortCode() {
 		const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ?this.shipment.affiliate_details.shipment_meta.sort_code : "";
-;
+
 		return dpSortCode ? `${dpSortCode}` : '';
 	}
 

@@ -27,7 +27,6 @@ describe('Mounted List Product Verification', () => {
                 { path: '/administrator/product/verification/:companyId/products', component: ListVerification }
             ]
         })
-        mocks.productList
         router.push('/administrator/product/verification/1/products')
         mock.onGet(URLS.FETCH_VERIFICATION_PRODUCT_LIST(1)).reply(200,  mocks.productList);
         mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(200, mocks.companyBrand);
@@ -49,7 +48,6 @@ describe('Mounted List Product Verification', () => {
                 { path: '/administrator/product/verification/:companyId/products', component: ListVerification }
             ]
         })
-        mocks.productList
         router.push('/administrator/product/verification/1/products')
         mock.onGet(URLS.FETCH_VERIFICATION_PRODUCT_LIST(1)).reply(200,  mocks.productList);
         mock.onGet(URLS.GET_COMPANY_BRANDS({company_id:1})).reply(200, mocks.companyBrand);

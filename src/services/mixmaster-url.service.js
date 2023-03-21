@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import { isBrowser, isNode } from 'browser-or-node';
+import { isNode } from 'browser-or-node';
 import root from 'window-or-global';
 
 const envVars = root.env || {};
@@ -58,6 +58,10 @@ const URLS = {
     },
     FETCH_PARTNER_ORGANIZATIONS: () => {
         return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/organization/`);
+    },
+    /* changes from jiomarket: cbs configuration */
+    GET_EXTENSIONS: () => {
+        return urlJoin(MIXMASTER_ADMIN_BASE, `/v1.0/extension/`);
     },
     PUBLIC_EXTENSIONS: () => {
         return urlJoin(MIXMASTER_PNL_BASE, `/v1.0/extensions`);

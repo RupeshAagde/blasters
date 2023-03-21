@@ -1,0 +1,78 @@
+{
+    "page": {
+        "current": 1,
+        "type": "number",
+        "size": 8,
+        "has_previous": false,
+        "has_next": false,
+        "item_total": 8
+    },
+    "items": [
+        {
+            "id": 1,
+            "display_name": "Check the brand",
+            "slug": "CHECK_BRAND",
+            "is_active": true,
+            "created_at": "2022-11-03T12:54:38.609977",
+            "updated_at": "2022-11-03T12:54:38.609977"
+        },
+        {
+            "id": 2,
+            "display_name": "Check the Size",
+            "slug": "CHECK_SIZE",
+            "is_active": true,
+            "created_at": "2022-11-03T12:56:18.503928",
+            "updated_at": "2022-11-03T12:56:18.503928"
+        },
+        {
+            "id": 3,
+            "display_name": "Check the Image",
+            "slug": "CHECK_IMAGE",
+            "is_active": true,
+            "created_at": "2022-11-03T12:56:32.563937",
+            "updated_at": "2022-11-03T12:56:32.563937"
+        },
+        {
+            "id": 4,
+            "display_name": "Check the color",
+            "slug": "CHECK_COLOR",
+            "is_active": true,
+            "created_at": "2022-11-03T12:56:51.947926",
+            "updated_at": "2022-11-03T12:56:51.947926"
+        },
+        {
+            "id": 5,
+            "display_name": "Check the Category",
+            "slug": "CHECK_CATEGORY",
+            "is_active": true,
+            "created_at": "2022-11-03T12:57:07.431651",
+            "updated_at": "2022-11-03T12:57:07.431651"
+        },
+        {
+            "id": 6,
+            "display_name": "Check the Price Tag",
+            "slug": "CHECK_PRICE",
+            "is_active": true,
+            "created_at": "2022-11-03T12:57:21.617102",
+            "updated_at": "2022-11-03T12:57:21.617102"
+        },
+        {
+            "id": 7,
+            "display_name": "Check the Decription",
+            "slug": "CHECK_DESC",
+            "is_active": true,
+            "created_at": "2022-11-03T12:57:36.022297",
+            "updated_at": "2022-11-03T12:57:36.022297"
+        },
+        {
+            "id": 8,
+            "display_name": "Check the Price Tag",
+            "slug": "CHECK_PRICE_TAG",
+            "is_active": true,
+            "created_at": "2022-11-03T12:57:50.308790",
+            "updated_at": "2022-11-03T12:57:50.308790"
+        }
+    ],
+    "success": true,
+    "error": { "type": null, "value": null, "message": null }
+}

@@ -1,0 +1,1231 @@
+{
+    "accessDetail": {
+        "super_user": true,
+        "company": 3,
+        "user": "c00795e027659a6ac4409b92",
+        "title": "Admin",
+        "employee_code": "admin",
+        "staff": true,
+        "permissions": [
+            "staff",
+            "profile",
+            "saleschannel",
+            "product",
+            "order",
+            "extension",
+            "developer",
+            "marketplace",
+            "otherseller",
+            "billing",
+            "payment",
+            "settings",
+            "audit-trail"
+        ],
+        "roles": [
+            "admin"
+        ],
+        "store_access": {
+            "access_type": "company",
+            "values": []
+        },
+        "order_role": "full_access",
+        "extension_access": {
+            "access_type": "all"
+        },
+        "application_permissions": [
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "613f207e3006094498437acb",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "616681384cfe188b284eb20d",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "61706b4208dff61581693c2b",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "61b8a177b8f4320b3b4f406e",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62397eaa1119b68479cb61ec",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "623abcb31119b6792acb6af6",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "628e06133f255270fac264fc",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "629db9f9d7c74d39cdf9131e",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "629f2723d7c74d73dbf91b2f",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62a714abe4859e6efe536918",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62b573aa9150f0e64a5817fa",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62b576300000fd33d404f8cf",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62b576a00000fd781604f8dd",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62baef211b0c8dd05218f9fe",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62bc3129864612341ba7b7f4",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62bc31f5864612f079a7b804",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62bc32758646121968a7b812",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62bc3325864612815ea7b81e",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62bd3bec2b6e15f09ea16cf1",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf31d700a8fa5838ae5896",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf31d800a8fa9a5bae58a2",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf323b00a8fa319aae58ae",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf323b00a8fa8a1eae58ba",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf325e00a8fab9dcae58c6",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf325e00a8fa42c1ae58d2",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf32d100a8faba41ae58de",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf32d100a8fa608cae58ea",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf33e300a8fa5459ae58f6",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf33e300a8fa7ceeae5902",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf343500a8fa7876ae590e",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf343500a8fac000ae591a",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf349d00a8fa7923ae5926",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf349d00a8fa1b11ae5932",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf363800a8fa56eeae593e",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62cf363900a8fa853cae594a",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62d9394b9cb65b9082fa27cb",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62e0e2cb6a867120850fa4ed",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62e246fc3e3ee73b23c54ea9",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62f33f14ec1e267524ef70f4",
+                "super_user": true
+            },
+            {
+                "user": "c00795e027659a6ac4409b92",
+                "type": "user",
+                "enabled": true,
+                "roles": [
+                    "admin"
+                ],
+                "permissions": [
+                    "settings",
+                    "marketing",
+                    "communication",
+                    "customer",
+                    "analytics",
+                    "support",
+                    "point_of_sale",
+                    "order",
+                    "appearance"
+                ],
+                "title": "Staff",
+                "order_incent": false,
+                "stores": [],
+                "_id": "63bfd543bcfc44a4a330b893",
+                "application": "62f5fd79ec1e263b79ef7a1c",
+                "super_user": true
+            }
+        ]
+    },
+
+    "userinfo": {
+        "user": {
+            "debug": {
+                "source": "grimlock",
+                "platform": "000000000000000000000001"
+            },
+            "_id": "c00795e027659a6ac4409b92",
+            "gender": null,
+            "roles": [],
+            "active": true,
+            "emails": [
+                {
+                    "active": true,
+                    "primary": true,
+                    "verified": true,
+                    "email": "rohitgupta@gofynd.com"
+                },
+                {
+                    "active": true,
+                    "primary": false,
+                    "verified": true,
+                    "email": "rohitgupta@fynd.com"
+                },
+                {
+                    "active": true,
+                    "primary": false,
+                    "verified": true,
+                    "email": "rohitgupta@uniket.store"
+                }
+            ],
+            "username": "rohitgupta_gofynd_com_80402",
+            "uid": "366",
+            "consent": true,
+            "account_type": "user",
+            "first_name": "Rohit",
+            "last_name": "Gupta",
+            "phone_numbers": [
+                {
+                    "active": true,
+                    "primary": true,
+                    "verified": true,
+                    "phone": "8451986726",
+                    "country_code": 91
+                }
+            ],
+            "created_at": "2022-03-21T13:08:33.908Z",
+            "updated_at": "2022-03-21T13:08:33.908Z"
+        }
+    },
+
+    "support_config": {
+        "integration": {
+            "type": "default"
+        },
+        "_id": "6386001eef25d8777ed917c4",
+        "support_email": {
+            "value": "",
+            "description": "",
+            "enabled": false
+        },
+        "support_phone": {
+            "value": "",
+            "description": "",
+            "enabled": false
+        },
+        "support_faq": {
+            "value": "",
+            "description": "",
+            "enabled": false
+        },
+        "support_communication": [
+            {
+                "type": "email",
+                "title": "Email Support",
+                "value": "support1111@gofynd.com",
+                "description": "Support Test",
+                "enabled": true
+            },
+            {
+                "type": "email",
+                "title": "Test Support",
+                "value": "support1@gofynd.com",
+                "description": "test",
+                "enabled": false
+            },
+            {
+                "type": "email",
+                "title": "Test Support",
+                "value": "support1@gofynd.com",
+                "description": "Test",
+                "enabled": false
+            },
+            {
+                "type": "phone_number",
+                "title": "Test Support",
+                "value": "888999101010",
+                "description": "Test Support",
+                "enabled": true
+            },
+            {
+                "type": "phone_number",
+                "title": "Test Support",
+                "value": "+919876543210",
+                "description": "Test Support",
+                "enabled": true
+            },
+            {
+                "type": "link",
+                "title": "Fynd Freshdesk",
+                "value": "www.fynd.freshdesk.com",
+                "description": "test - Fynd Freshdesk",
+                "enabled": true
+            },
+            {
+                "type": "email",
+                "title": "Email Support",
+                "value": "mady@gofynd.com",
+                "description": "test",
+                "enabled": true
+            },
+            {
+                "type": "phone_number",
+                "title": "checking",
+                "value": "9090909090",
+                "description": "test",
+                "enabled": true
+            }
+        ],
+        "show_communication_info": true,
+        "show_support_dris": true,
+        "allow_ticket_creation": true,
+        "show_listing": true,
+        "available_integration": [
+            "default",
+            "freshdesk"
+        ],
+        "enable_dris": true
+    },
+
+    "orderRoles": [
+        "create_invoice_s3",
+        "call",
+        "debug_shipment",
+        "raise_escalation",
+        "sms",
+        "view_history",
+        "get_forward_awb",
+        "podqc_images",
+        "bank_details",
+        "tag_employee",
+        "template_based_email_to_store_staff",
+        "initiate_return",
+        "pack",
+        "assign_manual_dp",
+        "confirm",
+        "cancel",
+        "partial_cancellation",
+        "partial_confirmation",
+        "dispatch",
+        "invoice",
+        "label_and_invoice_pdf",
+        "manifest_file_download",
+        "manifest_file_upload",
+        "manifest_processing",
+        "manifest_history_download",
+        "bulk_download",
+        "bulk_upload",
+        "bulk_processing",
+        "bulk_history_source_file_and_error_file_download",
+        "request_returnrto",
+        "mark_return_delivered",
+        "return_accept",
+        "can_see_same-store_orders",
+        "can_see_other_store_orders_of_the_same_company",
+        "can_see_other_companies_order",
+        "full_confirm_other_store",
+        "full_cancel_other_store",
+        "partial_confirm_other_store",
+        "partial_cancel_other_store",
+        "pack_other_store",
+        "download_label_and_invoice_other_store",
+        "manifest_creation_other_store",
+        "manifest_edit_other_store",
+        "manifest_processing_other_store",
+        "bulk_edit_other_store",
+        "bulk_processing_other_store",
+        "bulk_history_other_store",
+        "manifest_history_other_store",
+        "manifest_creation",
+        "reassign_store",
+        "generate_e_invoice"
+    ]
+}

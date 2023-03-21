@@ -11,14 +11,26 @@
                         defined as per product category.
                     </div>
                 </div>
-                <nitrozen-button
-                    :theme="'secondary'"
-                    class="rdr-btn"
-                    v-flatBtn
-                    @click="debounceredirectEdit"
-                >
-                    Add Tax Rate
-                </nitrozen-button>
+                <div class="flex-row">
+                    <div class="bulk-action-dropdown">
+                        <nitrozen-dropdown
+                            label=" "
+                            :placeholder="'Bulk Action'"
+                            :items="bulkAction"
+                            v-model="selectedAction"
+                            @change="navigateToBulkAction"
+                        ></nitrozen-dropdown>
+                    </div>
+
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        class="rdr-btn"
+                        v-flatBtn
+                        @click="debounceredirectEdit"
+                    >
+                        Add Tax Rate
+                    </nitrozen-button>
+                </div>
             </div>
             <div class="search-filter">
                 <div class="search-box">
@@ -138,6 +150,12 @@ const SPECIAL_CHARS = [
     '/',
     '\\'
 ];
+
+const BULK_ACTION = [
+    { value: 'import', text: 'Import' },
+    { value: 'export', text: 'Export' }
+];
+
 export default {
     name: 'Taxation',
     props: {
@@ -196,7 +214,9 @@ export default {
                 'Country',
                 'Action'
             ],
-            countryList: []
+            countryList: [],
+            bulkAction: BULK_ACTION,
+            selectedAction: ''
         };
     },
     mounted() {
@@ -317,6 +337,11 @@ export default {
                     });
                 })
                 .catch((err) => {});
+        },
+        navigateToBulkAction() {
+            this.$router.push({
+                path: `/administrator/product/hsn/${this.selectedAction}`
+            });
         }
     }
 };
@@ -326,7 +351,7 @@ export default {
 // @import './../less/page-header.less';
 // @import './../less/page-ui.less';
 .panel {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     background: #ffffff;
     min-height: 733px;
     left: 271px;
@@ -338,9 +363,9 @@ export default {
     display: flex;
     justify-content: space-between;
     border: 1px solid #e4e5e6;
-    radius: 6px;
+    border-radius: 6px;
     padding: 30px 24px 30px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     color: #41434c;
     .main-hdr {
         font-size: 24px;
@@ -409,5 +434,23 @@ export default {
 .pagination {
     margin-top: 24px;
     margin-bottom: 24px;
+}
+.bulk-action-dropdown {
+    width: 130px;
+    margin: 0 10px 0 10px;
+    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 140%;
+        color: #2e31be;
+    }
+
+    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+        border: 1px solid #2e31be;
+    }
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
 }
 </style>

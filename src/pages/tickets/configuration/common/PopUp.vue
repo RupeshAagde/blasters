@@ -112,7 +112,7 @@ export default {
 
 .text-heading {
     margin: 16px 0px 12px;
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
@@ -122,7 +122,7 @@ export default {
 }
 
 .text-decs {
-    font-family: 'Inter';
+    font-family: Inter, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

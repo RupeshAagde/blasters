@@ -288,7 +288,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    computed: {},
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {

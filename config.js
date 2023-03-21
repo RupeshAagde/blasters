@@ -32,6 +32,20 @@ const conf = convict({
             env: "MIRAGE_MAIN_DOMAIN",
             arg: "mirage_main_domain"
         },
+        BRAINSTORM_EXTENSION_DOMAIN: {
+            doc: "Brainstorm Extension Domain",
+            format: String,
+            default: `https://extensions.${platformDomain}`,
+            env: "BRAINSTORM_EXTENSION_DOMAIN",
+            arg: "brainstorm_extension_domain"
+        },
+        BRAINSTORM_THEME_DOMAIN: {
+            doc: "Brainstorm Theme Domain",
+            format: String,
+            default: `https://themes.${platformDomain}`,
+            env: "BRAINSTORM_THEME_DOMAIN",
+            arg: "brainstorm_theme_domain"
+        },
         BOMBSHELL_MAIN_DOMAIN: {
             doc: "Bombshell Main Domain",
             format: String,
@@ -333,6 +347,20 @@ const conf = convict({
             env: 'DAYTRADER_MAIN_SVC',
             arg: 'daytrader_main_svc'
         },
+        FIREBOLT_ADMIN_URL: {
+            doc: "Firebolt Admin URL",
+            format: String,
+            default: '',
+            env: "FIREBOLT_ADMIN_URL",
+            arg: "firebolt_admin_url"
+        },
+        DAYTRADER_ADMIN_URL: {
+            doc: "Daytrader Admin URL",
+            format: String,
+            default: '',
+            env: "DAYTRADER_ADMIN_URL",
+            arg: "daytrader_admin_url"
+        },
         MARKETPLACES_ADMIN_URL: {
             doc: 'Marketpalces Admin URL',
             format: String,
@@ -410,12 +438,33 @@ const conf = convict({
             env: 'PACKAGING_APPLICATION_ID',
             arg: 'packaging_application_id'
         },
+        QUE_ADMIN_URL: {
+            doc: 'Internal Marketpalces Admin URL',
+            format: String,
+            default: '',
+            env: 'QUE_ADMIN_URL',
+            arg: 'que_admin_url'
+        },
         EXTENSION_PAGE_URL: {
             doc: 'Extension Page URLS',
             format: String,
             default: '',
             env: 'EXTENSION_PAGE_URL',
             arg: 'EXTENSION_PAGE_URL'
+        },
+        FIREBOLT_ADMIN_URL: {
+            doc: 'Firebolt logistics',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/logistics',
+            env: 'FIREBOLT_ADMIN_URL',
+            arg: 'FIREBOLT_ADMIN_URL'
+        },
+        RMA_ADMIN_URL: {
+            doc: 'RMA Admin',
+            format: String,
+            default: 'https://api.fyndx0.de/service/___/administrator/rma',
+            env: 'RMA_ADMIN_URL',
+            arg: 'RMA_ADMIN_URL'
         },
         FRENZY_ADMIN_URL: {
             doc: 'url to get analytics api for sales channel',
@@ -424,7 +473,78 @@ const conf = convict({
             env: 'FRENZY_ADMIN_URL',
             args: 'frenzy_admin_url'
         },
-
+        /** OMS v2.1 */
+        ARK_MAIN_URL: {
+            doc: 'Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_URL',
+            arg: 'ark_main_url'
+        },
+        ARK_MAIN_SVC: {
+            doc: 'Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_MAIN_SVC',
+            arg: 'ark_main_svc'
+        },
+        ARK_PLTM_URL: {
+            doc: 'Platform Platform Feedback URL',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_URL',
+            arg: 'ark_pltm_url'
+        },
+        ARK_PLTM_SVC: {
+            doc: 'Platform Platform Feedback Service',
+            format: String,
+            default: '',
+            env: 'ARK_PLTM_SVC',
+            arg: 'ark_pltm_svc'
+        },
+        AVIS_ADMIN_URL: {
+            doc: 'Platform Order Management URL',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_URL',
+            arg: 'avis_admin_url'
+        },
+        AVIS_ADMIN_SVC: {
+            doc: 'Platform Order Management Service',
+            format: String,
+            default: '',
+            env: 'AVIS_ADMIN_SVC',
+            arg: 'avis_admin_svc'
+        },
+        COMPUTRON_ADMIN_SVC: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_SVC',
+            arg: 'computron_admin_svc'
+        },
+        COMPUTRON_ADMIN_URL: {
+            doc: 'Service Platform Orders Service',
+            format: String,
+            default: '',
+            env: 'COMPUTRON_ADMIN_URL',
+            arg: 'computron_admin_url'
+        },
+        HEDWIG_ADMIN_SVC: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_ADMIN_SVC',
+            arg: 'hedwig_admin_svc'
+        },
+        HEDWIG_ADMIN_URL: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_ADMIN_URL',
+            arg: 'hedwig_admin_url'
+        }
+        /** OMS v2.1 -- END */
     },
 
     // Sentry
@@ -456,13 +576,6 @@ const conf = convict({
         env: 'CDN_ITEM_BASE_PATH',
         arg: 'cdn_item_base_path'
     },
-    OLD_CDN_BASE_URLS: {
-        doc: 'Old CDN item base path url',
-        format: Array,
-        default: ["hdn-1.addsale.com","cdn.pixelbin.io/v2/xyz/wrkr"],
-        env: 'OLD_CDN_BASE_URLS',
-        arg: 'old_cdn_base_urls'
-    },
     // New Relic
     NEW_RELIC_APP_NAME: {
         doc: 'newrelic app name.',
@@ -477,6 +590,20 @@ const conf = convict({
         default: '',
         env: 'NEW_RELIC_LICENSE_KEY',
         arg: 'newrelic_license_key'
+    },
+    BEEFREE_CLIENT_ID: {
+        doc: 'BEEFREE_CLIENT_ID',
+        format: String,
+        default: 'dcce640f-abc1-4c0c-8398-84488e8c4cd7',
+        env: 'BEEFREE_CLIENT_ID',
+        arg: 'beefree_client_id'
+    },
+    BEEFREE_CLIENT_SECRET: {
+        doc: 'BEEFREE_CLIENT_SECRET',
+        format: String,
+        default: '0A8vfzg4DI2jB6aRiydrWprtio6lAeCCesjC4iaflrk75vGWkV5',
+        env: 'BEEFREE_CLIENT_SECRET',
+        arg: 'beefree_client_secret'
     }
 });
 

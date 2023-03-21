@@ -1,0 +1,39 @@
+{
+    "configuration_type": "brand",
+    "configuration": {
+        "brand_landscape_banner": {
+            "fixed_aspect_ratio": false,
+            "dimensions": {
+                "width": 55,
+                "height": 55
+            }
+        },
+        "brand_logo": {
+            "fixed_aspect_ratio": false,
+            "dimensions": {
+                "width": 15,
+                "height": 15
+            }
+        },
+        "auto_verify": {
+            "enabled": true
+        },
+        "documents": {
+            "mandatory": true,
+            "documents": {
+                "other": true,
+                "trademark_certificate_application": true,
+                "trademark_certificate": true,
+                "authorization_letter": true
+            },
+            "enabled": true
+        },
+        "brand_portrait_banner": {
+            "fixed_aspect_ratio": false,
+            "dimensions": {
+                "width": 45,
+                "height": 55
+            }
+        }
+    }
+}

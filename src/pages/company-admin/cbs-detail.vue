@@ -448,7 +448,6 @@ export default {
         'invoice-listing': invoiceListing,
         'list-deployment': deploymentList,
     },
-    computed: {},
     data() {
         return {
             activeTabIndex: 0,

@@ -30,7 +30,6 @@
     border-radius: 12px;
     top: 56.5px;
     background: #ffffff;
-    border-radius: 12px;
 }
 .img-container {
     display: flex;

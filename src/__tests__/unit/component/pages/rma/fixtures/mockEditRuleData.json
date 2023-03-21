@@ -1,0 +1,82 @@
+{
+    "actions": {
+        "reasons": [
+            {
+                "id": 7,
+                "qc_type": [],
+                "reasons": [
+                    {
+                        "id": 6,
+                        "qc_type": ["pre_qc", "doorstep_qc"],
+                        "reasons": [],
+                        "is_active": true,
+                        "display_name": "Product out of stock",
+                        "question_set": [
+                            {
+                                "id": 1,
+                                "display_name": "check formal-shirt size "
+                            },
+                            {
+                                "id": 2,
+                                "display_name": "Check the brand"
+                            },
+                            {
+                                "id": 3,
+                                "display_name": "Check the Size"
+                            }
+                        ]
+                    }
+                ],
+                "is_active": true,
+                "display_name": "Size not available",
+                "question_set": []
+            },
+            {
+                "id": 8,
+                "qc_type": [],
+                "reasons": [
+                    {
+                        "id": 6,
+                        "qc_type": ["pre_qc", "doorstep_qc"],
+                        "reasons": [],
+                        "is_active": true,
+                        "display_name": "Product out of stock",
+                        "question_set": [
+                            {
+                                "id": 1,
+                                "display_name": "check formal-shirt size "
+                            },
+                            {
+                                "id": 2,
+                                "display_name": "Check the brand"
+                            },
+                            {
+                                "id": 3,
+                                "display_name": "Check the Size"
+                            }
+                        ]
+                    }
+                ],
+                "is_active": true,
+                "display_name": "Size not available",
+                "question_set": []
+            }
+        ]
+    },
+    "id": "19",
+    "channel": "000000000000000000000002",
+    "meta": {
+        "l3": {
+            "id": "168",
+            "display_name": "Boat Shoes"
+        },
+        "channel": {
+            "id": "000000000000000000000002",
+            "display_name": "FyndStore"
+        },
+        "department": {
+            "id": "21",
+            "display_name": "Fashion"
+        }
+    }
+}

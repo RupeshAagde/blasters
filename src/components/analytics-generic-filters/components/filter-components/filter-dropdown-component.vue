@@ -25,6 +25,7 @@
                 :items="getVals || []"
                 :label="seedData.name"
                 :multiple="isMultiSelect"
+                :ref="seedData.name"
                 :placeholder="placeholderName"
                 :searchable="isMultiSelect"
                 class="width"
@@ -41,7 +42,9 @@
             :placeholder="placeholderName"
             :multiple="isMultiSelect"
             :searchable="isMultiSelect"
+            :ref="seedData.name"
             @searchInputChange="searchFilter($event)"
+            @change="methodsChange"
             class="width"
             :disabled="isDisabled"
         ></nitrozen-dropdown>
@@ -55,6 +58,7 @@
             :limit-chars="true"
         >
         </applied-filter>
+       
     </div>
 </template>
 
@@ -130,7 +134,7 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2,
+        filterIndex: this.filterIndex,
       });
     },
     resetData() {
@@ -140,12 +144,18 @@ export default {
         chartId: this.chartId,
         panelIndex: 1,
         cardIndex: 0,
-        filterIndex: 2,
+        filterIndex: this.filterIndex,
         resetSelf: {id: this.seedData.id}
       });
     },
     setGetVals(vals = this.getValues) {
       this.getVals = vals;
+    },
+    methodsChange() {
+      if(!this.isMultiSelect) {
+        this.$refs[this.seedData.name].toggle();
+      }
+    
     }
   },
   computed: {
@@ -187,7 +197,6 @@ export default {
       this.forFirstTime = true;
       this.value = this.seedData.defaultValue;
       this.forFirstTime = false;
-
     }
     this.setGetVals();
   },
@@ -258,7 +267,7 @@ export default {
 
 .clear {
   color: #2e31be;
-  font-family: 'Inter';
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 12px;

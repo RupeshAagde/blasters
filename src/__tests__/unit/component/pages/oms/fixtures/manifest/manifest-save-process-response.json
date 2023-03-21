@@ -1,0 +1,23 @@
+{
+    "items": {
+      "action": "save",
+      "manifest_id": "MN0000000170",
+      "uid": "1672906384351",
+      "company_id": "597",
+      "created_by": "sameershaikh_gofynd_com_70041",
+      "user_id": "5f0c62937122ea6732a3d697",
+      "filters": {
+        "lane": "ready_for_dispatch",
+        "dp_ids": 29,
+        "stores": 3664,
+        "dp_name": "Delhivery Surface II",
+        "date_range": {
+          "to_date": "04-01-2023",
+          "from_date": "05-10-2022"
+        },
+        "store_name": "Store name ---Shetty & Co",
+        "sales_channels": "",
+        "deselected_shipments": "16724066419931936359"
+      }
+    }
+  }

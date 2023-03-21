@@ -1,0 +1,1720 @@
+{
+    "settings": {
+        "_id": "610cc9a948e7675cb049b428",
+        "desktop": {
+            "menu": {
+                "sales_channel": {
+                    "can_add": true,
+                    "title": "Sales Channel"
+                },
+                "other_seller": {
+                    "is_visible": true,
+                    "title": "Other Sellers"
+                },
+                "footer_content": {
+                    "is_visible": true,
+                    "line_one": "#MadeInIndia | © 2023",
+                    "line_two": "Shopsense Retail Technologies"
+                },
+                "can_create_business_account": false,
+                "company_level": [
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Home",
+                        "permissions": [],
+                        "title": "Home",
+                        "link": "home",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/DXwhELtRew-Home.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Profile",
+                        "permissions": [
+                            "profile"
+                        ],
+                        "title": "Profile",
+                        "link": "profile",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/-F6u6_uC8l-Profile.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Team",
+                        "permissions": [
+                            "staff"
+                        ],
+                        "title": "Team",
+                        "link": "team",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5KDiNPibY4-Team.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Products",
+                        "permissions": [
+                            "product"
+                        ],
+                        "title": "Products",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nBDUVazLod-Products.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "All products",
+                                "permissions": [],
+                                "title": "All products",
+                                "link": "products",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Product bundle",
+                                "permissions": [],
+                                "title": "Product bundle",
+                                "link": "bundle",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Size guide",
+                                "permissions": [],
+                                "title": "Size guide",
+                                "link": "size-guide",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Discount",
+                                "permissions": [],
+                                "title": "Discount",
+                                "link": "discount",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Orders",
+                        "permissions": [
+                            "order"
+                        ],
+                        "title": "Orders",
+                        "link": "orders",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "My Orders",
+                                "permissions": [],
+                                "title": "My Orders",
+                                "link": "orders",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Bulk Action",
+                                "permissions": [],
+                                "title": "Bulk Action",
+                                "link": "orders/bulk",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Manifest",
+                                "permissions": [],
+                                "title": "Manifest",
+                                "link": "orders/manifest",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Analytics",
+                                "permissions": [],
+                                "title": "Analytics",
+                                "link": "orders/analytics",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nBDUVazLod-Products.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": false,
+                            "android": false
+                        },
+                        "display": "Extensions",
+                        "permissions": [
+                            "extension"
+                        ],
+                        "title": "Extensions",
+                        "link": "extensions",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5KDiNPibY4-Team.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Developers",
+                        "permissions": [
+                            "developer"
+                        ],
+                        "title": "Developers",
+                        "link": "apis",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5itZlMhFT-Developers.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Settings",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Settings",
+                        "link": "settings",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ZReesGScGF-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    }
+                ],
+                "application_level": [
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Analytics",
+                        "permissions": [
+                            "analytics"
+                        ],
+                        "title": "Analytics",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nMGl89pfMj6-Analytics.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Dashboard",
+                                "permissions": [],
+                                "title": "Analytics",
+                                "link": "dashboard",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/vx4lIpmveSO-Dashboard.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Reports",
+                                "permissions": [],
+                                "title": "Reports",
+                                "link": "reports",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Customers",
+                        "permissions": [
+                            "customer"
+                        ],
+                        "title": "Customers",
+                        "link": "customers",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/fp2E0caONrK-Customers.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": false,
+                            "android": false
+                        },
+                        "display": "Orders",
+                        "permissions": [
+                            "order"
+                        ],
+                        "title": "Orders",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": false,
+                                    "android": false
+                                },
+                                "display": "List",
+                                "permissions": [],
+                                "title": "Orders Listing",
+                                "link": "orders",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": false,
+                                    "android": false
+                                },
+                                "display": "Abandoned Checkouts",
+                                "permissions": [],
+                                "title": "Abandoned Checkouts",
+                                "link": "abandoned-checkouts",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Catalogue",
+                        "permissions": [
+                            "catalogue"
+                        ],
+                        "title": "Catalogue",
+                        "link": "catalogue",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/mBHYNbBhdqf-Catalogue.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Appearance",
+                        "permissions": [
+                            "appearance"
+                        ],
+                        "title": "Appearance",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/m_gbdw5bHh6-Appearance.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Themes",
+                                "permissions": [],
+                                "title": "Themes",
+                                "link": "themes",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/S_oQebHYwli-Theme.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Navigation",
+                                "permissions": [],
+                                "title": "Navigation",
+                                "link": "navigation",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/SZWsmQNh0kr-Navigation.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Marketing",
+                        "permissions": [
+                            "marketing"
+                        ],
+                        "title": "Marketing",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/rzaKSasZjyX-Marketing.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Collections",
+                                "permissions": [],
+                                "title": "Collections",
+                                "link": "collections",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/x9HD2IrUJJk-Collection.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Coupons",
+                                "permissions": [],
+                                "title": "Coupons",
+                                "link": "coupons",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/0CZJf0S4KS--Coupons.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Promotions",
+                                "permissions": [],
+                                "title": "Promotions",
+                                "link": "promotions",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/0CZJf0S4KS--Coupons.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Short links",
+                                "permissions": [],
+                                "title": "Short links",
+                                "link": "shortlinks",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/KmiunBatk7e-Short-Link.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Blogs",
+                                "permissions": [],
+                                "title": "Blogs",
+                                "link": "blogs",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/mB_x8bXVimA-Blogs.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Pages",
+                                "permissions": [],
+                                "title": "Pages",
+                                "link": "pages",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/VMC_55j9Ewe-Pages.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Rewards",
+                                "permissions": [],
+                                "title": "Rewards",
+                                "link": "rewards",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/AElu6s90buM-Rewards.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Announcements",
+                                "permissions": [],
+                                "title": "Announcements",
+                                "link": "announcements",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ua-py5RBIn9-Announcments.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Communication",
+                        "permissions": [
+                            "communication"
+                        ],
+                        "title": "Communication",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/yeiprckwiXf-Communication.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Audience",
+                                "permissions": [],
+                                "title": "Audience",
+                                "link": "audience/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/Nu-i8GUfJdS-Audience.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Campaign",
+                                "permissions": [],
+                                "title": "Campaign",
+                                "link": "campaign/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/cpeMph4irtR-Camapigns.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Events",
+                                "permissions": [],
+                                "title": "Events",
+                                "link": "subscriptions",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Providers",
+                                "permissions": [],
+                                "title": "Providers",
+                                "link": "provider/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/2VIjA5q6EE4-Providers.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Email",
+                                "permissions": [],
+                                "title": "Email",
+                                "link": "email/templates/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/BwY2oIwysf6-Email.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "SMS",
+                                "permissions": [],
+                                "title": "SMS",
+                                "link": "sms/templates/listing",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Reports",
+                                "permissions": [],
+                                "title": "Reports",
+                                "link": "logs",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/dDJiQi_XFeN-Reports.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Global Variables",
+                                "permissions": [],
+                                "title": "variables",
+                                "link": "global-variables",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/dDJiQi_XFeN-Reports.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Customer Support",
+                        "permissions": [
+                            "support"
+                        ],
+                        "title": "Customer Support",
+                        "link": "support",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ByUuB5FFdmf-Cuatomer-Support.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Mobile Builds",
+                        "permissions": [
+                            "developer"
+                        ],
+                        "title": "Mobile Builds",
+                        "link": "builds/android",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/7D52xc1VUOI-Mobile-Builds.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Settings",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Settings",
+                        "link": "settings",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ZReesGScGF-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Products",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Products",
+                        "link": "products",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ZReesGScGF-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    }
+                ]
+            }
+        },
+        "mobile": {
+            "menu": {
+                "sales_channel": {
+                    "can_add": true,
+                    "title": "Sales Channel"
+                },
+                "other_seller": {
+                    "is_visible": true,
+                    "title": "Other Sellers"
+                },
+                "footer_content": {
+                    "is_visible": true,
+                    "line_one": "#MadeInIndia | © 2023",
+                    "line_two": "Shopsense Retail Technologies"
+                },
+                "can_create_business_account": false,
+                "company_level": [
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": false,
+                            "android": false
+                        },
+                        "display": "Home",
+                        "permissions": [],
+                        "title": "Home",
+                        "link": "home",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/DXwhELtRew-Home.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Profile",
+                        "permissions": [
+                            "profile"
+                        ],
+                        "title": "Profile",
+                        "link": "profile",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/-F6u6_uC8l-Profile.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Team",
+                        "permissions": [
+                            "staff"
+                        ],
+                        "title": "Team",
+                        "link": "team",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5KDiNPibY4-Team.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Products",
+                        "permissions": [
+                            "product"
+                        ],
+                        "title": "Products",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nBDUVazLod-Products.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "All products",
+                                "permissions": [],
+                                "title": "All products",
+                                "link": "products",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Product bundle",
+                                "permissions": [],
+                                "title": "Product bundle",
+                                "link": "bundle",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Size guide",
+                                "permissions": [],
+                                "title": "Size guide",
+                                "link": "size-guide",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Discount",
+                                "permissions": [],
+                                "title": "Discount",
+                                "link": "discount",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Orders",
+                        "permissions": [
+                            "order"
+                        ],
+                        "title": "Orders",
+                        "link": "orders",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "My Orders",
+                                "permissions": [],
+                                "title": "My Orders",
+                                "link": "orders",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Bulk Action",
+                                "permissions": [],
+                                "title": "Bulk Action",
+                                "link": "orders/bulk",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Manifest",
+                                "permissions": [],
+                                "title": "Manifest",
+                                "link": "orders/manifest",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Analytics",
+                                "permissions": [],
+                                "title": "Analytics",
+                                "link": "orders/analytics",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nBDUVazLod-Products.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": false,
+                            "android": false
+                        },
+                        "display": "Extensions",
+                        "permissions": [
+                            "extension"
+                        ],
+                        "title": "Extensions",
+                        "link": "extensions",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5KDiNPibY4-Team.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Developers",
+                        "permissions": [
+                            "developer"
+                        ],
+                        "title": "Developers",
+                        "link": "apis",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/V5itZlMhFT-Developers.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Settings",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Settings",
+                        "link": "settings",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ZReesGScGF-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Support",
+                        "permissions": [],
+                        "title": "Support",
+                        "link": "support",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/TZCUdGAvl9-Cuatomer-Support.png",
+                        "is_disabled": false,
+                        "child": []
+                    }
+                ],
+                "application_level": [
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Analytics",
+                        "permissions": [
+                            "analytics"
+                        ],
+                        "title": "Analytics",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/nMGl89pfMj6-Analytics.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Dashboard",
+                                "permissions": [],
+                                "title": "Analytics",
+                                "link": "dashboard",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/vx4lIpmveSO-Dashboard.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Reports",
+                                "permissions": [],
+                                "title": "Reports",
+                                "link": "reports",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/dDJiQi_XFeN-Reports.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Customers",
+                        "permissions": [
+                            "customer"
+                        ],
+                        "title": "Customers",
+                        "link": "customers",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/fp2E0caONrK-Customers.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": false,
+                            "android": false
+                        },
+                        "display": "Orders",
+                        "permissions": [
+                            "order"
+                        ],
+                        "title": "Orders",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": false,
+                                    "android": false
+                                },
+                                "display": "List",
+                                "permissions": [],
+                                "title": "Orders Listing",
+                                "link": "orders",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": false,
+                                    "android": false
+                                },
+                                "display": "Abandoned Checkouts",
+                                "permissions": [],
+                                "title": "Abandoned Checkouts",
+                                "link": "abandoned-checkouts",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/J6h_HsBh5i-Orders.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Catalogue",
+                        "permissions": [
+                            "catalogue"
+                        ],
+                        "title": "Catalogue",
+                        "link": "catalogue",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/mBHYNbBhdqf-Catalogue.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Appearance",
+                        "permissions": [
+                            "appearance"
+                        ],
+                        "title": "Appearance",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/m_gbdw5bHh6-Appearance.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Themes",
+                                "permissions": [],
+                                "title": "Themes",
+                                "link": "themes",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/S_oQebHYwli-Theme.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Navigation",
+                                "permissions": [],
+                                "title": "Navigation",
+                                "link": "navigation",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/SZWsmQNh0kr-Navigation.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Marketing",
+                        "permissions": [
+                            "marketing"
+                        ],
+                        "title": "Marketing",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/rzaKSasZjyX-Marketing.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Collections",
+                                "permissions": [],
+                                "title": "Collections",
+                                "link": "collections",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/x9HD2IrUJJk-Collection.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Coupons",
+                                "permissions": [],
+                                "title": "Coupons",
+                                "link": "coupons",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/0CZJf0S4KS--Coupons.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Promotions",
+                                "permissions": [],
+                                "title": "Promotions",
+                                "link": "promotions",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/0CZJf0S4KS--Coupons.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Short links",
+                                "permissions": [],
+                                "title": "Short links",
+                                "link": "shortlinks",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/KmiunBatk7e-Short-Link.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Blogs",
+                                "permissions": [],
+                                "title": "Blogs",
+                                "link": "blogs",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/mB_x8bXVimA-Blogs.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Pages",
+                                "permissions": [],
+                                "title": "Pages",
+                                "link": "pages",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/VMC_55j9Ewe-Pages.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Rewards",
+                                "permissions": [],
+                                "title": "Rewards",
+                                "link": "rewards",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/AElu6s90buM-Rewards.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Announcements",
+                                "permissions": [],
+                                "title": "Announcements",
+                                "link": "announcements",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ua-py5RBIn9-Announcments.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Communication",
+                        "permissions": [
+                            "communication"
+                        ],
+                        "title": "Communication",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/yeiprckwiXf-Communication.png",
+                        "is_disabled": false,
+                        "child": [
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Audience",
+                                "permissions": [],
+                                "title": "Audience",
+                                "link": "audience/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/Nu-i8GUfJdS-Audience.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Campaign",
+                                "permissions": [],
+                                "title": "Campaign",
+                                "link": "campaign/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/cpeMph4irtR-Camapigns.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Events",
+                                "permissions": [],
+                                "title": "Events",
+                                "link": "subscriptions",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Providers",
+                                "permissions": [],
+                                "title": "Providers",
+                                "link": "provider/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/2VIjA5q6EE4-Providers.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Email",
+                                "permissions": [],
+                                "title": "Email",
+                                "link": "email/templates/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/BwY2oIwysf6-Email.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "SMS",
+                                "permissions": [],
+                                "title": "SMS",
+                                "link": "sms/templates/listing",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/hpUXIh2JkYp-SMS.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Reports",
+                                "permissions": [],
+                                "title": "Reports",
+                                "link": "logs",
+                                "icon": "https://hdn-1.fynd.com/company/884/applications/000000000000000000000001/misc/pictures/free-icon/original/6quhYrbIJ-Collections.png",
+                                "is_disabled": false,
+                                "child": []
+                            },
+                            {
+                                "visible_on": {
+                                    "web": true,
+                                    "ios": true,
+                                    "android": true
+                                },
+                                "display": "Global Variables",
+                                "permissions": [],
+                                "title": "variables",
+                                "link": "global-variables",
+                                "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/dDJiQi_XFeN-Reports.png",
+                                "is_disabled": false,
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Mobile Builds",
+                        "permissions": [
+                            "developer"
+                        ],
+                        "title": "Mobile Builds",
+                        "link": "builds/android",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/7D52xc1VUOI-Mobile-Builds.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": false,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Video Assistance",
+                        "permissions": [
+                            "support"
+                        ],
+                        "title": "Video Assistance",
+                        "link": "support?category=video-assistance",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/abL14xITHr-assistant-grey.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Customer Support",
+                        "permissions": [
+                            "support"
+                        ],
+                        "title": "Customer Support",
+                        "link": "support",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ByUuB5FFdmf-Cuatomer-Support.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Settings",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Settings",
+                        "link": "settings",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/kuSERbpRWbj-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    },
+                    {
+                        "visible_on": {
+                            "web": true,
+                            "ios": true,
+                            "android": true
+                        },
+                        "display": "Products",
+                        "permissions": [
+                            "settings"
+                        ],
+                        "title": "Products",
+                        "link": "products",
+                        "icon": "https://hdn-1.fynd.com/platform/pictures/feature-image/original/ZReesGScGF-Settings.png",
+                        "is_disabled": false,
+                        "child": []
+                    }
+                ]
+            }
+        },
+        "__v": 0
+    },
+    "permissions": {
+        "permissions": [
+            {
+                "title": "Profiles",
+                "key": "profile",
+                "description": "Get access to create, configure and customize the brands and selling locations of the company.",
+                "group": "common"
+            },
+            {
+                "title": "Teams",
+                "key": "staff",
+                "description": "Allows you to add individuals to your staff, manage the company and sales channel configurations.",
+                "group": "common"
+            },
+            {
+                "title": "Sales Channels",
+                "key": "saleschannel",
+                "description": "Allows to add and manage new and existing sales channels",
+                "group": "saleschannel"
+            },
+            {
+                "title": "Products",
+                "key": "product",
+                "description": "Allows you to create and configure one or more products belonging to any brand or category.",
+                "group": "common"
+            },
+            {
+                "title": "Orders",
+                "key": "order",
+                "description": "Get access to the history of all the orders placed by your customers using your application.",
+                "group": "common"
+            },
+            {
+                "title": "Extensions",
+                "key": "extension",
+                "description": "Extend your application to next level",
+                "group": "common"
+            },
+            {
+                "title": "Developers",
+                "key": "developer",
+                "description": "Get access to platform APIs and SDKs to create systems and develop e-commerce applications.",
+                "group": "common"
+            },
+            {
+                "title": "Settings",
+                "key": "settings",
+                "description": "Allows you to configure and customize features across multiple touchpoints in the application.",
+                "group": "common"
+            },
+            {
+                "title": "Audit Trail",
+                "key": "audit-trail",
+                "description": "Get access to the activity logs that highlight the modifications made by users of the Platform Panel.",
+                "group": "common"
+            },
+            {
+                "title": "Marketplaces",
+                "key": "marketplace",
+                "description": "Allows you to manage your online marketplaces; AJIO, Amazon, Flipkart, Myntra and much more.",
+                "group": "seller"
+            },
+            {
+                "title": "Other Sellers",
+                "key": "otherseller",
+                "description": "Get access to monitor the stores and companies reselling your products through your inventory.",
+                "group": "seller"
+            },
+            {
+                "title": "Billings",
+                "key": "billing",
+                "description": "View billing statistics",
+                "group": "billing"
+            },
+            {
+                "title": "Payments",
+                "key": "payment",
+                "description": "Manage payments and plans",
+                "group": "billing"
+            }
+        ],
+        "roles": [
+            {
+                "title": "Full Access",
+                "key": "admin",
+                "permissions": [
+                    "staff",
+                    "profile",
+                    "saleschannel",
+                    "product",
+                    "order",
+                    "extension",
+                    "developer",
+                    "marketplace",
+                    "otherseller",
+                    "billing",
+                    "payment",
+                    "settings",
+                    "audit-trail"
+                ]
+            },
+            {
+                "title": "Custom",
+                "key": "custom",
+                "permissions": []
+            }
+        ],
+        "application": {
+            "permissions": [
+                {
+                    "title": "Customer",
+                    "key": "customer",
+                    "description": "Allows you to view, channelize and manage all the customer data received in your application."
+                },
+                {
+                    "title": "Analytics",
+                    "key": "analytics",
+                    "description": "Get real-time insights of a product lifecycle with an option to download the graphs and data."
+                },
+                {
+                    "title": "Settings",
+                    "key": "settings",
+                    "description": "Allows you to configure and customize features across multiple touchpoints in the application."
+                },
+                {
+                    "title": "Marketing",
+                    "key": "marketing",
+                    "description": "Allows you to create collections, coupons, rewards, and much more for marketing and promotions."
+                },
+                {
+                    "title": "Communication",
+                    "key": "communication",
+                    "description": "Create communication templates and campaigns for consumer interactions through email and SMS."
+                },
+                {
+                    "title": "Customer Support",
+                    "key": "support",
+                    "description": "Allows you to manage the help desk for storing and processing the customer service requests."
+                },
+                {
+                    "title": "Point Of Sale",
+                    "key": "point_of_sale",
+                    "description": "Point of sale(POS) for retail transaction in store."
+                },
+                {
+                    "title": "Orders",
+                    "key": "order",
+                    "description": "View the orders received in the sales channel and check the users who withdrew from checkout."
+                },
+                {
+                    "title": "Appearance",
+                    "key": "appearance",
+                    "description": "Allow to view and manage the themes and navigation in your application."
+                }
+            ],
+            "roles": [
+                {
+                    "title": "Admin",
+                    "key": "admin",
+                    "permissions": [
+                        "settings",
+                        "marketing",
+                        "communication",
+                        "customer",
+                        "analytics",
+                        "support",
+                        "point_of_sale",
+                        "order",
+                        "appearance"
+                    ]
+                },
+                {
+                    "title": "Public",
+                    "key": "public",
+                    "permissions": []
+                },
+                {
+                    "title": "Marketing Manager",
+                    "key": "marketing-manager",
+                    "permissions": [
+                        "marketing",
+                        "communication",
+                        "analytics",
+                        "appearance"
+                    ]
+                },
+                {
+                    "title": "Custom",
+                    "key": "custom",
+                    "permissions": []
+                }
+            ]
+        }
+    }
+}

@@ -4,6 +4,8 @@ import {Array, console} from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
 import {getNavigations} from '../pages/administrator/navigations';
 import get from "lodash/get";
+import isEmpty from 'lodash';
+import moment from 'moment';
 
 export const debounce = (func, wait, immediate) => {
     var timeout;
@@ -664,6 +666,51 @@ export const  pickValues = function (obj, keys) {
 export const detectFPApp = () => {
     if (isBrowser) {
         return window._fpAppDetails;
-    };
+    }
     return false;
 };
+
+/** OMS v2.1 */
+export const convertToOMSDate = date => {
+    return moment(date).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY LT');
+}
+
+export const downloadFile = path => {
+    //creating an invisible element
+    let element = document.createElement('a');
+    element.setAttribute('href', path);
+    element.setAttribute('download', path);
+    element.setAttribute('target', '_self');
+    // element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+};
+
+export const formatPrice = (value) => {
+    if(!isNaN(value)){
+        return value.toFixed(2);
+    }
+    return Number(0).toFixed(2);
+}
+
+export const numberToThousandString = (num)=> {
+    let val = Number(num)/1000;
+    return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
+}
+
+// Remove keys with empty, null and undefined values in Object
+export const removeEmpty = (obj) => {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v && !isEmpty(v)));
+}
+/** OMS v2.1 --END */
+
+export const toggleString = (status, style) => {
+    let str = status ? 'enabled' : 'disabled';
+    if (style === 'titleCase') {
+        str = titleCase(str);
+    } else if (style === 'upperCase') {
+        str = str.toUpperCase(str);
+    }
+        return str;
+    }

@@ -1,0 +1,1708 @@
+{
+    "success": true,
+    "order": {
+        "fynd_order_id": "FY62D3D20A01739B1E08",
+        "shipment_count": 2,
+        "order_date": "2022-07-17T14:40:35+00:00"
+    },
+    "shipments": [
+        {
+            "shipment_id": "16580490349091405098K",
+            "payment_mode": "COD",
+            "activity_logs": [
+                {
+                    "status": [
+                        {
+                            "user": "System",
+                            "message": "Bag status changed to out_for_delivery",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "message": "Bag status changed to bag_lost",
+                            "date": "2022-10-16T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "message": "Bag status changed to delivery_attempt_failed",
+                            "date": "2022-10-16T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "message": "Bag status changed to bag_lost",
+                            "date": "2022-10-15T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "message": "Bag status changed to delivery_attempt_failed",
+                            "date": "2022-10-15T12:20:35+00:00"
+                        },
+                        {
+                            "user": "System",
+                            "message": "Bag status changed to bag_lost",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "Hedwig_sync",
+                            "message": "Bag status changed to delivery_attempt_failed",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "System",
+                            "message": "OPS Delight - Cx call disconnected",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        }
+                    ],
+                    "email_sms": [
+                        {
+                            "user": "System",
+                            "email": "Bag status changed to bag_lost",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "Hedwig_sync",
+                            "email": "Bag status changed to delivery_attempt_failed",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "System",
+                            "email": "OPS Delight - Cx call disconnected",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "System",
+                            "email": "Bag status changed to out_for_delivery",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "email": "Bag status changed to bag_lost",
+                            "date": "2022-10-16T12:20:35+00:00"
+                        },
+                        {
+                            "user": "system",
+                            "email": "Bag status changed to delivery_attempt_failed",
+                            "date": "2022-10-16T12:20:35+00:00"
+                        }
+                    ],
+                    "call": [
+                        {
+                            "user": "System",
+                            "message": "recording",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "Hedwig_sync",
+                            "message": "recording",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        },
+                        {
+                            "user": "System",
+                            "message": "recording",
+                            "date": "2022-10-17T12:20:35+00:00"
+                        }
+                    ]
+                }
+            ],
+
+            "activity_history": [
+                {
+                "message": "{\"message\": \"Bag status changed to pending\", \"store_id\": 9918, \"store_code\": \"SLPL87301\", \"store_name\": \"UTTARI PITAM PURA\", \"reason\": {}, \"type\": \"activity_status\"}",
+                "createdat": "6 Nov 2022, 13:28:PM",
+                "user": "system",
+                "type": "activity_status",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                    "message": "{\"message\": \"Call initiated\", \"caller\": \"9321126278\", \"receiver\": \"07574806474\", \"call_id\": \"c2c_635b8dbae942e192\", \"type\": \"outbound_voice\"}",
+                    "createdat": "7 Nov 2022, 13:37:PM",
+                    "user": "shominnaik_gofynd_com_26183",
+                    "type": "outbound_voice",
+                    "l1_detail": null,
+                    "l2_detail": null,
+                    "l3_detail": null,
+                    "ticket_id": null,
+                    "ticket_url": null,
+                    "assigned_agent": null
+                },
+                {
+                    "message": "{\"message\": \"Call initiated\", \"caller\": \"9321126278\", \"receiver\": \"07574806474\", \"call_id\": \"c2c_635b8dbae942e192\", \"type\": \"outbound_voice\"}",
+                    "createdat": "2 Nov 2022, 13:37:PM",
+                    "user": "shominnaik_gofynd_com_26183",
+                    "type": "outbound_voice",
+                    "l1_detail": null,
+                    "l2_detail": null,
+                    "l3_detail": null,
+                    "ticket_id": null,
+                    "ticket_url": null,
+                    "assigned_agent": null
+                },
+                {
+                "message": "{\"message\": \"Event sent successfully.\", \"short_link\": \"https://fyx1.de/7vnAvMLJF\", \"channel_type\": \"email\", \"recipient\": \"sagardhiman300@gmail.com\", \"slug\": \"placed-event\", \"type\": \"outbound_notification\"}",
+                "createdat": "2 Oct 2022, 13:29:PM",
+                "user": "system",
+                "type": "outbound_notification",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                "message": "{\"message\": \"Event sent successfully.\", \"short_link\": \"https://fyx1.de/7vnAvMLJF\", \"channel_type\": \"sms\", \"recipient\": \"8077302009\", \"slug\": \"placed-event\", \"type\": \"outbound_notification\"}",
+                "createdat": "1 Oct 2022, 13:29:PM",
+                "user": "system",
+                "type": "outbound_notification",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                "message": "{\"message\": \"Bag status changed to dp_assigned for delhivery_surface (id:27)\", \"store_id\": 9918, \"store_code\": \"SLPL87301\", \"store_name\": \"UTTARI PITAM PURA\", \"reason\": {}, \"type\": \"activity_status\", \"ewayBillInfo\": {\"ewaybill_info\": {}}}",
+                "createdat": "19 Oct 2022, 14:00:PM",
+                "user": "hedwig_sync",
+                "type": "activity_status",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                "message": "{\"message\": \"Bag status changed to bag_packed\", \"store_id\": 9918, \"store_code\": \"SLPL87301\", \"store_name\": \"UTTARI PITAM PURA\", \"reason\": {}, \"type\": \"activity_status\"}",
+                "createdat": "10 Oct 2022, 14:01:PM",
+                "user": "sagardhiman_gofynd_com_43846",
+                "type": "activity_status",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                    "message": "{\"message\": \"Bag status changed to placed\", \"store_id\": 9918, \"store_code\": \"SLPL87301\", \"store_name\": \"UTTARI PITAM PURA\", \"reason\": {}, \"type\": \"activity_status\"}",
+                    "createdat": "7 Oct 2022, 13:31:PM",
+                    "user": "system",
+                    "type": "activity_status",
+                    "l1_detail": null,
+                    "l2_detail": null,
+                    "l3_detail": null,
+                    "ticket_id": null,
+                    "ticket_url": null,
+                    "assigned_agent": null
+                    },
+                {
+                "message": "{\"message\": \"Event sent successfully.\", \"short_link\": \"https://fyx1.de/7vnAvMLJF\", \"channel_type\": \"sms\", \"recipient\": \"8077302009\", \"slug\": \"bag_packed-event\", \"type\": \"outbound_notification\"}",
+                "createdat": "7 Oct 2022, 13:30:PM",
+                "user": "system",
+                "type": "outbound_notification",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                },
+                {
+                "message": "{\"message\": \"Event sent successfully.\", \"short_link\": \"https://fyx1.de/7vnAvMLJF\", \"channel_type\": \"sms\", \"recipient\": \"8077302009\", \"slug\": \"refund_completed-event\", \"type\": \"outbound_notification\"}",
+                "createdat": "21 Oct 2022, 11:21:AM",
+                "user": "system",
+                "type": "outbound_notification",
+                "l1_detail": null,
+                "l2_detail": null,
+                "l3_detail": null,
+                "ticket_id": null,
+                "ticket_url": null,
+                "assigned_agent": null
+                }
+            ],
+            "fulfilling_store": {
+                "id": 1,
+                "code": "Jio-market-Store-1",
+                "fulfillment_channel": "pulse",
+                "store_name": "Jio Market Store 1",
+                "contact_person": "",
+                "phone": "9869174413",
+                "address": "high_street Thane Mumbai Maharashtra 400603",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": 400603,
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AABCU9603R1ZN",
+                            "verified": true,
+                            "legal_name": "UJJIVAN SMALL FINANCE BANK LIMITED"
+                        }
+                    },
+                    "gst_number": "27AABCU9603R1ZN",
+                    "_custom_json": {},
+                    "display_name": "Jio Market Store 1",
+                    "fulfilment_type": "DFC",
+                    "integration_type": {
+                        "order": "pulse",
+                        "inventory": "pulse"
+                    },
+                    "additional_contacts": {
+                        "numbers": [
+                            "91 - 9869174413"
+                        ]
+                    },
+                    "notification_emails": [
+                        "nikhilmhatre@gofynd.com"
+                    ],
+                    "allow_dp_assignment_from_fynd": false
+                },
+                "fulfilment_type": "DFC"
+            },
+            "delivery_details": {
+                "name": "tasneem",
+                "email": null,
+                "phone": "9502300969",
+                "address": "home 403  lalitha towers 28 samskar school Hyderabad Telangana 500018",
+                "city": "Hyderabad",
+                "state": "Telangana",
+                "country": "India",
+                "pincode": "500018",
+                "state_code": "36"
+            },
+            "billing_details": {
+                "name": "tasneem",
+                "email": null,
+                "phone": "9502300969",
+                "address": "home 403  lalitha towers samskar school Hyderabad Telangana 500018",
+                "city": "Hyderabad",
+                "state": "Telangana",
+                "country": "India",
+                "pincode": "500018",
+                "state_code": "36"
+            },
+            "dp_details": {
+                "id": "19",
+                "name": "delivery_jio_surface",
+                "awb_no": "23479237489234",
+                "eway_bill_id": null,
+                "track_url": null,
+                "gst_tag": "sgst",
+                "delivery_date": "26 Aug 2022",
+                "pickup_slot": "26 Aug, 2022 10:00 AM - 1:00 PM"
+            },
+            "invoice_details": {
+                "purchase_order": "Download",
+                "e_invoice": "Download",
+                "invoice_id": "234234803284099",
+                "external_invoice_id": "2347893284798179987"
+            },
+            "journey_type": "forward",
+            "order": {
+                "fynd_order_id": "FY62D3D20A01739B1E08",
+                "affiliate_id": "000000000000000000000001",
+                "ordering_channel": "JioMarket",
+                "source": null,
+                "tax_details": {
+                    "gstin": null
+                },
+                "order_date": "2022-07-17T14:40:35+00:00"
+            },
+            "gst_details": {
+                "value_of_good": 539.95,
+                "gst_fee": 60.04,
+                "brand_calculated_amount": 600,
+                "tax_collected_at_source": 0,
+                "gstin_code": null
+            },
+            "shipment_quantity": 2,
+            "bag_status_history": [
+                {
+                    "status": "pending",
+                    "updated_at": "2022-07-17T14:40:35+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Pending",
+                    "display_name": "Pending",
+                    "forward": null
+                },
+                {
+                    "status": "placed",
+                    "updated_at": "2022-07-17T14:40:46+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Ordered",
+                    "display_name": "Placed",
+                    "forward": null
+                }
+            ],
+            "bags": [
+                {
+                    "user_note": "mereko mast laga ye feature",
+                    "bag_id": 46120,
+                    "display_name": "Bag",
+                    "entity_type": "bag",
+                    "bag_configs": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "allow_force_return": false
+                    },
+                    "financial_breakup": [
+                        {
+                            "price_effective": 300,
+                            "discount": 200,
+                            "amount_paid": 300,
+                            "coupon_effective_discount": 0,
+                            "delivery_charge": 0,
+                            "fynd_credits": 0,
+                            "cod_charges": 0,
+                            "refund_credit": 0,
+                            "cashback": 0,
+                            "refund_amount": 300,
+                            "added_to_fynd_cash": false,
+                            "cashback_applied": 0,
+                            "gst_tax_percentage": 5,
+                            "value_of_good": 285.71,
+                            "price_marked": 500,
+                            "transfer_price": 0,
+                            "brand_calculated_amount": 300,
+                            "promotion_effective_discount": 0,
+                            "coupon_value": 0,
+                            "pm_price_split": {
+                                "COD": 300
+                            },
+                            "size": "OS",
+                            "total_units": 1,
+                            "hsn_code": null,
+                            "identifiers": {
+                                "sku_code": "DAIRY1"
+                            },
+                            "item_name": "FYND Blue Diary",
+                            "gst_fee": "14.28",
+                            "gst_tag": "IGST"
+                        }
+                    ],
+                    "current_status": "placed",
+                    "item": {
+                        "name": "FYND Blue Diary",
+                        "brand": "Dabur",
+                        "slug_key": "fynd-blue-dairy",
+                        "images": [
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                        ],
+                        "size": "OS",
+                        "l1_category": "",
+                        "l3_category": "754",
+                        "sub_items": [
+                            {
+                                "name": "FYND Blue Diary Cover",
+                                "brand": "Dabur",
+                                "slug_key": "fynd-blue-dairy-cover",
+                                "images": [
+                                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                                ],
+                                "size": "OS",
+                                "l1_category": "",
+                                "l3_category": "754"
+                            },
+                            {
+                                "name": "FYND Pen",
+                                "brand": "Dabur",
+                                "slug_key": "fynd-pen",
+                                "images": [
+                                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                                ],
+                                "size": "OS",
+                                "l1_category": "",
+                                "l3_category": "754"
+                            },
+                            {
+                                "name": "FYND Book Sticker",
+                                "brand": "Dabur",
+                                "slug_key": "fynd-book-sticker",
+                                "images": [
+                                    "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                                ],
+                                "size": "OS",
+                                "l1_category": "",
+                                "l3_category": "754"
+                            }
+                        ]
+                    },
+                    "brand": {
+                        "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                        "modified_on": "2022-07-15T13:18:48+00:00",
+                        "id": 25,
+                        "company": null,
+                        "created_on": "2022-07-15T13:18:48+00:00",
+                        "brand_name": "Dabur"
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "IGST",
+                        "hsn_code": null,
+                        "value_of_good": 285.71,
+                        "gst_tax_percentage": 5,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 300,
+                        "gst_fee": "14.28"
+                    },
+                    "article": {
+                        "uid": "62d2c55d6480a8f4e2a167d0",
+                        "identifiers": {
+                            "sku_code": "DAIRY1"
+                        },
+                        "return_config": {
+                            "time": 0,
+                            "unit": "days",
+                            "returnable": false
+                        }
+                    },
+                    "quantity": 1,
+                    "identifier": "DAIRY1",
+                    "mark_as_returnable": false,
+                    "require_serial_number": true,
+                    "variants": [
+                        {
+                            "text": "Blue"
+                        },
+                        {
+                            "text": "Fynd Anniversary Special"
+                        }
+                    ]
+                },
+                {
+                    "user_note": "",
+                    "bag_id": 46121,
+                    "display_name": "Bag",
+                    "entity_type": "bag",
+                    "bag_configs": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "allow_force_return": false
+                    },
+                    "financial_breakup": [
+                        {
+                            "price_effective": 300,
+                            "discount": 200,
+                            "amount_paid": 300,
+                            "coupon_effective_discount": 0,
+                            "delivery_charge": 0,
+                            "fynd_credits": 0,
+                            "cod_charges": 0,
+                            "refund_credit": 0,
+                            "cashback": 0,
+                            "refund_amount": 300,
+                            "added_to_fynd_cash": false,
+                            "cashback_applied": 0,
+                            "gst_tax_percentage": 18,
+                            "value_of_good": 254.24,
+                            "price_marked": 500,
+                            "transfer_price": 0,
+                            "brand_calculated_amount": 300,
+                            "promotion_effective_discount": 0,
+                            "coupon_value": 0,
+                            "pm_price_split": {
+                                "COD": 300
+                            },
+                            "size": "OS",
+                            "total_units": 1,
+                            "hsn_code": null,
+                            "identifiers": {
+                                "sku_code": "SIPPER2"
+                            },
+                            "item_name": "FYND Black Steel Sipper",
+                            "gst_fee": "45.76",
+                            "gst_tag": "IGST"
+                        }
+                    ],
+                    "current_status": "placed",
+                    "item": {
+                        "name": "FYND Black Steel Sipper",
+                        "brand": "lacoste",
+                        "slug_key": "fynd-black-steel-sipper",
+                        "images": [
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/IRqfhMIXi-FYND-Black-Steel-Sipper.jpeg",
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/P43QbFvzx-FYND-Black-Steel-Sipper.jpeg",
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/P43QbFvzx-FYND-Black-Steel-Sipper.jpeg"
+                        ],
+                        "size": "OS",
+                        "l1_category": "",
+                        "l3_category": "1644"
+                    },
+                    "brand": {
+                        "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                        "modified_on": "2022-07-15T13:18:48+00:00",
+                        "id": 25,
+                        "company": null,
+                        "created_on": "2022-07-15T13:18:48+00:00",
+                        "brand_name": "Dabur"
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "IGST",
+                        "hsn_code": null,
+                        "value_of_good": 254.24,
+                        "gst_tax_percentage": 18,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 300,
+                        "gst_fee": "45.76"
+                    },
+                    "article": {
+                        "uid": "62d2cc296480a8f4e2a167d6",
+                        "identifiers": {
+                            "sku_code": "SIPPER2"
+                        },
+                        "return_config": {
+                            "time": 0,
+                            "unit": "days",
+                            "returnable": false
+                        }
+                    },
+                    "quantity": 1,
+                    "identifier": "SIPPER2",
+                    "mark_as_returnable": false,
+                    "require_serial_number": false,
+                    "variants": [
+                        {
+                            "text": "Black"
+                        },
+                        {
+                            "text": "Fynd Anniversary Special"
+                        }
+                    ]
+                }
+            ],
+            "company_id": 33,
+            "user": {
+                "email": "paymentsdummy@gofynd.com",
+                "mobile": "9502300969",
+                "external_customer_id": null,
+                "id": 88,
+                "last_name": "-Raallapallifg",
+                "gender": "female",
+                "mongo_user_id": "62693e069bd96313f7e402c2",
+                "first_name": "-Tasneem",
+                "is_anonymous_user": false
+            },
+            "delivery_slot": {
+                "slot": "By 08:00 AM",
+                "upper_bound": "2022-07-23T08:10:31+00:00",
+                "lower_bound": "2022-07-21T08:10:31+00:00",
+                "date": "2022-07-23T08:10:31+00:00",
+                "type": "order_window"
+            },
+            "total_items": 2,
+            "payment_methods": [
+                {
+                    "slug": "COD",
+                    "payment_id": "20",
+                    "payment_amt": 600,
+                    "payment_cart": null,
+                    "payment_desc": "COD",
+                    "bdcustomer_id": null,
+                    "order_inv_num": null,
+                    "mode_of_payment": "COD",
+                    "payment_gateway_logo": null,
+                    "transaction_ref_number": ""
+                }
+            ],
+            "vertical": "GROCERIES",
+            "payments": {
+                "mode": "COD",
+                "logo": "https://hdn-1.fynd.com/payment/Pos+Logo.png",
+                "source": "Jio Partner Pay"
+            },
+            "priority_text": null,
+            "status": {
+                "id": 24442,
+                "status": "placed",
+                "bag_list": [
+                    {
+                        "bag_id": 46120,
+                        "quantity": 1
+                    },
+                    {
+                        "bag_id": 46121,
+                        "quantity": 1
+                    }
+                ],
+                "created_at": "2022-07-17T14:40:35+00:00",
+                "shipment_id": "16580490349091405098K",
+                "current_operational_status": "placed",
+                "estimated_sla_time": "2022-07-17T14:40:35+00:00",
+                "about_to_breached_sla_time": 1658068835
+            },
+            "prices": {
+                "amount_paid": 600,
+                "refund_amount": 600,
+                "price_marked": 1000,
+                "cod_charges": 0,
+                "discount": 400,
+                "cashback_applied": 0,
+                "delivery_charge": 0,
+                "fynd_credits": 0,
+                "cashback": 0,
+                "price_effective": 600,
+                "refund_credit": 0,
+                "value_of_good": 539.95,
+                "pm_price_split": {
+                    "COD": 600
+                },
+                "brand_calculated_amount": 600,
+                "coupon_effective_discount": 0,
+                "tax_collected_at_source": 0,
+                "promotion_effective_discount": 0
+            },
+            "tracking_list": [
+                {
+                    "status": "Order Placed",
+                    "time": "2022-07-17T14:40:46+00:00",
+                    "is_passed": true,
+                    "is_current": true
+                },
+                {
+                    "status": "Order Confirmed",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Invoiced",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivery Partner Assigned",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Packed",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "In Transit",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Out For Delivery",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivered",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                }
+            ],
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36",
+            "platform_logo": "https://jiomarket-assets.s3.ap-south-1.amazonaws.com/jiomarket_logo.png",
+            "packaging_type": "POLYB_DFLT_L",
+            "enable_dp_tracking": false,
+            "store_invoice_id": null,
+            "can_process": true,
+            "promise": {
+                "min": "2022-07-21T13:40:31+00:00",
+                "max": "2022-07-23T13:40:31+00:00"
+            },
+            "tracking_url": "",
+            "meta": {
+                "dp_id": "19",
+                "weight": 550,
+                "external": {},
+                "formatted": {
+                    "max": "Sat, 23 Jul",
+                    "min": "Thu, 21 Jul"
+                },
+                "timestamp": {
+                    "max": 1658563831,
+                    "min": 1658391031
+                },
+                "bag_weight": {
+                    "46120": 250,
+                    "46121": 300
+                },
+                "dp_options": {
+                    "19": {
+                        "area_code": {
+                            "to_pincode": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "from_pincode": null
+                        },
+                        "f_priority": 2,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 2,
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "payment_mode": "all",
+                        "rvp_priority": 2,
+                        "transport_mode": "air",
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "19"
+                    }
+                },
+                "mixed_cart": null,
+                "logistics_meta": {},
+                "packaging_name": "POLYB_DFLT_L",
+                "ordering_source": null,
+                "assign_dp_from_sb": true,
+                "_original_payment_ids": null,
+                "refund_remaining_amount": 600,
+                "fulfilment_priority_text": null
+            },
+            "shipment_created_at": "2022-07-17T14:40:35+00:00",
+            "mark_as_returnable": false,
+            "ordering_store": {
+                "id": 1,
+                "code": "Jio-market-Store-1",
+                "fulfillment_channel": "pulse",
+                "store_name": "Jio Market Store 1",
+                "contact_person": "",
+                "phone": "9869174413",
+                "address": "high_street Thane Mumbai Maharashtra 400603",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": 400603,
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AABCU9603R1ZN",
+                            "verified": true,
+                            "legal_name": "UJJIVAN SMALL FINANCE BANK LIMITED"
+                        }
+                    },
+                    "gst_number": "27AABCU9603R1ZN",
+                    "_custom_json": {},
+                    "display_name": "Jio Market Store 1",
+                    "fulfilment_type": "DFC",
+                    "integration_type": {
+                        "order": "pulse",
+                        "inventory": "pulse"
+                    },
+                    "additional_contacts": {
+                        "numbers": [
+                            "91 - 9869174413"
+                        ]
+                    },
+                    "notification_emails": [
+                        "nikhilmhatre@gofynd.com"
+                    ],
+                    "allow_dp_assignment_from_fynd": false
+                },
+                "fulfilment_type": "DFC"
+            }
+        },
+        {
+            "shipment_id": "16580504461861624254K",
+            "payment_mode": "COD",
+            "fulfilling_store": {
+                "id": 1,
+                "code": "Jio-market-Store-1",
+                "fulfillment_channel": "pulse",
+                "store_name": "Jio Market Store 1",
+                "contact_person": "",
+                "phone": "9869174413",
+                "address": "high_street Thane Mumbai Maharashtra 400603",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": 400603,
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AABCU9603R1ZN",
+                            "verified": true,
+                            "legal_name": "UJJIVAN SMALL FINANCE BANK LIMITED"
+                        }
+                    },
+                    "gst_number": "27AABCU9603R1ZN",
+                    "_custom_json": {},
+                    "display_name": "Jio Market Store 1",
+                    "fulfilment_type": "DFC",
+                    "integration_type": {
+                        "order": "pulse",
+                        "inventory": "pulse"
+                    },
+                    "additional_contacts": {
+                        "numbers": [
+                            "91 - 9869174413"
+                        ]
+                    },
+                    "notification_emails": [
+                        "nikhilmhatre@gofynd.com"
+                    ],
+                    "allow_dp_assignment_from_fynd": false
+                },
+                "fulfilment_type": "DFC"
+            },
+            "delivery_details": {
+                "name": "tasneem",
+                "email": null,
+                "phone": "9502300969",
+                "address": "home 403  lalitha towers 28 samskar school Hyderabad Telangana 500018",
+                "city": "Hyderabad",
+                "state": "Telangana",
+                "country": "India",
+                "pincode": "500018",
+                "state_code": "36"
+            },
+            "billing_details": {
+                "name": "tasneem",
+                "email": null,
+                "phone": "9502300969",
+                "address": "home 403  lalitha towers samskar school Hyderabad Telangana 500018",
+                "city": "Hyderabad",
+                "state": "Telangana",
+                "country": "India",
+                "pincode": "500018",
+                "state_code": "36"
+            },
+            "dp_details": {
+                "id": null,
+                "name": null,
+                "awb_no": null,
+                "eway_bill_id": null,
+                "track_url": null,
+                "gst_tag": "sgst"
+            },
+            "journey_type": "forward",
+            "order": {
+                "fynd_order_id": "FY62D3D20A01739B1E08",
+                "affiliate_id": "000000000000000000000001",
+                "ordering_channel": "JioMarket",
+                "source": null,
+                "tax_details": {
+                    "gstin": null
+                },
+                "order_date": "2022-07-17T14:40:35+00:00"
+            },
+            "gst_details": {
+                "value_of_good": 539.95,
+                "gst_fee": 60.04,
+                "brand_calculated_amount": 600,
+                "tax_collected_at_source": 0,
+                "gstin_code": null
+            },
+            "shipment_quantity": 2,
+            "bag_status_history": [
+                {
+                    "status": "pending",
+                    "updated_at": "2022-07-17T14:40:35+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Pending",
+                    "display_name": "Pending",
+                    "forward": null
+                },
+                {
+                    "status": "placed",
+                    "updated_at": "2022-07-17T14:40:46+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Ordered",
+                    "display_name": "Placed",
+                    "forward": null
+                },
+                {
+                    "status": "cancelled_seller",
+                    "updated_at": "2022-07-17T15:04:06+00:00",
+                    "state_type": "operational",
+                    "app_display_name": "Cancelled by Seller",
+                    "display_name": "Cancelled by Seller",
+                    "forward": null
+                }
+            ],
+            "bags": [
+                {
+                    "bag_id": 46120,
+                    "display_name": "Bag",
+                    "entity_type": "bag",
+                    "bag_configs": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "allow_force_return": false
+                    },
+                    "financial_breakup": [
+                        {
+                            "price_effective": 300,
+                            "discount": 200,
+                            "amount_paid": 300,
+                            "coupon_effective_discount": 0,
+                            "delivery_charge": 0,
+                            "fynd_credits": 0,
+                            "cod_charges": 0,
+                            "refund_credit": 0,
+                            "cashback": 0,
+                            "refund_amount": 300,
+                            "added_to_fynd_cash": false,
+                            "cashback_applied": 0,
+                            "gst_tax_percentage": 5,
+                            "value_of_good": 285.71,
+                            "price_marked": 500,
+                            "transfer_price": 0,
+                            "brand_calculated_amount": 300,
+                            "promotion_effective_discount": 0,
+                            "coupon_value": 0,
+                            "pm_price_split": {
+                                "COD": 300
+                            },
+                            "size": "OS",
+                            "total_units": 1,
+                            "hsn_code": null,
+                            "identifiers": {
+                                "sku_code": "DAIRY1"
+                            },
+                            "item_name": "FYND Blue Diary",
+                            "gst_fee": "14.28",
+                            "gst_tag": "IGST"
+                        }
+                    ],
+                    "current_status": "cancelled_seller",
+                    "item": {
+                        "name": "FYND Blue Diary",
+                        "brand": "Dabur",
+                        "slug_key": "fynd-blue-dairy",
+                        "images": [
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/wDccaaa3_-FYND-Blue-Dairy.jpeg"
+                        ],
+                        "size": "OS",
+                        "l1_category": "",
+                        "l3_category": "754"
+                    },
+                    "brand": {
+                        "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                        "modified_on": "2022-07-15T13:18:48+00:00",
+                        "id": 25,
+                        "company": null,
+                        "created_on": "2022-07-15T13:18:48+00:00",
+                        "brand_name": "Dabur"
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "IGST",
+                        "hsn_code": null,
+                        "value_of_good": 285.71,
+                        "gst_tax_percentage": 5,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 300,
+                        "gst_fee": "14.28"
+                    },
+                    "article": {
+                        "uid": "62d2c55d6480a8f4e2a167d0",
+                        "identifiers": {
+                            "sku_code": "DAIRY1"
+                        },
+                        "return_config": {
+                            "time": 0,
+                            "unit": "days",
+                            "returnable": false
+                        }
+                    },
+                    "quantity": 1,
+                    "identifier": "DAIRY1",
+                    "mark_as_returnable": false
+                },
+                {
+                    "bag_id": 46121,
+                    "display_name": "Bag",
+                    "entity_type": "bag",
+                    "bag_configs": {
+                        "is_returnable": true,
+                        "can_be_cancelled": true,
+                        "enable_tracking": false,
+                        "is_customer_return_allowed": false,
+                        "allow_force_return": false
+                    },
+                    "financial_breakup": [
+                        {
+                            "price_effective": 300,
+                            "discount": 200,
+                            "amount_paid": 300,
+                            "coupon_effective_discount": 0,
+                            "delivery_charge": 0,
+                            "fynd_credits": 0,
+                            "cod_charges": 0,
+                            "refund_credit": 0,
+                            "cashback": 0,
+                            "refund_amount": 300,
+                            "added_to_fynd_cash": false,
+                            "cashback_applied": 0,
+                            "gst_tax_percentage": 18,
+                            "value_of_good": 254.24,
+                            "price_marked": 500,
+                            "transfer_price": 0,
+                            "brand_calculated_amount": 300,
+                            "promotion_effective_discount": 0,
+                            "coupon_value": 0,
+                            "pm_price_split": {
+                                "COD": 300
+                            },
+                            "size": "OS",
+                            "total_units": 1,
+                            "hsn_code": null,
+                            "identifiers": {
+                                "sku_code": "SIPPER2"
+                            },
+                            "item_name": "FYND Black Steel Sipper",
+                            "gst_fee": "45.76",
+                            "gst_tag": "IGST"
+                        }
+                    ],
+                    "current_status": "cancelled_seller",
+                    "item": {
+                        "name": "FYND Black Steel Sipper",
+                        "brand": "lacoste",
+                        "slug_key": "fynd-black-steel-sipper",
+                        "images": [
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/IRqfhMIXi-FYND-Black-Steel-Sipper.jpeg",
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/P43QbFvzx-FYND-Black-Steel-Sipper.jpeg",
+                            "https://hdn-1.jiomarketx0.de/x0/products/pictures/item/free/270x0/P43QbFvzx-FYND-Black-Steel-Sipper.jpeg"
+                        ],
+                        "size": "OS",
+                        "l1_category": "",
+                        "l3_category": "1644"
+                    },
+                    "brand": {
+                        "logo": "https://hdn-1.jiomarketx0.de/x0/brands/pictures/square-logo/original/kv5DZy0J8-Logo.jpeg",
+                        "modified_on": "2022-07-15T13:18:48+00:00",
+                        "id": 25,
+                        "company": null,
+                        "created_on": "2022-07-15T13:18:48+00:00",
+                        "brand_name": "Dabur"
+                    },
+                    "gst_details": {
+                        "gstin_code": null,
+                        "gst_tag": "IGST",
+                        "hsn_code": null,
+                        "value_of_good": 254.24,
+                        "gst_tax_percentage": 18,
+                        "is_default_hsn_code": true,
+                        "brand_calculated_amount": 300,
+                        "gst_fee": "45.76"
+                    },
+                    "article": {
+                        "uid": "62d2cc296480a8f4e2a167d6",
+                        "identifiers": {
+                            "sku_code": "SIPPER2"
+                        },
+                        "return_config": {
+                            "time": 0,
+                            "unit": "days",
+                            "returnable": false
+                        }
+                    },
+                    "quantity": 1,
+                    "identifier": "SIPPER2",
+                    "mark_as_returnable": false
+                }
+            ],
+            "company_id": 33,
+            "user": {
+                "email": "paymentsdummy@gofynd.com",
+                "mobile": "9502300969",
+                "external_customer_id": null,
+                "id": 88,
+                "last_name": "-Raallapallifg",
+                "gender": "female",
+                "mongo_user_id": "62693e069bd96313f7e402c2",
+                "first_name": "-Tasneem",
+                "is_anonymous_user": false
+            },
+            "delivery_slot": {
+                "slot": "By 08:00 AM",
+                "upper_bound": "2022-07-23T08:10:31+00:00",
+                "lower_bound": "2022-07-21T08:10:31+00:00",
+                "date": "2022-07-23T08:10:31+00:00",
+                "type": "order_window"
+            },
+            "total_items": 2,
+            "payment_methods": [
+                {
+                    "slug": "COD",
+                    "payment_id": "20",
+                    "payment_amt": 600,
+                    "payment_cart": null,
+                    "payment_desc": "COD",
+                    "bdcustomer_id": null,
+                    "order_inv_num": null,
+                    "mode_of_payment": "COD",
+                    "payment_gateway_logo": null,
+                    "transaction_ref_number": ""
+                }
+            ],
+            "vertical": "GROCERIES",
+            "payments": {
+                "mode": "COD",
+                "logo": "https://hdn-1.fynd.com/payment/Pos+Logo.png",
+                "source": "Jio Partner Pay"
+            },
+            "priority_text": null,
+            "status": {
+                "id": 24476,
+                "status": "cancelled_seller",
+                "bag_list": [
+                    {
+                        "bag_id": 46120,
+                        "quantity": 1
+                    },
+                    {
+                        "bag_id": 46121,
+                        "quantity": 1
+                    }
+                ],
+                "created_at": "2022-07-17T14:40:35+00:00",
+                "shipment_id": "16580504461861624254K",
+                "current_operational_status": "cancelled_seller",
+                "estimated_sla_time": "2022-07-17T15:04:06+00:00",
+                "about_to_breached_sla_time": 1658070246
+            },
+            "prices": {
+                "amount_paid": 600,
+                "refund_amount": 600,
+                "price_marked": 1000,
+                "cod_charges": 0,
+                "discount": 400,
+                "cashback_applied": 0,
+                "delivery_charge": 0,
+                "fynd_credits": 0,
+                "cashback": 0,
+                "price_effective": 600,
+                "refund_credit": 0,
+                "value_of_good": 539.95,
+                "pm_price_split": {
+                    "COD": 600
+                },
+                "brand_calculated_amount": 600,
+                "coupon_effective_discount": 0,
+                "tax_collected_at_source": 0,
+                "promotion_effective_discount": 0
+            },
+            "tracking_list": [
+                {
+                    "status": "Order Placed",
+                    "time": "2022-07-17T14:40:46+00:00",
+                    "is_passed": true,
+                    "is_current": true
+                },
+                {
+                    "status": "Order Confirmed",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Invoiced",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivery Partner Assigned",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Packed",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "In Transit",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Out For Delivery",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                },
+                {
+                    "status": "Delivered",
+                    "time": "",
+                    "is_passed": false,
+                    "is_current": false
+                }
+            ],
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36",
+            "platform_logo": "https://jiomarket-assets.s3.ap-south-1.amazonaws.com/jiomarket_logo.png",
+            "packaging_type": "POLYB_DFLT_L",
+            "enable_dp_tracking": false,
+            "store_invoice_id": null,
+            "can_process": true,
+            "promise": {},
+            "tracking_url": "",
+            "meta": {
+                "dp_id": "19",
+                "weight": 550,
+                "external": {},
+                "formatted": {
+                    "max": "Sat, 23 Jul",
+                    "min": "Thu, 21 Jul"
+                },
+                "timestamp": {
+                    "max": 1658563831,
+                    "min": 1658391031
+                },
+                "bag_weight": {
+                    "46120": 250,
+                    "46121": 300
+                },
+                "dp_options": {
+                    "19": {
+                        "area_code": {
+                            "to_pincode": {
+                                "to_pincode": null,
+                                "from_pincode": null
+                            },
+                            "from_pincode": null
+                        },
+                        "f_priority": 2,
+                        "operations": [
+                            "inter_city"
+                        ],
+                        "r_priority": 2,
+                        "fm_priority": 2,
+                        "lm_priority": 2,
+                        "payment_mode": "all",
+                        "rvp_priority": 2,
+                        "transport_mode": "air",
+                        "assign_dp_from_sb": true,
+                        "external_account_id": null,
+                        "internal_account_id": "19"
+                    }
+                },
+                "mixed_cart": null,
+                "logistics_meta": {},
+                "packaging_name": "POLYB_DFLT_L",
+                "ordering_source": null,
+                "assign_dp_from_sb": true,
+                "_original_payment_ids": null,
+                "refund_remaining_amount": 600,
+                "fulfilment_priority_text": null
+            },
+            "shipment_created_at": "2022-07-17T14:40:35+00:00",
+            "mark_as_returnable": false,
+            "ordering_store": {
+                "id": 1,
+                "code": "Jio-market-Store-1",
+                "fulfillment_channel": "pulse",
+                "store_name": "Jio Market Store 1",
+                "contact_person": "",
+                "phone": "9869174413",
+                "address": "high_street Thane Mumbai Maharashtra 400603",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India",
+                "pincode": 400603,
+                "meta": {
+                    "stage": "verified",
+                    "timing": [
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "monday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "tuesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "wednesday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "thursday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "friday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "saturday"
+                        },
+                        {
+                            "open": true,
+                            "closing": {
+                                "hour": 22,
+                                "minute": 0
+                            },
+                            "opening": {
+                                "hour": 11,
+                                "minute": 0
+                            },
+                            "weekday": "sunday"
+                        }
+                    ],
+                    "documents": {
+                        "gst": {
+                            "type": "gst",
+                            "value": "27AABCU9603R1ZN",
+                            "verified": true,
+                            "legal_name": "UJJIVAN SMALL FINANCE BANK LIMITED"
+                        }
+                    },
+                    "gst_number": "27AABCU9603R1ZN",
+                    "_custom_json": {},
+                    "display_name": "Jio Market Store 1",
+                    "fulfilment_type": "DFC",
+                    "integration_type": {
+                        "order": "pulse",
+                        "inventory": "pulse"
+                    },
+                    "additional_contacts": {
+                        "numbers": [
+                            "91 - 9869174413"
+                        ]
+                    },
+                    "notification_emails": [
+                        "nikhilmhatre@gofynd.com"
+                    ],
+                    "allow_dp_assignment_from_fynd": false
+                },
+                "fulfilment_type": "DFC"
+            }
+        }
+    ]
+}

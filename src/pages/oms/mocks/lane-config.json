@@ -1,0 +1,167 @@
+{
+    "data": {
+        "super_lanes": [
+            {
+                "text": "Unfulfilled",
+                "value": "unfulfilled",
+                "options": [
+                    {
+                        "text": "New",
+                        "value": "new",
+                        "total_items": 221,
+                        "index": 1,
+                        "actions": [
+                            {
+                                "text": "Accept & Invoice",
+                                "value": "bag_confirmed",
+                                "action_type": "state_change"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "Confirmed",
+                        "value": "confirmed",
+                        "total_items": 0,
+                        "index": 2,
+                        "actions": [
+                            {
+                                "text": "Accept & Invoice",
+                                "value": "bag_confirmed",
+                                "action_type": "state_change"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "To Be Packed",
+                        "value": "to_be_packed",
+                        "total_items": 1107,
+                        "index": 3,
+                        "actions": [
+                            {
+                                "text": "Ready to Dispatch",
+                                "value": "bag_packed",
+                                "action_type": "state_change"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "Ready To Dispatch",
+                        "value": "ready_for_dispatch",
+                        "total_items": 987,
+                        "index": 4,
+                        "actions": []
+                    }
+                ],
+                "total_items": 2315
+            },
+            {
+                "text": "Processed",
+                "value": "processed",
+                "options": [
+                    {
+                        "text": "In transit",
+                        "value": "in_transit",
+                        "total_items": 0,
+                        "index": 4,
+                        "actions": []
+                    },
+                    {
+                        "text": "Delivery Done",
+                        "value": "delivered",
+                        "total_items": 0,
+                        "index": 5,
+                        "actions": []
+                    },
+                    {
+                        "text": "Handed Over To Customer",
+                        "value": "handed_over_to_customer",
+                        "total_items": 0,
+                        "index": 6,
+                        "actions": []
+                    },
+                    {
+                        "text": "Cancelled",
+                        "value": "cancelled",
+                        "total_items": 0,
+                        "index": 7,
+                        "actions": []
+                    }
+                ],
+                "total_items": 0
+            },
+            {
+                "text": "Return",
+                "value": "return",
+                "options": [
+                    {
+                        "text": "Return Initiated",
+                        "value": "return_initiated",
+                        "total_items": 0,
+                        "index": 8,
+                        "actions": []
+                    },
+                    {
+                        "text": "Return In Transit",
+                        "value": "return_in_transit",
+                        "total_items": 0,
+                        "index": 9,
+                        "actions": []
+                    },
+                    {
+                        "text": "Return Delivered",
+                        "value": "return_delivered",
+                        "total_items": 0,
+                        "index": 10,
+                        "actions": [
+                            "refund_completed",
+                            "refund_approved",
+                            "deadstock",
+                            "refund_pending_for_approval",
+                            "refund_failed",
+                            "refund_acknowledged",
+                            "deadstock_defective_lost",
+                            "refund_retry",
+                            "refund_on_hold",
+                            "refund_initiated"
+                        ]
+                    },
+                    {
+                        "text": "Return Accepted",
+                        "value": "return_accepted",
+                        "total_items": 0,
+                        "index": 11,
+                        "actions": [
+                            "refund_completed",
+                            "refund_approved",
+                            "deadstock",
+                            "refund_pending_for_approval",
+                            "refund_failed",
+                            "refund_acknowledged",
+                            "deadstock_defective_lost",
+                            "refund_retry",
+                            "refund_on_hold",
+                            "refund_initiated"
+                        ]
+                    }
+                ],
+                "total_items": 0
+            },
+            {
+                "text": "Action Centre",
+                "value": "action_centre",
+                "options": [],
+                "total_items": 2
+            }
+        ],
+        "views": [
+            {
+                "text": "Shipment view",
+                "value": "shipment"
+            },
+            {
+                "text": "Order view",
+                "value": "orders"
+            }
+        ]
+    }
+}

@@ -7,8 +7,12 @@
                 @click.stop.native="backClick"
                 v-if="showBackButton"
             />
-            
-            
+
+            <inline-svg
+                v-if="headerIcon !== undefined"
+                class="page-nav-back-text"
+                :src="headerIcon"
+            />
             <div v-if="title" class="page-title">{{ title }}</div>
             <div class="page-slot">
                 <slot></slot>
@@ -69,7 +73,7 @@ export default {
         InlineSvg,
         NitrozenMenu,
         NitrozenMenuItem,
-        CustomJsonDialog,
+        CustomJsonDialog
     },
     props: {
         title: {
@@ -102,6 +106,9 @@ export default {
         noContextMenu: {
             type: Boolean,
             default: false
+        },
+        headerIcon: {
+            type: String
         }
     },
     data: function() {

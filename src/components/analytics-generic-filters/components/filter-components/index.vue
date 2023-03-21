@@ -1,4 +1,5 @@
 <template>
+
     <div
         :class="{ 'align-vertically': alignVertically }"
         class="rest-of-filters"
@@ -15,6 +16,7 @@
             v-for="(filter, index) in seedData"
             :key="index"
             class="component-wrapper"
+            :class="{'hyperlocal-filters': hyperlocalPage}"
         >
           <filter-checkbox-components
               v-if="ANALYTICS_FILTER_TYPES.RADIO_BUTTON === filter.filterType"
@@ -34,10 +36,12 @@
               :apply-filter="applyFilter"
               :page-name="pageName"
               :seed-data="filter"
+              :filter-index="index"
               :show-clear="seedData.hasClearOption"
               :show-name="showName"
               :show-tags="showTags"
               :chart-id="chartId"
+              @on-error="handleError"
               @reset-data="$emit('reset-data')"
               :is-global-loading="isGlobalLoading"
           ></filter-search-component>
@@ -50,11 +54,14 @@
               :show-clear="seedData.hasClearOption"
               :show-name="showName"
               :show-tags="showTags"
+              :filter-index="index"
               :chart-id="chartId"
               @reset-data="$emit('reset-data')"
               :is-global-loading="isGlobalLoading"
           ></filter-dropdown-component>
+          
         </div>
+        
     </div>
 </template>
 
@@ -74,9 +81,11 @@ export default {
     FilterCheckboxComponents,
     "nitrozen-tooltip": NitrozenTooltip
   },
+  emits: ['on-error'],
   props: {
     alignVertically: {type: Boolean, default: false},
-    shouldShowToolTip: {type: Boolean, default: true}
+    shouldShowToolTip: {type: Boolean, default: true},
+    hyperlocalPage: {type: Boolean, default: false}
   },
   mixins: [filterMixin, filterComponentSharedProps, isGlobalLoadingProps],
   methods: {
@@ -84,6 +93,9 @@ export default {
       this.seedData.forEach((filter) => {
         this.$refs[filter.name][0].clearSearchSlugs();
       });
+    },
+    handleError(value) {
+      this.$emit('on-error',value)
     }
   },
   computed: {
@@ -121,5 +133,8 @@ export default {
 }
 ::v-deep .questionmark-icon > .nitrozen-inline-svg > svg > path {
   stroke: #dadada;
+}
+.hyperlocal-filters.component-wrapper:nth-child(1) {
+   width: 80% !important;
 }
 </style>

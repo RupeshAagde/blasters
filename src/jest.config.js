@@ -13,7 +13,12 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/",
   ],
+  // coveragePathIgnorePatterns: ["services/pdf", "pages/oms"], // @ToDo remove this
   coveragePathIgnorePatterns: ["services/pdf"], // @ToDo remove this
+  // modulePathIgnorePatterns: [
+  //   'test/specs/pages/oms'  // temporarliy Ignored, once dev stable 
+  // ],
+
   moduleNameMapper: {
     "^@[/](.+)": "<rootDir>/$1",
   },

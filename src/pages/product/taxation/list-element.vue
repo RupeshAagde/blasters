@@ -201,7 +201,7 @@ export default {
 <style lang="less" scoped>
 .mirage-table {
     width: 100%;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     border: 1px solid @Iron;
     border-radius: 4px;
@@ -211,7 +211,7 @@ export default {
         border: 1px solid #e0e0e0;
         box-sizing: border-box;
         border-radius: 4px;
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
@@ -222,7 +222,7 @@ export default {
     }
     tr:not(:first-child) {
         border-bottom: 1px solid @Iron;
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;

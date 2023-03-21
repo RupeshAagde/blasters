@@ -61,7 +61,7 @@ export default {
 }
 
 .filter-key {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -70,7 +70,7 @@ export default {
 }
 
 .filter-value {
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;

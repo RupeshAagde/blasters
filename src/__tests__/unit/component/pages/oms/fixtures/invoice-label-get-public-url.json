@@ -1,0 +1,9 @@
+{
+    "urls": [
+        {
+            "url": "https://fynd-staging-assets-private.s3.ap-south-1.amazonaws.com/x0/documents/label/PDFs/16771462287181044719_label.pdf",
+            "signed_url": "https://fynd-staging-assets-private.s3-accelerate.amazonaws.com/x0/documents/label/PDFs/16771462287181044719_label.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230227%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230227T093612Z&X-Amz-Expires=300&X-Amz-Signature=32902ee6552010720b99064c3bc421ebea830facfb0a81fc7477939c5cb5abc1&X-Amz-SignedHeaders=host",
+            "expiry": 300
+        }
+    ]
+}

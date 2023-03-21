@@ -314,7 +314,7 @@ export default {
         align-items: center;
         .heading {
             .sub-heading {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 16px;
@@ -322,7 +322,7 @@ export default {
                 color: #41434c;
             }
             .decs {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -344,7 +344,7 @@ export default {
             }
             .link {
                 margin-left: 8px;
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -369,7 +369,7 @@ export default {
                         display: flex;
                         flex-direction: column;
                         .status-label {
-                            font-family: 'Inter';
+                            font-family: Inter, sans-serif;
                             font-style: normal;
                             font-weight: 400;
                             font-size: 12px;
@@ -377,7 +377,7 @@ export default {
                             color: #9b9b9b;
                         }
                         .state {
-                            font-family: 'Inter';
+                            font-family: Inter, sans-serif;
                             font-style: normal;
                             font-weight: 600;
                             font-size: 16px;
@@ -400,7 +400,7 @@ export default {
                         }
                     }
                     .last-sync-decs {
-                        font-family: 'Inter';
+                        font-family: Inter, sans-serif;
                         font-style: normal;
                         font-weight: 400;
                         font-size: 12px;
@@ -412,7 +412,7 @@ export default {
             .sync-status-decs {
                 margin-top: 17px;
                 .decs {
-                    font-family: 'Inter';
+                    font-family: Inter, sans-serif;
                     font-style: normal;
                     font-weight: 400;
                     font-size: 14px;
@@ -431,7 +431,6 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-top: 24px;
-        display: flex;
         background: #e7eeff;
         border-radius: 4px;
         padding: 12px;
@@ -439,7 +438,7 @@ export default {
             display: flex;
             .sync-decs {
                 display: flex;
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -451,7 +450,7 @@ export default {
         }
         .sync-btn {
             display: flex;
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             margin-right: 12px;
             font-style: normal;
             font-weight: 700;
@@ -474,7 +473,7 @@ export default {
             display: flex;
             flex-direction: column;
             .category-label {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 16px;
@@ -482,7 +481,7 @@ export default {
                 color: #41434c;
             }
             .category-decs {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 400;
                 font-size: 12px;
@@ -509,7 +508,7 @@ export default {
             justify-content: space-between;
             align-items: center;
             .title {
-                font-family: 'Inter';
+                font-family: Inter, sans-serif;
                 font-style: normal;
                 font-weight: 700;
                 font-size: 20px;
