@@ -23,198 +23,201 @@
             </adm-page-header>
         </div>
         <loader v-if="pageLoading" class="loading"></loader>
-        <div v-else class="page-container">
-            <div class="cl-Mako bold-md form-head">Basic Details</div>
-            <div class="row">
-                <div class="input-box">
-                    <nitrozen-input
-                        label="HSN Code"
-                        :disabled="editMode"
-                        required
-                        :type="'text'"
-                        :maxlength="11"
-                        placeholder="For eg. 61152010"
-                        :value="hsn_code.value"
-                        v-model="hsn_code.value"
-                        @input="validateNumber(hsn_code.value)"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="hsn_code.showerror">
-                        {{ hsn_code.errortext }}
-                    </nitrozen-error>
-                    <nitrozen-error v-else-if="errors.hsn_code">
-                        {{ errors.hsn_code }}
-                    </nitrozen-error>
+        <div v-else>
+            <div class="page-container">
+                <div class="cl-Mako bold-md form-head">Basic Details</div>
+                <div class="row">
+                    <div class="input-box">
+                        <nitrozen-input
+                            label="HSN Code"
+                            :disabled="editMode"
+                            required
+                            :type="'text'"
+                            :maxlength="11"
+                            placeholder="For eg. 61152010"
+                            :value="hsn_code.value"
+                            v-model="hsn_code.value"
+                            @input="validateNumber(hsn_code.value)"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="hsn_code.showerror">
+                            {{ hsn_code.errortext }}
+                        </nitrozen-error>
+                        <nitrozen-error v-else-if="errors.hsn_code">
+                            {{ errors.hsn_code }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="input-box left-space-txb" v-if="editMode">
+                        <nitrozen-input
+                            label="Reporting HSN Code"
+                            type="text"
+                            placeholder="For eg. 61152010"
+                            v-model="reporting_hsn"
+                            :disabled="true"
+                        ></nitrozen-input>
+                    </div>
                 </div>
-                <div class="input-box left-space-txb" v-if="editMode">
-                    <nitrozen-input
-                        label="Reporting HSN Code"
-                        type="text"
-                        placeholder="For eg. 61152010"
-                        v-model="reporting_hsn"
-                        :disabled="true"
-                    ></nitrozen-input>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="input-box">
-                    <nitrozen-dropdown
-                        label="Type"
-                        required
-                        placeholder="Choose Type"
-                        :items="getHSNType"
-                        v-model="type.value"
-                        @change="type.showerror = false"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="type.showerror">
-                        {{ type.errortext }}
-                    </nitrozen-error>
+                <div class="row">
+                    <div class="input-box">
+                        <nitrozen-dropdown
+                            label="Type"
+                            required
+                            placeholder="Choose Type"
+                            :items="getHSNType"
+                            v-model="type.value"
+                            @change="type.showerror = false"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="type.showerror">
+                            {{ type.errortext }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="input-box left-space-txb">
+                        <nitrozen-dropdown
+                            label="Country"
+                            required
+                            placeholder="Choose Country"
+                            :items="filteredCountries"
+                            v-model="country_code.value"
+                            :searchable="true"
+                            @change="country_code.showerror = false"
+                            @searchInputChange="$countrySearchInputChange"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="country_code.showerror">
+                            {{ country_code.errortext }}
+                        </nitrozen-error>
+                    </div>
                 </div>
-                <div class="input-box left-space-txb">
-                    <nitrozen-dropdown
-                        label="Country"
-                        required
-                        placeholder="Choose Country"
-                        :items="filteredCountries"
-                        v-model="country_code.value"
-                        :searchable="true"
-                        @change="country_code.showerror = false"
-                        @searchInputChange="$countrySearchInputChange"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="country_code.showerror">
-                        {{ country_code.errortext }}
-                    </nitrozen-error>
+                <div class="row">
+                    <div class="input-area">
+                        <span class="char-count">{{
+                            `${description.value.length} / 500 Characters`
+                        }}</span>
+                        <nitrozen-input
+                            label="Description"
+                            type="textarea"
+                            required
+                            placeholder="Description of product"
+                            v-model="description.value"
+                            @keypress="restrictInput"
+                            @input="validateDescription"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="description.showerror">
+                            {{ description.errortext }}
+                        </nitrozen-error>
+                        <nitrozen-error v-else-if="errors.description">
+                            {{ errors.description }}
+                        </nitrozen-error>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-area">
-                    <span class="char-count">{{
-                        `${description.value.length} / 500 Characters`
-                    }}</span>
-                    <nitrozen-input
-                        label="Description"
-                        type="textarea"
-                        required
-                        placeholder="Description of product"
-                        v-model="description.value"
-                        @keypress="restrictInput"
-                        @input="validateDescription"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="description.showerror">
-                        {{ description.errortext }}
-                    </nitrozen-error>
-                    <nitrozen-error v-else-if="errors.description">
-                        {{ errors.description }}
-                    </nitrozen-error>
+            <div class="rate-container">
+                <div class="row">
+                    <div class="cl-Mako bold-md form-head">
+                        GST Rate Configuration
+                    </div>
+                    <nitrozen-button
+                        v-strokeBtn
+                        theme="secondary"
+                        class="ml-sm"
+                        @click="$openAddTaxrateDialog"
+                        >Add GST
+                    </nitrozen-button>
                 </div>
-            </div>
-        </div>
-
-        <div class="rate-container">
-            <div class="row">
-                <div class="cl-Mako bold-md form-head">
-                    GST Rate Configuration
-                </div>
-                <nitrozen-button
-                    v-strokeBtn
-                    theme="secondary"
-                    class="ml-sm"
-                    @click="$openAddTaxrateDialog"
-                    >Add GST
-                </nitrozen-button>
-            </div>
-            <div v-if="!!Object.keys(datedTax).length">
-                <div
-                    class="datedtax-body"
-                    v-for="(tax, index) in datedTax"
-                    :key="index"
-                >
-                    <div class="datedtax-div" :key="index">
-                        <div class="datedtax-row">
-                            <div class="datedtax-row-item">
-                                <label class="label-msg n-input-label"
-                                    >Effective Date:
-                                </label>
-                                <span>{{
-                                    format_date(tax[0].effective_date)
-                                }}</span>
-                            </div>
-                            <div class="datedtax-row-item">
-                                <nitrozen-badge
-                                    :state="isRateActive(tax[0].state)"
-                                    >{{ tax[0].state }}</nitrozen-badge
-                                >
-                            </div>
-                        </div>
-                        <div class="datedtax-row">
-                            <div class="sub-row">
-                                <div class="slab-1">
-                                    <label class="n-input-label"
-                                        >Slab #1
+                <div v-if="!!Object.keys(datedTax).length">
+                    <div
+                        class="datedtax-body"
+                        v-for="(tax, index) in datedTax"
+                        :key="index"
+                    >
+                        <div class="datedtax-div" :key="index">
+                            <div class="datedtax-row">
+                                <div class="datedtax-row-item">
+                                    <label class="label-msg n-input-label"
+                                        >Effective Date:
                                     </label>
-                                    <div>
-                                        <label
-                                            class="label-msg n-input-label"
-                                            >{{ `Threshold>` }}</label
-                                        >
-                                        {{ tax[0].threshold }}
-                                    </div>
-                                    <div>
-                                        <label class="label-msg n-input-label"
-                                            >GST</label
-                                        >
-                                        {{ `: ${tax[0].rate}%` }}
-                                    </div>
+                                    <span>{{
+                                        format_date(tax[0].effective_date)
+                                    }}</span>
                                 </div>
-                                <div class="slab-2" v-if="!!tax[1]">
-                                    <label class="n-input-label"
-                                        >Slab #2
-                                    </label>
-                                    <div>
-                                        <label
-                                            class="label-msg n-input-label"
-                                            >{{ `Threshold>` }}</label
-                                        >
-                                        {{ tax[1].threshold }}
-                                    </div>
-                                    <div>
-                                        <label class="label-msg n-input-label"
-                                            >GST</label
-                                        >
-                                        {{ `: ${tax[1].rate}%` }}
-                                    </div>
+                                <div class="datedtax-row-item">
+                                    <nitrozen-badge
+                                        :state="isRateActive(tax[0].state)"
+                                        >{{ tax[0].state }}</nitrozen-badge
+                                    >
                                 </div>
                             </div>
-                            <div class="sub-row">
-                                <ukt-inline-svg
-                                    class="edit-btn"
-                                    title="edit rate"
-                                    src="edit-blue"
-                                    @click.stop.native="
-                                        $openEditTaxrateDialog(tax)
-                                    "
-                                ></ukt-inline-svg>
-                                <ukt-inline-svg
-                                    v-if="
-                                        tax[0].state != 'Active' &&
-                                            taxes.value.length !== 1
-                                    "
-                                    class="dlt-btn"
-                                    title="delete rate"
-                                    src="delete-red"
-                                    @click.stop.native="
-                                        openConfirmationDialog(tax)
-                                    "
-                                ></ukt-inline-svg>
+                            <div class="datedtax-row">
+                                <div class="sub-row">
+                                    <div class="slab-1">
+                                        <label class="n-input-label"
+                                            >Slab #1
+                                        </label>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >{{ `Threshold>` }}</label
+                                            >
+                                            {{ tax[0].threshold }}
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >GST</label
+                                            >
+                                            {{ `: ${tax[0].rate}%` }}
+                                        </div>
+                                    </div>
+                                    <div class="slab-2" v-if="!!tax[1]">
+                                        <label class="n-input-label"
+                                            >Slab #2
+                                        </label>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >{{ `Threshold>` }}</label
+                                            >
+                                            {{ tax[1].threshold }}
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >GST</label
+                                            >
+                                            {{ `: ${tax[1].rate}%` }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub-row">
+                                    <ukt-inline-svg
+                                        class="edit-btn"
+                                        title="edit rate"
+                                        src="edit-blue"
+                                        @click.stop.native="
+                                            $openEditTaxrateDialog(tax)
+                                        "
+                                    ></ukt-inline-svg>
+                                    <ukt-inline-svg
+                                        v-if="
+                                            tax[0].state != 'Active' &&
+                                                taxes.value.length !== 1
+                                        "
+                                        class="dlt-btn"
+                                        title="delete rate"
+                                        src="delete-red"
+                                        @click.stop.native="
+                                            openConfirmationDialog(tax)
+                                        "
+                                    ></ukt-inline-svg>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-if="!editMode && !taxes.value.length">
-                <adm-no-content
-                    helperText="No GST Rate Configuration found"
-                ></adm-no-content>
+                <div v-if="!editMode && !taxes.value.length">
+                    <adm-no-content
+                        helperText="No GST Rate Configuration found"
+                    ></adm-no-content>
+                </div>
             </div>
         </div>
 
@@ -263,7 +266,6 @@
 </template>
 
 <script>
-import path from 'path';
 import moment from 'moment';
 import pageerror from '@/components/common/page-error';
 import loader from '@/components/common/loader';
@@ -283,14 +285,13 @@ import { debounce } from '@/helper/utils.js';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import {
     NitrozenToggleBtn,
     NitrozenButton,
     NitrozenBadge,
     NitrozenCheckBox,
-    NitrozenRadio,
     NitrozenInput,
-    NitrozenInline,
     NitrozenDropdown,
     NitrozenError,
     NitrozenDialog,
@@ -463,12 +464,22 @@ export default {
             this.filteredCountries = [];
             if (!e || !e.text) {
                 this.filteredCountries = cloneDeep(this.countryCodeList);
+                this.$set(
+                    this.country_code,
+                    'value',
+                    get(this.soloHsn, 'country_code', '')
+                );
                 return;
             }
             this.countryCodeList.forEach((country) => {
                 if (country.text.toLowerCase().includes(e.text.toLowerCase()))
                     this.filteredCountries.push(country);
             });
+            this.$set(
+                this.country_code,
+                'value',
+                get(this.soloHsn, 'country_code', '')
+            );
         },
         getHSN() {
             const reporting_hsn = this.reporting_hsn;
