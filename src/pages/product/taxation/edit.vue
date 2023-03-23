@@ -407,7 +407,6 @@ export default {
         }
         // console.log(this.$route.params)
 
-        this.getCountryList();
         this.init();
     },
     computed: {
@@ -432,19 +431,11 @@ export default {
         init() {
             if (!this.editMode) {
                 this.originalData = this.getDataForDirtyCheck();
-                return;
             }
-            this.pageLoading = true;
-            this.getHSN()
-                .then(() => {
-                    this.pageLoading = false;
-                })
-                .catch((err) => {
-                    this.pageLoading = false;
-                    this.pageError = true;
-                });
+            this.getCountryList();
         },
         getCountryList() {
+            this.pageLoading = true;
             LocationService.getCountries()
                 .then(({ data }) => {
                     this.countryCodeList = data.items.map((country) => {
@@ -457,8 +448,17 @@ export default {
                         a.text.localeCompare(b.text)
                     );
                     this.filteredCountries = cloneDeep(this.countryCodeList);
+                    if (this.editMode) {
+                        this.getHSN();
+                    }
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    this.pageLoading = false;
+                    this.pageError = true;
+                });
         },
         $countrySearchInputChange(e) {
             this.filteredCountries = [];
