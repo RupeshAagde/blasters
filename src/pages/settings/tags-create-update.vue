@@ -394,7 +394,7 @@ export default {
         },
         isUrl(str) {
             if (str !== '') {
-                let pattern = new RegExp("((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"); // fragment locator
+                let pattern = new RegExp("((http|https)://)(www.)?[a-zA-Z0-9@:%.-\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%.\\+~#?&//=]*)"); // fragment locator
                 if (pattern.test(str)) {
                     this.noUrl = false;
                     // return true;
