@@ -11,7 +11,7 @@
         <!-- <confirmation-popup ref="confirmationPopup" @onUpdate="onDeleteMenu"></confirmation-popup> -->
         <draggable :list="subMenu" v-model="subMenu">
                 <transition-group>
-                    <div class="sub-menu" v-for="(item, index) in subMenu" :key="index" >
+                    <div class="sub-menu" v-for="(item, index) in subMenu" :key="`sub-${index}`" >
                         <div class="sub-menu-input-title">
                             <div class="title-grp">
                                 <div class="drag">
