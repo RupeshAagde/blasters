@@ -80,7 +80,7 @@ import { PageHeader } from '@/components/common';
 import { NitrozenButton, NitrozenInput } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import integrationsDetails from './integrations-details.vue';
-import CredentialsService from '@/services/credentials.service.js'
+import CredentialsService from '@/services/support-credentials.service.js'
 
 export default {
     name: 'index',

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import CredentialsService from '@/services/credentials.service.js'
+import CredentialsService from '@/services/support-credentials.service.js'
 import { NitrozenButton, NitrozenRadio } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 
