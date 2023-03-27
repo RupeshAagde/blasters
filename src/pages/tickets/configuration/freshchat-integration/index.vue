@@ -12,13 +12,20 @@
         >
         </page-header>
 
-        <div class="main-container">
+        <div class="main-container" v-if="integrationsData">
             <div class="freshdesk-logo">
-                <inline-svg
-                    class="freshdesk_logo"
-                    :src="'freshchat_icon'"
-                ></inline-svg>
-                <span class="freschat-heading"> Freshchat </span>
+                <div class="title-logo">
+                    <inline-svg
+                        class="freshdesk_logo"
+                        :src="'freshchat_icon'"
+                    ></inline-svg>
+                    <span class="freschat-heading"> Freshchat </span>
+                </div>
+                <div class="cntrl-btn">
+                    <nitrozen-toggle-btn
+                        v-model="integrationsData.is_enable"
+                    ></nitrozen-toggle-btn>
+                </div>
             </div>
             <div class="container">
                 <div class="stepper-container">
@@ -77,7 +84,7 @@
 
 <script>
 import { PageHeader } from '@/components/common';
-import { NitrozenButton, NitrozenInput } from '@gofynd/nitrozen-vue';
+import { NitrozenButton, NitrozenInput, NitrozenToggleBtn } from '@gofynd/nitrozen-vue';
 import inlineSvgVue from '@/components/common/inline-svg.vue';
 import integrationsDetails from './integrations-details.vue';
 import CredentialsService from '@/services/support-credentials.service.js'
@@ -88,6 +95,7 @@ export default {
         PageHeader,
         NitrozenButton,
         NitrozenInput,
+        'nitrozen-toggle-btn': NitrozenToggleBtn,
         'inline-svg': inlineSvgVue,
         integrationsDetails
     },
@@ -151,8 +159,12 @@ export default {
         border-bottom: 1px solid #e0e0e0;
         display: flex;
         align-items: center;
-        .freshdesk-heading {
-            // background: #4D4D4D;
+        justify-content: space-between;
+
+        .title-logo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 

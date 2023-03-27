@@ -1,5 +1,5 @@
 <template>
-    <div v-if="integrationsData">
+    <div>
         <div class="container">
             <div class="heading-container">
                 <div class="heading">
@@ -24,6 +24,7 @@
                         class="host-url"
                         label="Host URL"
                         v-model="integrationsData.configuration.host"
+                        :disabled="!integrationsData.is_enable"
                         ></nitrozen-input>
                     <div
                         title="Click to copy"
@@ -45,6 +46,7 @@
                         class="api-key"
                         label="App Token"
                         v-model="integrationsData.configuration.token"
+                        :disabled="!integrationsData.is_enable"
                     ></nitrozen-input>
                     <div
                         title="Click to copy"
@@ -60,6 +62,7 @@
                         class="api-key"
                         label="Site ID"
                         v-model="integrationsData.configuration.siteId"
+                        :disabled="!integrationsData.is_enable"
                     ></nitrozen-input>
                     <div
                         title="Click to copy"

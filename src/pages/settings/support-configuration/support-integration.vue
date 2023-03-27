@@ -247,4 +247,5 @@ export default {
 
 .coming-soon-icon {
     margin: -16px -30px;
-}</style>
+}
+</style>
