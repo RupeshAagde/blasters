@@ -25,6 +25,7 @@
                     </span>
                     <nitrozen-toggle
                         class="mr-md"
+                        :ref="'update-gateway-status'"
                         v-model="agregatorDetails.is_active"
                         @change="confirmUpdateGatewayStatus()"
                     ></nitrozen-toggle>
@@ -40,6 +41,7 @@
                 :items="businessUnitList"
                 @change="(val) => handleBusinessUnitChange(val)"
                 :value="businessUnit"
+                :ref="'business-unit'"
             />
             <nitrozen-dropdown
                 class="dropdown-width"
@@ -49,10 +51,12 @@
                 :items="deviceList"
                 @change="(val) => handleDeviceChange(val)"
                 :value="device"
+                :ref="'device'"
             />
             <nitrozen-button
                 v-strokeBtn
                 :theme="'secondary'"
+                :ref="'copy-config-panel'"
                 @click="copyConfigPanel"
                 :disabled="pageError || pageLoading"
                 >Duplicate Config</nitrozen-button
@@ -72,7 +76,7 @@
             <div class="title">Available MOP/Sub MOP Options</div>
             <div class="content">
                 <div class="mop-options">
-                    <span
+                    <div
                         class="mop-list"
                         v-for="(item, index) in paymentModes"
                         :key="index"
@@ -85,6 +89,7 @@
                                         item.id == currentMopDetails.id,
                                 },
                             ]"
+                            :ref="`mop-container-item-${index}`"
                             @click="showSubModes(item)"
                         >
                             <div class="card-avatar">
@@ -107,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                    </span>
+                    </div>
                 </div>
                 <div class="sub-mop-options">
                     <div class="sub-mop-header">
@@ -124,6 +129,7 @@
                         <nitrozen-button
                             class="mr-16"
                             :theme="'secondary'"
+                            :ref="'update-mop-status'"
                             @click="confirmUpdateMopDetails"
                             v-flatBtn
                             :disabled="pageError || pageLoading"
@@ -668,16 +674,12 @@ export default {
                 };
                 if (this.isEditMode) {
                     payload['aggregator_id'] = this.paymentAggregatorId;
-                    const res =
-                        await PaymentService.saveCopiedConfigurationWithAggregator(
-                            payload
-                        );
+                    await PaymentService.saveCopiedConfigurationWithAggregator(payload);
                 } else {
-                    const res = await PaymentService.saveCopiedConfiguration(
-                        payload
-                    );
+                    await PaymentService.saveCopiedConfiguration(payload);
                 }
                 this.pageLoading = false;
+                this.selectedDeviceListToCopy = [];
                 this.$snackbar.global.showSuccess('Config Duplicated Successfully');
                 this.$refs['sidePanel'].close();
             } catch (err) {

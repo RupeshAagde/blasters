@@ -87,13 +87,6 @@ export default {
         },
         openSidePanel() {
             this.showSidePanelSection();
-        },
-        onUpdate(isSave) {
-            if (isSave) {
-                this.$emit('onSave', {});
-                this.showSidePanelSection();
-            }
-            this.formOpacity.opacity = this.formOpacity.opacity == 1 ? 0.5 : 1;
         }
     }
 };
