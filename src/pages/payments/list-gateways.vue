@@ -22,6 +22,7 @@
                             "
                         >
                             <nitrozen-input
+                                :ref="'search-payment-gateway'"
                                 :showSearchIcon="true"
                                 class="search"
                                 type="search"
@@ -48,7 +49,7 @@
                         "
                     >
                         <div class="gateway-main">
-                            <span
+                            <div
                                 class="gateway-menu"
                                 v-for="(item, index) in paymentGatewayList"
                                 :key="index"
@@ -58,7 +59,7 @@
                                     <span class="gateway-icon">
                                         <div class="card-avatar">
                                             <img
-                                                :src="item.logo"
+                                                :src="item.logos['small'] || '/public/assets/pngs/logo.png'"
                                                 alt="Logo"
                                             />
                                         </div>
@@ -81,7 +82,7 @@
                                         </div>
                                     </span>
                                 </card>
-                            </span>
+                            </div>
                         </div>
                     </div>
                     <page-empty
@@ -235,17 +236,20 @@ export default {
     }
     .gateway-icon {
         display: flex;
-        justify-content: center;
         align-items: center;
-        padding: 0px 20px;
+        padding: 0px 24px;
+        border-right: 0.5px solid @Mercury;
         .card-avatar {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 8px;
             img {
-                align-items: center;
-                max-width: 75px;
-                min-width: 75px;
-                min-height: 75px;
-                max-height: 75px;
-                border: 1px solid @Mercury;
+                display: flex;
+                justify-content: center;
+                max-width:65px;
+                min-width: 65px;
+                max-height:65px;
             }
         }
         
@@ -253,14 +257,14 @@ export default {
     .gateway-content {
         background-color: @White;
         width: 70%;
-        padding: 12px;
+        padding: 16px;
         .card-content-section {
             display: flex;
             flex: 1;
             justify-content: space-between;
             align-items: center;
             height: 100%;
-
+            color: @Mako;
             .full-name {
                 font-weight: 600;
                 font-size: 16px;

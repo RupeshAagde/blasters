@@ -240,11 +240,15 @@ export default [
                 }
             },
             {
-                name: 'mode-of-payment',
+                name: 'mode-of-payment-gateway',
                 path: 'payments/gateways/edit/:id',
                 component: PaymentMode,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
+                },
+                meta: {
+                    name: 'Edit Payment Gateway',
+                    action: 'edit'
                 }
             },
             {
@@ -253,6 +257,9 @@ export default [
                 component: PaymentMode,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['settings']);
+                },
+                meta: {
+                    name: 'Edit Payment Mode',
                 }
             },
             {
