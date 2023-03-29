@@ -166,15 +166,12 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         expect(wrapper.vm.pageLoading).toBe(false);
     });
 
-    // it('Highlight payment option to show sub payment mode', async () => {
-    //     wrapper.vm.isEditMode = true;
-    //     await flushPromises();
-    //     console.log('page loading ==> ',wrapper.vm.paymentModes);
-    //     let highlightPaymentOption = wrapper.findComponent({ ref: 'mop-container-item-1' });
-    //     console.log('highlightPaymentOption ==> ',highlightPaymentOption)
-    //     highlightPaymentOption.vm.$emit("click", paymentMode);
-    //     expect(wrapper.vm.subPaymentModes.length).toBe(1);
-    // });
+    it('Highlight payment option to show sub payment mode', async () => {
+        wrapper.vm.isEditMode = true;
+        let highlightPaymentOption = wrapper.findComponent({ ref: 'mop-container-item-1' });
+        highlightPaymentOption.trigger("click");
+        expect(wrapper.vm.subPaymentModes.length).toBe(0);
+    });
 })
 
 describe('Mounted Payment Mode Page', () => {
