@@ -356,7 +356,7 @@ export default {
         },
         redirectToListing() {
             setTimeout(() => {
-            this.$router.push({ path: '/administrator/settings/list-tags' })
+            this.$router.push({ path: '/administrator/settings/platform/list-tags' })
             });
 
         },
@@ -440,7 +440,7 @@ export default {
                         );
                         this.$router
                             .push({
-                                path: `/administrator/settings/list-tags`,
+                                path: `/administrator/settings/platform/list-tags`,
                             })
                             .catch(() => {});
                     })
@@ -468,7 +468,7 @@ export default {
                         );
                         this.$router
                             .push({
-                                path: `/administrator/settings/list-tags`,
+                                path: `/administrator/settings/platform/list-tags`,
                             })
                             .catch(() => {});
                     })
