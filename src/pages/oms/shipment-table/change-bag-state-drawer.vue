@@ -111,11 +111,10 @@ export default {
             this.inputStates = Object.keys(this.shipment.next_possible_states)
         }
         this.fetchBagStates();
-        this.fetchReasons();
     },
     computed: {
         showReasons() {
-            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer', 'return_initiated'];
             return validStates.includes(this.selectedState);
         }
     },
@@ -201,6 +200,7 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          */
         fetchReasons() {
+            console.log(this.selectedState)
             if(
                 this.shipment && 
                 !isEmpty(this.shipment) && 
@@ -208,7 +208,7 @@ export default {
                 this.shipment.bags && 
                 this.shipment.bags.length
             ) {
-                return OrdersService.fetchReassignedStoreReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id)
+                return OrdersService.fetchSupportingReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id, this.selectedState)
                 .then(response => {
                     if(response.data && response.data.success && response.data.reasons) {
                         if(response.data.reasons.length) {
@@ -307,6 +307,7 @@ export default {
          */
         onStateChange() {
             this.emitChange();
+            this.fetchReasons();
         }
     }
 }

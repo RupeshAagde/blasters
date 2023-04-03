@@ -823,7 +823,7 @@ export default {
          */
         onBagChangeState(event) {
             let invoiceRegex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
-            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer', 'return_initiated' ];
             if(event.state.length > 0 && event.remark.length > 9) {
                 if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
@@ -879,7 +879,7 @@ export default {
             };
             
             /* Adding reasons for cancelled states */
-            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer', 'return_initiated'];
             if(reasonStates.includes(changeBagStateDrawer.selectedState)) {
                 let reasonValue = changeBagStateDrawer.selectedReason;
                 let reasonText = '';

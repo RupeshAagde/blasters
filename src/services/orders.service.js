@@ -451,12 +451,12 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_QC_REASONS(shipmentId, bagId), axiosOptions);
     },
-    fetchReassignedStoreReasons(shipmentId, bagId) {
+    fetchSupportingReasons(shipmentId, bagId, status) {
         let axiosOptions = Object.assign(
             {},
             getCommonHeaderOptions(false)
         );
-        return ApiService.get(URLS.FETCH_REASSIGN_STORE_REASONS(shipmentId, bagId), axiosOptions);
+        return ApiService.get(URLS.FETCH_SUPPORTING_REASONS(shipmentId, bagId, status), axiosOptions);
     },
     fetchShipmentActivityLogs(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });

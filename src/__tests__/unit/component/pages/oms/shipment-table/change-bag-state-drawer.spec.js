@@ -25,7 +25,7 @@ describe('change-bag-state-drawer', () => {
         localVue.use(VueRouter);
         mock.reset()
         mock.onGet(URLS.GET_STATES_FOR_TRANSITION()).reply(200, MOCK_TRANSITION.response);
-        mock.onGet(URLS.FETCH_REASSIGN_STORE_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id)).reply(200, MOCK_REASONS.response);
+        mock.onGet(URLS.FETCH_SUPPORTING_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id, 'placed')).reply(200, MOCK_REASONS.response);
         router = new VueRouter({
             routes: [
                 { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: ChangeBagStateDrawer }
@@ -77,7 +77,7 @@ describe('change-bag-state-drawer unable to fetch', () => {
         localVue.use(VueRouter);
         mock.reset()
         mock.onGet(URLS.GET_STATES_FOR_TRANSITION()).reply(400, {});
-        mock.onGet(URLS.FETCH_REASSIGN_STORE_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id)).reply(400, {});
+        mock.onGet(URLS.FETCH_SUPPORTING_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id, 'placed')).reply(400, {});
         router = new VueRouter({
             routes: [
                 { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: ChangeBagStateDrawer }
@@ -105,7 +105,7 @@ describe('change-bag-state-drawer no reason/store', () => {
         localVue.use(VueRouter);
         mock.reset()
         mock.onGet(URLS.GET_STATES_FOR_TRANSITION()).reply(200, { fynd: [] });
-        mock.onGet(URLS.FETCH_REASSIGN_STORE_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id)).reply(200, {reasons:[]});
+        mock.onGet(URLS.FETCH_SUPPORTING_REASONS(SHIPMENT.placed.shipment_id, SHIPMENT.placed.bags[0].bag_id, 'placed')).reply(200, {reasons:[]});
         router = new VueRouter({
             routes: [
                 { path: 'orders/:orderId/details', name: 'company-order-details-v2', component: ChangeBagStateDrawer }
