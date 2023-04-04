@@ -203,6 +203,7 @@
                     @close="closeDetails()"
                     :title="`Choose Next Bag State`"
                     :footer="true"
+                    :css="{width: '30%'}"
                 >
                     <change-bag-state-drawer
                         ref="change-bag-state"
