@@ -4,6 +4,7 @@ import {Array, console} from 'window-or-global';
 import InputTypes from './NitrozenCustomFormInputTypes';
 import {getNavigations} from '../pages/administrator/navigations';
 import get from "lodash/get";
+import isEmpty from 'lodash';
 import moment from 'moment';
 
 export const debounce = (func, wait, immediate) => {
@@ -696,6 +697,11 @@ export const formatPrice = (value) => {
 export const numberToThousandString = (num)=> {
     let val = Number(num)/1000;
     return val < 1 ? `${num}` : val.toString().split('.')[1].length > 0 ? `${val.toString().split('.')[0]}K+`:`${val}K`;
+}
+
+// Remove keys with empty, null and undefined values in Object
+export const removeEmpty = (obj) => {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v && !isEmpty(v)));
 }
 /** OMS v2.1 --END */
 

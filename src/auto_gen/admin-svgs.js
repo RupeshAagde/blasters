@@ -1,5 +1,5 @@
 "use strict";
-var svgs={}; 
+var svgs = {};
 svgs["Subtract"] = '<svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.044 8A7.022 7.022 0 1 1 0 8a7.022 7.022 0 0 1 14.044 0Zm-6.027 3.218a.995.995 0 1 1-1.99 0 .995.995 0 0 1 1.99 0Zm-.245-6.261a.75.75 0 1 0-1.5 0v3.511a.75.75 0 1 0 1.5 0V4.957Z" fill="#EB5757"/></svg>';
 svgs["accordion-arrow-down"] = '<svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.775.137 1.475 1.484L9 9.862.75 1.612 2.225.137 9 6.912 15.775.137Z" fill="#8F8F8F"/></svg>';
 svgs["accordion-arrow-up"] = '<svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.225 9.863.75 8.379 9 .138l8.25 8.25-1.475 1.475L9 3.088 2.225 9.863Z" fill="#8F8F8F"/></svg>';

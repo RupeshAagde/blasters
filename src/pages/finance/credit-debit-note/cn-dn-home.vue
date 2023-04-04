@@ -216,8 +216,6 @@
             </template>
         </transition>
     </div>
-    <!-- <div v-else>  //////// UPCOMING CHANGES ////////////
-    </div> -->
 </template>
 
 <script>
@@ -445,7 +443,11 @@ export default {
             this.initialPayload.data.page = 1;
             this.initialPayload.data.pageSize = this.pageObject.limit;
             this.pageObject.current = 1;
-            this.initialPayload.data['search'] = {...this.initialPayload.data['search'], ...{seller_name: this.search, document_number: this.search}};
+            if(this.search.split(' ').join('').length > 0){
+                this.initialPayload.data['search'] = {...this.initialPayload.data['search'], ...{seller_name: this.search.trim(), document_number: this.search.trim() }};
+            } else{
+                this.initialPayload.data.search = {};
+            }
             this.getListData();
         }, 1000),
         dateFormatted(e){

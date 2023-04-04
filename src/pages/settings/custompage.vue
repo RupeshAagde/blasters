@@ -11,6 +11,7 @@
                             v-flatBtn
                             theme="secondary"
                             @click="openCreateModal"
+                            ref="create-custom-page"
                         >
                             Create
                         </nitrozen-button>
@@ -121,10 +122,10 @@
                             <nitrozen-radio
                                 name="pageType"
                                 v-model="pageTypeSelection"
-                                radioValue="grapeJS"
-                                title="HTML Editor - GrapesJS"
+                                radioValue="rawhtml"
+                                title="Raw HTML"
                             >
-                                HTML Editor - GrapesJS
+                                Raw HTML
                             </nitrozen-radio>
                             <nitrozen-radio
                                 name="pageType"
@@ -137,10 +138,18 @@
                             <nitrozen-radio
                                 name="pageType"
                                 v-model="pageTypeSelection"
-                                radioValue="rawhtml"
-                                title="Raw HTML"
+                                radioValue="file"
+                                title="Upload HTML File"
                             >
-                                Raw HTML
+                                Upload HTML File
+                            </nitrozen-radio>
+                            <nitrozen-radio
+                                name="pageType"
+                                v-model="pageTypeSelection"
+                                radioValue="grapeJS"
+                                title="HTML Editor - GrapesJS"
+                            >
+                                HTML Editor - GrapesJS
                             </nitrozen-radio>
                         </div>
                         <div class="page-type-details">
@@ -237,13 +246,13 @@ const PAGINATION = {
     total: 0,
 };
 const PAGE_TYPE_DETAILS = {
-    grapeJS: {
-        name: 'GrapesJS Editor',
+    rawhtml: {
+        name: 'Raw HTML Editor',
         description: {
             template:
-                '<div><span>For advanced users</span><li>Use readily available drag-and-drop blocks to build any page with multiple styles (CSS). Easily manage layers and media files (assets).</li><li> Get all the content tools, forms and its components, along with extras like custom code, tooltips and many more.</li></div>',
+                '<p>Create a page using HTML, a conventionally used language that supports all the markup tags within angle brackets.</p>',
         },
-        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587047567/production/platform/admin-panel/page-editor/grapesjs-editor.jpg',
+        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050182/production/platform/admin-panel/page-editor/rawhtml-editor.png',
     },
     markdown: {
         name: 'Markdown Editor',
@@ -253,13 +262,21 @@ const PAGE_TYPE_DETAILS = {
         },
         image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050181/production/platform/admin-panel/page-editor/markdown-editor.png',
     },
-    rawhtml: {
-        name: 'Raw HTML Editor',
+    file: {
+        name: 'Upload HTML file',
         description: {
             template:
-                '<p>Create a page using HTML, a conventionally used language that supports all the markup tags within angle brackets.</p>',
+                '<p>Create a page by uploading HTML file.</p>',
         },
         image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587050182/production/platform/admin-panel/page-editor/rawhtml-editor.png',
+    },
+    grapeJS: {
+        name: 'GrapesJS Editor',
+        description: {
+            template:
+                '<div><span>For advanced users</span><li>Use readily available drag-and-drop blocks to build any page with multiple styles (CSS). Easily manage layers and media files (assets).</li><li> Get all the content tools, forms and its components, along with extras like custom code, tooltips and many more.</li></div>',
+        },
+        image: 'https://res.cloudinary.com/dwzm9bysq/image/upload/v1587047567/production/platform/admin-panel/page-editor/grapesjs-editor.jpg',
     },
 };
 
@@ -295,7 +312,7 @@ export default {
             statusList: PAGE_FILTERS,
             pagination: { ...PAGINATION },
             ModalOpen: false,
-            pageTypeSelection: 'grapeJS',
+            pageTypeSelection: 'rawhtml',
             PAGE_TYPE_DETAILS,
             pageType: '',
         };
@@ -357,7 +374,7 @@ export default {
         },
         openCreateModal() {
             this.$refs['custom_pages_dialog'].open({
-                width: '700px',
+                width: '750px',
                 height: '550px',
             });
         },

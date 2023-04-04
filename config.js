@@ -536,6 +536,13 @@ const conf = convict({
             default: '',
             env: 'HEDWIG_ADMIN_SVC',
             arg: 'hedwig_admin_svc'
+        },
+        HEDWIG_ADMIN_URL: {
+            doc: 'Shipment DP Tracking API Service',
+            format: String,
+            default: '',
+            env: 'HEDWIG_ADMIN_URL',
+            arg: 'hedwig_admin_url'
         }
         /** OMS v2.1 -- END */
     },

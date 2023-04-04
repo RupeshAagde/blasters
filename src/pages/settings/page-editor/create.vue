@@ -157,6 +157,11 @@
                             v-model="content"
                             ref="markdown"
                         ></markdown-page-editor>
+                        <upload-file
+                            v-if="pageType === 'file'"
+                            v-model="content"
+                            ref="file"
+                        ></upload-file>
                     </div>
                 </div>
             </div>
@@ -172,6 +177,7 @@ import {
 } from '@/components/common/';
 import rawhtmlEditor from './rawhtml-editor.vue';
 import markdownPageEditor from './markdown-page-editor.vue';
+import uploadHtmlFile from './upload-file.vue';
 import InternalSettingsService from '@/services/internal-settings.service';
 import pageLink from '../../../components/common/page-link.vue';
 import { convertToSlug } from '../../../helper/utils';
@@ -203,6 +209,7 @@ export default {
         'page-options': PageOptions,
         'rawhtml-editor': rawhtmlEditor,
         'markdown-page-editor': markdownPageEditor,
+        'upload-file': uploadHtmlFile,
         'page-link': pageLink,
         Loader,
     },
