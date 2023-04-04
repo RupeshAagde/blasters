@@ -200,7 +200,6 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          */
         fetchReasons() {
-            console.log(this.selectedState)
             if(
                 this.shipment && 
                 !isEmpty(this.shipment) && 
