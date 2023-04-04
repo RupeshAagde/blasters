@@ -6,6 +6,7 @@
                 cancelBtnTitle="No"
                 saveBtnTitle="Yes"
                 @save="updateGatewayStatus(agregatorDetails)"
+                @cancel="cancelUpdateGatewayStatus"
             />
             <adm-page-header
                 class="adm-page-header"
@@ -27,7 +28,7 @@
                         class="mr-md"
                         :ref="'update-gateway-status'"
                         v-model="agregatorDetails.is_active"
-                        @change="confirmUpdateGatewayStatus()"
+                        @change="confirmUpdateGatewayStatus"
                     ></nitrozen-toggle>
                 </div>
             </adm-page-header>
@@ -177,6 +178,7 @@
                 ref="sidePanel"
                 :title="'Duplicate Configuration'"
                 @copyConfiguration="copyConfiguration"
+                @clearSelectedDeviceList="cancelCopyConfiguration"
             >
                 <template slot="body">
                     <div class="item-form">
@@ -218,7 +220,8 @@
             ref="confirm"
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
-            @save="saveCopiedConfiguration()"
+            @save="saveCopiedConfiguration"
+            @cancel="cancelCopyConfiguration"
         />
     </div>
 </template>
@@ -636,11 +639,20 @@ export default {
                     );
                 });
         },
+        cancelUpdateGatewayStatus(e){
+            this.agregatorDetails.is_active = e.data.is_active || false
+        },
+        cancelCopyConfiguration(){
+            this.selectedDeviceListToCopy = []
+        },
         confirmUpdateGatewayStatus() {
             this.$refs['confirm-gateway-status-update'].openConfirmation({
                 title: 'Save Changes?',
                 message: 'Click Yes to save the changes',
                 height: '271px',
+                data: {
+                    is_active: !this.agregatorDetails.is_active
+                }
             });
         },
         confirmUpdateMopDetails() {

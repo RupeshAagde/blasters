@@ -75,6 +75,7 @@ export default {
             this.clearError();
             this.showSidePanel = !this.showSidePanel;
             this.formOpacity.opacity = 1;
+            this.$emit('clearSelectedDeviceList');
         },
         clearError() {
             this.errors = {};
