@@ -51,6 +51,7 @@
                                             <nitrozen-checkbox
                                                 class="checkbox"
                                                 v-model="item.enabled"
+                                                @change="setCheckboxData()"
                                             ></nitrozen-checkbox>
                                             <span>{{ item.title }}</span>
                                             <span
@@ -379,6 +380,9 @@ export default {
         closeAddSupport() {
             this.enabledToAddContact = false;
             this.showPreview = false;
+        },
+        setCheckboxData() {
+            this.$emit("checkboxValue",this.supportCommunication)
         },
         addSupportDetail() {
             if (
