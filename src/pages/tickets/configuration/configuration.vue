@@ -19,7 +19,10 @@
                 </div>
             </page-header>
             <div class="container">
-                <support-Communication :type="type"></support-Communication>
+                <support-Communication 
+                :type="type"
+                @checkboxValue = setSupportCommunication($event)
+                ></support-Communication>
 
                 <div v-if="isDRIenabled" class="support-managers">
                     <div>
@@ -296,6 +299,9 @@ export default {
         this.getGeneralConfiguration();
     },
     methods: {
+        setSupportCommunication(value){
+            this.supportCommunication = value
+        },
         switchIntegration(integration) {
             this.selectedIntegrationType = integration
             this.warningPopUp = true;
