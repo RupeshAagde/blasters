@@ -568,7 +568,8 @@ export default {
                 categories: [],
                 attributes: [],
                 is_physical: true,
-                is_expirable: false
+                is_expirable: false,
+                logo: ''
             },
             attributes: [],
             departments: [],

@@ -56,5 +56,9 @@ exports.config = {
       'response.headers.setCookie*',
       'response.headers.x*'
     ]
-  }
+  },
+  NEW_RELIC_APPLICATION_LOGGING_ENABLED: false,
+  NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED: false,
+  NEW_RELIC_APPLICATION_LOGGING_LOCAL_DECORATING_ENABLED: false,
+  NEW_RELIC_APPLICATION_LOGGING_METRICS_ENABLED: false
 }

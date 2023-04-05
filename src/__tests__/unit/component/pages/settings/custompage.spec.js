@@ -47,6 +47,11 @@ describe('Mounted Custom Page', () => {
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
     })
+    it('open custom page dialog', () => {
+        const customPageModal = wrapper.findComponent({ref: 'create-custom-page'});
+        customPageModal.vm.$emit('click');
+        expect(customPageModal.exists()).toBe(true);
+    })
     it('other methods', async () => {
         wrapper.vm.searchText = 'omansh';
         wrapper.vm.debounceInput(); 
@@ -59,7 +64,7 @@ describe('Mounted Custom Page', () => {
         wrapper.vm.updatePage({slug: 'qwe', type:'rawhtml'})
 
     })
-
+    
     
 
 })
