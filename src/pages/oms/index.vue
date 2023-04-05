@@ -1678,7 +1678,6 @@ export default {
             }
 
             .filter-dropdown {
-                // min-width: 250px;
                 min-width: 150px;
                 width: 200px;
                 ::v-deep .nitrozen-dropdown-label {
@@ -1696,21 +1695,22 @@ export default {
                                 }
                             }
                         }
+                        .nitrozen-options {
+                            .nitrozen-option {
+                                .nitrozen-option-container {
+                                    padding: 6px 14px;
+                                }
+                            }
+                        }
                     }
 
                 }
                 ::v-deep .nitrozen-checkbox-container {
                     height: 30px !important;
                 }
-                ::v-deep .nitrozen-option-image {
-                    height: 20px;
-                }
                 &.channel-dropdown {
                     width: 120px;
                 }
-                // &.store-dropdown {
-                //     width: 200px;
-                // }
             }
         }
     }
