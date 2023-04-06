@@ -766,7 +766,7 @@ export default {
                 force_invoicing: true
             }
             OrderService.hitEInvoice(data).then((res)=>{
-                if(res.data.errors[0].msg.error) {
+                if(res && !res.status) {
                     this.$snackbar.global.showError("Failed to generate E-invoice")
                 }
                 else {
