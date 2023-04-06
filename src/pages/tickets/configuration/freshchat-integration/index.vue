@@ -120,15 +120,15 @@ export default {
             this.host = host;
         },
         async getfreshchatDetails() {
-            const { data: { items } } = await CredentialsService.fetchCredential('partner', "freshchat")
-            this.setPageData(items[0]);
+            const { data } = await CredentialsService.fetchCredential('partner', "freshchat")
+            this.setPageData(data);
         },
         async setIntegration() {
             let id = this.integrationsData._id
             let payload = this.integrationsData
-            const { data: { items } } = await CredentialsService.updateCredential(id, payload)
-            if(items){
-                this.setPageData(items);
+            const { data } = await CredentialsService.updateCredential(id, payload)
+            if(data){
+                this.setPageData(data);
                 this.$router.push({
                     path: `/administrator/settings/partners/contact-configuration`
                 });
