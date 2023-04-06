@@ -228,11 +228,17 @@ export default {
 .gateway-main {
     display: flex;
     flex-wrap: wrap;
+    padding: 12px 0px;
+    gap: 24px;
+    box-sizing: border-box;
     @media @mobile {
         display: block;
     }
     .gateway-menu {
-        flex: 0 50%;
+        width: calc(50% - 12px);
+        ::v-deep .settings-body{
+            margin: 0px;
+        }
     }
     .gateway-icon {
         display: flex;
@@ -256,7 +262,7 @@ export default {
     }
     .gateway-content {
         background-color: @White;
-        width: 70%;
+        width: 100%;
         padding: 16px;
         .card-content-section {
             display: flex;
