@@ -202,7 +202,7 @@ export const getNavigations = () => {
             icon: 'payments',
             highlightedIcon: 'payments-highlighted',
             active: false,
-            permission: 'settings',
+            permission: 'payments',
             children: [
                 {
                     display: 'Payment Gateways',
