@@ -135,7 +135,8 @@ export default {
     methods: {
         isEmpty,
         getPublicUrl(url, type){
-            return GrindorService.getPublicUrl({
+            console.log(url, type)
+            return GrindorService.getPublicUrl('',{
                 expiry: 300,
                 urls: [url]
             })
