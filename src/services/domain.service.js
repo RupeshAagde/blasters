@@ -492,6 +492,20 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
+    //For Invoice
+
+    GET_INVOICE_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+    },
+    GET_INVOICE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+    },
+    GET_INVOICE_PAYMENT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+    },
+    
+
+
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

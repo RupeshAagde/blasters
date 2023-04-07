@@ -343,6 +343,14 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Invoices',
+                    link: '/administrator/finance/invoices',
+                    title: 'invoices',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
         },

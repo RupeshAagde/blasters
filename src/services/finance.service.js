@@ -69,7 +69,24 @@ const FinanceService = {
     getReportList(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption);
+    },
+
+    //Invoice 
+
+    getInvoiceList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_LIST(), axiosOption);
+    },
+    getInvoiceType(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_TYPE(), axiosOption);
+    },
+    getPaymentStatus(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_PAYMENT(), axiosOption);
     }
+
+    
 };
 
 export default FinanceService;
