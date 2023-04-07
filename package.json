@@ -44,7 +44,7 @@
     "license": "ISC",
     "dependencies": {
         "@formschema/native": "^1.1.1",
-        "@gofynd/nitrozen-vue": "0.0.37",
+        "@gofynd/nitrozen-vue": "0.0.43",
         "@google/model-viewer": "^1.4.1",
         "@sentry/node": "^5.27.3",
         "@xmldom/xmldom": "^0.8.6",
