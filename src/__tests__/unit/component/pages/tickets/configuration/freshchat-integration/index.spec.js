@@ -32,8 +32,6 @@ describe('Freshchat Index Page', () => {
         })
 
         const mockData = {
-            "items": [
-                {
                     "_id": "6412acf83cdf81e117fbdd1a",
                     "configuration": {
                         "siteId": "8271727f-8f5f-4729-895d-7040a1512d15",
@@ -45,9 +43,7 @@ describe('Freshchat Index Page', () => {
                     "created_at": "2023-03-16T05:45:28.987Z",
                     "updated_at": "2023-03-17T05:40:08.723Z",
                     "__v": 0
-                }
-            ]
-        };
+        }
 
         let updateData = {
             "configuration": {
