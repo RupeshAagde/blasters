@@ -29,6 +29,7 @@ import Configuration from './../../pages/tickets/configuration/configuration.vue
 import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
 import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
 import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
+import freshchatVue from '@/pages/tickets/configuration/freshchat-integration/index.vue'
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -488,6 +489,14 @@ export default [
                 name: 'support-configuration-default',
                 path: 'support/configuration/integration/default',
                 component: fyndPlatformIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-freshchat',
+                path: 'support/configuration/integration/freshchat',
+                component: freshchatVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
