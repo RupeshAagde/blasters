@@ -128,5 +128,12 @@ export const adminActionDropdownItems = [
         value: 'change_address',
         icon: 'oms-change-address',
         forceDisplay: false
+    },
+    {
+        id: 11,
+        text: 'Generate E Invoice',
+        value: 'generate_e_invoice',
+        icon: 'oms-create-invoice',
+        forceDisplay: false
     }
 ];
