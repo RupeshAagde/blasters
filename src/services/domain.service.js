@@ -498,13 +498,15 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
     },
     GET_INVOICE_TYPE: () => {
-        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-invoice-list`);
     },
     GET_INVOICE_PAYMENT: () => {
-        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing2`);
+    },
+    GET_INVOICE_DOWNLOAD_URLS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/pdf-view`);
     },
     
-
 
     //#########Tickets########
     FETCH_TICKETS: () => {

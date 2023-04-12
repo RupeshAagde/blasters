@@ -84,6 +84,10 @@ const FinanceService = {
     getPaymentStatus(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_INVOICE_PAYMENT(), axiosOption);
+    },
+    getDownloadUrlList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_DOWNLOAD_URLS(), axiosOption);
     }
 
     

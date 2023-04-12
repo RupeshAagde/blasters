@@ -13,29 +13,20 @@
               :showSearchIcon="true"
               class="search"
               type="search"
-              placeholder="Search here"
-              @keyup.enter="onSearch"
+              placeholder="Search by Invoice Number/IRN"
               v-model="searchText"
+              @input="searchByInput"
           ></nitrozen-input>
         </div>
-        <div class="invoice-type-filter filter-item">
+        <div class="company-filter filter-item">
           <nitrozen-dropdown
-              id="invoice-type"
-              :items="invoiceType"
-              v-model="selectedInvoiceType"
-              placeholder="Invoice Type"
-              :searchable="true"
-              :multiple="true"
-          ></nitrozen-dropdown>
-        </div>
-        <div class="payment-status-filter filter-item">
-          <nitrozen-dropdown
-              id="payment-status"
-              :items="paymentStatusList"
-              v-model="selectedPaymentStatus"
-              placeholder="Payment Status"
-              :searchable="true"
-              :multiple="true"
+            id="company-name"
+            :items="companyNames"
+            v-model="selectedCompany"
+            placeholder="Company Id/Name"
+            :searchable="true"
+            :multiple="true"
+            @searchInputChange="searchCompany"
           ></nitrozen-dropdown>
         </div>
         <div class="date-filter filter-item">
@@ -53,14 +44,33 @@
               :useNitrozenTheme="true"
           ></date-picker>
         </div>
+        <div class="advanced-filter filter-item" @click="openFilterDrawer()">
+          <div class="advanced-filter-btn">More Filters</div>
+        </div>
       </div>
     </div>
+    <transition name="slide">
+      <div class="invoice-drawer-container" v-if="isFilterDrawerOpen">
+          <filter-drawer @closeFilterDrawer="closeFilterDrawer"></filter-drawer>
+      </div>
+    </transition>
     <transition name="slide">  
       <div class="invoice-drawer-container" v-if="isDrawerOpen">
           <invoice-drawer @closeDrawer="handleCloseDrawer"></invoice-drawer>
       </div>
     </transition>
     <div class="table-container">
+      <div v-if="bulkDownloadList.length" class="bulk-download-container" >
+        {{bulkDownloadList.length}} Selected
+        <nitrozen-button
+          @click="downloadFiles"
+          theme="secondary"
+          class="export-catalog"
+          v-strokeBtn                            
+          >
+            Download
+        </nitrozen-button>
+      </div>
       <table class="invoices-table">
         <thead>
             <tr>
@@ -77,9 +87,7 @@
                 <th>Invoice Number</th>
                 <th>Invoice Type</th>
                 <th>Invoice Date</th>
-                <th >Period
-                    <img @click="toggleSort()" src="/public/admin/assets/svgs/hamburger-fin.svg" />
-                </th>
+                <th>Period</th>
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -95,11 +103,14 @@
                     v-for="(invoice,
                     i) in billingInvoices.items"
                     :key="i">
-                    <td>   
+                    <td >   
+                      {{ invoice.id}}
+                      {{ selectedInvoices }}
                         <nitrozen-checkbox
                         class="table-checkout"
-                        @change="toggleInvoice(invoice.id)"
+                        @change="toggleInvoice(invoice.id,invoice.invoice_number)"
                         :value="selectedInvoices.includes(invoice.id)? true : false"
+                        :disabled="invoice.status != 'paid'"
                         >
                         </nitrozen-checkbox>
                     </td>
@@ -137,7 +148,6 @@
                     </td>
                     <td>
                       <div class="actions-wrap">
-                        <!-- <div class="action-btn"><inline-svg :src="'hamburger-fin'"></inline-svg></div> -->
                         <div :class="[`action-${invoice.status}`]">
                             <nitrozen-menu class="actions-menu" mode="vertical">
                                 <nitrozen-menu-item class="act-offline" @click="handleOpenDrawer()">
@@ -145,7 +155,7 @@
                                 </nitrozen-menu-item>
                                 <nitrozen-menu-item class="act-debt" @click="handleAutoDebt(invoice.invoice_number)">Retry Auto-debt</nitrozen-menu-item>
                                 <nitrozen-menu-item class="act-void" @click="handleVoid(invoice.invoice_number)">Void</nitrozen-menu-item>
-                                <nitrozen-menu-item class="act-download">Download</nitrozen-menu-item>
+                                <nitrozen-menu-item class="act-download" @click="downloadInvoice([invoice.invoice_number])">Download</nitrozen-menu-item>
                             </nitrozen-menu>
                         </div>
                       </div>
@@ -166,12 +176,13 @@
       </div>
       <pop-up
             v-if="showPopup"
-            :infoText="popupVals.desc"
-            :textHeading="popupVals.heading"
-            :cancel="popupVals.cancel"
-            :confirm="popupVals.confirm"
+            :infoText="popupData.desc"
+            :textHeading="popupData.heading"
+            :cancel="popupData.cancel"
+            :confirm="popupData.confirm"
             @cancel="cancelPopup"
-            @confirm="handlePopupp"
+            @confirm="handlePopup"
+            :type="popupData.type"
         />
       <template
         v-if="
@@ -194,7 +205,10 @@ import FinanceService from '@/services/finance.service.js';
 import DatePicker from "@/components/common/date-picker.vue";
 import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import invoiceDrawer from './invoice-drawer.vue';
+import invoiceFilterDrawer from './invoice-filters.vue';
 import invoicePopup from './invoice-popup.vue';
+import CompanyService from '@/services/company-admin.service';
+import { debounce } from '@/helper/utils';
 import {
    NitrozenCheckBox,
    NitrozenInput,
@@ -202,8 +216,10 @@ import {
    NitrozenMenu, 
    NitrozenMenuItem,
    NitrozenDropdown,
-   
+   NitrozenButton,
+   strokeBtn
 } from '@gofynd/nitrozen-vue';
+import { threadId } from 'worker_threads';
 
 const PAGINATION_OBJECT = {
     limit: 10,
@@ -223,8 +239,13 @@ export default {
       NitrozenMenu,
       NitrozenMenuItem,
       NitrozenDropdown,
+      NitrozenButton,
+      'filter-drawer': invoiceFilterDrawer,
       'invoice-drawer': invoiceDrawer,
       'pop-up':invoicePopup
+    },
+    directives: {
+      strokeBtn
     },
     data() {
       return {
@@ -237,17 +258,24 @@ export default {
         paymentStatusList: [],
         selectedInvoiceType: '',
         selectedPaymentStatus: '',
+        selectedCompany:'',
+        companyNames:[],
         pageObject: { ...PAGINATION_OBJECT },
         invoiceList: [],
         isDrawerOpen: false,
+        isFilterDrawerOpen:false,
         showPopup: false,
         searchText: '',
         paymentSelection:'',
-        popupVals:{
+        downloadUrlList: [],
+        disabled:'disabled',
+        bulkDownloadList: [],
+        popupData:{
           heading:'',
           desc:'',
           cancel:"Cancel",
-          confirm:"Yes, Proceed"
+          confirm:"Yes, Proceed",
+          type:''
         },
         billingInvoices: {
           "items": [
@@ -271,6 +299,7 @@ export default {
                       "invoice_type":"Seller Invoice Df",
                       "status":"unpaid",
                       "total_amount":3983.68,
+
                       "currency":"INR",
                       "invoice_date":"",
                       "irn":"",
@@ -306,6 +335,20 @@ export default {
                       "end_date":"",
                       "seller_name":"Test4",
                       "seller_id": "4"
+                    },
+                    {
+                      "id":"809677d0-1831-4e1b-9761-ff51641b0000",
+                      "invoice_number":"BINV/00021/22-69",
+                      "invoice_type":"Seller Invoice2",
+                      "status":"paid",
+                      "total_amount":398,
+                      "currency":"INR",
+                      "invoice_date":"",
+                      "irn":"",
+                      "start_date":"",
+                      "end_date":"",
+                      "seller_name":"Test5",
+                      "seller_id": "5"
                     }
               ],
               "item_count": 0,
@@ -320,32 +363,41 @@ export default {
       }
   },
   mounted() {
-        this.getInvoiceType();
-        this.getPaymentStatusList();
+      this.getInvoiceList();
+      // this.fetchCompany();
+      this.getInvoiceType();
+      this.getPaymentStatusList();
     },
  methods: {
-  
   toggleAllInvoices () {
             if(this.selectedInvoices.length == 0) {
-                this.selectedInvoices = this.billingInvoices.items.map(x => {
-                return x.id
+                this.selectedInvoices = this.billingInvoices.items.map(item => {
+                  if(item.status === 'paid') {return item.id}
+                
             })
+            this.bulkDownloadList = this.billingInvoices.items.
+                filter(item => item.status === 'paid').
+                map(item => item.invoice_number)
+            console.log(this.selectedInvoices, this.bulkDownloadList);
             return
-
             } 
-            this.selectedInvoices = []
+            this.selectedInvoices = [];
+            this.bulkDownloadList = [];
+            
         },
-  toggleSort(){
-      this.sortInvoice = this.sortInvoice == -1 ? 1 : -1
-  },
-  toggleInvoice (id) {
+  toggleInvoice (id, invoice_num) {
             const index = this.selectedInvoices.indexOf(id);
             if (index > -1) { 
               this.selectedInvoices.splice(index, 1); 
+              this.bulkDownloadList.splice(index, 1); 
               return
             }
             this.selectedInvoices.push(id)
+            this.bulkDownloadList.push(invoice_num);
            
+  },
+  downloadFiles(){
+      this.downloadInvoice(this.bulkDownloadList)
   },
   handlePageChanges(e) {
             this.pageObject = e;
@@ -354,19 +406,19 @@ export default {
   getInvoiceList(){
       const params = {
           data:{	
-              start_date:"11-04-2021",
-              end_date:"11-05-2021",
+              start_date:"04-04-2023",
+              end_date:"05-04-2023",
               page:this.pageObject.current,
-              pageSize:this.pageObject.limit,
+              page_size:this.pageObject.limit,
               filters:{},
-              search:""
+              search:this.searchText,
           }
       }
-
       const invoiceList = FinanceService.getInvoiceList(params);
       invoiceList
           .then((res) => {
-              this.invoiceList = res.data.items;
+              console.log(res);
+              this.billingInvoices.items = res.data.items;
               this.pageObject.total = res.data.page.item_count;
           })
           .catch((err) => {
@@ -379,16 +431,22 @@ export default {
           })
   },
   handleOpenDrawer(){
-      this.isDrawerOpen = true;
+    this.isDrawerOpen = true;
   },
   handleCloseDrawer(){
-      this.isDrawerOpen = false;
+    this.isDrawerOpen = false;
   }, 
+  openFilterDrawer(){
+    this.isFilterDrawerOpen = true;
+  },
+  closeFilterDrawer(){
+    this.isFilterDrawerOpen = false;
+  },
   cancelPopup(){
       this.showPopup = false;
   },
-  handlePopup(){
-      console.log("Handled")
+  handlePopup(status){
+      this.showPopup = false;
   },
   onDateChange(){
 
@@ -396,10 +454,13 @@ export default {
   paymentOptnChange(){
 
   },
+  searchByInput: debounce(function (e) {   
+        this.getInvoiceList();
+  }, 1000),
   getInvoiceType(){
       const params = {
           data:{
-              
+              is_active:true
           }
       }
       const caller = FinanceService.getInvoiceType(params);
@@ -407,10 +468,8 @@ export default {
           .then(( res ) => {
               this.invoiceType = res.data.items.map((item) => {
                   return {
-                      text: item.name,
-                      value: item.id,
-                      description: item.description,
-                      date: item.display_date, 
+                      text: item.display_name,
+                      value: item.type,
                   };
               });
           })
@@ -421,11 +480,10 @@ export default {
           })
           .finally(() => {
               this.inProgress = false;
-          });
+      });
 
   },
   getPaymentStatusList(){
-
     const params = {
           data:{
               
@@ -454,16 +512,82 @@ export default {
 
   },
   handleVoid(number){
-    this.popupVals.heading = "Void Invoice ?";
-    this.popupVals.desc = `Are you sure you want to Void this Invoice (${number}) ?`;
+    this.popupData.heading = "Void Invoice ?";
+    this.popupData.desc = `Are you sure you want to Void this Invoice (${number}) ?`;
     this.showPopup = true;
+    this.popupData.type = "void";
   },
   handleAutoDebt(number){
-    this.popupVals.heading = "Retry Auto debt";
-    this.popupVals.desc = `Are you sure you want to retry auto dept for this Invoice (${number}) ?`;
+    this.popupData.heading = "Retry Auto debt";
+    this.popupData.desc = `Are you sure you want to retry auto dept for this Invoice (${number}) ?`;
     this.showPopup = true;
-  }
-  }
+    this.popupData.type = "debt";
+  },
+  downloadInvoice(invoiceList){
+      const params = {
+        "data":{
+          "invoice_number": invoiceList
+        }
+      }
+      const caller = FinanceService.getDownloadUrlList(params);
+      caller
+          .then(( res ) => {
+              res.data.api_response.forEach(item => {
+                const fileName = item.split("/").pop().split("?")[0]
+                // this.ƒ(item.pdf_s3_url)
+              });
+          })
+          .catch((err) => {
+              this.$snackbar.global.showError(
+                  `Failed due to ${err.message}`
+              );
+          })
+          .finally(() => {
+      });
+
+  },
+  searchCompany(e) {
+            debounce((text) => {
+                console.log(text);
+                this.fetchCompany(text);
+            }, 1000)(e.text);
+        },
+  
+  },
+  fetchCompany(query) {
+      let params = {
+          page_no: 0,
+          page_size: 10
+      };
+      if (query) {
+          params.q = query;
+      }
+      return CompanyService.getCompanyList(params)
+          .then(({ data }) => {
+              let companies = data.items.map((item) => {
+                  return {
+                      text: `${item.name} (${item.uid})`,
+                      value: String(item.uid)
+                  };
+              });
+              this.companyNames = companies;
+          })
+          .catch((err) => {
+              this.$snackbar.global.showError('Failed to load companies');
+
+              });
+  },
+  downloadFile(url, filename) {
+    fetch(url).then(function(t) {
+        return t.blob().then((b)=>{
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(b);
+            a.setAttribute("download", filename);
+            a.click();
+        }
+        );
+    });
+  },
 
 }
 </script>
@@ -509,10 +633,36 @@ export default {
     .vue-date-picker{
       width: 100% !important;
     }
-    .filter-item {
-      width: 25%;
-      max-width: 25%;
-      flex: 0 0 25%;
+
+    .search-filter{
+      width: 39%;
+      max-width: 39%;
+      flex: 0 0 39%;
+      padding-right:1%;
+    }
+    .company-filter, .date-filter{
+      width: 24%;
+      max-width: 24%;
+      flex: 0 0 24%;
+      padding-right:1%;
+    }
+    .advanced-filter{
+      width: 10%;
+      max-width: 10%;
+      flex: 0 0 60%;
+
+      .advanced-filter-btn{
+        border: 1px solid #E0E0E0;
+        border-radius: 4px;
+        background: #fff;
+        color: #41434C;
+        // opacity: 0.8;
+        font-size: 14px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        cursor: pointer;
+      }
     }
     .search {
         @media @mobile{
@@ -636,11 +786,16 @@ export default {
     }
   }
 }
-
-.invoice-drawer-container{
-  
 }
 
+.bulk-download-container {
+    background-color: #E7EEFF;
+    line-height: 38px;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
 }
 
 </style>

@@ -50,14 +50,15 @@ import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'invoice-popup',
-    props: ['confirm', 'cancel', 'infoText', 'textHeading', 'status'],
+    props: ['confirm', 'cancel', 'infoText', 'textHeading', 'type'],
     components: {
         'inline-svg': inlineSvg,
         'nitrozen-button': NitrozenButton
     },
     methods: {
         confirmHelper() {
-            this.$emit('confirm');
+            console.log(this.type);
+            this.$emit('confirm', this.type);
         },
         cancelHelper() {
             this.$emit('cancel');
