@@ -117,7 +117,7 @@
                     <td>{{ invoice.invoice_number }}</td>
                     <td>{{ invoice.invoice_type }}</td>
                     <td>{{ invoice.invoice_date }}</td>
-                    <td>{{ invoice.start_date - invoice.end_date }}</td>
+                    <td>{{ invoice.start_date + '-' + invoice.end_date }}</td>
                     <td>{{ invoice.total_amount }}</td>
                     <td>
                         <div
@@ -146,7 +146,7 @@
                     </td>
                     <td>
                       <div class="actions-wrap">
-                        <div :class="[`action-${invoice.status}`]">
+                        <div :class="[`action-${invoice.status}`, 'action-item']">
                             <nitrozen-menu class="actions-menu" mode="vertical">
                                 <nitrozen-menu-item class="act-offline" @click="handleOpenDrawer()">
                                   Offline Payment
@@ -520,6 +520,18 @@ export default {
     this.showPopup = true;
     this.popupData.type = "debt";
   },
+  downloadFile(url, filename) {
+    console.log(url,filename)
+    fetch(url).then(function(t) {
+        return t.blob().then((b)=>{
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(b);
+            a.setAttribute("download", filename);
+            a.click();
+        }
+        );
+    });
+  },
   downloadInvoice(invoiceList){
       const params = {
         "data":{
@@ -529,11 +541,11 @@ export default {
       const caller = FinanceService.getDownloadUrlList(params);
       caller
           .then(( res ) => {
-              res.data.forEach(item => {
-                console.log(res);
+            console.log(res);
+              res.data.data.forEach(item => {
                 const fileName = item.split("/").pop().split("?")[0];
-                this.downloadFile(item, fileName)
-                
+                console.log(fileName);
+                this.downloadFile(item, fileName);
               });
           })
           .catch((err) => {
@@ -547,7 +559,6 @@ export default {
   },
   searchCompany(e) {
             debounce((text) => {
-                console.log(text);
                 this.fetchCompany(text);
             }, 1000)(e.text);
         },
@@ -576,17 +587,7 @@ export default {
 
               });
   },
-  downloadFile(url, filename) {
-    fetch(url).then(function(t) {
-        return t.blob().then((b)=>{
-            var a = document.createElement("a");
-            a.href = URL.createObjectURL(b);
-            a.setAttribute("download", filename);
-            a.click();
-        }
-        );
-    });
-  },
+
 
 }
 </script>
@@ -765,8 +766,9 @@ export default {
 .pagination-container{
   padding-top: 24px;
 }
-
+ßß
 .actions-wrap{
+  width: 30px;
   .action-void{
     display: none;
   }
@@ -796,5 +798,10 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+
+.actions-wrap{
+  width: 30px;
+}
+
 
 </style>
