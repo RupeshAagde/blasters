@@ -1091,7 +1091,7 @@ export default [
             /** OMSv2.1 */
             {
                 name: 'company-orders-v2',
-                path: 'orders/',
+                path: 'orders-list/',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
