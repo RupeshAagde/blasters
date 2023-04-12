@@ -104,8 +104,6 @@
                     i) in billingInvoices.items"
                     :key="i">
                     <td >   
-                      {{ invoice.id}}
-                      {{ selectedInvoices }}
                         <nitrozen-checkbox
                         class="table-checkout"
                         @change="toggleInvoice(invoice.id,invoice.invoice_number)"
@@ -114,8 +112,8 @@
                         >
                         </nitrozen-checkbox>
                     </td>
-                    <td>{{ invoice.seller_id }}</td>
-                    <td>{{ invoice.seller_name }}</td>
+                    <td>{{ invoice.company_id }}</td>
+                    <td>{{ invoice.company_name }}</td>
                     <td>{{ invoice.invoice_number }}</td>
                     <td>{{ invoice.invoice_type }}</td>
                     <td>{{ invoice.invoice_date }}</td>
@@ -219,7 +217,6 @@ import {
    NitrozenButton,
    strokeBtn
 } from '@gofynd/nitrozen-vue';
-import { threadId } from 'worker_threads';
 
 const PAGINATION_OBJECT = {
     limit: 10,
@@ -532,9 +529,11 @@ export default {
       const caller = FinanceService.getDownloadUrlList(params);
       caller
           .then(( res ) => {
-              res.data.api_response.forEach(item => {
-                const fileName = item.split("/").pop().split("?")[0]
-                // this.ƒ(item.pdf_s3_url)
+              res.data.forEach(item => {
+                console.log(res);
+                const fileName = item.split("/").pop().split("?")[0];
+                this.downloadFile(item, fileName)
+                
               });
           })
           .catch((err) => {
