@@ -27,4 +27,5 @@ module.exports = {
     'router',
     'pipes'],
   bail: true,
+  testMatch: ['**/?(*.)+(spec).js']
 }
