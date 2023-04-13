@@ -158,38 +158,47 @@
     "validatedFile":{
         "success": true,
         "data": {
-            "report_upload_id": "d9987e2f-d3f2-4040-a751-2175c661de22",
+            "report_upload_id": "69019466-ee31-4dbd-ad93-7f74180417c4",
             "status": "PreProcess",
             "json": {
                 "headers": [
-                    "RazorpayX Account Number",
-                    "Company Id",
-                    "Company Name",
-                    "Payout Amount",
-                    "Payout Purpose",
-                    "Fund Account Id",
-                    "Payout Narration",
-                    "Store Type"
+                    "Invoice Id",
+                    "Invoice Type",
+                    "Fee Component",
+                    "Invoice Gross",
+                    "Invoice Tax",
+                    "Invoice Net",
+                    "Invoice Date",
+                    "Seller Details",
+                    "Status(pending/approved)"
                 ],
                 "rows": [
                     [
-                        "78995566",
-                        "4",
-                        "SSIPL LIFESTYLE PRIVATE LIMITED",
-                        456.6,
-                        "Brand Payment",
-                        "890556",
-                        0,
-                        "Brand"
+                        "354fa593-6f85-4c32-80ae-eec9b5e15dec",
+                        "seller_invoice_df",
+                        "[{\"rate\": 18.0, \"total\": 118.0, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 9.0, \"igst_value\": 0.0, \"sgst_value\": 9.0, \"tax_amount\": 18.0, \"display_name\": \"logistics fees\", \"gross_amount\": 100.0, \"value_of_good\": 100.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 12.98, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 0.99, \"igst_value\": 0.0, \"sgst_value\": 0.99, \"tax_amount\": 1.98, \"display_name\": \"transaction fees\", \"gross_amount\": 11.0, \"value_of_good\": 11.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 141.6, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998549, \"cgst_value\": 10.8, \"igst_value\": 0.0, \"sgst_value\": 10.8, \"tax_amount\": 21.6, \"display_name\": \"packaging fees\", \"gross_amount\": 120.0, \"value_of_good\": 120.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 60.18, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 4.59, \"igst_value\": 0.0, \"sgst_value\": 4.59, \"tax_amount\": 9.18, \"display_name\": \"sla charges\", \"gross_amount\": 51.0, \"value_of_good\": 51.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 14.16, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 1.08, \"igst_value\": 0.0, \"sgst_value\": 1.08, \"tax_amount\": 2.16, \"display_name\": \"Return Charges\", \"gross_amount\": 12.0, \"value_of_good\": 12.0, \"gst_tax_percentage\": 18.0}]",
+                        "346.92",
+                        "52.92",
+                        "294",
+                        "2023-03-01 0:00:00",
+                        "{\"pin\": 400063, \"name\": \"SHOPSENSE RETAIL TECHNOLOGIES LIMITED\", \"GSTIN\": \"27AADCC3844J1ZK\", \"pan_no\": \"AALCA0442L\", \"address\": \"UNIT NO 301 and 302, 3RD FLOOR, A WING, LOTUS CORPORATE PARK, OFF. WESTERN EXPRESS HIGH WA, GOREGAON -EAST, Mumbai Suburban, Maharashtra, 400063\", \"location\": \"GOREGAON -EAST\", \"seller_id\": \"1\", \"state_code\": \"27\", \"state_name\": \"Maharashtra\", \"invoice_year\": \"24\", \"place_of_supply\": \"\"}",
+                        "approved"
+                    ],
+                    [
+                        "4664f334-f7ca-4ab0-8a7a-d9140725a777",
+                        "seller_invoice_df",
+                        "[{\"rate\": 18.0, \"total\": 118.0, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 9.0, \"igst_value\": 0.0, \"sgst_value\": 9.0, \"tax_amount\": 18.0, \"display_name\": \"logistics fees\", \"gross_amount\": 100.0, \"value_of_good\": 100.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 11.8, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 0.9, \"igst_value\": 0.0, \"sgst_value\": 0.9, \"tax_amount\": 1.8, \"display_name\": \"transaction fees\", \"gross_amount\": 10.0, \"value_of_good\": 10.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 141.6, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998549, \"cgst_value\": 10.8, \"igst_value\": 0.0, \"sgst_value\": 10.8, \"tax_amount\": 21.6, \"display_name\": \"packaging fees\", \"gross_amount\": 120.0, \"value_of_good\": 120.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 60.18, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 4.59, \"igst_value\": 0.0, \"sgst_value\": 4.59, \"tax_amount\": 9.18, \"display_name\": \"sla charges\", \"gross_amount\": 51.0, \"value_of_good\": 51.0, \"gst_tax_percentage\": 18.0}, {\"rate\": 18.0, \"total\": 14.16, \"gst_tag\": \"CGST\", \"discount\": 0.0, \"sac_code\": 998599, \"cgst_value\": 1.08, \"igst_value\": 0.0, \"sgst_value\": 1.08, \"tax_amount\": 2.16, \"display_name\": \"Return Charges\", \"gross_amount\": 12.0, \"value_of_good\": 12.0, \"gst_tax_percentage\": 18.0}]",
+                        "345.74",
+                        "52.74",
+                        "293",
+                        "2023-03-01 0:00:00",
+                        "{\"pin\": 400063, \"name\": \"Logi\", \"GSTIN\": \"27AADCC3844J1ZK\", \"pan_no\": \"CSXPM3565K\", \"address\": \"UNIT NO 301 and 302, 3RD FLOOR, A WING, LOTUS CORPORATE PARK, OFF. WESTERN EXPRESS HIGH WA, GOREGAON -EAST, Mumbai Suburban, Maharashtra, 400063\", \"location\": \"GOREGAON -EAST\", \"seller_id\": \"33\", \"state_code\": \"27\", \"state_name\": \"Maharashtra\", \"invoice_year\": \"24\", \"place_of_supply\": \"\"}",
+                        "approved"
                     ]
                 ]
             },
-            "total": 1,
-            "summary": [
-                {
-                    "Payout Amount sum": 456.6
-                }
-            ]
+            "total": 2,
+            "summary": []
         }
     },
     "confirmValidation":{
