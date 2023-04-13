@@ -81,6 +81,12 @@
                                                 </audio>
                                             </div>
                                         </div>
+                                        <div v-if="status.meta && status.meta.images">
+                                            <span class="message-label">Images: </span> 
+                                            <span class="image-link-properties" v-for="(image, index) in status.meta.images" :key="index">
+                                                <a v-if="image && image.url" :href="image.url" target="_blank">Image {{ index }}</a>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="user-new">{{ status.user }}</div>
                                 </div>
@@ -419,6 +425,19 @@ export default {
 .image-link-properties :hover {	
     color: purple;	
     text-decoration: underline;	
+    cursor: pointer;
+}
+
+.image-link-properties {
+    color: @RoyalBlue;
+    padding-right: 8px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.image-link-properties :hover {
+    color: purple;
+    text-decoration: underline;
     cursor: pointer;
 }
 </style>

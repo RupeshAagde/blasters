@@ -66,7 +66,7 @@ describe('Order/Shipment List Page', () => {
         mock.onGet(URLS.FETCH_ANNOUNCEMENT_NOTE()).reply(200, MOCK_INDEX_DATA.announcementsResponseData);
         router = new VueRouter({
             routes: [
-                { path: '/company/:company_id/orders/', name: 'company-orders-v2', component: ShipmentListItem },
+                { path: '/company/:company_id/orders-list/', name: 'company-orders-v2', component: ShipmentListItem },
                 { path: '/company/:company_id/orders/:orderId/details', name: 'company-order-details-v2', component: ShipmentListItem},
             ]
         })
