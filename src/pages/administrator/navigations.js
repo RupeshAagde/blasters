@@ -116,7 +116,7 @@ export const getNavigations = () => {
                 },
                 {
                     display: 'Manifest',
-                    link: '/administrator/orders/manifest',
+                    link: '/administrator/orders-manifest',
                     title: 'manifest',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
@@ -124,7 +124,7 @@ export const getNavigations = () => {
                 },
                 {
                     display: 'Bulk Actions',
-                    link: '/administrator/orders/bulk',
+                    link: '/administrator/orders-bulk',
                     title: 'bulk-actions',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',

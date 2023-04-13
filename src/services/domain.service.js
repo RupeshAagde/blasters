@@ -129,6 +129,10 @@ const HEDWIG_ADMIN_SVC = isNode ?
     envVars.BROWSER_CONFIG.HEDWIG_ADMIN_SVC :
     envVars.HEDWIG_ADMIN_SVC;
 
+const HEDWIG_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.HEDWIG_ADMIN_URL :
+    envVars.HEDWIG_ADMIN_URL;
+
 const FYND_PLATFORM_DOMAIN = isNode ?
     envVars.BROWSER_CONFIG.FYND_PLATFORM_DOMAIN :
     envVars.FYND_PLATFORM_DOMAIN;
@@ -605,6 +609,18 @@ const URLS = {
     PLATFORM_CUSTOM_TAGS:(id='') =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
     },
+    GET_ALL_CREDENTIALS: (entity_type) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type)
+    },
+    GET_CREDENTIAL: (entity_type, slug) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type, slug)
+    },
+    UPDATE_CREDENTIAL: (id) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', id)
+    },
+    POST_CREDENTIAL: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials')
+    },
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
@@ -1028,7 +1044,7 @@ const URLS = {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/shipment/history`);
     },
     GET_DP_ACTIVITY_LOGS: () => {
-        return urlJoin(HEDWIG_ADMIN_SVC, `/v1.0/tracking`);
+        return urlJoin(HEDWIG_ADMIN_URL, `/v1.0/tracking`);
     },
     GET_BULK_ACTION_LIST: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/listing`);

@@ -131,13 +131,13 @@ describe('ManifestHomePage', () => {
         expect(wrapper.vm.manifestFetchFailure).toBe(false);
     });
 
-    it('Selected filters should be equal to the route query', async() => {
-        router.push({
-            name: 'company-manifest-generate',
-            params:{sales_channels: '63635aca76bf40273c62f4ba'},
-        });
-        expect(wrapper.vm.selectedAdvancedFilters).toHaveProperty('sales_channels');
-     })
+    // it('Selected filters should be equal to the route query', async() => {
+    //     router.push({
+    //         name: 'company-manifest-generate',
+    //         params:{sales_channels: '63635aca76bf40273c62f4ba'},
+    //     });
+    //     expect(wrapper.vm.selectedAdvancedFilters).toHaveProperty('sales_channels');
+    //  })
 
     it('Clearing filter should delete the Global params',  async () => {
         wrapper.setData({

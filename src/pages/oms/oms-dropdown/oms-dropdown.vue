@@ -1,5 +1,5 @@
 <template>
-    <div class="oms-dropdown" @blur="onBlur" :style="css">
+    <div class="oms-dropdown" tabindex="0" @blur="onBlur" :style="css">
         <span class="label" v-if="label.length">Label</span>
         <div class="dropdown-box" @click="toggleDisplay">
             <span class="placeholder-text">
@@ -167,6 +167,11 @@ export default {
             if( !['delivery_done', 'return_request_cancelled'].includes(this.activeShipment.status.status)){
                 this.items.splice(this.items.findIndex((item)=>{
                 return item.value == 'change_address'
+                }), 1)
+            }
+            if( !['bag_confirmed'].includes(this.activeShipment.status.status)){
+                this.items.splice(this.items.findIndex((item)=>{
+                return item.value == 'generate_e_invoice'
                 }), 1)
             }
             if(!this.activeShipment.dp_details.id || this.activeShipment.dp_details.id == ""){
