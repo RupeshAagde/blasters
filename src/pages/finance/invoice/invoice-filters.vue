@@ -158,12 +158,8 @@ methods: {
             const caller = FinanceService.getInvoiceType(params);
             caller
                 .then(( res ) => {
-                    this.invoiceType = res.data.items.map((item) => {
-                        return {
-                            text: item.display_name,
-                            value: item.type,
-                        };
-                    });
+                    this.paymentStatusList = res.data.payment_status_list;
+                    this.invoiceType = res.data.invoice_type_list;
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(
