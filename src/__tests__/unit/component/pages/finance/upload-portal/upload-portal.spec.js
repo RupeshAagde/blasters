@@ -39,10 +39,12 @@ describe('Finance', () => {
             }]
         });
         router.push('/administrator/finance/bulk-upload');
-        wrapper = shallowMount(BulkUpload, {
+        wrapper = mount(BulkUpload, {
             localVue,
             router,
-            
+            stubs: {
+                'jsonView': RoleModal,
+            }
         });
         mock.onPost(DOMAIN_URLS.GET_FILE_TYPE()).reply(200, mocks.getFileType);
         mock.onPost(DOMAIN_URLS.GET_DOWNLOAD_FORMAT()).reply(200, mocks.downloadData);
@@ -61,6 +63,23 @@ describe('Finance', () => {
     
     it('should render to a snapshot', () => {
         expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it('should check if the item is json or not', async() => {
+        await flushPromises();
+        let isJson = jest.spyOn(wrapper.vm, 'isJsonItem');
+        wrapper.setData({
+            tableData: {
+                headers: mocks.validatedFile.data.json.headers,
+                items: mocks.validatedFile.data.json.rows
+            },
+            validationCompleted: true
+        });
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const openJsonEditor = wrapper.find('.json-icon');
+        openJsonEditor.trigger('click');
+        expect(isJson).toHaveBeenCalled();
     });
 
     it('download button clicked with and without id', async() => {

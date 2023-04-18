@@ -11,16 +11,19 @@
             <div class="dropdowns">
                 <nitrozen-dropdown
                     label="Next Bag State"
+                    :searchable="true"
                     @change="onStateChange"
-                    :items="bagStates"
+                    :items="bagStateOptions"
                     v-model="selectedState"
+                    @searchInputChange="onSearchState($event)"
                 />
                 <nitrozen-dropdown
                     label="Reason"
                     :searchable="true"
                     @change="onReasonChange"
-                    :items="reasons"
+                    :items="reasonOptions"
                     v-model="selectedReason"
+                    @searchInputChange="onSearchReason($event)"
                     v-if="showReasons"
                 />
             </div>
@@ -84,10 +87,12 @@ export default {
         return {
             allBagStates: {},
             bagStates: [],
+            bagStateOptions: [],
             bagStateFetchError: false,
             fetchingBagStates: false,
             note: '',
             reasons: [],
+            reasonOptions: [],
             selectedReason: '',
             selectedState: '',
             inputStates: [],
@@ -158,6 +163,7 @@ export default {
                                 }
                             });
                         } else this.bagStates = [];
+                        this.bagStateOptions = this.bagStates;
                         this.bagStateFetchError = false;
                     } else {
                         console.error("Error in fetching the states for bag state transition:   ", "No status available in shipment");
@@ -211,6 +217,7 @@ export default {
                                 reason['value'] = reason.id;
                                 return reason;
                             });
+                            this.reasonOptions = this.reasons
                         } else {
                             this.reasons = [];
                         }
@@ -277,7 +284,22 @@ export default {
         onRemarkChange() {
             this.emitChange();
         },
-
+        onSearchState(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.bagStateOptions = this.bagStates.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.bagStates;
+            }
+        },
+        onSearchReason(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.reasonOptions = this.reasons.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.reasons;
+            }
+        },
         /**
          * Event handler for change in state.
          * 

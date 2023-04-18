@@ -67,12 +67,6 @@
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
                                         </div>
-                                        <div v-if="status.meta && status.meta.images">	
-                                            <span class="message-label">Images: </span> 	
-                                            <span class="image-link-properties" v-for="(image, index) in status.meta.images" :key="index">	
-                                                <a v-if="image && image.url" :href="image.url" target="_blank">Image {{ index }}</a>	
-                                            </span>
-                                        </div>
                                         <div v-if="status.meta && status.meta.recordpath"> 
                                             <div class="recording"> 
                                                 <span class="message-label"> Recording: </span> 
@@ -80,6 +74,12 @@
                                                     <source :src="urlDecode(status.meta.recordpath)" type="audio/wav">
                                                 </audio>
                                             </div>
+                                        </div>
+                                        <div v-if="status.meta && status.meta.images">
+                                            <span class="message-label">Images: </span> 
+                                            <span class="image-link-properties" v-for="(image, index) in status.meta.images" :key="index">
+                                                <a v-if="image && image.url" :href="image.url" target="_blank">Image {{ index }}</a>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="user-new">{{ status.user }}</div>
@@ -410,15 +410,17 @@ export default {
         }
     }
 }	
-.image-link-properties {	
-    color: @RoyalBlue;	
-    padding-right: 8px;	
-    text-decoration: underline;	
-    cursor: pointer;	
-}	
-.image-link-properties :hover {	
-    color: purple;	
-    text-decoration: underline;	
+
+.image-link-properties {
+    color: @RoyalBlue;
+    padding-right: 8px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.image-link-properties :hover {
+    color: purple;
+    text-decoration: underline;
     cursor: pointer;
 }
 </style>
