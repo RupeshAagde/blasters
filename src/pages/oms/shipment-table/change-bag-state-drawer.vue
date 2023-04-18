@@ -114,7 +114,11 @@ export default {
     },
     computed: {
         showReasons() {
-            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer', 'return_initiated'];
+            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 
+                                'cancelled_seller', 'cancelled_customer', 
+                                'return_initiated', "bag_lost", 
+                                "return_bag_lost", "dead_stock", 
+                                "deadstock","deadstock_defective"];
             return validStates.includes(this.selectedState);
         }
     },
