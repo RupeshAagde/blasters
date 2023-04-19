@@ -59,6 +59,7 @@
         <transition name="slide">
             <div class="invoice-drawer-container" v-if="isDrawerOpen">
                 <invoice-drawer
+                    :invoice="invoice"
                     @closeDrawer="handleCloseDrawer"
                 ></invoice-drawer>
             </div>
@@ -103,12 +104,12 @@
                 <tbody>
                     <template
                         v-if="
-                            billingInvoices.items &&
-                                billingInvoices.items.length > 0
+                            invoiceDetails.items &&
+                                invoiceDetails.items.length > 0
                         "
                     >
                         <tr
-                            v-for="(invoice, i) in billingInvoices.items"
+                            v-for="(invoice, i) in invoiceDetails.items"
                             :key="i"
                         >
                             <td>
@@ -129,7 +130,10 @@
                                 >
                                 </nitrozen-checkbox>
                             </td>
-                            <td>{{ invoice.company_id }}</td>
+                            <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
+                                <span>{{ item }}</span>
+                            </td>
+                            <!-- <td>{{ invoice.company_id }}</td>
                             <td>{{ invoice.company_name }}</td>
                             <td>{{ invoice.invoice_number }}</td>
                             <td>{{ invoice.invoice_type }}</td>
@@ -139,7 +143,7 @@
                                     invoice.start_date + '-' + invoice.end_date
                                 }}
                             </td>
-                            <td>{{ invoice.total_amount }}</td>
+                            <td>{{ invoice.total_amount }}</td> -->
                             <td>
                                 <div
                                     class="pay-status status-process"
@@ -177,7 +181,7 @@
                                         >
                                             <nitrozen-menu-item
                                                 class="act-offline"
-                                                @click="handleOpenDrawer()"
+                                                @click="handleOpenDrawer(invoice)"
                                             >
                                                 Offline Payment
                                             </nitrozen-menu-item>
@@ -229,6 +233,7 @@
             </div>
             <pop-up
                 v-if="showPopup"
+                :invoiceNumber="popupData.invoiceNumber"
                 :infoText="popupData.desc"
                 :textHeading="popupData.heading"
                 :cancel="popupData.cancel"
@@ -239,9 +244,9 @@
             />
             <template
                 v-if="
-                    billingInvoices &&
-                        billingInvoices.items &&
-                        billingInvoices.items.length == 0
+                    invoiceDetails &&
+                    invoiceDetails.items &&
+                    invoiceDetails.items.length == 0
                 "
             >
                 <div class="text-center">
@@ -306,23 +311,24 @@ export default {
                 moment().subtract(3, 'days').toISOString(),
                 moment().toISOString()
             ],
-            invoiceType: [],
-            paymentStatusList: [],
-            selectedInvoiceType: '',
-            selectedPaymentStatus: '',
+            //invoiceType: [],
+            //paymentStatusList: [],
+            //selectedInvoiceType: '',
+            //selectedPaymentStatus: '',
             selectedCompany: '',
             companyNames: [],
             pageObject: { ...PAGINATION_OBJECT },
-            invoiceList: [],
+            //invoiceList: [],
             isDrawerOpen: false,
             isFilterDrawerOpen: false,
             showPopup: false,
             searchText: '',
-            paymentSelection: '',
+            //paymentSelection: '',
             downloadUrlList: [],
             disabled: 'disabled',
             bulkDownloadList: [],
             popupData: {
+                invoiceNumber: '',
                 heading: '',
                 desc: '',
                 cancel: 'Cancel',
@@ -333,7 +339,8 @@ export default {
             toDate: '',
             invoiceDetails: {},
             tableDataItems: [],
-            billingInvoices: {
+            invoice: {}
+            /* billingInvoices: {
                 items: [
                     {
                         id: '809677d0-1831-4e1b-9761-ff51641b54io',
@@ -415,27 +422,27 @@ export default {
                     has_next: true,
                     item_count: 0
                 }
-            }
+            } */
         };
     },
     mounted() {
         this.onDateChange();
         this.getInvoiceList();
         // this.fetchCompany();
-        this.getInvoiceType();
-        this.getPaymentStatusList();
+        //this.getInvoiceType();
+        //this.getPaymentStatusList();
     },
     methods: {
         toggleAllInvoices() {
             if (this.selectedInvoices.length == 0) {
-                this.selectedInvoices = this.billingInvoices.items.map(
+                this.selectedInvoices = this.invoiceDetails.items.map(
                     (item) => {
                         if (item.status === 'paid') {
                             return item.id;
                         }
                     }
                 );
-                this.bulkDownloadList = this.billingInvoices.items
+                this.bulkDownloadList = this.invoiceDetails.items
                     .filter((item) => item.status === 'paid')
                     .map((item) => item.invoice_number);
                 console.log(this.selectedInvoices, this.bulkDownloadList);
@@ -475,20 +482,23 @@ export default {
             const invoiceList = FinanceService.getInvoiceList(params);
             invoiceList
                 .then((res) => {
-                    console.log(res);
+                    //console.log(res);
                     this.invoiceDetails = res.data;
-                    
-                    this.invoiceDetails.items.forEach((v) => {
-                      if (v.length === this.invoiceDetails.headers.length) {
+                    /* let items = this.invoiceDetails.items;
+                    let headers = this.invoiceDetails.headers;
+                    //console.log(items,'--------', headers);
+                    items.forEach((v) => {
+                      if (v.length === headers.length) {
+
                           let m = {};
-                          for (let i = 0; i < this.invoiceDetails.headers.length; i++) {
+                          for (let i = 0; i < headers.length; i++) {
                               m[i] = v[i];
                           }
                           this.tableDataItems.push(m);
                       }
-                    console.log(this.tableDataItems);
                     });
-                    this.billingInvoices.items = res.data.items;
+                    console.log(this.tableDataItems); */
+                    //this.billingInvoices.items = res.data.items;
                     this.pageObject.total = res.data.page.item_count;
                 })
                 .catch((err) => {
@@ -498,10 +508,12 @@ export default {
                     // this.inProcess = false
                 });
         },
-        handleOpenDrawer() {
+        handleOpenDrawer(invoice) {
+            this.invoice = invoice;
             this.isDrawerOpen = true;
         },
         handleCloseDrawer() {
+            this.getInvoiceList();
             this.isDrawerOpen = false;
         },
         openFilterDrawer() {
@@ -524,7 +536,7 @@ export default {
         searchByInput: debounce(function(e) {
             this.getInvoiceList();
         }, 1000),
-        getInvoiceType() {
+        /* getInvoiceType() {
             const params = {
                 data: {
                     is_active: true
@@ -548,8 +560,8 @@ export default {
                 .finally(() => {
                     this.inProgress = false;
                 });
-        },
-        getPaymentStatusList() {
+        }, */
+        /* getPaymentStatusList() {
             const params = {
                 data: {}
             };
@@ -573,14 +585,16 @@ export default {
                 .finally(() => {
                     this.inProgress = false;
                 });
-        },
+        }, */
         handleVoid(number) {
+            this.popupData.invoiceNumber = number;
             this.popupData.heading = 'Void Invoice ?';
             this.popupData.desc = `Are you sure you want to Void this Invoice (${number}) ?`;
             this.showPopup = true;
             this.popupData.type = 'void';
         },
         handleAutoDebt(number) {
+            this.popupData.invoiceNumber = number;
             this.popupData.heading = 'Retry Auto debt';
             this.popupData.desc = `Are you sure you want to retry auto dept for this Invoice (${number}) ?`;
             this.showPopup = true;

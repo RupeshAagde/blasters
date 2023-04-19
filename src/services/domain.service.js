@@ -506,8 +506,13 @@ const URLS = {
     GET_INVOICE_DOWNLOAD_URLS: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/pdf-view`);
     },
+    CREDITLINE_PAYMENTS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/payment-process');
+    },
+    VOID_FIN_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/void-invoice');
+    },
     
-
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

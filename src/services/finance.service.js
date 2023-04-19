@@ -88,9 +88,19 @@ const FinanceService = {
     getDownloadUrlList(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_INVOICE_DOWNLOAD_URLS(), axiosOption);
-    }
+    },
+    invoiceVoid(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.VOID_FIN_INVOICE(), axiosOption);
+    },
 
-    
+    //Payments
+    updatePaymentInfo(params) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+          data: params
+        });
+        return ApiService.post(URLS.CREDITLINE_PAYMENTS(), axiosOptions);
+    },
 };
 
 export default FinanceService;

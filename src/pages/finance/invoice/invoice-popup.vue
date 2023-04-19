@@ -46,11 +46,12 @@
 
 <script>
 import inlineSvg from '@/components/common/inline-svg.vue';
+import FinanceService from '@/services/finance.service.js';
 import { NitrozenButton } from '@gofynd/nitrozen-vue';
 
 export default {
     name: 'invoice-popup',
-    props: ['confirm', 'cancel', 'infoText', 'textHeading', 'type'],
+    props: ['invoiceNumber','confirm', 'cancel', 'infoText', 'textHeading', 'type'],
     components: {
         'inline-svg': inlineSvg,
         'nitrozen-button': NitrozenButton
@@ -58,10 +59,33 @@ export default {
     methods: {
         confirmHelper() {
             console.log(this.type);
-            this.$emit('confirm', this.type);
+            if(this.type === 'void'){
+                this.invoiceVoid();
+            }
+            //this.$emit('confirm', this.type);
         },
         cancelHelper() {
             this.$emit('cancel');
+        },
+        invoiceVoid(){
+            const params = {
+                "data":{
+                    invoice_number:this.invoiceNumber
+                }
+            }
+            const invoiceVoid = FinanceService.invoiceVoid(params);
+            invoiceVoid
+                .then((res) => {
+                    this.$snackbar.global.showSuccess(res.data.message);
+                    this.$emit('confirm',this.type);
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(
+                        `Failed due to ${err.response.data.message}`
+                    );
+                    this.$emit('confirm',this.type);
+                })
+                .finally(() => {}); 
         }
     }
 };
