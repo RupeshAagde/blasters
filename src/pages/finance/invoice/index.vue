@@ -311,19 +311,13 @@ export default {
                 moment().subtract(3, 'days').toISOString(),
                 moment().toISOString()
             ],
-            //invoiceType: [],
-            //paymentStatusList: [],
-            //selectedInvoiceType: '',
-            //selectedPaymentStatus: '',
             selectedCompany: '',
             companyNames: [],
             pageObject: { ...PAGINATION_OBJECT },
-            //invoiceList: [],
             isDrawerOpen: false,
             isFilterDrawerOpen: false,
             showPopup: false,
             searchText: '',
-            //paymentSelection: '',
             downloadUrlList: [],
             disabled: 'disabled',
             bulkDownloadList: [],
@@ -340,97 +334,11 @@ export default {
             invoiceDetails: {},
             tableDataItems: [],
             invoice: {}
-            /* billingInvoices: {
-                items: [
-                    {
-                        id: '809677d0-1831-4e1b-9761-ff51641b54io',
-                        invoice_number: 'BINV/00021/22-23',
-                        invoice_type: 'Seller Invoice Df',
-                        status: 'paid',
-                        total_amount: 3983.68,
-                        currency: 'INR',
-                        invoice_date: '22-07-22',
-                        irn: '',
-                        start_date: '',
-                        end_date: '',
-                        seller_name: 'Test',
-                        seller_id: '1'
-                    },
-                    {
-                        id: '809677d0-1831-4e1b-9761-ff51641b5476',
-                        invoice_number: 'BINV/00021/22-23',
-                        invoice_type: 'Seller Invoice Df',
-                        status: 'unpaid',
-                        total_amount: 3983.68,
-
-                        currency: 'INR',
-                        invoice_date: '',
-                        irn: '',
-                        start_date: '',
-                        end_date: '',
-                        seller_name: 'Test2',
-                        seller_id: '2'
-                    },
-                    {
-                        id: '809677d0-1831-4e1b-9761-ff51641b5490',
-                        invoice_number: 'BINV/00021/22-89',
-                        invoice_type: 'Seller Invoice Di',
-                        status: 'processing',
-                        total_amount: 3983.68,
-                        currency: 'INR',
-                        invoice_date: '',
-                        irn: '',
-                        start_date: '',
-                        end_date: '',
-                        seller_name: 'Test3',
-                        seller_id: '3'
-                    },
-                    {
-                        id: '809677d0-1831-4e1b-9761-ff51641b5487',
-                        invoice_number: 'BINV/00021/22-66',
-                        invoice_type: 'Seller Invoice',
-                        status: 'void',
-                        total_amount: 3983,
-                        currency: 'INR',
-                        invoice_date: '',
-                        irn: '',
-                        start_date: '',
-                        end_date: '',
-                        seller_name: 'Test4',
-                        seller_id: '4'
-                    },
-                    {
-                        id: '809677d0-1831-4e1b-9761-ff51641b0000',
-                        invoice_number: 'BINV/00021/22-69',
-                        invoice_type: 'Seller Invoice2',
-                        status: 'paid',
-                        total_amount: 398,
-                        currency: 'INR',
-                        invoice_date: '',
-                        irn: '',
-                        start_date: '',
-                        end_date: '',
-                        seller_name: 'Test5',
-                        seller_id: '5'
-                    }
-                ],
-                item_count: 0,
-                page: {
-                    type: 'number',
-                    size: 10,
-                    current: 1,
-                    has_next: true,
-                    item_count: 0
-                }
-            } */
         };
     },
     mounted() {
         this.onDateChange();
         this.getInvoiceList();
-        // this.fetchCompany();
-        //this.getInvoiceType();
-        //this.getPaymentStatusList();
     },
     methods: {
         toggleAllInvoices() {
@@ -482,23 +390,7 @@ export default {
             const invoiceList = FinanceService.getInvoiceList(params);
             invoiceList
                 .then((res) => {
-                    //console.log(res);
                     this.invoiceDetails = res.data;
-                    /* let items = this.invoiceDetails.items;
-                    let headers = this.invoiceDetails.headers;
-                    //console.log(items,'--------', headers);
-                    items.forEach((v) => {
-                      if (v.length === headers.length) {
-
-                          let m = {};
-                          for (let i = 0; i < headers.length; i++) {
-                              m[i] = v[i];
-                          }
-                          this.tableDataItems.push(m);
-                      }
-                    });
-                    console.log(this.tableDataItems); */
-                    //this.billingInvoices.items = res.data.items;
                     this.pageObject.total = res.data.page.item_count;
                 })
                 .catch((err) => {
@@ -536,56 +428,6 @@ export default {
         searchByInput: debounce(function(e) {
             this.getInvoiceList();
         }, 1000),
-        /* getInvoiceType() {
-            const params = {
-                data: {
-                    is_active: true
-                }
-            };
-            const caller = FinanceService.getInvoiceType(params);
-            caller
-                .then((res) => {
-                    this.invoiceType = res.data.items.map((item) => {
-                        return {
-                            text: item.display_name,
-                            value: item.type
-                        };
-                    });
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed due to ${err.message}`
-                    );
-                })
-                .finally(() => {
-                    this.inProgress = false;
-                });
-        }, */
-        /* getPaymentStatusList() {
-            const params = {
-                data: {}
-            };
-            const caller = FinanceService.getPaymentStatus(params);
-            caller
-                .then((res) => {
-                    this.paymentStatusList = res.data.items.map((item) => {
-                        return {
-                            text: item.name,
-                            value: item.id,
-                            description: item.description,
-                            date: item.display_date
-                        };
-                    });
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed due to ${err.message}`
-                    );
-                })
-                .finally(() => {
-                    this.inProgress = false;
-                });
-        }, */
         handleVoid(number) {
             this.popupData.invoiceNumber = number;
             this.popupData.heading = 'Void Invoice ?';
