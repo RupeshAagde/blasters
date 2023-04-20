@@ -332,14 +332,7 @@ methods: {
             }
         },
         onUploadClick() {
-          if(this.offlineData.chequeNum.length > 0){
             this.$refs.fileUpload.click();
-        }
-          else{
-            this.$snackbar.global.showError(
-                  `Please Enter the Cheque Number`
-              );
-          }
         },
         
     },

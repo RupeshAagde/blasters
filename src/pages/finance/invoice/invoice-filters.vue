@@ -136,6 +136,10 @@ data() {
         companyChips: [],
         paymentChips: [],
         invoiceChips: [],
+        filters: {
+            invoice_type: [],
+            payment_status: []
+        }
     }
 },
 mounted() {
@@ -143,7 +147,7 @@ mounted() {
 },
 methods: {
         closeDrawer(){
-            this.$emit('closeFilterDrawer')
+            this.$emit('closeFilterDrawer',this.filters);
         },
         saveOfflineData(){
             this.closeDrawer();
@@ -172,6 +176,7 @@ methods: {
 
         },
         addInvoiceChips(dataList,selectedList,type) {
+            this.companyChips = [];
             let chipsCompanies = this.companyChips.map((it) => it.value);
             let newCompanies = selectedList.filter(
                 (val) => !chipsCompanies.includes(val)
@@ -203,13 +208,17 @@ methods: {
             chips.splice(index, 1);
         },
         setChipsList(type,list){
-            switch(type){
-                case 'payment':
-                    this.paymentChips = list;
-                    break;
-                case 'invoice':
-                    this.invoiceChips = list;
-                    break;
+            if(type === 'payment'){
+                this.paymentChips = list;
+                this.paymentChips.forEach(item => {
+                    this.filters.payment_status.push(item.value);
+                });
+            }
+            if(type === 'invoice'){
+                this.invoiceChips = list;
+                this.invoiceChips.forEach(item => {
+                    this.filters.invoice_type.push(item.value);
+                });
             }
         }
    

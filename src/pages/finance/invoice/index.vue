@@ -112,6 +112,7 @@
                             v-for="(invoice, i) in invoiceDetails.items"
                             :key="i"
                         >
+                        <!-- @click="downloadInvoice([invoice.invoice_number])" -->
                             <td>
                                 <nitrozen-checkbox
                                     class="table-checkout"
@@ -144,6 +145,8 @@
                                 }}
                             </td>
                             <td>{{ invoice.total_amount }}</td> -->
+
+                            <!-- Status can be made dynamic with a captialization function -->
                             <td>
                                 <div
                                     class="pay-status status-process"
@@ -163,7 +166,10 @@
                                 >
                                     Void
                                 </div>
-                                <div class="pay-status status-unpaid" v-else>
+                                <div 
+                                    class="pay-status status-unpaid"
+                                    v-else-if="invoice.status === 'unpaid'"
+                                >
                                     Unpaid
                                 </div>
                             </td>
@@ -181,6 +187,7 @@
                                         >
                                             <nitrozen-menu-item
                                                 class="act-offline"
+                                                v-if="invoice.status === 'unpaid'"
                                                 @click="handleOpenDrawer(invoice)"
                                             >
                                                 Offline Payment
@@ -333,7 +340,8 @@ export default {
             toDate: '',
             invoiceDetails: {},
             tableDataItems: [],
-            invoice: {}
+            invoice: {},
+            filters: {}
         };
     },
     mounted() {
@@ -341,6 +349,19 @@ export default {
         //this.getInvoiceList();
     },
     methods: {
+        listingPayload(){
+            const params = {
+                data: {
+                    start_date: this.fromDate,
+                    end_date: this.toDate,
+                    page: this.pageObject.current,
+                    page_size: this.pageObject.limit,
+                    filters: this.filters,
+                    search: this.searchText
+                }
+            };
+            return params;
+        },
         toggleAllInvoices() {
             if (this.selectedInvoices.length == 0) {
                 this.selectedInvoices = this.invoiceDetails.items.map(
@@ -377,7 +398,7 @@ export default {
             this.getInvoiceList();
         },
         getInvoiceList() {
-            const params = {
+            /* const params = {
                 data: {
                     start_date: this.fromDate,
                     end_date: this.toDate,
@@ -386,8 +407,8 @@ export default {
                     filters: {},
                     search: this.searchText
                 }
-            };
-            const invoiceList = FinanceService.getInvoiceList(params);
+            }; */
+            const invoiceList = FinanceService.getInvoiceList(this.listingPayload());
             invoiceList
                 .then((res) => {
                     this.invoiceDetails = res.data;
@@ -411,8 +432,10 @@ export default {
         openFilterDrawer() {
             this.isFilterDrawerOpen = true;
         },
-        closeFilterDrawer() {
+        closeFilterDrawer(filters) {
+            this.filters = filters;
             this.isFilterDrawerOpen = false;
+            this.getInvoiceList();
         },
         cancelPopup() {
             this.showPopup = false;
