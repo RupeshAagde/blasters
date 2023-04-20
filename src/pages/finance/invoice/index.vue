@@ -29,7 +29,7 @@
                 <div class="date-filter filter-item">
                     <date-picker
                         style="width:20%"
-                        @change="onDateChange"
+                        @input="onDateChange"
                         class="date-picker filter-input-md"
                         picker_type="date"
                         date_format="MMM Do, YY"
@@ -308,7 +308,7 @@ export default {
         return {
             selectedInvoices: [],
             InvoiceDateRange: [
-                moment().subtract(3, 'days').toISOString(),
+                moment().subtract(1, 'week').toISOString(),
                 moment().toISOString()
             ],
             selectedCompany: '',
@@ -338,7 +338,7 @@ export default {
     },
     mounted() {
         this.onDateChange();
-        this.getInvoiceList();
+        //this.getInvoiceList();
     },
     methods: {
         toggleAllInvoices() {
@@ -423,6 +423,7 @@ export default {
         onDateChange() {
             this.fromDate = moment(this.InvoiceDateRange[0]).format('DD-MM-YYYY');
             this.toDate = moment(this.InvoiceDateRange[1]).format('DD-MM-YYYY');
+            this.getInvoiceList();
         },
         paymentOptnChange() {},
         searchByInput: debounce(function(e) {
