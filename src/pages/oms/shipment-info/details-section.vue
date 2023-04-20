@@ -321,13 +321,18 @@
 
             <div 
                 class="extra-info-box" 
-                v-if="shipment.fulfilling_store && shipment.fulfilling_store.store_email">
+                v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
                 <span class="header-title"> Fulfilling Store Email: </span>
                 <span 
                     class="details-data copy-to-click"
-                    @click="copyToClipboard($event, shipment.fulfilling_store.store_email)"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[0])"
                 >
-                    {{ shipment.fulfilling_store.store_email }}
+                    {{ shipment.fulfilling_store.meta.notification_emails[0] }}
                 </span>
             </div>
 
