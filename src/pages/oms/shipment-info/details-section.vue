@@ -307,6 +307,35 @@
                 </span>
             </div>
 
+            <div 
+                class="extra-info-box" 
+                v-if="shipment.fulfilling_store && shipment.fulfilling_store.phone">
+                <span class="header-title"> Fulfilling Store Phone: </span>
+                <span 
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.phone)"
+                >
+                    {{ shipment.fulfilling_store.phone }}
+                </span>
+            </div>
+
+            <div 
+                class="extra-info-box" 
+                v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
+                <span class="header-title"> Fulfilling Store Email: </span>
+                <span 
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[0])"
+                >
+                    {{ shipment.fulfilling_store.meta.notification_emails[0] }}
+                </span>
+            </div>
+
             <div class="extra-info-box" v-if="viewPrescription.length">
                 <span class="header-title"> View Prescription </span>
                 <span class="details-data">
@@ -342,10 +371,11 @@
                 class="extra-info-box"
                 v-if="dunzoOtpCheck()"
             >
-                <span v-if="
+                <span 
+                    v-if="
                     (shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)) ||
                     (shipment.meta.otp_details.pick && dunzoForwardStatuses.includes(shipment.status.status))
-                " 
+                    " 
                     class="header-title"> DP OTP: </span>
                 <span v-if="shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)" class="details-data">
                     {{ shipment.meta.otp_details.drop }}
@@ -1237,4 +1267,7 @@ export default {
     }
 }
 
+.copy-to-click {
+    cursor: pointer;
+}
 </style>

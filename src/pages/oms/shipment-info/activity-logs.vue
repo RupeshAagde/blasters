@@ -67,6 +67,10 @@
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
                                         </div>
+                                        <div v-if="status.meta && status.meta.caller && status.meta.receiver"> 
+                                            <span class="message-label"> Caller: </span> {{ status.meta.caller }}
+                                            <span class="message-label"> Receiver: </span> {{ status.meta.receiver }}
+                                        </div>
                                         <div v-if="status.meta && status.meta.recordpath"> 
                                             <div class="recording"> 
                                                 <span class="message-label"> Recording: </span> 

@@ -1079,8 +1079,8 @@ const URLS = {
     FETCH_QC_REASONS: (shipmentId, bagId) => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/return_initiated/reasons`);
     },
-    FETCH_REASSIGN_STORE_REASONS: (shipmentId, bagId) => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/store_reassigned/reasons`);
+    FETCH_SUPPORTING_REASONS: (shipmentId, bagId, status) => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/${status}/reasons`);
     },
     LOCK_MANAGER_URL : () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/entity/lock-manager`);
