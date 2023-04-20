@@ -325,7 +325,7 @@
                 <span class="header-title"> Fulfilling Store Email: </span>
                 <span 
                     class="details-data copy-to-click"
-                    @click="copyToClipboard($event, shipment.fulfilling_store.phone)"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.store_email)"
                 >
                     {{ shipment.fulfilling_store.store_email }}
                 </span>
