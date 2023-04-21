@@ -51,6 +51,7 @@
                                             <nitrozen-checkbox
                                                 class="checkbox"
                                                 v-model="item.enabled"
+                                                @change="setCheckboxData()"
                                             ></nitrozen-checkbox>
                                             <span>{{ item.title }}</span>
                                             <span
@@ -380,6 +381,9 @@ export default {
             this.enabledToAddContact = false;
             this.showPreview = false;
         },
+        setCheckboxData() {
+            this.$emit("checkboxValue",this.supportCommunication)
+        },
         addSupportDetail() {
             if (
                 !this.selectedSupport ||
@@ -513,8 +517,6 @@ export default {
                 data.show_communication_info || this.showCommunicationinfo;
             this.showSupportdris =
                 data.show_support_dris || this.showSupportdris;
-            this.available_integration =
-                data.available_integration || this.available_integration;
             this.integration.type =
                 data.integration && data.integration.type
                     ? data.integration.type
@@ -621,7 +623,9 @@ export default {
 }
 
 .container {
-    top: 56.5px;
+    position: relative;
+    // margin: 24px;
+    // padding: 24px;
     background: #ffffff;
     border-radius: 12px;
     .support-communication {

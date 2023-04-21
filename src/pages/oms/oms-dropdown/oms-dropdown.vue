@@ -169,6 +169,11 @@ export default {
                 return item.value == 'change_address'
                 }), 1)
             }
+            if( !['bag_confirmed'].includes(this.activeShipment.status.status)){
+                this.items.splice(this.items.findIndex((item)=>{
+                return item.value == 'generate_e_invoice'
+                }), 1)
+            }
             if(!this.activeShipment.dp_details.id || this.activeShipment.dp_details.id == ""){
                 this.items.splice(this.items.findIndex((item)=>{
                 return item.value == 'create_invoice_s3'

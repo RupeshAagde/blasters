@@ -630,6 +630,18 @@ const URLS = {
     PLATFORM_CUSTOM_TAGS:(id='') =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
     },
+    GET_ALL_CREDENTIALS: (entity_type) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type)
+    },
+    GET_CREDENTIAL: (entity_type, slug) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type, slug)
+    },
+    UPDATE_CREDENTIAL: (id) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', id)
+    },
+    POST_CREDENTIAL: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials')
+    },
 
     //Grindor
     GRINDOR_EXPLORER: (namespace) => {
