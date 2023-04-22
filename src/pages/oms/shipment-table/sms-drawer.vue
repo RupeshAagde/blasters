@@ -138,8 +138,10 @@ export default {
         NitrozenInput
     },
     mounted() {
-        if(this.shipment){
-            this.number.push({ text: this.shipment.user.mobile, value: this.shipment.user.mobile});
+        if(this.shipment) {
+            if(this.shipment.billing_details && this.shipment.billing_details.phone) {
+                this.number.push({ text: this.shipment.billing_details.phone, value: this.shipment.billing_details.phone});
+            }
             this.fullName = `${this.shipment.user.first_name} ${this.shipment.user.last_name}`;
             this.shipmentId = this.shipment.shipment_id
             this.orderId = this.shipment.order.fynd_order_id
