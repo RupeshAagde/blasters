@@ -36,6 +36,8 @@
                         <div class="amount-wrap">
                             <nitrozen-input
                                 label="Amount"
+                                type="number"
+                                required
                                 placeholder="Enter amount in INR"
                                 :showPrefix="true"
                                 :prefix="currency"
@@ -50,18 +52,20 @@
                             v-model="offlineData.utrNum"
                             ></nitrozen-input>
                             <nitrozen-input
+                            class="cheque-input"
                             label="Cheque Number"
                             placeholder="IC4788782"
+                            required
                             v-model="offlineData.chequeNum"
                             ></nitrozen-input>
                         </div>
                         <div class="remarks-wrap">
                             <nitrozen-input
                                 type="textarea"
-                                label="Remarks"
+                                label="Remark"
                                 :maxlength="100"
                                 v-model="offlineData.remarks"
-                            placeholder="Some remarks regarding the offline transaction"
+                                placeholder="Please enter some remarks regarding the offline transaction"
                             ></nitrozen-input>
                         </div>
                         <div class="upload-wrap">
@@ -135,28 +139,7 @@ props: {
     },
 },
 data() {
-    return {
-        offlineData: {
-            cashAmount: '',
-            chequeNum: '',
-            utrNum: '',
-            remarks: '',
-        },
-        paymentSelection: '',
-        enableTranSave:true,
-        paymentMode: {
-            cash: true,
-            cheque: false,
-        },
-        fileDetails: {
-            fileName: '',
-            fileMbSize: ''
-        },
-        presignedUrl: '',
-        intervalId:'',
-        currency: '₹',
-        file: new Blob(),
-    }
+    return this.initialData();
 },
 watch: {
     'offlineData': {
@@ -177,7 +160,32 @@ watch: {
 mounted() {
 },
 methods: {
+        initialData(){
+            return {
+                offlineData: {
+                    cashAmount: '',
+                    chequeNum: '',
+                    utrNum: '',
+                    remarks: '',
+                },
+                paymentSelection: '',
+                enableTranSave:true,
+                paymentMode: {
+                    cash: true,
+                    cheque: false,
+                },
+                fileDetails: {
+                    fileName: '',
+                    fileMbSize: ''
+                },
+                presignedUrl: '',
+                intervalId:'',
+                currency: '₹',
+                file: new Blob(),
+            }
+        },
         closeDrawer(){
+            this.initialData();
             this.$emit('closeDrawer')
         },
         saveOfflineData(){
@@ -241,17 +249,6 @@ methods: {
             });
             this.paymentMode[this.paymentSelection] = true;
         },
-        /* paymentOptnChange(){
-            //this.leewayOptnSelected = true;
-            Object.keys(this.paymentMode).forEach(key => {
-                this.paymentMode[key] = false;
-            });
-            this.paymentMode[this.paymentSelection] = true;
-        }, */
-        /* saveOfflineData(){
-            console.log(this.offlineData);
-            this.closeDrawer();
-        }, */
         frame(){
             clearInterval(this.intervalId);            
             setTimeout(() => {
@@ -299,7 +296,6 @@ methods: {
             const caller = FinanceService.uploadToS3(url, data);
             caller
                 .then((res) => {
-                    console.log(res);
                 })
                 .catch((err) => {
                   
@@ -430,6 +426,10 @@ methods: {
     padding: 24px;
     .amount-wrap{
         padding-top: 24px;
+
+        .cheque-input{
+            padding-top: 24px;
+        }
     }
     .remarks-wrap{
         padding-top: 24px;

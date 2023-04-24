@@ -28,18 +28,18 @@
                 </div>
                 <div class="date-filter filter-item">
                     <date-picker
-                        style="width:20%"
+                        label="Select Start Date &amp; End Date"
                         @input="onDateChange"
-                        class="date-picker filter-input-md"
+                        class="date-picker filter-input-sm"
                         picker_type="date"
                         date_format="MMM Do, YY"
                         v-model="InvoiceDateRange"
                         :clearable="true"
                         :range="true"
                         :not_before="new Date(0).toISOString()"
-                        :placeholder="'Sort by'"
+                        :shortcuts="dateRangeShortcuts"
                         :useNitrozenTheme="true"
-                    ></date-picker>
+                    />
                 </div>
                 <div
                     class="advanced-filter filter-item"
@@ -64,7 +64,14 @@
                 ></invoice-drawer>
             </div>
         </transition>
-        <div class="table-container">
+        <div
+            class="table-container"
+            v-if="
+                invoiceDetails &&
+                invoiceDetails.items &&
+                invoiceDetails.items.length > 0
+            "
+        >
             <div v-if="bulkDownloadList.length" class="bulk-download-container">
                 {{ bulkDownloadList.length }} Selected
                 <nitrozen-button
@@ -90,14 +97,6 @@
                         <th v-for="(header,index) in invoiceDetails.headers" :key="index">
                             {{ header }}
                         </th>
-                        <!-- <th>Company Id</th>
-                        <th>Company Name</th>
-                        <th>Invoice Number</th>
-                        <th>Invoice Type</th>
-                        <th>Invoice Date</th>
-                        <th>Period</th>
-                        <th>Amount</th>
-                        <th>Status</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -134,18 +133,6 @@
                             <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
                                 <span>{{ item }}</span>
                             </td>
-                            <!-- <td>{{ invoice.company_id }}</td>
-                            <td>{{ invoice.company_name }}</td>
-                            <td>{{ invoice.invoice_number }}</td>
-                            <td>{{ invoice.invoice_type }}</td>
-                            <td>{{ invoice.invoice_date }}</td>
-                            <td>
-                                {{
-                                    invoice.start_date + '-' + invoice.end_date
-                                }}
-                            </td>
-                            <td>{{ invoice.total_amount }}</td> -->
-
                             <!-- Status can be made dynamic with a captialization function -->
                             <td>
                                 <div
@@ -194,6 +181,7 @@
                                             </nitrozen-menu-item>
                                             <nitrozen-menu-item
                                                 class="act-debt"
+                                                v-if="invoice.status === 'unpaid'"
                                                 @click="
                                                     handleAutoDebt(
                                                         invoice.invoice_number
@@ -204,6 +192,7 @@
                                             >
                                             <nitrozen-menu-item
                                                 class="act-void"
+                                                v-if="!(invoice.status === 'void')"
                                                 @click="
                                                     handleVoid(
                                                         invoice.invoice_number
@@ -213,6 +202,7 @@
                                             >
                                             <nitrozen-menu-item
                                                 class="act-download"
+                                                v-if="invoice.status === 'unpaid' || invoice.status === 'paid'"
                                                 @click="
                                                     downloadInvoice([
                                                         invoice.invoice_number
@@ -249,18 +239,14 @@
                 @confirm="handlePopup"
                 :type="popupData.type"
             />
-            <template
-                v-if="
-                    invoiceDetails &&
-                    invoiceDetails.items &&
-                    invoiceDetails.items.length == 0
-                "
-            >
-                <div class="text-center">
-                    No invoices available
-                </div>
-            </template>
         </div>
+        <template
+            v-else
+        >
+        <adm-no-content
+            :helperText="'No Invoices Found'"
+        ></adm-no-content>
+        </template>
     </div>
 </template>
 <script>
@@ -273,6 +259,8 @@ import invoiceFilterDrawer from './invoice-filters.vue';
 import invoicePopup from './invoice-popup.vue';
 import CompanyService from '@/services/company-admin.service';
 import { debounce } from '@/helper/utils';
+import { dateRangeShortcuts } from '@/helper/datetime.util';
+import PageEmpty from '@/components/common/page-empty.vue';
 import moment from 'moment';
 import {
     NitrozenCheckBox,
@@ -306,7 +294,8 @@ export default {
         NitrozenButton,
         'filter-drawer': invoiceFilterDrawer,
         'invoice-drawer': invoiceDrawer,
-        'pop-up': invoicePopup
+        'pop-up': invoicePopup,
+        'adm-no-content': PageEmpty
     },
     directives: {
         strokeBtn
@@ -320,6 +309,7 @@ export default {
             ],
             selectedCompany: '',
             companyNames: [],
+            dateRangeShortcuts: [...dateRangeShortcuts],
             pageObject: { ...PAGINATION_OBJECT },
             isDrawerOpen: false,
             isFilterDrawerOpen: false,
@@ -374,7 +364,6 @@ export default {
                 this.bulkDownloadList = this.invoiceDetails.items
                     .filter((item) => item.status === 'paid')
                     .map((item) => item.invoice_number);
-                console.log(this.selectedInvoices, this.bulkDownloadList);
                 return;
             }
             this.selectedInvoices = [];
@@ -446,7 +435,13 @@ export default {
         onDateChange() {
             this.fromDate = moment(this.InvoiceDateRange[0]).format('DD-MM-YYYY');
             this.toDate = moment(this.InvoiceDateRange[1]).format('DD-MM-YYYY');
-            this.getInvoiceList();
+            if(this.InvoiceDateRange.length > 0){
+                this.getInvoiceList();
+            } else{
+                this.$snackbar.global.showError(
+                    `Dates are not selected`
+                );
+            }
         },
         paymentOptnChange() {},
         searchByInput: debounce(function(e) {
@@ -467,7 +462,6 @@ export default {
             this.popupData.type = 'debt';
         },
         downloadFile(url, filename) {
-            console.log(url, filename);
             fetch(url).then(function(t) {
                 return t.blob().then((b) => {
                     var a = document.createElement('a');
@@ -486,13 +480,11 @@ export default {
             const caller = FinanceService.getDownloadUrlList(params);
             caller
                 .then((res) => {
-                    console.log(res);
                     res.data.data.forEach((item) => {
                         const fileName = item
                             .split('/')
                             .pop()
                             .split('?')[0];
-                        console.log(fileName);
                         this.downloadFile(item, fileName);
                     });
                 })
@@ -534,6 +526,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+
+.filter-input-sm {
+    min-width: 250px;
+    ::v-deep.mx-datepicker-popup {
+        top: inherit;
+    }
+    @media @mobile {
+        width: 100%;
+    }
+}
 .slide-leave-active,
 .slide-enter-active {
     transition: 0.1s;

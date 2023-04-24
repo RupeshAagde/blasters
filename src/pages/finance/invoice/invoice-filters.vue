@@ -81,7 +81,7 @@
                     <nitrozen-button
                         :theme="'secondary'"
                         v-strokeBtn
-                        @click="closeDrawer"
+                        @click="resetFilters"
                         >Clear All</nitrozen-button>
                     </div>
                     <div class="save-btn">
@@ -147,11 +147,23 @@ mounted() {
 },
 methods: {
         closeDrawer(){
+            this.resetFilters();
             this.$emit('closeFilterDrawer',this.filters);
         },
         saveOfflineData(){
             this.closeDrawer();
 
+        },
+        resetFilters(){
+            this.selectedInvoiceType = '',
+            this.selectedPaymentStatus = '',
+            this.companyChips = [],
+            this.paymentChips = [],
+            this.invoiceChips = [],
+            this.filters = {
+                invoice_type: [],
+                payment_status: []
+            }
         },
         getInvoiceType(){
             const params = {
