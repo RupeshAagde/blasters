@@ -223,7 +223,7 @@
                         ></order-bulk-picklist>
                     </div> -->
                     <div class="empty-state" v-if="selectedView == 'orders' ? orders && !orders.length && !inProgress && !pageError : shipmentData && !shipmentData.length && !inProgress && !pageError">
-                        <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'orders' : 'shipments'} found`" />
+                        <adm-no-content :helperText="`We couldn't find any shipments or orders matching your search. Please try adjusting the timeline by using the date range option located above, or try modifying the filters.`" />
                     </div>
                     <div
                         class="pagination-div"
