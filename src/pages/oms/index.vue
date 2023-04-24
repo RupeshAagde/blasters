@@ -23,7 +23,12 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
-                                :placeholder="filterType ? filterType : 'Auto'"
+                                :searchable="true"
+                                @searchInputChange="
+                                    findSearchTypes($event.text)
+                                "
+                                :placeholder="filterType"
+                                
                             />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
@@ -488,7 +493,7 @@ export default {
 
             debugShipmentView: false,
             debugOrderId: '',
-
+            searchTypesClone:[],
             companiesList: [],
             companiesError: false,
             companiesListLoading: false,
@@ -591,12 +596,13 @@ export default {
             return get_filters_promise
             .then(({ data }) => {
                 this.searchShipmentFilter = cloneDeep(data.global[1].options);
+                this.searchTypesClone = cloneDeep(data.global[1].options);
                 // this.fulfillingStoreFilter = cloneDeep(data.filters.global[0].options);
                 // this.filteredStores = cloneDeep(data.filters.global[0].options);
                 this.allAdvancedFilters = cloneDeep(data.advance);
                 this.laneMapper();
                 if(!this.filterType){
-                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value || 'shipment_id';
+                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value;
                         this.searchPlaceholder = this.searchShipmentFilter.length && this.searchShipmentFilter[0].placeholder_text || this.searchShipmentFilter.length && this.searchShipmentFilter[0].text || 'Search by Shipment ID';
                         this.filterTypeMinSize = this.searchShipmentFilter.length && this.searchShipmentFilter[0].min_search_size;
                     }
@@ -827,6 +833,18 @@ export default {
                 this.filteredStores = this.fulfillingStoreFilter;
                 this.filterChange();
             }
+        },
+        findSearchTypes(text){
+            if (text) {
+                this.searchShipmentFilter = this.searchTypesClone.filter((s) =>
+                    s.text.toLowerCase().includes(text.toLowerCase())
+                );
+            } else {
+                this.filterType = '';
+                this.searchShipmentFilter = this.searchTypesClone;
+            }
+
+
         },
         getOrderRequestParams() {
             if(this.searchValueActive == false || this.search == '') {
