@@ -602,7 +602,11 @@ const OrderService = {
             URLS.UPDATE_SHIPMENT_STATUS(),
             axiosOption
         );
-    }
+    },
+    postShipmentActivityLog(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(), { data });
+        return ApiService.post(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
+    },
     /** OMS v2.1 --END */
 };
 export default OrderService;

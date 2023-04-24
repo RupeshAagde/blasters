@@ -1015,7 +1015,8 @@ export default {
             this.pagination.limit = +limit || this.pagination.limit;
             this.selectedStageTab = super_lane || 'unfulfilled';
             this.lane = lane || 'new';
-            // this.search = search || this.search;
+            this.search = search || this.search;
+            this.filterType = search_type || this.filterType;
             this.selectedView = selected_view || this.selectedView;
             this.selectedAdvancedFilters = selected_filters?JSON.parse(selected_filters):{};
 
@@ -1143,18 +1144,24 @@ export default {
                 start_date,end_date
             ];
 
-            this.setRouteQuery({
-                page: this.pagination.current,
-                limit: this.pagination.limit,
-                super_lane: this.selectedStageTab,
-                lane: this.lane,
-                // search: this.search,
-                filterType: this.filterType,
-                selected_view: this.selectedView,
-                from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
-                to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-            })
-            this.fetchSuperLanes();
+            if(this.search) {
+                this.onSearchInput({"keyCode": 13});
+            }
+            else {
+                this.setRouteQuery({
+                    page: this.pagination.current,
+                    limit: this.pagination.limit,
+                    super_lane: this.selectedStageTab,
+                    lane: this.lane,
+                    search: this.search,
+                    filterType: this.filterType,
+                    selected_view: this.selectedView,
+                    from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
+                    to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
+                })
+
+                this.fetchSuperLanes();
+            }
         },
         populateFilters() {
             const { stores, deployment_stores } = this.$route.query;
@@ -1198,25 +1205,26 @@ export default {
             ) {
                 for(let item in query) {
                     if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                        // delete query[item];
+                        query[item] = null;
                     }
-                }
+                };
 
-                for(let item in this.$route.query) {
-                    let query = this.$route.query;
-                    if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                let _query = {
+                    ...this.$route.query,
+                    ...query
+                };
+
+                for(let item in _query) {
+                    if(_query[item] === undefined || _query[item] === null || _query[item].length === 0) {
+                        delete _query[item];
                     }
-                }
+                };
 
-                delete query.search
                 this.$router
                 .push({
                     path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        ...query,
-                    },
+                    query: _query
                 })
                 .catch(() => {});
             }
