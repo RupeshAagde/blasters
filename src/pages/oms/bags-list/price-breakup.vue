@@ -17,67 +17,75 @@
         </div>
 
         <div class="price-details" :class="{ hide: !isOpen }">
-            <div class="styling-price-details" v-if="prices.price_marked !== undefined && prices.price_marked !== 0">
+            <div class="styling-price-details" v-if="prices.price_marked !== undefined">
                 <span class="style-price-title">MRP: </span>
                 <span class="style-price">
                     ₹{{ prices.price_marked.toFixed(2) }}
                 </span>
             </div>
-            <div class="styling-price-details" v-if="prices.discount !== undefined && prices.discount !== 0">
+            <div class="styling-price-details" v-if="prices.price_effective !== undefined">
+                <span class="style-price-title">Price Effective: </span>
+                <span class="style-price">
+                    ₹{{ prices.price_effective.toFixed(2) }}
+                </span>
+            </div>
+            <div class="styling-price-details" v-if="prices.discount !== undefined">
                 <span class="style-price-title">Discount: </span>
                 <span class="style-price">
                     {{prices.discount > 0 ? '-' : ''}} ₹{{ prices.discount.toFixed(2) }}
                 </span>
             </div>
-            <div v-if="
-                    shipment && 
-                    (shipment.coupon && shipment.coupon.payable_category !== 'fynd') || 
-                    (prices.coupon_value > 0 && !shipment.coupon && shipment.order && shipment.order.ordering_channel == 'Ecomm')">
-                <div class="styling-price-details" v-if="prices.coupon_value !== undefined && prices.coupon_value !== 0 && couponCode">
+            <div >
+                <div class="styling-price-details" v-if="prices.coupon_value !== undefined && couponCode">
                     <span class="style-price-title">Coupon Value ({{ couponCode.toUpperCase() }}): </span>
                     <span class="style-price">
                         {{prices.coupon_value > 0 ? '-' : ''}} ₹{{ prices.coupon_value.toFixed(2) }}
                     </span>
                 </div>
             </div>
-            <div class="styling-price-details" v-if="prices.promotion_effective_discount !== undefined && prices.promotion_effective_discount !== 0">
+            <div class="styling-price-details" v-if="prices.promotion_effective_discount !== undefined">
                 <span class="style-price-title">Promotion Discount: </span>
                 <span class="style-price">
                     {{prices.promotion_effective_discount > 0 ? '-' : ''}} ₹{{ prices.promotion_effective_discount.toFixed(2) }}
                 </span>
             </div>
-            <!-- <div class="styling-price-details" v-if="prices.coupon_value !== undefined && +prices.coupon_value !== 0">
+            <div class="styling-price-details" v-if="prices.coupon_value !== undefined">
                 <span class="style-price-title">Coupon Code: </span>
                 <span class="style-price coupon-code">{{ couponCode }}</span>
-            </div> -->
+            </div>
 
-            <!-- The below commented out code will be used in blaster so do not delete it -->
-
-            <!-- <div class="styling-price-details" v-if="prices.delivery_charge !== undefined && prices.delivery_charge !== 0">
+            <!-- The below commented out code will be used in blaster so do not delete it --> 
+            <div class="styling-price-details" v-if="prices.delivery_charge !== undefined">
                 <span class="style-price-title">Delivery Charges: </span>
                 <span class="style-price">
                     ₹{{ prices.delivery_charge.toFixed(2) }}
                 </span>
-            </div> -->
-            <!-- <div class="styling-price-details" v-if="prices.fynd_credits !== undefined && prices.fynd_credits !== 0">
+            </div>
+            <div class="styling-price-details" v-if="prices.fynd_credits !== undefined">
                 <span class="style-price-title">FYND Credits: </span>
                 <span class="style-price">
                     {{prices.fynd_credits > 0 ? '-' : ''}} ₹{{ prices.fynd_credits.toFixed(2) }}
                 </span>
-            </div> -->
-            <!-- <div class="styling-price-details" v-if="prices.cashback_applied !== undefined && prices.cashback_applied !== 0">
+            </div>
+            <div class="styling-price-details" v-if="prices.cashback_applied !== undefined">
                 <span class="style-price-title">Cashback Applied: </span>
                 <span class="style-price">
                     {{prices.cashback_applied > 0 ? '-' : ''}} ₹{{ prices.cashback_applied.toFixed(2) }}
                 </span>
-            </div> -->
-            <div class="styling-price-details" v-if="prices.cod_charges !== undefined && prices.cod_charges !== 0">
+            </div>
+            <div class="styling-price-details" v-if="prices.cod_charges !== undefined">
                 <span class="style-price-title">COD charges: </span>
                 <span class="style-price">
                     ₹{{ prices.cod_charges.toFixed(2) }}
                 </span>
             </div>
-            <div class="styling-price-details" v-if="prices.amount_paid !== undefined && prices.amount_paid !== 0">
+            <div class="styling-price-details" v-if="prices.refund_amount !== undefined">
+                <span class="style-price-title">Refund Amount: </span>
+                <span class="style-price">
+                    ₹{{ prices.refund_amount.toFixed(2) }}
+                </span>
+            </div>
+            <div class="styling-price-details" v-if="prices.amount_paid !== undefined">
                 <span class="style-price-title">Price: </span>
                 <span class="style-price">₹{{ prices.amount_paid.toFixed(2) }}</span>
             </div>

@@ -20,7 +20,8 @@
                 :globalFilters="globalFilters"
                 @download="getGlobalFilters($event)" />
             <instructions-action-box />
-            <upload-action-box 
+            <upload-action-box
+                :isUploading="isUploading"
                 :disabled="disableUpload" 
                 @upload="onUpload" />
         </div>
@@ -103,7 +104,8 @@ export default {
             file: null,
             uploadURL: {},
             isDownloadTemplate: false,
-            enableDownloadTemplate: false
+            enableDownloadTemplate: false,
+            isUploading:false,
         }
     },
     methods: {

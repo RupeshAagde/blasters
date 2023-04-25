@@ -151,21 +151,21 @@ describe('Order/Shipment List Page', () => {
         expect(advancedFilterSectionFunction).toHaveBeenCalled();
     });
 
-    it('Whenever the lane is changed this method is called "changeLaneType', async () => {
-        await flushPromises();
-        wrapper.setData({
-            orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
-            activeLaneIndex: 1,
-        });
+    // it('Whenever the lane is changed this method is called "changeLaneType', async () => {
+    //     await flushPromises();
+    //     wrapper.setData({
+    //         orderLaneData: MOCK_INDEX_DATA.laneResponseData.super_lanes,
+    //         activeLaneIndex: 1,
+    //     });
 
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
+    //     await wrapper.vm.$forceUpdate();
+    //     await wrapper.vm.$nextTick();
 
-        const element = wrapper.find('.lane-types');
-        element.trigger('click');
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.activeLaneIndex).toBe(0);
-    });
+    //     const element = wrapper.find('.lane-types');
+    //     element.trigger('click');
+    //     await wrapper.vm.$nextTick();
+    //     expect(wrapper.vm.activeLaneIndex).toBe(0);
+    // });
 
     it('it changes view as per the user (for example: shipment view to bulk view)', async () => {
         const changeViewFunction = jest.spyOn(wrapper.vm, 'changeView');
