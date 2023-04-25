@@ -356,11 +356,9 @@ const VIEW_OPTIONS = [
     // }
 ];
 
+
 const LANE_MAPPER = {
-    "0": "Unfulfilled",
-    "1": "Processed",
-    "2": "Return",
-    "3": "ActionCentre",
+    "0": "All"
 }
 
 export default {
@@ -447,8 +445,8 @@ export default {
             viewMoreFilters: false,
 
             selectedStageTabIndex: 0,
-            selectedStageTab: 'unfulfilled',
-            lane: "new",
+            selectedStageTab: 'all',
+            lane: "all",
             activeLaneIndex: 0,
             selectedStore: '',
             selectedDeploymentStore: '',
@@ -734,7 +732,7 @@ export default {
                 ...query,
                 from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
                 to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-                super_lane: this.selectedStageTab || 'unfulfilled',
+                super_lane: this.selectedStageTab || 'all',
                 ...advanced_filters,
                 search_value: this.search,
                 search_type: this.filterType,
@@ -814,9 +812,9 @@ export default {
         changeView(e) {
             this.selectedView = e;
             this.pagination.current = 1;
-            this.lane = "new";
-            this.selectedStageTab = "unfulfilled";
-            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "new", super_lane: "unfulfilled", page: 1});
+            this.lane = "all";
+            this.selectedStageTab = "all";
+            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "all", super_lane: "all", page: 1});
         },
         searchStore(text) {
             text = text ? text.toLowerCase() : text;
@@ -958,9 +956,9 @@ export default {
                     this.lane = '';
                 }
             } else {
-                this.selectedStageTab = 'unfulfilled';
+                this.selectedStageTab = 'all';
                 this.selectedStageTabIndex = 0;
-                this.lane = 'new'
+                this.lane = 'all';
             }
             if(this.search.length == 0) {
                 this.filterType = "auto";
@@ -1031,8 +1029,8 @@ export default {
             } = this.$route.query;
             this.pagination.current = +page || this.pagination.current;
             this.pagination.limit = +limit || this.pagination.limit;
-            this.selectedStageTab = super_lane || 'unfulfilled';
-            this.lane = lane || 'new';
+            this.selectedStageTab = super_lane || 'all';
+            this.lane = lane || 'all';
             this.search = search || this.search;
             this.filterType = search_type || this.filterType;
             this.selectedView = selected_view || this.selectedView;
