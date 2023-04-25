@@ -75,7 +75,7 @@
             <div v-if="bulkDownloadList.length" class="bulk-download-container">
                 {{ bulkDownloadList.length }} Selected
                 <nitrozen-button
-                    @click="downloadFiles"
+                    @click="downloadInvoice(bulkDownloadList)"
                     theme="secondary"
                     class="export-catalog"
                     v-strokeBtn
@@ -116,19 +116,16 @@
                                 <nitrozen-checkbox
                                     class="table-checkout"
                                     @change="
-                                        toggleInvoice(
-                                            invoice.id,
-                                            invoice.invoice_number
-                                        )
+                                        toggleInvoice(invoice.invoice_number)
                                     "
                                     :value="
-                                        selectedInvoices.includes(invoice.id)
+                                        selectedInvoices.includes(invoice.invoice_number)
                                             ? true
                                             : false
                                     "
-                                    :disabled="invoice.status != 'paid'"
+                                    :disabled="invoice.status.toLowerCase() != 'paid'"
                                 >
-                                <!-- THE CONDITION MIGHT CHANGE -->
+                                <!-- :disabled="invoice.status != 'paid'" THE CONDITION MIGHT CHANGE -->
                                 </nitrozen-checkbox>
                             </td>
                             <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
@@ -139,25 +136,25 @@
                             <td>
                                 <div
                                     class="pay-status status-process"
-                                    v-if="invoice.status === 'processing'"
+                                    v-if="invoice.status.toLowerCase() === 'processing'"
                                 >
                                     In Process
                                 </div>
                                 <div
                                     class="pay-status status-paid"
-                                    v-else-if="invoice.status === 'paid'"
+                                    v-else-if="invoice.status.toLowerCase() === 'paid'"
                                 >
                                     Paid
                                 </div>
                                 <div
                                     class="pay-status status-void"
-                                    v-else-if="invoice.status === 'void'"
+                                    v-else-if="invoice.status.toLowerCase() === 'void'"
                                 >
                                     Void
                                 </div>
                                 <div 
                                     class="pay-status status-unpaid"
-                                    v-else-if="invoice.status === 'unpaid'"
+                                    v-else-if="invoice.status.toLowerCase() === 'unpaid'"
                                 >
                                     Unpaid
                                 </div>
@@ -176,12 +173,12 @@
                                         >
                                             <nitrozen-menu-item
                                                 class="act-offline"
-                                                v-if="invoice.status === 'unpaid'"
+                                                v-if="invoice.status.toLowerCase() === 'unpaid'"
                                                 @click="handleOpenDrawer(invoice)"
                                             >
                                                 Offline Payment
                                             </nitrozen-menu-item>
-                                            <nitrozen-menu-item
+                                            <!-- <nitrozen-menu-item
                                                 class="act-debt"
                                                 v-if="invoice.status === 'unpaid'"
                                                 @click="
@@ -191,10 +188,10 @@
                                                 "
                                                 >Retry
                                                 Auto-debt</nitrozen-menu-item
-                                            >
+                                            > -->
                                             <nitrozen-menu-item
                                                 class="act-void"
-                                                v-if="!(invoice.status === 'void')"
+                                                v-if="!(invoice.status.toLowerCase() === 'void')"
                                                 @click="
                                                     handleVoid(
                                                         invoice.invoice_number
@@ -204,7 +201,7 @@
                                             >
                                             <nitrozen-menu-item
                                                 class="act-download"
-                                                v-if="invoice.status === 'unpaid' || invoice.status === 'paid'"
+                                                v-if="invoice.status.toLowerCase() === 'unpaid' || invoice.status.toLowerCase() === 'paid'"
                                                 @click="
                                                     downloadInvoice([
                                                         invoice.invoice_number
@@ -259,7 +256,6 @@ import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import invoiceDrawer from './invoice-drawer.vue';
 import invoiceFilterDrawer from './invoice-filters.vue';
 import invoicePopup from './invoice-popup.vue';
-import CompanyService from '@/services/company-admin.service';
 import { debounce } from '@/helper/utils';
 import { dateRangeShortcuts } from '@/helper/datetime.util';
 import PageEmpty from '@/components/common/page-empty.vue';
@@ -340,7 +336,6 @@ export default {
     mounted() {
         this.onDateChange();
         this.fetchCompany();
-        //this.getInvoiceList();
     },
     methods: {
         listingPayload(){
@@ -360,47 +355,40 @@ export default {
             if (this.selectedInvoices.length == 0) {
                 this.selectedInvoices = this.invoiceDetails.items.map(
                     (item) => {
-                        if (item.status === 'paid') {
-                            return item.id;
+                        if (item.status.toLowerCase() === 'paid') {
+                            return item.invoice_number;
                         }
+                        /* if (item.status === 'paid') {
+                            
+                        } */
                     }
                 );
                 this.bulkDownloadList = this.invoiceDetails.items
-                    .filter((item) => item.status === 'paid')
+                    .filter((item) => item.status.toLowerCase() === 'paid')
                     .map((item) => item.invoice_number);
                 return;
             }
             this.selectedInvoices = [];
             this.bulkDownloadList = [];
         },
-        toggleInvoice(id, invoice_num) {
-            const index = this.selectedInvoices.indexOf(id);
+        toggleInvoice(invoice_num) {
+            const index = this.selectedInvoices.indexOf(invoice_num);
             if (index > -1) {
                 this.selectedInvoices.splice(index, 1);
                 this.bulkDownloadList.splice(index, 1);
                 return;
             }
-            this.selectedInvoices.push(id);
+            this.selectedInvoices.push(invoice_num);
             this.bulkDownloadList.push(invoice_num);
         },
-        downloadFiles() {
+        /* downloadFiles() {
             this.downloadInvoice(this.bulkDownloadList);
-        },
+        }, */
         handlePageChanges(e) {
             this.pageObject = e;
             this.getInvoiceList();
         },
         getInvoiceList() {
-            /* const params = {
-                data: {
-                    start_date: this.fromDate,
-                    end_date: this.toDate,
-                    page: this.pageObject.current,
-                    page_size: this.pageObject.limit,
-                    filters: {},
-                    search: this.searchText
-                }
-            }; */
             const invoiceList = FinanceService.getInvoiceList(this.listingPayload());
             invoiceList
                 .then((res) => {
@@ -411,9 +399,7 @@ export default {
                 .catch((err) => {
                     this.$snackbar.global.showError(`Something Went Wrong`);
                 })
-                .finally(() => {
-                    // this.inProcess = false
-                });
+                .finally(() => {});
         },
         handleOpenDrawer(invoice) {
             this.invoice = invoice;
