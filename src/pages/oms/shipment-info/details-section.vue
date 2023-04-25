@@ -166,6 +166,18 @@
                         {{ shipment.invoice.store_invoice_id }}
                     </div>
                 </div>
+                <div v-if="shipment &&
+                shipment.affiliate_details && 
+                shipment.affiliate_details.affiliate_meta && 
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id">
+                    <div class="header-title">Orignal Invoice ID</div>
+                    <br />
+                    <div class="details-data">
+                        {{ shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id }}
+                    </div>
+                </div>
 
                 <!-- <div v-if="shipment.invoice.external_invoice_id">
                     <div class="header-title">External Invoice ID</div>
@@ -256,6 +268,32 @@
                 <span class="header-title"> Estimated Shipping Charges: </span>
                 <span class="details-data">
                     ₹{{ shipment.order.prices.delivery_charge.toFixed(2) }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment &&
+                 shipment.affiliate_details &&
+                 shipment.affiliate_details.affiliate_meta &&
+                 shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type"
+            >
+                <span class="header-title"> Replacement Type: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment && 
+                shipment.affiliate_details &&
+                shipment.affiliate_details.affiliate_meta &&
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id"
+            >
+                <span class="header-title"> Orignal Order ID: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id }}
                 </span>
             </div>
 
