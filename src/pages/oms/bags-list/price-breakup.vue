@@ -26,7 +26,7 @@
             <div class="styling-price-details" v-if="prices.price_effective !== undefined">
                 <span class="style-price-title">Price Effective: </span>
                 <span class="style-price">
-                    ₹{{ prices.price_marked.toFixed(2) }}
+                    ₹{{ prices.price_effective.toFixed(2) }}
                 </span>
             </div>
             <div class="styling-price-details" v-if="prices.discount !== undefined">
