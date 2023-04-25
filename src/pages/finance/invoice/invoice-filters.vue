@@ -147,8 +147,8 @@ mounted() {
 },
 methods: {
         closeDrawer(){
-            this.resetFilters();
             this.$emit('closeFilterDrawer',this.filters);
+            this.resetFilters();
         },
         saveOfflineData(){
             this.closeDrawer();

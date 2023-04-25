@@ -512,6 +512,9 @@ const URLS = {
     VOID_FIN_INVOICE: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/void-invoice');
     },
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+    },
     
     //#########Tickets########
     FETCH_TICKETS: () => {

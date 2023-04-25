@@ -23,12 +23,12 @@
                         placeholder="Company Id/Name"
                         :searchable="true"
                         :multiple="true"
+                        @change="filterByCompany"
                         @searchInputChange="searchCompany"
                     ></nitrozen-dropdown>
                 </div>
                 <div class="date-filter filter-item">
                     <date-picker
-                        label="Select Start Date &amp; End Date"
                         @input="onDateChange"
                         class="date-picker filter-input-sm"
                         picker_type="date"
@@ -128,10 +128,12 @@
                                     "
                                     :disabled="invoice.status != 'paid'"
                                 >
+                                <!-- THE CONDITION MIGHT CHANGE -->
                                 </nitrozen-checkbox>
                             </td>
                             <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
-                                <span>{{ item }}</span>
+                                <span v-if="item && item.length > 0">{{ item }}</span>
+                                <span v-else> - </span>
                             </td>
                             <!-- Status can be made dynamic with a captialization function -->
                             <td>
@@ -241,11 +243,11 @@
             />
         </div>
         <template
-            v-else
+            v-if="noContent"
         >
-        <adm-no-content
-            :helperText="'No Invoices Found'"
-        ></adm-no-content>
+            <adm-no-content
+                :text="'No Invoice found'"
+            ></adm-no-content>
         </template>
     </div>
 </template>
@@ -302,6 +304,7 @@ export default {
     },
     data() {
         return {
+            noContent: false,
             selectedInvoices: [],
             InvoiceDateRange: [
                 moment().subtract(1, 'week').toISOString(),
@@ -336,6 +339,7 @@ export default {
     },
     mounted() {
         this.onDateChange();
+        this.fetchCompany();
         //this.getInvoiceList();
     },
     methods: {
@@ -402,6 +406,7 @@ export default {
                 .then((res) => {
                     this.invoiceDetails = res.data;
                     this.pageObject.total = res.data.page.item_count;
+                    this.pageObject.total == 0 ? this.noContent = true : this.noContent = false;
                 })
                 .catch((err) => {
                     this.$snackbar.global.showError(`Something Went Wrong`);
@@ -422,7 +427,8 @@ export default {
             this.isFilterDrawerOpen = true;
         },
         closeFilterDrawer(filters) {
-            this.filters = filters;
+            this.filters.invoice_type = filters.invoice_type;
+            this.filters.payment_status = filters.payment_status;
             this.isFilterDrawerOpen = false;
             this.getInvoiceList();
         },
@@ -495,34 +501,34 @@ export default {
                 })
                 .finally(() => {});
         },
+        filterByCompany(){
+            this.filters.company_id = this.selectedCompany.map(String);
+            this.getInvoiceList();
+        },
         searchCompany(e) {
             debounce((text) => {
                 this.fetchCompany(text);
             }, 1000)(e.text);
+        },
+        fetchCompany(query='') {
+            let params = {
+                data:{
+                    search: query
+                }
+            };
+            /* if (query) {
+                params.data.search = query;
+            } */
+            return FinanceService.getCompanyList(params)
+                .then((res) => {
+                    this.companyNames = res.data.company_list;
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError('Failed to load companies');
+                });
         }
     },
-    fetchCompany(query) {
-        let params = {
-            page_no: 0,
-            page_size: 10
-        };
-        if (query) {
-            params.q = query;
-        }
-        return CompanyService.getCompanyList(params)
-            .then(({ data }) => {
-                let companies = data.items.map((item) => {
-                    return {
-                        text: `${item.name} (${item.uid})`,
-                        value: String(item.uid)
-                    };
-                });
-                this.companyNames = companies;
-            })
-            .catch((err) => {
-                this.$snackbar.global.showError('Failed to load companies');
-            });
-    }
+    
 };
 </script>
 <style lang="less" scoped>

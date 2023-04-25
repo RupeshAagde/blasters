@@ -93,7 +93,10 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.VOID_FIN_INVOICE(), axiosOption);
     },
-
+    getCompanyList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
+    },
     //Payments
     updatePaymentInfo(params) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
