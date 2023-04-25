@@ -31,7 +31,7 @@
                     </nitrozen-button>
                 </div>
             </div>
-            <div class="uploaded-file-container" v-if="uploadedFileName && !isFileUploaded">
+            <div class="uploaded-file-container" v-if="uploadedFileName && isUploading">
                         <nitrozen-tooltip
                             v-if="uploadedFileNameTitle.length > 0"
                             position="left"
@@ -67,7 +67,7 @@ export default {
             type: Boolean,
             default: false
         },
-        isFileUploaded: {
+        isUploading: {
             type: Boolean,
             default: false
         }

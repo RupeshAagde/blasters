@@ -21,7 +21,7 @@
                 @download="getGlobalFilters($event)" />
             <instructions-action-box />
             <upload-action-box
-                :isFileUploaded="isFileUploaded"
+                :isUploading="isUploading"
                 :disabled="disableUpload" 
                 @upload="onUpload" />
         </div>
@@ -105,7 +105,7 @@ export default {
             uploadURL: {},
             isDownloadTemplate: false,
             enableDownloadTemplate: false,
-            isFileUploaded:false,
+            isUploading:false,
         }
     },
     methods: {
@@ -137,7 +137,6 @@ export default {
          * @param {file} file The file object
          */
         onUpload(file) {
-            this.isFileUploaded = false;
             this.file = file;
             this.uploadToGrindor();
             // this.disableUpload = true;
@@ -206,7 +205,6 @@ export default {
                     .finally(() => {
                         this.isUploading = false;
                         this.postLinkBulkAction();
-                        this.isFileUploaded = true;
                     });
             }
         },
