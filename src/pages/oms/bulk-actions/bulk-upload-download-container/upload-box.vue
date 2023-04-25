@@ -31,7 +31,7 @@
                     </nitrozen-button>
                 </div>
             </div>
-            <div class="uploaded-file-container" v-if="uploadedFileName">
+            <div class="uploaded-file-container" v-if="uploadedFileName && !isFileUploaded">
                         <nitrozen-tooltip
                             v-if="uploadedFileNameTitle.length > 0"
                             position="left"
@@ -66,6 +66,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        isFileUploaded: {
+            type: Boolean,
+            default: false
         }
     },
     directives: {
@@ -73,7 +77,7 @@ export default {
     },
     data() {
         return {
-            uploadedFileName: '',
+            uploadedFileName:"",
             disableUpload: false,
             isActive: false,
             uploadedFileNameTitle: ''
@@ -114,6 +118,7 @@ export default {
                     this.uploadedFileNameTitle = ''
                     }
                 this.$emit('upload', event.target.files[0]);
+          
             }
             else {
                 this.uploadedFileName = null;
