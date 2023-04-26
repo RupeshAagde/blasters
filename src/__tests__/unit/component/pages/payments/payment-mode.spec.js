@@ -39,6 +39,7 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         wrapper.vm.isEditMode = true;
         await flushPromises();
     });
+
     it('Exists wrapper and div', async () => {
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot()
@@ -116,7 +117,18 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         // expect(wrapper.vm.agregatorDetails.is_active).toBe(false);
         wrapper.vm.$refs["confirm-gateway-status-update"].$emit("save");
         await flushPromises();
-        expect(wrapper.vm.pageLoading).toBe(false);
+        expect(wrapper.vm.inProgress).toBe(false);
+
+    });
+
+    it('Cancel payment gateway status update', async () => {
+        wrapper.vm.isEditMode = true;
+        let gatewayStatusToggle = wrapper.findComponent({ ref: 'update-gateway-status' });
+        wrapper.vm.agregatorDetails.is_active = true
+        gatewayStatusToggle.vm.$emit("change");
+        wrapper.vm.$refs["confirm-gateway-status-update"].$emit("cancel");
+        await flushPromises();
+        expect(wrapper.vm.inProgress).toBe(false);
 
     });
 
@@ -129,7 +141,7 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         gatewayStatusToggle.vm.$emit("change");
         wrapper.vm.$refs["confirm-gateway-status-update"].$emit("save");
         await flushPromises();
-        expect(wrapper.vm.pageLoading).toBe(false);
+        expect(wrapper.vm.inProgress).toBe(false);
     });
 
     it('Empty response for update payment gateway status', async () => {
@@ -141,7 +153,7 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         gatewayStatusToggle.vm.$emit("change");
         wrapper.vm.$refs["confirm-gateway-status-update"].$emit("save");
         await flushPromises();
-        expect(wrapper.vm.pageLoading).toBe(false);
+        expect(wrapper.vm.inProgress).toBe(false);
     });
 
     it('Update payment mode status', async () => {
@@ -151,7 +163,18 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         mopSaveButton.vm.$emit("click");
         wrapper.vm.$refs["confirm-mop-status-update"].$emit("save");
         await flushPromises();
-        expect(wrapper.vm.pageLoading).toBe(false);
+        expect(wrapper.vm.inProgress).toBe(false);
+    });
+
+    it('Validate update payment mode status', async () => {
+        wrapper.vm.isEditMode = true;
+        let mopSaveButton = wrapper.findComponent({ ref: 'update-mop-status' });
+        wrapper.vm.agregatorDetails.is_active = true
+        mopSaveButton.vm.$emit("click");
+        wrapper.vm.currentMopDetails.sub_payment_mode[0].is_active = false
+        wrapper.vm.$refs["confirm-mop-status-update"].$emit("save");
+        await flushPromises();
+        expect(wrapper.vm.inProgress).toBe(false);
     });
 
     it('Error while update payment mode status', async () => {
@@ -163,7 +186,7 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         mopSaveButton.vm.$emit("click");
         wrapper.vm.$refs["confirm-mop-status-update"].$emit("save");
         await flushPromises();
-        expect(wrapper.vm.pageLoading).toBe(false);
+        expect(wrapper.vm.inProgress).toBe(false);
     });
 
     it('Highlight payment option to show sub payment mode', async () => {

@@ -14,7 +14,7 @@
                 :showBackButton="isEditMode ? true : false"
                 @backClick="backRedirect"
             >
-                <div class="button-box" v-if="isEditMode">
+                <div class="button-box" v-if="isEditMode" v-bind:class="!paymentModes.length ? 'disabled-section':'' ">
                     <span
                         :class="
                             agregatorDetails.is_active
@@ -59,23 +59,27 @@
                 :theme="'secondary'"
                 :ref="'copy-config-panel'"
                 @click="copyConfigPanel"
-                :disabled="pageError || pageLoading"
+                :disabled="pageError || pageLoading || (isEditMode && !agregatorDetails.is_active)"
                 >Duplicate Config</nitrozen-button
             >
         </div>
         <loader v-if="pageLoading"></loader>
         <page-error
             v-else-if="pageError && !pageLoading"
-            @tryAgain="
-                isEditMode ? getPaymentGatewayDetails : getAllPaymentModes
-            "
+            @tryAgain="isEditMode ? getPaymentGatewayDetails() : getAllPaymentModes()"
         ></page-error>
         <div
             class="main-body payment-mode-details"
             v-if="!pageLoading && !pageError"
         >
+        <loader v-if="inProgress" class="loading"></loader>
             <div class="title">Available MOP/Sub MOP Options</div>
-            <div class="content">
+            <page-empty
+                v-if="!paymentModes.length"
+                class="sub-mop-options"
+                :text="'No payment modes found'"
+            ></page-empty>
+            <div class="content" v-else v-bind:class="isEditMode && !agregatorDetails.is_active ? 'disabled-section':'' ">
                 <div class="mop-options">
                     <div
                         class="mop-list"
@@ -144,7 +148,7 @@
                         />
                         </div>
                     </div>
-                    <div v-if="subPaymentModes.length">
+                    <div v-if="subPaymentModes.length" v-bind:class="!currentMopDetails.is_active ? 'disabled-section':'' ">
                         <div
                             class="sub-mop-container"
                             v-for="(item, index) in subPaymentModes"
@@ -166,6 +170,7 @@
                         </div>
                     </div>
                     <page-empty
+                    v-bind:class="!currentMopDetails.is_active ? 'disabled-section':'' "
                         v-else
                         class="sub-mop-options"
                         :text="'No sub payment modes found'"
@@ -227,6 +232,10 @@
 </template>
 <style lang="less" scoped>
 .main {
+    .disabled-section {
+        pointer-events: none;
+        opacity: 0.4;
+    }
     .button-box {
         display: flex;
         align-items: center;
@@ -442,6 +451,7 @@ export default {
             isEditMode: this.$route.meta.action === 'edit',
             pageError: false,
             pageLoading: false,
+            inProgress: false,
             optionLoading: false,
             businessUnitList: [],
             deviceList: [],
@@ -494,6 +504,7 @@ export default {
                 .catch((error) => {
                     this.pageLoading = false;
                     this.pageError = true;
+                    this.paymentModes = [];
                     console.error(error);
                 });
         },
@@ -543,31 +554,48 @@ export default {
         },
         async updateMopDetails() {
             try {
-                this.pageLoading = true;
+                this.inProgress = true;
                 this.pageError = false;
                 let payload = {
                     business_unit: this.businessUnit,
                     device: this.device,
                     items: [this.currentMopDetails],
                 };
-                if (this.isEditMode) {
-                    await PaymentService.updateAllPaymentGatewayConfig(
-                        this.agregatorDetails.id,
-                        payload
+                const isValid = this.validateSubMop();
+                if(!isValid){
+                    this.inProgress = false;
+                    this.$snackbar.global.showError(
+                        'Please select atleast one sub payment mode'
                     );
                 } else {
-                    await PaymentService.updateMOP(payload);
+                    if (this.isEditMode) {
+                        await PaymentService.updateAllPaymentGatewayConfig(
+                            this.agregatorDetails.id,
+                            payload
+                        );
+                    } else {
+                        await PaymentService.updateMOP(payload);
+                    }
+                    this.inProgress = false;
+                    this.$snackbar.global.showSuccess(
+                        'Payment mode details updated successfully'
+                    );
                 }
-                this.pageLoading = false;
-                this.$snackbar.global.showSuccess(
-                    'Payment mode details updated successfully'
-                );
             } catch (err) {
-                this.pageLoading = false;
+                this.inProgress = false;
                 this.$snackbar.global.showError(
                     'Failed to update payment mode details'
                 );
             }
+        },
+        validateSubMop(){
+            let isValid = true;
+            if(this.currentMopDetails.is_active && this.currentMopDetails.sub_payment_mode.length){
+                isValid = this.currentMopDetails.sub_payment_mode.some(subMop => {
+                    return subMop.is_active
+                });
+            }
+            return isValid;
         },
         async handleBusinessUnitChange(type) {
             this.businessUnit = type;
@@ -617,7 +645,7 @@ export default {
             this.$refs['sidePanel'].openSidePanel();
         },
         updateGatewayStatus(item) {
-            this.pageLoading = true;
+            this.inProgress = true;
             this.pageError = false;
             let payload = {
                 is_active: item.is_active,
@@ -626,13 +654,13 @@ export default {
             PaymentService.updateAllPaymentGatewayConfig(item.id, payload)
                 .then((res) => {
                     this.paymentGatewayList = res.data.items || [];
-                    this.pageLoading = false;
+                    this.inProgress = false;
                     this.$snackbar.global.showSuccess(
                         'Payment gateway status updated'
                     );
                 })
                 .catch((error) => {
-                    this.pageLoading = false;
+                    this.inProgress = false;
                     console.error('Error update gateway status: ', error);
                     this.$snackbar.global.showError(
                         'Payment gateway status update failed'
@@ -650,6 +678,7 @@ export default {
                 title: 'Save Changes?',
                 message: 'Click Yes to save the changes',
                 height: '271px',
+                dismissible: false,
                 data: {
                     is_active: !this.agregatorDetails.is_active
                 }
