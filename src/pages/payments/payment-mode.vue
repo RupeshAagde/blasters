@@ -183,7 +183,7 @@
                 ref="sidePanel"
                 :title="'Duplicate Configuration'"
                 @copyConfiguration="copyConfiguration"
-                @clearSelectedDeviceList="cancelCopyConfiguration"
+                @clearSelectedDeviceList="cancelCopyConfiguration(false)"
             >
                 <template slot="body">
                     <div class="item-form">
@@ -226,7 +226,7 @@
             cancelBtnTitle="No"
             saveBtnTitle="Yes"
             @save="saveCopiedConfiguration"
-            @cancel="cancelCopyConfiguration"
+            @cancel="cancelCopyConfiguration(true)"
         />
     </div>
 </template>
@@ -670,8 +670,11 @@ export default {
         cancelUpdateGatewayStatus(e){
             this.agregatorDetails.is_active = e.data.is_active || false
         },
-        cancelCopyConfiguration(){
-            this.selectedDeviceListToCopy = []
+        cancelCopyConfiguration(isConfirmation){
+            if(!isConfirmation){
+                this.selectedDeviceListToCopy = [];
+            }
+            this.errors = {}
         },
         confirmUpdateGatewayStatus() {
             this.$refs['confirm-gateway-status-update'].openConfirmation({
