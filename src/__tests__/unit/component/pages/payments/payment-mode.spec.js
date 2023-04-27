@@ -166,6 +166,16 @@ describe('Mounted Payment Mode With Aggregator Page', () => {
         expect(wrapper.vm.inProgress).toBe(false);
     });
 
+    it('Cancel payment mode status update', async () => {
+        wrapper.vm.isEditMode = true;
+        let mopSaveButton = wrapper.findComponent({ ref: 'update-mop-status' });
+        wrapper.vm.agregatorDetails.is_active = true
+        mopSaveButton.vm.$emit("click");
+        wrapper.vm.$refs["confirm-mop-status-update"].$emit("cancel");
+        await flushPromises();
+        expect(wrapper.vm.inProgress).toBe(false);
+    });
+
     it('Validate update payment mode status', async () => {
         wrapper.vm.isEditMode = true;
         let mopSaveButton = wrapper.findComponent({ ref: 'update-mop-status' });

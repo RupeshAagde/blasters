@@ -145,6 +145,7 @@
                             cancelBtnTitle="No"
                             saveBtnTitle="Yes"
                             @save="updateMopDetails"
+                            @cancel="cancelUpdateMopStatus"
                         />
                         </div>
                     </div>
@@ -445,6 +446,11 @@ export default {
             }
             this.getBusinessUnitDeviceList();
         },
+        selectedDeviceListToCopy(val) {
+            if(val.length){
+                this.clearError();
+            }
+        }
     },
     data() {
         return {
@@ -670,6 +676,9 @@ export default {
         cancelUpdateGatewayStatus(e){
             this.agregatorDetails.is_active = e.data.is_active || false
         },
+        cancelUpdateMopStatus(e){
+            this.currentMopDetails.is_active = e.data.is_active || false
+        },
         cancelCopyConfiguration(isConfirmation){
             if(!isConfirmation){
                 this.selectedDeviceListToCopy = [];
@@ -692,6 +701,10 @@ export default {
                 title: 'Save Changes?',
                 message: 'Click Yes to save the changes',
                 height: '271px',
+                dismissible: false,
+                data: {
+                    is_active: !this.currentMopDetails.is_active
+                }
             });
         },
         copyConfiguration() {
