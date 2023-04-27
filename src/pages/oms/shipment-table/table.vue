@@ -1032,6 +1032,7 @@ export default {
                             `Address has been successfully updated for the shipment ID: ${this.activeId}`,
                             3000
                         );
+                        this.$emit('reload');
                         this.isChangeAddress = false;
                     } else {
                         console.error(`Error in updating the address:  `, response);

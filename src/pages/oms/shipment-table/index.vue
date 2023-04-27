@@ -17,6 +17,7 @@
             @updateStatus="updateStatus"
             @updateOrderDetails="() => $emit('updateOrderDetails')"
             @statusUpdated="$emit('statusUpdated', activeShipment)"
+            @reload="$emit('reload')"
         ></shipment-table>
 
         <transition name="slide">
