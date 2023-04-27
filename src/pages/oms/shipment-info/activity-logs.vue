@@ -56,7 +56,7 @@
                                             <span class="message-label"> Message: </span> {{ status.meta.sms }}
                                         </div>
                                         <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name && status.meta.reason.text"> 
-                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }}({{ status.meta.reason.text }})
+                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }} ( {{ status.meta.reason.text }} )
                                         </div>
                                         <div v-if="status.meta && status.meta.slug"> 
                                             <span class="message-label"> Event Name: </span> {{ status.meta.slug }}
@@ -254,7 +254,7 @@ export default {
                         Date.parse(this.sendTrimValue(item.createdat))
                     ).format('DD MMMM, YYYY');
                     copyItem['createdat'] = this.sendTrimValue(item.createdat);
-                    return copyItem;
+                    return copyItem; 
                 });
                 this.toggle('activity_status');
             }

@@ -97,6 +97,7 @@
 <script>
 /* Package imports */
 import { NitrozenDropdown, NitrozenInput } from '@gofynd/nitrozen-vue';
+import cloneDeep from 'lodash/cloneDeep';
 
 /* Components import */
 import InlineSvg from '@/components/common/inline-svg.vue';
@@ -125,6 +126,7 @@ export default {
             email: "",
             landmark: "",
             name: "",
+            originalData: "",
             selectedAddressType: "",
             phoneNumber: "",
             pincode: "",
@@ -138,10 +140,10 @@ export default {
         NitrozenInput,
     },
     mounted(){
-        this.name = this.shipment.user.first_name + ' ' + this.shipment.user.last_name || '';
-        this.email = this.shipment.user.email || '';
-        this.phoneNumber = this.shipment.user.mobile || '';
-        if(this.shipment.delivery_details){
+        if(this.shipment.delivery_details) {
+            this.name = this.shipment.delivery_details.name || '';
+            this.email = this.shipment.delivery_details.email || '';
+            this.phoneNumber = this.shipment.delivery_details.phone || '';
             this.area = this.shipment.delivery_details.area || '';
             this.city = this.shipment.delivery_details.city || '';
             this.country = this.shipment.delivery_details.country || 'India';
@@ -149,66 +151,73 @@ export default {
             this.state = this.shipment.delivery_details.state || '';
             this.pincode = this.shipment.delivery_details.pincode || '';
             this.selectedAddressType = this.shipment.delivery_details.address_type || '';
-            this.address = this.shipment.delivery_details.address || '';
+            this.address = this.shipment.delivery_details.address1 || '';
+            this.originalData = cloneDeep(this.shipment.delivery_details);
         }
     },
     methods: {
-    onValueChange(inputType) {
+        onValueChange(inputType) {
+            let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+            let numRegex = new RegExp(/^\d+$/);
 
-    let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    let numRegex = new RegExp(/^\d+$/);
-
-    switch (inputType) {
-        case 'email':
-            if (emailRegex.test(this.email)) {
-            } else {
-                this.$snackbar.global.showError('Please enter a valid email address');
+            switch (inputType) {
+                case 'email':
+                    if(!emailRegex.test(this.email)) {
+                        this.$snackbar.global.showError('Please enter a valid email address');
+                    }
+                    break;
+                case 'phone':
+                    console.log("Here");
+                    if(!numRegex.test(this.phoneNumber) || this.phoneNumber.toString().length !== 10 ) {
+                        this.$snackbar.global.showError('Please enter valid 10 digit phone number');
+                    }
+                    break;
+                case 'pincode':
+                    if(!numRegex.test(this.pincode) || this.pincode.toString().length !== 6 ) {
+                        this.$snackbar.global.showError('Please enter valid 6 digit pincode number');
+                    }
+                    break;
             }
-            break;
-        case 'phone':
-            if (numRegex.test(this.phoneNumber) && this.phoneNumber.toString().length === 10 ) {
-            } else {
-                this.$snackbar.global.showError('Please enter valid 10 digit phone number');
-            }
-            break;
-        case 'pincode':
-            if (numRegex.test(this.pincode) && this.pincode.toString().length === 6 ) {
-            } else {
-                this.$snackbar.global.showError('Please enter valid 6 digit pincode number');
-            }
-            break;
-    }
 
-        let addressObj = {
-            name: this.name,
-            phone: this.phoneNumber,
-            email: this.email,
-            area: this.area,
-            landmark: this.landmark,
-            city: this.city,
-            address: this.address,
-            pincode: this.pincode,
-            state: this.state,
-            address_type: this.selectedAddressType,
-            country: this.country,
-            shipment_id: this.shipmentId
-        };
+            let addressObj = {
+                name: this.name,
+                phone: this.phoneNumber,
+                email: this.email,
+                area: this.area,
+                landmark: this.landmark,
+                city: this.city,
+                address: this.address,
+                pincode: this.pincode,
+                state: this.state,
+                address_type: this.selectedAddressType,
+                country: this.country,
+                shipment_id: this.shipmentId
+            };
 
-        if(emailRegex.test(this.email) && 
-            numRegex.test(this.phoneNumber) && 
-            this.phoneNumber.toString().length === 10 && 
-            numRegex.test(this.pincode) && 
-            this.pincode.toString().length === 6
-        ){
-            this.validForm = true
-        } else {
-            this.validForm = false
+            let valueCheck = emailRegex.test(this.email) && 
+                numRegex.test(this.phoneNumber) && 
+                this.phoneNumber.toString().length === 10 && 
+                numRegex.test(this.pincode) && 
+                this.pincode.toString().length === 6;
+
+            let originalCheck = (this.name !== this.originalData.name) &&
+            (this.email !== this.originalData.email) &&
+            (this.phoneNumber !== this.originalData.phone) &&
+            (this.area !== this.originalData.area) &&
+            (this.city !== this.originalData.city) &&
+            (this.country !== this.originalData.country) &&
+            (this.landmark !== this.originalData.landmark) &&
+            (this.state !== this.originalData.state) &&
+            (this.pincode !== this.originalData.pincode) &&
+            (this.selectedAddressType !== this.originalData.address_type) &&
+            (this.address !== this.originalData.address1);
+
+
+            this.validForm = valueCheck && originalCheck;
+    
+            this.$emit('change', addressObj, this.validForm);
         }
-    
-        this.$emit('change', addressObj, this.validForm);
-    
     }
-}
 }
 </script>
 

@@ -449,7 +449,8 @@ export default {
             statusForCreateS3: [],
             enableCalling: false,
             enableBagStateChange: false,
-            enableAddressUpdation: false
+            enableAddressUpdation: false,
+            remarkOnBagStateChange: ''
         }
     },
     mounted(){
@@ -828,6 +829,7 @@ export default {
                 'cancelled_customer', 'return_initiated', 'bag_lost', 
                 'return_bag_lost', 'dead_stock', 'deadstock', 'deadstock_defective'];
             if(event.state.length > 0 && event.remark.length > 9) {
+                this.remarkOnBagStateChange = event.remark;
                 if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
                 } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
@@ -899,7 +901,7 @@ export default {
                             filters: [{}],
                             data: {
                                 reason_id: reasonValue,
-                                reason_text: reasonText
+                                reason_text: this.remarkOnBagStateChange
                             }
                         }
                     ],
