@@ -38,6 +38,7 @@
                 :readOnlyMode="readOnlyMode"
                 :shipmentProcessing="shipmentProcessing"
                 @updateOrderDetails="() => $emit('updateOrderDetails')"
+                @reload="$emit('reload')"
             ></shipment-items>
         </div>
     </div>

@@ -6,7 +6,7 @@
             placeholder="Select Address Type"
             :items="addressTypes"
             v-model="selectedAddressType"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
         <nitrozen-input
@@ -15,35 +15,51 @@
             type="text"
             :placeholder="`Customer`"
             v-model="name"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
-        <nitrozen-input
-            class="search-input"
-            label="Email"
-            type="email"
-            :placeholder="`Enter Email`"
-            v-model="email"
-            @change="onValueChange('email')"
-        />
+        <div class="email-address-box">
+            <nitrozen-input
+                class="search-input"
+                label="Email"
+                type="email"
+                :placeholder="`Enter Email`"
+                v-model="email"
+                @input="onValueChange('email')"
+            />
+            <span v-if="email.length > 0 && invalidEmail" class="address-input-error">
+                Please enter a valid email address
+            </span>
+        </div>
 
-        <nitrozen-input
-            class="search-input"
-            label="Phone*"
-            type="tel"
-            :placeholder="`Enter Phone Number`"
-            v-model="phoneNumber"
-            @change="onValueChange('phone')"
-        />
+        <div class="phone-box">
+            <nitrozen-input
+                class="search-input"
+                label="Phone*"
+                type="tel"
+                :placeholder="`Enter Phone Number`"
+                v-model="phoneNumber"
+                @input="onValueChange('phone')"
+            />
+            <span v-if="invalidPhone" class="address-input-error">
+                Please enter valid 10 digit phone number
+            </span>
+        </div>
         
-        <nitrozen-input
-            class="search-input"
-            label="Pincode*"
-            type="tel"
-            :placeholder="`Enter Pincode`"
-            v-model="pincode"
-            @change="onValueChange('pincode')"
-        />
+        <div class="pincode-box">
+            <nitrozen-input
+                class="search-input"
+                label="Pincode*"
+                type="tel"
+                :placeholder="`Enter Pincode`"
+                v-model="pincode"
+                @input="onValueChange('pincode')"
+            />
+            <span v-if="invalidPincode" class="address-input-error">
+                Please enter valid 6 digit pincode number
+            </span>
+        </div>
+        
 
         <nitrozen-input
             class="search-input"
@@ -51,7 +67,7 @@
             type="text"
             :placeholder="`Enter City`"
             v-model="city"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
         <nitrozen-input
@@ -60,7 +76,7 @@
             type="text"
             :placeholder="`Enter State`"
             v-model="state"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
         <nitrozen-input
@@ -69,7 +85,7 @@
             type="text"
             :placeholder="`Enter Area`"
             v-model="area"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
         <nitrozen-input
@@ -78,7 +94,7 @@
             type="text"
             :placeholder="`Enter Landmark`"
             v-model="landmark"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
 
         <nitrozen-input
@@ -89,7 +105,7 @@
             v-model="address"
             :showTooltip="true"
             tooltipText="Enter your address"
-            @change="onValueChange('')"
+            @input="onValueChange('')"
         />
     </div>
 </template>
@@ -131,13 +147,16 @@ export default {
             phoneNumber: "",
             pincode: "",
             state: "",
-            validForm: false
+            validForm: false,
+            invalidEmail: false,
+            invalidPhone: false,
+            invalidPincode: false
         }
     },
     components: {
         InlineSvg,
-        NitrozenDropdown,        
-        NitrozenInput,
+        NitrozenDropdown,
+        NitrozenInput
     },
     mounted(){
         if(this.shipment.delivery_details) {
@@ -156,26 +175,20 @@ export default {
         }
     },
     methods: {
+
         onValueChange(inputType) {
             let emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
             let numRegex = new RegExp(/^\d+$/);
 
             switch (inputType) {
                 case 'email':
-                    if(!emailRegex.test(this.email)) {
-                        this.$snackbar.global.showError('Please enter a valid email address');
-                    }
+                    this.invalidEmail = !emailRegex.test(this.email);
                     break;
                 case 'phone':
-                    console.log("Here");
-                    if(!numRegex.test(this.phoneNumber) || this.phoneNumber.toString().length !== 10 ) {
-                        this.$snackbar.global.showError('Please enter valid 10 digit phone number');
-                    }
+                    this.invalidPhone = !numRegex.test(this.phoneNumber) || this.phoneNumber.toString().length !== 10;
                     break;
                 case 'pincode':
-                    if(!numRegex.test(this.pincode) || this.pincode.toString().length !== 6 ) {
-                        this.$snackbar.global.showError('Please enter valid 6 digit pincode number');
-                    }
+                    this.invalidPincode = !numRegex.test(this.pincode) || this.pincode.toString().length !== 6;
                     break;
             }
 
@@ -194,26 +207,11 @@ export default {
                 shipment_id: this.shipmentId
             };
 
-            let valueCheck = emailRegex.test(this.email) && 
-                numRegex.test(this.phoneNumber) && 
+            this.validForm = (this.email.length > 0 && emailRegex.test(this.email)) ||
+                (numRegex.test(this.phoneNumber) && 
                 this.phoneNumber.toString().length === 10 && 
                 numRegex.test(this.pincode) && 
-                this.pincode.toString().length === 6;
-
-            let originalCheck = (this.name !== this.originalData.name) &&
-            (this.email !== this.originalData.email) &&
-            (this.phoneNumber !== this.originalData.phone) &&
-            (this.area !== this.originalData.area) &&
-            (this.city !== this.originalData.city) &&
-            (this.country !== this.originalData.country) &&
-            (this.landmark !== this.originalData.landmark) &&
-            (this.state !== this.originalData.state) &&
-            (this.pincode !== this.originalData.pincode) &&
-            (this.selectedAddressType !== this.originalData.address_type) &&
-            (this.address !== this.originalData.address1);
-
-
-            this.validForm = valueCheck && originalCheck;
+                this.pincode.toString().length === 6);
     
             this.$emit('change', addressObj, this.validForm);
         }
@@ -233,5 +231,10 @@ export default {
     ::v-deep .nitrozen-select__trigger {
         font-size: 12px;
     }
+}
+
+.address-input-error {
+    font-size: 12px;
+    color: #E9783D;
 }
 </style>

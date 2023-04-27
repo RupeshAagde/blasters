@@ -22,6 +22,7 @@
                         :shipmentProcessing="shipmentProcessing"
                         @statusUpdated="statusUpdateloadData($event)"
                         @updateOrderDetails="updateOrderDetails"
+                        @reload="reload"
                     ></shipments-list>
                 </div>
                 <div class="info-section">
@@ -266,6 +267,12 @@ export default {
          */
         updateOrderDetails() {
             this.loadData();
+        },
+
+        reload() {
+            setTimeout(() => {
+                this.loadData();
+            }, 800);
         }
     }
 }
