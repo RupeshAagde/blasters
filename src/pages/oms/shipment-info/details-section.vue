@@ -355,6 +355,17 @@
                 >
                     {{ shipment.fulfilling_store.phone }}
                 </span>
+                <span v-if="shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.additional_contact_details &&
+                    shipment.fulfilling_store.meta.additional_contact_details.number">
+                    <span class="details-data copy-to-click"
+                        v-for="(item, index) in shipment.fulfilling_store.meta.additional_contact_details.number"
+                        :key="index"
+                        @click="copyToClipboard($event, shipment.fulfilling_store.meta.additional_contact_details.number[index])">
+                        , {{ item }}
+                    </span>
+                </span>
             </div>
 
             <div 
@@ -367,10 +378,15 @@
                 ">
                 <span class="header-title"> Fulfilling Store Email: </span>
                 <span 
+                    v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
+                    :key="index"
                     class="details-data copy-to-click"
-                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[0])"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
                 >
-                    {{ shipment.fulfilling_store.meta.notification_emails[0] }}
+                    <span v-if="index > 0">
+                        ,
+                    </span>
+                    {{ item }}
                 </span>
             </div>
 
