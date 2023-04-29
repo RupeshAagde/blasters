@@ -138,7 +138,7 @@
         "eslint-plugin-vue": "^9.8.0",
         "file-loader": "6.2.0",
         "flush-promises": "^1.0.2",
-        "grapesjs": "^0.16.3",
+        "grapesjs": "^0.19.5",
         "grapesjs-custom-code": "0.1.2",
         "grapesjs-lory-slider": "0.1.5",
         "grapesjs-preset-newsletter": "^0.2.20",
