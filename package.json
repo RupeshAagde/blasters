@@ -149,7 +149,7 @@
         "less-loader": "7.3.0",
         "memory-fs": "0.5.0",
         "mini-css-extract-plugin": "^1.6.2",
-        "nock": "13.0.4",
+        "nock": "^13.3.1",
         "nunjucks": "^3.2.3",
         "object-hash": "^3.0.0",
         "parse5": "5.1.0",
