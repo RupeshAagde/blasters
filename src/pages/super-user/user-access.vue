@@ -226,7 +226,7 @@
         align-items: center;
     }
     .label {
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         color: @Mako;
         font-size: 14px;
         line-height: 20px;
@@ -423,14 +423,14 @@ export default {
         requestQuery() {
             const query = {
                 page: this.pagination.current,
-                limit: this.pagination.limit
+                limit: this.pagination.limit,
+                org_users: "false"
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({
                     user: this.userId
                 });
             }
-
             return query;
         },
         fetchUsers() {
@@ -454,7 +454,8 @@ export default {
                 validatePhone(this.searchText)
             ) {
                 UserService.searchGrimlockUser({
-                    query: this.searchText
+                    query: this.searchText,
+                    org_users: "false"
                 })
                     .then(({ data }) => {
                         searchUserId = data[0] ? data[0]._id : null;

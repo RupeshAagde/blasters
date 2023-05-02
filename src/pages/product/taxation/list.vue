@@ -11,14 +11,26 @@
                         defined as per product category.
                     </div>
                 </div>
-                <nitrozen-button
-                    :theme="'secondary'"
-                    class="rdr-btn"
-                    v-flatBtn
-                    @click="debounceredirectEdit"
-                >
-                    Add Tax Rate
-                </nitrozen-button>
+                <div class="flex-row">
+                    <div class="bulk-action-dropdown">
+                        <nitrozen-dropdown
+                            label=" "
+                            :placeholder="'Bulk Action'"
+                            :items="bulkAction"
+                            v-model="selectedAction"
+                            @change="navigateToBulkAction"
+                        ></nitrozen-dropdown>
+                    </div>
+
+                    <nitrozen-button
+                        :theme="'secondary'"
+                        class="rdr-btn"
+                        v-flatBtn
+                        @click="debounceredirectEdit"
+                    >
+                        Add Tax Rate
+                    </nitrozen-button>
+                </div>
             </div>
             <div class="search-filter">
                 <div class="search-box">
@@ -26,7 +38,9 @@
                         <nitrozen-input
                             :showSearchIcon="true"
                             type="search"
-                            :placeholder="'Search by HSN, Reporting HSN, Description'"
+                            :placeholder="
+                                'Search by HSN, Reporting HSN, Description'
+                            "
                             v-model="searchText"
                             @input="searchHSN"
                         ></nitrozen-input>
@@ -102,7 +116,7 @@ import {
     NitrozenPagination,
     NitrozenBadge,
     NitrozenDropdown,
-    NitrozenButton,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 import { mapGetters } from 'vuex';
 // import _ from 'lodash';
@@ -110,12 +124,12 @@ import moment from 'moment';
 const PAGINATION = {
     limit: 10,
     total: 0,
-    current: 1,
+    current: 1
 };
 const TYPE = [
     { value: 'all', text: 'All' },
     { value: 'goods', text: 'Goods' },
-    { value: 'services', text: 'Services' },
+    { value: 'services', text: 'Services' }
 ];
 const SPECIAL_CHARS = [
     '+',
@@ -136,10 +150,16 @@ const SPECIAL_CHARS = [
     '/',
     '\\'
 ];
+
+const BULK_ACTION = [
+    { value: 'import', text: 'Import' },
+    { value: 'export', text: 'Export' }
+];
+
 export default {
     name: 'Taxation',
     props: {
-        msg: String,
+        msg: String
     },
     components: {
         PageError,
@@ -153,15 +173,15 @@ export default {
         NitrozenInput,
         NitrozenPagination,
         NitrozenBadge,
-        NitrozenDropdown,
+        NitrozenDropdown
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     computed: {
         ...mapGetters({
-            helpData: GET_HELP_SECTION_DATA,
+            helpData: GET_HELP_SECTION_DATA
         }),
         jumbotronData() {
             if (this.helpData && this.helpData.length) {
@@ -172,7 +192,7 @@ export default {
         },
         getHSNType() {
             return TYPE;
-        },
+        }
     },
     data() {
         return {
@@ -192,9 +212,11 @@ export default {
                 'Slab #1',
                 'Slab #2',
                 'Country',
-                'Action',
+                'Action'
             ],
             countryList: [],
+            bulkAction: BULK_ACTION,
+            selectedAction: ''
         };
     },
     mounted() {
@@ -220,7 +242,7 @@ export default {
         getHSNCodes() {
             const params = {
                 page_no: this.pagination.current,
-                page_size: this.pagination.limit,
+                page_size: this.pagination.limit
             };
             if (this.searchText) {
                 if (/[^a-zA-Z0-9\-\/]/.test(this.searchText)) {
@@ -259,10 +281,10 @@ export default {
             // LocalStorageService.addOrUpdateItem('uid',code)
             let redirectPath = '/add';
             this.$router.push({
-                path: path.join(this.$route.path, redirectPath),
+                path: path.join(this.$route.path, redirectPath)
             });
         },
-        debounceredirectEdit: debounce(function (e) {
+        debounceredirectEdit: debounce(function(e) {
             this.redirectEdit();
         }, 800),
         paginationChange(filter, action) {
@@ -292,11 +314,11 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    ...query,
-                },
+                    ...query
+                }
             });
         },
-        searchHSN: debounce(function () {
+        searchHSN: debounce(function() {
             if (this.searchText.length === 0) {
                 this.clearSearchFilter();
             } else {
@@ -310,13 +332,18 @@ export default {
                     this.countryList = data.items.map((country) => {
                         return {
                             text: country.name,
-                            value: country.iso2,
+                            value: country.iso2
                         };
                     });
                 })
                 .catch((err) => {});
         },
-    },
+        navigateToBulkAction() {
+            this.$router.push({
+                path: `/administrator/product/hsn/${this.selectedAction}`
+            });
+        }
+    }
 };
 </script>
 
@@ -324,7 +351,7 @@ export default {
 // @import './../less/page-header.less';
 // @import './../less/page-ui.less';
 .panel {
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     background: #ffffff;
     min-height: 733px;
     left: 271px;
@@ -336,9 +363,9 @@ export default {
     display: flex;
     justify-content: space-between;
     border: 1px solid #e4e5e6;
-    radius: 6px;
+    border-radius: 6px;
     padding: 30px 24px 30px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     color: #41434c;
     .main-hdr {
         font-size: 24px;
@@ -407,5 +434,23 @@ export default {
 .pagination {
     margin-top: 24px;
     margin-bottom: 24px;
+}
+.bulk-action-dropdown {
+    width: 130px;
+    margin: 0 10px 0 10px;
+    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger span {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 140%;
+        color: #2e31be;
+    }
+
+    ::v-deep .nitrozen-dropdown-container .nitrozen-select__trigger {
+        border: 1px solid #2e31be;
+    }
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
 }
 </style>

@@ -1,7 +1,7 @@
 import { getBase64DataURL, getFullAddress } from '../common';
 import * as JsBarcode from 'jsbarcode';
 import moment from 'moment';
-const { DOMImplementation, XMLSerializer } = require('xmldom');
+const { DOMImplementation, XMLSerializer } = require('@xmldom/xmldom');
 
 export class InvoicePosTemplateService {
     constructor(shipment) {
@@ -155,7 +155,7 @@ export class InvoicePosTemplateService {
 
     getDpSortCode() {
 		const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ?this.shipment.affiliate_details.shipment_meta.sort_code : "";
-;
+
 		return dpSortCode ? `${dpSortCode}` : '';
 	}
 

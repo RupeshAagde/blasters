@@ -91,13 +91,63 @@ export const getNavigations = () => {
         },
         {
             display: 'Orders',
-            link: '/administrator/orders/list',
+            link: '/administrator/orders/',
             title: 'orders',
             icon: 'orders-cart',
             highlightedIcon: 'orders-cart-highlighted',
             active: false,
             permission: 'order',
-            children: []
+            children: [
+                // {
+                //     display: 'List Orders',
+                //     link: '/administrator/orders/list',
+                //     title: 'list',
+                //     icon: 'orders-cart',
+                //     highlightedIcon: 'orders-cart-highlighted',
+                //     active: false
+                // },
+                {
+                    display: 'Orders',
+                    link: '/administrator/orders-list/',
+                    title: 'orders-list',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Manifest',
+                    link: '/administrator/orders-manifest',
+                    title: 'orders-manifest',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Bulk Actions',
+                    link: '/administrator/orders-bulk',
+                    title: 'orders-bulk',
+                    icon: 'orders-cart',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Hyperlocal Tracking',
+                    link: '/administrator/orders/hyperlocal-tracking',
+                    title: 'hyperlocal-tracking',
+                    icon: 'home',
+                    highlightedIcon: 'orders-cart-highlighted',
+                    active: false
+                },
+                {
+                    display: 'RMA',
+                    link: '/administrator/orders/rma/rules',
+                    title: 'rma',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                    permission: 'order'
+                }
+            ]
             //     {
             //         display: 'Orders',
             //         link: '/administrator/orders/list',
@@ -127,7 +177,6 @@ export const getNavigations = () => {
             active: false,
             permission: 'plans',
             children: [
-               
                 {
                     display: 'Invoices',
                     link: '/administrator/subscription/invoices',
@@ -135,7 +184,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                }, 
+                },
                 {
                     display: 'Coupons',
                     link: '/administrator/subscription/coupons',
@@ -143,8 +192,7 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
-                },
-                
+                }
             ]
         },
         // Packaging related changes for adding navbar element
@@ -178,17 +226,57 @@ export const getNavigations = () => {
         },
         {
             display: 'Communication',
-            link: '/administrator/communication/reports',
-            title: 'reports',
+            link: '/administrator/communication/events',
+            title: 'communication',
             icon: 'settings',
             highlightedIcon: 'home-highlighted',
             active: false,
             permission: 'communication',
             children: [
                 {
+                    display: 'Events',
+                    link: '/administrator/communication/events',
+                    title: 'events',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Providers',
+                    link: '/administrator/communication/provider',
+                    title: 'provider',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'SMS',
+                    link: '/administrator/communication/sms/templates',
+                    title: 'sms',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Email',
+                    link: '/administrator/communication/email/templates',
+                    title: 'email',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
                     display: 'Reports',
                     link: '/administrator/communication/reports',
                     title: 'reports',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Global Variables',
+                    link: '/administrator/communication/global-variables',
+                    title: 'variables',
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
@@ -197,7 +285,7 @@ export const getNavigations = () => {
         },
         {
             display: 'Extension',
-            link: '/administrator/extensions/review',
+            link: '/administrator/extensions',
             title: 'extensions',
             icon: 'settings',
             highlightedIcon: 'settings-highlighted',
@@ -209,6 +297,7 @@ export const getNavigations = () => {
                     link: '/administrator/extensions/review',
                     title: 'review',
                     icon: 'settings',
+                    permission: 'extension/review',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 },
@@ -217,6 +306,41 @@ export const getNavigations = () => {
                     link: '/administrator/extensions/collection',
                     title: 'collection',
                     icon: 'settings',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                }
+            ]
+        },
+        {
+            display: 'Finance',
+            link: '/administrator/finance/bills-and-payouts',
+            title: 'finance',
+            icon: 'kycdetails',
+            highlightedIcon: 'home-highlighted',
+            active: false,
+            permission: 'finance',
+            children: [
+                {
+                    display: 'Reports and Ledger',
+                    link: '/administrator/finance/bills-and-payouts',
+                    title: 'bills-and-payouts',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Credit-Note/Debit-Note',
+                    link: '/administrator/finance/credit-debit-note',
+                    title: 'credit-debit-note',
+                    icon: 'kycdetails',
+                    highlightedIcon: 'home-highlighted',
+                    active: false,
+                },
+                {
+                    display: 'Upload Data Portal',
+                    link: '/administrator/finance/bulk-upload',
+                    title: 'bulk-upload',
+                    icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
                 }

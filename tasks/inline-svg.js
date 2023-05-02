@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const SVGO = require('svgo');
+const { optimize } = require('svgo');
 const fsPromise = require('fs').promises;
 const fs = require('fs');
 
@@ -9,23 +9,26 @@ if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir);
 }
 
-const svgo = new SVGO({
-    plugins: [
-        { removeViewBox: false },
-        { removeDimensions: false },
-        {
-            cleanupIDs: {
-                remove: false,
-                minify: false,
-                prefix: 'svg',
-                force: true
-            }
+const customPlugins = [
+    'prefixIds',
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // customize options
+          cleanupIDs: {
+            remove: false,
+            minify: false,
+            prefix: 'svg',
+            force: true,
+          },
+          // or disable plugins
+          removeViewBox: false,
+          // removeDimensions: false,
         },
-        {
-            prefixIds: true
-        }
-    ]
-});
+      },
+    },
+  ];  
 
 async function run(srcPath, destPath) {
     try {
@@ -37,26 +40,30 @@ async function run(srcPath, destPath) {
             const fileStream = await fsPromise
                 .readFile(path.join(basePath, file))
                 .catch((err) => {
+                    // console.error(err);
                     return true;
                 });
             const fileName = file.replace('.svg', '');
             return {
                 svgName: fileName,
-                stream: await svgo.optimize(fileStream)
+                stream: await optimize(fileStream, {
+                    plugins: customPlugins,
+                }),
             };
         });
-        const svgContent = await Promise.all(svgStreams);
-
+        const svgContent = await Promise.all(
+            svgStreams.map((a) => a.catch((e) => console.error(e)))
+        );
         //Create a single svg file with svg html
         let str = `"use strict";\nvar svgs={}; \n`;
-        svgContent.forEach((fc) => {
-            if (fc.stream.data)
+        svgContent.forEach((fc, index) => {
+            if (fc && fc.stream && fc.stream.data)
                 str = str + `svgs["${fc.svgName}"] = '${fc.stream.data}';\n`;
+            else console.error(`Error at ${index} with `, svgStreams[index]);
         });
         str = str + `module.exports = svgs;`;
         const writeFilePath = destPath;
         await fsPromise.writeFile(writeFilePath, str);
-        console.log('SVGs generated at', destPath);
         return;
     } catch (err) {
         console.error(`Error while generating svgs ${destPath}`, err);

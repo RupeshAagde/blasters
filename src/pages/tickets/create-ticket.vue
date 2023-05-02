@@ -34,6 +34,7 @@
                     :staff="staff"
                     :filters="filters"
                     :ticket="ticket"
+                    @pagination = "reload"
                     @something-changed="sideSectionchanged"
                 />
             </div>
@@ -146,9 +147,9 @@ import UserService from './../../services/user-access.service';
 import SupportService from './../../services/support.service';
 
 const PAGINATION = {
-    limit: 40,
+    limit: 20,
     total: 0,
-    current: 1
+    current: 0
 };
 
 export default {
@@ -190,10 +191,6 @@ export default {
             filters: undefined,
             feedbackList: [],
             contextMenu: [
-                // {
-                //     text: 'Delete',
-                //     action: 'delete'
-                // }
             ]
         };
     },
@@ -206,6 +203,9 @@ export default {
         }
     },
     methods: {
+        reload(){
+            this.loadUserList()
+        },
         mainSectionchanged(content) {
             this.ticket.content = Object.assign(this.ticket.content, content);
         },
@@ -257,6 +257,33 @@ export default {
 
             return query;
         },
+        loadUserList(){
+            UserService.getUserList(this.requestQuery())
+            .then((res) => {
+                res.data.docs.forEach((element) => {
+                        this.staff.push({
+                            text:
+                                (element.first_name || 'Team') +
+                                ' ' +
+                                (element.last_name || 'Member'),
+                            value: element._id
+                        });
+                    });
+                        this.ticket.userList = res.data
+                        this.pagination.total = res.data.total;
+                        if(res.data.page <= res.data.pages){
+                            this.pagination.current = this.pagination.current + 1;
+                        }  
+            })
+            .catch((err) => {
+                    console.log(err);
+                    this.$snackbar.global.showError(
+                        `Failed to load ticket${
+                            err && err.message ? ' : ' + err.message : ''
+                        }`
+                    );
+                })
+        },
         loadEverything() {
             let promises = [];
             promises.push(SupportService.fetchOptions());
@@ -266,11 +293,9 @@ export default {
                 promises.push(SupportService.fetchFeedbacks(this.ticketID));
                 promises.push(UserService.getUserList(this.requestQuery()));
             }
-
             Promise.all(promises)
                 .then((responses) => {
                     let res = responses[0];
-
                     this.filters = res.data.filters;
 
                     this.filters.statuses.forEach((element) => {
@@ -286,10 +311,6 @@ export default {
                     this.filters.categories.forEach((element) => {
                         element.text = element.display;
                         element.value = element.key;
-                        element.sub_categories.forEach((item) => {
-                            item.text = item.display;
-                            item.value = item.key;
-                        });
                     });
 
                     if (this.ticketID) {
@@ -317,6 +338,7 @@ export default {
                         this.ticket.history = ticket.history;
                         this.ticket.time_slot = ticket.time_slot;
                         this.ticket.created_on = ticket.created_on;
+                        this.ticket.integration = ticket.integration;
                         this.ticket.context = ticket.context;
 
                         res = responses[2];
@@ -330,9 +352,9 @@ export default {
                         res = responses[4];
                     }
 
-                    const array = [];
+                    // const array = [];
                     res.data.docs.forEach((element) => {
-                        array.push({
+                        this.staff.push({
                             text:
                                 (element.first_name || 'Team') +
                                 ' ' +
@@ -340,7 +362,11 @@ export default {
                             value: element._id
                         });
                     });
-                    this.staff = array;
+                        this.ticket.userList = res.data
+                        this.pagination.total = res.data.total;
+                        if(res.data.page <= res.data.pages){
+                            this.pagination.current = this.pagination.current + 1;
+                        }   
                 })
                 .catch((err) => {
                     console.log(err);
@@ -371,7 +397,6 @@ export default {
                                 )
                             );
                         }
-                        // Handle collection n brand too
                     });
 
                     Promise.all(promises)

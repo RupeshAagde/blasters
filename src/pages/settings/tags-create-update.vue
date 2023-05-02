@@ -356,7 +356,7 @@ export default {
         },
         redirectToListing() {
             setTimeout(() => {
-            this.$router.push({ path: '/administrator/settings/list-tags' })
+            this.$router.push({ path: '/administrator/settings/platform/list-tags' })
             });
 
         },
@@ -394,7 +394,7 @@ export default {
         },
         isUrl(str) {
             if (str !== '') {
-                let pattern = new RegExp("((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"); // fragment locator
+                let pattern = new RegExp("((http|https)://)(www.)?[a-zA-Z0-9@:%.-\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%.\\+~#?&//=]*)"); // fragment locator
                 if (pattern.test(str)) {
                     this.noUrl = false;
                     // return true;
@@ -440,7 +440,7 @@ export default {
                         );
                         this.$router
                             .push({
-                                path: `/administrator/settings/list-tags`,
+                                path: `/administrator/settings/platform/list-tags`,
                             })
                             .catch(() => {});
                     })
@@ -468,7 +468,7 @@ export default {
                         );
                         this.$router
                             .push({
-                                path: `/administrator/settings/list-tags`,
+                                path: `/administrator/settings/platform/list-tags`,
                             })
                             .catch(() => {});
                     })
@@ -529,7 +529,6 @@ export default {
 
     .editor-container {
         flex: 1;
-        margin-right: 24px;
         height: fit-content;
         background-color: white;
         border-radius: 4px;
@@ -573,7 +572,7 @@ export default {
             margin-left: 12px;
             width: 40%;
         }
-        ::v-deep.delete-icon svg {
+        ::v-deep .delete-icon svg {
             width: 24px;
             height: 24px;
             cursor: pointer;

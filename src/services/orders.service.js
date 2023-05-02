@@ -243,5 +243,370 @@ const OrderService = {
             axiosOption
         );
     },
+
+    /** OMS v2.1 */
+    callCustomer(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(false),
+            false,
+            { params: params }
+        );
+        return ApiService.get(URLS.CALL(), axiosOption);
+    },
+    createS3Invoice(data){
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.CREATE_S3_INVOICE(), axiosOption);
+    },
+    changeStore(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.CHANGE_STORE(), axiosOption);
+    },
+    dispatchManifest(data){
+        let axiosOption = Object.assign(
+            {}, 
+            getCommonHeaderOptions(false), 
+            {
+                data
+            }
+        );
+        return ApiService.post(
+            URLS.MANIFEST_DISPATCH(),
+            axiosOption
+        );
+    },
+    downloadBulkActionTemplate() {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { params: params }
+        );
+        return ApiService.get(URLS.DOWNLOAD_BULK_ACTION_TEMPLATE(), axiosOption);
+    },
+    fetchAnnouncementAlerts() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.FETCH_ANNOUNCEMENT_NOTE(), axiosOption);
+    },
+    fetchApplicationLaneV2Config(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.LANE_APPLICATION_CONFIG_V2(), axiosOption);
+    },
+    fetchApplicationOrderV2Details(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign({},
+            getCommonHeaderOptions(!!applicationId), false, {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.ORDER_APPLICATION_DETAILS_V2(), axiosOption);
+    },
+    fetchApplicationOrdersV2List(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.ORDERS_APPLICATION_V2_LISTING(), axiosOption);
+    },
+    fetchApplicationShipmentV2List(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.SHIPMENT_APPLICATION_V2_LIST(), axiosOption);
+    },
+    fetchApplicationV2Filters(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FILTERS_APPLICATION_V2(), axiosOption);
+    },
+    fetchBulkActionFailedReport(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(), 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FETCH_BULK_ACTION_FAILED_REPORT(), axiosOption);
+    },
+    fetchBulkActionList(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_BULK_ACTION_LIST(), axiosOption);
+    },
+    fetchBulkDownloadTemplateList() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.GET_BULK_DOWNLOAD_TEMPLATE_LIST(), axiosOption);
+    },
+    fetchBulkGenerateExcel(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(), {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FETCH_V2_BULK_GENERATE_EXCEL(), axiosOption);
+    },
+    fetchBulkListDetailedData(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(), 
+            {params: params}
+        );
+        return ApiService.get(URLS.FETCH_BULK_LIST_DETAILED_DATA(), axiosOption);
+    },
+    fetchDpActivityLogs(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_DP_ACTIVITY_LOGS(), axiosOption);
+    },
+    fetchLaneV2Config(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.LANE_CONFIG_V2(), axiosOption);
+    },
+    fetchManifestDetails(params) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { params: params }
+        );
+        return ApiService.get(URLS.FETCH_MANIFEST_DETAILS(), axiosOptions);
+    },
+    fetchManifestList(params) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(false),
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FETCH_MANIFEST_LIST(), axiosOptions);
+    },
+    fetchOrderUserRoles(){
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.ORDER_ROLE(), axiosOption);
+    },
+    fetchOrderV2Details(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.ORDER_DETAILS_V2(), axiosOption);
+    },
+    fetchOrdersV2List(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.ORDERS_V2_LISTING(), axiosOption);
+    },
+    fetchPickupSlot(data){
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(false), 
+            false, 
+            {
+                params: data
+            }
+        );
+        return ApiService.get(URLS.FETCH_PICKUP_SLOT(), axiosOption);
+    },
+    fetchQCReasons(shipmentId, bagId) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(false)
+        );
+        return ApiService.get(URLS.FETCH_QC_REASONS(shipmentId, bagId), axiosOptions);
+    },
+    fetchSupportingReasons(shipmentId, bagId, status) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(false)
+        );
+        return ApiService.get(URLS.FETCH_SUPPORTING_REASONS(shipmentId, bagId, status), axiosOptions);
+    },
+    fetchShipmentActivityLogs(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
+    },
+    fetchShipmentV2List(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.SHIPMENT_V2_LIST(), axiosOption);
+    },
+    fetchV2Filters(companyId, applicationId = null, params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(!!applicationId), 
+            false, 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FILTERS_V2(), axiosOption);
+    },
+    generateManifestList(){
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.MANIFEST_LISTING(), axiosOption);
+    },
+    getBulkInvoiceReport(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(), 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.FETCH_BULK_INVOICE_REPORT(), axiosOption);
+    },
+    getFulfillmentCenterV2(params, companyId) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_FULFILLMENT_CENTER(companyId), axiosOption);
+    },
+    getReasons(shipmentId, bagId, state) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(false)
+        );
+        return ApiService.get(URLS.FETCH_REASONS(shipmentId, bagId, state), axiosOptions);
+    },
+    getStatesForBagTranistion() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false));
+        return ApiService.get(URLS.GET_STATES_FOR_TRANSITION(), axiosOption);
+    },
+    getStores(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_STORES(), axiosOption);
+    },
+    hitEInvoice(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.HIT_E_INVOICE(), axiosOption);
+    },
+    lockManager(data){
+        let axiosOption = Object.assign({},getCommonHeaderOptions(), { data });
+        return ApiService.post(URLS.LOCK_MANAGER_URL(), axiosOption)
+    },
+    getDownloadTemplate(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_TEMPLATE(), axiosOption);
+    },
+    postLinkV2BulkAction(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+
+        return ApiService.post(URLS.POST_V2_LINK_BULK_ACTION(), axiosOptions);
+    },
+    postSelectedDeliveryPartner(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.POST_V2_SELECTED_DELIVERY_PARTNER(), axiosOptions);
+    },
+    processBulkActionInvoice(params) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(), 
+            {
+                params: params
+            }
+        );
+        return ApiService.get(URLS.PROCESS_BULK_ACTION_INVOICE(), axiosOption);
+    },
+    processManifest(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.PROCESS_MANIFESTS(), axiosOptions);
+    },
+    saveProcessManifest(companyId, data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.SAVE_PROCESS_MANIFEST(companyId), axiosOption);
+    },
+    sendSms(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.SEND_SMS(), axiosOption);
+    },
+    updateAddress(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.UPDATE_ADDRESS(), axiosOptions);
+    },
+    uploadConsent(data) {
+        let axiosOptions = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.post(URLS.UPLOAD_CONSENT(), axiosOptions);
+    },
+    updatePackagingDimensions(data){
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { data });
+        return ApiService.post(URLS.UPDATE_PACKAGE_DIMENSION(), axiosOption);
+    },
+    updateShipmentStatus(data) {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { data }
+        );
+        return ApiService.put(
+            URLS.UPDATE_SHIPMENT_STATUS(),
+            axiosOption
+        );
+    },
+    postShipmentActivityLog(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(), { data });
+        return ApiService.post(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
+    },
+    /** OMS v2.1 --END */
 };
 export default OrderService;

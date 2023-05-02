@@ -132,7 +132,7 @@ export default {
       this.profileDropdownOpen = false
     },
     navigateToUserProfile() {
-      window.open(`${env.MIRAGR_MAIN_DOMAIN}/user-profile`,'_blank')
+      window.open(`${env.MIRAGE_MAIN_DOMAIN}/user-profile`,'_blank')
     },
     naviagteToAuditTrail(){
       this.closeProfileDropdown()

@@ -1,0 +1,417 @@
+{
+    "getBrand": {
+        "sku_opt_details": false,
+        "page": 1,
+        "page_size": 10
+    },
+    "getChannel": {
+        "data":{
+           "table_name":"config_fields_values",
+           "filters":{
+              "config_field":"channel"
+           },
+           "project":[
+              "id",
+              "name",
+              "display_name"
+           ]
+        }
+    },
+    "getReportType": {
+        "data":{
+            "role_name":"[\"seller\"]",
+            "listing_enabled":true
+        }
+    },
+    "downloadReport": {
+      "data": {
+          "start_date": "2022-02-21",
+          "end_date": "2022-03-21",
+          "page": 1,
+          "pageSize": 10
+      }
+    },
+    "generateReport": {
+      "data":{
+         "report_config_id":"d8e51397-4aa1-4066-be12-3f1cf5d05d0d",
+         "start_date":"05-12-2021",
+         "end_date":"04-01-2022",
+         "filters":{
+            "brand":[
+               "1342"
+            ],
+            "channel":[
+               "ecomm"
+            ],
+            "company":[
+               "844"
+            ]
+         },
+         "meta":{
+            "brand":"CRUST",
+            "channel":"Ecomm",
+            "company":"1588 ACCESSORIES LLP"
+         }
+      }
+   },
+    "brandDetails": {
+          "items": [
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/v5y3Bvk3D-Logo.jpeg"
+              },
+              "brand_name": "plptesting",
+              "name": "plptesting",
+              "id": 1632,
+              "brand_id": 1632,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1578515619/production/applications/media/brand/logo/r6yteuannoorjkq9f4tk.jpg"
+              },
+              "brand_name": "play clan test d",
+              "name": "play clan test d",
+              "id": 85,
+              "brand_id": 85,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/dpwitVvWR-Logo.jpeg"
+              },
+              "brand_name": "jjjlkkoko",
+              "name": "jjjlkkoko",
+              "id": 1,
+              "brand_id": 1,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/nWnXANQJG-Logo.jpeg"
+              },
+              "brand_name": "hasya jatra",
+              "name": "hasya jatra",
+              "id": 1627,
+              "brand_id": 1627,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1588341678/production/applications/media/brand/logo/fbzcbwlfvpxt7zaw7oy2.png"
+              },
+              "brand_name": "anda e ka fanda",
+              "name": "anda e ka fanda",
+              "id": 1503,
+              "brand_id": 1503,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/zqTmj1sHB-Logo.png"
+              },
+              "brand_name": "TestingBrand3",
+              "name": "TestingBrand3",
+              "id": 1619,
+              "brand_id": 1619,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1586959031/production/applications/media/brand/logo/jksu0amddmak1vy3e15o.jpg"
+              },
+              "brand_name": "Test Brand",
+              "name": "Test Brand",
+              "id": 1493,
+              "brand_id": 1493,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/GBvMpQxE1-Logo.jpeg"
+              },
+              "brand_name": "TEST MG",
+              "name": "TEST MG",
+              "id": 1576,
+              "brand_id": 1576,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/RJkS1p-oX-Logo.png"
+              },
+              "brand_name": "Samsung Electronics",
+              "name": "Samsung Electronics",
+              "id": 1718,
+              "brand_id": 1718,
+              "company_id": 61,
+              "total_article": 0
+            },
+            {
+              "logo": {
+                "type": "image",
+                "url": "https://hdn-1.addsale.com/addsale/brands/pictures/square-logo/original/WzdfsVFVu-Logo.png"
+              },
+              "brand_name": "Rocky",
+              "name": "Rocky",
+              "id": 1605,
+              "brand_id": 1605,
+              "company_id": 61,
+              "total_article": 0
+            }
+          ],
+          "page": {
+            "type": "number",
+            "current": 1,
+            "has_next": true,
+            "item_total": 22
+          }
+    },
+    "reportDetails": {
+        "success": true,
+        "items": [
+            {
+                "id": "e6d030ad-a764-4461-84d4-3aa1819f8c03",
+                "name": "Supporting Settlement Report",
+                "description": "It provides bag's info related to order, company, application, item, store, value & customer which can be further use as reference in other reports",
+                "display_date": "Settlement Date"
+            },
+            {
+                "id": "d0efe588-5131-4521-afbb-50a87081fbc8",
+                "name": "Invoice Report",
+                "description": "It provides commercials charged at transaction level with invoice details as reference",
+                "display_date": "Invoice Date"
+            },
+            {
+                "id": "e492c9ff-f59f-4be9-9944-3645b7c184d0",
+                "name": "Payout",
+                "description": "It provides payout at transaction level with payment details as reference",
+                "display_date": "Payout Date"
+            },
+            {
+                "id": "afacd9dc-7006-4514-abf2-51d06777ae6d",
+                "name": "Payout Summary",
+                "description": "It provides list of all the payments done for a particular period",
+                "display_date": "Payment Date"
+            },
+            {
+                "id": "18161a3e-05ff-4e18-851b-d462225de945",
+                "name": "Settlement Report",
+                "description": "It provides recon for bags on which commercials are applied by Fynd & which are settled or will be settled in future date",
+                "display_date": "Settlement Date"
+            }
+        ],
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 5
+        },
+        "total_count": 5
+    },
+    "channelDetails": {
+        "success": true,
+        "items": [
+            {
+                "id": "9a7d8e1c-4669-4905-9046-2e9518ae2f4b",
+                "name": "affiliate",
+                "display_name": "Affiliate"
+            },
+            {
+                "id": "53f18a1b-cbce-44a9-b2e0-69a7f144611a",
+                "name": "fynd_store",
+                "display_name": "Fynd Store"
+            },
+            {
+                "id": "c6b07060-2d95-4f51-a9f8-5cd0976209a2",
+                "name": "marketplace",
+                "display_name": "Marketplace"
+            },
+            {
+                "id": "a945f1b3-1723-4a06-b6d6-a36c9db1e801",
+                "name": "ecomm",
+                "display_name": "Ecomm"
+            },
+            {
+                "id": "ba839e34-d4cd-40f1-986e-ef276bc949da",
+                "name": "fynd",
+                "display_name": "Fynd"
+            },
+            {
+                "id": "881fd2bc-ba55-4706-9371-438c06399765",
+                "name": "uniket",
+                "display_name": "Uniket"
+            }
+        ],
+        "item_count": 6,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 6
+        }
+    },
+    "downloadedReports": {
+      "items": [
+          {
+              "request_dict": {
+                  "report_id": "18161a3e-05ff-4e18-851b-d462225de945",
+                  "type_of_request": "refresh_entity",
+                  "filters": {
+                      "brand": [
+                          "1632"
+                      ],
+                      "channel": [
+                          "affiliate"
+                      ],
+                      "company": [
+                          "61"
+                      ]
+                  },
+                  "meta": {
+                      "brand": "plptesting",
+                      "channel": "Affiliate",
+                      "company": "FUCHSIA VINE DESIGNS PRIVATE LIMITED"
+                  },
+                  "start_date": "01-03-2022",
+                  "end_date": "21-03-2022"
+              },
+              "report_config_id": "18161a3e-05ff-4e18-851b-d462225de945",
+              "report_name": "settlement_report",
+              "requested_by": "ayushjain_gofynd_com_28156",
+              "full_name": "Ayush Jain",
+              "display_name": "Settlement Report",
+              "created_at": 1647843248,
+              "filters": {
+                  "brand": [
+                      "1632"
+                  ],
+                  "channel": [
+                      "affiliate"
+                  ],
+                  "company": [
+                      "61"
+                  ]
+              },
+              "meta": {
+                  "brand": "plptesting",
+                  "channel": "Affiliate",
+                  "company": "FUCHSIA VINE DESIGNS PRIVATE LIMITED"
+              },
+              "status": "Failed",
+              "start_date": "01-03-2022",
+              "end_date": "21-03-2022",
+              "msg": "Technical issue",
+              "download_link": ""
+          },
+          {
+              "request_dict": {
+                  "report_id": "e6d030ad-a764-4461-84d4-3aa1819f8c03",
+                  "type_of_request": "refresh_entity",
+                  "filters": {
+                      "brand": [
+                          "1632"
+                      ],
+                      "channel": [
+                          "affiliate"
+                      ],
+                      "company": [
+                          "61"
+                      ]
+                  },
+                  "meta": {
+                      "brand": "plptesting",
+                      "channel": "Affiliate",
+                      "company": "FUCHSIA VINE DESIGNS PRIVATE LIMITED"
+                  },
+                  "start_date": "14-03-2022",
+                  "end_date": "21-03-2022"
+              },
+              "report_config_id": "e6d030ad-a764-4461-84d4-3aa1819f8c03",
+              "report_name": "supporting_settlement_report",
+              "requested_by": "ayushjain_gofynd_com_28156",
+              "full_name": "Ayush Jain",
+              "display_name": "Supporting Settlement Report",
+              "created_at": 1647843219,
+              "filters": {
+                  "brand": [
+                      "1632"
+                  ],
+                  "channel": [
+                      "affiliate"
+                  ],
+                  "company": [
+                      "61"
+                  ]
+              },
+              "meta": {
+                  "brand": "plptesting",
+                  "channel": "Affiliate",
+                  "company": "FUCHSIA VINE DESIGNS PRIVATE LIMITED"
+              },
+              "status": "Failed",
+              "start_date": "14-03-2022",
+              "end_date": "21-03-2022",
+              "msg": "No data available.",
+              "download_link": ""
+          }
+      ],
+      "item_count": 2,
+      "page": {
+          "type": "number",
+          "size": 10,
+          "current": 1,
+          "has_next": true,
+          "item_count": 2
+      }
+    },
+    "generateReportDetails": {
+      "data":{
+         "success":true,
+         "message":"We are preparing your report."
+      }
+    },
+    "dialogData": {
+      "reportType": "e492c9ff-f59f-4be9-9944-3645b7c184d0",
+      "displayDate": "Payout Date",
+      "brand": [
+          {
+              "text": "qwerty",
+              "value": 55
+          },
+          {
+              "text": "mahadev",
+              "value": 2302
+          }
+      ],
+      "channel": [
+          {
+              "text": "Uniket",
+              "value": "uniket"
+          },
+          {
+              "text": "Fynd",
+              "value": "fynd"
+          }
+      ]
+    }
+}

@@ -7,7 +7,7 @@
         @dragover.prevent.stop="highlight = true"
         @dragleave.prevent.stop="highlight = false"
     >
-        <div class="image-uploader-panel-error" v-if="showError">
+        <div class="image-uploader-panel-error" :class="{'full-error': !showGallery}" v-if="showError">
             <span
                 @click="showError = false"
                 class="image-uploader-panel-error-close"
@@ -25,7 +25,6 @@
             ref="inputFile"
             :accept="acceptedMIMETypesString"
             @change="handleFile($event.target.files)"
-            @click="resetImageUploader"
         />
 
         <!-- <div v-if="value && fileDomain === 'image'"> -->
@@ -85,7 +84,7 @@
                 class="image-url"
                 type="url"
                 placeholder="Enter image URL"
-                v-model="imageURL"
+                :value="value"
                 @blur="$onInpurURLChange"
                 @keyup.enter="$onInpurURLChange"
                 @error="$emit('input', '')"
@@ -95,9 +94,9 @@
             >
             <span class="meta-info">
                 Max image size: {{ formatBytes(maxSize * 1024) }},
-                <span v-if="aspectR"
-                    >Aspect ratio: {{ aspectR.x }}:{{ aspectR.y }}</span
-                >
+            </span>
+            <span class="meta-info" v-if="aspectR">
+                Aspect ratio: {{ aspectR.x }}:{{ aspectR.y }}
             </span>
         </div>
         <loader v-if="loading"></loader>
@@ -162,6 +161,10 @@ export default {
         value: {
             type: String,
         },
+        isHDNImage: {
+            type: Boolean,
+            default: true
+        }
     },
     directives: {
         strokeBtn,
@@ -178,6 +181,20 @@ export default {
             imageURL: '',
             dimensions: { x: 0, y: 0 },
             hdns: GrindorService.hdns,
+            src: undefined,
+            videoOptions: {
+                autoplay: false,
+                controls: true,
+                width: 360,
+                height: 270,
+                sources: [
+                    {
+                        src:
+                            'https://res.cloudinary.com/dwzm9bysq/video/upload/v1587625799/ark/production/order/video_file/null/5dda683944ef371d6c106480/product_VID-20200415-WA0001.mp4',
+                        type: 'video/mp4',
+                    },
+                ],
+            },
             mimeType: '',
         };
     },
@@ -206,23 +223,10 @@ export default {
                 return {};
             }
         },
-        src() {
-            try {
-                // to bypass HDN CORS issue
-                const url = new URL(this.value);
-                if (this.hdns.includes(url.hostname)) {
-                    ApiService.get(`${GrindorService.getProxyURL()}?url=${url}`,{}).then((res) => {
-                        return res.data
-                    });
-                }
-                return this.value;
-            } catch (err) {
-                return this.value;
-            }
-        },
     },
     watch: {
         value(newVal, oldVal) {
+            this.updateImageSrc();
             if (this.minimumResolution) {
                 var img = new Image();
                 img.onload = () => {
@@ -255,8 +259,28 @@ export default {
     mounted() {},
     methods: {
         formatBytes,
-        resetImageUploader(){
-            this.$refs.inputFile.value = '';
+        updateImageSrc() {
+            try {
+                if(!this.isHDNImage && this.value){
+                    if(this.value.startsWith('data:')){
+                        this.src = this.value;
+                        return;
+                    }
+                    // For external urls to bypass CORS issue
+                    ApiService.get(`${GrindorService.getProxyURL()}?url=${this.value}`,
+                    {},
+                    { responseType: 'arraybuffer' }).then((res) => {
+                        console.log('in response',res, typeof(res.data))
+                        const buffer = Buffer.from(res.data)
+                        const base64String = buffer.toString('base64');
+                        this.src = `data:image/png;base64,${base64String}`;
+                    });
+                } else {
+                    this.src = this.value;
+                }
+            } catch (err) {
+                this.src = this.value;
+            }
         },
         crop() {
             let image = new Image();
@@ -271,10 +295,10 @@ export default {
                     return;
                 }
                 if (this.aspectR) {
-                    const aspectQ = (this.aspectR.x / this.aspectR.y).toFixed(
+                    const aspectQ = parseFloat((this.aspectR.x / this.aspectR.y).toFixed(
                         2
-                    );
-                    const imageQ = (image.width / image.height).toFixed(2);
+                    ));
+                    let imageQ = parseFloat((image.width / image.height).toFixed(2));
                     if (
                         !(aspectQ <= imageQ + 0.01 && aspectQ >= imageQ - 0.01)
                     ) {
@@ -287,16 +311,6 @@ export default {
                 }
                 this.croppedImageFile = image.src;
                 this.$emit('cropped');
-                // this.$emit('input', image.src);
-                // this.imageFile = this.changeImageDimension(
-                //     image,
-                //     image.width,
-                //     image.height
-                // );
-                // image.src = this.imageFile;
-                // image.onload = () => {
-                //     this.adjustImageDimenion(image);
-                // };
             };
         },
         onDrop(e) {
@@ -378,6 +392,7 @@ export default {
             }
         },
         $onInpurURLChange(e) {
+            this.imageURL=e.target.value;
             this.$emit('input', e.target.value);
         },
         $imagePreviewError(e) {
@@ -391,7 +406,6 @@ export default {
 <style lang="less" scoped>
 .image-uploader-panel {
     display: flex;
-    justify-content: center;
     width: auto;
     height: 480px;
     background-color: @Alabaster2;
@@ -512,7 +526,13 @@ export default {
         }
         .image-uploader-panel-error-message {
             text-align: center;
+            width: 100%;
         }
+    }
+    .full-error{
+        width: auto;
+        right: 0;
+        left: 0;
     }
     input[type='file'] {
         display: none;

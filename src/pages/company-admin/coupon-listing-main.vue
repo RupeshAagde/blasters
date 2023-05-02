@@ -119,7 +119,7 @@
             padding: 6px 0px;
             width: 100%;
             color: #9b9b9b;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             font-size: 12px;
             letter-spacing: 0;
             line-height: 17px;
@@ -131,7 +131,7 @@
             display: flex;
             padding: 6px 6px;
             color: #212121;
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             font-size: 14px;
             letter-spacing: 0;
             line-height: 23px;
@@ -162,13 +162,11 @@
 .right {
     flex-basis: 100%;
     display: flex;
-    height: 100%;
     flex-direction: column;
     overflow: auto;
     height: auto;
     max-height: 100%;
     padding: 24px;
-    flex-basis: 100%;
     border-bottom: 1px solid #d0d0d0;
 }
 .parent {
@@ -193,11 +191,11 @@
     }
 }
 .desc-dialog{
-    ::v-deep.nitrozen-dialog-body{
+    ::v-deep .nitrozen-dialog-body{
      padding: 0px;
      //overflow: hidden;
     }
-    ::v-deep.nitrozen-dialog-header{
+    ::v-deep .nitrozen-dialog-header{
         margin-bottom: 0px;
     }
 }

@@ -23,190 +23,201 @@
             </adm-page-header>
         </div>
         <loader v-if="pageLoading" class="loading"></loader>
-        <div v-else class="page-container">
-            <div class="cl-Mako bold-md form-head">Basic Details</div>
-            <div class="row">
-                <div class="input-box">
-                    <nitrozen-input
-                        label="HSN Code"
-                        :disabled="editMode"
-                        required
-                        :type="'text'"
-                        :maxlength="8"
-                        placeholder="For eg. 61152010"
-                        :value="hsn_code.value"
-                        v-model="hsn_code.value"
-                        @input="validateNumber(hsn_code.value)"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="hsn_code.showerror">
-                        {{ hsn_code.errortext }}
-                    </nitrozen-error>
-                    <nitrozen-error v-else-if="errors.hsn_code">
-                        {{ errors.hsn_code }}
-                    </nitrozen-error>
+        <div v-else>
+            <div class="page-container">
+                <div class="cl-Mako bold-md form-head">Basic Details</div>
+                <div class="row">
+                    <div class="input-box">
+                        <nitrozen-input
+                            label="HSN Code"
+                            :disabled="editMode"
+                            required
+                            :type="'text'"
+                            :maxlength="11"
+                            placeholder="For eg. 61152010"
+                            :value="hsn_code.value"
+                            v-model="hsn_code.value"
+                            @input="validateNumber(hsn_code.value)"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="hsn_code.showerror">
+                            {{ hsn_code.errortext }}
+                        </nitrozen-error>
+                        <nitrozen-error v-else-if="errors.hsn_code">
+                            {{ errors.hsn_code }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="input-box left-space-txb" v-if="editMode">
+                        <nitrozen-input
+                            label="Reporting HSN Code"
+                            type="text"
+                            placeholder="For eg. 61152010"
+                            v-model="reporting_hsn"
+                            :disabled="true"
+                        ></nitrozen-input>
+                    </div>
                 </div>
-                <div class="input-box left-space-txb" v-if="editMode">
-                    <nitrozen-input
-                        label="Reporting HSN Code"
-                        type="text"
-                        placeholder="For eg. 61152010"
-                        v-model="reporting_hsn"
-                        :disabled="true"
-                    ></nitrozen-input>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="input-box">
-                    <nitrozen-dropdown
-                        label="Type"
-                        required
-                        placeholder="Choose Type"
-                        :items="getHSNType"
-                        v-model="type.value"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="type.showerror">
-                        {{ type.errortext }}
-                    </nitrozen-error>
+                <div class="row">
+                    <div class="input-box">
+                        <nitrozen-dropdown
+                            label="Type"
+                            required
+                            placeholder="Choose Type"
+                            :items="getHSNType"
+                            v-model="type.value"
+                            @change="type.showerror = false"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="type.showerror">
+                            {{ type.errortext }}
+                        </nitrozen-error>
+                    </div>
+                    <div class="input-box left-space-txb">
+                        <nitrozen-dropdown
+                            label="Country"
+                            required
+                            placeholder="Choose Country"
+                            :items="filteredCountries"
+                            v-model="country_code.value"
+                            :searchable="true"
+                            @change="country_code.showerror = false"
+                            @searchInputChange="$countrySearchInputChange"
+                        ></nitrozen-dropdown>
+                        <nitrozen-error v-if="country_code.showerror">
+                            {{ country_code.errortext }}
+                        </nitrozen-error>
+                    </div>
                 </div>
-                <div class="input-box left-space-txb" @click="setSearchable">
-                    <nitrozen-dropdown
-                        label="Country"
-                        required
-                        placeholder="Choose Country"
-                        :items="filteredCountries"
-                        v-model="country_code.value"
-                        :searchable="isSearchable"
-                        @searchInputChange="$countrySearchInputChange"
-                    ></nitrozen-dropdown>
-                    <nitrozen-error v-if="country_code.showerror">
-                        {{ country_code.errortext }}
-                    </nitrozen-error>
+                <div class="row">
+                    <div class="input-area">
+                        <span class="char-count">{{
+                            `${description.value.length} / 500 Characters`
+                        }}</span>
+                        <nitrozen-input
+                            label="Description"
+                            type="textarea"
+                            required
+                            placeholder="Description of product"
+                            v-model="description.value"
+                            @keypress="restrictInput"
+                            @input="validateDescription"
+                        ></nitrozen-input>
+                        <nitrozen-error v-if="description.showerror">
+                            {{ description.errortext }}
+                        </nitrozen-error>
+                        <nitrozen-error v-else-if="errors.description">
+                            {{ errors.description }}
+                        </nitrozen-error>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-area">
-                    <span class="char-count">{{
-                        `${description.value.length} / 500 Characters`
-                    }}</span>
-                    <nitrozen-input
-                        label="Description"
-                        type="textarea"
-                        required
-                        placeholder="Description of product"
-                        v-model="description.value"
-                        @input="validateDescription"
-                    ></nitrozen-input>
-                    <nitrozen-error v-if="description.showerror">
-                        {{ description.errortext }}
-                    </nitrozen-error>
-                    <nitrozen-error v-else-if="errors.description">
-                        {{ errors.description }}
-                    </nitrozen-error>
+            <div class="rate-container">
+                <div class="row">
+                    <div class="cl-Mako bold-md form-head">
+                        GST Rate Configuration
+                    </div>
+                    <nitrozen-button
+                        v-strokeBtn
+                        theme="secondary"
+                        class="ml-sm"
+                        @click="$openAddTaxrateDialog"
+                        >Add GST
+                    </nitrozen-button>
                 </div>
-            </div>
-        </div>
-
-        <div class="rate-container">
-            <div class="row">
-                <div class="cl-Mako bold-md form-head">
-                    GST Rate Configuration
-                </div>
-                <nitrozen-button
-                    v-strokeBtn
-                    theme="secondary"
-                    class="ml-sm"
-                    @click="$openAddTaxrateDialog"
-                    >Add GST
-                </nitrozen-button>
-            </div>
-            <div v-if="!!Object.keys(datedTax).length">
-                <div
-                    class="datedtax-body"
-                    v-for="(tax, index) in datedTax"
-                    :key="index"
-                >
-                    <div class="datedtax-div" :key="index">
-                        <div class="datedtax-row">
-                            <div class="datedtax-row-item">
-                                <label class="label-msg n-input-label"
-                                    >Effective Date:
-                                </label>
-                                <span>{{
-                                    format_date(tax[0].effective_date)
-                                }}</span>
-                            </div>
-                            <div class="datedtax-row-item">
-                                <nitrozen-badge
-                                    :state="isRateActive(tax[0].state)"
-                                    >{{ tax[0].state }}</nitrozen-badge
-                                >
-                            </div>
-                        </div>
-                        <div class="datedtax-row">
-                            <div class="sub-row">
-                                <div class="slab-1">
-                                    <label class="n-input-label"
-                                        >Slab #1
+                <div v-if="!!Object.keys(datedTax).length">
+                    <div
+                        class="datedtax-body"
+                        v-for="(tax, index) in datedTax"
+                        :key="index"
+                    >
+                        <div class="datedtax-div" :key="index">
+                            <div class="datedtax-row">
+                                <div class="datedtax-row-item">
+                                    <label class="label-msg n-input-label"
+                                        >Effective Date:
                                     </label>
-                                    <div>
-                                        <label
-                                            class="label-msg n-input-label"
-                                            >{{ `Threshold>` }}</label
-                                        >
-                                        {{ tax[0].threshold }}
-                                    </div>
-                                    <div>
-                                        <label class="label-msg n-input-label"
-                                            >GST</label
-                                        >
-                                        {{ `: ${tax[0].rate}%` }}
-                                    </div>
+                                    <span>{{
+                                        format_date(tax[0].effective_date)
+                                    }}</span>
                                 </div>
-                                <div class="slab-2" v-if="!!tax[1]">
-                                    <label class="n-input-label"
-                                        >Slab #2
-                                    </label>
-                                    <div>
-                                        <label
-                                            class="label-msg n-input-label"
-                                            >{{ `Threshold>` }}</label
-                                        >
-                                        {{ tax[1].threshold }}
-                                    </div>
-                                    <div>
-                                        <label class="label-msg n-input-label"
-                                            >GST</label
-                                        >
-                                        {{ `: ${tax[1].rate}%` }}
-                                    </div>
+                                <div class="datedtax-row-item">
+                                    <nitrozen-badge
+                                        :state="isRateActive(tax[0].state)"
+                                        >{{ tax[0].state }}</nitrozen-badge
+                                    >
                                 </div>
                             </div>
-                            <div class="sub-row">
-                                <ukt-inline-svg
-                                    class="edit-btn"
-                                    title="edit rate"
-                                    src="edit-blue"
-                                    @click.stop.native="
-                                        $openEditTaxrateDialog(tax)
-                                    "
-                                ></ukt-inline-svg>
-                                <ukt-inline-svg
-                                    v-if="tax[0].state != 'Active'"
-                                    class="dlt-btn"
-                                    title="delete rate"
-                                    src="delete-red"
-                                    @click.stop.native="
-                                        openConfirmationDialog(tax)
-                                    "
-                                ></ukt-inline-svg>
+                            <div class="datedtax-row">
+                                <div class="sub-row">
+                                    <div class="slab-1">
+                                        <label class="n-input-label"
+                                            >Slab #1
+                                        </label>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >{{ `Threshold>` }}</label
+                                            >
+                                            {{ tax[0].threshold }}
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >GST</label
+                                            >
+                                            {{ `: ${tax[0].rate}%` }}
+                                        </div>
+                                    </div>
+                                    <div class="slab-2" v-if="!!tax[1]">
+                                        <label class="n-input-label"
+                                            >Slab #2
+                                        </label>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >{{ `Threshold>` }}</label
+                                            >
+                                            {{ tax[1].threshold }}
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="label-msg n-input-label"
+                                                >GST</label
+                                            >
+                                            {{ `: ${tax[1].rate}%` }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub-row">
+                                    <ukt-inline-svg
+                                        class="edit-btn"
+                                        title="edit rate"
+                                        src="edit-blue"
+                                        @click.stop.native="
+                                            $openEditTaxrateDialog(tax)
+                                        "
+                                    ></ukt-inline-svg>
+                                    <ukt-inline-svg
+                                        v-if="
+                                            tax[0].state != 'Active' &&
+                                                taxes.value.length !== 1
+                                        "
+                                        class="dlt-btn"
+                                        title="delete rate"
+                                        src="delete-red"
+                                        @click.stop.native="
+                                            openConfirmationDialog(tax)
+                                        "
+                                    ></ukt-inline-svg>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-if="!editMode && !taxes.value.length">
-                <adm-no-content :helperText="''"></adm-no-content>
+                <div v-if="!editMode && !taxes.value.length">
+                    <adm-no-content
+                        helperText="No GST Rate Configuration found"
+                    ></adm-no-content>
+                </div>
             </div>
         </div>
 
@@ -255,7 +266,6 @@
 </template>
 
 <script>
-import path from 'path';
 import moment from 'moment';
 import pageerror from '@/components/common/page-error';
 import loader from '@/components/common/loader';
@@ -274,20 +284,20 @@ import { debounce } from '@/helper/utils.js';
 // import _ from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import {
     NitrozenToggleBtn,
     NitrozenButton,
     NitrozenBadge,
     NitrozenCheckBox,
-    NitrozenRadio,
     NitrozenInput,
-    NitrozenInline,
     NitrozenDropdown,
     NitrozenError,
     NitrozenDialog,
     NitrozenTooltip,
     flatBtn,
-    strokeBtn,
+    strokeBtn
 } from '@gofynd/nitrozen-vue';
 
 const GST_RATES = [0, 3, 5, 10, 12, 18, 28];
@@ -314,19 +324,17 @@ export default {
         loader,
         AddTaxrateDailog,
         EditTaxrateDailog,
-        NitrozenDialog,
+        NitrozenDialog
     },
     directives: {
         flatBtn,
-        strokeBtn,
+        strokeBtn
     },
     mixins: [dirtyCheckMixin],
     data() {
         return {
             countryCodeList: [],
             filteredCountries: [],
-            countrySearchInputText: '',
-            isSearchable: false,
             pageLoading: true,
             inProgress: false,
             pageError: false,
@@ -334,32 +342,32 @@ export default {
             soloHsn: {},
             reporting_hsn: '',
             saveText: '',
-            formSaved: false,
+            originalData: {},
             hsn_code: {
                 value: '',
                 showerror: false,
-                errortext: 'HSN code is required',
+                errortext: 'HSN code is required'
             },
             type: {
                 value: '',
                 showerror: false,
-                errortext: 'Type is required',
+                errortext: 'Type is required'
             },
             country_code: {
                 value: '',
                 showerror: false,
-                errortext: 'Country is required',
+                errortext: 'Country is required'
             },
             description: {
                 value: '',
                 showerror: false,
                 errortext:
-                    "Description is required and it's length should be between 4 to 500 chars",
+                    "Description is required and it's length should be between 4 to 500 characters"
             },
             taxes: {
                 value: [],
                 showerror: false,
-                errortext: 'Tax rate is required',
+                errortext: 'Tax rate is required'
             },
             datedTax: {},
             // selectedRate: {
@@ -373,19 +381,19 @@ export default {
                 cess: 0,
                 effective_date: '',
                 rate: 0,
-                threshold: 0,
+                threshold: 0
             },
             newRates: [
                 {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0,
-                },
+                    threshold: 0
+                }
             ],
             markedForDelete: [],
             errors: {},
-            selectedDates: [],
+            selectedDates: []
         };
     },
     mounted() {
@@ -399,7 +407,6 @@ export default {
         }
         // console.log(this.$route.params)
 
-        this.getCountryList();
         this.init();
     },
     computed: {
@@ -407,31 +414,13 @@ export default {
             return HSN_TYPE.map((type) => {
                 return {
                     text: type,
-                    value: type.toLowerCase(),
+                    value: type.toLowerCase()
                 };
             });
-        },
-    },
-    watch: {
-        value() {
-            if (this.value) {
-                if (this.value.country) {
-                    if (this.filteredCountries.length) {
-                        let data = this.filteredCountries.filter((ele) => {
-                            return this.value.country
-                                .toLowerCase()
-                                .includes(ele.name.toLowerCase());
-                        })[0];
-                        this.country.value = data.uid || '';
-                        this.$countryChange(this.country.value);
-                    }
-                }
-            }
-        },
+        }
     },
     methods: {
         pageTitle() {
-            // console.log(this.editMode);
             if (!this.editMode) {
                 return 'Add Tax Rate';
             } else {
@@ -441,52 +430,56 @@ export default {
         isEmpty: isEmpty,
         init() {
             if (!this.editMode) {
-                return;
+                this.originalData = this.getDataForDirtyCheck();
             }
+            this.getCountryList();
+        },
+        getCountryList() {
             this.pageLoading = true;
-            this.getHSN()
-                .then(() => {
-                    this.pageLoading = false;
+            LocationService.getCountries()
+                .then(({ data }) => {
+                    this.countryCodeList = data.items.map((country) => {
+                        return {
+                            text: country.name,
+                            value: country.iso2
+                        };
+                    });
+                    this.countryCodeList.sort((a, b) =>
+                        a.text.localeCompare(b.text)
+                    );
+                    this.filteredCountries = cloneDeep(this.countryCodeList);
+                    if (this.editMode) {
+                        this.getHSN();
+                    }
                 })
                 .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
                     this.pageLoading = false;
                     this.pageError = true;
                 });
         },
-        getCountryList() {
-            LocationService.getCountries()
-                .then(({ data }) => {
-                    this.countryCodeList = data.items;
-                    this.filteredCountries = data.items.map((country) => {
-                        return {
-                            text: country.name,
-                            value: country.iso2,
-                        };
-                    });
-                    this.filteredCountries.sort((a, b) =>
-                        a.text.localeCompare(b.text)
-                    );
-                })
-                .catch((err) => {});
-        },
-        setSearchable() {
-            this.isSearchable = true;
-        },
         $countrySearchInputChange(e) {
-            this.countrySearchInputText = e.text;
             this.filteredCountries = [];
-            for (let i = 0; i < this.countryCodeList.length; i++) {
-                if (
-                    this.countryCodeList[i].name
-                        .toLowerCase()
-                        .includes(this.countrySearchInputText.toLowerCase())
-                ) {
-                    this.countryCodeList[i].text = this.countryCodeList[i].name;
-                    this.countryCodeList[i].value =
-                        this.countryCodeList[i].iso2;
-                    this.filteredCountries.push(this.countryCodeList[i]);
-                }
+            if (!e || !e.text) {
+                this.filteredCountries = cloneDeep(this.countryCodeList);
+                this.$set(
+                    this.country_code,
+                    'value',
+                    get(this.soloHsn, 'country_code', '')
+                );
+                return;
             }
+            this.countryCodeList.forEach((country) => {
+                if (country.text.toLowerCase().includes(e.text.toLowerCase()))
+                    this.filteredCountries.push(country);
+            });
+            this.$set(
+                this.country_code,
+                'value',
+                get(this.soloHsn, 'country_code', '')
+            );
         },
         getHSN() {
             const reporting_hsn = this.reporting_hsn;
@@ -505,6 +498,7 @@ export default {
                         this.taxes.value.sort(
                             (current, next) => current.rate - next.rate
                         );
+                        this.originalData = this.getDataForDirtyCheck();
                         this.getDatedTax();
                         resolve();
                     })
@@ -646,6 +640,7 @@ export default {
                         this.$snackbar.global.showSuccess('Saved successfully');
                     }
                     this.clearSelectedRate();
+                    this.originalData = this.getDataForDirtyCheck();
                     if (this.markedForDelete.length <= 0) {
                         !this.editMode && this.redirectBack();
                         this.markedForDelete = [];
@@ -693,15 +688,15 @@ export default {
                 );
             }
         },
-        debounceSaveForm: debounce(function () {
+        debounceSaveForm: debounce(function() {
             this.saveForm();
         }, 800),
         validateNumber(input) {
-            if(input.includes("+") || input.includes("-")){
+            if (input.includes('+') || input.includes('-')) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
-            }else if (!Number(input) && Number(input) !== 0) {
+            } else if (!Number(input) && Number(input) !== 0) {
                 this.hsn_code.value = '';
                 this.hsn_code.showerror = true;
                 this.hsn_code.errortext = 'HSN code must be of positive number';
@@ -731,22 +726,37 @@ export default {
             ) {
                 isValid = false;
                 this.errors.description =
-                    "Description is required and it's length should be between 4 to 500 chars";
+                    "Description is required and it's length should be between 4 to 500 characters";
             }
             return isValid;
         },
+        restrictInput($event) {
+            if (
+                this.description.value &&
+                this.description.value.length >= 500
+            ) {
+                $event.preventDefault();
+            }
+        },
         redirectBack() {
             this.$goBack('/administrator/product/taxation');
-            //console.log("Path",path.join(this.$route.path, '/list'),this.$route.path)
+        },
+        getDataForDirtyCheck() {
+            return {
+                hsncode: this.hsn_code.value,
+                type: this.type.value,
+                countrycode: this.country_code.value,
+                desc: this.description.value,
+                taxrates: this.taxes.value
+            };
         },
         isFormDirty() {
-            if (this.formSaved) {
-                return false;
+            try {
+                return !isEqual(this.originalData, this.getDataForDirtyCheck());
+            } catch (err) {
+                console.log(err);
+                return true;
             }
-
-            let isClean = true;
-
-            return !isClean;
         },
         format_date(value) {
             if (value) {
@@ -772,8 +782,8 @@ export default {
                     cess: 0,
                     effective_date: '',
                     rate: 0,
-                    threshold: 0,
-                },
+                    threshold: 0
+                }
             ];
         },
         clearSelectedRate() {
@@ -852,8 +862,9 @@ export default {
                     'HSN has only one tax slab, it should not be deleted'
                 );
             } else {
-                let tempdate =
-                    this.markedForDelete[0].effective_date.split('T')[0];
+                let tempdate = this.markedForDelete[0].effective_date.split(
+                    'T'
+                )[0];
                 this.taxes.value = this.taxes.value.filter((rate) => {
                     let efdate = rate.effective_date.split('T')[0];
                     if (efdate == tempdate) {
@@ -872,14 +883,14 @@ export default {
             this.$refs['confirm-dialog'].open({
                 width: '400px',
                 height: '215px',
-                showCloseButton: true,
+                showCloseButton: true
             });
         },
         closeConfirmationDialog() {
             this.markedForDelete = [];
             this.$refs['confirm-dialog'].close();
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -900,7 +911,7 @@ export default {
     border-radius: 4px;
     margin: 30px 24px 24px 24px !important;
     padding: 24px 24px 0px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 }
 .form-head {
     margin-bottom: 15px;
@@ -926,7 +937,7 @@ export default {
 .char-count {
     float: right;
     color: #9b9b9b;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
@@ -936,7 +947,7 @@ export default {
     border-radius: 4px;
     margin: 24px 24px 24px 24px !important;
     padding: 24px 24px 4px 24px;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
 
     .datedtax-div {
         box-sizing: border-box;

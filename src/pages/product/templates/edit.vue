@@ -72,12 +72,10 @@
                 <!-- Logo -->
                 <form-input
                     class="mt-sm"
-                    label="Logo"
-                    :required="true"
                     :custom="true"
                 >
                     <image-uploader-tile
-                        label="Logo"
+                        label="Logo *"
                         aspectRatio="1:1"
                         :minimumResolution="{
                             width: 80,
@@ -95,7 +93,7 @@
                         @delete="template.logo = ''"
                         @save="template.logo = $event"
                         @input="checkRequired('logo')"
-                        :fileName="template.name"
+                        :fileName="template.name || 'template-logo'"
                         namespace="products-template-logo"
                     ></image-uploader-tile>
                 </form-input>
@@ -552,7 +550,6 @@ export default {
         flatBtn,
         strokeBtn
     },
-    computed: {},
     // mixins: [dirtyCheckMixin],
     data: function() {
         return {
@@ -571,7 +568,8 @@ export default {
                 categories: [],
                 attributes: [],
                 is_physical: true,
-                is_expirable: false
+                is_expirable: false,
+                logo: ''
             },
             attributes: [],
             departments: [],

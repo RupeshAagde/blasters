@@ -341,7 +341,8 @@ export default {
         requestQuery() {
             const query = {
                 page: this.current,
-                limit: this.limit
+                limit: this.limit,
+                org_users: "false"
             };
             if (this.userId) {
                 query['query'] = JSON.stringify({
@@ -438,7 +439,8 @@ export default {
                 let validEmail = validateEmail(this.searchText);
                 if (validPhone) {
                     let params = {
-                        query: this.searchText
+                        query: this.searchText,
+                        org_users: "false"
                     };
                     this.noUserFound = false;
                     this.pageLoading = true;
@@ -475,7 +477,8 @@ export default {
                 } else {
                     if (validEmail) {
                         let params = {
-                            query: this.searchText
+                            query: this.searchText,
+                            org_users: "false"
                         };
                         this.noUserFound = false;
                         this.pageLoading = true;

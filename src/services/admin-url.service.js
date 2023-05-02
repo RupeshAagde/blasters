@@ -1,18 +1,13 @@
 import urlJoin from 'url-join';
-import { isBrowser, isNode } from 'browser-or-node';
-import root, { console } from 'window-or-global';
+import { isNode } from 'browser-or-node';
+import root from 'window-or-global';
 import _ from 'lodash';
-import {  } from '@/services/utils.service';
 const getCompInfo = () => 1;
 
 let envVars = root.env || {};
 if (root && root.process && root.process.env && root.process.env.NODE_ENV == 'test') {
     envVars['BROWSER_CONFIG'] = root.process.env;
 }
-
-const PLATFORM_COMMON_BASE = isNode
-    ? envVars.BROWSER_CONFIG.PLATFORM_COMMON_MAIN_SVC
-    : envVars.PLATFORM_COMMON_MAIN_URL;
 
 const PLATFORM_CONFIGURATION_BASE = isNode
     ? envVars.BROWSER_CONFIG.SLINGSHOT_PLTM_SVC
@@ -48,31 +43,6 @@ const PLATFORM_AUDIT_TRAIL_BASE = isNode
 const PLATFORM_LEADS_BASE = isNode
     ? envVars.BROWSER_CONFIG.HIGHBROW_PLTM_URL
     : envVars.HIGHBROW_PLTM_URL;
-
-const PLATFORM_FEEDBACK_BASE = isNode
-    ? envVars.BROWSER_CONFIG.ARK_PLTM_SVC
-    : envVars.ARK_PLTM_URL;
-
-const PLATFORM_SENTINEL_BASE = isNode
-    ? envVars.BROWSER_CONFIG.SENTINEL_PLTM_SVC
-    : envVars.SENTINEL_PLTM_URL;
-
-const PLATFORM_REWARDS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.LIGHTSPEED_PLTM_SVC
-    : envVars.LIGHTSPEED_PLTM_URL;
-
-const PLATFORM_BONECRUSHER_BASE = isNode
-    ? envVars.BROWSER_CONFIG.BONECRUSHER_MAIN_URL
-    : envVars.BONECRUSHER_MAIN_URL;
-
-const PLATFORM_GRINGOTTS_BASE = isNode
-    ? envVars.BROWSER_CONFIG.GRINGOTTS_PLTM_URL
-    : envVars.GRINGOTTS_PLTM_URL;
-
-
-const SLINGSHOT_MAIN_URL = isNode
-    ? envVars.BROWSER_CONFIG.SLINGSHOT_MAIN_URL
-    : envVars.SLINGSHOT_MAIN_URL;
 
 const SILVERBOLT_MAIN_URL = isNode
     ? envVars.BROWSER_CONFIG.SILVERBOLT_MAIN_URL
@@ -141,6 +111,9 @@ const BLASTER_MAIN_DOMAIN= isNode
 const MIXMASTER_PLTM_URL = isNode
     ? envVars.BROWSER_CONFIG.MIXMASTER_PLTM_URL
         : envVars.MIXMASTER_PLTM_URL;
+const FRENZY_ADMIN_URL = isNode
+    ? envVars.BROWSER_CONFIG.FRENZY_ADMIN_URL
+    : envVars.FRENZY_ADMIN_URL;
 
 const ADMIN_URLS = {
     GET_BIG_QUERY_N_RECORDS: () => {
@@ -188,7 +161,6 @@ const ADMIN_URLS = {
         return urlJoin(SKYWARP_PLTM_BASE, `/v1.0/company/${company_id}/invite/send`);
     },
     VERIFY_INVITE: () => {
-        console.log(SKYWARP_PNL_BASE)
         return urlJoin(SKYWARP_PNL_BASE, `/v1.0/invite/verify`);
     },
     // Invite
@@ -1625,7 +1597,18 @@ const ADMIN_URLS = {
     },
     PARTNER_INVITES(id = ''){
         return urlJoin(MIXMASTER_PLTM_URL, `/v1.0/company/${getCompInfo()}/partner-request/${id}`);
-    }
+    },
+    //Analytics
+    ANALYTICS_LAYOUT: (app_id = '000000000000000000000005', layout, suffix = 'get') => {
+        const baseUrl = FRENZY_ADMIN_URL
+        const apiUrl = `v1.0/analytics/layout/${layout}/${suffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
+    ANALYTICS_GENERIC_URL_SCHEMES: (suffixUrl = "", app_id = "000000000000000000000005", extremeSuffix) => {
+        const baseUrl = FRENZY_ADMIN_URL;
+        const apiUrl = `v1.0/analytics/${suffixUrl}/${extremeSuffix}`;
+        return urlJoin(baseUrl, apiUrl);
+    },
 };
 
 export default ADMIN_URLS;

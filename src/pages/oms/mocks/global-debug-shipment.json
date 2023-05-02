@@ -1,0 +1,33 @@
+{
+    "data": {
+        "items": [
+            {
+                "shipment_id": "16419084540471364271",
+                "status": {
+                    "status": "placed",
+                    "display_name": "Placed"
+                },
+                "remark": "This shipment is in locked state",
+                "locked": true
+            },
+            {
+                "shipment_id": "16419084540471364272",
+                "status": {
+                    "status": "placed",
+                    "display_name": "Placed"
+                },
+                "remark": "This shipment is in locked state",
+                "locked": true
+            },
+            {
+                "shipment_id": "16419084540471364273",
+                "status": {
+                    "status": "placed",
+                    "display_name": "Placed"
+                },
+                "remark": "This shipment is in locked state",
+                "locked": true
+            }
+        ]
+    }
+}

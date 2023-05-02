@@ -1,0 +1,28 @@
+{
+    "success": true,
+    "items": [
+        {
+            "id": "d1f15b02-ab71-4832-83f3-9ec1e0af8929",
+            "name": "Excess Recovery",
+            "priority": 3
+        },
+        {
+            "id": "d1f15b02-ab71-4832-83f3-9ec1e0af3929",
+            "name": "Wrong Recovery",
+            "priority": 2
+        },
+        {
+            "id": "d1f15b02-ac71-4832-83f3-9ec1e0af8928",
+            "name": "Short Recovery",
+            "priority": 1
+        }
+    ],
+    "item_count": 3,
+    "page": {
+        "type": "number",
+        "size": 10,
+        "current": 1,
+        "has_next": true,
+        "item_count": 3
+    }
+}

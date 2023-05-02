@@ -1,7 +1,7 @@
 import { getBase64DataURL, getFullAddress } from '../common';
 import * as JsBarcode from 'jsbarcode';
 import moment from 'moment';
-const { DOMImplementation, XMLSerializer } = require('xmldom');
+const { DOMImplementation, XMLSerializer } = require('@xmldom/xmldom');
 
 
 export class InvoiceA6TemplateService {
@@ -210,7 +210,7 @@ export class InvoiceA6TemplateService {
     
     getDpSortCode() {
 		const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ?this.shipment.affiliate_details.shipment_meta.sort_code : "";
-;
+
 		return dpSortCode ? `${dpSortCode}` : "";
 	}
     
@@ -298,7 +298,7 @@ export class InvoiceA6TemplateService {
 
         if(this.shipment.affiliate_details.company_affiliate_tag === "Mysa") {
             addressList.unshift(this.getSoldByAddress());
-        };
+        }
 
         return {
             alignment: 'justify',

@@ -142,10 +142,12 @@ export default {
                 let taxdict = {};
                 let dateArr = [];
                 let upcomingDateArr = [];
-                let upcomingDate =0;
+                let upcomingDate = 0;
 
                 for (let tax of data.taxes) {
-                    tax.effective_date = new Date(tax.effective_date+"z").toLocaleString('sv').replace(' ', 'T')
+                    tax.effective_date = new Date(tax.effective_date + 'z')
+                        .toLocaleString('sv')
+                        .replace(' ', 'T');
                     let tempdate = this.dateToComparableNumber(
                         tax.effective_date
                     );
@@ -156,7 +158,9 @@ export default {
                 dateArr = dateArr.filter((item) => item <= currentDate);
                 activeDate = dateArr.sort().reverse()[0];
                 upcomingDateArr = [...dateArrSet];
-                upcomingDateArr = upcomingDateArr.filter((item) => item > currentDate);
+                upcomingDateArr = upcomingDateArr.filter(
+                    (item) => item > currentDate
+                );
                 upcomingDate = upcomingDateArr.sort()[0];
 
                 for (let tax of data.taxes) {
@@ -197,7 +201,7 @@ export default {
 <style lang="less" scoped>
 .mirage-table {
     width: 100%;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     border: 1px solid @Iron;
     border-radius: 4px;
@@ -207,7 +211,7 @@ export default {
         border: 1px solid #e0e0e0;
         box-sizing: border-box;
         border-radius: 4px;
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
@@ -218,7 +222,7 @@ export default {
     }
     tr:not(:first-child) {
         border-bottom: 1px solid @Iron;
-        font-family: Inter;
+        font-family: Inter, sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;

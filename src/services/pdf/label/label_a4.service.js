@@ -1,16 +1,16 @@
 import { getFullAddress } from '../common';
 import * as JsBarcode from 'jsbarcode';
 import moment from 'moment';
-const { DOMImplementation, XMLSerializer } = require('xmldom');
+const { DOMImplementation, XMLSerializer } = require('@xmldom/xmldom');
 
 export class LabelA4TemplateService {
-  	constructor(shipment){
+	constructor(shipment) {
 		this.shipment = shipment;
 		this.image_url = null;
 		this.shipment_image_url = null;
 		this.absolute_footer_position = 650;
 		this.barcodeWidth = null;
-  	}
+	}
 
 	getInvoiceTemplate() {
 		if (!this.shipment.dp_details.awb_no) {
@@ -33,7 +33,7 @@ export class LabelA4TemplateService {
 				return this.getBaseTemplate(data);
 			});
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			console.error(
 				`Error occurred in template for shipment id: ${this.shipment.id}`
 			);
@@ -41,11 +41,11 @@ export class LabelA4TemplateService {
 		}
 	}
 
-	getBaseTemplate(content){
+	getBaseTemplate(content) {
 		let pdfmake_description = {
 			info: {
-                title: this.shipment.id + '_LABEL_A4',
-            },
+				title: this.shipment.id + '_LABEL_A4',
+			},
 			content: content,
 			styles: {
 				header: {
@@ -131,7 +131,7 @@ export class LabelA4TemplateService {
 			bold: true,
 		};
 	}
-	
+
 	getAWBNoBarcode() {
 		return {
 			layout: "noBorders",
@@ -200,13 +200,13 @@ export class LabelA4TemplateService {
 
 	getOrderIdDetails() {
 		// need to check for captial case
-		if(this.shipment.affiliate_details.company_affiliate_tag !== "FLIPKARTASSURED") {
+		if (this.shipment.affiliate_details.company_affiliate_tag !== "FLIPKARTASSURED") {
 			return {}
 		}
-	
+
 		let pgTable = {
 			style: "tableExample",
-			layout : { hLineWidth: function (i) {return (i === 0) ? 0 : 1}},
+			layout: { hLineWidth: function (i) { return (i === 0) ? 0 : 1 } },
 			table: {
 				widths: ["*"],
 				margin: [0, 0, 0, 0],
@@ -240,66 +240,66 @@ export class LabelA4TemplateService {
 
 	getShippingDetails() {
 		let pgTable = {
-		  style: "tableExample",
-		  layout: this.getTableLayout(),
-		  table: {
-			widths: [243, 180],
-			margin: [0, 0, 0, 0],
-			body: [
-			  [
-				[
-					{
-						text: `Shipping Address`,
-						bold: true,
-						fontSize: 11,
-						margin: [8, 4, 0, 2],
-					},
-					{
-						text: `${this.shipment.order.delivery_address.name} `,
-						fontSize: 11,
-						margin: [8, 2, 0, 2],
-					},
-					{
-						text:`${getFullAddress(this.shipment.order.delivery_address)}`,
-						fontSize: 11,
-						margin: [8, 2, 0, 0],
-						lineHeight: 1.25,
-					},
+			style: "tableExample",
+			layout: this.getTableLayout(),
+			table: {
+				widths: [243, 180],
+				margin: [0, 0, 0, 0],
+				body: [
+					[
+						[
+							{
+								text: `Shipping Address`,
+								bold: true,
+								fontSize: 11,
+								margin: [8, 4, 0, 2],
+							},
+							{
+								text: `${this.shipment.order.delivery_address.name} `,
+								fontSize: 11,
+								margin: [8, 2, 0, 2],
+							},
+							{
+								text: `${getFullAddress(this.shipment.order.delivery_address)}`,
+								fontSize: 11,
+								margin: [8, 2, 0, 0],
+								lineHeight: 1.25,
+							},
+						],
+						[
+							{
+								text: `${this.shipment.invoice.payment_type} `,
+								alignment: "center",
+								bold: true,
+								fontSize: 12,
+								margin: [0, 10, 0, 8],
+							},
+							this.getLineBreak(),
+							{
+								text:
+									`Amount to be collected` +
+									`\n₹${this.shipment.invoice.amount_to_collect}`,
+								alignment: "center",
+								bold: true,
+								fontSize: 12,
+								margin: [0, 6, 0, 0],
+							},
+							this.getLineBreak(),
+							{
+								text: `Total Items : ${this.shipment.total_shipment_bags} `,
+								alignment: "center",
+								bold: true,
+								fontSize: 12,
+								margin: [0, 10, 0, 8],
+							},
+						],
+					],
 				],
-				[
-					{
-						text: `${this.shipment.invoice.payment_type} `,
-						alignment: "center",
-						bold: true,
-						fontSize: 12,
-						margin: [0, 10, 0, 8],
-					},
-				  	this.getLineBreak(),
-					{
-						text:
-						`Amount to be collected` +
-						`\n₹${this.shipment.invoice.amount_to_collect}`,
-						alignment: "center",
-						bold: true,
-						fontSize: 12,
-						margin: [0, 6, 0, 0],
-					},
-				  	this.getLineBreak(),
-					{
-						text: `Total Items : ${this.shipment.total_shipment_bags} `,
-						alignment: "center",
-						bold: true,
-						fontSize: 12,
-						margin: [0, 10, 0, 8],
-					},
-				],
-			  ],
-			],
-		  },
+			},
 		};
-	return pgTable;
+		return pgTable;
 	}
-	
+
 	getSellerDetails() {
 		let pgTable = {
 			style: "tableExample",
@@ -334,34 +334,34 @@ export class LabelA4TemplateService {
 						[
 							[
 								{
-								text: `Invoice No`,
-								alignment: "center",
-								bold: true,
-								fontSize: 11,
-								margin: [0, 10, 0, 0],
+									text: `Invoice No`,
+									alignment: "center",
+									bold: true,
+									fontSize: 11,
+									margin: [0, 10, 0, 0],
 								},
 								{
-								text: `${this.shipment.invoice.store_invoice_id}`,
-								alignment: "center",
-								fontSize: 11,
-								margin: [0, 2, 0, 0],
+									text: `${this.shipment.invoice.store_invoice_id}`,
+									alignment: "center",
+									fontSize: 11,
+									margin: [0, 2, 0, 0],
 								},
-							],	
+							],
 							[
 								{
-								text: `Invoice Date`,
-								alignment: "center",
-								bold: true,
-								fontSize: 11,
-								margin: [0, 10, 0, 0],
+									text: `Invoice Date`,
+									alignment: "center",
+									bold: true,
+									fontSize: 11,
+									margin: [0, 10, 0, 0],
 								},
 								{
-								text: moment(
-									this.shipment.affiliate_details.shipment_meta.store_invoice_updated_date
-								).format("DD/MM/YYYY"),
-								alignment: "center",
-								fontSize: 11,
-								margin: [0, 2, 0, 0],
+									text: moment(
+										this.shipment.affiliate_details.shipment_meta.store_invoice_updated_date
+									).format("DD/MM/YYYY"),
+									alignment: "center",
+									fontSize: 11,
+									margin: [0, 2, 0, 0],
 								},
 							],
 						],
@@ -369,7 +369,7 @@ export class LabelA4TemplateService {
 				],
 			},
 		};
-	return pgTable;
+		return pgTable;
 	}
 
 	getItemDetails() {
@@ -395,20 +395,20 @@ export class LabelA4TemplateService {
 							},
 						],
 						[
-						// {
-						//   alignment: "center",
-						//   margin: [0, 6, 60, 0],
-						//   stack: [
-						//     this.getUpiQrCode()
-						//   ],
-						// },
-						// this.getUpiQrTitle()
+							// {
+							//   alignment: "center",
+							//   margin: [0, 6, 60, 0],
+							//   stack: [
+							//     this.getUpiQrCode()
+							//   ],
+							// },
+							// this.getUpiQrTitle()
 						],
 					],
 				],
 			},
 		};
-	return pgTable;
+		return pgTable;
 	}
 
 
@@ -416,7 +416,7 @@ export class LabelA4TemplateService {
 		if (this.shipment.payments.mode !== "COD") {
 			return {};
 		}
-	
+
 		return {
 			text: `Scan to pay`,
 			alignment: 'center',
@@ -432,46 +432,46 @@ export class LabelA4TemplateService {
 				widths: ["*"],
 				margin: [0, 0, 0, 0],
 				body: [
-				[
 					[
-						{
-							text: `Return Address`,
-							fontSize: 11,
-							margin: [8, 6, 0, 0],
-							bold: true,
-						},
-						{
-							text: `${getFullAddress(this.shipment.invoice.rto_address)}`,
-							fontSize: 11,
-							margin: [8, 2, 0, 6],
-						},
+						[
+							{
+								text: `Return Address`,
+								fontSize: 11,
+								margin: [8, 6, 0, 0],
+								bold: true,
+							},
+							{
+								text: `${getFullAddress(this.shipment.invoice.rto_address)}`,
+								fontSize: 11,
+								margin: [8, 2, 0, 6],
+							},
+						],
 					],
-				],
 				],
 			},
 		};
-	return pgTable;
+		return pgTable;
 	}
 
 	getItemType() {
 		let itemType = [];
 		this.shipment.bags.forEach((bag) => {
-		  itemType.push(bag.item.l3_category_name);
+			itemType.push(bag.item.l3_category_name);
 		});
-	return Array.from(new Set(itemType)).join();
+		return Array.from(new Set(itemType)).join();
 	}
-	
+
 	getTableLayout() {
 		return {
-		  vLineWidth: function () {
-			return 1;
-		  },
-		  hLineColor: function () {
-			return "white";
-		  },
+			vLineWidth: function () {
+				return 1;
+			},
+			hLineColor: function () {
+				return "white";
+			},
 		};
 	}
-	
+
 	getLineBreak() {
 		return {
 			canvas: [
@@ -487,10 +487,10 @@ export class LabelA4TemplateService {
 			],
 		};
 	}
-	
+
 	getAWBBarcode() {
 		const content = [[{ svg: this.image_url, width: 250, height: 95 }]];
-	
+
 		const dpSortCode = this.getDpSortCode();
 		if (dpSortCode) {
 			content.push([
@@ -504,26 +504,26 @@ export class LabelA4TemplateService {
 		}
 		return content;
 	}
-	
+
 	getShipmentBarcode() {
 		const content = [[{ svg: this.shipment_image_url, width: 250, height: 95 }]];
 		return content;
 	}
-	
+
 	getDpSortCode() {
-		const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ?this.shipment.affiliate_details.shipment_meta.sort_code : "";
-;
+		const dpSortCode = this.shipment.affiliate_details.shipment_meta && this.shipment.affiliate_details.shipment_meta.sort_code ? this.shipment.affiliate_details.shipment_meta.sort_code : "";
+
 		return dpSortCode ? `${dpSortCode}` : "";
 	}
-	
+
 	textToBase64Barcode(text) {
 		const xmlSerializer = new XMLSerializer();
-        const document = new DOMImplementation().createDocument(
-            'http://www.w3.org/1999/xhtml',
-            'html',
-            null
-        );
-        let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		const document = new DOMImplementation().createDocument(
+			'http://www.w3.org/1999/xhtml',
+			'html',
+			null
+		);
+		let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		JsBarcode(svg, text, {
 			font: "Helvetica",
 			width: 3,
@@ -533,24 +533,24 @@ export class LabelA4TemplateService {
 			xmlDocument: document,
 		});
 
-		this.barcodeWidth = svg&& svg.width && svg.width.baseVal && svg.width.baseVal.value ? svg.width.baseVal.value : 0;
+		this.barcodeWidth = svg && svg.width && svg.width.baseVal && svg.width.baseVal.value ? svg.width.baseVal.value : 0;
 		return xmlSerializer.serializeToString(svg);
 	}
-	
+
 	toFixed(value, n) {
 		const v = value.toString().split(".");
 		if (n <= 0) return v[0];
 		let f = v[1] || "";
 		if (f.length > n) return `${v[0]}.${f.substr(0, n)}`;
 		while (f.length < n) f += "0";
-	return `${v[0]}.${f}`;
+		return `${v[0]}.${f}`;
 	}
-	
+
 	getUpiQrCode() {
 		if (this.shipment.payment_mode !== "COD") {
 			return {};
 		}
-	
+
 		let gstBrkUp;
 		if (this.shipment.gst_details.gst_tag == "IGST") {
 			gstBrkUp = `GST:${this.shipment.gst_details.gst_fee}|IGST:${this.shipment.gst_details.gst_fee}`;
@@ -560,7 +560,7 @@ export class LabelA4TemplateService {
 				2
 			)}|SGST:${this.toFixed(this.shipment.gst_details.gst_fee / 2.0, 2)}`;
 		}
-	
+
 		const upiURI = new URL("upi://pay");
 		upiURI.searchParams.append("pa", "fynd.rzp@hdfcbank");
 		upiURI.searchParams.append("pn", "Fynd");
@@ -570,7 +570,7 @@ export class LabelA4TemplateService {
 		);
 		upiURI.searchParams.append(
 			"invoiceNo",
-		  	this.shipment.invoice.store_invoice_id
+			this.shipment.invoice.store_invoice_id
 		);
 		upiURI.searchParams.append(
 			"invoiceDate",
@@ -580,9 +580,8 @@ export class LabelA4TemplateService {
 		upiURI.searchParams.append("gstBrkUp", gstBrkUp);
 		upiURI.searchParams.append(
 			"am",
-			`${
-				(this.shipment.gst_details.brand_calculated_amount || 0.0) +
-				this.shipment.prices.cod_charges
+			`${(this.shipment.gst_details.brand_calculated_amount || 0.0) +
+			this.shipment.prices.cod_charges
 			}`
 		);
 		upiURI.searchParams.append("cu", "INR");

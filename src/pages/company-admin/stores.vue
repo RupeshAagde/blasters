@@ -26,13 +26,14 @@
             <div class="filter-dropdown">
                 <nitrozen-dropdown
                     :items="choiceType"
-                    class="stage-dropdown"
+                    class="stage-dropdown filter-box"
                     v-model="selectedChoice"
                     :label="'Stage'"
                     @change="changeStage"
                 ></nitrozen-dropdown>
                 <nitrozen-dropdown
                     :items="storeType"
+                    class="filter-box"
                     v-model="selectedStoreType"
                     :label="'Type'"
                     @change="changeStore"
@@ -146,7 +147,8 @@
                         @click="editIntegration(item)"
                         >Edit Integration</nitrozen-button
                     > -->
-                    <nitrozen-button
+
+                    <!-- <nitrozen-button
                         class="left-space"
                         :theme="'secondary'"
                         v-strokeBtn
@@ -155,7 +157,7 @@
                         "
                         @click="openAdminDialog(item, true)"
                         >Disable</nitrozen-button
-                    >
+                    > -->
                 </div>
             </div>
         </div>
@@ -356,7 +358,7 @@
             }
         }
         .label {
-            font-family: Inter;
+            font-family: Inter, sans-serif;
             color: @Mako;
             font-size: 14px;
             line-height: 20px;
@@ -418,6 +420,9 @@
             display: flex;
             .stage-dropdown {
                 margin-right: 12px;
+            }
+            .filter-box{
+                min-width: 140px;
             }
         }
     }
@@ -500,6 +505,7 @@ import admInlineSVG from '@/components/common/adm-inline-svg';
 import { GET_METRICS } from '@/store/getters.type';
 import { mapGetters } from 'vuex';
 import { debounce } from '@/helper/utils';
+import get from 'lodash/get';
 
 import {
     NitrozenButton,
@@ -558,8 +564,6 @@ export default {
             selectedChoice: '',
             selectedStoreType: '',
             searchText: '',
-            selectedChoice: '',
-            selectedStoreType: '',
             choiceType: [],
             storeType: [],
             storesData: [],
@@ -691,6 +695,10 @@ export default {
             this.getStores();
         },
         paginationChange(e) {
+            let storeDiv = document.querySelector(".stores")
+            if(storeDiv) {
+                storeDiv.scrollIntoView({ behavior: 'smooth'});
+            }
             this.paginationConfig = e;
             this.setPage(this.paginationConfig);
         },
@@ -795,13 +803,16 @@ export default {
                         this.show_verify_button = true;
                     })
                     .catch((error) => {
-                        console.error(error);
                         this.$snackbar.global.showError(
-                            `${
-                                error.response.data
-                                    ? JSON.stringify(error.response.data.errors)
-                                    : ''
-                            }`,
+                            get(
+                                error,
+                                'response.data.message',
+                                get(
+                                    error,
+                                    'response.data.error.errors',
+                                    'Failed to process'
+                                )
+                            ),
                             {
                                 duration: 2000,
                             }
