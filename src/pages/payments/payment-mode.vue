@@ -498,7 +498,7 @@ export default {
                 .then((res) => {
                     if (res.data.items.length) {
                         this.agregatorDetails = res.data.items[0];
-                        this.paymentModes = this.agregatorDetails.payment_mode;
+                        this.paymentModes = this.agregatorDetails.payment_mode || [];
                         if (this.paymentModes.length) {
                             this.currentMopDetails = this.paymentModes[0];
                             this.subPaymentModes =
@@ -597,9 +597,7 @@ export default {
         validateSubMop(){
             let isValid = true;
             if(this.currentMopDetails.is_active && this.currentMopDetails.sub_payment_mode.length){
-                isValid = this.currentMopDetails.sub_payment_mode.some(subMop => {
-                    return subMop.is_active
-                });
+                isValid = this.currentMopDetails.sub_payment_mode.some(subMop => subMop.is_active);
             }
             return isValid;
         },
