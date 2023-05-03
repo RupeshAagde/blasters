@@ -467,6 +467,7 @@ export default {
             paymentModes: [],
             agregatorDetails: {},
             currentMopDetails: {},
+            initialMopStatus: false,
             gatewayDetailsParams: {
                 business_unit: '',
                 device: '',
@@ -501,6 +502,7 @@ export default {
                         this.paymentModes = this.agregatorDetails.payment_mode || [];
                         if (this.paymentModes.length) {
                             this.currentMopDetails = this.paymentModes[0];
+                            this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false;
                             this.subPaymentModes =
                                 this.paymentModes[0].sub_payment_mode;
                         }
@@ -621,6 +623,7 @@ export default {
         },
         showSubModes(item) {
             this.currentMopDetails = item;
+            this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false
             this.subPaymentModes = item.sub_payment_mode;
         },
         getAllPaymentModes() {
@@ -631,6 +634,7 @@ export default {
                     if (res.data.items.length) {
                         this.paymentModes = res.data.items;
                         this.currentMopDetails = this.paymentModes[0];
+                        this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false;
                         this.subPaymentModes =
                             this.paymentModes[0].sub_payment_mode;
                     }
@@ -674,8 +678,8 @@ export default {
         cancelUpdateGatewayStatus(e){
             this.agregatorDetails.is_active = e.data.is_active || false
         },
-        cancelUpdateMopStatus(e){
-            this.currentMopDetails.is_active = e.data.is_active || false
+        cancelUpdateMopStatus(){
+            this.currentMopDetails.is_active = this.initialMopStatus || false
         },
         cancelCopyConfiguration(isConfirmation){
             if(!isConfirmation){
@@ -699,10 +703,7 @@ export default {
                 title: 'Save Changes?',
                 message: 'Click Yes to save the changes',
                 height: '271px',
-                dismissible: false,
-                data: {
-                    is_active: !this.currentMopDetails.is_active
-                }
+                dismissible: false
             });
         },
         copyConfiguration() {
