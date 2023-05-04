@@ -1,0 +1,214 @@
+{
+    "items": [
+        {
+            "_id": "61c8ad3f727335683ba69ef7",
+            "scopes": {
+                "permissions": [
+                    "company/*",
+                    "company/application/*"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "7gZI~QLb5Bz4X0n"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "meta": {
+                "tags": [
+                    "test",
+                    "tag1"
+                ],
+                "name": "TestClient",
+                "description": "Comment"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "updated_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe",
+                "updator_name": "Rahul Tambe"
+            },
+            "client_id": "61c8ad3f72733595e9a69ef6",
+            "slug": "61c8ad3f72733595e9a69ef6",
+            "created_at": "2021-12-26T17:58:23.960Z",
+            "modified_at": "2021-12-26T18:22:16.628Z",
+            "is_active": true,
+            "id": "61c8ad3f727335683ba69ef7"
+        },
+        {
+            "_id": "61c9662579c469a1288001d8",
+            "scopes": {
+                "permissions": [
+                    "company/profile",
+                    "company/product",
+                    "company/saleschannel",
+                    "company/order",
+                    "company/application/customer",
+                    "company/application/analytics",
+                    "company/application/storage",
+                    "company/application/settings",
+                    "company/application/marketing",
+                    "company/application/catalogue",
+                    "company/application/communication",
+                    "company/application/support",
+                    "company/application/order",
+                    "company/application/settings"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "vZfqjIZ2OnROVrC"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [
+                    "2",
+                    "test2"
+                ],
+                "name": "Test2",
+                "description": "Test2"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "updated_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe",
+                "updator_name": "Rahul Tambe"
+            },
+            "client_id": "61c9662579c469fd5c8001d7",
+            "slug": "61c9662579c469fd5c8001d7",
+            "created_at": "2021-12-27T07:07:17.060Z",
+            "modified_at": "2021-12-27T07:10:13.899Z",
+            "id": "61c9662579c469a1288001d8"
+        },
+        {
+            "_id": "61c9b6f1fb637319930a84a5",
+            "scopes": {
+                "permissions": [
+                    "company/profile",
+                    "company/application/000000000000000000000002/customer",
+                    "company/application/000000000000000000000001/*"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "K6rCJ7ec_08iq7D"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [],
+                "name": "Client1",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61c9b6f1fb637321200a84a4",
+            "slug": "61c9b6f1fb637321200a84a4",
+            "created_at": "2021-12-27T12:52:01.845Z",
+            "modified_at": "2021-12-27T12:52:01.845Z",
+            "id": "61c9b6f1fb637319930a84a5"
+        },
+        {
+            "_id": "61c99d7be1791146eeab34d7",
+            "scopes": {
+                "permissions": [
+                    "*"
+                ],
+                "type": "all"
+            },
+            "secret": [
+                "2HzEWMIFU4ad7cg"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [
+                    "dcadcx"
+                ],
+                "name": "Test3",
+                "description": "test"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "a7cd55c4ddb933538f7bd3df",
+                "creator_name": "Rahul Tambe"
+            },
+            "client_id": "61c99d7be179114a2cab34d6",
+            "slug": "61c99d7be179114a2cab34d6",
+            "created_at": "2021-12-27T11:03:23.935Z",
+            "modified_at": "2021-12-27T11:03:23.935Z",
+            "id": "61c99d7be1791146eeab34d7"
+        },
+        {
+            "_id": "61c9b7cafb637372760a84ab",
+            "scopes": {
+                "permissions": [
+                    "company/*",
+                    "company/application/000000000000000000000001/*"
+                ],
+                "type": "specific"
+            },
+            "secret": [
+                "vDqEuBOlOSSoJWW"
+            ],
+            "grants": [
+                "client_credentials"
+            ],
+            "redirect_urls": [],
+            "access_token_lifetime": 3600,
+            "refresh_token_lifetime": 3600,
+            "is_active": true,
+            "meta": {
+                "tags": [
+                    "Tamboi123"
+                ],
+                "name": "Tamboi 123",
+                "description": "Tamboi"
+            },
+            "company_id": 1,
+            "author": {
+                "created_by": "9c0999dd6867455c555a3227",
+                "updated_by": "9c0999dd6867455c555a3227",
+                "creator_name": "Akash Mane",
+                "updator_name": "Akash Mane"
+            },
+            "client_id": "61c9b7cafb63736a340a84aa",
+            "slug": "61c9b7cafb63736a340a84aa",
+            "created_at": "2021-12-27T12:55:38.513Z",
+            "modified_at": "2021-12-27T13:11:06.076Z",
+            "id": "61c9b7cafb637372760a84ab"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 20,
+        "item_total": 5,
+        "has_next": false
+    }
+}

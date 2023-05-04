@@ -410,5 +410,15 @@ export const getNavigations = () => {
             permission: 'webhook',
             children: []
         },
+        {
+            display: 'Oauth Clients',
+            link: '/administrator/oauthclient',
+            title: 'Oauth Clients',
+            icon: 'developers',
+            highlightedIcon: 'developers-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        }
     ];
 };

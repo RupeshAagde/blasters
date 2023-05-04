@@ -165,6 +165,37 @@ export const RETURN_ACCEPTED_REASONS = [{
 },
 ];
 
+export const ADMINISTRATOR_PERMISSIONS = {
+    "permissions": [
+        {
+            "title": "Company",
+            "key": "company",
+            "description": "Verify the brands, selling locations, company documents. Manage sales channel and settlement rules",
+            "group": "common"
+        },
+        {
+            "title": "Product",
+            "key": "product",
+            "description": "Manage attributes, templates and other features related to product",
+            "group": "common"
+        }
+    ],
+    "roles": [
+        {
+            "title": "Full Access",
+            "key": "admin",
+            "permissions": [
+                "company",
+                "product",
+            ]
+        },
+        {
+            "title": "Custom",
+            "key": "custom",
+            "permissions": []
+        }
+    ]
+}
 
 export const PREVIEW_EVENTS = {
     ADD_SECTION: 'add_section',
