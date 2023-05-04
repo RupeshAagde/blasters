@@ -225,7 +225,7 @@ export default {
             else type = this.toggleMenu;
 
             if(affiliateURL) {
-                return GrindorService.getPublicUrl({
+                return GrindorService.getPublicUrl('',{
                     expiry: 300,
                     urls: [affiliateURL]
                 })

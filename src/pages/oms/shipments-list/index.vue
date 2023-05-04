@@ -7,6 +7,16 @@
                 </template>
             </warn-alert>
         </div>
+        <div class="alert" v-if="activeShipment && activeShipment.status.status == 'bag_invoiced'"> 
+            <warn-alert class="alert-sys" :display="true" :warning="true">
+                <template v-slot:text>
+                    <div>
+                        <p>Please do not assign DP to this shipment. DP will be assigned only when the store manager marks ‘Assign DP’.</p>
+                        <p>The system is waiting for that confirmation from the store manager.</p>
+                    </div>
+                </template>
+            </warn-alert>
+        </div>
         <!-- Commenting as of January 10, 2023 -->
         <!-- <div class="alert" v-if="showAlert && displayAlert && alertText && !isShipmentLock">
             <alert-box class="alert-sys" @close="closeAlert" :display="showAlert">
@@ -28,6 +38,7 @@
                 :readOnlyMode="readOnlyMode"
                 :shipmentProcessing="shipmentProcessing"
                 @updateOrderDetails="() => $emit('updateOrderDetails')"
+                @reload="$emit('reload')"
             ></shipment-items>
         </div>
     </div>

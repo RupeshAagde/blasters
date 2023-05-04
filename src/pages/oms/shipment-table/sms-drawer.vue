@@ -78,18 +78,18 @@ import isEmpty from 'lodash/isEmpty';
 export default {
     name: "sms-drawer",
     props: {
-        number: Array,
-        fullName: String,
-        orderId: String,
-        shipmentId: String,
-        bagId: String,
-        brandName: String,
-        amountPaid: String,
-        paymentMode: String,
-        isSendSms: Boolean
+        shipment: Object
     },
     data() {
         return {
+            number: [],
+            fullName: '',
+            orderId: '',
+            shipmentId: '',
+            bagId: '',
+            brandName: '',
+            amountPaid: '',
+            paymentMode: '',
             selectedNumber: '',
             selectedTemplate: '',
             checkForNote: '',
@@ -138,17 +138,36 @@ export default {
         NitrozenInput
     },
     mounted() {
+        if(this.shipment) {
+            if(this.shipment.billing_details && this.shipment.billing_details.phone) {
+                this.number.push({ text: this.shipment.billing_details.phone, value: this.shipment.billing_details.phone});
+            }
+            this.fullName = `${this.shipment.user.first_name} ${this.shipment.user.last_name}`;
+            this.shipmentId = this.shipment.shipment_id
+            this.orderId = this.shipment.order.fynd_order_id
+            this.bagId = this.shipment.bags[0].bag_id.toString()
+            this.brandName = this.shipment.bags[0].item.brand
+            this.amountPaid = this.shipment.prices.amount_paid
+            if( this.shipment.order &&
+                this.shipment.order.payment_methods &&
+                Object.keys(this.shipment.order.payment_methods) == "COD") {
+                this.paymentMode = "COD";
+            }
+            else {
+                this.paymentMode = "PREPAID";
+            }
+        }
         this.$emit("enableSubmitButton", true);
     },
     computed: {
         getMeNote() {
             if(this.selectedTemplate == "delayed_shipment") {
-                this.checkForNote = `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed. We are doing our best to get it delivered as soon as possible. You can track your shipment ${this.shipmentId} on track.fynd.com. For any queries, please reach out to us on care@fynd.com.`
-                return `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed. We are doing our best to get it delivered as soon as possible. You can track your shipment ${this.shipmentId} on track.fynd.com. For any queries, please reach out to us on care@fynd.com.`
+                this.checkForNote = `Dear ${this.fullName}, your order for ${this.brandName} - ${this.orderId} has been delayed. We are doing our best to get it delivered as soon as possible. You can track your shipment ${this.shipmentId} on track.fynd.com. For any queries, please reach out to us on care@fynd.com.`
+                return `Dear ${this.fullName}, your order for ${this.brandName} - ${this.orderId} has been delayed. We are doing our best to get it delivered as soon as possible. You can track your shipment ${this.shipmentId} on track.fynd.com. For any queries, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "custom_delayed_shipment") {
-                this.checkForNote = `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
-                return `Dear ${this.fullName}, your order for Celio - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working day(s). For any queries, please reach out to us on care@fynd.com.`
+                this.checkForNote = `Dear ${this.fullName}, your order for ${this.brandName} - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
+                return `Dear ${this.fullName}, your order for ${this.brandName} - ${this.orderId} has been delayed due to ${this.reason}. It will be delivered within ${this.daysValue} working days. For any queries, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "not_reachable") {
                 this.checkForNote = `Dear ${this.fullName}, we've been trying to contact you for your shipment ${this.shipmentId} but were unable to reach you. For further assistance, please reach out to us on care@fynd.com.`
@@ -159,12 +178,12 @@ export default {
                 return `Dear ${this.fullName}, your shipment ${this.shipmentId} has been returned to its origin. If you're still interested in buying the product, we request you to please place the order again. For further assistance, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "account_details") {
-                this.checkForNote = `Dear ${this.fullName}, we have initiated refund for your order for And Data - ${this.orderId}, please reach out to us on care@fynd.com.`
-                return `Dear ${this.fullName}, we have initiated refund for your order for And Data - ${this.orderId}, please reach out to us on care@fynd.com.`
+                this.checkForNote = `Dear ${this.fullName}, we have initiated refund for your order for ${this.brandName} - ${this.orderId}, please reach out to us on care@fynd.com.`
+                return `Dear ${this.fullName}, we have initiated refund for your order for ${this.brandName} - ${this.orderId}, please reach out to us on care@fynd.com.`
             };
             if(this.selectedTemplate == "refund") {
-                this.checkForNote = `Dear ${this.fullName}, your And Data - ${this.shipmentId} refund of Rs.599 is due and will be processed in the next 2-3 days. Please provide your bank details in the link below to initiate the payment link. Notification via Fynd.`
-                return `Dear ${this.fullName}, your And Data - ${this.shipmentId} refund of Rs.599 is due and will be processed in the next 2-3 days. Please provide your bank details in the link below to initiate the payment link. Notification via Fynd.`
+                this.checkForNote = `Dear ${this.fullName}, your ${this.brandName} - ${this.shipmentId} refund of Rs.${this.amountPaid} is due and will be processed in the next 2-3 days. Please provide your bank details in the link below to initiate the payment link. Notification via Fynd.`
+                return `Dear ${this.fullName}, your ${this.brandName} - ${this.shipmentId} refund of Rs.${this.amountPaid} is due and will be processed in the next 2-3 days. Please provide your bank details in the link below to initiate the payment link. Notification via Fynd.`
             };
         },
     },

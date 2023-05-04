@@ -1,0 +1,246 @@
+{
+    "items": [
+        {
+            "name": "Fynd",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified",
+                    "assets": true
+                }
+            },
+            "logo": "",
+            "slug": "fynd",
+            "_id": "629af016aadff1a5fae98618",
+            "app_id": "000000000000000000000001",
+            "description": "This is Fynd Marketplace"
+        },
+        {
+            "name": "Fynd",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified",
+                    "assets": true
+                }
+            },
+            "logo": "",
+            "slug": "fynd",
+            "_id": "629af06aaadff1a5fae98619",
+            "app_id": "000000000000000000000001",
+            "description": "This is Fynd Marketplace"
+        },
+        {
+            "name": "Fynd",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified",
+                    "assets": true
+                }
+            },
+            "logo": "",
+            "slug": "fynd",
+            "_id": "629af639aadff1a5fae9861a",
+            "app_id": "000000000000000000000001",
+            "description": "This is Fynd"
+        },
+        {
+            "name": "Fynd Abhinav 8",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified"
+                }
+            },
+            "modified_on": "2022-06-09T11:45:00.607970",
+            "logo": "",
+            "slug": "fynd-abhinav-8",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-09T11:45:00.607961",
+            "_id": "62a1dd3ce707f07dafe24791",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "f17495b2-7388-4011-be69-bf0be4c99605",
+            "description": "Marketplace v8 "
+        },
+        {
+            "name": "Fynd a",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "all"
+                }
+            },
+            "modified_on": "2022-06-15T07:21:32.677559",
+            "logo": "https://hdn-1.jiomarketx0.de/x0/platform/pictures/favicon/original/61sP_XrDo-ZRUyKPaqt-Fcc3nVj5V-yMR0n04lf-iwjJlsOZD-logo.png",
+            "slug": "fynd-9",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-09T11:58:30.683374",
+            "_id": "62a1e066e707f07dafe24792",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "4ba79d7b-4697-4a23-94d1-80f26fab6f70",
+            "description": "Marketplace v9 "
+        },
+        {
+            "name": "Fynd abhinav",
+            "validation": {
+                "location": {
+                    "gst_required": false,
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "all"
+                }
+            },
+            "modified_on": "2022-06-15T08:45:58.160217",
+            "logo": "https://hdn-1.jiomarketx0.de/x0/platform/pictures/favicon/original/61sP_XrDo-ZRUyKPaqt-Fcc3nVj5V-yMR0n04lf-iwjJlsOZD-logo.png",
+            "slug": "fynd-abhinav",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-14T16:03:07.239776",
+            "_id": "62a8b13bfbbc68ffeb4d2a5f",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "1a716d37-1ef9-4d86-a705-29fb40c24217",
+            "description": "Marketplace v9 "
+        },
+        {
+            "name": "FyndTestMarket19245",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified"
+                }
+            },
+            "modified_on": "2022-06-14T16:03:38.232060",
+            "logo": "",
+            "slug": "fyndtestmarket19245",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-14T16:03:38.232051",
+            "_id": "62a8b15afbbc68ffeb4d2a60",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "e549b352-d0d1-4ff3-9979-d8d747cd2f37",
+            "description": "New Fynd Test Market 2"
+        },
+        {
+            "name": "FyndTestMarket19245123",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified"
+                }
+            },
+            "modified_on": "2022-06-14T16:04:39.914810",
+            "logo": "",
+            "slug": "fyndtestmarket19245123",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-14T16:04:39.914802",
+            "_id": "62a8b197fbbc68ffeb4d2a61",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "add4c076-7f5f-4494-80cd-e48c678e7c4a",
+            "description": "New Fynd Test Market 2"
+        },
+        {
+            "name": "FyndTestMarket19245124",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified"
+                }
+            },
+            "modified_on": "2022-06-14T16:07:12.327212",
+            "logo": "",
+            "slug": "fyndtestmarket19245124",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-14T16:07:12.327205",
+            "_id": "62a8b230fbbc68ffeb4d2a62",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "62987211-1065-49e2-9d52-1ed3c71f864c",
+            "description": "New Fynd Test Market 2"
+        },
+        {
+            "name": "Fynd Abhinav 18",
+            "validation": {
+                "location": {
+                    "stage": "verified"
+                },
+                "brand": {
+                    "stage": "verified"
+                }
+            },
+            "modified_on": "2022-06-15T05:29:21.452129",
+            "logo": "",
+            "slug": "fynd-abhinav-18",
+            "modified_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "created_on": "2022-06-15T05:29:21.452121",
+            "_id": "62a96e31fbbc68ffeb4d2a63",
+            "created_by": {
+                "username": "abhinavmishra_fynd_external_com_88738",
+                "user_id": "165"
+            },
+            "app_id": "0e58236a-433d-43a2-94b3-e563ab944790",
+            "description": "Marketplace v18 "
+        }
+    ],
+    "page": {
+        "current": 1,
+        "type": "number",
+        "size": 2,
+        "has_previous": false,
+        "has_next": true,
+        "item_total": 11
+    }
+}

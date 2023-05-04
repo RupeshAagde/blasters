@@ -63,6 +63,23 @@
                     </div>
                 </div>
                 <div class="input-row">
+                    <!-- Meta Image -->
+                    <div class="input-field">
+                        <image-uploader-tile
+                            label="Meta Image"
+                            aspectRatio="*"
+                            @delete="metaImage.value = ''"
+                            @save="metaImage.value = $event"
+                            v-model="metaImage.value"
+                            :fileName="'platform meta image'"
+                            namespace="platform-free-logo"
+                        ></image-uploader-tile>
+                        <nitrozen-error v-if="metaImage.showerror">
+                            {{ metaImage.errortext }}
+                        </nitrozen-error>
+                    </div>
+                </div>
+                <div class="input-row">
                     <!-- Logo -->
                     <div class="input-field">
                         <!-- <div class="n-input-label">Logo *</div> -->
@@ -383,6 +400,7 @@ export default {
             title: this.getInitialValue(''),
             metaTitle: this.getInitialValue(''),
             metaDescription: this.getInitialValue(''),
+            metaImage: this.getInitialValue(''),
             logo: this.getInitialValue(''),
             favicon: this.getInitialValue(''),
             authDescription: this.getInitialValue(''),
@@ -421,6 +439,7 @@ export default {
                     this.title.value = this.basicSettings.title;
                     this.metaTitle.value = this.basicSettings.meta_title;
                     this.metaDescription.value = this.basicSettings.meta_description;
+                    this.metaImage.value = this.basicSettings.meta_image || this.basicSettings.favicon_url;
                     this.logo.value = this.basicSettings.logo_url;
                     this.favicon.value = this.basicSettings.favicon_url;
                     this.whats_new = this.basicSettings.whats_new;
@@ -477,6 +496,7 @@ export default {
                 title: this.title.value,
                 meta_title: this.metaTitle.value,
                 meta_description: this.metaDescription.value,
+                meta_image: this.metaImage.value,
                 whats_new: this.basicSettings.whats_new.filter(
                     (wnew) => wnew.description != ''
                 ),
@@ -498,6 +518,7 @@ export default {
                 title: 'Title is required',
                 metaTitle: "Meta Title is required",
                 metaDescription: "Meta Description is required",
+                metaImage: "Meta Image is required",
                 logo: 'Logo is required',
                 favicon: 'Favicon is required',
                 authDescription: 'Description is required',
@@ -531,6 +552,7 @@ export default {
             this.title.showerror = false;
             this.metaTitle.showerror = false;
             this.metaDescription.showerror = false;
+            this.metaImage.showerror = false;
             this.logo.showerror = false;
             this.favicon.showerror = false;
         },
@@ -539,6 +561,7 @@ export default {
             formValid = this.checkEmpty('title') && formValid;
             formValid = this.checkEmpty('metaTitle') && formValid;
             formValid = this.checkEmpty('metaDescription') && formValid;
+            formValid = this.checkEmpty('metaImage') && formValid;
             formValid = this.checkEmpty('logo') && formValid;
             formValid = this.checkEmpty('favicon') && formValid;
             formValid = this.checkEmpty('authDescription') && formValid;

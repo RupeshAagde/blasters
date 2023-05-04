@@ -45,6 +45,10 @@ const PLATFORM_LEADS_BASE = isNode ?
     envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
     envVars.HIGHBROW_ADMIN_URL;
 
+const PARTNER_LEADS_BASE = isNode ?
+    envVars.BROWSER_CONFIG.HIGHBROW_ADMIN_SVC :
+    envVars.HIGHBROW_PARTNER_URL;
+
 const ADMIN_ORDERS_BASE = isNode ?
     envVars.BROWSER_CONFIG.APEFACE_ADMIN_URL :
     envVars.APEFACE_ADMIN_URL;
@@ -125,6 +129,18 @@ const HEDWIG_ADMIN_SVC = isNode ?
     envVars.BROWSER_CONFIG.HEDWIG_ADMIN_SVC :
     envVars.HEDWIG_ADMIN_SVC;
 
+const HEDWIG_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.HEDWIG_ADMIN_URL :
+    envVars.HEDWIG_ADMIN_URL;
+
+const FYND_PLATFORM_DOMAIN = isNode ?
+    envVars.BROWSER_CONFIG.FYND_PLATFORM_DOMAIN :
+    envVars.FYND_PLATFORM_DOMAIN;
+
+
+const INTERNAL_MARKETPLACES_ADMIN_URL = isNode ?
+    envVars.BROWSER_CONFIG.QUE_ADMIN_URL :
+    envVars.QUE_ADMIN_URL;
 
 const URLS = {
     // User Profile API's
@@ -539,10 +555,10 @@ const URLS = {
             `/v1.0/${company_id}?q=${slug}&filter_type=auto`
         );
     },
-    GET_GENERAL_CONGIF: () => {
-        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
+    GET_GENERAL_CONGIF: (type) => {
+        return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config/${type}`);
     },
-    GENERAL_CONGIF: () => {
+    SET_GENERAL_CONGIF: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `/v1.0/general-config`);
     },
     CATEGORY_SYNC: (type) => {
@@ -598,6 +614,18 @@ const URLS = {
     },
     PLATFORM_CUSTOM_TAGS:(id='') =>{
         return urlJoin(INTERNAL_SETTINGS_ADMIN, '/tags/',id);
+    },
+    GET_ALL_CREDENTIALS: (entity_type) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type)
+    },
+    GET_CREDENTIAL: (entity_type, slug) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', entity_type, slug)
+    },
+    UPDATE_CREDENTIAL: (id) => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials', id)
+    },
+    POST_CREDENTIAL: () => {
+        return urlJoin(INTERNAL_SETTINGS_ADMIN, '/credentials')
     },
 
     //Grindor
@@ -815,6 +843,14 @@ const URLS = {
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
     },
+    /* changes from jiomarket: cbs configuration */
+    INTERNAL_MARKETPLACES_ADMIN_SERVICE: (id = '') => {
+        return urlJoin(INTERNAL_MARKETPLACES_ADMIN_URL, '/v1.0/channel/', id);
+    },
+    ADMIN_PANEL_CONFIG: (id) => {
+        return  urlJoin(WHEELJACK_ACPR_URL, '/v1.0/platform-configuration/', id)
+    },
+
 
     //Panel settings
 
@@ -998,9 +1034,6 @@ const URLS = {
     FETCH_MANIFEST_DETAILS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/details`);
     },
-    FETCH_ANNOUNCEMENT_NOTE: () => {
-        return urlJoin(AVIS_ADMIN_URL, `/v1.0/announcements`);
-    },
     UPDATE_SHIPMENT_STATUS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/shipment/status-internal`);
     },
@@ -1008,7 +1041,7 @@ const URLS = {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/generate/file`);
     },
     POST_V2_LINK_BULK_ACTION: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/upload`);
     },
     UPLOAD_CONSENT:() => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/manifest/uploadConsent`);
@@ -1017,22 +1050,28 @@ const URLS = {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/shipment/history`);
     },
     GET_DP_ACTIVITY_LOGS: () => {
-        return urlJoin(HEDWIG_ADMIN_SVC, `/v1.0/tracking`);
+        return urlJoin(HEDWIG_ADMIN_URL, `/v1.0/tracking`);
     },
     GET_BULK_ACTION_LIST: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/listing`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/listing`);
+    },
+    GET_BULK_DOWNLOAD_TEMPLATE_LIST: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template-slugs`);
     },
     FETCH_BULK_LIST_DETAILED_DATA: (data) => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-get-data/${data}`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/details`);
     },
     FETCH_BULK_ACTION_FAILED_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action-failed-report`);
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/get-failed-shipment-records`);
     },
     PROCESS_BULK_ACTION_INVOICE: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/invoice`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/invoice`);
     },
     FETCH_BULK_INVOICE_REPORT: () => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/download/invoice-label`)
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/bulk-action/download/invoice-label`);
+    },
+    DOWNLOAD_BULK_ACTION_TEMPLATE: () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
     },
     SAVE_PROCESS_MANIFEST: ()=>{
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/process-manifest`);
@@ -1046,11 +1085,14 @@ const URLS = {
     FETCH_QC_REASONS: (shipmentId, bagId) => {
         return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/return_initiated/reasons`);
     },
-    FETCH_REASSIGN_STORE_REASONS: (shipmentId, bagId) => {
-        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/store_reassigned/reasons`);
+    FETCH_SUPPORTING_REASONS: (shipmentId, bagId, status) => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/shipments/${shipmentId}/bags/${bagId}/state/${status}/reasons`);
     },
     LOCK_MANAGER_URL : () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/entity/lock-manager`);
+    },
+    GET_TEMPLATE : () => {
+        return urlJoin(COMPUTRON_ADMIN_BASE, `/v1.0/bulk-action/get-template`);
     },
     SEND_SMS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/ninja/send-sms`);
@@ -1075,6 +1117,9 @@ const URLS = {
     },
     UPDATE_ADDRESS: () => {
         return urlJoin(AVIS_ADMIN_URL, `/v1.0/delight/update-address/`);
+    },
+    PLATFORM_DOMAIN: () => {
+        return FYND_PLATFORM_DOMAIN
     }
     /** OMSv2.1 -- END */
 };

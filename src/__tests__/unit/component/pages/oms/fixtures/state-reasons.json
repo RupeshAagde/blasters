@@ -1,0 +1,37 @@
+{
+    "response": {
+        "success": true,
+        "reasons": [
+          {
+            "id": 104,
+            "display_name": "Product not of good quality",
+            "qc_type": [],
+            "question_set": []
+          },
+          {
+            "id": 105,
+            "display_name": "Improper material",
+            "qc_type": [],
+            "question_set": []
+          },
+          {
+            "id": 106,
+            "display_name": "Stain found on product",
+            "qc_type": [],
+            "question_set": []
+          },
+          {
+            "id": 107,
+            "display_name": "Better price found elsewhere",
+            "qc_type": [],
+            "question_set": []
+          },
+          {
+            "id": 108,
+            "display_name": "Other reason",
+            "qc_type": [],
+            "question_set": []
+          }
+        ]
+    }
+}

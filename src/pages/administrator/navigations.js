@@ -108,24 +108,24 @@ export const getNavigations = () => {
                 // },
                 {
                     display: 'Orders',
-                    link: '/administrator/orders/',
-                    title: 'list',
+                    link: '/administrator/orders-list/',
+                    title: 'orders-list',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
                 },
                 {
                     display: 'Manifest',
-                    link: '/administrator/orders/manifest',
-                    title: 'manifest',
+                    link: '/administrator/orders-manifest',
+                    title: 'orders-manifest',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
                 },
                 {
                     display: 'Bulk Actions',
-                    link: '/administrator/orders/bulk',
-                    title: 'bulk-actions',
+                    link: '/administrator/orders-bulk',
+                    title: 'orders-bulk',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false

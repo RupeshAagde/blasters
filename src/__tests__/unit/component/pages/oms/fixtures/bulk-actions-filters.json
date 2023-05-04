@@ -1,0 +1,384 @@
+{
+    "global": [
+        {
+            "text": "Shipment Status",
+            "value": "bag_status",
+            "type": "multi_select",
+            "options": [
+                {
+                    "text": "New",
+                    "value": "placed"
+                },
+                {
+                    "text": "Confirmed",
+                    "value": "bag_confirmed"
+                },
+                {
+                    "text": "To Be Packed",
+                    "value": "dp_assigned"
+                },
+                {
+                    "text": "Return Delivered",
+                    "value": "return_bag_delivered"
+                }
+            ]
+        }
+    ],
+    "advance": [
+        {
+            "text": "Tags",
+            "value": "tags",
+            "type": "multi_select",
+            "placeholder_text": "Select tags",
+            "required": false,
+            "options": [
+                {
+                    "value": "international",
+                    "text": "International Order",
+                    "name": "shipment"
+                },
+                {
+                    "value": "b2b",
+                    "text": "B2B",
+                    "name": "shipment"
+                }
+            ]
+        },
+        {
+            "text": "Sales Channel",
+            "value": "sales_channels",
+            "placeholder_text": "Select sales channels",
+            "type": "multi_select",
+            "required": false,
+            "options": []
+        },
+        {
+            "text": "Delivery Partner",
+            "value": "dp_ids",
+            "type": "multi_select",
+            "placeholder_text": "Select delivery partners",
+            "required": true,
+            "options": [
+                {
+                    "text": "Ecom Express",
+                    "value": "4",
+                    "name": "Ecom Express"
+                },
+                {
+                    "text": "Delhivery B2B",
+                    "value": "32",
+                    "name": "Delhivery B2B"
+                },
+                {
+                    "text": "Fyndr",
+                    "value": "22",
+                    "name": "Fyndr"
+                },
+                {
+                    "text": "Ekart",
+                    "value": "28",
+                    "name": "Ekart"
+                },
+                {
+                    "text": "Delhivery Surface II",
+                    "value": "29",
+                    "name": "Delhivery Surface II"
+                },
+                {
+                    "text": "Xpressbees Surface",
+                    "value": "37",
+                    "name": "Xpressbees Surface"
+                },
+                {
+                    "text": "Delhivery Surface I",
+                    "value": "27",
+                    "name": "Delhivery Surface I"
+                },
+                {
+                    "text": "Ecom Jewellery",
+                    "value": "42",
+                    "name": "Ecom Jewellery"
+                },
+                {
+                    "text": "Wefast",
+                    "value": "35",
+                    "name": "Wefast"
+                },
+                {
+                    "text": "xpressbees_air",
+                    "value": "36",
+                    "name": "xpressbees_air"
+                },
+                {
+                    "text": "Dunzo Fashion",
+                    "value": "40",
+                    "name": "Dunzo Fashion"
+                },
+                {
+                    "text": "Delhivery Express",
+                    "value": "7",
+                    "name": "Delhivery Express"
+                },
+                {
+                    "text": "Ecom B2B",
+                    "value": "34",
+                    "name": "Ecom B2B"
+                },
+                {
+                    "text": "Lalamove",
+                    "value": "31",
+                    "name": "Lalamove"
+                },
+                {
+                    "text": "Bluedart Surface",
+                    "value": "12",
+                    "name": "Bluedart Surface"
+                },
+                {
+                    "text": "shadowfax",
+                    "value": "24",
+                    "name": "shadowfax"
+                },
+                {
+                    "text": "Fyndr International",
+                    "value": "43",
+                    "name": "Fyndr International"
+                },
+                {
+                    "text": "Bluedart Express",
+                    "value": "33",
+                    "name": "Bluedart Express"
+                },
+                {
+                    "text": "Delhivery 15kg B2C",
+                    "value": "38",
+                    "name": "Delhivery 15kg B2C"
+                }
+            ]
+        },
+        {
+            "text": "Payment Methods",
+            "value": "payment_methods",
+            "type": "single_select",
+            "placeholder_text": "Select payment methods",
+            "options": [
+                {
+                    "text": "COD",
+                    "value": "COD"
+                },
+                {
+                    "text": "Prepaid",
+                    "value": "PREPAID"
+                }
+            ]
+        },
+        {
+            "text": "Time to Dispatch",
+            "value": "time_to_dispatch",
+            "type": "single_select",
+            "placeholder_text": "Select time to dispatch",
+            "options": [
+                {
+                    "text": "Breached",
+                    "value": 1
+                },
+                {
+                    "text": "Not Breached",
+                    "value": -1
+                }
+            ]
+        }
+    ],
+    "advance_filter": {
+        "filters": [
+            {
+                "text": "Tags",
+                "value": "tags",
+                "type": "multi_select",
+                "placeholder_text": "Select tags",
+                "required": false,
+                "options": [
+                    {
+                        "value": "international",
+                        "text": "International Order",
+                        "name": "shipment"
+                    },
+                    {
+                        "value": "b2b",
+                        "text": "B2B",
+                        "name": "shipment"
+                    }
+                ]
+            },
+            {
+                "text": "Sales Channel",
+                "value": "sales_channels",
+                "placeholder_text": "Select sales channels",
+                "type": "multi_select",
+                "required": false,
+                "options": []
+            },
+            {
+                "text": "Delivery Partner",
+                "value": "dp_ids",
+                "type": "multi_select",
+                "placeholder_text": "Select delivery partners",
+                "required": true,
+                "options": [
+                    {
+                        "text": "Ecom Express",
+                        "value": "4",
+                        "name": "Ecom Express"
+                    },
+                    {
+                        "text": "Delhivery B2B",
+                        "value": "32",
+                        "name": "Delhivery B2B"
+                    },
+                    {
+                        "text": "Fyndr",
+                        "value": "22",
+                        "name": "Fyndr"
+                    },
+                    {
+                        "text": "Ekart",
+                        "value": "28",
+                        "name": "Ekart"
+                    },
+                    {
+                        "text": "Delhivery Surface II",
+                        "value": "29",
+                        "name": "Delhivery Surface II"
+                    },
+                    {
+                        "text": "Xpressbees Surface",
+                        "value": "37",
+                        "name": "Xpressbees Surface"
+                    },
+                    {
+                        "text": "Delhivery Surface I",
+                        "value": "27",
+                        "name": "Delhivery Surface I"
+                    },
+                    {
+                        "text": "Ecom Jewellery",
+                        "value": "42",
+                        "name": "Ecom Jewellery"
+                    },
+                    {
+                        "text": "Wefast",
+                        "value": "35",
+                        "name": "Wefast"
+                    },
+                    {
+                        "text": "xpressbees_air",
+                        "value": "36",
+                        "name": "xpressbees_air"
+                    },
+                    {
+                        "text": "Dunzo Fashion",
+                        "value": "40",
+                        "name": "Dunzo Fashion"
+                    },
+                    {
+                        "text": "Delhivery Express",
+                        "value": "7",
+                        "name": "Delhivery Express"
+                    },
+                    {
+                        "text": "Ecom B2B",
+                        "value": "34",
+                        "name": "Ecom B2B"
+                    },
+                    {
+                        "text": "Lalamove",
+                        "value": "31",
+                        "name": "Lalamove"
+                    },
+                    {
+                        "text": "Bluedart Surface",
+                        "value": "12",
+                        "name": "Bluedart Surface"
+                    },
+                    {
+                        "text": "shadowfax",
+                        "value": "24",
+                        "name": "shadowfax"
+                    },
+                    {
+                        "text": "Fyndr International",
+                        "value": "43",
+                        "name": "Fyndr International"
+                    },
+                    {
+                        "text": "Bluedart Express",
+                        "value": "33",
+                        "name": "Bluedart Express"
+                    },
+                    {
+                        "text": "Delhivery 15kg B2C",
+                        "value": "38",
+                        "name": "Delhivery 15kg B2C"
+                    }
+                ]
+            },
+            {
+                "text": "Payment Methods",
+                "value": "payment_methods",
+                "type": "single_select",
+                "placeholder_text": "Select payment methods",
+                "options": [
+                    {
+                        "text": "COD",
+                        "value": "COD"
+                    },
+                    {
+                        "text": "Prepaid",
+                        "value": "PREPAID"
+                    }
+                ]
+            },
+            {
+                "text": "Time to Dispatch",
+                "value": "time_to_dispatch",
+                "type": "single_select",
+                "placeholder_text": "Select time to dispatch",
+                "options": [
+                    {
+                        "text": "Breached",
+                        "value": 1
+                    },
+                    {
+                        "text": "Not Breached",
+                        "value": -1
+                    }
+                ]
+            }
+        ]
+    },
+    "global_filter": [
+        {
+            "text": "Shipment Status",
+            "value": "bag_status",
+            "type": "multi_select",
+            "options": [
+                {
+                    "text": "New",
+                    "value": "placed"
+                },
+                {
+                    "text": "Confirmed",
+                    "value": "bag_confirmed"
+                },
+                {
+                    "text": "To Be Packed",
+                    "value": "dp_assigned"
+                },
+                {
+                    "text": "Return Delivered",
+                    "value": "return_bag_delivered"
+                }
+            ]
+        }
+    ]
+}

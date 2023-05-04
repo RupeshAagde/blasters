@@ -1,7 +1,7 @@
 <template>
-    <div class="alert-container" v-if="display">
+    <div class="alert-container" :class="{warning: warning}" v-if="display">
         <div class="main-content">
-            <adm-inline-svg class="warn-icon" src="warn-icon"></adm-inline-svg>
+            <adm-inline-svg class="warn-icon" :src="warning ? 'warn-icon-yellow' : 'warn-icon'"></adm-inline-svg>
             <slot name="text" class=""></slot>
         </div>
         <slot name="action-btn">
@@ -19,7 +19,8 @@ import Inlinesvg from '@/components/common/ukt-inline-svg.vue';
 export default {
     name: 'warn-alert',
     props: {
-        display: Boolean
+        display: Boolean,
+        warning: Boolean,
     },
     components: {
         Inlinesvg,
@@ -47,10 +48,17 @@ export default {
     padding: 0 8px;
     margin-bottom: 1rem;
 
+    &.warning{
+        background: #FFF5D6;
+        border: none;
+    }
+
+
     .main-content {
         display: flex;
         align-items: center;
-        font-size: 13px;
+        font-size: 12px;
+        line-height: 16px;
         font-weight: 400;
 
         .warn-icon {

@@ -8,152 +8,10 @@
                 ></jumbotron>
             </div>
             <section>
-                <div class="settings-head">
-                    <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">General</span>
-                </div>
-
-                <div class="settings-main">
-                    <span
-                        class="settings-menu"
-                        v-for="(menu, index) in general_menus"
-                        :key="'general' + index"
-                    >
-                        <router-link :to="menu.link">
-                            <div class="settings-body" @click="$emit('click')">
-                                <span class="settings-icon">
-                                    <inline-svg
-                                        v-if="menu.icon"
-                                        :src="menu.icon"
-                                        class="feature-icon"
-                                    ></inline-svg>
-                                </span>
-                                <span class="settings-content">
-                                    <div>
-                                        <span class="bold-xs cl-Mako">{{
-                                            menu.title
-                                        }}</span>
-                                    </div>
-                                    <div class="settings-detail">
-                                        <span class="cl-Mako">
-                                            {{
-                                                menu.desc ||
-                                                    'View and Update store details'
-                                            }}
-                                        </span>
-                                    </div>
-                                </span>
-                            </div>
-                        </router-link>
-                    </span>
-                </div>
-
-                <div class="settings-head">
-                    <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title"
-                        >Custom Page and Tag</span
-                    >
-                </div>
-
-                <div class="settings-main">
-                    <span
-                        class="settings-menu"
-                        v-for="(menu, index) in custom_menus"
-                        :key="'general' + index"
-                    >
-                        <router-link :to="menu.link">
-                            <div class="settings-body" @click="$emit('click')">
-                                <span class="settings-icon">
-                                    <inline-svg
-                                        v-if="menu.icon"
-                                        :src="menu.icon"
-                                        class="feature-icon"
-                                    ></inline-svg>
-                                </span>
-                                <span class="settings-content">
-                                    <div>
-                                        <span class="bold-xs cl-Mako">{{
-                                            menu.title
-                                        }}</span>
-                                    </div>
-                                    <div class="settings-detail">
-                                        <span class="cl-Mako">
-                                            {{
-                                                menu.desc ||
-                                                    'View and Update store details'
-                                            }}
-                                        </span>
-                                    </div>
-                                </span>
-                            </div>
-                        </router-link>
-                    </span>
-                </div>
-
-                <div class="settings-head">
-                    <inline-svg src="settings"></inline-svg>
-                    <span class="bold-xs cl-Mako title">Customize</span>
-                </div>
-
-                <div class="settings-main">
-                    <span
-                        class="settings-menu"
-                        v-for="(menu, index) in customize_menus"
-                        :key="'general' + index"
-                    >
-                        <router-link :to="menu.link">
-                            <div class="settings-body" @click="$emit('click')">
-                                <span class="settings-icon">
-                                    <inline-svg
-                                        v-if="menu.icon"
-                                        :src="menu.icon"
-                                        class="feature-icon"
-                                    ></inline-svg>
-                                </span>
-                                <span class="settings-content">
-                                    <div>
-                                        <span class="bold-xs cl-Mako">{{
-                                            menu.title
-                                        }}</span>
-                                    </div>
-                                    <div class="settings-detail">
-                                        <span class="cl-Mako">
-                                            {{
-                                                menu.desc ||
-                                                    'View and Update store details'
-                                            }}
-                                        </span>
-                                    </div>
-                                </span>
-                            </div>
-                        </router-link>
-                    </span>
-
-                    <span class="settings-menu" @click="openHomePage(menu)" v-for="(menu, index) in cutsom_pages" :key="menu.key+index">
-                        <span>
-                            <div class="settings-body">
-                                <span class="settings-icon">
-                                    <inline-svg
-                                        :src="menu.icon"
-                                        class="feature-icon"
-                                    ></inline-svg>
-                                </span>
-                                <span class="settings-content">
-                                    <div>
-                                        <span class="bold-xs cl-Mako"
-                                            >{{menu.title}}</span
-                                        >
-                                    </div>
-                                    <div class="settings-detail">
-                                        <span class="cl-Mako">
-                                            {{menu.desc}}
-                                        </span>
-                                    </div>
-                                </span>
-                            </div>
-                        </span>
-                    </span>
-                </div>
+                <settings-group title="General" :menus="general_menus"></settings-group>
+                <settings-group title="Custom Page and Tag" :menus="custom_menus"></settings-group>
+                <settings-group title="Customize" :menus="customize_menus" @openHomePage="openHomePage"></settings-group>
+                <settings-group v-if="platform_configuration_menus.length" title="Platform Configurations" :menus="platform_configuration_menus"></settings-group>
             </section>
         </div>
         <home-page ref="custom-home-page"></home-page>
@@ -162,8 +20,9 @@
 
 <script>
 import Jumbotron from '@/components/common/jumbotron';
-import { titleCase, debounce } from '@/helper/utils';
+import { titleCase } from '@/helper/utils';
 import InlineSvg from '@/components/common/inline-svg';
+import SettingsGroup from './settings-group.vue';
 import {
     NitrozenButton,
     NitrozenDropdown,
@@ -243,30 +102,84 @@ const CUSTOMIZE_MENUS = [
         active: false,
         desc: 'Configure navigation items'
     }
-]
+];
 const CUSTOM_PAGES = [
     {
         title: 'Home Page',
         icon: 'settings',
         active: false,
         desc: 'Update home page',
-        key: 'home'
+        key: 'home',
+        eventName: 'openHomePage'
     },
     {
         title: 'Features Page',
         icon: 'settings',
         active: false,
         desc: 'Update features page',
-        key: 'features'
+        key: 'features',
+        eventName: 'openHomePage'
     },
     {
         title: 'Pricing Page',
         icon: 'settings',
         active: false,
         desc: 'Update pricing page',
-        key: 'pricing'
+        key: 'pricing',
+        eventName: 'openHomePage'
     }
 ];
+
+const PLATFORM_CONFIGURATION_MENUS = [
+    // {
+    //     title: 'Business Registration',
+    //     link: 'platform/business-registration',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Business Registration'
+    // },
+    // {
+    //     title: 'Business Details',
+    //     link: 'platform/business-details',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Business Details'
+    // },
+    // {
+    //     title: 'Brand',
+    //     link: 'platform/brand',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Brand Details'
+    // },
+    // {
+    //     title: 'Product',
+    //     link: 'platform/product',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure Product Details'
+    // },
+    // {
+    //     title: 'Marketplace',
+    //     link: 'platform/marketplace/list',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure MarketPlaces'
+    // },
+    // {
+    //     title: 'Locations',
+    //     link: 'platform/location',
+    //     icon: 'settings',
+    //     permissions: [],
+    //     active: false,
+    //     desc: 'Configure location programs'
+    // }
+]
 export default {
     name: 'settings',
     components: {
@@ -275,7 +188,8 @@ export default {
         NitrozenDropdown,
         NitrozenButton,
         Jumbotron,
-        HomePage
+        HomePage,
+        SettingsGroup
     },
     directives: {
         strokeBtn,
@@ -286,9 +200,10 @@ export default {
             pageLoading: false,
             pageError: false,
             general_menus: GENERAL_MENUS,
-            customize_menus: CUSTOMIZE_MENUS,
+            customize_menus: CUSTOMIZE_MENUS.concat(CUSTOM_PAGES),
             custom_menus: CUSTOM_MENUS,
-            cutsom_pages: CUSTOM_PAGES
+            cutsom_pages: CUSTOM_PAGES,
+            platform_configuration_menus:PLATFORM_CONFIGURATION_MENUS,
         };
     },
     mounted() {},

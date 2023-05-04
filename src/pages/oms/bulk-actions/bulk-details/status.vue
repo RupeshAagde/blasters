@@ -52,7 +52,7 @@ export default {
         downloadSourceFile() {
             try {
                 this.$snackbar.global.showInfo('Your download will begin shortly');
-                const url = this.bulkData.excel_url;
+                const url = this.bulkData.file_url;
                 const link = document.createElement('a');
                 link.href = url;
                 link.setAttribute('click', '_blank');

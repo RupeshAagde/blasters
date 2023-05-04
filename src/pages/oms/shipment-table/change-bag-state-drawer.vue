@@ -11,19 +11,36 @@
             <div class="dropdowns">
                 <nitrozen-dropdown
                     label="Next Bag State"
+                    :searchable="true"
                     @change="onStateChange"
-                    :items="bagStates"
+                    :items="bagStateOptions"
                     v-model="selectedState"
+                    @searchInputChange="onSearchState($event)"
                 />
                 <nitrozen-dropdown
                     label="Reason"
+                    :searchable="true"
                     @change="onReasonChange"
-                    :items="reasons"
+                    :items="reasonOptions"
                     v-model="selectedReason"
-                    v-if="showReasons && reasons.length"
+                    @searchInputChange="onSearchReason($event)"
+                    v-if="showReasons"
                 />
             </div>
 
+           <div class="invoice-input">
+            <nitrozen-input
+                    v-if="inputStates.includes(selectedState) && selectedState == 'bag_invoiced'"
+                    :type="'textarea'"
+                    label="Invoice"
+                    v-model="invoiceId"
+                    placeholder="Please enter invoice id"
+                    :disabled="false"
+                    @input="onInputChange"
+                    @change="invoiceValidation"
+                />
+
+           </div>
             <div class="user-input">
                 <nitrozen-input
                     :type="'textarea'"
@@ -31,7 +48,7 @@
                     v-model="note"
                     placeholder="(Min. 10 characters)"
                     :disabled="false"
-                    @change="onRemarkChange"
+                    @input="onRemarkChange"
                 />
             </div>
         </div>
@@ -70,12 +87,16 @@ export default {
         return {
             allBagStates: {},
             bagStates: [],
+            bagStateOptions: [],
             bagStateFetchError: false,
             fetchingBagStates: false,
             note: '',
             reasons: [],
+            reasonOptions: [],
             selectedReason: '',
             selectedState: '',
+            inputStates: [],
+            invoiceId: ''
         }
     },
     components: {
@@ -86,12 +107,18 @@ export default {
         NitrozenInput
     },
     mounted() {
+        if(this.shipment && this.shipment.next_possible_states){
+            this.inputStates = Object.keys(this.shipment.next_possible_states)
+        }
         this.fetchBagStates();
-        this.fetchReasons();
     },
     computed: {
         showReasons() {
-            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 
+                                'cancelled_seller', 'cancelled_customer', 
+                                'return_initiated', "bag_lost", 
+                                "return_bag_lost", "dead_stock", 
+                                "deadstock","deadstock_defective"];
             return validStates.includes(this.selectedState);
         }
     },
@@ -107,7 +134,8 @@ export default {
                 {
                     state: this.selectedState ? this.selectedState : '',
                     reason: this.selectedReason ? this.selectedReason : '',
-                    remark: this.note ? this.note : ''
+                    remark: this.note ? this.note : '',
+                    store_invoice_id: this.invoiceId || ''
                 }
             );
         },
@@ -138,6 +166,7 @@ export default {
                                 }
                             });
                         } else this.bagStates = [];
+                        this.bagStateOptions = this.bagStates;
                         this.bagStateFetchError = false;
                     } else {
                         console.error("Error in fetching the states for bag state transition:   ", "No status available in shipment");
@@ -182,7 +211,7 @@ export default {
                 this.shipment.bags && 
                 this.shipment.bags.length
             ) {
-                return OrdersService.fetchReassignedStoreReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id)
+                return OrdersService.fetchSupportingReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id, this.selectedState)
                 .then(response => {
                     if(response.data && response.data.success && response.data.reasons) {
                         if(response.data.reasons.length) {
@@ -191,6 +220,7 @@ export default {
                                 reason['value'] = reason.id;
                                 return reason;
                             });
+                            this.reasonOptions = this.reasons
                         } else {
                             this.reasons = [];
                         }
@@ -232,7 +262,23 @@ export default {
         onReasonChange() {
             this.emitChange();
         },
+        /**
+         * Event handler for change in store invoice id.
+         * 
+         * @author Sameer Shaikh <rushabhmshah@gofynd.com>
+         */
 
+        onInputChange(){
+            this.emitChange();
+        },
+        invoiceValidation(){
+            let regex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
+            if(!regex.test(this.invoiceId)){
+                this.$snackbar.global.showError('Invalid Invoice no: Only A-Z, a-z, 0-9, /, - without spaces and max 16 length are allowed'
+                );
+            }
+
+        },
         /**
          * Event handler for change in remarks.
          * 
@@ -241,7 +287,22 @@ export default {
         onRemarkChange() {
             this.emitChange();
         },
-
+        onSearchState(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.bagStateOptions = this.bagStates.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.bagStates;
+            }
+        },
+        onSearchReason(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.reasonOptions = this.reasons.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.reasons;
+            }
+        },
         /**
          * Event handler for change in state.
          * 
@@ -249,12 +310,22 @@ export default {
          */
         onStateChange() {
             this.emitChange();
+            this.fetchReasons();
         }
     }
 }
 </script>
 
 <style lang="less" scoped> 
+
+.invoice-input ::v-deep .n-input-textarea{
+    line-height: 21px;
+    padding-top: 6px;
+    height: 36px;
+}
+.user-input{
+    margin-top: 10px;
+}
 .change-bag-state-container {
     position: relative;
 }

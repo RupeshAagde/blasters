@@ -85,29 +85,32 @@
                         shipment.meta.einvoice_info.invoice
                     "
                 > -->
-                <div v-if="shipment.meta.einvoice_info && shipment.meta.einvoice_info.invoice">
+                <div v-if="shipment.meta.einvoice_info && (shipment.meta.einvoice_info.invoice || shipment.meta.einvoice_info.credit_note)">
                     <div class="header-title">E-Invoice</div>
                     <br />
-                    <div 
-                        class="fail-einvoice" 
-                        v-if="
-                            shipment.meta.einvoice_info.invoice.message &&
-                            shipment.meta.einvoice_info.invoice.message[0] &&
-                            shipment.meta.einvoice_info.invoice.message[0].ErrorCode &&
-                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage
-                        ">
+                    <div class="fail-einvoice" v-if="(shipment.meta.einvoice_info.invoice.message && 
+                        shipment.meta.einvoice_info.invoice.message[0] &&
+                        shipment.meta.einvoice_info.invoice.message[0].ErrorCode &&
+                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage) ||
+
+                            (shipment.meta.einvoice_info.credit_note.message && 
+                        shipment.meta.einvoice_info.credit_note.message[0] &&
+                        shipment.meta.einvoice_info.credit_note.message[0].ErrorCode &&
+                            shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage)">
                         <div class="details-data">Not generated</div>
                         <nitrozen-tooltip
                             position="top"
                         >
                         <span class="fail-tooltip-einvoice">
-                            <p class="einvoice-head">Error while generating E-Invoice</p>
+                            <p class="einvoice-head">Error while generating e-invoice</p>
                             <p>
                                 <span class="einvoice-error-code">
                                     Error Code: 
                                 </span>
                                 <span>
-                                    {{shipment.meta.einvoice_info.invoice.message[0].ErrorCode }}
+                                    {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.message[0] && shipment.meta.einvoice_info.credit_note.message[0].ErrorCode) ? 
+                                        shipment.meta.einvoice_info.credit_note.message[0].ErrorCode : 
+                                            shipment.meta.einvoice_info.invoice.message[0].ErrorCode }}
                                 </span>
                             </p>
                             <p>
@@ -115,25 +118,33 @@
                                     Error: 
                                 </span>
                                 <span>
-                                    {{ shipment.meta.einvoice_info.invoice.message[0].ErrorMessage }}
+                                    {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.message[0] && shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage) ? 
+                                        shipment.meta.einvoice_info.credit_note.message[0].ErrorMessage : 
+                                            shipment.meta.einvoice_info.invoice.message[0].ErrorMessage }}
                                 </span>
                             </p>
                         </span>
                         </nitrozen-tooltip>
                     </div>
-                    <div class="success-einvoice" v-if="shipment.meta.einvoice_info.invoice.Irn">
-                        <div class="details-data">{{ shipment.meta.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
-                        <div @click="copyToClipboard($event, shipment.meta.einvoice_info.invoice.Irn )">
-                            <inline-svg class="svg-copy" src="copy"></inline-svg>
+                    <div class="success-einvoice" v-if="shipment.meta.einvoice_info.invoice.Irn || shipment.meta.einvoice_info.credit_note.Irn">
+                        <div class="details-data">{{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                                shipment.meta.einvoice_info.credit_note.Irn.slice(0, 12) : 
+                                    shipment.meta.einvoice_info.invoice.Irn.slice(0, 12) }}...</div>
+                        <div @click="copyToClipboard($event, (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                            shipment.meta.einvoice_info.credit_note.Irn : 
+                                shipment.meta.einvoice_info.invoice.Irn)">
+                            <inline-svg class="svg-copy" src="copy-icon"></inline-svg>
                         </div>
                         <nitrozen-tooltip
                             position="top"
                         >
                         <span class="success-tooltip-einvoice">
-                            <p class="einvoice-head">Successfully generated E-Invoice</p>
+                            <p class="einvoice-head">Successfully generated e-invoice</p>
                             <p class="einvoice-details">
                                 <span class="einvoice-head">IRN: </span>
-                                <span> {{ shipment.meta.einvoice_info.invoice.Irn }}</span>
+                                <span> {{ (shipment.meta.einvoice_info.credit_note && shipment.meta.einvoice_info.credit_note.Irn) ? 
+                                        shipment.meta.einvoice_info.credit_note.Irn : 
+                                            shipment.meta.einvoice_info.invoice.Irn}}</span>
                             </p>
                         </span>
                         </nitrozen-tooltip>
@@ -153,6 +164,18 @@
                     <br />
                     <div class="details-data">
                         {{ shipment.invoice.store_invoice_id }}
+                    </div>
+                </div>
+                <div v-if="shipment &&
+                shipment.affiliate_details && 
+                shipment.affiliate_details.affiliate_meta && 
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id">
+                    <div class="header-title">Orignal Invoice ID</div>
+                    <br />
+                    <div class="details-data">
+                        {{ shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id }}
                     </div>
                 </div>
 
@@ -247,6 +270,32 @@
                     ₹{{ shipment.order.prices.delivery_charge.toFixed(2) }}
                 </span>
             </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment &&
+                 shipment.affiliate_details &&
+                 shipment.affiliate_details.affiliate_meta &&
+                 shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type"
+            >
+                <span class="header-title"> Replacement Type: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment && 
+                shipment.affiliate_details &&
+                shipment.affiliate_details.affiliate_meta &&
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id"
+            >
+                <span class="header-title"> Orignal Order ID: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id }}
+                </span>
+            </div>
 
             <div v-if="shipment.is_dp_assign_enabled" class="extra-info-box">
                 <span class="header-title"> Estimated Delivery Partner: </span>
@@ -296,6 +345,51 @@
                 </span>
             </div>
 
+            <div 
+                class="extra-info-box" 
+                v-if="shipment.fulfilling_store && shipment.fulfilling_store.phone">
+                <span class="header-title"> Fulfilling Store Phone: </span>
+                <span 
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.phone)"
+                >
+                    {{ shipment.fulfilling_store.phone }}
+                </span>
+                <span v-if="shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.additional_contact_details &&
+                    shipment.fulfilling_store.meta.additional_contact_details.number">
+                    <span class="details-data copy-to-click"
+                        v-for="(item, index) in shipment.fulfilling_store.meta.additional_contact_details.number"
+                        :key="index"
+                        @click="copyToClipboard($event, shipment.fulfilling_store.meta.additional_contact_details.number[index])">
+                        , {{ item }}
+                    </span>
+                </span>
+            </div>
+
+            <div 
+                class="extra-info-box" 
+                v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
+                <span class="header-title"> Fulfilling Store Email: </span>
+                <span 
+                    v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
+                    :key="index"
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
+                >
+                    <span v-if="index > 0">
+                        ,
+                    </span>
+                    {{ item }}
+                </span>
+            </div>
+
             <div class="extra-info-box" v-if="viewPrescription.length">
                 <span class="header-title"> View Prescription </span>
                 <span class="details-data">
@@ -331,10 +425,11 @@
                 class="extra-info-box"
                 v-if="dunzoOtpCheck()"
             >
-                <span v-if="
+                <span 
+                    v-if="
                     (shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)) ||
                     (shipment.meta.otp_details.pick && dunzoForwardStatuses.includes(shipment.status.status))
-                " 
+                    " 
                     class="header-title"> DP OTP: </span>
                 <span v-if="shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)" class="details-data">
                     {{ shipment.meta.otp_details.drop }}
@@ -1226,4 +1321,7 @@ export default {
     }
 }
 
+.copy-to-click {
+    cursor: pointer;
+}
 </style>

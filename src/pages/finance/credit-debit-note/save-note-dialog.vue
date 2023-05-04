@@ -108,6 +108,10 @@
         margin-left: 140px;
         margin-top: 40px;
         margin-bottom: 25px;
+        ::v-deep svg {
+          width: 60px;
+          height: 60px;
+        }
       }
   
       .dialog-text-heading {

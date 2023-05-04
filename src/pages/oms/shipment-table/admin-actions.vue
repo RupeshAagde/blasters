@@ -2,6 +2,7 @@
     <div class="admin-actions">
         <oms-dropdown 
             :items="dropdownItems"
+            :activeShipment="activeShipment"
             :placeholder="'Actions'"
             @change="onActionSelection"
         />
@@ -29,6 +30,13 @@ export default {
         return {
             dropdownItems: cloneDeep(adminActionDropdownItems),
             selectedAction: '',
+        }
+    },
+    props: {
+        activeShipment: {
+            type: Object,      
+            required: true,
+            default: () => {}
         }
     },
     methods: {

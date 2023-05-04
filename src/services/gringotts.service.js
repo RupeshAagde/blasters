@@ -34,8 +34,7 @@ const PaymentServices = {
         return ApiService.post(URLS.FETCH_COD_CONFIG(params),axiosOptions)
 
 
-    }
-
+    },
 }
 
 export default PaymentServices;

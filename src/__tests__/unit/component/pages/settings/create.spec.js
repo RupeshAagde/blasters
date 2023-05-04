@@ -54,14 +54,8 @@ describe('Mounted edit custom Page', () => {
             router,
         })
         await flushPromises();
-
-       
-        
     });
     it('exists wrapper and div', async () => {
-
-    
-        
         await flushPromises();
         expect(wrapper.vm).toBeTruthy()
         expect(wrapper.element).toMatchSnapshot();
@@ -73,8 +67,6 @@ describe('Mounted edit custom Page', () => {
     //     wrapper.vm.meta = MOCK_DATA.formdata.meta;
     //     wrapper.vm.tags = MOCK_DATA.formdata.tags;
     //     wrapper.vm.tags = MOCK_DATA.formdata.tags;
-
-
     // })
     it('edit save', async ()=>{
         wrapper.vm.content= MOCK_DATA.formdata.content[0].value;
@@ -83,8 +75,6 @@ describe('Mounted edit custom Page', () => {
         const saveBtn = wrapper.find('#actions');
         expect(saveBtn.exists()).toBe(true)
         saveBtn.trigger('click')
-        
-
     })
     it('create publish', async ()=>{
         wrapper.vm.content= MOCK_DATA.formdata.content[0].value;
@@ -93,8 +83,6 @@ describe('Mounted edit custom Page', () => {
         const createBtn = wrapper.find('#actions');
         expect(createBtn.exists()).toBe(true)
         createBtn.trigger('click')
-        
-
     })
     it('publish', async ()=>{
         await flushPromises();
@@ -110,18 +98,10 @@ describe('Mounted edit custom Page', () => {
         chipFocus.trigger('click');
         wrapper.vm.chipInput = 'name';
 
-      
-
         const chipBtn = wrapper.find('#chipInput');
         expect(chipBtn.exists()).toBe(true)
         chipBtn.trigger('blur');
-
-        
     })
-
-
-    
-
 })
 
 describe('create page', () => {

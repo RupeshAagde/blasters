@@ -23,6 +23,12 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
+                                :searchable="true"
+                                @searchInputChange="
+                                    findSearchTypes($event.text)
+                                "
+                                :placeholder="filterType"
+                                
                             />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
@@ -56,6 +62,7 @@
                                 <div class="companies-dropdown-list">
                                     <nitrozen-dropdown 
                                         label="Company"
+                                        ref="search-company-dropdown"
                                         class="filter-dropdown filter-item filter-input-sm"
                                         :searchable="true"
                                         :items="companiesList"
@@ -69,6 +76,7 @@
                             <nitrozen-dropdown
                                 label="Fulfilment Location"
                                 class="filter-dropdown filter-input-sm filter-item"
+                                ref="search-store-dropdown"
                                 :searchable="true"
                                 :items="filteredStores"
                                 v-model="selectedStore"
@@ -118,8 +126,8 @@
                                     @click="selectStageTab(index, item)"
                                     :active-index="selectedStageTabIndex">
                                     <span class="tab-item-text-custom">{{ item.text }}</span>
-                                    <span v-if="enterTapValue && item.value !== 'action_center'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
-                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_center'">{{ numberToThousandString(item.total_items) }}</span>
+                                    <span v-if="enterTapValue && item.value !== 'action_centre'"> &nbsp; ({{ numberToThousandString(item.total_items) }})</span>
+                                    <span class="tab-item-count-custom-ac" v-if="item.value === 'action_centre'">{{ numberToThousandString(item.total_items) }}</span>
                                 </nitrozen-tab-item>
                             </ul>
                         </div>
@@ -186,6 +194,7 @@
                     </div> -->
                     <div v-else-if="!inProgress && pageError">
                         <page-error
+                            ref="call-api-function"
                             :errorText="errorText"
                             @tryAgain="callApiFunctions(selectedView)"
                         ></page-error>
@@ -219,7 +228,7 @@
                         ></order-bulk-picklist>
                     </div> -->
                     <div class="empty-state" v-if="selectedView == 'orders' ? orders && !orders.length && !inProgress && !pageError : shipmentData && !shipmentData.length && !inProgress && !pageError">
-                        <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'orders' : 'shipments'} found`" />
+                        <adm-no-content :helperText="`We couldn't find any shipments or orders matching your search. Please try adjusting the timeline by using the date range option located above, or try modifying the filters.`" />
                     </div>
                     <div
                         class="pagination-div"
@@ -257,64 +266,6 @@
                         </a>
                     </div>
                 </div>
-            </template>
-        </transition>
-
-        <transition name="slide">
-            <template v-if="showReturnStateDrawer">
-                <side-drawer
-                    :title="'Request Return'"
-                    @close="closeReturnStateDrawer"
-                    :footer="true"
-                >
-                    <div class="return-state-container">
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="return-dropdown "
-                                :items="returnNextStates"
-                                v-model="selectedReturnNextState"
-                                :label="'Request Return State'"
-                                @change="onNextReturnStateSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a state for requesting return.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-dropdown
-                                class="sales-channel-dropdown"
-                                :items="[]"
-                                v-model="salesChannels"
-                                :label="'Sales Channel'"
-                                @change="onSalesChannelSelection"
-                            />
-                            <nitrozen-error class="error-label" v-if="returnStateErrorSubmit">
-                                Kindly select a sales channel.
-                            </nitrozen-error>
-                        </div>
-
-                        <div class="request-return-field">
-                            <nitrozen-input
-                                v-model="forwardShipmentId"
-                                :label="'Forward Shipment ID*'"
-                                @keyup="onKeyUpForwardShipmentID"
-                            />
-                            <nitrozen-error class="error-label" v-if="emptyForwardShipmentId">
-                                Kindly add a shipment ID.
-                            </nitrozen-error>
-                        </div>
-                    </div>
-                    <template #footer>
-                        <div class="submit-btn-container">
-                            <nitrozen-button
-                                theme="secondary"
-                                v-flatBtn
-                                @click="requestReturn"
-                            > Submit </nitrozen-button>
-                        </div>
-                    </template>
-                </side-drawer>
             </template>
         </transition>
 
@@ -405,11 +356,9 @@ const VIEW_OPTIONS = [
     // }
 ];
 
+
 const LANE_MAPPER = {
-    "0": "Unfulfilled",
-    "1": "Processed",
-    "2": "Return",
-    "3": "ActionCentre",
+    "0": "All"
 }
 
 export default {
@@ -496,8 +445,8 @@ export default {
             viewMoreFilters: false,
 
             selectedStageTabIndex: 0,
-            selectedStageTab: 'unfulfilled',
-            lane: "new",
+            selectedStageTab: 'all',
+            lane: "all",
             activeLaneIndex: 0,
             selectedStore: '',
             selectedDeploymentStore: '',
@@ -526,7 +475,6 @@ export default {
             announcements:[],
             returnNextStates: cloneDeep(returnNextStates),
             selectedReturnNextState: '',
-            showReturnStateDrawer: false,
             returnStateErrorSubmit: false,
             actionCentreData: [],
 
@@ -543,7 +491,7 @@ export default {
 
             debugShipmentView: false,
             debugOrderId: '',
-
+            searchTypesClone:[],
             companiesList: [],
             companiesError: false,
             companiesListLoading: false,
@@ -599,32 +547,6 @@ export default {
             }
             this.fetchFilters();
         },
-        onRequestReturn() {
-            this.showReturnStateDrawer = true;
-        },
-        closeReturnStateDrawer() {
-            this.showReturnStateDrawer = false;
-        },
-        requestReturn() {
-            /* Code for requesting return */
-            if(!this.selectedReturnNextState || !this.selectedReturnSalesChannel || !this.forwardShipmentId) {
-                if(!this.selectedReturnNextState) this.returnStateErrorSubmit = true;
-                if(!this.selectedReturnSalesChannel) this.returnSalesChannelError = true;
-                if(this.forwardShipmentId.length === 0) this.emptyForwardShipmentId = true;
-                this.$snackbar.global.showError(
-                    'Kindly ensure all required fields are complete before clicking on submit',
-                    2000
-                );
-            } else {
-                this.showReturnStateDrawer = false;
-                this.returnSalesChannelError = false;
-                this.emptyForwardShipmentId = false;
-            }
-        },
-        onNextReturnStateSelection() {
-            /* Code when the user selects a value from return dropdown */
-            this.returnStateErrorSubmit = false;
-        },
         onSalesChannelSelection() {
             this.returnSalesChannelError = false;
         },
@@ -672,12 +594,13 @@ export default {
             return get_filters_promise
             .then(({ data }) => {
                 this.searchShipmentFilter = cloneDeep(data.global[1].options);
+                this.searchTypesClone = cloneDeep(data.global[1].options);
                 // this.fulfillingStoreFilter = cloneDeep(data.filters.global[0].options);
                 // this.filteredStores = cloneDeep(data.filters.global[0].options);
                 this.allAdvancedFilters = cloneDeep(data.advance);
                 this.laneMapper();
                 if(!this.filterType){
-                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value || 'shipment_id';
+                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value;
                         this.searchPlaceholder = this.searchShipmentFilter.length && this.searchShipmentFilter[0].placeholder_text || this.searchShipmentFilter.length && this.searchShipmentFilter[0].text || 'Search by Shipment ID';
                         this.filterTypeMinSize = this.searchShipmentFilter.length && this.searchShipmentFilter[0].min_search_size;
                     }
@@ -809,7 +732,7 @@ export default {
                 ...query,
                 from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
                 to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-                super_lane: this.selectedStageTab || 'unfulfilled',
+                super_lane: this.selectedStageTab || 'all',
                 ...advanced_filters,
                 search_value: this.search,
                 search_type: this.filterType,
@@ -881,14 +804,17 @@ export default {
             this.activeLaneIndex = laneIndex;
             this.lane = laneData.value;
             this.pagination.current = 1;
-            this.setRouteQuery({lane: this.lane, page: 1 });
+            if(this.search.length == 0) {
+                this.filterType = "auto";
+            }
+            this.setRouteQuery({lane: this.lane, page: 1, search_type: this.filterType });
         },
         changeView(e) {
             this.selectedView = e;
             this.pagination.current = 1;
-            this.lane = "new";
-            this.selectedStageTab = "unfulfilled";
-            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "new", super_lane: "unfulfilled", page: 1});
+            this.lane = "all";
+            this.selectedStageTab = "all";
+            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "all", super_lane: "all", page: 1});
         },
         searchStore(text) {
             text = text ? text.toLowerCase() : text;
@@ -905,6 +831,18 @@ export default {
                 this.filteredStores = this.fulfillingStoreFilter;
                 this.filterChange();
             }
+        },
+        findSearchTypes(text){
+            if (text) {
+                this.searchShipmentFilter = this.searchTypesClone.filter((s) =>
+                    s.text.toLowerCase().includes(text.toLowerCase())
+                );
+            } else {
+                this.filterType = '';
+                this.searchShipmentFilter = this.searchTypesClone;
+            }
+
+
         },
         getOrderRequestParams() {
             if(this.searchValueActive == false || this.search == '') {
@@ -1018,13 +956,16 @@ export default {
                     this.lane = '';
                 }
             } else {
-                this.selectedStageTab = 'unfulfilled';
+                this.selectedStageTab = 'all';
                 this.selectedStageTabIndex = 0;
-                this.lane = 'new'
+                this.lane = 'all';
+            }
+            if(this.search.length == 0) {
+                this.filterType = "auto";
             }
             this.superLaneChangeFetchInProgress = this.selectedStageTab !== this.$route.query.super_lane;
             this.pagination.current = 1;
-            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab});
+            this.applyAdvancedFilters({closeDrawer: true}, {lane: this.lane, super_lane: this.selectedStageTab, search_type: this.filterType});
             // this.fetchSuperLanes({super_lane: this.selectedStageTab, page: 1})
             // this.setRouteQuery({ super_lane: this.selectedStageTab, lane: this.lane, page: 1 });
             // reset page number
@@ -1088,9 +1029,10 @@ export default {
             } = this.$route.query;
             this.pagination.current = +page || this.pagination.current;
             this.pagination.limit = +limit || this.pagination.limit;
-            this.selectedStageTab = super_lane || 'unfulfilled';
-            this.lane = lane || 'new';
-            // this.search = search || this.search;
+            this.selectedStageTab = super_lane || 'all';
+            this.lane = lane || 'all';
+            this.search = search || this.search;
+            this.filterType = search_type || this.filterType;
             this.selectedView = selected_view || this.selectedView;
             this.selectedAdvancedFilters = selected_filters?JSON.parse(selected_filters):{};
 
@@ -1218,18 +1160,24 @@ export default {
                 start_date,end_date
             ];
 
-            this.setRouteQuery({
-                page: this.pagination.current,
-                limit: this.pagination.limit,
-                super_lane: this.selectedStageTab,
-                lane: this.lane,
-                // search: this.search,
-                filterType: this.filterType,
-                selected_view: this.selectedView,
-                from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
-                to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-            })
-            this.fetchSuperLanes();
+            if(this.search) {
+                this.onSearchInput({"keyCode": 13});
+            }
+            else {
+                this.setRouteQuery({
+                    page: this.pagination.current,
+                    limit: this.pagination.limit,
+                    super_lane: this.selectedStageTab,
+                    lane: this.lane,
+                    search: this.search,
+                    filterType: this.filterType,
+                    selected_view: this.selectedView,
+                    from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
+                    to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
+                })
+
+                this.fetchSuperLanes();
+            }
         },
         populateFilters() {
             const { stores, deployment_stores } = this.$route.query;
@@ -1273,25 +1221,26 @@ export default {
             ) {
                 for(let item in query) {
                     if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                        // delete query[item];
+                        query[item] = null;
                     }
-                }
+                };
 
-                for(let item in this.$route.query) {
-                    let query = this.$route.query;
-                    if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                let _query = {
+                    ...this.$route.query,
+                    ...query
+                };
+
+                for(let item in _query) {
+                    if(_query[item] === undefined || _query[item] === null || _query[item].length === 0) {
+                        delete _query[item];
                     }
-                }
+                };
 
-                delete query.search
                 this.$router
                 .push({
                     path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        ...query,
-                    },
+                    query: _query
                 })
                 .catch(() => {});
             }
@@ -1753,7 +1702,6 @@ export default {
             }
 
             .filter-dropdown {
-                // min-width: 250px;
                 min-width: 150px;
                 width: 200px;
                 ::v-deep .nitrozen-dropdown-label {
@@ -1771,21 +1719,22 @@ export default {
                                 }
                             }
                         }
+                        .nitrozen-options {
+                            .nitrozen-option {
+                                .nitrozen-option-container {
+                                    padding: 6px 14px;
+                                }
+                            }
+                        }
                     }
 
                 }
                 ::v-deep .nitrozen-checkbox-container {
                     height: 30px !important;
                 }
-                ::v-deep .nitrozen-option-image {
-                    height: 20px;
-                }
                 &.channel-dropdown {
                     width: 120px;
                 }
-                // &.store-dropdown {
-                //     width: 200px;
-                // }
             }
         }
     }

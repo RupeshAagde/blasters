@@ -26,11 +26,11 @@ describe('Mounted Custom tags', () => {
 
         router = new VueRouter({
             routes: [{
-                path: '/administrator/settings/list-tags',
+                path: '/administrator/settings/platform/list-tags',
                 component: TagsPage
             }]
         })
-        router.push('/administrator/settings/list-tags');
+        router.push('/administrator/settings/platform/list-tags');
         wrapper = mount( TagsPage , {
             localVue,
             router,

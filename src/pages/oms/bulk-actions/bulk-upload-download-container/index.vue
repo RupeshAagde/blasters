@@ -1,8 +1,17 @@
 <template>
     <div class="bulk-upload-download-container">
-        <div class="title-container">
-            <p class="title">Bulk Order Processing</p>
-            <p class="subtitle">Follow these steps to process multiple orders in bulk</p>
+        <div class="container-styling">
+            <div class="title-container">
+                <p class="title">Bulk Order Processing</p>
+                <p class="subtitle">Follow these steps to process multiple orders in bulk</p>
+            </div>
+            <div>
+                <nitrozen-menu class="actions-menu" mode="vertical" ref="menu">
+                    <nitrozen-menu-item class="navigate-to-export" @click="openDownloadTemplateDrawer()">
+                        <span>Download Template</span> 
+                    </nitrozen-menu-item>
+                </nitrozen-menu>
+            </div>
         </div>
         <div class="content" v-if="globalFilters[0].options">
             <download-action-box 
@@ -11,18 +20,49 @@
                 :globalFilters="globalFilters"
                 @download="getGlobalFilters($event)" />
             <instructions-action-box />
-            <upload-action-box 
+            <upload-action-box
+                :isUploading="isUploading"
                 :disabled="disableUpload" 
                 @upload="onUpload" />
         </div>
+        <transition name="slide">
+            <template v-if="isDownloadTemplate">
+                <side-drawer @close="closeDownloadTemplateDrawer()" :title="`Download Template`" :footer="true">
+                    <download-template-drawer
+                        ref="download-template-drawer"
+                        @toggleDownloadBtn="enableBtn($event)"
+                    >
+                    </download-template-drawer>
+                    <template #footer>
+                        <div class="footer-change-style">
+                            <nitrozen-button
+                                class="button-submit"
+                                :disabled="!enableDownloadTemplate"
+                                theme="secondary"
+                                v-flatBtn
+                                @click="onDownloadTemplate"
+                            >
+                                Download
+                            </nitrozen-button>
+                        </div>
+                    </template>
+                </side-drawer>
+            </template>
+        </transition>
     </div>
 </template>
 
 <script>
+/* Package imports */
+import { 
+    NitrozenMenu, NitrozenMenuItem, NitrozenButton, flatBtn
+} from '@gofynd/nitrozen-vue';
 /* Component imports */
 import DownloadActionBox from '@/pages/oms/bulk-actions/bulk-upload-download-container/download-box.vue';
 import InstructionsActionBox from '@/pages/oms/bulk-actions/bulk-upload-download-container/instructions-box.vue';
 import UploadActionBox from '@/pages/oms/bulk-actions/bulk-upload-download-container/upload-box.vue';
+import SideDrawer from '@/pages/oms/bulk-actions/side-drawer.vue';
+import DownloadTemplateDrawer from '@/pages/oms/bulk-actions/bulk-upload-download-container/download-template-drawer.vue';
 
 /* Services imports */
 import OrderService from '@/services/orders.service';
@@ -37,7 +77,12 @@ export default {
     components: {
         DownloadActionBox,
         InstructionsActionBox,
-        UploadActionBox
+        UploadActionBox,
+        NitrozenMenu,
+        NitrozenMenuItem,
+        SideDrawer,
+        DownloadTemplateDrawer,
+        NitrozenButton
     },
     props: {
         globalFilters: {
@@ -47,6 +92,9 @@ export default {
             type: Object,
         }
     },
+    directives: {
+        flatBtn
+    },
     data() {
         return {
             disableDownload: false,
@@ -54,10 +102,31 @@ export default {
             downloadInProgress: false,
             uploadInProgress: false,
             file: null,
-            uploadURL: {}
+            uploadURL: {},
+            isDownloadTemplate: false,
+            enableDownloadTemplate: false,
+            isUploading:false,
         }
     },
     methods: {
+        openDownloadTemplateDrawer() {
+            this.isDownloadTemplate = true;
+        },
+        closeDownloadTemplateDrawer() {
+            this.isDownloadTemplate = false;
+        },
+        enableBtn(e) {
+            if(e == true) {
+                this.enableDownloadTemplate = false;
+            }
+            else {
+                this.enableDownloadTemplate = true;
+            }
+        },
+        onDownloadTemplate() {
+            this.$refs['download-template-drawer'].callDownloadApi();
+            // this.closeDownloadTemplateDrawer();
+        },
         /**
          * Function to be called to hit API when a file needs to be uploaded.
          * The relevant flags to show loading and disable buttons will be triggered.
@@ -280,5 +349,37 @@ export default {
         grid-template-columns: repeat(3, 1fr);
         column-gap: 24px;
     }
+}
+
+.container-styling {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigate-to-export {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 16px;
+
+    &:last-child {
+        margin-bottom: initial;
+    }
+}
+
+::v-deep .nitrozen-menu-item {
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+::v-deep .nitrozen-menu-vertical-dropdown {
+    width: max-content;
+    row-gap: 1rem;
+}
+
+.footer-change-style {
+    display: flex;
+    justify-content: flex-end;
 }
 </style>

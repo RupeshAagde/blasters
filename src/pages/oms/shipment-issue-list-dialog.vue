@@ -10,13 +10,8 @@
                 <div class="side-drawer-heade-title">Shipment Issues: {{shipment_id}}</div>
             </div> -->
             <div class="issue-list">
-                <div class="top-row">
-                    <nitrozen-button class="row-top" theme="secondary" @click="reportAnIssue">
-                        Create New
-                    </nitrozen-button>
-                </div>
                 <div class="issue-list-header">
-                    <div class="ticket-id">Ticket #</div>
+                    <div class="ticket-id">Ticket ID</div>
                     <div class="title">Title</div>
                     <div class="status">Status</div>
                     <div class="category">Category</div>
@@ -25,31 +20,39 @@
                     No issues reported for this shipment
                 </div>
 
-                <div class="issues-table-body">
-                    <div
-                        class="issue-list-row"
-                        :style="getPriorityColor(issue)"
-                        v-for="issue in issues"
-                        :key="issue._id"
-                    >
-                        <div class="ticket-id">
-                            {{ issue.ticket_id }}
-                        </div>
-                        <div class="title">
-                            <span class="link" @click="goToTicket(issue._id)">
-                                {{ issue.content.title || "No title"}}
-                            </span>
-                        </div>
-                        <div class="status">
-                            <nitrozen-badge>
-                                {{ issue.status.display || 'Pending' }}
-                            </nitrozen-badge>
-                        </div>
-                        <div class="category">
-                            <nitrozen-badge>
-                                {{ issue.category.display }}
-                            </nitrozen-badge>
-                        </div>
+                <div
+                    class="issue-list-row"
+                    :style="getPriorityColor(issue)"
+                    v-for="issue in issues"
+                    :key="issue._id"
+                >
+                    <div class="ticket-id">
+                        <span 
+                            v-if="
+                                issue.integration && 
+                                issue.integration.freshdesk_info && 
+                                issue.integration.freshdesk_info.id
+                            "
+                            class="freshdesk-link"
+                            @click="navigateToFreshdesk(issue.integration.freshdesk_info.id)"
+                        >
+                            {{ issue.integration.freshdesk_info.id }}
+                        </span>
+                    </div>
+                    <div class="title">
+                        <span class="link" @click="goToTicket(issue._id)">
+                            {{ issue.content.title || "No title"}}
+                        </span>
+                    </div>
+                    <div class="status">
+                        <nitrozen-badge>
+                            {{ issue.status.display || 'Pending' }}
+                        </nitrozen-badge>
+                    </div>
+                    <div class="category">
+                        <nitrozen-badge>
+                            {{ issue.category.display }}
+                        </nitrozen-badge>
                     </div>
                 </div>
             </div>
@@ -129,17 +132,10 @@ export default {
                 params: { ticket_id }
             });
         },
-        reportAnIssue() {
-            this.$emit('closeDialog')
-            let routeData = this.$router.resolve({ name: 'company-support-create', query: { redirect_url: this.$route.fullPath, shipment: this.shipment_id } }); 
-            if(this.isDrawerView){
-                window.open(routeData.href, '_blank')
-            }else{
-                setTimeout(() => {
-                    this.$router.push(routeData.location)
-                });
-            }
-        }
+        navigateToFreshdesk(freshdeskID) {
+            let freshdeskURL = `https://fynd.freshdesk.com/a/tickets/${freshdeskID}`;
+            window.open(freshdeskURL, '_blank');
+        },
     }
 }
 </script>
@@ -244,5 +240,14 @@ export default {
 .issues-table-body {
     height: 30vh;
     overflow: auto;
+}
+
+.freshdesk-link {
+    cursor: pointer;
+    color: @RoyalBlue;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 </style>

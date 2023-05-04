@@ -58,7 +58,7 @@
                     <fy-loader class="item-loading"></fy-loader>
                 </div>
                 <div v-else>
-                    <mirage-alert
+                    <!-- <mirage-alert
                         :dismissible="true"
                         ref="intro"
                         class="plain"
@@ -70,7 +70,7 @@
                                 Shipping Fee, Reverse Shipping Fee details will be available in Reports Section
                             </span>
                         </div>
-                    </mirage-alert>
+                    </mirage-alert> -->
                     <div class="above-table">
                         <div class="total-count">
                             Total Results - {{ totalCount }}
@@ -241,7 +241,7 @@ import {
 import ReconFilters from './recon-filters.vue';
 import loader from '@/components/common/loader';
 import PageEmpty from '@/components/common/page-empty.vue';
-import MirageAlert from '@/components/orders/alert.vue';
+//import MirageAlert from '@/components/orders/alert.vue';
 
 const PAGINATION_OBJECT = {
     limit: 10,
@@ -264,7 +264,7 @@ export default {
         'fy-loader': loader,
         'adm-no-content': PageEmpty,
         'recon-filters': ReconFilters,
-        MirageAlert
+        //MirageAlert
     },
     data() {
         return {

@@ -113,14 +113,16 @@
                 <accordion :title="'Payment Method'" :initialState="true">
                     <div class="info-title" v-if="isPrepaid">Prepaid:</div>
                     <div class="content">
-                        <span
+                        <div
                             v-for="(value, key) in orderData.order.payment_methods"
                             :key="key"
-                            class="content-item"
+                            class="content-item-payment"
                         >
-                            <span class="title-background">{{ value.name }}</span> :
-                            ₹{{ value.amount.toFixed(2) }}</span
-                        >
+                          <div class="payment-deep-item">  <span class="title-background">{{ value.name }}: </span> <span>₹{{ value.amount.toFixed(2) }}</span></div>
+                         <div v-if="orderData.order.payment_methods[key]['collect_by']" class="payment-deep-item"><span class="title-background">Collected By:</span> {{orderData.order.payment_methods[key]['collect_by'] }}</div>  
+                         <div v-if="orderData.order.payment_methods[key]['refund_by'] " class="payment-deep-item"><span class="title-background">Refund By:</span> {{orderData.order.payment_methods[key]['refund_by'] }}</div>  
+                            </div
+                        >                 
                     </div>
                 </accordion>
             </div>
@@ -412,6 +414,14 @@ export default {
             }
             .content-item {
                 margin-right: 10px;
+            }
+            .content-item-payment{
+                margin-right: 10px;
+                display: flex;
+                flex-direction: column;
+                .payment-deep-item{
+                    background-color: white;
+                }
             }
         }
 

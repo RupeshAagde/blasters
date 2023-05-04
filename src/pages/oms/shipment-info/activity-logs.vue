@@ -56,7 +56,7 @@
                                             <span class="message-label"> Message: </span> {{ status.meta.sms }}
                                         </div>
                                         <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name && status.meta.reason.text"> 
-                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }}({{ status.meta.reason.text }})
+                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }} ( {{ status.meta.reason.text }} )
                                         </div>
                                         <div v-if="status.meta && status.meta.slug"> 
                                             <span class="message-label"> Event Name: </span> {{ status.meta.slug }}
@@ -67,9 +67,27 @@
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
                                         </div>
+                                        <div v-if="status.meta && status.meta.caller && status.meta.receiver"> 
+                                            <span class="message-label"> Caller: </span> {{ status.meta.caller }}
+                                            <span class="message-label"> Receiver: </span> {{ status.meta.receiver }}
+                                        </div>
+                                        <div v-if="status.meta && status.meta.recordpath"> 
+                                            <div class="recording"> 
+                                                <span class="message-label"> Recording: </span> 
+                                                <audio controls>
+                                                    <source :src="urlDecode(status.meta.recordpath)" type="audio/wav">
+                                                </audio>
+                                            </div>
+                                        </div>
+                                        <div v-if="status.meta && status.meta.images">
+                                            <span class="message-label">Images: </span> 
+                                            <span class="image-link-properties" v-for="(image, index) in status.meta.images" :key="index">
+                                                <a v-if="image && image.url" :href="image.url" target="_blank">Image {{ index }}</a>
+                                            </span>
+                                        </div>
                                     </div>
+                                    <div class="user-new">{{ status.user }}</div>
                                 </div>
-                                <div class="user-new">{{ status.user }}</div>
                             </div>
                         </div>
                     </div>
@@ -118,15 +136,33 @@
                     </div>
                 </div>
             </div> -->
+            <div class="input-container">
+                <nitrozen-input
+                    class="comment-input"
+                    v-model="comment"
+                    placeholder="Add Comment"
+                    type="textarea"
+                    :maxlength="900"
+                >
+                </nitrozen-input>
+                <nitrozen-button
+                    v-flatBtn
+                    theme="secondary"
+                    @click="addComment"
+                >
+                    Create
+                </nitrozen-button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 /* Package imports */
-import { NitrozenDropdown, NitrozenCheckBox } from '@gofynd/nitrozen-vue';
+import { NitrozenDropdown, NitrozenCheckBox, NitrozenInput, NitrozenButton, flatBtn } from '@gofynd/nitrozen-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 
 /* Components import */
 import AdmNoContent from '@/components/common/adm-no-content.vue';
@@ -135,6 +171,11 @@ import admLoader from '@/components/common/loader.vue';
 /* Helper imports */
 import { convertToOMSDate } from '@/helper/utils.js';
 
+/* Service import */
+import OrderService from '@/services/orders.service.js';
+
+/* Store Import*/
+import { GET_USER_INFO } from '@/store/getters.type';
 
 export default {
     name: 'activity-logs',
@@ -145,6 +186,9 @@ export default {
             type: Boolean,
             default: false,
         },
+    },
+    directives: {
+        flatBtn,
     },
     data() {
         return {
@@ -157,7 +201,9 @@ export default {
             sortedHistory: [],
             checkBoxSelectedValue: [],
             typesArray: [],
-            activityLogsData : []
+            activityLogsData : [],
+            comment: '',
+            internalChange: false
         };
     },
     mounted() {},
@@ -166,8 +212,14 @@ export default {
         'nitrozen-checkbox': NitrozenCheckBox,
         'adm-loader': admLoader,
         NitrozenDropdown,
+        NitrozenInput,
+        NitrozenButton
     },
-    computed: {},
+    computed: {
+        ...mapGetters({
+            userinfo: GET_USER_INFO
+        }),
+    },
     methods: {
         convertToOMSDate,
         /**
@@ -202,7 +254,7 @@ export default {
                         Date.parse(this.sendTrimValue(item.createdat))
                     ).format('DD MMMM, YYYY');
                     copyItem['createdat'] = this.sendTrimValue(item.createdat);
-                    return copyItem;
+                    return copyItem; 
                 });
                 this.toggle('activity_status');
             }
@@ -250,7 +302,7 @@ export default {
 
         toggle(value) {
             if (value == 'activity_status') {
-                this.isStatus = !this.isStatus;
+                this.isStatus = this.internalChange ? this.isStatus : !this.isStatus;
                 let newValues = [];
                 newValues.push(value);
                 newValues.push('activity_escalation');
@@ -270,6 +322,7 @@ export default {
                 newValues.push(value);
                 this.pushAndPop(this.isCall, newValues);
             }
+            this.internalChange = false;
             this.sortByCheckBox(this.newParsedArr);
         },
 
@@ -324,6 +377,43 @@ export default {
                 return value //moment(value).format('Do MMMM, YYYY');
             }
         },
+        urlDecode(url){
+            return decodeURIComponent(url);
+        },
+        addComment(){
+            if(this.comment.trim().length){
+                let payload = {
+                    activity_history: [
+                        {
+                            filters: [
+                                {
+                                    shipment_id: this.shipmentId
+                                }
+                            ],
+                            data: {
+                                message: this.comment,
+                                user_name: this.userinfo.user.username
+                            }
+                        }
+                    ]
+                }
+                OrderService.postShipmentActivityLog(payload).then(res => {
+                    if(res.data && res.data.success){
+                        this.$snackbar.global.showSuccess("Comment added successfully.");
+                        this.comment = '';
+                        this.internalChange = true;
+                        this.callItInitially(res.data.activity_history);
+                    } else {
+                        this.$snackbar.global.showError('Failed to add comment.');
+                    }
+                })
+                .catch(err => {
+                    this.$snackbar.global.showError('Failed to add comment.');
+                })
+            } else {
+                this.$snackbar.global.showError('Please enter comment in input box.');
+            }
+        }
     },
 };
 </script>
@@ -362,6 +452,7 @@ export default {
             width: 100%;
             margin-bottom: 16px;
             font-size: 12px;
+            block-size: fit-content;
 
             .date {
                 width: fit-content;
@@ -372,6 +463,7 @@ export default {
                 flex: 1;
                 font-weight: 500;
                 line-height: 18px;
+                overflow-wrap: anywhere;
 
                 .message-info{
                     padding-top: 8px;
@@ -379,13 +471,51 @@ export default {
                 .message-label{
                     font-weight: 600;
                 }
+                .recording{
+                    display: flex;
+                    align-items: center;
+                }
             }
             .user-new{
                 font-weight: 300;
                 text-align: end;
                 padding-left: 15px;
+                padding-top: 15px;
             }
         }
     }
+}	
+
+.input-container{
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    align-items: end;
+
+    .comment-input{
+        flex: 1;
+        resize: none;
+
+        ::v-deep textarea {
+            height: 38px;
+            resize: none;
+        }
+    }
+}
+
+.image-link-properties {
+    color: @RoyalBlue;
+    padding-right: 8px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.image-link-properties :hover {
+    color: purple;
+    text-decoration: underline;
+    cursor: pointer;
 }
 </style>

@@ -56,8 +56,7 @@
                         <invoice-label-menu
                             v-show="toggleInvoice && showInvoiceIcon"
                             :toggleMenu="'invoice'"
-                            :shipment="shipment"
-                            @downloadSuccess="() => onInvoiceLabelDownload('invoice')"
+                            :shipment="shipment"     
                         ></invoice-label-menu>
                     </span>
                     <span
@@ -74,7 +73,6 @@
                             v-show="toggleLabel && showLabelIcon"
                             :toggleMenu="'label'"
                             :shipment="shipment"
-                            @downloadSuccess="() => onInvoiceLabelDownload('label')"
                         ></invoice-label-menu>
                     </span>
                     <!-- Commented as of Dec 16, 2022 TBD -->
@@ -1033,22 +1031,20 @@ export default {
                 unlock_before_transition: true
             }
             if(docType == 'invoice' && this.isInvoiceLock){
-                payload.statuses[0].shipments[0].data_updates.entities[0].data.actionable_item_json['download_invoice'] = 'unlock'
                 this.updateShipmentActionStatus(payload)
                 .then(res => {
                     if(res && !this.isLabelLock){
-                        this.unLockShipment(this.shipment.shipment_id)
+                        // this.unLockShipment(this.shipment.shipment_id)
                     }else{
                         this.$emit('statusUpdated')
                     }
                 })
             }
             if(docType == 'label' && this.isLabelLock){
-                payload.statuses[0].shipments[0].data_updates.entities[0].data.actionable_item_json['download_label'] = 'unlock'
                 this.updateShipmentActionStatus(payload)
                 .then(res => {
                     if(res && !this.isInvoiceLock){
-                        this.unLockShipment(this.shipment.shipment_id)
+                        // this.unLockShipment(this.shipment.shipment_id)
                     }else{
                         this.$emit('statusUpdated')
                     }

@@ -98,7 +98,6 @@
                             :disabled="readOnlyMode || editingMode"
                             @change="resetForm"
                         ></nitrozen-dropdown>
-                    <!-- <nitrozen-error v-if="isEmpty(selectedType)">Please Select a Note Type</nitrozen-error> -->
                 </div>
 
                 <div class="date-picker-wrap">
@@ -107,7 +106,7 @@
                             picker_type="date"
                             label="Select Date"
                             date_format="MMM Do, YY"
-                            v-model="uploadDateRange"
+                            v-model="selectedDate"
                             :clearable="false"
                             :not_before="notBefore"
                             :disabled="readOnlyMode || editingMode"
@@ -184,7 +183,6 @@
                                 @blur="validateServiceInvoice"
                                 @input="validateForm('invoiceNumber')"
                             ></nitrozen-input>
-                            <!-- @keyup.enter.tab="validateServiceInvoice" -->
                             <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                         </div>
                     </div>
@@ -283,7 +281,6 @@
                             @blur="validateServiceInvoice"
                             @input="validateForm('invoiceNumber')"
                         ></nitrozen-input>
-                        <!-- @keyup.enter.tab="validateServiceInvoice" -->
                         <nitrozen-error v-if="invoiceNumber.errorMessage">{{ invoiceNumber.errorMessage }}</nitrozen-error>
                     </div>
 
@@ -366,7 +363,7 @@
                                     <nitrozen-inline
                                         :icon="'cross'"
                                         class="nitrozen-icon"
-                                        v-on:click="removeSearchInput(index), validateForm('shipmentId'), selectShipment(), getInvoiceDetails().then(()=>unselectBags())"
+                                        v-on:click="removeSearchInput(index), validateForm('shipmentId'), selectShipment(), getCnDetails('service').then(()=>unselectBags())"
                                     ></nitrozen-inline>
                                 </nitrozen-chips>
                                 <input
@@ -377,8 +374,8 @@
                                     ref="chips"
                                     v-model="chips"
                                     @input="validateForm('shipmentId'), selectShipment()"
-                                    @keyup.enter.space.188="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
-                                    @keydown.tab="getInvoiceDetails(), selectShipment(), validateForm('shipmentId')"
+                                    @keyup.enter.space.188="getCnDetails('service'), selectShipment(), validateForm('shipmentId')"
+                                    @keydown.tab="getCnDetails('service'), selectShipment(), validateForm('shipmentId')"
                                 />
                             </div>
                             <div class="message" v-if="shipmentId.value">
@@ -396,7 +393,7 @@
                                 :disabled="readOnlyMode"
                                 :multiple=true
                                 :searchable="true"
-                                @change="getInvoiceDetails(), selectBags()"
+                                @change="getCnDetails('service'), selectBags()"
                             ></nitrozen-dropdown>
                             <div class="message" v-if="bagId.value">
                                 {{ bagSelected }}
@@ -416,7 +413,7 @@
                                         <nitrozen-inline
                                             icon="cross"
                                             class="nitrozen-icon"
-                                            @click="bagId.value.splice(index,1), getInvoiceDetails().then(()=>unselectBags())"
+                                            @click="bagId.value.splice(index,1), getCnDetails('service').then(()=>unselectBags())"
                                         >
                                         </nitrozen-inline>
                                     </nitrozen-chips>
@@ -439,7 +436,6 @@
                         >
                             <template 
                                 v-slot:header
-                                class="header"
                             >
                                 <div class="tick-row">
                                     <span class="first-header">Bag ID: {{ bag.bag_id }}</span>
@@ -720,7 +716,7 @@
         mounted() {
             this.isApprover = this.$route.params.isApprover;
             this.noteType = this.$route.params.noteType;
-            this.getCommercialFeeType();
+            //this.getCommercialFeeType();
             if(this.noteType === 'credit'){
                 this.title = 'Create Credit Note';
                 this.dropdownLabel = 'Credit Note Type *';
@@ -1098,6 +1094,7 @@
                             this.noteNarration.value = this.tab.note_narration;
                             this.sellerId.value = this.tab.seller_id;
                             this.sellerName = this.tab.seller_name;
+                            this.selectedDate = this.tab.issued_at;
                             let temp = []
                             if (this.tab.note_details) {
                                 this.bagList.length = 0;
@@ -1179,12 +1176,12 @@
                                     })
                                     temp = [...a]
                                 })
-                                const returned = this.getInvoiceDetails()
+                                const returnedService = this.getCnDetails('service');
                                 let chargeComponents = {}
                                 let orderId = {}
                                 let orderingChannel = {}
                                 let bag = {}
-                                returned.then(r => {
+                                returnedService.then(r => {
                                     r.data.items.map(v => {
                                         let key = v.bag_id+v.shipment_id
                                         let value = v.charge_components
@@ -1239,15 +1236,15 @@
                             this.setPurposeList();
                             this.invoiceNumber.value = this.tab.invoice_number;
                             this.noteNarration.value = this.tab.note_narration;
-
+                            this.selectedDate = this.tab.issued_at;
                             
                             if (this.tab.note_details) {
                                 
                                 //this.feeInvoiceDetails = [...this.tab.note_details]
                                 let temp = [...this.tab.note_details]
 
-                                const ret = this.getFeeInvoiceDetails()
-                                ret.then(r => {
+                                const resCndetails = this.getCnDetails();
+                                resCndetails.then(r => {
                                     temp[0].charge_components = r.data.items[0].charge_components;
                                     temp[0].seller_id = r.data.items[0].seller_id;
                                     temp[0].seller_name = r.data.items[0].seller_name;
@@ -1267,6 +1264,8 @@
                             this.remarks.value = this.tab.note_details[0].remark;
                             this.noteNarration.value = this.tab.note_narration;
                             this.purposeType.value = this.tab.purpose_id;
+                            this.selectedDate = this.tab.issued_at;
+                            this.getCnDetails('commercial');
                             this.getSellerDetails();
                         }
                     })
@@ -1312,7 +1311,7 @@
                                 "purpose_id" : this.purposeType.value,
                                 "note_narration" : this.noteNarration.value,
                                 "status" : "Init",
-                                "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                "invoice_number" : this.invoiceNumber.value,
                                 "is_active" : true,
                                 "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
@@ -1324,16 +1323,16 @@
                                         "purpose_id": this.purposeType.value,
                                         "total_amount": this.creditDebitNoteAmount.value * 1,
                                         "is_active": true,
-                                        "sac_code": null,
-                                        "sgst_tax_rate": null,
-                                        "cgst_tax_rate": null,
-                                        "igst_tax_rate": null,
+                                        "sac_code": "",
+                                        "sgst_tax_rate": 0,
+                                        "cgst_tax_rate": 0,
+                                        "igst_tax_rate": 0,
                                         "gross_amount": this.creditDebitNoteAmount.value * 1,
                                         "remark": this.remarks.value,
                                         "kapture_sr_id": this.kaptureId.value,
                                         "shipment_id": this.shipmentIdCommercial.value,
                                         "note_narration": this.noteNarration.value,
-                                        "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                        "invoice_number" : this.invoiceNumber.value,
                                     }
                                 ]
                             }
@@ -1353,7 +1352,7 @@
                                 "purpose_id" : this.purposeType.value, 
                                 "note_narration" : this.noteNarration.value,
                                 "status" : "Init",
-                                "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                "invoice_number" : this.invoiceNumber.value,
                                 "is_active" : true,
                                 "issued_at" : this.selectedDate,
                                 "created_by" : this.userData.user.username,
@@ -1363,16 +1362,16 @@
                                         "purpose_id": this.purposeType.value,
                                         "total_amount": this.creditDebitNoteAmount.value * 1,
                                         "is_active": true,
-                                        "sac_code": null,
-                                        "sgst_tax_rate": null,
-                                        "cgst_tax_rate": null,
-                                        "igst_tax_rate": null,
+                                        "sac_code": '',
+                                        "sgst_tax_rate": 0,
+                                        "cgst_tax_rate": 0,
+                                        "igst_tax_rate": 0,
                                         "gross_amount": this.creditDebitNoteAmount.value * 1,
                                         "remark": this.remarks.value,
                                         "kapture_sr_id": this.kaptureId.value,
-                                        "shipment_id": this.shipmentIdCommercial.value,
+                                        "shipment_id": this.shipmentIdCommercial.value ? this.shipmentIdCommercial.value : '',
                                         "note_narration": this.noteNarration.value,
-                                        "invoice_number" : this.invoiceNumber.value === '' ? null : this.invoiceNumber.value,
+                                        "invoice_number" : this.invoiceNumber.value,
                                     }
                                 ]
                         }
@@ -1679,7 +1678,89 @@
             },
 
             // method to get Fee invoice details
-            async getFeeInvoiceDetails() { 
+            getCnDetails(invoiceType = 'fee'){
+                let params = {
+                    data: {
+                        invoice_type: invoiceType,
+                        invoice_number: this.invoiceNumber.value
+                    }
+                };
+                if(invoiceType == 'service') {
+                    params.data = { ...params.data, shipment_ids: this.shipmentId.value }
+                }
+
+                const details = CreditDebitNoteServices.getServiceInvoiceDetails(params)
+                details
+                    .then((res) => {
+                        if(invoiceType == 'fee'){
+                            this.feeInvoiceDetails = [];
+                            this.feeInvoiceDetails = res.data.items;
+                        }
+                        if(invoiceType == 'service'){
+                            let ans = [];
+                            res.data.items.map(item => {
+                                ans.push(item.shipment_id)
+                            })
+                            let flag = false; // no shipment id is wrong
+                            this.shipmentId.value.map(s => {
+                                if (!ans.includes(s)) {
+                                    flag = true;
+                                    this.shipmentId.errorMessage = 'Incorrect Shipment ID';
+                                }
+                            })
+                            let data = res.data.items.map( i =>  {
+                                return {
+                                    "shipment_id": i.shipment_id,
+                                    "data": i,
+                                    "bag_id": i.bag_id
+                                }
+                            })
+
+                            this.bagList.length = 0;
+                            this.bagShipmentMapping = {};
+
+                            data.map((v) => {
+                                        this.bagList.push({
+                                            text: v.bag_id,
+                                            data: v.data,
+                                            value: v.bag_id+v.shipment_id
+                                        })
+                                        //this.bagShipmentMapping[v.bag_id] = v.data //v.shipment_id
+                                        this.bagShipmentMapping[v.bag_id+v.shipment_id] = v.data
+                                    })
+                            // adding extra bags
+                            res.data.items.map(v => {
+                                if (!this.bagId.value.includes(v.bag_id+v.shipment_id)) {
+                                    let key = v.bag_id+v.shipment_id;
+                                    let value = v;
+                                    Object.assign(this.extraBags,{[key]: value});
+                                }
+                            })
+                        }
+                        if(invoiceType == 'commercial'){
+                            this.FeeComponentTypeList = [];
+                            if(!this.readOnlyMode){
+                                this.feeType = {
+                                    value: '',
+                                    errorMessage: '',
+                                    isValid: false
+                                };
+                            }
+                            this.FeeComponentTypeList = res.data.items;
+                        }
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError('Invoice number provided doesnt exists in system, please provide valid invoice_number');
+                    })
+                    .finally(() => {
+
+                    })
+                if (this.readOnlyMode) {
+                    return details;
+                }
+            },
+
+            /* async getFeeInvoiceDetails() { 
                 this.feeInvoiceDetails = [];
                 let res;
                 const params = {
@@ -1759,7 +1840,7 @@
                         Object.assign(this.extraBags,{[key]: value});
                     }
                 })
-            },
+            }, */
 
             // method to validate  service invoice number 
             async validateServiceInvoice(){
@@ -1776,7 +1857,11 @@
                             this.invoiceNumber.isValid = res.data.success;
                             this.invoiceNumber.errorMessage = '';
                             if(this.selectedType === 'gst_fee'){
-                                this.getFeeInvoiceDetails();
+                                //this.getFeeInvoiceDetails();
+                                this.getCnDetails();
+                            }
+                            if(this.selectedType === 'commercial'){
+                                this.getCnDetails('commercial');
                             }
                             /* if (!this.invoiceNumber.isValid) {
                                 this.invoiceNumber.errorMessage = "Invalid Service Invoice Number";

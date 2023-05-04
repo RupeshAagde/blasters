@@ -29,6 +29,7 @@ import Configuration from './../../pages/tickets/configuration/configuration.vue
 import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
 import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
 import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
+import freshchatVue from '@/pages/tickets/configuration/freshchat-integration/index.vue'
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -42,7 +43,15 @@ import SellerPanelSettingsVue from './../../pages/settings/seller-panel.vue';
 import FooterSettingsVue from './../../pages/settings/footer';
 import PricingBannerVue from './../../pages/settings/pricing_banner.vue';
 import ExtensionsListingVue from './../../pages/settings/extensions-listing/index.vue';
+import SupportConfiguration from './../../pages/settings/support-configuration/index.vue'
 import CategoryList from '@/pages/product/category/list';
+import BusinessRegistration from './../../pages/settings/onboarding/business-registration.vue';
+import BusinessDetails from './../../pages/settings/onboarding/business-details.vue';
+import Brands from './../../pages/settings/onboarding/brands.vue';
+import ProductConfig from './../../pages/settings/onboarding/product.vue';
+import LocationConfig from './../../pages/settings/onboarding/location.vue';
+import UpdateMarketplace from '../../pages/settings/onboarding/update-marketplace.vue';
+import ListMarketplace from './../../pages/settings/onboarding/list-marketplace.vue';
 import AuditLogs from './../../pages/audit-trail/index.vue';
 import AuditLogsDetails from './../../pages/audit-trail/log-detail.vue';
 import AddEditDri from './../../pages/company-admin/add-edit-dri.vue';
@@ -75,13 +84,11 @@ import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
 import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
 import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 
-const OrdersPage = () => import('@/pages/orders');
 import RMAPage from '@/pages/rma';
 import RMARulesListing from '@/pages/rma/rules-listing';
 import RMASetup from '@/pages/rma/rma-setup.vue';
 import Rules from '@/pages/rma/rules';
 const OrdersNinjaPage = () => import('@/pages/orders/ninja')
-const OrderDetails = () => import('@/pages/orders/order-details.vue');
 import PackagingHome from '@/pages/packaging/packaging-home.vue'
 import CategoryConfig from '@/pages/packaging/category-config.vue'
 import PackagingCreate from '@/pages/packaging/create-packaging.vue'
@@ -487,6 +494,14 @@ export default [
                 }
             },
             {
+                name: 'support-configuration-freshchat',
+                path: 'support/configuration/integration/freshchat',
+                component: freshchatVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
                 name: 'add-user',
                 path: 'add-user',
                 component: AddSuperUserVue,
@@ -880,6 +895,73 @@ export default [
                     return checkUserPermission(to, from, next, ['settings']);
                 }
             },
+            /* changes from jiomarket: cbs configuration */
+            {
+                name: 'business-registration',
+                path: 'settings/platform/business-registration',
+                component: BusinessRegistration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+
+            {
+                name: 'business-details',
+                path: 'settings/platform/business-details',
+                component: BusinessDetails,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'brand-settings',
+                path: 'settings/platform/brand',
+                component: Brands,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'product-settings',
+                path: 'settings/platform/product',
+                component: ProductConfig,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            
+            {
+                name: 'location',
+                path: 'settings/platform/location',
+                component: LocationConfig,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'add-marketplace',
+                path: 'settings/platform/marketplace/add',
+                component: UpdateMarketplace,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'list-marketplace',
+                path: 'settings/platform/marketplace/list',
+                component: ListMarketplace,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-marketplace',
+                path: 'settings/platform/marketplace/edit/:applicationId',
+                component: UpdateMarketplace,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
             {
                 name: 'partners',
                 path: 'settings/partners',
@@ -998,14 +1080,6 @@ export default [
 
             // ========================== Orders ==========================
             {
-                name: 'orders',
-                path: 'orders/list',
-                component: OrdersPage,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['order']);
-                }
-            },
-            {
                 name: 'orders-hyperlocal-tracking',
                 path: 'orders/hyperlocal-tracking',
                 component: OrdersNinjaPage,
@@ -1013,22 +1087,11 @@ export default [
                     return checkUserPermission(to, from, next, ['order']);
                 }
             },
-            {
-                name: 'application-order-details',
-                path: '/order/:orderId/shipments',
-                component: OrderDetails,
-                beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['order']);
-                },
-                meta: {
-                    name: 'Application Order Details'
-                }
-            },
             // =============================================================
             /** OMSv2.1 */
             {
                 name: 'company-orders-v2',
-                path: 'orders/',
+                path: 'orders-list/', 
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1052,7 +1115,7 @@ export default [
             },
             {
                 name: 'company-order-bulk-v2',
-                path: 'orders/bulk',
+                path: 'orders-bulk',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1065,7 +1128,7 @@ export default [
             },
             {
                 name: 'company-order-manifest',
-                path: 'orders/manifest/',
+                path: 'orders-manifest/',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1078,7 +1141,7 @@ export default [
             },
             {
                 name: 'company-manifest-detail',
-                path: 'orders/manifest/:manifestId/',  //need at aadd a storng 
+                path: 'orders-manifest/:manifestId/',  //need at aadd a storng 
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1091,7 +1154,7 @@ export default [
             },
             {
                 name: 'company-manifest-generate',
-                path: 'orders/manifest/generate/',
+                path: 'orders-manifest/generate/',
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1219,6 +1282,14 @@ export default [
                     ]);
                 } 
             },
+            {
+                name: 'Partners-Support-Configuration',
+                path: '/administrator/settings/partners/contact-configuration',
+                component: SupportConfiguration,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            }
         ]
     },
     {
@@ -1229,4 +1300,5 @@ export default [
             return checkUserPermission(to, from, next, ['settings']);
         }
     }
+
 ];

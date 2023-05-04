@@ -311,6 +311,23 @@ describe('credit-debit-note page', () => {
         expect(wrapper.vm.filteredPurposeList.length).toBe(1);
     });
 
+    it('fetch the details of invoice type', async() => {
+        await flushPromises();
+        wrapper.setData({
+            invoiceNumber: {
+                value: 'BINV/00014/22-23',
+                errorMessage: '',
+                isValid: false
+            },
+        })
+        const keyFun = jest.spyOn(wrapper.vm, 'getCnDetails');
+        keyFun('commerical');
+        keyFun();
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.feeInvoiceDetails.length).toBe(0);
+    });
+
     it('read Only the data populate', async() => {
        wrapper.vm.$router.replace({path: 'finance/credit-debit-note/credit-note', params: { noteType: 'credit', noteId: '0ab27f6b-cf2e-4f57-a482-8ffe06971ad2', preview: 'preview'}});
         const readOnly = jest.spyOn(wrapper.vm, 'readOnlyData');
@@ -511,16 +528,6 @@ describe('credit-debit-note page', () => {
         wrapper.vm.$dialogClosed();
     })
 
-    it('gets service invoice details', async() => {
-        const params = {
-            "data":{
-                "invoice_type": 'fee' ,
-                "invoice_number": "INV_123"
-            }
-        }
-        mock.onPost(URLS.GET_SERVICE_INVOICE_DETAILS(params)).reply(200, SERVICE_INVOICE_DETAILS_MOCK);
-        await wrapper.vm.getFeeInvoiceDetails();
-    })
 
     it('selects bags', () => {
         wrapper.setData({
@@ -979,23 +986,6 @@ describe('credit-debit-note page', () => {
         wrapper.vm.editMode();
     })
 
-    /* it('open qpprover drawer', () => {
-        wrapper.vm.quickApproverViewSection('approve');
-    }) */
-
-    it('gets gst service invoice details', () => {
-        let params = {
-            "data": {
-                "invoice_type": "service",
-                "invoice_number": "dummy",
-                "shipment_ids": "dummy"
-            }
-        }
-
-        mock.onPost(URLS.GET_INVOICE_DETAILS(params)).reply(200, SERVICE_INVOICE_DETAILS_MOCK);
-        wrapper.vm.getInvoiceDetails();
-        
-    })
 
     it('gets search text from chips', () => {
         let event = {

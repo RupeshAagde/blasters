@@ -1,0 +1,45 @@
+{
+    "success": true,
+    "data": [
+        {
+            "batch_id": "564fba7a-cab0-42c8-9947-113aeb1de54f",
+            "company_id": "3",
+            "total_shipments_count": 19,
+            "successful_shipment_ids": [
+                "16732765416701101654",
+                "16730923403421028860",
+                "16730792876031092407",
+                "16729282301781747472",
+                "16727516260901247312",
+                "16726576756831008265",
+                "16725797793681552760",
+                "16716143266601240026",
+                "16715529290331133218",
+                "16715476534431037481",
+                "16713429837221390146",
+                "16712076372141077086",
+                "16712065811001033307",
+                "16711931539261212912",
+                "16708401612851833362",
+                "16706651056411371540",
+                "16711767522121595816",
+                "16711700856721230836"
+            ],
+            "successful_shipments_count": 18,
+            "failed_shipments_count": 1,
+            "processing_shipments_count": 0
+        }
+    ],
+    "error": [],
+    "excel_url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/x0/misc/general/free/original/nADsg7EFe-EIf-4z1nP-placed_625_1673349425.9143155.xlsx",
+    "message": "",
+    "failed_records": [
+        {
+            "16696364881741226741": "Invalid State Transition bag_confirmed detected for given entity"
+        }
+    ],
+    "uploaded_by": " ",
+    "user_id": "8c7de34a3893803939593f9b",
+    "uploaded_on": "2023-01-11T02:22:00.242747+05:30",
+    "status": "PARTIALLY COMPLETED"
+}

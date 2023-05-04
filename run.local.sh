@@ -5,7 +5,7 @@ export PORT=8086
 
 
 #API's
-export FYND_PLATFORM_DOMAIN=fyndx0.de
+export FYND_PLATFORM_DOMAIN=fyndx1.de
 export PINPOINTER_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/audit-trail/
 export POINTBLANK_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/communication/
 export BLITZKRIEG_MAIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/platform/theme/
@@ -61,6 +61,7 @@ export BOMBSHELL_MAIN_DOMAIN=https://partners.${FYND_PLATFORM_DOMAIN}
 export BRAINSTORM_EXTENSION_DOMAIN=https://extensions.${FYND_PLATFORM_DOMAIN}
 export BRAINSTORM_THEME_DOMAIN=https://themes.${FYND_PLATFORM_DOMAIN}
 export MIRAGE_MAIN_DOMAIN=https://platform.${FYND_PLATFORM_DOMAIN}
+export QUE_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/marketplace/
 export RMA_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/rma
 export FIREBOLT_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/logistics
 export FRENZY_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/insights/
@@ -74,6 +75,7 @@ export AVIS_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administra
 export COMPUTRON_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export COMPUTRON_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/orders/
 export HEDWIG_ADMIN_SVC=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
+export HEDWIG_ADMIN_URL=https://api.${FYND_PLATFORM_DOMAIN}/service/___/administrator/dp/
 
 #ENV's
 export SENTRY_DSN=''

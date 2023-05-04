@@ -275,6 +275,14 @@ const OrderService = {
             axiosOption
         );
     },
+    downloadBulkActionTemplate() {
+        let axiosOption = Object.assign(
+            {},
+            getCommonHeaderOptions(),
+            { params: params }
+        );
+        return ApiService.get(URLS.DOWNLOAD_BULK_ACTION_TEMPLATE(), axiosOption);
+    },
     fetchAnnouncementAlerts() {
         let axiosOption = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.FETCH_ANNOUNCEMENT_NOTE(), axiosOption);
@@ -345,6 +353,10 @@ const OrderService = {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
         return ApiService.get(URLS.GET_BULK_ACTION_LIST(), axiosOption);
     },
+    fetchBulkDownloadTemplateList() {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions());
+        return ApiService.get(URLS.GET_BULK_DOWNLOAD_TEMPLATE_LIST(), axiosOption);
+    },
     fetchBulkGenerateExcel(params) {
         let axiosOption = Object.assign(
             {},
@@ -354,13 +366,13 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_V2_BULK_GENERATE_EXCEL(), axiosOption);
     },
-    fetchBulkListDetailedData(data) {
+    fetchBulkListDetailedData(params) {
         let axiosOption = Object.assign(
             {},
             getCommonHeaderOptions(), 
-            {}
+            {params: params}
         );
-        return ApiService.get(URLS.FETCH_BULK_LIST_DETAILED_DATA(data), axiosOption);
+        return ApiService.get(URLS.FETCH_BULK_LIST_DETAILED_DATA(), axiosOption);
     },
     fetchDpActivityLogs(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
@@ -439,12 +451,12 @@ const OrderService = {
         );
         return ApiService.get(URLS.FETCH_QC_REASONS(shipmentId, bagId), axiosOptions);
     },
-    fetchReassignedStoreReasons(shipmentId, bagId) {
+    fetchSupportingReasons(shipmentId, bagId, status) {
         let axiosOptions = Object.assign(
             {},
             getCommonHeaderOptions(false)
         );
-        return ApiService.get(URLS.FETCH_REASSIGN_STORE_REASONS(shipmentId, bagId), axiosOptions);
+        return ApiService.get(URLS.FETCH_SUPPORTING_REASONS(shipmentId, bagId, status), axiosOptions);
     },
     fetchShipmentActivityLogs(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
@@ -512,6 +524,10 @@ const OrderService = {
     lockManager(data){
         let axiosOption = Object.assign({},getCommonHeaderOptions(), { data });
         return ApiService.post(URLS.LOCK_MANAGER_URL(), axiosOption)
+    },
+    getDownloadTemplate(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params });
+        return ApiService.get(URLS.GET_TEMPLATE(), axiosOption);
     },
     postLinkV2BulkAction(data) {
         let axiosOptions = Object.assign(
@@ -586,7 +602,11 @@ const OrderService = {
             URLS.UPDATE_SHIPMENT_STATUS(),
             axiosOption
         );
-    }
+    },
+    postShipmentActivityLog(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(), { data });
+        return ApiService.post(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
+    },
     /** OMS v2.1 --END */
 };
 export default OrderService;
