@@ -448,12 +448,6 @@ export const nextSchedule = schedule => {
     const ns = nextSchedules(schedule);
     return ns.length > 0 ? ns[0] : null;
 };
-export const detectFPApp = () => {
-    if (isBrowser) {
-        return window.__fpAppDetails;
-    };
-    return false;
-};
 
 export const allowNumbersOnly = function (event) {
     if ((event.ctrlKey || event.metaKey) && event.keyCode == 65) {
