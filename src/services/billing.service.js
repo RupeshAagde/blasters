@@ -80,6 +80,28 @@ const BillingService = {
             axiosOptions
         );
     },
+    getDowngradeRequestList(params,company_id) {
+        const axiosOptions = Object.assign(
+            {},
+            { params: params },
+            getCommonHeaderOptions()
+        );
+        return ApiService.get(
+            URLS.GET_DOWNGRADEPLAN_REQUEST(company_id),
+            axiosOptions
+        );
+    },
+    updateSubscriptionOnRequest(requestId, company_id, payload) {
+        const axiosOptions = Object.assign(
+            {},
+            { data: payload },
+            getCommonHeaderOptions()
+        );
+        return ApiService.patch(
+            URLS.UPDATE_SUBSCRIPTION_ON_REQUEST(company_id, requestId),
+            axiosOptions
+        );
+    },
     getPlanDetail(planId) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions());
         return ApiService.get(URLS.PLAN_DETAILS(planId), axiosOptions);

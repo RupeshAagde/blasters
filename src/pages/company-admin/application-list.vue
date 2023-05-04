@@ -190,12 +190,7 @@
 ::v-deep .nitrozen-pagination__select {
     margin-right: -24px !important;
 }
-::v-deep .page-error {
-    img {
-        width: 200px !important;
-        height: 150px !important;
-    }
-}
+
 .cust-space {
     margin-right: 12px;
     ::v-deep svg {

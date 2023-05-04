@@ -200,6 +200,9 @@
         <div v-show="activeTabIndex === 5">
             <list-deployment :company_name="profileDetails.name" />
         </div>
+        <div v-show="activeTabIndex === 6">
+            <seller-request-list ></seller-request-list >
+        </div>
     </div>
 </template>
 <style lang="less" scoped>
@@ -270,12 +273,7 @@
 ::v-deep .nitrozen-pagination__select {
     margin-right: -24px !important;
 }
-::v-deep .page-error {
-    img {
-        width: 200px !important;
-        height: 150px !important;
-    }
-}
+
 .cust-space {
     margin-right: 12px;
     ::v-deep svg {
@@ -413,6 +411,7 @@ import {
 } from '@gofynd/nitrozen-vue';
 import { FETCH_METRICS } from '@/store/action.type';
 import marketplaceChannels from './mkp-channels.vue';
+import sellerRequestList from '../seller-request/seller-request-list.vue';
 import invoiceListing from './invoice-listing.vue';
 import admcompanysubscription from './subscription.vue';
 import deploymentList from './deployment-listing.vue';
@@ -427,6 +426,7 @@ const TAB_NAMES = [
     'Subscription',
     'Invoices',
     'Infra',
+    'Downgrade Plan Requests'
 ];
 export default {
     name: 'adm-company-profile',
@@ -447,6 +447,7 @@ export default {
         'adm-inline-svg': admInlineSVG,
         'invoice-listing': invoiceListing,
         'list-deployment': deploymentList,
+        'seller-request-list':sellerRequestList
     },
     data() {
         return {
