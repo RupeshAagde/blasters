@@ -42,7 +42,7 @@
         <div class="failed-records-container">
             <div class="header-table">
                 <div class="title">Failed Records</div>
-                <div class="download-link-container" v-if="!isEmpty(records.sh_ids)">
+                <div class="download-link-container" v-if="!isEmpty(records.sh_ids)"  @click="downloadRecords">   
                     <adm-inline-svg :src="'oms-bulk-download'" />
                     <span class="download-link-text">Records</span>
                 </div>
