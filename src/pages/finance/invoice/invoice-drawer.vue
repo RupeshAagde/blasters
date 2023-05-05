@@ -168,7 +168,7 @@ methods: {
                     utrNum: '',
                     remarks: '',
                 },
-                paymentSelection: '',
+                paymentSelection: 'cash',
                 enableTranSave:true,
                 paymentMode: {
                     cash: true,

@@ -58,11 +58,9 @@ export default {
     },
     methods: {
         confirmHelper() {
-            console.log(this.type);
             if(this.type === 'void'){
                 this.invoiceVoid();
             }
-            //this.$emit('confirm', this.type);
         },
         cancelHelper() {
             this.$emit('cancel');

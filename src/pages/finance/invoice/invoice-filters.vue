@@ -71,7 +71,6 @@
                                 v-on:click="removeChips(index, item, selectedInvoiceType, invoiceChips)"
                                 ></nitrozen-inline>
                                 </nitrozen-chips>
-                            <!-- :placeholder="`${selectedInvoiceType ? selectedInvoiceTypeName() : 'Seller ID'}`" -->
                             </accordion>
                         </div>
                     </div>

@@ -97,7 +97,6 @@
                         <th v-for="(header,index) in invoiceDetails.headers" :key="index">
                             {{ header }}
                         </th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,7 +110,6 @@
                             v-for="(invoice, i) in invoiceDetails.items"
                             :key="i"
                         >
-                        <!-- @click="downloadInvoice([invoice.invoice_number])" -->
                             <td>
                                 <nitrozen-checkbox
                                     class="table-checkout"
@@ -123,43 +121,66 @@
                                             ? true
                                             : false
                                     "
-                                    :disabled="invoice.status.toLowerCase() != 'paid'"
+                                    :disabled="!invoice.is_downloadable"
                                 >
                                 <!-- :disabled="invoice.status != 'paid'" THE CONDITION MIGHT CHANGE -->
                                 </nitrozen-checkbox>
                             </td>
-                            <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
+                            <!-- <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
                                 <span v-if="item && item.length > 0">{{ item }}</span>
                                 <span v-else> - </span>
-                            </td>
-                            <!-- Status can be made dynamic with a captialization function -->
-                            <td>
-                                <div
-                                    class="pay-status status-process"
+                            </td> -->
+                            <td :title="invoice.company" class="company">{{ invoice.company }}</td>
+                            <td>{{ invoice.invoice_number }}</td>
+                            <td>{{ invoice.invoice_type }}</td>
+                            <td>{{ invoice.invoice_date }}</td>
+                            <td>{{ invoice.period }}</td>
+                            <td>{{ invoice.amount }}</td>
+                            <td>{{ invoice.due_date }}</td>
+                            <td class="status">
+                                <!-- <div class="status-type">
+                                    <div
+                                        class="pay-status status-process"
+                                        v-if="invoice.status.toLowerCase() === 'processing'"
+                                    >
+                                        In Process
+                                    </div>
+                                    <div
+                                        class="pay-status status-paid"
+                                        v-else-if="invoice.status.toLowerCase() === 'paid'"
+                                    >
+                                        Paid
+                                    </div>
+                                    <div
+                                        class="pay-status status-void"
+                                        v-else-if="invoice.status.toLowerCase() === 'void'"
+                                    >
+                                        Void
+                                    </div>
+                                    <div 
+                                        class="pay-status status-unpaid"
+                                        v-else-if="invoice.status.toLowerCase() === 'unpaid'"
+                                    >
+                                        Unpaid
+                                    </div>
+                                </div> -->
+                                <nitrozen-badge
+                                    state="info"
                                     v-if="invoice.status.toLowerCase() === 'processing'"
-                                >
-                                    In Process
-                                </div>
-                                <div
-                                    class="pay-status status-paid"
-                                    v-else-if="invoice.status.toLowerCase() === 'paid'"
-                                >
-                                    Paid
-                                </div>
-                                <div
-                                    class="pay-status status-void"
-                                    v-else-if="invoice.status.toLowerCase() === 'void'"
-                                >
-                                    Void
-                                </div>
-                                <div 
-                                    class="pay-status status-unpaid"
+                                >{{ invoice.status }}</nitrozen-badge>
+                                <nitrozen-badge
+                                    state="warn"
                                     v-else-if="invoice.status.toLowerCase() === 'unpaid'"
-                                >
-                                    Unpaid
-                                </div>
-                            </td>
-                            <td>
+                                >{{ invoice.status }}</nitrozen-badge>
+                                <nitrozen-badge
+                                    state="success"
+                                    v-else-if="invoice.status.toLowerCase() === 'paid'"
+                                >{{ invoice.status }}</nitrozen-badge>
+                                <nitrozen-badge
+                                    state="default"
+                                    v-else-if="invoice.status.toLowerCase() === 'void'"
+                                >{{ invoice.status }}</nitrozen-badge>
+
                                 <div class="actions-wrap">
                                     <div
                                         :class="[
@@ -178,7 +199,8 @@
                                             >
                                                 Offline Payment
                                             </nitrozen-menu-item>
-                                            <!-- <nitrozen-menu-item
+                                            <!-- To be used in future enhancement
+                                            <nitrozen-menu-item
                                                 class="act-debt"
                                                 v-if="invoice.status === 'unpaid'"
                                                 @click="
@@ -265,6 +287,7 @@ import {
     NitrozenInput,
     NitrozenPagination,
     NitrozenMenu,
+    NitrozenBadge,
     NitrozenMenuItem,
     NitrozenDropdown,
     NitrozenButton,
@@ -290,6 +313,7 @@ export default {
         NitrozenMenuItem,
         NitrozenDropdown,
         NitrozenButton,
+        NitrozenBadge,
         'filter-drawer': invoiceFilterDrawer,
         'invoice-drawer': invoiceDrawer,
         'pop-up': invoicePopup,
@@ -314,8 +338,8 @@ export default {
             isFilterDrawerOpen: false,
             showPopup: false,
             searchText: '',
-            downloadUrlList: [],
-            disabled: 'disabled',
+            //downloadUrlList: [],
+            //disabled: 'disabled',
             bulkDownloadList: [],
             popupData: {
                 invoiceNumber: '',
@@ -358,9 +382,6 @@ export default {
                         if (item.status.toLowerCase() === 'paid') {
                             return item.invoice_number;
                         }
-                        /* if (item.status === 'paid') {
-                            
-                        } */
                     }
                 );
                 this.bulkDownloadList = this.invoiceDetails.items
@@ -381,9 +402,6 @@ export default {
             this.selectedInvoices.push(invoice_num);
             this.bulkDownloadList.push(invoice_num);
         },
-        /* downloadFiles() {
-            this.downloadInvoice(this.bulkDownloadList);
-        }, */
         handlePageChanges(e) {
             this.pageObject = e;
             this.getInvoiceList();
@@ -435,7 +453,6 @@ export default {
                 );
             }
         },
-        paymentOptnChange() {},
         searchByInput: debounce(function(e) {
             this.getInvoiceList();
         }, 1000),
@@ -446,13 +463,13 @@ export default {
             this.showPopup = true;
             this.popupData.type = 'void';
         },
-        handleAutoDebt(number) {
+        /* handleAutoDebt(number) {
             this.popupData.invoiceNumber = number;
             this.popupData.heading = 'Retry Auto debt';
             this.popupData.desc = `Are you sure you want to retry auto dept for this Invoice (${number}) ?`;
             this.showPopup = true;
             this.popupData.type = 'debt';
-        },
+        }, */
         downloadFile(url, filename) {
             fetch(url).then(function(t) {
                 return t.blob().then((b) => {
@@ -502,9 +519,6 @@ export default {
                     search: query
                 }
             };
-            /* if (query) {
-                params.data.search = query;
-            } */
             return FinanceService.getCompanyList(params)
                 .then((res) => {
                     this.companyNames = res.data.company_list;
@@ -657,11 +671,6 @@ export default {
             border: 1px solid #e0e0e0;
         }
         thead {
-            tr {
-                th {
-                    text-align: left;
-                }
-            }
             tr:first-child {
                 background: #f8f8f8;
                 color: black;
@@ -669,18 +678,60 @@ export default {
         }
         th,
         td {
+            width: fit-content;
+            text-align: center;
             padding: 15px;
         }
+        th:last-child{
+            text-align: left;
+        }
+        /* th:last-child{
+            width: 2em;
+        } */
+        td:last-child{
+            width: unset !important;
+        }
+        
     }
-    .pay-status {
+
+    .company{
+        display: table-cell;
+        position: relative;
+        max-width: 120px;
+        width: 130px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+    }
+
+    .status{
+        //gap: 10px;
+        //gap: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* .status-type{
+        gap: 9px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        .invoice-type{
+            font-size: 10px;
+        }
+    } */
+    /* .pay-status {
+        max-width: fit-content;
         border: 1px solid #e3f2e9;
         background: #e3f2e9;
         color: #0a5f23;
         display: inline;
         padding: 3px 20px;
         border-radius: 4px;
-    }
-    .status-unpaid {
+    } */
+    /* .status-unpaid {
         color: #b54708;
         border: 1px solid #fff5d6;
         background: #fff5d6;
@@ -694,7 +745,7 @@ export default {
         color: #cd0909;
         border: 1px solid #fdeded;
         background: #fdeded;
-    }
+    } */
 }
 
 .pagination-container {
