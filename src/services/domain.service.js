@@ -386,6 +386,12 @@ const URLS = {
     CURRENT_SUBSCRIPTION_DETAILS: () => {
         return urlJoin(UNICRON_BASE, 'v1.0/subscription/current');
     },
+    GET_DOWNGRADEPLAN_REQUEST: (company_id) => {
+        return urlJoin(UNICRON_BASE, `v1.0/company/${company_id}/company-subscription/downgrade-request`);
+    },
+    UPDATE_SUBSCRIPTION_ON_REQUEST: (company_id, requestId) => {
+        return urlJoin(UNICRON_BASE, `v1.0/company/${company_id}/company-subscription/downgrade-request/${requestId}`);
+    },
     SUBSCRIPTION_DAYTRADER_RULES: (subscriptionId) => {
         return urlJoin(
             UNICRON_BASE,
@@ -836,6 +842,23 @@ const URLS = {
     },
     GET_AUDIT_TRAIL_ENTITY_TYPES:()=>{
         return urlJoin(PINPOINTER_ADMIN_URL, `/v1.0/entity-types`);
+    },
+
+    // OAUTH CLIENT CRUD URLS
+    GET_OAUTH_CLIENT_LISTING: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/oauth/client/');
+    },
+    GET_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
+    },
+    CREATE_OAUTH_CLIENT: () => {
+        return urlJoin(SKYWARP_ADMIN_BASE, '/v1.0/oauth/client/');
+    },
+    UPDATE_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
+    },
+    DELETE_OAUTH_CLIENT: (clientId) => {
+        return urlJoin(SKYWARP_ADMIN_BASE, `/v1.0/oauth/client/${clientId}/`);
     },
     /* changes from jiomarket: cbs configuration */
     INTERNAL_MARKETPLACES_ADMIN_SERVICE: (id = '') => {

@@ -193,13 +193,6 @@ const conf = convict({
             env: 'GRINDOR_ADMIN_URL',
             arg: 'GRINDOR_ADMIN_URL'
         },
-        GRINDOR_MAIN_SVC: {
-            doc: 'Grindor file upload service',
-            format: String,
-            default: '',
-            env: 'GRINDOR_MAIN_SVC',
-            arg: 'GRINDOR_MAIN_SVC'
-        },
         GRINGOTTS_MAIN_URL: {
             doc: 'Gringgotts Public URL',
             format: String,

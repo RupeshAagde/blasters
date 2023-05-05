@@ -244,10 +244,25 @@
                         @change="changePlanDropdown"
                         @searchInputChange="searchPlans"
                         :placeholder="'Search Plans'"
+                        :isPlanDowngraded="isPlanDowngraded"
                     ></nitrozen-dropdown>
                     <nitrozen-error class="bottom-space" v-if="selectedForChangeError">
                         Please select valid plan
-                    </nitrozen-error> 
+                    </nitrozen-error>
+                    <div v-if="isPlanDowngraded">
+                        <div class="interval">
+                            <div class="plan-title">
+                                <img src='/public/assets/admin/svgs/plan-downgrade.svg' alt="plan Downgrade"/>
+                                <span>Plan Downgrade</span>
+                            </div>
+                            <div class="upgrade-details">
+                                <div class="previous-plan">{{safeGet(this.currentActivePlan,"subscription.plan_data.name")}}</div>
+                                <img src='/public/assets/admin/svgs/arrow_right_alt.svg' alt="arrow right"/>
+                                <div class="new-plan">{{safeGet(selectedPlan,"name")}}</div>
+                            </div>
+                        </div>
+                        <p class="plan-details">As a result of this, plan for the Seller will be downgraded to {{safeGet(selectedPlan,"name")}} Plan from Next Billing cycle.</p>
+                    </div>
                     <apply-coupon ref="add-coupon" :selectedPlan="selectedPlan" @emitCoupon="getCouponValue($event)" ></apply-coupon> 
                     <nitrozen-input
                         class="search m-t-24"
@@ -494,7 +509,14 @@ export default {
         selectedPlan(){
             let plan = this.plansList.find((obj)=>{ return obj._id == this.selectedForChange})
             return plan;
-        }
+        },
+        isPlanDowngraded(){
+            let plan=this.selectedPlan;
+            let currentPlan=get(this.currentActivePlan, 'subscription.plan_data.amount')
+            if(plan && currentPlan>plan.amount){
+                return true;
+            }
+        },
 
     },
     filters: {
@@ -1218,4 +1240,56 @@ export default {
 .activate-but{
 margin-top: 24px;
 }
+    .interval{
+        margin-top:16px;
+        display: flex;
+        justify-content: space-between;
+        width:100%;
+        padding: 17px;
+        margin-bottom:12px;
+        background: #E7EEFF;
+        border: 1px solid #2E31BE;
+        box-sizing: border-box;
+        border-radius: 4px;
+        .plan-title{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 140%;
+            color: #666666;
+            align-items: center;
+            display: flex;
+            span{
+                margin-left: 12px;
+            }
+            @media @mobile{
+                font-size: 14px;
+            }
+        }
+        .upgrade-details{
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 22px;
+            letter-spacing: 0em;
+            text-align: right;
+            color: #41434C;
+            display: flex;
+            align-items: center;
+
+            img{
+                margin-left: 12px;
+                margin-right: 12px;
+            }
+            @media @mobile{
+                font-size: 14px;
+            }
+        }
+    }
+    .plan-details{
+        color: #CD0909;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 140%;
+    }
 </style>

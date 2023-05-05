@@ -1,0 +1,56 @@
+
+{
+    "items": [
+        {
+            "status": "approved",
+            "_id": "637f13753a81bc8a0841d806",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "created_at": "2022-11-24T06:47:17.497Z",
+            "modified_at": "2022-11-24T08:17:43.402Z",
+            "plan_id": "610d03f02decb20043dac5af",
+            "reason": "help me",
+            "subscription_id": "610d1a8e54fff161ee57f608",
+            "user_id": "baf36b3de9e7668ae347a09e"
+        },
+        {
+            "status": "approved",
+            "_id": "637ef5c63a81bc8a08251d5a",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "created_at": "2022-11-24T04:40:38.480Z",
+            "modified_at": "2022-11-24T06:47:03.221Z",
+            "plan_id": "610d03f02decb20043dac5af",
+            "reason": "save me",
+            "subscription_id": "610d1a8e54fff161ee57f608",
+            "user_id": "baf36b3de9e7668ae347a09e"
+        },
+        {
+            "status": "approved",
+            "_id": "637ef51a3a81bc8a0824a745",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "created_at": "2022-11-24T04:37:46.490Z",
+            "modified_at": "2022-11-24T04:40:02.794Z",
+            "plan_id": "610d03f02decb20043dac5af",
+            "reason": "I have no money",
+            "subscription_id": "610d1a8e54fff161ee57f608",
+            "user_id": "baf36b3de9e7668ae347a09e"
+        },
+        {
+            "status": "cancelled",
+            "_id": "637dc27d3a81bc8a084fd320",
+            "subscriber_id": "610d1a8254fff1207157f606",
+            "created_at": "2022-11-23T06:49:33.114Z",
+            "modified_at": "2022-11-24T03:42:13.235Z",
+            "plan_id": "610d03f02decb20043dac5ac",
+            "reason": "I have no money",
+            "subscription_id": "610d1a8e54fff161ee57f608",
+            "user_id": "baf36b3de9e7668ae347a09e"
+        }
+    ],
+    "page": {
+        "type": "number",
+        "current": 1,
+        "size": 10,
+        "item_total": 4,
+        "has_next": false
+    }
+}
