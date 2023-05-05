@@ -66,7 +66,7 @@
                                         </div>
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
-                                        </div>
+                                        </div> 
                                         <div v-if="status.meta && status.meta.caller && status.meta.receiver"> 
                                             <span class="message-label"> Caller: </span> {{ status.meta.caller }}
                                             <span class="message-label"> Receiver: </span> {{ status.meta.receiver }}
