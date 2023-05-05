@@ -11,7 +11,7 @@
             </div> -->
             <div class="issue-list">
                 <div class="issue-list-header">
-                    <div class="ticket-id">Ticket #</div>
+                    <div class="ticket-id">Ticket ID</div>
                     <div class="title">Title</div>
                     <div class="status">Status</div>
                     <div class="category">Category</div>
@@ -27,7 +27,17 @@
                     :key="issue._id"
                 >
                     <div class="ticket-id">
-                        {{ issue.ticket_id }}
+                        <span 
+                            v-if="
+                                issue.integration && 
+                                issue.integration.freshdesk_info && 
+                                issue.integration.freshdesk_info.id
+                            "
+                            class="freshdesk-link"
+                            @click="navigateToFreshdesk(issue.integration.freshdesk_info.id)"
+                        >
+                            {{ issue.integration.freshdesk_info.id }}
+                        </span>
                     </div>
                     <div class="title">
                         <span class="link" @click="goToTicket(issue._id)">
@@ -121,7 +131,11 @@ export default {
                 },
                 params: { ticket_id }
             });
-        }
+        },
+        navigateToFreshdesk(freshdeskID) {
+            let freshdeskURL = `https://fynd.freshdesk.com/a/tickets/${freshdeskID}`;
+            window.open(freshdeskURL, '_blank');
+        },
     }
 }
 </script>
@@ -226,5 +240,14 @@ export default {
 .issues-table-body {
     height: 30vh;
     overflow: auto;
+}
+
+.freshdesk-link {
+    cursor: pointer;
+    color: @RoyalBlue;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 </style>

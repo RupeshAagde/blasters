@@ -3,6 +3,8 @@ import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
 import FinanceRoutes from './finance';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
+import OauthClientsVue from './../../pages/oauth-clients/index.vue';
+import OauthClientsDetails from './../../pages/oauth-clients/clients/details.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
@@ -1092,7 +1094,7 @@ export default [
             /** OMSv2.1 */
             {
                 name: 'company-orders-v2',
-                path: 'orders/',
+                path: 'orders-list/', 
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1269,6 +1271,30 @@ export default [
                     return checkUserPermission(to, from, next, [
                         'admin-access'
                     ]);
+                }
+            },
+            {
+                name: 'oauth-clients',
+                path: 'oauthclient',
+                component: OauthClientsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-oauth-client',
+                path: 'oauthclient/create',
+                component: OauthClientsDetails,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-oauth-client',
+                path: 'oauthclient/edit/:client_id',
+                component: OauthClientsDetails,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             //======================== CN DN ========================

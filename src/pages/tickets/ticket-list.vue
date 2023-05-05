@@ -103,6 +103,12 @@
                         </div>
                         <div class="right-container">
                             <nitrozen-badge
+                                v-if="ticket.status.key === 'open'"
+                                state="warn"
+                            >
+                                {{ticket.status.display}}
+                            </nitrozen-badge>
+                            <nitrozen-badge
                                 v-if="ticket.status.key === 'pending'"
                                 state="warn"
                             >

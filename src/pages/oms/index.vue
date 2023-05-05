@@ -23,7 +23,12 @@
                                 @change="changeFilterType"
                                 :items="searchShipmentFilter"
                                 v-model="filterType"
-                                :placeholder="filterType ? filterType : 'Auto'"
+                                :searchable="true"
+                                @searchInputChange="
+                                    findSearchTypes($event.text)
+                                "
+                                :placeholder="filterType"
+                                
                             />
                             <div class="inside-date-picker">
                                 <div v-if="search" @click="clearSearchNCall" class="date-picker-sqaure">.</div>
@@ -223,7 +228,7 @@
                         ></order-bulk-picklist>
                     </div> -->
                     <div class="empty-state" v-if="selectedView == 'orders' ? orders && !orders.length && !inProgress && !pageError : shipmentData && !shipmentData.length && !inProgress && !pageError">
-                        <adm-no-content :helperText="`No ${selectedView == 'orders' ? 'orders' : 'shipments'} found`" />
+                        <adm-no-content :helperText="`We couldn't find any shipments or orders matching your search. Please try adjusting the timeline by using the date range option located above, or try modifying the filters.`" />
                     </div>
                     <div
                         class="pagination-div"
@@ -351,11 +356,9 @@ const VIEW_OPTIONS = [
     // }
 ];
 
+
 const LANE_MAPPER = {
-    "0": "Unfulfilled",
-    "1": "Processed",
-    "2": "Return",
-    "3": "ActionCentre",
+    "0": "All"
 }
 
 export default {
@@ -442,8 +445,8 @@ export default {
             viewMoreFilters: false,
 
             selectedStageTabIndex: 0,
-            selectedStageTab: 'unfulfilled',
-            lane: "new",
+            selectedStageTab: 'all',
+            lane: "all",
             activeLaneIndex: 0,
             selectedStore: '',
             selectedDeploymentStore: '',
@@ -488,7 +491,7 @@ export default {
 
             debugShipmentView: false,
             debugOrderId: '',
-
+            searchTypesClone:[],
             companiesList: [],
             companiesError: false,
             companiesListLoading: false,
@@ -591,12 +594,13 @@ export default {
             return get_filters_promise
             .then(({ data }) => {
                 this.searchShipmentFilter = cloneDeep(data.global[1].options);
+                this.searchTypesClone = cloneDeep(data.global[1].options);
                 // this.fulfillingStoreFilter = cloneDeep(data.filters.global[0].options);
                 // this.filteredStores = cloneDeep(data.filters.global[0].options);
                 this.allAdvancedFilters = cloneDeep(data.advance);
                 this.laneMapper();
                 if(!this.filterType){
-                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value || 'shipment_id';
+                        this.filterType = this.$route.query.search_type || this.searchShipmentFilter.length && this.searchShipmentFilter[0].value;
                         this.searchPlaceholder = this.searchShipmentFilter.length && this.searchShipmentFilter[0].placeholder_text || this.searchShipmentFilter.length && this.searchShipmentFilter[0].text || 'Search by Shipment ID';
                         this.filterTypeMinSize = this.searchShipmentFilter.length && this.searchShipmentFilter[0].min_search_size;
                     }
@@ -728,7 +732,7 @@ export default {
                 ...query,
                 from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
                 to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-                super_lane: this.selectedStageTab || 'unfulfilled',
+                super_lane: this.selectedStageTab || 'all',
                 ...advanced_filters,
                 search_value: this.search,
                 search_type: this.filterType,
@@ -808,9 +812,9 @@ export default {
         changeView(e) {
             this.selectedView = e;
             this.pagination.current = 1;
-            this.lane = "new";
-            this.selectedStageTab = "unfulfilled";
-            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "new", super_lane: "unfulfilled", page: 1});
+            this.lane = "all";
+            this.selectedStageTab = "all";
+            this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "all", super_lane: "all", page: 1});
         },
         searchStore(text) {
             text = text ? text.toLowerCase() : text;
@@ -827,6 +831,18 @@ export default {
                 this.filteredStores = this.fulfillingStoreFilter;
                 this.filterChange();
             }
+        },
+        findSearchTypes(text){
+            if (text) {
+                this.searchShipmentFilter = this.searchTypesClone.filter((s) =>
+                    s.text.toLowerCase().includes(text.toLowerCase())
+                );
+            } else {
+                this.filterType = '';
+                this.searchShipmentFilter = this.searchTypesClone;
+            }
+
+
         },
         getOrderRequestParams() {
             if(this.searchValueActive == false || this.search == '') {
@@ -940,9 +956,9 @@ export default {
                     this.lane = '';
                 }
             } else {
-                this.selectedStageTab = 'unfulfilled';
+                this.selectedStageTab = 'all';
                 this.selectedStageTabIndex = 0;
-                this.lane = 'new'
+                this.lane = 'all';
             }
             if(this.search.length == 0) {
                 this.filterType = "auto";
@@ -1013,9 +1029,10 @@ export default {
             } = this.$route.query;
             this.pagination.current = +page || this.pagination.current;
             this.pagination.limit = +limit || this.pagination.limit;
-            this.selectedStageTab = super_lane || 'unfulfilled';
-            this.lane = lane || 'new';
-            // this.search = search || this.search;
+            this.selectedStageTab = super_lane || 'all';
+            this.lane = lane || 'all';
+            this.search = search || this.search;
+            this.filterType = search_type || this.filterType;
             this.selectedView = selected_view || this.selectedView;
             this.selectedAdvancedFilters = selected_filters?JSON.parse(selected_filters):{};
 
@@ -1143,18 +1160,24 @@ export default {
                 start_date,end_date
             ];
 
-            this.setRouteQuery({
-                page: this.pagination.current,
-                limit: this.pagination.limit,
-                super_lane: this.selectedStageTab,
-                lane: this.lane,
-                // search: this.search,
-                filterType: this.filterType,
-                selected_view: this.selectedView,
-                from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
-                to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
-            })
-            this.fetchSuperLanes();
+            if(this.search) {
+                this.onSearchInput({"keyCode": 13});
+            }
+            else {
+                this.setRouteQuery({
+                    page: this.pagination.current,
+                    limit: this.pagination.limit,
+                    super_lane: this.selectedStageTab,
+                    lane: this.lane,
+                    search: this.search,
+                    filterType: this.filterType,
+                    selected_view: this.selectedView,
+                    from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
+                    to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
+                })
+
+                this.fetchSuperLanes();
+            }
         },
         populateFilters() {
             const { stores, deployment_stores } = this.$route.query;
@@ -1198,25 +1221,26 @@ export default {
             ) {
                 for(let item in query) {
                     if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                        // delete query[item];
+                        query[item] = null;
                     }
-                }
+                };
 
-                for(let item in this.$route.query) {
-                    let query = this.$route.query;
-                    if(query[item] === undefined || query[item] === null || query[item].length === 0) {
-                        delete query[item];
+                let _query = {
+                    ...this.$route.query,
+                    ...query
+                };
+
+                for(let item in _query) {
+                    if(_query[item] === undefined || _query[item] === null || _query[item].length === 0) {
+                        delete _query[item];
                     }
-                }
+                };
 
-                delete query.search
                 this.$router
                 .push({
                     path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        ...query,
-                    },
+                    query: _query
                 })
                 .catch(() => {});
             }
@@ -1678,7 +1702,6 @@ export default {
             }
 
             .filter-dropdown {
-                // min-width: 250px;
                 min-width: 150px;
                 width: 200px;
                 ::v-deep .nitrozen-dropdown-label {
@@ -1696,21 +1719,22 @@ export default {
                                 }
                             }
                         }
+                        .nitrozen-options {
+                            .nitrozen-option {
+                                .nitrozen-option-container {
+                                    padding: 6px 14px;
+                                }
+                            }
+                        }
                     }
 
                 }
                 ::v-deep .nitrozen-checkbox-container {
                     height: 30px !important;
                 }
-                ::v-deep .nitrozen-option-image {
-                    height: 20px;
-                }
                 &.channel-dropdown {
                     width: 120px;
                 }
-                // &.store-dropdown {
-                //     width: 200px;
-                // }
             }
         }
     }

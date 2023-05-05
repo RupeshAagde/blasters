@@ -11,16 +11,19 @@
             <div class="dropdowns">
                 <nitrozen-dropdown
                     label="Next Bag State"
+                    :searchable="true"
                     @change="onStateChange"
-                    :items="bagStates"
+                    :items="bagStateOptions"
                     v-model="selectedState"
+                    @searchInputChange="onSearchState($event)"
                 />
                 <nitrozen-dropdown
                     label="Reason"
                     :searchable="true"
                     @change="onReasonChange"
-                    :items="reasons"
+                    :items="reasonOptions"
                     v-model="selectedReason"
+                    @searchInputChange="onSearchReason($event)"
                     v-if="showReasons"
                 />
             </div>
@@ -84,10 +87,12 @@ export default {
         return {
             allBagStates: {},
             bagStates: [],
+            bagStateOptions: [],
             bagStateFetchError: false,
             fetchingBagStates: false,
             note: '',
             reasons: [],
+            reasonOptions: [],
             selectedReason: '',
             selectedState: '',
             inputStates: [],
@@ -106,11 +111,14 @@ export default {
             this.inputStates = Object.keys(this.shipment.next_possible_states)
         }
         this.fetchBagStates();
-        this.fetchReasons();
     },
     computed: {
         showReasons() {
-            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let validStates = ['bag_not_confirmed', 'cancelled_fynd', 
+                                'cancelled_seller', 'cancelled_customer', 
+                                'return_initiated', "bag_lost", 
+                                "return_bag_lost", "dead_stock", 
+                                "deadstock","deadstock_defective"];
             return validStates.includes(this.selectedState);
         }
     },
@@ -158,6 +166,7 @@ export default {
                                 }
                             });
                         } else this.bagStates = [];
+                        this.bagStateOptions = this.bagStates;
                         this.bagStateFetchError = false;
                     } else {
                         console.error("Error in fetching the states for bag state transition:   ", "No status available in shipment");
@@ -202,7 +211,7 @@ export default {
                 this.shipment.bags && 
                 this.shipment.bags.length
             ) {
-                return OrdersService.fetchReassignedStoreReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id)
+                return OrdersService.fetchSupportingReasons(this.shipment.shipment_id, this.shipment.bags[0].bag_id, this.selectedState)
                 .then(response => {
                     if(response.data && response.data.success && response.data.reasons) {
                         if(response.data.reasons.length) {
@@ -211,6 +220,7 @@ export default {
                                 reason['value'] = reason.id;
                                 return reason;
                             });
+                            this.reasonOptions = this.reasons
                         } else {
                             this.reasons = [];
                         }
@@ -277,7 +287,22 @@ export default {
         onRemarkChange() {
             this.emitChange();
         },
-
+        onSearchState(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.bagStateOptions = this.bagStates.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.bagStates;
+            }
+        },
+        onSearchReason(event){
+            let text = event.text.trim().toLowerCase();
+            if(text){
+                this.reasonOptions = this.reasons.filter(s => s.text.toLowerCase().includes(text));
+            } else {
+                this.bagStateOptions = this.reasons;
+            }
+        },
         /**
          * Event handler for change in state.
          * 
@@ -285,6 +310,7 @@ export default {
          */
         onStateChange() {
             this.emitChange();
+            this.fetchReasons();
         }
     }
 }

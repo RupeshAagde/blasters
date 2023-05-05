@@ -695,6 +695,10 @@ export default {
             this.getStores();
         },
         paginationChange(e) {
+            let storeDiv = document.querySelector(".stores")
+            if(storeDiv) {
+                storeDiv.scrollIntoView({ behavior: 'smooth'});
+            }
             this.paginationConfig = e;
             this.setPage(this.paginationConfig);
         },

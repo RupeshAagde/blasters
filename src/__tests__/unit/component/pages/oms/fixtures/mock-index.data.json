@@ -26257,127 +26257,24 @@
     },
 
     "laneResponseData": {
-            "super_lanes": [
+        "super_lanes": [
+            {
+              "text": "All",
+              "value": "all",
+              "options": [
                 {
-                    "text": "Unfulfilled",
-                    "value": "unfulfilled",
-                    "options": [
-                        {
-                            "text": "Confirmed",
-                            "value": "confirmed",
-                            "total_items": 14,
-                            "index": 2,
-                            "actions": []
-                        },
-                        {
-                            "text": "New",
-                            "value": "new",
-                            "total_items": 30,
-                            "index": 1,
-                            "actions": []
-                        },
-                        {
-                            "text": "To Be Packed",
-                            "value": "to_be_packed",
-                            "total_items": 14,
-                            "index": 3,
-                            "actions": []
-                        },
-                        {
-                            "text": "Ready To Dispatch",
-                            "value": "ready_for_dispatch",
-                            "total_items": 26,
-                            "index": 4,
-                            "actions": []
-                        }
-                    ],
-                    "total_items": 84
-                },
-                {
-                    "text": "Processed",
-                    "value": "processed",
-                    "options": [
-                        {
-                            "text": "In transit",
-                            "value": "in_transit",
-                            "total_items": 0,
-                            "index": 5,
-                            "actions": []
-                        },
-                        {
-                            "text": "Handed Over to Customer",
-                            "value": "handed_over_to_customer",
-                            "total_items": 0,
-                            "index": 6,
-                            "actions": []
-                        },
-                        {
-                            "text": "Delivery Done",
-                            "value": "delivered",
-                            "total_items": 0,
-                            "index": 7,
-                            "actions": []
-                        },
-                        {
-                            "text": "Cancelled",
-                            "value": "cancelled",
-                            "total_items": 0,
-                            "index": 8,
-                            "actions": []
-                        }
-                    ],
-                    "total_items": 0
-                },
-                {
-                    "text": "Return",
-                    "value": "return",
-                    "options": [
-                        {
-                            "text": "Return Initiated",
-                            "value": "return_initiated",
-                            "total_items": 0,
-                            "index": 9,
-                            "actions": []
-                        },
-                        {
-                            "text": "Return In Transit",
-                            "value": "return_in_transit",
-                            "total_items": 0,
-                            "index": 10,
-                            "actions": []
-                        },
-                        {
-                            "text": "Return Delivered",
-                            "value": "return_delivered",
-                            "total_items": 0,
-                            "index": 11,
-                            "actions": []
-                        },
-                        {
-                            "text": "Return Accepted",
-                            "value": "return_accepted",
-                            "total_items": 0,
-                            "index": 12,
-                            "actions": []
-                        }
-                    ],
-                    "total_items": 0
-                },
-                {
-                    "text": "Action Center",
-                    "value": "action_center",
-                    "options": [
-                        {
-                            "text": "Action Center",
-                            "value": "action_center",
-                            "total_items": 0,
-                            "index": 13,
-                            "actions": []
-                        }
-                    ],
-                    "total_items": 5
+                  "text": "All",
+                  "value": "all",
+                  "total_items": 5549,
+                  "index": 1,
+                  "actions": [
+                    
+                  ]
                 }
-            ]
+              ],
+              "total_items": 5549
+            }
+          ]
         }
     
 }

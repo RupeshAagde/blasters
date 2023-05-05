@@ -166,6 +166,18 @@
                         {{ shipment.invoice.store_invoice_id }}
                     </div>
                 </div>
+                <div v-if="shipment &&
+                shipment.affiliate_details && 
+                shipment.affiliate_details.affiliate_meta && 
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id">
+                    <div class="header-title">Orignal Invoice ID</div>
+                    <br />
+                    <div class="details-data">
+                        {{ shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id }}
+                    </div>
+                </div>
 
                 <!-- <div v-if="shipment.invoice.external_invoice_id">
                     <div class="header-title">External Invoice ID</div>
@@ -258,6 +270,32 @@
                     ₹{{ shipment.order.prices.delivery_charge.toFixed(2) }}
                 </span>
             </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment &&
+                 shipment.affiliate_details &&
+                 shipment.affiliate_details.affiliate_meta &&
+                 shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type"
+            >
+                <span class="header-title"> Replacement Type: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment && 
+                shipment.affiliate_details &&
+                shipment.affiliate_details.affiliate_meta &&
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id"
+            >
+                <span class="header-title"> Orignal Order ID: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id }}
+                </span>
+            </div>
 
             <div v-if="shipment.is_dp_assign_enabled" class="extra-info-box">
                 <span class="header-title"> Estimated Delivery Partner: </span>
@@ -307,6 +345,51 @@
                 </span>
             </div>
 
+            <div 
+                class="extra-info-box" 
+                v-if="shipment.fulfilling_store && shipment.fulfilling_store.phone">
+                <span class="header-title"> Fulfilling Store Phone: </span>
+                <span 
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.phone)"
+                >
+                    {{ shipment.fulfilling_store.phone }}
+                </span>
+                <span v-if="shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.additional_contact_details &&
+                    shipment.fulfilling_store.meta.additional_contact_details.number">
+                    <span class="details-data copy-to-click"
+                        v-for="(item, index) in shipment.fulfilling_store.meta.additional_contact_details.number"
+                        :key="index"
+                        @click="copyToClipboard($event, shipment.fulfilling_store.meta.additional_contact_details.number[index])">
+                        , {{ item }}
+                    </span>
+                </span>
+            </div>
+
+            <div 
+                class="extra-info-box" 
+                v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
+                <span class="header-title"> Fulfilling Store Email: </span>
+                <span 
+                    v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
+                    :key="index"
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
+                >
+                    <span v-if="index > 0">
+                        ,
+                    </span>
+                    {{ item }}
+                </span>
+            </div>
+
             <div class="extra-info-box" v-if="viewPrescription.length">
                 <span class="header-title"> View Prescription </span>
                 <span class="details-data">
@@ -342,10 +425,11 @@
                 class="extra-info-box"
                 v-if="dunzoOtpCheck()"
             >
-                <span v-if="
+                <span 
+                    v-if="
                     (shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)) ||
                     (shipment.meta.otp_details.pick && dunzoForwardStatuses.includes(shipment.status.status))
-                " 
+                    " 
                     class="header-title"> DP OTP: </span>
                 <span v-if="shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)" class="details-data">
                     {{ shipment.meta.otp_details.drop }}
@@ -1237,4 +1321,7 @@ export default {
     }
 }
 
+.copy-to-click {
+    cursor: pointer;
+}
 </style>
