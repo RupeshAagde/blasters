@@ -507,7 +507,7 @@ export default {
         fetchFulfillmentCentres(params = {}) {
             params = {
                 page_no: 1,
-                page_size: 500,
+                page_size: 10,
                 ...params,
             };
             return OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
@@ -834,7 +834,7 @@ export default {
              * Code is subject to change, currently if text length is zero,
              * we are removing the store from component data
              * */
-            if (text.length === 0) {
+            if (text && text.length === 0) {
                 this.selectedStore = '';
                 this.onFulfillmentCenterChange();
             } else {

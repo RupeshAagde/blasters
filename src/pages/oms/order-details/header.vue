@@ -13,6 +13,17 @@
         </div>
 
         <div class="action-container">
+            <div class="search-box">
+                <nitrozen-input
+                    :showSearchIcon="true"
+                    class="search filter-input-lg filter-item"
+                    type="search"
+                    placeholder="Search by Shipment Id"
+                    v-model="search"
+                    @keyup="navigateToDetailsBySearch"
+                />
+            </div>
+
             <div
                 ref="refresh-button" 
                 class="refresh-icon-container"
@@ -46,7 +57,7 @@
 <script>
 /* Package imports */
 import {
-    NitrozenButton
+    NitrozenButton, NitrozenInput
 } from '@gofynd/nitrozen-vue';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -67,7 +78,8 @@ export default {
     components: {
         UktInlineSvg,
         InlineSvg,
-        NitrozenButton
+        NitrozenButton,
+        NitrozenInput
     },
 
     props: [
@@ -83,7 +95,8 @@ export default {
             orderIndex: 0,
             prevDisabled: false,
             showPrevNext: false,
-            totalShipments: 0
+            totalShipments: 0,
+            search: ""
         }
     },
 
@@ -205,6 +218,29 @@ export default {
                     ...updatedQuery
                 }
             });
+        },
+
+        navigateToDetailsBySearch(event) {
+            try {
+                if(event.keyCode == 13) {
+                    let returnToListingQuery = cloneDeep(this.$route.query);
+                    returnToListingQuery.search = this.search;
+                    returnToListingQuery.search_type = 'shipment_id';
+                    delete returnToListingQuery.shipmentId;
+                    delete returnToListingQuery.has_previous;
+                    delete returnToListingQuery.has_next;
+
+                    this.$router.push({
+                        name: this.readOnlyMode ? 'application-orders-v2': 'company-orders-v2',
+                        query: {
+                            ...returnToListingQuery
+                        }
+                    });
+                }
+            } catch(error) {
+                console.error("Not able to search shipment id:   ", error);
+            }
+            
         }
     }
 }
@@ -230,6 +266,32 @@ export default {
     .action-container {
         display: flex;
         align-items: center;
+        .search-box {
+            margin-right: 40px;
+            .search {
+                min-width: 400px;
+                width: 40%;
+                // ::v-deep .n-input-label-container{
+                //     padding-bottom: 8px;
+                // }
+                @media @mobile {
+                    min-width: 100%;
+                }
+            }
+
+            .filter-input-lg {
+                min-width: 250px;
+                width: 34%;
+                @media @mobile {
+                    width: 100%;
+                }
+            }
+
+            .filter-item {
+                width: 100% !important;
+                font-size: 12px !important;
+            }
+        }
     }
 
     .title-container {

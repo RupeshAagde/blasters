@@ -159,13 +159,14 @@ export default {
             });
         },
 
-        getFulfillmentCenter() {
+        getFulfillmentCenter(params = {}) {
             let centerOfFulfillment = [];
-            let params = {
+            let param = {
                 page_no: 1,
-                page_size: 500
+                page_size: 10,
+                ...params
             };
-            OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
+            OrderService.getFulfillmentCenterV2(param, this.selectedCompany)
                 .then(({ data }) => {
                     centerOfFulfillment = data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
                   if(
@@ -201,7 +202,7 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          */
         onCompanyChange() {
-            this.getFulfillmentCenter();
+            this.getFulfillmentCenter({});
         },
 
         /**
@@ -231,22 +232,23 @@ export default {
             }
             this.fetchCompanies({q: text});
         }, 300),
-
-        searchStore(text) {
-            text = text ? text.toLowerCase() : text;
-            if (text) {
-                this.filteredStores = this.fulfillingStoreFilter.filter((s) =>
-                    s.text.toLowerCase().includes(text) ||
-                    s.uid && s.uid.toString().toLowerCase().includes(text) ||
-                    s.store_code && s.store_code.toString().toLowerCase().includes(text)
-                        ? true
-                        : false
-                );
-            } else {
-                this.selectedFulfillmentCentre = '';
-                this.filteredStores = this.fulfillingStoreFilter;
-            }
+           /**
+         * Method to handle searches on the store
+         *
+         * @author: Rushabh Mulraj Shah
+         */
+         searchStore: debounce(function (text) {
+        /**
+         * Code is subject to change, currently if text length is zero,
+         * we are removing the store from component data
+         * */
+        if (text && text.length === 0) {
+            this.selectedFulfillmentCentre = '';
         }
+        this.getFulfillmentCenter({ q: text });
+        }, 300),
+
+   
     }
 }
 </script>

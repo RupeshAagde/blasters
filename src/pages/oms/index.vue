@@ -553,14 +553,15 @@ export default {
         onKeyUpForwardShipmentID(event) {
             this.emptyForwardShipmentId = event.target.value.length > 0 ? true : false;
         },
-        getFulfillmentCenter() {
+        getFulfillmentCenter(params) {
             let centerOfFulfillment = [];
-            let params = {
+             let param = {
                 page_no: 1,
-                page_size: 500
+                page_size: 10,
+                ...params
             };
 
-            OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
+            OrderService.getFulfillmentCenterV2(param, this.selectedCompany)
                 .then(({ data }) => {
                     centerOfFulfillment = data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
                     if(
@@ -816,22 +817,22 @@ export default {
             this.selectedStageTab = "all";
             this.applyAdvancedFilters({closeDrawer: true}, {selected_view: e, lane: "all", super_lane: "all", page: 1});
         },
-        searchStore(text) {
-            text = text ? text.toLowerCase() : text;
-            if (text) {
-                this.filteredStores = this.fulfillingStoreFilter.filter((s) =>
-                    s.text.toLowerCase().includes(text) ||
-                    s.uid && s.uid.toString().toLowerCase().includes(text) ||
-                    s.store_code && s.store_code.toString().toLowerCase().includes(text)
-                        ? true
-                        : false
-                );
-            } else {
-                this.selectedStore = '';
-                this.filteredStores = this.fulfillingStoreFilter;
-                this.filterChange();
-            }
-        },
+          /**
+         * Method to handle searches on the store
+         *
+         * @author: Rushabh Mulraj Shah
+         */
+         searchStore: debounce(function (text) {
+        /**
+         * Code is subject to change, currently if text length is zero,
+         * we are removing the store from component data
+         * */
+        if (text && text.length === 0) {
+            this.selectedStore = '';
+            this.filterChange();
+        }
+        this.getFulfillmentCenter({ q: text });
+        }, 300),
         findSearchTypes(text){
             if (text) {
                 this.searchShipmentFilter = this.searchTypesClone.filter((s) =>
@@ -1450,7 +1451,7 @@ export default {
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          */
         onCompanyChange() {
-            this.getFulfillmentCenter();
+            this.getFulfillmentCenter({});
         },
 
         /**

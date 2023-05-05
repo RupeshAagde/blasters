@@ -907,6 +907,23 @@ export default {
                     ],
                     entities: []
                 }
+            } else {
+                payload.statuses[0].shipments[0]['data_updates'] = {
+                    products: [
+                        {
+                            filters: [{}],
+                            data: {
+                                meta:{comment: this.remarkOnBagStateChange}
+                            }
+                        }
+                    ],
+                    entities: [{
+                            filters: [{}],
+                            data: {
+                                meta:{comment: this.remarkOnBagStateChange}
+                            }
+                        }]
+                }
             }
             /* Adding store_invoice_id incase of updating invoice number */
         
@@ -918,7 +935,10 @@ export default {
                     products: [{
                         filters: [{}],
                         data: {
-                            store_invoice_id:  changeBagStateDrawer.invoiceId 
+                            store_invoice_id:  changeBagStateDrawer.invoiceId,
+                            meta: {
+                                activity_comment: this.remarkOnBagStateChange
+                            }
                         }
                     }],
                     entities: [{
