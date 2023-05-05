@@ -41,7 +41,8 @@
                                 placeholder="Enter amount in INR"
                                 :showPrefix="true"
                                 :prefix="currency"
-                                v-model="offlineData.cashAmount"
+                                :disabled="true"
+                                v-model="cashAmount"
                             ></nitrozen-input>
                         </div>
                         <div class="amount-wrap" v-if="paymentMode.cheque">
@@ -64,7 +65,7 @@
                                 type="textarea"
                                 label="Remark"
                                 :maxlength="100"
-                                v-model="offlineData.remarks"
+                                v-model="remarks"
                                 placeholder="Please enter some remarks regarding the offline transaction"
                             ></nitrozen-input>
                         </div>
@@ -142,12 +143,26 @@ data() {
     return this.initialData();
 },
 watch: {
+    'paymentMode': {
+        handler: function(updatedData) {
+            if(updatedData.cash){
+                this.enableTranSave = false;
+            }
+            else if(updatedData.cheque && this.offlineData.utrNum != '' && this.offlineData.chequeNum != ''){
+                this.enableTranSave = false;
+            }
+            else{
+                this.enableTranSave = true;
+            }
+        },
+        deep:true,
+    },
     'offlineData': {
       handler: function(updatedData) {
-        if(this.paymentSelection === "cash" && updatedData.cashAmount != ''){
+        if(this.paymentMode.cash){
             this.enableTranSave = false;
         }
-        else if(updatedData.cashAmount != '' && updatedData.utrNum != '' && updatedData.chequeNum != ''){
+        else if(updatedData.utrNum != '' && updatedData.chequeNum != ''){
             this.enableTranSave = false;
         }
         else{
@@ -155,21 +170,20 @@ watch: {
         }
       },
       deep:true,
-    }
+    },
 },
-mounted() {
-},
+mounted() {},
 methods: {
         initialData(){
             return {
+                cashAmount: this.invoice.amount.slice(1),
+                remarks: '',
                 offlineData: {
-                    cashAmount: '',
                     chequeNum: '',
                     utrNum: '',
-                    remarks: '',
                 },
                 paymentSelection: 'cash',
-                enableTranSave:true,
+                enableTranSave:false,
                 paymentMode: {
                     cash: true,
                     cheque: false,
@@ -196,14 +210,14 @@ methods: {
                     "currency": "INR",
                     "invoice_number": this.invoice.invoice_number,
                     "mode_of_payment": this.paymentSelection,
-                    "amount": parseInt(this.offlineData.cashAmount).toFixed(2),
-                    "total_amount": parseInt(this.invoice.amount.slice(1)).toFixed(2),
+                    "amount": this.invoice.amount.slice(1),
+                    "total_amount": this.invoice.amount.slice(1),
                     "payment_reference_number": this.offlineData.utrNum,
                     "payment_reference_type": "utr_number",
                     "platform": "website",
                     "source_reference": "invoice",
                     "meta": {
-                        "remarks": this.offlineData.remarks,
+                        "remarks": this.remarks,
                         "cheque_number": this.offlineData.chequeNum
                     }
                 }
@@ -235,12 +249,12 @@ methods: {
                     this.offlineData = {
                         utrNum:'',
                         chequeNum:'',
-                        cashAmount:'',
-                        remarks: ''
                     }
+                    this.remarks = '';
                 });
         },
         paymentOptnChange(){
+            this.remarks = '';
             for (const key in this.offlineData) {
                 this.offlineData[key] = '';
             }
