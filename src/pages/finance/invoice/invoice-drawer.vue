@@ -191,7 +191,7 @@ methods: {
         saveOfflineData(){
             let params = {
                 "data": {
-                    "seller_id": this.invoice.company_id,
+                    "seller_id": this.invoice.company.match(/\(([^)]+)\)/)[1],
                     "transaction_type": "admin_offline",
                     "currency": "INR",
                     "invoice_number": this.invoice.invoice_number,
