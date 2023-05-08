@@ -73,7 +73,7 @@
                             <div class="upload-title">Proof</div>
                             <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
                                 <div id="select-file" class="select-file" @click="onUploadClick">
-                                    <input type="file" ref="fileUpload" @change="onFileUpload" class="fileUploadInput"  />
+                                    <input type="file" ref="fileUpload" @change="onFileUpload" class="fileUploadInput" id="invoiceDrawerFileInput" />
                                     <div class="plus-sign">
                                     <inline-svg :src="'plus-sign-finance'"></inline-svg>
                                     </div>
@@ -81,7 +81,13 @@
                                     <div v-if="paymentMode.cheque" class="upload-file-title">Upload Cheque Image</div>
                                 </div>
                             </div>
-                            <div class="file-name"> {{ fileDetails.fileName }}</div>
+                            <div class="file-section">
+                                <div class="file-name"> {{ fileDetails.fileName }} 
+                                </div>
+                                <span v-if="fileDetails.fileName.length > 0" class="cross" @click="removeFile">
+                                    <inline-svg src="cross-black"></inline-svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -253,8 +259,24 @@ methods: {
                     this.remarks = '';
                 });
         },
+        removeFile(){
+            this.fileDetails= {
+                fileName: '',
+                fileMbSize: ''
+            };
+            this.presignedUrl= '';
+            this.intervalId='';
+            this.file = new Blob();
+        },
         paymentOptnChange(){
             this.remarks = '';
+            this.fileDetails= {
+                fileName: '',
+                fileMbSize: ''
+            };
+            this.presignedUrl= '';
+            this.intervalId='';
+            this.file = new Blob();
             for (const key in this.offlineData) {
                 this.offlineData[key] = '';
             }
@@ -341,7 +363,8 @@ methods: {
                 );
             }
         },
-        onUploadClick() {
+        onUploadClick(event) {
+            event.target.value = ''
             this.$refs.fileUpload.click();
         },
         
@@ -381,12 +404,28 @@ methods: {
     }
 }
 
-.file-name{
-    color: #41434C;
-    font-size: 12px;
-    line-height: 17px;
-    font-weight: 600;
+.file-section{
+    display: flex;
+    justify-content: space-between;
+
+    .file-name{
+        color: #41434C;
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 600;
+    }
+
+    .cross{
+        cursor: pointer;
+        height: 20px;
+
+        ::v-deep svg{
+            width: 14px;
+        }
+    }
 }
+
+
 .header{
     padding:24px;
     border-bottom: 1px solid #E0E0E0;

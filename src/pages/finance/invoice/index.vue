@@ -213,7 +213,7 @@
                                             > -->
                                             <nitrozen-menu-item
                                                 class="act-void"
-                                                v-if="!(invoice.status.toLowerCase() === 'void')"
+                                                v-if="!(invoice.status.toLowerCase() === 'void') || invoice.status.toLowerCase() === 'paid'"
                                                 @click="
                                                     handleVoid(
                                                         invoice.invoice_number

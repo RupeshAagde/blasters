@@ -548,7 +548,8 @@ export default {
 
         },
 
-        onUploadClick() {
+        onUploadClick(event) {
+          event.target.value = ''
           if(this.selectedFileType){
             this.$refs.fileUpload.click();
         }
