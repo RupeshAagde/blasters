@@ -49,14 +49,42 @@
                         <nitrozen-dropdown
                             :disabled="selectedCompany.length === 0"
                             label="Fulfilment Location"
-                            class="filter-dropdown filter-input-sm stores-dropdown"
-                            :searchable="true"
-                            :items="filteredStores"
-                            v-model="selectedStore"
-                            @change="onFulfillmentCenterChange"
-                            @searchInputChange="searchStore($event.text)"
-                        >
-                             </nitrozen-dropdown>
+                                v-if="!fetchFulFillmentStoresFailure"
+                                class="filter-dropdown filter-input-sm filter-item"
+                                :searchable="true"
+                                :items="filteredStores"
+                                v-model="selectedStore"
+                                @change="onFulfillmentCenterChange"
+                                @searchInputChange="
+                                    searchStore($event.text)
+                                "
+                                :placeholder="`Select fulfilment location`"
+                            >
+                                <template slot="option" slot-scope="slotProps">
+                                    <div
+                                        class="custom-store-dropdown-option"
+                                        :class="{
+                                            selected: slotProps.selected,
+                                        }"
+                                    >
+                                        <div
+                                            class="custom-store-dropdown-option"
+                                            :class="{
+                                                selected: slotProps.selected,
+                                            }"
+                                        >
+                                            <div class="option-content">
+                                                <div class="text">
+                                                    {{ slotProps.item.text }}
+                                                </div>
+                                                <!-- <div class="subtext">
+                                                    {{ slotProps.item.store_code }}
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </nitrozen-dropdown>
                     </div>
                 </div>
 
@@ -513,14 +541,7 @@ export default {
             return OrderService.getFulfillmentCenterV2(params, this.selectedCompany)
                 .then((response) => {
                     if (response.data && response.data.items) {
-                        this.filteredStores = response.data.items.map(
-                            (item) => {
-                                return {
-                                    text: item.display_name || item.name,
-                                    value: item.uid,
-                                };
-                            }
-                        );
+                        this.filteredStores = response.data.items.map(center => ({ value: center.uid, name: center.display_name, code: center.code, text: center.display_name.concat(" (", center.code, ")") }));
                         if(
                             this.accessDetail && 
                             this.accessDetail.store_access &&
@@ -834,12 +855,11 @@ export default {
              * Code is subject to change, currently if text length is zero,
              * we are removing the store from component data
              * */
-            if (text && text.length === 0) {
+            if (!text && text.length === 0) {
                 this.selectedStore = '';
                 this.onFulfillmentCenterChange();
-            } else {
+            } 
                 this.fetchFulfillmentCentres({ q: text });
-            }
         }, 300),
 
         showInProgress(state) {
@@ -977,7 +997,7 @@ export default {
             }
 
             .filter-dropdown {
-                min-width: 200px;
+                min-width: 250px;
 
                 ::v-deep .nitrozen-select-wrapper {
                     height: 40px;
