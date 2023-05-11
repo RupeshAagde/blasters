@@ -521,7 +521,12 @@ const URLS = {
     GET_COMPANY_LIST_FIN: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
     },
-    
+    GET_REASONS_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-reasons-list`);
+    },
+    EXTEND_DATE_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/invoice/extend-due-date`);
+    },
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

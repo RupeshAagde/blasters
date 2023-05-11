@@ -97,6 +97,14 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
     },
+    getReasons(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_REASONS_LIST(), axiosOption);
+    },
+    invoiceExtendDate(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.EXTEND_DATE_INVOICE(), axiosOption);
+    },
     //Payments
     updatePaymentInfo(params) {
         const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {

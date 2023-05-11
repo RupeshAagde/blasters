@@ -64,203 +64,201 @@
                 ></invoice-drawer>
             </div>
         </transition>
-        <div
-            class="table-container"
-            v-if="
-                invoiceDetails &&
-                invoiceDetails.items &&
-                invoiceDetails.items.length > 0
-            "
-        >
-            <div v-if="bulkDownloadList.length" class="bulk-download-container">
-                {{ bulkDownloadList.length }} Selected
-                <nitrozen-button
-                    @click="downloadInvoice(bulkDownloadList)"
-                    theme="secondary"
-                    class="export-catalog"
-                    v-strokeBtn
-                >
-                    Download
-                </nitrozen-button>
+        <transition name="slide">
+            <div class="invoice-drawer-container" v-if="isActionOpen">
+                <invoice-action
+                    :invoice="popupData"
+                    @closeDrawer="handleCloseDrawer"
+                ></invoice-action>
             </div>
-            <table class="invoices-table">
-                <thead>
-                    <tr>
-                        <th>
-                            <nitrozen-checkbox
-                                class="table-checkout"
-                                :value="selectedInvoices.length ? true : false"
-                                @change="toggleAllInvoices"
-                            >
-                            </nitrozen-checkbox>
-                        </th>
-                        <th v-for="(header,index) in invoiceDetails.headers" :key="index">
-                            {{ header }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template
-                        v-if="
-                            invoiceDetails.items &&
-                                invoiceDetails.items.length > 0
-                        "
+        </transition>
+        <div v-if="inProgress">
+            <fy-loader class="item-loading"></fy-loader>
+        </div>
+        <div v-else>
+            <div
+                class="table-container"
+                v-if="
+                    invoiceDetails &&
+                    invoiceDetails.items &&
+                    invoiceDetails.items.length > 0
+                "
+            >
+                <div v-if="bulkDownloadList.length" class="bulk-download-container">
+                    {{ bulkDownloadList.length }} Selected
+                    <nitrozen-button
+                        @click="downloadInvoice(bulkDownloadList)"
+                        theme="secondary"
+                        class="export-catalog"
+                        v-strokeBtn
                     >
-                        <tr
-                            v-for="(invoice, i) in invoiceDetails.items"
-                            :key="i"
-                        >
-                            <td>
+                        Download
+                    </nitrozen-button>
+                </div>
+                <table class="invoices-table">
+                    <thead>
+                        <tr>
+                            <th>
                                 <nitrozen-checkbox
                                     class="table-checkout"
-                                    @change="
-                                        toggleInvoice(invoice.invoice_number)
-                                    "
-                                    :value="
-                                        selectedInvoices.includes(invoice.invoice_number)
-                                            ? true
-                                            : false
-                                    "
-                                    :disabled="!invoice.is_downloadable"
+                                    :value="selectedInvoices.length ? true : false"
+                                    @change="toggleAllInvoices"
                                 >
-                                <!-- :disabled="invoice.status != 'paid'" THE CONDITION MIGHT CHANGE -->
                                 </nitrozen-checkbox>
-                            </td>
-                            <!-- <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
-                                <span v-if="item && item.length > 0">{{ item }}</span>
-                                <span v-else> - </span>
-                            </td> -->
-                            <td :title="invoice.company" class="company">{{ invoice.company }}</td>
-                            <td>{{ invoice.invoice_number }}</td>
-                            <td>{{ invoice.invoice_type }}</td>
-                            <td>{{ invoice.invoice_date }}</td>
-                            <td>{{ invoice.period }}</td>
-                            <td>{{ invoice.amount }}</td>
-                            <td>{{ invoice.due_date }}</td>
-                            <td class="status">
-                                <!-- <div class="status-type">
-                                    <div
-                                        class="pay-status status-process"
-                                        v-if="invoice.status.toLowerCase() === 'processing'"
-                                    >
-                                        In Process
-                                    </div>
-                                    <div
-                                        class="pay-status status-paid"
-                                        v-else-if="invoice.status.toLowerCase() === 'paid'"
-                                    >
-                                        Paid
-                                    </div>
-                                    <div
-                                        class="pay-status status-void"
-                                        v-else-if="invoice.status.toLowerCase() === 'void'"
-                                    >
-                                        Void
-                                    </div>
-                                    <div 
-                                        class="pay-status status-unpaid"
-                                        v-else-if="invoice.status.toLowerCase() === 'unpaid'"
-                                    >
-                                        Unpaid
-                                    </div>
-                                </div> -->
-                                <nitrozen-badge
-                                    state="info"
-                                    v-if="invoice.status.toLowerCase() === 'processing'"
-                                >{{ invoice.status }}</nitrozen-badge>
-                                <nitrozen-badge
-                                    state="warn"
-                                    v-else-if="invoice.status.toLowerCase() === 'unpaid'"
-                                >{{ invoice.status }}</nitrozen-badge>
-                                <nitrozen-badge
-                                    state="success"
-                                    v-else-if="invoice.status.toLowerCase() === 'paid'"
-                                >{{ invoice.status }}</nitrozen-badge>
-                                <nitrozen-badge
-                                    state="default"
-                                    v-else-if="invoice.status.toLowerCase() === 'void'"
-                                >{{ invoice.status }}</nitrozen-badge>
-
-                                <div class="actions-wrap">
-                                    <div
-                                        :class="[
-                                            `action-${invoice.status}`,
-                                            'action-item'
-                                        ]"
-                                    >
-                                        <nitrozen-menu
-                                            class="actions-menu"
-                                            mode="vertical"
-                                        >
-                                            <nitrozen-menu-item
-                                                class="act-offline"
-                                                v-if="invoice.status.toLowerCase() === 'unpaid'"
-                                                @click="handleOpenDrawer(invoice)"
-                                            >
-                                                Offline Payment
-                                            </nitrozen-menu-item>
-                                            <!-- To be used in future enhancement
-                                            <nitrozen-menu-item
-                                                class="act-debt"
-                                                v-if="invoice.status === 'unpaid'"
-                                                @click="
-                                                    handleAutoDebt(
-                                                        invoice.invoice_number
-                                                    )
-                                                "
-                                                >Retry
-                                                Auto-debt</nitrozen-menu-item
-                                            > -->
-                                            <nitrozen-menu-item
-                                                class="act-void"
-                                                v-if="!(invoice.status.toLowerCase() === 'void') || invoice.status.toLowerCase() === 'paid'"
-                                                @click="
-                                                    handleVoid(
-                                                        invoice.invoice_number
-                                                    )
-                                                "
-                                                >Void</nitrozen-menu-item
-                                            >
-                                            <nitrozen-menu-item
-                                                class="act-download"
-                                                v-if="invoice.status.toLowerCase() === 'unpaid' || invoice.status.toLowerCase() === 'paid'"
-                                                @click="
-                                                    downloadInvoice([
-                                                        invoice.invoice_number
-                                                    ])
-                                                "
-                                                >Download</nitrozen-menu-item
-                                            >
-                                        </nitrozen-menu>
-                                    </div>
-                                </div>
-                            </td>
+                            </th>
+                            <th v-for="(header,index) in invoiceDetails.headers" :key="index">
+                                {{ header }}
+                            </th>
                         </tr>
-                    </template>
-                </tbody>
-            </table>
-            <div class="pagination-container">
-                <nitrozen-pagination
-                    class="pagination-main"
-                    name="Invoices"
-                    v-model="pageObject"
-                    @change="handlePageChanges"
-                    :pageSizeOptions="[10, 20, 50, 100]"
-                >
-                </nitrozen-pagination>
+                    </thead>
+                    <tbody>
+                        <template
+                            v-if="
+                                invoiceDetails.items &&
+                                    invoiceDetails.items.length > 0
+                            "
+                        >
+                            <tr
+                                v-for="(invoice, i) in invoiceDetails.items"
+                                :key="i"
+                            >
+                                <td>
+                                    <nitrozen-checkbox
+                                        class="table-checkout"
+                                        @change="
+                                            toggleInvoice(invoice.invoice_number)
+                                        "
+                                        :value="
+                                            selectedInvoices.includes(invoice.invoice_number)
+                                                ? true
+                                                : false
+                                        "
+                                        :disabled="!invoice.is_downloadable"
+                                    >
+                                    <!-- :disabled="invoice.status != 'paid'" THE CONDITION MIGHT CHANGE -->
+                                    </nitrozen-checkbox>
+                                </td>
+                                <!-- <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
+                                    <span v-if="item && item.length > 0">{{ item }}</span>
+                                    <span v-else> - </span>
+                                </td> -->
+                                <td :title="invoice.company" class="company">{{ invoice.company }}</td>
+                                <td>{{ invoice.invoice_number }}</td>
+                                <td>{{ invoice.invoice_type }}</td>
+                                <td>{{ invoice.invoice_date }}</td>
+                                <td>{{ invoice.period }}</td>
+                                <td>{{ invoice.amount }}</td>
+                                <td>{{ invoice.due_date }}</td>
+                                <td class="status">
+                                    <nitrozen-badge
+                                        state="info"
+                                        v-if="invoice.status.toLowerCase() === 'processing'"
+                                    >{{ invoice.status }}</nitrozen-badge>
+                                    <nitrozen-badge
+                                        state="warn"
+                                        v-else-if="invoice.status.toLowerCase() === 'unpaid'"
+                                    >{{ invoice.status }}</nitrozen-badge>
+                                    <nitrozen-badge
+                                        state="success"
+                                        v-else-if="invoice.status.toLowerCase() === 'paid'"
+                                    >{{ invoice.status }}</nitrozen-badge>
+                                    <nitrozen-badge
+                                        state="default"
+                                        v-else-if="invoice.status.toLowerCase() === 'void'"
+                                    >{{ invoice.status }}</nitrozen-badge>
+
+                                    <div class="actions-wrap">
+                                        <div
+                                            :class="[
+                                                `action-${invoice.status}`,
+                                                'action-item'
+                                            ]"
+                                        >
+                                            <nitrozen-menu
+                                                class="actions-menu"
+                                                mode="vertical"
+                                            >
+                                                <nitrozen-menu-item
+                                                    class="act-offline"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    @click="handleOpenDrawer(invoice)"
+                                                >
+                                                    Offline Payment
+                                                </nitrozen-menu-item>
+                                                <!-- To be used in future enhancement
+                                                <nitrozen-menu-item
+                                                    class="act-debt"
+                                                    v-if="invoice.status === 'unpaid'"
+                                                    @click="
+                                                        handleAutoDebt(
+                                                            invoice.invoice_number
+                                                        )
+                                                    "
+                                                    >Retry
+                                                    Auto-debt</nitrozen-menu-item
+                                                > -->
+                                                <nitrozen-menu-item
+                                                    class="act-void"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    @click="
+                                                        handleVoid(
+                                                            invoice, 'void'
+                                                        )
+                                                    "
+                                                    >Void</nitrozen-menu-item
+                                                >
+                                                <nitrozen-menu-item
+                                                    class="act-download"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid' || invoice.status.toLowerCase() === 'paid'"
+                                                    @click="
+                                                        downloadInvoice([
+                                                            invoice.invoice_number
+                                                        ])
+                                                    "
+                                                    >Download</nitrozen-menu-item
+                                                >
+                                                <nitrozen-menu-item
+                                                    class="act-download"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    @click="
+                                                        handleVoid(
+                                                            invoice, 'extendDue'
+                                                        )
+                                                    "
+                                                    >Extend Due-Date</nitrozen-menu-item
+                                                >
+                                            </nitrozen-menu>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="pagination-container">
+                    <nitrozen-pagination
+                        class="pagination-main"
+                        name="Invoices"
+                        v-model="pageObject"
+                        @change="handlePageChanges"
+                        :pageSizeOptions="[10, 20, 50, 100]"
+                    >
+                    </nitrozen-pagination>
+                </div>
+                <!-- <pop-up
+                    v-if="showPopup"
+                    :invoiceNumber="popupData.invoiceNumber"
+                    :infoText="popupData.desc"
+                    :textHeading="popupData.heading"
+                    :cancel="popupData.cancel"
+                    :confirm="popupData.confirm"
+                    @cancel="cancelPopup"
+                    @confirm="handlePopup"
+                    :type="popupData.type"
+                /> -->
             </div>
-            <pop-up
-                v-if="showPopup"
-                :invoiceNumber="popupData.invoiceNumber"
-                :infoText="popupData.desc"
-                :textHeading="popupData.heading"
-                :cancel="popupData.cancel"
-                :confirm="popupData.confirm"
-                @cancel="cancelPopup"
-                @confirm="handlePopup"
-                :type="popupData.type"
-            />
         </div>
+        
         <template
             v-if="noContent"
         >
@@ -277,7 +275,9 @@ import DatePicker from '@/components/common/date-picker.vue';
 import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import invoiceDrawer from './invoice-drawer.vue';
 import invoiceFilterDrawer from './invoice-filters.vue';
-import invoicePopup from './invoice-popup.vue';
+import invoiceActions from './invoice-actions.vue';
+//import invoicePopup from './invoice-popup.vue';
+import loader from '@/components/common/loader';
 import { debounce } from '@/helper/utils';
 import { dateRangeShortcuts } from '@/helper/datetime.util';
 import PageEmpty from '@/components/common/page-empty.vue';
@@ -316,8 +316,10 @@ export default {
         NitrozenBadge,
         'filter-drawer': invoiceFilterDrawer,
         'invoice-drawer': invoiceDrawer,
-        'pop-up': invoicePopup,
-        'adm-no-content': PageEmpty
+        'invoice-action':invoiceActions,
+        //'pop-up': invoicePopup,
+        'adm-no-content': PageEmpty,
+        'fy-loader': loader,
     },
     directives: {
         strokeBtn
@@ -334,6 +336,8 @@ export default {
             companyNames: [],
             dateRangeShortcuts: [...dateRangeShortcuts],
             pageObject: { ...PAGINATION_OBJECT },
+            inProgress: true,
+            isActionOpen: false,
             isDrawerOpen: false,
             isFilterDrawerOpen: false,
             showPopup: false,
@@ -343,23 +347,26 @@ export default {
             bulkDownloadList: [],
             popupData: {
                 invoiceNumber: '',
-                heading: '',
-                desc: '',
-                cancel: 'Cancel',
-                confirm: 'Yes, Proceed',
-                type: ''
+                invoiceId:'',
+                sellerName: '',
+                amount: '',
+                type: '',
+                dueDate: '',
+                reasonsList: []
             },
             fromDate: '',
             toDate: '',
             invoiceDetails: {},
             tableDataItems: [],
             invoice: {},
-            filters: {}
+            filters: {},
+            reasonsList: {},
         };
     },
     mounted() {
         this.onDateChange();
         this.fetchCompany();
+        this.getReasons();
     },
     methods: {
         listingPayload(){
@@ -406,6 +413,20 @@ export default {
             this.pageObject = e;
             this.getInvoiceList();
         },
+        getReasons(){
+            const params = {
+                data: {}
+            };
+            const reasons = FinanceService.getReasons(params);
+            reasons
+                .then((res) => {
+                    this.reasonsList = res.data
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError(`Something Went Wrong`);
+                })
+                .finally(() => {});
+        },
         getInvoiceList() {
             const invoiceList = FinanceService.getInvoiceList(this.listingPayload());
             invoiceList
@@ -417,15 +438,22 @@ export default {
                 .catch((err) => {
                     this.$snackbar.global.showError(`Something Went Wrong`);
                 })
-                .finally(() => {});
+                .finally(() => { this.inProgress = false});
         },
         handleOpenDrawer(invoice) {
             this.invoice = invoice;
             this.isDrawerOpen = true;
         },
+
         handleCloseDrawer() {
-            this.getInvoiceList();
             this.isDrawerOpen = false;
+            this.isActionOpen = false;
+            this.inProgress = true;
+            setTimeout(() => {
+                this.getInvoiceList();
+                this.inProgress = false;
+            }, 3000);
+            
         },
         openFilterDrawer() {
             this.isFilterDrawerOpen = true;
@@ -456,12 +484,22 @@ export default {
         searchByInput: debounce(function(e) {
             this.getInvoiceList();
         }, 1000),
-        handleVoid(number) {
-            this.popupData.invoiceNumber = number;
-            this.popupData.heading = 'Void Invoice ?';
-            this.popupData.desc = `Are you sure you want to Void this Invoice (${number}) ?`;
-            this.showPopup = true;
-            this.popupData.type = 'void';
+        handleVoid(invoice, type) {
+            if(type === 'void'){
+                this.popupData.type = 'Void';
+                this.popupData.reasonsList = this.reasonsList['void_invoice_reasons_list'];
+            }
+            if(type === 'extendDue'){
+                this.popupData.type = 'Extend Due Date';
+                this.popupData.reasonsList = this.reasonsList['extend_due_date_reasons_list'];
+            }
+            this.popupData.invoiceNumber = invoice.invoice_number;
+            this.popupData.invoiceId = invoice.invoice_id;
+            this.popupData.amount = invoice.amount;
+            this.popupData.sellerName = invoice.company;
+            this.popupData.dueDate = invoice.due_date
+
+            this.isActionOpen = true;
         },
         /* handleAutoDebt(number) {
             this.popupData.invoiceNumber = number;
@@ -713,39 +751,6 @@ export default {
         justify-content: space-between;
         align-items: center;
     }
-    /* .status-type{
-        gap: 9px;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        .invoice-type{
-            font-size: 10px;
-        }
-    } */
-    /* .pay-status {
-        max-width: fit-content;
-        border: 1px solid #e3f2e9;
-        background: #e3f2e9;
-        color: #0a5f23;
-        display: inline;
-        padding: 3px 20px;
-        border-radius: 4px;
-    } */
-    /* .status-unpaid {
-        color: #b54708;
-        border: 1px solid #fff5d6;
-        background: #fff5d6;
-    }
-    .status-process {
-        color: #3d3d3d;
-        border: 1px solid #f5f5f5;
-        background: #f5f5f5;
-    }
-    .status-void {
-        color: #cd0909;
-        border: 1px solid #fdeded;
-        background: #fdeded;
-    } */
 }
 
 .pagination-container {

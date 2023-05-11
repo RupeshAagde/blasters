@@ -236,6 +236,7 @@ methods: {
                     params.data.meta["cheque_image_url"] = this.presignedUrl;
                     break;
             }
+            this.enableTranSave = true;
             const caller = FinanceService.updatePaymentInfo(params);
             caller
                 .then((res) => {
@@ -385,7 +386,8 @@ methods: {
     z-index: 100;
 
     .invoice-drawer-wrap{
-
+        overflow-x: hidden;
+        overflow-y: auto;
         position: absolute;
         height: 100%;
         background:#fff;

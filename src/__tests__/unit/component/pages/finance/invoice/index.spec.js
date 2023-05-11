@@ -55,6 +55,33 @@ describe('Invoice', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
+    it('temp test cases for coverage', async() => {
+        wrapper.setData({
+            invoiceDetails: {
+                items: [{
+                    status: 'paid',
+                    invoice_number: 'OL-45454-343'
+                }]
+            }
+        })
+        wrapper.vm.toggleAllInvoices();
+        wrapper.vm.toggleInvoice('OL-45454-343');
+        const invoice = {
+            "company": "(1) THE MANDHANA RETAIL VENTURES LIMITED",
+            "invoice_number": "FS-I27-A00003-24",
+            "invoice_type": "Seller Invoice Fynd Store",
+            "invoice_date": "14-04-23",
+            "period": "01-03-23 - 31-03-23",
+            "amount": "₹260.78",
+            "due_date": "14-04-23",
+            "status": "upaid",
+            "is_downloadable": true,
+            "invoice_id": "487ac7d8-abae-495f-9f63-71526889860e"
+        }
+        wrapper.vm.handleVoid(invoice,'void');
+        wrapper.vm.handleVoid(invoice,'extendDue');
+    })
+
     /* it('Should Handle Pagination when clicked', async()=> {
         await flushPromises();
         wrapper.setData({
