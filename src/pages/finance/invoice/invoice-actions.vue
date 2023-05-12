@@ -76,7 +76,7 @@
                                     v-model="selectedReason"
                                     :searchable="true"
                                     placeholder="Reasons"
-                                    @change="changeReasons"
+                                    @change="dueDateUpdate"
                                     @searchInputChange="clearReasons"
                                 ></nitrozen-dropdown>
                             </div>
@@ -159,7 +159,7 @@ methods: {
             this.resetFilters();
         },
         dueDateUpdate(){
-            this.dueDate === 0 ? this.isDisabled = true : this.isDisabled = false;
+            (this.selectedReason.length === 0 || this.dueDate === 0) ? this.isDisabled = true : this.isDisabled = false;
         },
         saveActions (){
             if(this.invoice.type === 'Void'){
