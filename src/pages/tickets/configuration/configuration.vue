@@ -22,6 +22,7 @@
                 <support-Communication 
                 :type="type"
                 @checkboxValue = setSupportCommunication($event)
+                @setCommunicationInfo = setCommunicationInfo($event)
                 ></support-Communication>
 
                 <div v-if="isDRIenabled" class="support-managers">
@@ -301,6 +302,9 @@ export default {
     methods: {
         setSupportCommunication(value){
             this.supportCommunication = value
+        },
+        setCommunicationInfo(value){
+            this.showCommunicationinfo = value
         },
         switchIntegration(integration) {
             this.selectedIntegrationType = integration

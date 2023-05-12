@@ -24,6 +24,7 @@
 
                         <nitrozen-toggle-btn
                             v-model="showCommunicationinfo"
+                            @change="setCommunicationInfo()"
                         ></nitrozen-toggle-btn>
                     </div>
                 </div>
@@ -606,6 +607,9 @@ export default {
                         'Failed to get configuration data'
                     );
                 });
+        },
+        setCommunicationInfo() {
+            this.$emit("setCommunicationInfo",this.showCommunicationinfo)
         }
     }
 };
