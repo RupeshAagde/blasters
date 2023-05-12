@@ -69,7 +69,20 @@ const FinanceService = {
     getReportList(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption);
-    }
+    },
+    getCompanyList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
+    },
+    getDataFin(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_DATA_FIN(), axiosOption);
+    },
+    getRuleData(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_RULE_DATA(), axiosOption);
+    },
+    
 };
 
 export default FinanceService;

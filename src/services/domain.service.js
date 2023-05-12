@@ -498,6 +498,19 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
+
+    //for settlemment-rule
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+    },
+    GET_DATA_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-data`);
+    },
+    GET_RULE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-output-fields-v2`);
+    },
+
+
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);

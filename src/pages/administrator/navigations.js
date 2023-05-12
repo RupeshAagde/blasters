@@ -343,6 +343,14 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Settlement Rule',
+                    link: '/administrator/finance/settlement-rule',
+                    title: 'settlement-rule',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
         },
