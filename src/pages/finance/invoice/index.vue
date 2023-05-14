@@ -553,9 +553,7 @@ export default {
         },
         fetchCompany(query='') {
             let params = {
-                data:{
-                    search: query
-                }
+                search: query
             };
             return FinanceService.getCompanyList(params)
                 .then((res) => {
