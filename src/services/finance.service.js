@@ -70,9 +70,17 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption);
     },
-    getCompanyList(data) {
-        let axiosOption = Object.assign({}, { data });
-        return ApiService.post(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
+    getCompanyList(query) {
+        let axiosOption = Object.assign({}, { });
+        return ApiService.get(URLS.GET_COMPANY_LIST_FIN(query), axiosOption);
+    },
+    getBrandList(id, query) {
+        let axiosOption = Object.assign({}, { });
+        return ApiService.get(URLS.GET_BRAND_LIST_FIN(id, query), axiosOption);
+    },
+    getAffiliateFin(data) {
+        let axiosOption = Object.assign({}, {data});
+        return ApiService.post(URLS.GET_AFFILIATE_LIST_FIN(), axiosOption);
     },
     getDataFin(data) {
         let axiosOption = Object.assign({}, { data });
@@ -81,6 +89,10 @@ const FinanceService = {
     getRuleData(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_RULE_DATA(), axiosOption);
+    },
+    generateRules(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GENERATE_RULE(), axiosOption);
     },
     
 };

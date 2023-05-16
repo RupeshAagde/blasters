@@ -299,9 +299,7 @@ export default {
         strokeBtn
     },
     mounted() {
-        _.merge(this.formData, this.config);
-        console.log("changed");
-        console.log(typeof this.config);
+        // _.merge(this.formData, this.config);
     },
     data() {
         return {
@@ -334,13 +332,15 @@ export default {
             ],
             formData: {
                 name: '',
-                slug_fields: ['channel'],
+                slug_fields: [],
                 slug_values: {
-                    channel: {},
+                    channel: [],
                     company: [],
                     brand: [],
-                    location: []
+                    location: [],
+                    affiliate:[]
                 },
+                type_of_request:"create_entity",
                 rule_start_date: null,
                 rule_end_date: null,
                 settle_cycle_period: {
@@ -390,8 +390,7 @@ export default {
     },
     methods: {
         saveRuleForm(){
-            console.log("Hello")
-            console.log(this.formData);
+            this.$emit("passData", this.formData);
 
         },
         cancelRuleForm(){
