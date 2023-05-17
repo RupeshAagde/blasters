@@ -17,6 +17,7 @@
                 </div>
                 <div class="company-filter filter-item">
                     <nitrozen-dropdown
+                        ref="company-name"
                         id="company-name"
                         :items="companyNames"
                         v-model="selectedCompany"
@@ -152,7 +153,7 @@
                                 <td class="status">
                                     <nitrozen-badge
                                         state="info"
-                                        v-if="invoice.status.toLowerCase() === 'processing'"
+                                        v-if="invoice.status.toLowerCase() === 'in_process'"
                                     >{{ invoice.status }}</nitrozen-badge>
                                     <nitrozen-badge
                                         state="warn"
@@ -332,7 +333,7 @@ export default {
                 moment().subtract(1, 'week').toISOString(),
                 moment().toISOString()
             ],
-            selectedCompany: '',
+            selectedCompany: [],
             companyNames: [],
             dateRangeShortcuts: [...dateRangeShortcuts],
             pageObject: { ...PAGINATION_OBJECT },
@@ -361,6 +362,8 @@ export default {
             invoice: {},
             filters: {},
             reasonsList: {},
+            count: 0,
+            timerID: null,
         };
     },
     mounted() {
@@ -438,22 +441,25 @@ export default {
                 .catch((err) => {
                     this.$snackbar.global.showError(`Something Went Wrong`);
                 })
-                .finally(() => { this.inProgress = false});
+                .finally(() => { 
+                    this.inProgress = false;
+                });
         },
         handleOpenDrawer(invoice) {
             this.invoice = invoice;
             this.isDrawerOpen = true;
         },
-
+        timerMethod() {
+            this.count++;
+            this.getInvoiceList();
+            if(this.count === 7) clearInterval(this.timerID);
+        },
         handleCloseDrawer() {
             this.isDrawerOpen = false;
             this.isActionOpen = false;
             this.inProgress = true;
-            setTimeout(() => {
-                this.getInvoiceList();
-                this.inProgress = false;
-            }, 3000);
-            
+            this.count = 1;
+            this.timerID = setInterval(this.timerMethod, 5000);
         },
         openFilterDrawer() {
             this.isFilterDrawerOpen = true;

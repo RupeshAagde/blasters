@@ -188,27 +188,11 @@ methods: {
         },
         addInvoiceChips(dataList,selectedList,type) {
             this.companyChips = [];
-            let chipsCompanies = this.companyChips.map((it) => it.value);
-            let newCompanies = selectedList.filter(
-                (val) => !chipsCompanies.includes(val)
-            );
-            let removedCompanies = chipsCompanies.filter(
-                (val) => !selectedList.includes(val)
-            );
-
             this.companyChips.push(
                 ...dataList.filter((ele) =>
-                newCompanies.includes(ele.value)
+                selectedList.includes(ele.value)
                 )
             );
-
-            for (let companyId of removedCompanies) {
-                let rmIndex = this.companyChips.findIndex(
-                (item) => item.value === companyId
-                );
-                this.companyChips.splice(rmIndex, 1);
-            }
-
             this.setChipsList(type, this.companyChips)
         },
         removeChips(index, item, selectedList, chips) {
@@ -221,12 +205,14 @@ methods: {
         setChipsList(type,list){
             if(type === 'payment'){
                 this.paymentChips = list;
+                this.filters.payment_status = [];
                 this.paymentChips.forEach(item => {
                     this.filters.payment_status.push(item.value);
                 });
             }
             if(type === 'invoice'){
                 this.invoiceChips = list;
+                this.filters.invoice_type = [];
                 this.invoiceChips.forEach(item => {
                     this.filters.invoice_type.push(item.value);
                 });
