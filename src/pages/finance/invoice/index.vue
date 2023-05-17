@@ -454,12 +454,14 @@ export default {
             this.getInvoiceList();
             if(this.count === 7) clearInterval(this.timerID);
         },
-        handleCloseDrawer() {
+        handleCloseDrawer(type) {
             this.isDrawerOpen = false;
             this.isActionOpen = false;
             this.inProgress = true;
-            this.count = 1;
-            this.timerID = setInterval(this.timerMethod, 5000);
+            if(type === 'success'){
+                this.count = 1;
+                this.timerID = setInterval(this.timerMethod, 5000);
+            } else{ this.getInvoiceList(); }
         },
         openFilterDrawer() {
             this.isFilterDrawerOpen = true;

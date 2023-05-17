@@ -204,9 +204,9 @@ methods: {
                 file: new Blob(),
             }
         },
-        closeDrawer(){
+        closeDrawer(type=''){
             this.initialData();
-            this.$emit('closeDrawer')
+            this.$emit('closeDrawer',type)
         },
         saveOfflineData(){
             let params = {
@@ -243,14 +243,13 @@ methods: {
                     this.$snackbar.global.showSuccess(
                         `Offline Transaction Recored`
                     );
-                    this.closeDrawer();
+                    this.closeDrawer('success');
                     /* this.getCreditLineDetails();
                     this.loadData(); */
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
+                    this.$snackbar.global.showError( err.response.data.reason );
+                    this.closeDrawer();
                 })
                 .finally(() => {
                     this.offlineData = {
