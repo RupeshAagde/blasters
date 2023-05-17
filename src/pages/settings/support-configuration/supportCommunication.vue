@@ -435,6 +435,7 @@ export default {
             this.editContact = false;
             this.enabledToAddContact = false;
             this.save();
+            this.$emit("checkboxValue",this.supportCommunication)
             return this.supportCommunication;
         },
         showSupportPreview() {
@@ -508,6 +509,7 @@ export default {
         },
         deleteCommincationDetail(selectedIndex) {
             this.supportCommunication.splice(selectedIndex, 1);
+            this.$emit("checkboxValue",this.supportCommunication)
             this.save();
         },
 
