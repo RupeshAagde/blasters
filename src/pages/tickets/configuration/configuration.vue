@@ -292,7 +292,8 @@ export default {
             editContact: false,
             isLimitExceed: false,
             warningPopUp: false,
-            selectedIntegrationType:''
+            selectedIntegrationType:'',
+            previousIntegration: ''
         };
     },
     watch: {},
@@ -313,11 +314,12 @@ export default {
             this.popupDecs = `You are trying to switch to another integration? This action will remove the current integration.`;
         },
         confirmPopUp() {
+            this.previousIntegration = this.selectedIntegrationType
             this.integration.type = this.selectedIntegrationType
             this.warningPopUp = false;
         },
         cancelPopup(){
-            this.integration.type = ''
+            this.integration.type = this.previousIntegration
             this.warningPopUp = !this.warningPopUp
         },
         isAvailable(integration_name) {
@@ -368,6 +370,10 @@ export default {
             this.integration.enabled =
                 data.integration && data.integration.enabled;
             this.integration.type =
+                data.integration && data.integration.type
+                    ? data.integration.type
+                    : undefined;
+            this.previousIntegration =
                 data.integration && data.integration.type
                     ? data.integration.type
                     : undefined;
