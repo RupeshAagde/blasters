@@ -387,7 +387,7 @@ export default {
                 .then((data) => {
                    this.getReviewList();
                     this.closeDialog();
-                    this.$snackbar.global.showSuccess('PG cred Approved');
+                    this.$snackbar.global.showSuccess('Review submitted successfully');
                     this.password = '';
                 })
                 .catch((err) => {
