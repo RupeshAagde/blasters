@@ -94,6 +94,10 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GENERATE_RULE(), axiosOption);
     },
+    getRulesList(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_DATA_FIN(), axiosOption);
+    }
     
 };
 

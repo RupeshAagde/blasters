@@ -518,6 +518,7 @@ const URLS = {
     GENERATE_RULE: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/settle-rule`);
     },
+   
 
 
     //#########Tickets########
