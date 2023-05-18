@@ -8,6 +8,7 @@ import DOMAIN_URLS from '../../../../../../services/domain.service';
 import flushPromises from "flush-promises";
 import Invoices from '../../../../../../pages/finance/invoice/index.vue';
 import InvoiceFilter from '../../../../../../pages/finance/invoice/invoice-filters.vue';
+import InvoicePayment from '../../../../../../pages/finance/invoice/invoice-drawer.vue';
 import mocks from '../fixtures/invoiceDetails.json';
 import getReasons from '../fixtures/getReasons.json';
 import companyList from '../fixtures/companyList.json';
@@ -49,6 +50,7 @@ describe('Invoice', () => {
         mock.onPost(DOMAIN_URLS.GET_REASONS_LIST()).reply(200, getReasons);
         mock.onPost(DOMAIN_URLS.GET_INVOICE_LIST()).reply(200, mocks.invoiceDetails);
         mock.onPost(DOMAIN_URLS.GET_INVOICE_TYPE()).reply(200, mocks.invoiceFilters);
+        
         await flushPromises();
     });
 
@@ -62,17 +64,47 @@ describe('Invoice', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
-    it('temp test cases for coverage', async() => {
+    it('toggle All the invoice for bulk download', async()=>{
         wrapper.setData({
-            invoiceDetails: {
-                items: [{
-                    status: 'paid',
-                    invoice_number: 'OL-45454-343'
-                }]
-            }
-        })
-        wrapper.vm.toggleAllInvoices();
-        wrapper.vm.toggleInvoice('OL-45454-343');
+            inProgress: false,
+            invoiceDetails: mocks.invoiceDetails,
+            selectedInvoices: [],
+            bulkDownloadList: []
+        });
+        await wrapper.vm.$nextTick();
+        const toggleAll = wrapper.find('.table-checkout');
+        toggleAll.vm.$emit('change');
+        expect(wrapper.vm.bulkDownloadList.length).toBe(3);
+    });
+
+    it('toggle the selected invoices', async() => {
+        wrapper.setData({
+            inProgress: false,
+            invoiceDetails: mocks.invoiceDetails,
+            selectedInvoices: [],
+            bulkDownloadList: []
+        });
+        await wrapper.vm.$nextTick();
+        const toggle = wrapper.findComponent({ref: 'table-checkout'});
+        toggle.vm.$emit('change', 'FS-I-A00019-FY24');
+        expect(wrapper.vm.bulkDownloadList).toEqual(['FS-I-A00019-FY24']);
+    })
+    it('deselect the selected invoices', async() => {
+        wrapper.setData({
+            inProgress: false,
+            invoiceDetails: mocks.invoiceDetails,
+            selectedInvoices: ['FS-I-A00019-FY24'],
+            bulkDownloadList: ['FS-I-A00019-FY24']
+        });
+        await wrapper.vm.$nextTick();
+        const toggle = wrapper.findComponent({ref: 'table-checkout'});
+        toggle.vm.$emit('change', 'FS-I-A00019-FY24');
+        expect(wrapper.vm.bulkDownloadList).toEqual([]);
+    })
+
+    it('temp test cases for coverage', async() => {
+        //wrapper.vm.toggleAllInvoices();
+        //wrapper.vm.toggleInvoice('OL-45454-343');
         const invoice = {
             "company": "(1) THE MANDHANA RETAIL VENTURES LIMITED",
             "invoice_number": "FS-I27-A00003-24",
@@ -138,6 +170,82 @@ describe('Invoice', () => {
         expect(wrapper.vm.toDate.length).toBe(10);
     });
 
+    it('should search the company by given text', async()=>{
+        await flushPromises();
+        const searchCompany = jest.spyOn(wrapper.vm, 'fetchCompany');
+        const companyChange = wrapper.findComponent({ref: 'company-name'});
+        companyChange.vm.$emit('searchInputChange', {text:'18504'});
+        jest.advanceTimersByTime(1000);
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        expect(searchCompany).toHaveBeenCalled();
+    });
+
+    it('Should search the text when entered', async()=>{
+        const getInvoiceList = jest.spyOn(wrapper.vm, 'getInvoiceList');
+        wrapper.setData({
+            inProgress: false,
+            fromDate: '09-05-2023',
+            toDate: '16-05-2023',
+            pageObject: {
+                limit: 10,
+                current: 1,
+                total: 0
+            },
+            filters: {},
+            searchText: ''
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        const searchClick = wrapper.find('.search');
+        searchClick.vm.$emit('input',{});
+        jest.advanceTimersByTime(1000);
+        await wrapper.vm.$nextTick();
+        expect(getInvoiceList).toHaveBeenCalled();
+    });
+
+    it('download multiple invoices when clicked on button', async()=>{
+        wrapper.setData({
+            inProgress: false,
+            invoiceDetails: mocks.invoiceDetails,
+            bulkDownloadList: ["FS-I-A00019-FY24", "FS-I-A00023-FY24"]
+        });
+        await wrapper.vm.$nextTick();
+        const downloadBtn = wrapper.find('.export-catalog');
+        downloadBtn.vm.$emit('click', wrapper.vm.bulkDownloadList);
+        mock.onPost(DOMAIN_URLS.GET_INVOICE_DOWNLOAD_URLS()).reply(200, mocks.downloadInvoice);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.inProgress).toBe(false);
+    });
+
+    // Invoice Payment drawer test cases
+
+    it('should start auto refresh operation if success', async() => {
+        wrapper.setData({
+            isDrawerOpen: true,
+            isActionOpen: false,
+            inProgress: true,
+            invoice: {
+                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
+                "invoice_number": "UN-P-A00008-FY24",
+                "invoice_type": "Seller Invoice Uniket",
+                "invoice_date": "17-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹243.08",
+                "due_date": "20-05-23",
+                "status": "unpaid",
+                "is_downloadable": true,
+                "invoice_id": "5b1d13fd-c850-45b1-aaa5-6546a6c5b403"
+            }
+        });
+        await wrapper.vm.$nextTick();
+        const childComponent = wrapper.findComponent(InvoicePayment);
+        childComponent.vm.$emit('closeDrawer', 'success');
+        jest.advanceTimersByTime(30000);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.inProgress).toBe(true);
+    });
+
     // Invoice Filter component test cases
 
     it('it should open the filter drawer component on click and ', async() => {
@@ -166,7 +274,7 @@ describe('Invoice', () => {
         });
         await childComponent.vm.$forceUpdate();
         await childComponent.vm.$nextTick();
-        const paymentDropdown = wrapper.find('.payment-status');
+        const paymentDropdown = childComponent.find('.payment-status');
         paymentDropdown.vm.$emit('change',childComponent.vm.paymentStatusList, childComponent.vm.selectedPaymentStatus,'payment');
         expect(childComponent.vm.paymentChips).toEqual([
             {
@@ -190,7 +298,7 @@ describe('Invoice', () => {
         });
         await childComponent.vm.$forceUpdate();
         await childComponent.vm.$nextTick();
-        const invoiceDropdown = wrapper.find('.invoice-type');
+        const invoiceDropdown = childComponent.find('.invoice-type');
         invoiceDropdown.vm.$emit('change',childComponent.vm.invoiceType, wrapper.vm.selectedInvoiceType,'invoice');
         expect(childComponent.vm.invoiceChips).toEqual([
             {
@@ -200,34 +308,78 @@ describe('Invoice', () => {
         ]);
     });
 
-    /* it('should search the company by given text', async()=>{
-        await flushPromises();
-        companyChange.vm.$emit('searchInputChange', {text:'18504'});
-        jest.advanceTimersByTime(1000);
-        await wrapper.vm.$forceUpdate();
-        await wrapper.vm.$nextTick();
-        const searchCompany = jest.spyOn(wrapper.vm, 'fetchCompany');
-        expect(searchCompany).toHaveBeenCalled();
-    }) */
-    /* it('Should search the text when entered', async()=>{
+    it('it should close the filter drawer when clicked on cross button', async()=>{
         wrapper.setData({
-            inProgress: false,
-            fromDate: '09-05-2023',
-            toDate: '16-05-2023',
-            pageObject: {
-                limit: 10,
-                current: 1,
-                total: 0
-            },
-            filters: {},
-            searchText: ''
+            isFilterDrawerOpen: true,
         })
-        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        const searchClick = wrapper.find('.search');
-        searchClick.vm.$emit('input',{});
-        jest.advanceTimersByTime(1000);
-        const getInvoiceList = jest.spyOn(wrapper.vm, 'getInvoiceList');
-        expect(getInvoiceList).toHaveBeenCalled();
-    }); */
+        const childComponent = wrapper.findComponent(InvoiceFilter);
+        childComponent.setData({
+            selectedInvoiceType: ['8d85b574-17b7-4ddd-8d0a-e3a79cbd0659'],
+            selectedPaymentStatus: ['unpaid'],
+            companyChips: [],
+            paymentChips: [
+                {
+                    "text": "Unpaid",
+                    "value": "unpaid"
+                }
+            ],
+            invoiceChips: [
+                {
+                    "text": "Seller Invoice Uniket",
+                    "value": "8d85b574-17b7-4ddd-8d0a-e3a79cbd0659"
+                },
+            ],
+            filters: {
+                invoice_type: [],
+                payment_status: []
+            }
+        });
+        const crossBtn = childComponent.find('.cross-btn');
+        await crossBtn.trigger('click');
+        expect(childComponent.vm.invoiceChips).toEqual([]);
+    });
+
+    it('it should remove the chips when clicked on chips close', async()=>{
+        wrapper.setData({
+            isFilterDrawerOpen: true,
+        })
+        await wrapper.vm.$nextTick();
+        const childComponent = wrapper.findComponent(InvoiceFilter);
+        childComponent.setData({
+            selectedPaymentStatus: ['unpaid'],
+            paymentChips: [
+                {
+                    "text": "Unpaid",
+                    "value": "unpaid"
+                }
+            ],
+        });
+        await childComponent.vm.$forceUpdate();
+        await childComponent.vm.$nextTick();
+        const removeChips = childComponent.find('#remove-chips');
+        removeChips.vm.$emit('click',0,{ "text": "Unpaid", "value": "unpaid"},childComponent.vm.selectedPaymentStatus,childComponent.vm.paymentChips);
+        expect(childComponent.vm.paymentChips).toEqual([]);
+    });
+
+    it('it should close the drawer with the filters send to parent', async()=>{
+        wrapper.setData({
+            isFilterDrawerOpen: true,
+        })
+        await wrapper.vm.$nextTick();
+        const childComponent = wrapper.findComponent(InvoiceFilter);
+        const closeDrawer = jest.spyOn(childComponent.vm, 'closeDrawer');
+        childComponent.setData({
+            filters: {
+                invoice_type: [],
+                payment_status: []
+            }
+        });
+        await childComponent.vm.$forceUpdate();
+        await childComponent.vm.$nextTick();
+        const applyBtn = childComponent.find('#apply-btn');
+        await applyBtn.trigger('click');
+        await childComponent.vm.$nextTick();
+        expect(closeDrawer).toHaveBeenCalledTimes(1);
+    });
 })

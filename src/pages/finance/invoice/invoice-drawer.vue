@@ -72,7 +72,7 @@
                         <div class="upload-wrap">
                             <div class="upload-title">Proof</div>
                             <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
-                                <div id="select-file" class="select-file" @click="onUploadClick">
+                                <div ref="select-file" id="select-file" class="select-file" @click="onUploadClick">
                                     <input type="file" ref="fileUpload" @change="onFileUpload" class="fileUploadInput" id="invoiceDrawerFileInput" />
                                     <div class="plus-sign">
                                     <inline-svg :src="'plus-sign-finance'"></inline-svg>
@@ -101,12 +101,13 @@
                         >Cancel</nitrozen-button>
                     </div>
                     <div class="save-btn">
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        v-flatBtn
-                        :disabled="enableTranSave"
-                        @click="saveOfflineData"
-                        >Save</nitrozen-button>
+                        <nitrozen-button
+                            class="save-offline"
+                            :theme="'secondary'"
+                            v-flatBtn
+                            :disabled="enableTranSave"
+                            @click="saveOfflineData"
+                            >Save</nitrozen-button>
                     </div>
             </div>
             </div>   

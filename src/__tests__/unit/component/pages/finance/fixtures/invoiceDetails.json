@@ -3,6 +3,18 @@
         "success": true,
         "items": [
             {
+                "company": "(33) JAIN AMAR CLOTHING PVT LTD",
+                "invoice_number": "FS-I-A00019-FY24",
+                "invoice_type": "Seller Invoice Fynd Store",
+                "invoice_date": "10-05-23",
+                "period": "01-03-23 - 31-03-23",
+                "amount": "₹118.0",
+                "due_date": "",
+                "status": "paid",
+                "is_downloadable": true,
+                "invoice_id": "a64fb252-2d9e-45b2-812b-09ee63ab2a27"
+            },
+            {
                 "company": "(61) EVOLVE BUSINESS VENTURES",
                 "invoice_number": "",
                 "invoice_type": "Brand Website",
@@ -88,39 +100,27 @@
             },
             {
                 "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
-                "invoice_number": "",
+                "invoice_number": "UN-P-A00008-FY24",
                 "invoice_type": "Seller Invoice Uniket",
-                "invoice_date": "16-05-23",
+                "invoice_date": "17-05-23",
                 "period": "01-05-23 - 31-05-23",
-                "amount": "₹295.0",
-                "due_date": "19-05-23",
+                "amount": "₹243.08",
+                "due_date": "20-05-23",
                 "status": "unpaid",
-                "is_downloadable": false,
-                "invoice_id": "58c6905b-0b4e-4026-9bcf-8752e125177a"
+                "is_downloadable": true,
+                "invoice_id": "5b1d13fd-c850-45b1-aaa5-6546a6c5b403"
             },
             {
-                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
-                "invoice_number": "OM-P-A00005-FY24",
-                "invoice_type": "Creditline Invoice",
-                "invoice_date": "16-05-23",
-                "period": "01-05-23 - 31-05-23",
-                "amount": "₹271.4",
-                "due_date": "18-05-23",
-                "status": "unpaid",
-                "is_downloadable": false,
-                "invoice_id": "b65c4eb6-5df3-407d-9b16-5c44c55b1c48"
-            },
-            {
-                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
-                "invoice_number": "OM-P-A00007-FY24",
-                "invoice_type": "Creditline Invoice",
-                "invoice_date": "16-05-23",
-                "period": "01-05-23 - 31-05-23",
-                "amount": "₹271.4",
-                "due_date": "18-05-23",
-                "status": "unpaid",
-                "is_downloadable": false,
-                "invoice_id": "fc3d1036-c343-4705-9869-ea548ec6d067"
+                "company": "(33) JAIN AMAR CLOTHING PVT LTD",
+                "invoice_number": "FS-P-A00001-FY24",
+                "invoice_type": "Seller Invoice Fynd Store",
+                "invoice_date": "10-05-23",
+                "period": "01-03-23 - 31-03-23",
+                "amount": "₹118.0",
+                "due_date": "",
+                "status": "paid",
+                "is_downloadable": true,
+                "invoice_id": "a3a0b5e4-5567-439f-b6ce-1d75f7df0297"
             }
         ],
         "headers": [
@@ -298,5 +298,26 @@
                 "value": "void"
             }
         ]
+    },
+    "downloadInvoice": {
+        "success": true,
+        "data": [
+            "https://fynd-staging-assets-private.s3-accelerate.amazonaws.com/addsale/documents/daytrader/PDFs/33/05-2023/FS/FS-I-A00019-FY24_33_05-2023.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230517%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230517T124746Z&X-Amz-Expires=604800&X-Amz-Signature=9ae4f9b22fa0097de87072066c00fe9c7c63cde63255cb9a6f795fee8fbed6c9&X-Amz-SignedHeaders=host",
+            "https://fynd-staging-assets-private.s3-accelerate.amazonaws.com/addsale/documents/daytrader/PDFs/3/05-2023/FS/FS-I-A00023-FY24_3_05-2023.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230517%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230517T124746Z&X-Amz-Expires=604800&X-Amz-Signature=b2b8e68bdfcb7f72c875b55d4631c8b2f486eeae0d49ed2cf9c4592672c95041&X-Amz-SignedHeaders=host"
+        ],
+        "error": []
+    },
+    "paymentProcess":{
+        "code": 200,
+        "message": "success",
+        "transaction_id":"641d45831052243d29c6b470",
+        "redirect_url": "",
+        "meta": {
+            "cheque_number": ""
+        }
+    },
+    "paymentFailed":{
+        "success": false,
+        "reason": "Invoice Amount is already paid."
     }
 }

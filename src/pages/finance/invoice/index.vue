@@ -125,6 +125,7 @@
                             >
                                 <td>
                                     <nitrozen-checkbox
+                                        ref="table-checkout"    
                                         class="table-checkout"
                                         @change="
                                             toggleInvoice(invoice.invoice_number)
@@ -389,13 +390,13 @@ export default {
             if (this.selectedInvoices.length == 0) {
                 this.selectedInvoices = this.invoiceDetails.items.map(
                     (item) => {
-                        if (item.status.toLowerCase() === 'paid') {
+                        if (item.is_downloadable) {
                             return item.invoice_number;
                         }
                     }
                 );
                 this.bulkDownloadList = this.invoiceDetails.items
-                    .filter((item) => item.status.toLowerCase() === 'paid')
+                    .filter((item) => item.is_downloadable)
                     .map((item) => item.invoice_number);
                 return;
             }
@@ -472,12 +473,12 @@ export default {
             this.isFilterDrawerOpen = false;
             this.getInvoiceList();
         },
-        cancelPopup() {
+        /* cancelPopup() {
             this.showPopup = false;
         },
         handlePopup(status) {
             this.showPopup = false;
-        },
+        }, */
         onDateChange() {
             this.fromDate = moment(this.InvoiceDateRange[0]).format('DD-MM-YYYY');
             this.toDate = moment(this.InvoiceDateRange[1]).format('DD-MM-YYYY');

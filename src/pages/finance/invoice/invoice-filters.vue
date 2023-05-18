@@ -34,6 +34,7 @@
                                     >
                                     {{ item.text }}
                                     <nitrozen-inline
+                                    id="remove-chips"
                                     :icon="'cross'"
                                     ref="remove-chips"
                                     class="nitrozen-icon"
@@ -85,6 +86,7 @@
                     </div>
                     <div class="save-btn">
                     <nitrozen-button
+                        id="apply-btn"
                         :theme="'secondary'"
                         v-flatBtn
                         @click="saveOfflineData"
@@ -151,7 +153,6 @@ methods: {
         },
         saveOfflineData(){
             this.closeDrawer();
-
         },
         resetFilters(){
             this.selectedInvoiceType = '',
