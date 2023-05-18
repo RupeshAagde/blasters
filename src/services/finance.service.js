@@ -48,7 +48,6 @@ const FinanceService = {
 
     uploadToS3(url, data) {
         let axiosOption = Object.assign({}, { data });
-        console.log(axiosOption);
         return ApiService.post(url, axiosOption, {
             withCredentials: true
         });

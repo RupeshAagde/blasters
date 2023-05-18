@@ -72,7 +72,7 @@
                         <div class="upload-wrap">
                             <div class="upload-title">Proof</div>
                             <div class="upload-file" @drop.prevent="onFileUpload" @dragover.prevent>
-                                <div ref="select-file" id="select-file" class="select-file" @click="onUploadClick">
+                                <div id="select-file" class="select-file" @click="onUploadClick">
                                     <input type="file" ref="fileUpload" @change="onFileUpload" class="fileUploadInput" id="invoiceDrawerFileInput" />
                                     <div class="plus-sign">
                                     <inline-svg :src="'plus-sign-finance'"></inline-svg>
@@ -332,17 +332,12 @@ methods: {
         uploadToS3(url,data){
             const caller = FinanceService.uploadToS3(url, data);
             caller
-                .then((res) => {
-                })
-                .catch((err) => {
-                  
-                })
-                .finally(() => {});  
-                
+                .then((res) => {})
+                .catch((err) => {})
+                .finally(() => {});
         },
         onFileUpload(event) {
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
-
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`

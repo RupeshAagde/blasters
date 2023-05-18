@@ -10,6 +10,8 @@ import mocks from '../fixtures/invoiceDetails.json';
 import InvoicePayment from '../../../../../../pages/finance/invoice/invoice-drawer.vue';
 import { jest } from '@jest/globals';
 
+jest.useFakeTimers();
+
 let localVue, wrapper, router,store;
 const mock = new MockAdapter(axios);
 const companyId = '11';
@@ -129,6 +131,7 @@ describe('Invoice Payment', ()=>{
     });
 
     it('should upload the file and get the presigned URL', async()=>{
+        let uploadBtn = jest.spyOn(wrapper.vm, 'onUploadClick');
         wrapper.setData({
             fileDetails: {
                 fileName: '',
@@ -137,10 +140,46 @@ describe('Invoice Payment', ()=>{
             presignedUrl: '',
             paymentSelection: 'cash',
         });
+        await wrapper.vm.$forceUpdate();
         await wrapper.vm.$nextTick();
-        /* const uploadClick = wrapper.findComponent({ref:'select-file'});
-        uploadClick.vm.$emit('click',{target:{value:"C:\\fakepath\\Screenshot 2023-05-17 at 4.27.37 PM.png"}});
-        expect(wrapper.vm.presignedUrl).toEqual(''); */
-        wrapper.vm.onUploadClick({target:{value:"C:\\fakepath\\Screenshot 2023-05-17 at 4.27.37 PM.png"}});
+        const selectFileEl = wrapper.find('#select-file');
+        selectFileEl.trigger("click");
+        await wrapper.vm.$nextTick();
+        expect(uploadBtn).toHaveBeenCalled();
+    });
+
+    it('Process uploaded file', async() => {
+        let getPreSignedUrl = jest.spyOn(wrapper.vm, 'getPreSignedUrl');
+        let frame = jest.spyOn(wrapper.vm, 'frame');
+        wrapper.setData({
+            fileDetails: {
+                fileName: '',
+                fileMbSize: ''
+            },
+            presignedUrl: '',
+            paymentSelection: 'cash'
+        })
+        await wrapper.vm.$forceUpdate();
+        await wrapper.vm.$nextTick();
+        wrapper.vm.onFileUpload({target:{files:[{size: 52562, type: "image/png", name: "Screenshot 2023-05-17 at 4.27.37 PM.png"}]}})
+        jest.advanceTimersByTime(10);
+        expect(wrapper.vm.fileDetails.fileName).toBeDefined();
+        expect(frame).toHaveBeenCalled();
+
+        jest.advanceTimersByTime(1050);
+        mock.onPost(DOMAIN_URLS.GET_PRESIGNED_URL()).reply(200, mocks.getPresignURL);
+        expect(getPreSignedUrl).toHaveBeenCalled();
+    });
+
+    it('When the file size is 0', async() => {
+        let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+        wrapper.vm.onFileUpload({target:{files:[{size: 0, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+        expect(showErrorMethod).toHaveBeenCalled();
+    });
+
+    it('When the file size is greater than 500000', async() => {
+        let showErrorMethod = jest.spyOn(wrapper.vm.$snackbar.global, 'showError');
+        wrapper.vm.onFileUpload({target:{files:[{size: 100000000, type: 'text/csv', name:'conshshhdhhhsggklshgkghdkhgdent.csv'}]}})
+        expect(showErrorMethod).toHaveBeenCalled();
     });
 })

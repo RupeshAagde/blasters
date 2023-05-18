@@ -319,5 +319,19 @@
     "paymentFailed":{
         "success": false,
         "reason": "Invoice Amount is already paid."
+    },
+    "getPresignURL": {
+        "data": {
+            "url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/",
+            "fields": {
+                "key": "invoice//cash/1684376150_Screenshot_2023-05-17_at_4.27.37_PM.png",
+                "x-amz-algorithm": "AWS4-HMAC-SHA256",
+                "x-amz-credential": "AKIAJUADR2WMPQT6ZJ2Q/20230518/us-east-2/s3/aws4_request",
+                "x-amz-date": "20230518T021551Z",
+                "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMDUtMTlUMDI6MTU6NTFaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiZGF5dHJhZGVyLXJlcG9ydGluZy1kYXRhLXByZSJ9LCB7ImtleSI6ICJpbnZvaWNlLy9jYXNoLzE2ODQzNzYxNTBfU2NyZWVuc2hvdF8yMDIzLTA1LTE3X2F0XzQuMjcuMzdfUE0ucG5nIn0sIHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSwgeyJ4LWFtei1jcmVkZW50aWFsIjogIkFLSUFKVUFEUjJXTVBRVDZaSjJRLzIwMjMwNTE4L3VzLWVhc3QtMi9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjMwNTE4VDAyMTU1MVoifV19",
+                "x-amz-signature": "9aba41549803bac1d85e56c0773017878e45e9ecb2d180ba479ec96efc72ef8a"
+            },
+            "presigned_url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/invoice//cash/1684376150_Screenshot_2023-05-17_at_4.27.37_PM.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230518%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230518T021551Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f880579bbdfa3e11a56bfbce710f8b57b577ec949c91676f19cda2c12191cd5c"
+        }
     }
 }
