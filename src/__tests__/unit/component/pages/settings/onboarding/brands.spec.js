@@ -82,4 +82,18 @@ describe('Mounted Brands Component', () => {
         postBtn.trigger('click')
         mock.reset();
     });
+    it('should check dirty form', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('brand')).reply(
+            200,
+            MOCK_DATA
+        );
+        wrapper = mount(Brands, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        expect(wrapper.vm.isFormDirty()).toBeFalsy();
+        wrapper.vm.$set(wrapper.vm, 'lineItems', []);
+        expect(wrapper.vm.isFormDirty()).toBeTruthy();
+    })
 });

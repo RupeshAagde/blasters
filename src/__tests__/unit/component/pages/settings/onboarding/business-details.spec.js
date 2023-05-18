@@ -103,4 +103,26 @@ describe('Mounted BusinessDetails Component', () => {
         postBtn.trigger('click')
         mock.reset();
     });
+    it('should check dirty form', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('business-details')).reply(
+            200,
+            MOCK_DATA.business_details
+        );
+        mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: "company_type" } }).reply(
+            200,
+            MOCK_DATA.company_type
+        );
+        mock.onGet(URLS.GET_CHOICE_TYPES(), { params: { choice_type: "business_type" } }).reply(
+            200,
+            MOCK_DATA.business_type
+        );
+        wrapper = mount(BusinessDetails, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        expect(wrapper.vm.isFormDirty()).toBeFalsy();
+        wrapper.vm.$set(wrapper.vm, 'lineItems', []);
+        expect(wrapper.vm.isFormDirty()).toBeTruthy();
+    })
 });

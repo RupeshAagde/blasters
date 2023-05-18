@@ -46,5 +46,19 @@ describe('Mounted UpdateMarketplace Component', () => {
         expect(wrapper.vm.lineItems.length).toBe(5);
         mock.reset();
     });
+    it('should check dirty form', async () => {
+        mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('000000000000000000000001')).reply(
+            200,
+            MOCK_DATA
+        );
+        wrapper = mount(UpdateMarketplace, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        expect(wrapper.vm.isFormDirty()).toBeFalsy();
+        wrapper.vm.$set(wrapper.vm, 'lineItems', []);
+        expect(wrapper.vm.isFormDirty()).toBeTruthy();
+    })
 });
 
