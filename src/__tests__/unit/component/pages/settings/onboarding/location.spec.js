@@ -74,4 +74,18 @@ describe('Mounted Location Component', () => {
         expect(postBtn.exists()).toBe(true)
         postBtn.trigger('click')
     });
+    it('should check dirty form', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('location')).reply(
+            200,
+            MOCK_DATA
+        );
+        wrapper = mount(Location, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        expect(wrapper.vm.isFormDirty()).toBeFalsy();
+        wrapper.vm.$set(wrapper.vm, 'programTypes', []);
+        expect(wrapper.vm.isFormDirty()).toBeTruthy();
+    })
 });

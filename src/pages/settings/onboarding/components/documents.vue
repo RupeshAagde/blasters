@@ -27,6 +27,7 @@
                     :title="item.text"
                     @close="close(item, $event)"
                     :id="item.id"
+                    @click.stop.native
                 >
                     <template slot="header">
                         <div class="inline apart header">
@@ -111,11 +112,16 @@ export default {
             });
         },
         close(item, event) {
-            if (event == 'Cancel' || event == 'close') {
-                if (item.data.lineItems) {
-                    item.data.lineItems.map((lineItem) => {
-                        lineItem.data.currentValue = lineItem.data.isSelected;
-                    });
+            const lValue = event === 'Save' ? 'isSelected' : 'currentValue';
+            const rValue = event === 'Save' ? 'currentValue' : 'isSelected';
+            this.updateState(item, lValue, rValue);
+        },
+
+        updateState(item, lValue, rValue) {
+            if (item.data.lineItems) {
+                for (const lineItem of item.data.lineItems) {
+                    lineItem.data[lValue] = lineItem.data[rValue];
+                    this.updateState(lineItem, lValue, rValue);
                 }
             }
         },
