@@ -14,7 +14,13 @@
                 :showBackButton="isEditMode ? true : false"
                 @backClick="backRedirect"
             >
-                <div class="button-box" v-if="isEditMode" v-bind:class="!paymentModes.length ? 'disabled-section':'' ">
+                <div
+                    class="button-box"
+                    v-if="isEditMode"
+                    v-bind:class="
+                        !paymentModes.length ? 'disabled-section' : ''
+                    "
+                >
                     <span
                         :class="
                             agregatorDetails.is_active
@@ -59,27 +65,41 @@
                 :theme="'secondary'"
                 :ref="'copy-config-panel'"
                 @click="copyConfigPanel"
-                :disabled="pageError || pageLoading || (isEditMode && !agregatorDetails.is_active)"
+                :disabled="
+                    pageError ||
+                    pageLoading ||
+                    (isEditMode && !agregatorDetails.is_active)
+                "
                 >Duplicate Config</nitrozen-button
             >
         </div>
         <loader v-if="pageLoading"></loader>
         <page-error
             v-else-if="pageError && !pageLoading"
-            @tryAgain="isEditMode ? getPaymentGatewayDetails() : getAllPaymentModes()"
+            @tryAgain="
+                isEditMode ? getPaymentGatewayDetails() : getAllPaymentModes()
+            "
         ></page-error>
         <div
             class="main-body payment-mode-details"
             v-if="!pageLoading && !pageError"
         >
-        <loader v-if="inProgress" class="loading"></loader>
+            <loader v-if="inProgress" class="loading"></loader>
             <div class="title">Available MOP/Sub MOP Options</div>
             <page-empty
                 v-if="!paymentModes.length"
                 class="sub-mop-options"
                 :text="'No payment modes found'"
             ></page-empty>
-            <div class="content" v-else v-bind:class="isEditMode && !agregatorDetails.is_active ? 'disabled-section':'' ">
+            <div
+                class="content"
+                v-else
+                v-bind:class="
+                    isEditMode && !agregatorDetails.is_active
+                        ? 'disabled-section'
+                        : ''
+                "
+            >
                 <div class="mop-options">
                     <div
                         class="mop-list"
@@ -98,7 +118,12 @@
                             @click="showSubModes(item)"
                         >
                             <div class="card-avatar">
-                                <img :src="item.logos.small" alt="Logo" />
+                                <img v-if="item.logos.small" :src="item.logos.small" alt="Logo" />
+                                <inline-svg
+                                    v-else
+                                    src="default-mop-icon"
+                                    class="mop-icon"
+                                ></inline-svg>
                             </div>
                             <div class="card-content-section">
                                 <div class="card-content-line-1 full-name">
@@ -122,41 +147,53 @@
                 <div class="sub-mop-options">
                     <div class="sub-mop-header">
                         <div class="sub-mop-header-title">
-                            {{currentMopDetails.name}}
+                            {{ currentMopDetails.name }}
                         </div>
                         <div class="sub-mop-header-options">
-                        <div class="button-box" @click.stop="">
-                            <nitrozen-toggle
-                                v-model="currentMopDetails.is_active"
+                            <div class="button-box" @click.stop="">
+                                <nitrozen-toggle
+                                    v-model="currentMopDetails.is_active"
+                                >
+                                </nitrozen-toggle>
+                            </div>
+                            <nitrozen-button
+                                class="mr-16"
+                                :theme="'secondary'"
+                                :ref="'update-mop-status'"
+                                @click="confirmUpdateMopDetails"
+                                v-flatBtn
+                                :disabled="pageError || pageLoading"
+                                >Save</nitrozen-button
                             >
-                            </nitrozen-toggle>
-                        </div>
-                        <nitrozen-button
-                            class="mr-16"
-                            :theme="'secondary'"
-                            :ref="'update-mop-status'"
-                            @click="confirmUpdateMopDetails"
-                            v-flatBtn
-                            :disabled="pageError || pageLoading"
-                            >Save</nitrozen-button
-                        >
-                        <confirmation-dialog-box
-                            ref="confirm-mop-status-update"
-                            cancelBtnTitle="No"
-                            saveBtnTitle="Yes"
-                            @save="updateMopDetails"
-                            @cancel="cancelUpdateMopStatus"
-                        />
+                            <confirmation-dialog-box
+                                ref="confirm-mop-status-update"
+                                cancelBtnTitle="No"
+                                saveBtnTitle="Yes"
+                                @save="updateMopDetails"
+                                @cancel="cancelUpdateMopStatus"
+                            />
                         </div>
                     </div>
-                    <div v-if="subPaymentModes.length" v-bind:class="!currentMopDetails.is_active ? 'disabled-section':'' ">
+                    <div
+                        v-if="subPaymentModes.length"
+                        v-bind:class="
+                            !currentMopDetails.is_active
+                                ? 'disabled-section'
+                                : ''
+                        "
+                    >
                         <div
                             class="sub-mop-container"
                             v-for="(item, index) in subPaymentModes"
                             :key="index"
                         >
                             <div class="card-avatar">
-                                <img :src="item.logo" alt="Logo" />
+                                <img v-if="item.logo" :src="item.logo" alt="Logo" />
+                                <inline-svg
+                                    v-else
+                                    src="default-mop-icon"
+                                    class="mop-icon"
+                                ></inline-svg>
                             </div>
                             <div class="card-content-section">
                                 <div class="card-content-line-1 full-name">
@@ -171,7 +208,11 @@
                         </div>
                     </div>
                     <page-empty
-                    v-bind:class="!currentMopDetails.is_active ? 'disabled-section':'' "
+                        v-bind:class="
+                            !currentMopDetails.is_active
+                                ? 'disabled-section'
+                                : ''
+                        "
                         v-else
                         class="sub-mop-options"
                         :text="'No sub payment modes found'"
@@ -323,6 +364,12 @@
                         padding: 4px;
                         background: #e7eeff;
                     }
+                    .mop-icon {
+                        ::v-deep svg {
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
                 }
             }
         }
@@ -344,6 +391,12 @@
                 border-radius: 50%;
                 padding: 4px;
                 background: #e7eeff;
+            }
+            .mop-icon {
+                ::v-deep svg {
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
     }
@@ -447,7 +500,7 @@ export default {
             this.getBusinessUnitDeviceList();
         },
         selectedDeviceListToCopy(val) {
-            if(val.length){
+            if (val.length) {
                 this.clearError();
             }
         }
@@ -481,12 +534,18 @@ export default {
         this.getBusinessUnitDeviceList();
     },
     methods: {
-        getSelectedBusinessUnit(){
-            const selectedBusinessUnit = this.businessUnitList.filter(item => item.value == this.businessUnit)
-            return selectedBusinessUnit.length ? selectedBusinessUnit[0].text : this.businessUnit;
+        getSelectedBusinessUnit() {
+            const selectedBusinessUnit = this.businessUnitList.filter(
+                (item) => item.value == this.businessUnit
+            );
+            return selectedBusinessUnit.length
+                ? selectedBusinessUnit[0].text
+                : this.businessUnit;
         },
-        getSelectedDevice(){
-            const selectedDevice = this.deviceList.filter(item => item.value == this.device)
+        getSelectedDevice() {
+            const selectedDevice = this.deviceList.filter(
+                (item) => item.value == this.device
+            );
             return selectedDevice.length ? selectedDevice[0].text : this.device;
         },
         getPaymentGatewayDetails() {
@@ -502,7 +561,10 @@ export default {
                         this.paymentModes = this.agregatorDetails.payment_mode || [];
                         if (this.paymentModes.length) {
                             this.currentMopDetails = this.paymentModes[0];
-                            this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false;
+                            this.initialMopStatus =
+                                (this.currentMopDetails &&
+                                    this.currentMopDetails.is_active) ||
+                                false;
                             this.subPaymentModes =
                                 this.paymentModes[0].sub_payment_mode;
                         }
@@ -570,7 +632,7 @@ export default {
                     items: [this.currentMopDetails],
                 };
                 const isValid = this.validateSubMop();
-                if(!isValid){
+                if (!isValid) {
                     this.inProgress = false;
                     this.$snackbar.global.showError(
                         'Please select atleast one sub payment mode'
@@ -596,17 +658,22 @@ export default {
                 );
             }
         },
-        validateSubMop(){
+        validateSubMop() {
             let isValid = true;
-            if(this.currentMopDetails.is_active && this.currentMopDetails.sub_payment_mode.length){
-                isValid = this.currentMopDetails.sub_payment_mode.some(subMop => subMop.is_active);
+            if (
+                this.currentMopDetails.is_active &&
+                this.currentMopDetails.sub_payment_mode.length
+            ) {
+                isValid = this.currentMopDetails.sub_payment_mode.some(
+                    (subMop) => subMop.is_active
+                );
             }
             return isValid;
         },
         async handleBusinessUnitChange(type) {
             this.businessUnit = type;
             this.gatewayDetailsParams['business_unit'] = type;
-            if(this.isEditMode){
+            if (this.isEditMode) {
                 await this.getPaymentGatewayDetails();
             } else {
                 await this.getAllPaymentModes();
@@ -615,7 +682,7 @@ export default {
         async handleDeviceChange(value) {
             this.device = value;
             this.gatewayDetailsParams['device'] = value;
-            if(this.isEditMode){
+            if (this.isEditMode) {
                 await this.getPaymentGatewayDetails();
             } else {
                 await this.getAllPaymentModes();
@@ -623,7 +690,9 @@ export default {
         },
         showSubModes(item) {
             this.currentMopDetails = item;
-            this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false
+            this.initialMopStatus =
+                (this.currentMopDetails && this.currentMopDetails.is_active) ||
+                false;
             this.subPaymentModes = item.sub_payment_mode;
         },
         getAllPaymentModes() {
@@ -634,7 +703,10 @@ export default {
                     if (res.data.items.length) {
                         this.paymentModes = res.data.items;
                         this.currentMopDetails = this.paymentModes[0];
-                        this.initialMopStatus = (this.currentMopDetails && this.currentMopDetails.is_active) || false;
+                        this.initialMopStatus =
+                            (this.currentMopDetails &&
+                                this.currentMopDetails.is_active) ||
+                            false;
                         this.subPaymentModes =
                             this.paymentModes[0].sub_payment_mode;
                     }
@@ -675,17 +747,17 @@ export default {
                     );
                 });
         },
-        cancelUpdateGatewayStatus(e){
-            this.agregatorDetails.is_active = e.data.is_active || false
+        cancelUpdateGatewayStatus(e) {
+            this.agregatorDetails.is_active = e.data.is_active || false;
         },
-        cancelUpdateMopStatus(){
-            this.currentMopDetails.is_active = this.initialMopStatus || false
+        cancelUpdateMopStatus() {
+            this.currentMopDetails.is_active = this.initialMopStatus || false;
         },
-        cancelCopyConfiguration(isConfirmation){
-            if(!isConfirmation){
+        cancelCopyConfiguration(isConfirmation) {
+            if (!isConfirmation) {
                 this.selectedDeviceListToCopy = [];
             }
-            this.errors = {}
+            this.errors = {};
         },
         confirmUpdateGatewayStatus() {
             this.$refs['confirm-gateway-status-update'].openConfirmation({
@@ -694,8 +766,8 @@ export default {
                 height: '271px',
                 dismissible: false,
                 data: {
-                    is_active: !this.agregatorDetails.is_active
-                }
+                    is_active: !this.agregatorDetails.is_active,
+                },
             });
         },
         confirmUpdateMopDetails() {
@@ -703,7 +775,7 @@ export default {
                 title: 'Save Changes?',
                 message: 'Click Yes to save the changes',
                 height: '271px',
-                dismissible: false
+                dismissible: false,
             });
         },
         copyConfiguration() {
@@ -730,13 +802,17 @@ export default {
                 };
                 if (this.isEditMode) {
                     payload['aggregator_id'] = this.paymentAggregatorId;
-                    await PaymentService.saveCopiedConfigurationWithAggregator(payload);
+                    await PaymentService.saveCopiedConfigurationWithAggregator(
+                        payload
+                    );
                 } else {
                     await PaymentService.saveCopiedConfiguration(payload);
                 }
                 this.pageLoading = false;
                 this.selectedDeviceListToCopy = [];
-                this.$snackbar.global.showSuccess('Config Duplicated Successfully');
+                this.$snackbar.global.showSuccess(
+                    'Config Duplicated Successfully'
+                );
                 this.$refs['sidePanel'].close();
             } catch (err) {
                 this.pageLoading = false;
