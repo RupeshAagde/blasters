@@ -182,7 +182,7 @@
                                             >
                                                 <nitrozen-menu-item
                                                     class="act-offline"
-                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid' && invoice.invoice_number.length > 0"
                                                     @click="handleOpenDrawer(invoice)"
                                                 >
                                                     Offline Payment
