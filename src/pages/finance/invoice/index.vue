@@ -201,7 +201,7 @@
                                                 > -->
                                                 <nitrozen-menu-item
                                                     class="act-void"
-                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid' && invoice.invoice_number.length > 0"
                                                     @click="
                                                         handleVoid(
                                                             invoice, 'void'
@@ -211,7 +211,7 @@
                                                 >
                                                 <nitrozen-menu-item
                                                     class="act-download"
-                                                    v-if="invoice.status.toLowerCase() === 'unpaid' || invoice.status.toLowerCase() === 'paid'"
+                                                    v-if="invoice.is_downloadable"
                                                     @click="
                                                         downloadInvoice([
                                                             invoice.invoice_number
@@ -221,7 +221,7 @@
                                                 >
                                                 <nitrozen-menu-item
                                                     class="act-download"
-                                                    v-if="invoice.status.toLowerCase() === 'unpaid'"
+                                                    v-if="invoice.status.toLowerCase() === 'unpaid' && invoice.invoice_number.length > 0"
                                                     @click="
                                                         handleVoid(
                                                             invoice, 'extendDue'

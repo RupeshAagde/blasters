@@ -182,7 +182,7 @@ methods: {
             const invoiceVoid = FinanceService.invoiceExtendDate(params);
             invoiceVoid
                 .then((res) => {
-                    this.$snackbar.global.showSuccess(res.data.message);
+                    res.data.success ? this.$snackbar.global.showSuccess(res.data.message) : this.$snackbar.global.showError(res.data.message);
                     this.closeDrawer();
                 })
                 .catch((err) => {
@@ -205,7 +205,7 @@ methods: {
             const invoiceVoid = FinanceService.invoiceVoid(params);
             invoiceVoid
                 .then((res) => {
-                    this.$snackbar.global.showSuccess(res.data.message);
+                    res.data.success ? this.$snackbar.global.showSuccess(res.data.message) : this.$snackbar.global.showError(res.data.message);
                     this.closeDrawer();
                 })
                 .catch((err) => {
