@@ -278,7 +278,10 @@ export default {
         }, 1000)(e.text);
     },
     fetchCompany(query='') {
-        return FinanceService.getCompanyList(query)
+        let params = {
+                search: query
+        };
+        return FinanceService.getCompanyList(params)
             .then((res) => {
                 this.filterLists.company = res.data.company_list;
             })

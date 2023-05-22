@@ -19,9 +19,44 @@
                     >Create Rule
                 </nitrozen-button>
             </div>
-
-            <div class="filters-wrap"></div>
             <div class="list-wrap">
+                    <div class="filters-wrap">
+                        <div class="search-filter filter-item">
+                            <nitrozen-input
+                                id="searchbox"
+                                ref="searchbox"
+                                placeholder="Search Rule"
+                                v-model="searchText"
+                                label = "Search"
+                                type="search"
+                                :showSearchIcon="true"
+                                @input="onFilterChange" 
+                            />
+                        </div>
+                        <div class="company-filter filter-item">
+                            <nitrozen-dropdown
+                                id="company-name"
+                                :items="companyNames"
+                                v-model="selectedCompany"
+                                label = "Company"
+                                placeholder="Select Company"
+                                :searchable="true"
+                                :multiple="true"
+                                @change="updateFilter"
+                                @searchInputChange="searchCompany"
+                            ></nitrozen-dropdown>
+                        </div>
+                        <div class="status-filter filter-item">
+                            <nitrozen-dropdown
+                                id="status-name"
+                                :items="statusNames"
+                                v-model="selectedStatus"
+                                label = "Status"
+                                placeholder="Select Status"
+                                @change="updateFilter"
+                            ></nitrozen-dropdown>
+                        </div>
+                </div>
                 <table class="mirage-table additional-table">
                     <tr>
                         <td>Rule</td>
@@ -45,9 +80,42 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                <div class="brand-wrap">
+                                    <div v-if="item.slug_values.brand">
+                                        {{ item.slug_values.brand.name }}
+                                    </div>
+                                    <div v-else>
+                                        NA
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="channel-wrap">
+                                    <div v-if="item.slug_values.channel">
+                                        {{ item.slug_values.channel.name }}
+                                    </div>
+                                    <div v-else>
+                                        NA
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="date">{{ item.rule_start_date }} - {{ item.rule_end_date }}</div>
+                            </td>
+                            <td>
+                                <div class="edit-btn" @click="editRule(item.id)">Edit</div>
+                                <div class="delete-btn">Delete</div>
+                            </td>
                         </tr>
                     </template>
                 </table>
+                <nitrozen-pagination
+                    class="pagination-main"
+                    v-model="paginationObj"
+                    @change="onPaginationChange"
+                    :pageSizeOptions="[5, 10, 20, 50]"
+                />
             </div>
         </div>
         <div class="rule-main-wrap" v-else>
@@ -61,9 +129,12 @@
 import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
 import CreateRulePage from './create-rule/index.vue';
+import debounce from 'lodash/debounce';
 import {
     NitrozenButton,
     NitrozenDropdown,
+    NitrozenInput,
+    NitrozenPagination,
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
@@ -73,7 +144,9 @@ export default {
       'jumbotron': Jumbotron,
       'nitrozen-button': NitrozenButton,
       'nitrozen-dropdown':  NitrozenDropdown,
-      'create-rule': CreateRulePage
+      'create-rule': CreateRulePage,
+      'nitrozen-input' : NitrozenInput,
+      NitrozenPagination
     },
     directives: {
         flatBtn,
@@ -82,24 +155,69 @@ export default {
     data() {
         return {
             openCreationPage:true,
-            ruleDataList: []
+            ruleDataList: [],
+            searchText: '',
+            companyNames: [],
+            selectedCompany: [],
+            statusNames: [
+                {
+                    text: "None",
+                    value: "none"
+                },
+                {
+                    text: "Unverified",
+                    value: "unverified"
+                },
+                {
+                    text: "Verified",
+                    value: "verified"
+                }
+
+            ],
+            selectedStatus: 'unverified',
+            searchObj: {},
+            filtersValues:{},
+            paginationObj: {
+                total: 0,
+                current: 1,
+                limit: 10,
+            },
+            editRuleData:{}
+
         }
     },
     mounted(){
         this.fetchRulesList();
+        this.fetchCompany();
     },
     methods: {
         openCreateRulePage(){
-            this.openCreationPage = false;
+            // this.openCreationPage = false;
+            this.$router.push({ name: 'create-rule' });
         },
-        fetchRulesList(val) {
+        onPaginationChange(event) {
+            this.paginationObj = event
+            this.fetchRulesList();
+        },
+        fetchRulesList() {
+        if(this.selectedCompany.length > 0){
+            this.selectedCompany = this.selectedCompany.map((item) => parseInt(item))
+
+            this.filtersValues = {
+                "company" : this.selectedCompany,
+                "status": this.selectedStatus
+            }
+        }
+        else{
+            this.filtersValues = {
+                "status": this.selectedStatus,
+            }
+        }   
         let params = {
             data : {
                 "table_name": "settlement_rule",
-                "filters": {
-                    "status": "unverified"
-                },
-                "search": {},
+                "filters": this.filtersValues,
+                "search": this.searchObj,
                 "project": [
                     "id",
                     "created_at",
@@ -111,8 +229,8 @@ export default {
                     "rule_start_date",
                     "rule_end_date"
                 ],
-                "pageSize": 10,
-                "page": 1,
+                page:this.paginationObj.current,
+                pageSize:this.paginationObj.limit,
                 "order_by": "created_at DESC"
             }
 
@@ -120,15 +238,84 @@ export default {
         const caller = FinanceService.getRulesList(params);
         caller
             .then((res) => {
-                console.log(res);
                 this.ruleDataList = res.data.items;
+                this.paginationObj.total = res.data.page.item_count;
                 
             })
-            .catch((err) => {
+            .catch((err) => { 
                 this.$snackbar.global.showError('Failed to load '+ val);
             });
 
-    },
+        },
+        editRule(id){
+            let params = {
+            data : {
+                "table_name": "settlement_rule",
+                "filters": {
+                    "id": id
+                },
+                "project": [
+                    "id",
+                    "rule_slug",
+                    "status",
+                    "created_by",
+                    "slug_values",
+                    "transactional_components",
+                    "settle_cycle_period",
+                    "settlement_type",
+                    "rule_start_date",
+                    "rule_end_date"
+                ]
+            }
+
+        }
+        const caller = FinanceService.getDataFin(params);
+        caller
+            .then((res) => {
+                console.log(res);
+                
+                // this.ruleDataList = res.data.items;
+                // this.paginationObj.total = res.data.page.item_count;
+                
+            })
+            .catch((err) => { 
+                this.$snackbar.global.showError('Failed to load '+ val);
+            });
+
+        },
+        fetchCompany(query='') {
+            let params = {
+                    search: query
+            };
+            return FinanceService.getCompanyList(params)
+                .then((res) => {
+                    this.companyNames = res.data.company_list;
+                })
+                .catch((err) => {
+                    this.$snackbar.global.showError('Failed to load companies');
+                })
+        },
+        updateFilter(){
+            this.fetchRulesList();
+        },
+        searchCompany(e) {
+            debounce((text) => {
+                this.fetchCompany(text);
+            }, 1000)(e.text);
+        },
+        onFilterChange: debounce(function(input) {
+            if(this.searchText != ''){
+                this.searchObj = {
+                    rule_slug: this.searchText
+                }
+            }
+            else{
+                this.searchObj = {}
+            }
+            this.fetchRulesList();
+            
+        }, 500),
+        
     
     }
    
@@ -156,6 +343,11 @@ export default {
     }
 }
 
+.list-wrap{
+    box-sizing: border-box;
+    padding: 24px;
+}
+
 .mirage-table {
     width: 100%;
     margin-bottom: 24px;
@@ -165,17 +357,40 @@ export default {
     tr:first-child {
         border: 1px solid #E0E0E0;
         background: #f8f8f8;
-        color: @Black;
+        color: #000;
     }
     tr:not(:first-child) {
-        border-bottom: 1px solid @Iron;
+        border-bottom: 1px solid #e4e5e6;
+        background: #fff;
     }
     td {
         text-align: center;
         padding: 16px 6px;
         vertical-align: middle;
-        max-width: 120px;
+        white-space: nowrap;
+        max-width:100%;
     }
 }
+
+.filters-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px 30px;
+    box-sizing: border-box;
+
+    .filter-item{
+        width: 33.33%;
+        max-width: 33.33%;
+        padding: 0 10px;
+        box-sizing: border-box;
+
+    }
+    
+}
+
+.edit-btn{
+    cursor: pointer;
+    font-weight: bold;
+ }
 
 </style>

@@ -500,8 +500,11 @@ const URLS = {
 
 
     //for settlemment-rule
-    GET_COMPANY_LIST_FIN: (query) => {
-        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list/?search=${query}`);
+    // GET_COMPANY_LIST_FIN: (query) => {
+    //     return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list/?search=${query}`);
+    // },
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
     },
     GET_BRAND_LIST_FIN: (id, query) => {
         return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/company/${id}/get-company-brand-list/?search=${query}`);

@@ -83,8 +83,10 @@
                                     <nitrozen-dropdown
                                         :disabled="disabled"
                                         :label="'   '"
-                                        :items="input_types"
+                                        :items="(comp_key == 'commission') ? input_types_comission : input_types"
                                         :value="
+                                        ((comp_key == 'commission') && (selectedVariable == true)) ?
+                                            'variable' :
                                             cond_data[user_input]
                                                 ? 'conditional'
                                                 : 'fixed'
@@ -110,6 +112,14 @@
                                                     user_input,
                                                     'conditional'
                                                 );
+                                                variableComponent(
+                                                    value === 'variable'
+                                                        ? 0
+                                                        : null,
+                                                    user_input,
+                                                    'variable'
+                                                );
+
                                             }
                                         "
                                     ></nitrozen-dropdown>
@@ -163,6 +173,77 @@
                                     </nitrozen-error>
                                 </div>
                             </div>
+
+                            <div class="variable-container"  v-if="variable_data[user_input]">
+                                <div class="slab-wrap">
+                                    <nitrozen-checkbox  v-model="selectedSlab"> Slab </nitrozen-checkbox>
+                                    <div class="slab-dropdown">
+                                        <nitrozen-dropdown
+                                        class="slab-dp-item"
+                                        id="slab-cycle-name"
+                                        :items="cycleItems"
+                                        v-model="slab.cycle"
+                                        label = "Cycle"
+                                        placeholder="Select Cycle"
+                                        ></nitrozen-dropdown>
+                                        <nitrozen-dropdown
+                                        class="slab-dp-item"
+                                            v-model="slab.expression_variable_used"
+                                            placeholder="Net Sales"
+                                            label="Variable Name"
+                                            :disabled="true"
+                                        ></nitrozen-dropdown>
+                                    </div>
+                                    <div class="expression-wrap">
+                                        <nitrozen-dropdown
+                                            v-model="slab.expression"
+                                            :items="expressionItems"
+                                            placeholder="No condition, only digits : 0"
+                                            label="Expression Template"
+                                        ></nitrozen-dropdown>
+                                        <nitrozen-input
+                                            class="expression-input"
+                                            v-model="slab.expression"
+                                            placeholder="Enter Here"
+                                            >
+                                        </nitrozen-input>
+                                    </div>
+                                </div>
+                                <div class="flat-wrap">
+                                    <nitrozen-checkbox  
+                                    v-model="selectedFlat" 
+                                    @change="changeFlatValue"> Flat </nitrozen-checkbox>
+                                    <div class="flat-optns-wrap" v-if="selectedFlat">
+                                        <div class="flat-dropdown">
+                                        <nitrozen-dropdown
+                                        class="flat-dp-item"
+                                        id="flat-cycle-name"
+                                        :items="cycleItems"
+                                        v-model="flat.cycle"
+                                        label = "Cycle"
+                                        placeholder="Select Cycle"
+                                        ></nitrozen-dropdown>
+                                        </div>
+                                        <div class="expression-wrap">
+                                            <nitrozen-input
+                                                class="expression-input"
+                                                v-model="flat.value"
+                                                placeholder="Enter Here"
+                                                >
+                                            </nitrozen-input>
+                                        </div>
+                                        <div class="priority-wrap">
+                                            <nitrozen-dropdown
+                                                :items="priorityItems"
+                                                v-model="selectedPriority"
+                                                label = "Set Priority"
+                                                placeholder="Select Priority"
+                                            ></nitrozen-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -204,43 +285,70 @@
 
 }
 .plan-component {
-            .form-row.rule-row-cont {
-                border: 1px solid #9B9B9B;
-                border-radius:3px;
-                padding: 16px 12px;
-                box-sizing: border-box;
-                + .rule-row-cont {
-                    margin: 12px 0;
-                }
-            }
-
-            .form-row.full-row {
-                padding-top: 15px;
-            }
-
-            .form-adv{
-                padding-top: 10px;
-            }
-
-            .form-adv-cn{
-                .form-item{
-                    padding-top: 15px;
-                }
-            }
-
-            .form-compact-items{
-                padding-top: 15px;
-            }
-
+    .form-row.rule-row-cont {
+        border: 1px solid #9B9B9B;
+        border-radius:3px;
+        padding: 16px 12px;
+        box-sizing: border-box;
+        + .rule-row-cont {
+            margin: 12px 0;
+        }
     }
 
-    .top-headers{
+    .form-row.full-row {
+        padding-top: 15px;
+    }
+
+    .form-adv{
+        padding-top: 10px;
+    }
+
+    .form-adv-cn{
+        .form-item{
+            padding-top: 15px;
+        }
+    }
+
+    .form-compact-items{
+        padding-top: 15px;
+    }
+
+}
+.top-headers{
         color: #41434c;
         font-size: 18px;
         font-weight: 700;
         line-height: 23px;
         padding: 30px 0 20px;
     }
+    .slab-wrap{
+        padding: 20px 0;
+
+        .slab-dropdown{
+            padding: 20px 0;
+            display: flex;
+            box-sizing: border-box;
+            margin: 0 -10px;
+
+            .slab-dp-item{
+                width: 50%;
+                max-width: 50%;
+                box-sizing: border-box;
+                padding: 0 10px;
+            }
+        }
+    }
+
+    .expression-input{
+        padding-top: 20px;
+    }
+    .flat-dropdown{
+        padding-top: 15px;
+    }
+    .priority-wrap{
+        padding-top: 20px;
+    }
+
 </style>
 
 <script>
@@ -299,6 +407,8 @@ export default {
         strokeBtn
     },
     mounted() {
+        console.log(this.config);
+        console.log(this.options);
         // _.merge(this.formData, this.config);
     },
     data() {
@@ -306,6 +416,38 @@ export default {
             errors: {},
             searchBrand: '',
             auto_verify: false,
+            selectedSlab: true,
+            selectedFlat: false,
+            selectedPriority: 'high',
+            priorityItems:[
+                {
+                    text: 'Whichever is higher',
+                    value: 'high'
+                },
+                {
+                    text: 'Whichever is lower',
+                    value: 'low'
+                },
+            ],
+            cycleItems: [
+                {
+                    text: 'Monthly',
+                    value: 'monthly'
+                },
+                {
+                    text: 'Weekly',
+                    value: 'weekly'
+                },
+                {
+                    text: 'Yearly',
+                    value: 'yearly'
+                },
+                {
+                    text: 'Fiscal Year',
+                    value: 'fiscal year'
+                }
+
+            ],
             input_types: [
                 {
                     text: 'Fixed',
@@ -314,6 +456,20 @@ export default {
                 {
                     text: 'Conditional',
                     value: 'conditional'
+                }
+            ],
+            input_types_comission: [
+                {
+                    text: 'Fixed',
+                    value: 'fixed'
+                },
+                {
+                    text: 'Conditional',
+                    value: 'conditional'
+                },
+                {
+                    text: 'Variable',
+                    value: 'variable'
                 }
             ],
             conditional_types: [
@@ -330,6 +486,35 @@ export default {
                     value: 'Order'
                 }
             ],
+            expressionItems:[
+                {
+                    text: 'No condition, only digits : 0',
+                    value: 'No condition, only digits : 0'
+                },
+                {
+                    text: 'One Condition : 2.5 if net_sales <= 5000000 else 2',
+                    value: 'One Condition : 2.5 if net_sales <= 5000000 else 2'
+                },
+                {
+                    text: 'Two Condition : 5 if net_sales <= 5000000 else 3 if net_sales <= 10000000 else 2.5',
+                    value: 'Two Condition : 5 if net_sales <= 5000000 else 3 if net_sales <= 10000000 else 2.5'
+                },
+
+            ],
+            slab: 
+            {
+                "cycle": "weekly",
+                "expression": "No condition, only digits : 0",
+                "expression_variable_use[0]d": [
+                    "net_sales"
+                ]
+            },
+            flat: {
+                "cycle": "weekly",
+                "value": "1000"
+            },
+            selectedVariable: false,
+            variableObj: {},
             formData: {
                 name: '',
                 slug_fields: [],
@@ -353,6 +538,9 @@ export default {
                     is_tp: false,
                     defaults: {},
                     conditional: {},
+                    variable_conditional:{
+                        
+                    },
                     transaction_component: {}
                 }
             }
@@ -370,6 +558,9 @@ export default {
         },
         default_data() {
             return this.main_config.defaults;
+        },
+        variable_data(){
+            return this.main_config.variable_conditional;
         },
         date_range() {
             return [this.formData.rule_start_date, this.formData.rule_end_date];
@@ -456,8 +647,53 @@ export default {
         resetData(data) {
             _.merge(this.formData, data);
         },
+        changeFlatValue(){
+            console.log(this.selectedFlat);
+            if(this.selectedFlat == false){
+                this.formData.transactional_components.variable_conditional.commission["flat"] = this.flat;
+                console.log(this.formData.transactional_components.variable_conditional);
+            }
+            else if((this.selectedFlat == true) && (this.formData.transactional_components.variable_conditional.commission["flat"])){
+                delete this.formData.transactional_components.variable_conditional.commission["flat"]
+            }
+
+        },
+        variableComponent(value, key, type) {
+            console.log("In variableComponent");
+            console.log(value,key,type);
+            let obj = this.formData.transactional_components.variable_conditional;
+            if(value == 0){
+                obj[key] = {};
+                this.selectedVariable = true;
+                this.createVariablePayload();
+            }
+            else{
+                this.selectedVariable = false;
+                this.$delete(obj, key);
+            }
+        },
+        createVariablePayload(){
+
+           this.variableObj = {
+                slab: this.slab,
+                condition: {
+                    "whichever_is_higher": (this.selectedPriority == "high") ? true : false,
+                    "whichever_is_lower": (this.selectedPriority == "low") ? true : false
+                },
+            };
+
+            this.formData.transactional_components.variable_conditional.commission = this.variableObj;
+
+            console.log(this.variableObj)
+
+        },
         updateComponent(value, key, type) {
+
+            console.log("In update Component");
+            console.log(value,key,type);
+
             let obj = null;
+
             if (type === 'transaction') {
                 obj = this.tran_comp;
                 if (value) {
@@ -471,7 +707,8 @@ export default {
             } else if (type === 'conditional_value') {
                 obj = this.cond_data[key];
                 key = 'on';
-            } else {
+            }
+            else {
                 obj = this.default_data;
             }
             if (value !== null) {
