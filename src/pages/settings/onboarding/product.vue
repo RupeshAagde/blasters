@@ -3,7 +3,7 @@
         <div class="header-position">
             <page-header
                 :title="pageTitle"
-                @backClick="$router.push({ name: 'settings' })"
+                @backClick="$goBack('/administrator/settings/platform')"
                 :noContextMenu="true"
             >
                 <div class="button-box">
@@ -54,6 +54,9 @@ import InternalSettings from '@/services/internal-settings.service';
 import ComponentFactory from './components/component-factory.vue';
 
 import safeAccess from 'safe-access';
+import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 // const PRODUCT_TEMPLATE_TYPE = 'product_template_types';
 export default {
@@ -68,15 +71,16 @@ export default {
     directives: {
         flatBtn
     },
-
+    mixins: [dirtyCheckMixin],
     data() {
         return {
             pageLoading: false,
             pageError: false,
             pageTitle: 'Product',
             lineItems: [],
-            serverConfigIdentifier: 'product'
+            serverConfigIdentifier: 'product',
             // templateTypes: [],
+            originalData: []
         };
     },
     mounted() {
@@ -100,6 +104,7 @@ export default {
                         this.getAutoVerifyComponent(storedConfig)
                         // this.getProductTemplateComponent(storedConfig),
                     ];
+                    this.originalData = cloneDeep(this.lineItems);
                     this.pageLoading = false;
                 })
                 .catch(() => {
@@ -187,6 +192,7 @@ export default {
                         'Config Updated Successfully',
                         { duration: 2000 }
                     );
+                    this.init();
                 })
                 .catch(() => {
                     this.$snackbar.global.showError('Failed to Update Config', {
@@ -248,7 +254,7 @@ export default {
                     'Note: Company and brand must be in verified state'
                 )
             ]);
-        }
+        },
         // getProductTemplateComponent(apiConfig) {
         //     return getGroupComponent(
         //         'product_template',
@@ -263,7 +269,12 @@ export default {
         //             )
         //         ]
         //     )
-        // }
+        // },
+
+        // dirtForm check
+        isFormDirty() {
+            return !isEqual(this.originalData, this.lineItems);
+        }
     }
 };
 </script>

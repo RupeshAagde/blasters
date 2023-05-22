@@ -380,11 +380,13 @@ export default {
                 })
             );
             if (this.globalProviders && this.globalProviders.email) {
-                let global = {
-                    text: this.globalProviders.email.name,
-                    value: this.globalProviders.email._id
-                };
-                emailProviders = [global, ...emailProviders];
+                let global = this.globalProviders.email.map(
+                    provider => ({
+                        text: provider.name,
+                        value: provider._id
+                    })
+                )
+                emailProviders = [...global, ...emailProviders];
             }
             return emailProviders;
         },
@@ -397,11 +399,13 @@ export default {
                 value: provider._id
             }));
             if (this.globalProviders && this.globalProviders.sms) {
-                let global = {
-                    text: this.globalProviders.sms.name,
-                    value: this.globalProviders.sms._id
-                };
-                smsProviders = [global, ...smsProviders];
+                let global = this.globalProviders.sms.map(
+                    provider => ({
+                        text: provider.name,
+                        value: provider._id
+                    })
+                )
+                smsProviders = [...global, ...smsProviders];
             }
             return smsProviders;
         }

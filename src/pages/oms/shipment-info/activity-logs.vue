@@ -55,8 +55,14 @@
                                         <div v-if="status.meta && status.meta.sms"> 
                                             <span class="message-label"> Message: </span> {{ status.meta.sms }}
                                         </div>
-                                        <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name && status.meta.reason.text"> 
-                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }} ( {{ status.meta.reason.text }} )
+                                        <div v-if="status.meta && status.meta.reason && status.meta.reason.display_name"> 
+                                            <span class="message-label"> Reason: </span> {{ status.meta.reason.display_name }}
+                                        </div>
+                                        <div v-if="status.meta && status.meta.reason && status.meta.reason.text"> 
+                                            <span class="message-label">Comment: </span> {{ status.meta.reason.text }}
+                                        </div>
+                                        <div v-if="status.meta && status.meta.activity_comment"> 
+                                            <span class="message-label"> Comment: </span> {{ status.meta.activity_comment }}
                                         </div>
                                         <div v-if="status.meta && status.meta.slug"> 
                                             <span class="message-label"> Event Name: </span> {{ status.meta.slug }}
@@ -66,6 +72,10 @@
                                         </div>
                                         <div v-if="status.meta && status.meta.recipient"> 
                                             <span class="message-label"> Recipient: </span> {{ status.meta.recipient }}
+                                        </div>
+                                        <div v-if="status.meta && status.meta.prev_store_id && status.meta.store_id"> 
+                                            {{ status.meta.prev_store_name }} | {{ status.meta.prev_store_code }}({{ status.meta.prev_store_id }})
+                                            -> {{ status.meta.store_name }} | {{ status.meta.store_code }}({{ status.meta.store_id }})
                                         </div>
                                         <div v-if="status.meta && status.meta.caller && status.meta.receiver"> 
                                             <span class="message-label"> Caller: </span> {{ status.meta.caller }}

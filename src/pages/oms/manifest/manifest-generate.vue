@@ -1004,7 +1004,7 @@ export default {
             let centerOfFulfillment = [];
             params = {
                 page_no: 1,
-                page_size: 500,
+                page_size: 10,
                 ...params
             };
             OrderService.getFulfillmentCenterV2(params)

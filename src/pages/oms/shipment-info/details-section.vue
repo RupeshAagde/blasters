@@ -226,6 +226,12 @@
                     <div class="details-data">{{ deliveryDate }}</div>
                 </div>
 
+                <div v-if="shipment.delivery_slot">
+                    <div class="header-title">Promised Date</div>
+                    <br />
+                    <div class="details-data">{{ promisedDate }}</div>
+                </div>
+
                 <div v-if="shipment.dp_details.name">
                     <div class="header-title">Delivery Partner</div>
                     <br />
@@ -256,6 +262,73 @@
                     </p>
                     <br />
                     <div class="details-data">{{ pickupSlot }}</div>
+                </div>
+            </div>
+
+            <div 
+                class="shipment-details" 
+                id="shipping-details"
+                v-if="
+                    shipment.delivery_details && selectedTabValue === 'shipping'
+                "
+            >
+                <div v-if="shipment.delivery_details.address1">
+                    <div class="header-title">Address</div>
+                    <br />
+                    <div class="details-data shipping-address-tab">
+                        <div @click="copyToClipboard($event, shipment.delivery_details.address1)">
+                            {{ shipment.delivery_details.address1 }}
+                        </div>
+
+                        <div v-if="shipment.delivery_details.area">
+                            <span class="shipping-address-label">Area: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.area }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.landmark">
+                            <span class="shipping-address-label">Landmark: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.landmark }}</span> 
+                        </div>
+                        <div v-if="shipment.delivery_details.pincode">
+                            <span class="shipping-address-label">PIN Code: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.pincode }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.city">
+                            <span class="shipping-address-label">City: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.city }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.state">
+                            <span class="shipping-address-label">State: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.state }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.country">
+                            <span class="shipping-address-label">Country: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.country }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.name">
+                    <div class="header-title">Name</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.name)">
+                        {{ shipment.delivery_details.name }}
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.phone">
+                    <div class="header-title">Phone</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.phone)">
+                        {{ shipment.delivery_details.phone }}
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.email">
+                    <div class="header-title">Email ID</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.email)">
+                        {{ shipment.delivery_details.email }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -588,8 +661,6 @@ import SelectDeliveryPartner from './../fixtures/select-delivery-partner.json';
 /* Payload import */
 import PICKUP_SLOT_PAYLOAD from './../mocks/pickup-slot-payload.json';
 
-/* Helper imports */
-import { convertToOMSDate } from '@/helper/utils.js';
 
 const TABS_OPTIONS = [
     {
@@ -604,6 +675,10 @@ const TABS_OPTIONS = [
         text: 'Delivery Details',
         value: 'delivery',
     },
+    {
+        text: 'Shipping Details',
+        value: 'shipping'
+    }
 ];
 
 export default {
@@ -716,6 +791,16 @@ export default {
             }
             return prescription;
         },
+        promisedDate() {
+            if (
+                !isEmpty(this.shipment) &&
+                !isEmpty(this.shipment.delivery_slot) &&
+                this.shipment.delivery_slot.date
+            ) {
+                let day = moment(this.shipment.delivery_slot.date).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY');
+                return `${day}`;
+            }
+        },
     },
     mounted() {
         if (this.shipment.fulfilling_store) {
@@ -759,6 +844,18 @@ export default {
                 let index = this.tabsOptions.length - 1
                 this.$refs.tab.selectTab(index, TABS_OPTIONS[2].text)
             }
+        }
+        if(
+            this.shipment.delivery_details &&
+            (
+                this.shipment.delivery_details.address1 ||
+                this.shipment.delivery_details.address ||
+                this.shipment.delivery_details.city ||
+                this.shipment.delivery_details.email ||
+                this.shipment.delivery_details.phone
+            )
+        ) {
+            this.tabsOptions.push(TABS_OPTIONS[3]);
         }
     },
     methods: {
@@ -1324,4 +1421,17 @@ export default {
 .copy-to-click {
     cursor: pointer;
 }
+
+.shipping-address-tab {
+    overflow-y: scroll;
+    height: 40px;
+    max-width: 200px;
+    cursor: pointer;
+
+    .shipping-address-label {
+        color: #9b9b9b;
+        font-weight: 300;
+    }
+}
+
 </style>
