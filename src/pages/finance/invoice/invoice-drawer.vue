@@ -179,7 +179,6 @@ watch: {
       deep:true,
     },
 },
-mounted() {},
 methods: {
         initialData(){
             return {
@@ -207,7 +206,7 @@ methods: {
         },
         closeDrawer(type=''){
             this.initialData();
-            this.$emit('closeDrawer',type)
+            this.$emit('closeDrawer',type);
         },
         saveOfflineData(){
             let params = {
@@ -334,10 +333,9 @@ methods: {
             caller
                 .then((res) => {})
                 .catch((err) => {})
-                .finally(() => {});
         },
         onFileUpload(event) {
-          let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
+          let file = (event.dataTransfer && event.dataTransfer.files ) ?  event.dataTransfer.files[0] : event.target.files[0];
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`

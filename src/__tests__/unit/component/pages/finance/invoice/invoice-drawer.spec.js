@@ -112,8 +112,8 @@ describe('Invoice Payment', ()=>{
         wrapper.setData({
             paymentSelection: 'cash',
             paymentMode: {
-                cash: true,
-                cheque: false,
+                cash: false,
+                cheque: true,
             },
             remarks:'',
             fileDetails: {

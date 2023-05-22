@@ -155,11 +155,11 @@ methods: {
             this.closeDrawer();
         },
         resetFilters(){
-            this.selectedInvoiceType = '',
-            this.selectedPaymentStatus = '',
-            this.companyChips = [],
-            this.paymentChips = [],
-            this.invoiceChips = [],
+            this.selectedInvoiceType = '';
+            this.selectedPaymentStatus = '';
+            this.companyChips = [];
+            this.paymentChips = [];
+            this.invoiceChips = [];
             this.filters = {
                 invoice_type: [],
                 payment_status: []
@@ -194,7 +194,7 @@ methods: {
                 selectedList.includes(ele.value)
                 )
             );
-            this.setChipsList(type, this.companyChips)
+            this.setChipsList(type, this.companyChips);
         },
         removeChips(index, item, selectedList, chips) {
             const comIndex = selectedList.findIndex((ele) => {

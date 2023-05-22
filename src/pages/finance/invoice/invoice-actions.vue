@@ -117,7 +117,6 @@
 import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import FinanceService from '@/services/finance.service.js';
 import DatePicker from '@/components/common/date-picker.vue';
-import { debounce } from '@/helper/utils';
 import {
     NitrozenInput,
     NitrozenButton,
@@ -152,14 +151,13 @@ data() {
         dueDate: 0,
     }
 },
-mounted() {},
 methods: {
         closeDrawer(){
             this.$emit('closeDrawer');
             this.resetFilters();
         },
         dueDateUpdate(){
-            (this.selectedReason.length === 0 || this.dueDate === 0) ? this.isDisabled = true : this.isDisabled = false;
+            this.isDisabled = this.selectedReason.length === 0 || this.dueDate === 0;
         },
         saveActions (){
             if(this.invoice.type === 'Void'){
@@ -182,7 +180,11 @@ methods: {
             const invoiceVoid = FinanceService.invoiceExtendDate(params);
             invoiceVoid
                 .then((res) => {
-                    res.data.success ? this.$snackbar.global.showSuccess(res.data.message) : this.$snackbar.global.showError(res.data.message);
+                    if(res.data){
+                        res.data.success ? this.$snackbar.global.showSuccess(res.data.message) : this.$snackbar.global.showError(res.data.message);
+                    } else{
+                        this.$snackbar.global.showError(`Failed to update the invoice`);
+                    }
                     this.closeDrawer();
                 })
                 .catch((err) => {
@@ -218,10 +220,10 @@ methods: {
         },
         clearReasons(){
             this.selectedReason = '';
-            this.isDisabled = true
+            this.isDisabled = true;
         },
         changeReasons(){
-            this.selectedReason.length > 0 ? this.isDisabled = false : this.isDisabled = true;
+            this.isDisabled = !this.selectedReason.length > 0 ;
         },
         resetFilters(){
             this.selectedReason = null;

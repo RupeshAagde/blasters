@@ -137,13 +137,8 @@
                                         "
                                         :disabled="!invoice.is_downloadable"
                                     >
-                                    <!-- :disabled="invoice.status != 'paid'" THE CONDITION MIGHT CHANGE -->
                                     </nitrozen-checkbox>
                                 </td>
-                                <!-- <td v-for="(item, index) in Object.values(invoice).slice(0, invoiceDetails.headers.length - 1)" :key="index">
-                                    <span v-if="item && item.length > 0">{{ item }}</span>
-                                    <span v-else> - </span>
-                                </td> -->
                                 <td :title="invoice.company" class="company">{{ invoice.company }}</td>
                                 <td>{{ invoice.invoice_number }}</td>
                                 <td>{{ invoice.invoice_type }}</td>
@@ -152,23 +147,7 @@
                                 <td>{{ invoice.amount }}</td>
                                 <td>{{ invoice.due_date }}</td>
                                 <td class="status">
-                                    <nitrozen-badge
-                                        state="info"
-                                        v-if="invoice.status.toLowerCase() === 'in_process'"
-                                    >{{ invoice.status }}</nitrozen-badge>
-                                    <nitrozen-badge
-                                        state="warn"
-                                        v-else-if="invoice.status.toLowerCase() === 'unpaid'"
-                                    >{{ invoice.status }}</nitrozen-badge>
-                                    <nitrozen-badge
-                                        state="success"
-                                        v-else-if="invoice.status.toLowerCase() === 'paid'"
-                                    >{{ invoice.status }}</nitrozen-badge>
-                                    <nitrozen-badge
-                                        state="default"
-                                        v-else-if="invoice.status.toLowerCase() === 'void'"
-                                    >{{ invoice.status }}</nitrozen-badge>
-
+                                    <nitrozen-badge :state="statusBadge(invoice.status)">{{ invoice.status }}</nitrozen-badge>
                                     <div class="actions-wrap">
                                         <div
                                             :class="[
@@ -247,17 +226,6 @@
                     >
                     </nitrozen-pagination>
                 </div>
-                <!-- <pop-up
-                    v-if="showPopup"
-                    :invoiceNumber="popupData.invoiceNumber"
-                    :infoText="popupData.desc"
-                    :textHeading="popupData.heading"
-                    :cancel="popupData.cancel"
-                    :confirm="popupData.confirm"
-                    @cancel="cancelPopup"
-                    @confirm="handlePopup"
-                    :type="popupData.type"
-                /> -->
             </div>
         </div>
         
@@ -278,7 +246,6 @@ import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
 import invoiceDrawer from './invoice-drawer.vue';
 import invoiceFilterDrawer from './invoice-filters.vue';
 import invoiceActions from './invoice-actions.vue';
-//import invoicePopup from './invoice-popup.vue';
 import loader from '@/components/common/loader';
 import { debounce } from '@/helper/utils';
 import { dateRangeShortcuts } from '@/helper/datetime.util';
@@ -319,7 +286,6 @@ export default {
         'filter-drawer': invoiceFilterDrawer,
         'invoice-drawer': invoiceDrawer,
         'invoice-action':invoiceActions,
-        //'pop-up': invoicePopup,
         'adm-no-content': PageEmpty,
         'fy-loader': loader,
     },
@@ -342,10 +308,7 @@ export default {
             isActionOpen: false,
             isDrawerOpen: false,
             isFilterDrawerOpen: false,
-            showPopup: false,
             searchText: '',
-            //downloadUrlList: [],
-            //disabled: 'disabled',
             bulkDownloadList: [],
             popupData: {
                 invoiceNumber: '',
@@ -424,12 +387,11 @@ export default {
             const reasons = FinanceService.getReasons(params);
             reasons
                 .then((res) => {
-                    this.reasonsList = res.data
+                    this.reasonsList = res.data;
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(`Something Went Wrong`);
+                    this.$snackbar.global.showError(`Failed to load the reasons for void and extend duedate`);
                 })
-                .finally(() => {});
         },
         getInvoiceList() {
             const invoiceList = FinanceService.getInvoiceList(this.listingPayload());
@@ -440,7 +402,8 @@ export default {
                     this.pageObject.total == 0 ? this.noContent = true : this.noContent = false;
                 })
                 .catch((err) => {
-                    this.$snackbar.global.showError(`Something Went Wrong`);
+                    console.error(err);
+                    this.$snackbar.global.showError(`Failed to fetch the invoice list`);
                 })
                 .finally(() => { 
                     this.inProgress = false;
@@ -473,12 +436,6 @@ export default {
             this.isFilterDrawerOpen = false;
             this.getInvoiceList();
         },
-        /* cancelPopup() {
-            this.showPopup = false;
-        },
-        handlePopup(status) {
-            this.showPopup = false;
-        }, */
         onDateChange() {
             this.fromDate = moment(this.InvoiceDateRange[0]).format('DD-MM-YYYY');
             this.toDate = moment(this.InvoiceDateRange[1]).format('DD-MM-YYYY');
@@ -506,17 +463,10 @@ export default {
             this.popupData.invoiceId = invoice.invoice_id;
             this.popupData.amount = invoice.amount;
             this.popupData.sellerName = invoice.company;
-            this.popupData.dueDate = invoice.due_date
+            this.popupData.dueDate = invoice.due_date;
 
             this.isActionOpen = true;
         },
-        /* handleAutoDebt(number) {
-            this.popupData.invoiceNumber = number;
-            this.popupData.heading = 'Retry Auto debt';
-            this.popupData.desc = `Are you sure you want to retry auto dept for this Invoice (${number}) ?`;
-            this.showPopup = true;
-            this.popupData.type = 'debt';
-        }, */
         downloadFile(url, filename) {
             fetch(url).then(function(t) {
                 return t.blob().then((b) => {
@@ -549,7 +499,6 @@ export default {
                         `Failed due to ${err.message}`
                     );
                 })
-                .finally(() => {});
         },
         filterByCompany(){
             this.filters.company_id = this.selectedCompany.map(String);
@@ -571,6 +520,18 @@ export default {
                 .catch((err) => {
                     this.$snackbar.global.showError('Failed to load companies');
                 });
+        },
+        statusBadge(status){
+            switch(status.toLowerCase()){
+                case 'in_process':
+                    return 'info';
+                case 'unpaid':
+                    return 'warn';
+                case 'paid':
+                    return 'success';
+                case 'void':
+                    return 'default';
+            }
         }
     },
     
