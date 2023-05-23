@@ -1265,7 +1265,7 @@ export default [
             },
             {
                 name: 'create-rule',
-                path: 'finance/settlement-rule/create-rule',
+                path: 'finance/settlement-rule/create-rule/:ruleId?/:preview?',
                 component: CreateRule,               
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [

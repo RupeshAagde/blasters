@@ -389,6 +389,12 @@ export default {
         component_id: {
             type: String
         },
+        component_type: {
+            type: String
+        },
+        form_data: {
+            type: Object
+        }
     },
     components: {
         'nitrozen-radio': NitrozenRadio,
@@ -407,9 +413,9 @@ export default {
         strokeBtn
     },
     mounted() {
-        console.log(this.config);
-        console.log(this.options);
-        // _.merge(this.formData, this.config);
+        console.log("In daytrader Mounted");
+        console.log(this.form_data);
+        // this.formData.transactional_components = this.form_data; //add condition here for edit
     },
     data() {
         return {
@@ -505,7 +511,7 @@ export default {
             {
                 "cycle": "weekly",
                 "expression": "No condition, only digits : 0",
-                "expression_variable_use[0]d": [
+                "expression_variable_used": [
                     "net_sales"
                 ]
             },
@@ -581,7 +587,7 @@ export default {
     },
     methods: {
         saveRuleForm(){
-            this.$emit("passData", this.formData);
+            this.$emit("passData", { form:this.formData, compType:this.component_type}  );
 
         },
         cancelRuleForm(){

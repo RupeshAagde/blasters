@@ -138,7 +138,7 @@
 
 import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
-import CreateRulePage from './create-rule/index.vue';
+import EditComponent from './create-rule/daytrader-component.vue';
 import debounce from 'lodash/debounce';
 import delPopup from './create-rule/popup.vue';
 import {
@@ -155,7 +155,7 @@ export default {
       'jumbotron': Jumbotron,
       'nitrozen-button': NitrozenButton,
       'nitrozen-dropdown':  NitrozenDropdown,
-      'create-rule': CreateRulePage,
+      'edit-rule': EditComponent,
       'nitrozen-input' : NitrozenInput,
       'pop-up': delPopup,
       NitrozenPagination
@@ -203,7 +203,7 @@ export default {
                 cancel:"Cancel",
                 type:'warning'
             },
-
+            tempForm: {}
         }
     },
     mounted(){
@@ -214,6 +214,7 @@ export default {
         openCreateRulePage(){
             // this.openCreationPage = false;
             this.$router.push({ name: 'create-rule' });
+            // this.$router.push({ name: 'create-rule', params: { type:"edit" }});
         },
         onPaginationChange(event) {
             this.paginationObj = event
@@ -268,40 +269,7 @@ export default {
 
         },
         editRule(id){
-            let params = {
-            data : {
-                "table_name": "settlement_rule",
-                "filters": {
-                    "id": id
-                },
-                "project": [
-                    "id",
-                    "rule_slug",
-                    "status",
-                    "created_by",
-                    "slug_values",
-                    "transactional_components",
-                    "settle_cycle_period",
-                    "settlement_type",
-                    "rule_start_date",
-                    "rule_end_date"
-                ]
-            }
-
-        }
-        const caller = FinanceService.getDataFin(params);
-        caller
-            .then((res) => {
-                console.log(res);
-                
-                // this.ruleDataList = res.data.items;
-                // this.paginationObj.total = res.data.page.item_count;
-                
-            })
-            .catch((err) => { 
-                this.$snackbar.global.showError('Failed to load '+ val);
-            });
-
+            this.$router.push({ name: 'create-rule', params: { ruleId:id, preview:"edit" }});
         },
         fetchCompany(query='') {
             let params = {
