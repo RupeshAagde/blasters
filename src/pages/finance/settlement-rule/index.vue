@@ -105,7 +105,7 @@
                             </td>
                             <td>
                                 <div class="edit-btn" @click="editRule(item.id)">Edit</div>
-                                <div class="delete-btn">Delete</div>
+                                <div class="delete-btn" @click="openDeletePopup(item.id)">Delete</div>
                             </td>
                         </tr>
                     </template>
@@ -121,6 +121,16 @@
         <div class="rule-main-wrap" v-else>
             <create-rule></create-rule>
         </div>
+        <pop-up
+            v-if="warningPopUp"
+            :infoText="popupData.desc"
+            :textHeading="popupData.heading"
+            :cancel="popupData.cancel"
+            :confirm="popupData.confirm"
+            @cancel="cancelPopup"
+            @confirm="confirmPopup"
+            :type="popupData.type"
+        />
        </div>
     </div>
 </template>
@@ -130,6 +140,7 @@ import Jumbotron from '@/components/common/jumbotron';
 import FinanceService from '@/services/finance.service.js';
 import CreateRulePage from './create-rule/index.vue';
 import debounce from 'lodash/debounce';
+import delPopup from './create-rule/popup.vue';
 import {
     NitrozenButton,
     NitrozenDropdown,
@@ -146,6 +157,7 @@ export default {
       'nitrozen-dropdown':  NitrozenDropdown,
       'create-rule': CreateRulePage,
       'nitrozen-input' : NitrozenInput,
+      'pop-up': delPopup,
       NitrozenPagination
     },
     directives: {
@@ -182,7 +194,15 @@ export default {
                 current: 1,
                 limit: 10,
             },
-            editRuleData:{}
+            editRuleData:{},
+            warningPopUp: false,
+            popupData:{
+                heading:'Are you sure you want to delete this rule?',
+                desc:'',
+                confirm:"Continue",
+                cancel:"Cancel",
+                type:'warning'
+            },
 
         }
     },
@@ -315,11 +335,33 @@ export default {
             this.fetchRulesList();
             
         }, 500),
-        
-    
-    }
-   
 
+        openDeletePopup(id) {
+            this.id = id
+            this.warningPopUp = true;
+            this.popupHeading = `Are you sure you want to delete this rule?`;
+        },
+        cancelPopup(){
+            this.warningPopUp = false;
+        },
+        confirmPopup() {
+            let params = {
+            data : {
+                "id": this.id,
+                "type_of_request": "delete_entity"
+            }
+        }
+        const caller = FinanceService.deleteRule(params);
+        caller
+            .then((res) => {
+                this.$snackbar.global.showSuccess('Rule Deleted Successfully');
+                this.warningPopUp = false;
+            })
+            .catch((err) => {
+                this.$snackbar.global.showError('Failed to delete rule '+ err);
+            });
+        }
+    }
 }
 </script>
 
@@ -389,6 +431,11 @@ export default {
 }
 
 .edit-btn{
+    cursor: pointer;
+    font-weight: bold;
+ }
+
+.delete-btn{
     cursor: pointer;
     font-weight: bold;
  }
