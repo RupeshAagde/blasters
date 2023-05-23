@@ -324,6 +324,7 @@ export default {
             .then((res) => {
                 this.$snackbar.global.showSuccess('Rule Deleted Successfully');
                 this.warningPopUp = false;
+                this.fetchRulesList();
             })
             .catch((err) => {
                 this.$snackbar.global.showError('Failed to delete rule '+ err);
