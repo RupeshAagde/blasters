@@ -89,7 +89,7 @@ describe('Invoice Payment', ()=>{
         expect(wrapper.vm.remarks).toEqual('');
     });
 
-    it('should process the offline payments in cash', async()=>{
+    it('should fail the offline payments in cash', async()=>{
         wrapper.setData({
             offlineData: {
                 chequeNum: '',
