@@ -130,6 +130,8 @@
                     :config="dtOptions"
                     :cbs_opts="cbs_opts"
                     :component_id="''"
+                    :component_type="paramType"
+                    :form_data="formData.transactional_components"
                     @passData="createPayload($event)"
                 >
                 </daytrader-component>
@@ -147,6 +149,7 @@ import DatePicker from '@/components/common/date-picker.vue';
 import moment from "moment";
 import cloneDeep from 'lodash/cloneDeep';
 import DaytraderComponent from './daytrader-component.vue';
+import isEmpty from 'lodash/isEmpty';
 import {
     NitrozenButton,
     NitrozenDropdown,
@@ -224,8 +227,10 @@ export default {
                     defaults: {},
                     conditional: {},
                     transaction_component: {}
-                }
-            }
+                },
+            },
+            curParams: {},
+            paramType: 'create'
             
         }
   },
@@ -241,8 +246,65 @@ export default {
     this.fetchFilterData("location_type");
     this.fetchFilterData("settlement_type");
     this.fetchRuleData();
+    let params = this.$route.params;
+    this.curParams = this.$route.params;
+    if (params.preview != undefined){
+        switch(params.preview) {
+            case 'edit':
+            this.paramType = params.preview;
+            this.editRule(params.ruleId);
+            break;
+            case 'clone':
+            // code block
+            break;
+        }
+    }
+
   },
   methods: {
+    editRule(id){
+        console.log(id,"In edit")
+             let params = {
+            data : {
+                "table_name": "settlement_rule",
+                "filters": {
+                    "id": id
+                },
+                "project": [
+                    "id",
+                    "rule_slug",
+                    "status",
+                    "created_by",
+                    "slug_values",
+                    "transactional_components",
+                    "settle_cycle_period",
+                    "settlement_type",
+                    "rule_start_date",
+                    "rule_end_date"
+                ]
+            }
+
+        }
+        const caller = FinanceService.getDataFin(params);
+        caller
+            .then((res) => {
+                let data = res.data.items[0];
+                console.log("Edit");
+                console.log(res);
+                this.companySelected = true;
+                this.formData.slug_values.company = data.slug_values.company.id;
+                this.formData.slug_values.channel = [data.slug_values.channel.id]
+                this.fetchRuleData();
+                this.formData.transactional_components = data.transactional_components;
+
+                console.log(this.formData);
+                
+            })
+            .catch((err) => { 
+                this.$snackbar.global.showError('Failed to load '+ val);
+            });
+
+    },
     filterByCompany(){
         this.fetchRuleData();
         this.fetchBrands();
@@ -380,8 +442,9 @@ export default {
     onDateChange(){
 
     },
-    createPayload(data) {
-
+    createPayload(compData) {
+        let data = compData.form;
+        let type = compData.compType;
         var companyId = this.formData.slug_values['company'];
         this.formData.slug_values['company'] = [companyId]
         this.payload = this.formData;
@@ -396,10 +459,7 @@ export default {
         this.payload.transactional_components = data.transactional_components;
         this.payload.transactional_components.is_tp = temp_tp;
 
-        console.log("Payload");
-        console.log(this.payload);
-
-        this.createRule();
+        this.actionOnRule(type);
 
     },
     populateSlugs(){
@@ -415,7 +475,6 @@ export default {
             }
         }
         this.payload.slug_fields = slugFieldData;
-        console.log(this.filterLists);
 
         slugFieldData.forEach((item) => {
             this.populateData(item, this.payload.slug_values[item],this.filterLists[item]);
@@ -438,6 +497,38 @@ export default {
     sendObj(val, arrItem) {
         console.log(arrItem)
         return val.value === arrItem;
+    },
+    actionOnRule(type){
+
+        console.log("In action");
+
+        if(type === 'edit'){
+            console.log("Edit");
+            this.editRuleData();
+        }
+        else{
+            this.createRule();
+        }
+
+    },
+    editRuleData(){
+        let payload = this.payload;
+        payload['id'] = this.curParams.ruleId;
+        payload.type_of_request = 'edit_entity';
+        console.log("Edit Rule API CAll");
+        console.log(payload);
+        let params = {
+            data: payload
+        };
+        const caller = FinanceService.editRules(params);
+        caller
+            .then((res) => {
+                this.$snackbar.global.showSuccess('Rule Updated Successfully');
+            })
+            .catch((err) => {
+                this.$snackbar.global.showError('Failed to save rule '+ err);
+            });
+
     },
     createRule(){
 
