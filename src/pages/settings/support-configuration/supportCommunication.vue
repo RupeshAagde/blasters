@@ -374,6 +374,13 @@ export default {
             supportDecs: ''
         };
     },
+    watch: {
+        supportCommunication(newValue, oldValue) {
+            if(oldValue !== newValue) {
+               this.$emit("checkboxValue",this.supportCommunication);
+            }
+        }
+    },
     mounted() {
         this.getGeneralConfiguration();
     },
@@ -731,6 +738,7 @@ export default {
         .draggable-icon {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
         .contact-container-section {
             margin-left: 24px;
