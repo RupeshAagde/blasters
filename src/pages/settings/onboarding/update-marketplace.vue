@@ -3,7 +3,7 @@
         <div class="header-position">
             <page-header
                 :title="pageTitle"
-                @backClick="$router.back()"
+                @backClick="$goBack('/administrator/settings/platform')"
                 :noContextMenu="true"
             >
                 <div class="button-box">
@@ -127,7 +127,10 @@ import InternalMarketplaceAdminService from '@/services/internal-marketplaces.se
 
 import safeAccess from 'safe-access';
 import slugify from 'slugify';
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash/isEmpty';
+import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 export default {
     name: 'update-marketplace',
     components: {
@@ -143,7 +146,7 @@ export default {
     directives: {
         flatBtn
     },
-
+    mixins: [dirtyCheckMixin],
     data() {
         return {
             pageLoading: true,
@@ -157,7 +160,8 @@ export default {
                 slug: ''
             },
             errors: {},
-            applicationId: this.$route.params.applicationId
+            applicationId: this.$route.params.applicationId,
+            originalData: []
         };
     },
     mounted() {
@@ -206,6 +210,7 @@ export default {
                     this.getProductComponent({}),
                     this.getInventoryComponent({})
                 ];
+                this.originalData = cloneDeep(this.lineItems);
             }
         },
         fetchData() {
@@ -276,6 +281,7 @@ export default {
                             'MarketPlace Updated Successfully',
                             { duration: 2000 }
                         );
+                        this.init();
                     })
                     .catch(() => {
                         this.$snackbar.global.showError(
@@ -426,6 +432,12 @@ export default {
             formValid = this.checkRequired('slug') && formValid;
             formValid = this.checkRequired('logo') && formValid;
             return formValid;
+        },
+
+
+        // dirtForm check
+        isFormDirty() {
+            return !isEqual(this.originalData, this.lineItems);
         }
     }
 };

@@ -3,7 +3,7 @@
         <div class="header-position">
             <page-header
                 :title="pageTitle"
-                @backClick="$router.push({ name: 'settings' })"
+                @backClick="$goBack('/administrator/settings/platform')"
                 :noContextMenu="true"
             >
                 <div class="button-box">
@@ -52,6 +52,9 @@ import CompanyService from '@/services/company-admin.service';
 import ComponentFactory from './components/component-factory.vue';
 import InternalSettings from '@/services/internal-settings.service';
 import safeAccess from 'safe-access';
+import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 const SIGNATURE_KEY = 'digital-signature';
 
@@ -67,6 +70,7 @@ export default {
     directives: {
         flatBtn
     },
+    mixins: [dirtyCheckMixin],
     data() {
         return {
             pageLoading: false,
@@ -75,7 +79,8 @@ export default {
             lineItems: [],
             serverConfigIdentifier: 'business-details',
             businessTypes: [],
-            companyTypes: []
+            companyTypes: [],
+            originalData: []
         };
     },
     mounted() {
@@ -116,6 +121,7 @@ export default {
                             safeAccess(res, 'composite_taxation')
                         )
                     ];
+                    this.originalData = cloneDeep(this.lineItems);
                 })
                 .catch((error) => {
                     console.log(error, 'error');
@@ -221,6 +227,7 @@ export default {
                         'Config Updated Successfully',
                         { duration: 2000 }
                     );
+                    this.init();
                 })
                 .catch(() => {
                     this.$snackbar.global.showError('Failed to Update Config', {
@@ -447,6 +454,11 @@ export default {
                 );
             }
             return processedDocumentsData;
+        },
+
+        // dirtForm check
+        isFormDirty() {
+            return !isEqual(this.originalData, this.lineItems);
         }
     }
 };
