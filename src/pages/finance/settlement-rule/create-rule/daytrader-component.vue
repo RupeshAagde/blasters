@@ -413,9 +413,8 @@ export default {
         strokeBtn
     },
     mounted() {
-        console.log("In daytrader Mounted");
-        console.log(this.form_data);
-        // this.formData.transactional_components = this.form_data; //add condition here for edit
+        
+        this.formData.transactional_components = this.form_data; //add condition here for edit
     },
     data() {
         return {
@@ -654,10 +653,8 @@ export default {
             _.merge(this.formData, data);
         },
         changeFlatValue(){
-            console.log(this.selectedFlat);
             if(this.selectedFlat == false){
                 this.formData.transactional_components.variable_conditional.commission["flat"] = this.flat;
-                console.log(this.formData.transactional_components.variable_conditional);
             }
             else if((this.selectedFlat == true) && (this.formData.transactional_components.variable_conditional.commission["flat"])){
                 delete this.formData.transactional_components.variable_conditional.commission["flat"]
@@ -665,8 +662,6 @@ export default {
 
         },
         variableComponent(value, key, type) {
-            console.log("In variableComponent");
-            console.log(value,key,type);
             let obj = this.formData.transactional_components.variable_conditional;
             if(value == 0){
                 obj[key] = {};
@@ -690,13 +685,8 @@ export default {
 
             this.formData.transactional_components.variable_conditional.commission = this.variableObj;
 
-            console.log(this.variableObj)
-
         },
         updateComponent(value, key, type) {
-
-            console.log("In update Component");
-            console.log(value,key,type);
 
             let obj = null;
 
