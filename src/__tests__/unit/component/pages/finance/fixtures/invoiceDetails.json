@@ -1,0 +1,337 @@
+{
+    "invoiceDetails": {
+        "success": true,
+        "items": [
+            {
+                "company": "(33) JAIN AMAR CLOTHING PVT LTD",
+                "invoice_number": "FS-I-A00019-FY24",
+                "invoice_type": "Seller Invoice Fynd Store",
+                "invoice_date": "10-05-23",
+                "period": "01-03-23 - 31-03-23",
+                "amount": "₹118.0",
+                "due_date": "",
+                "status": "paid",
+                "is_downloadable": true,
+                "invoice_id": "a64fb252-2d9e-45b2-812b-09ee63ab2a27"
+            },
+            {
+                "company": "(61) EVOLVE BUSINESS VENTURES",
+                "invoice_number": "",
+                "invoice_type": "Brand Website",
+                "invoice_date": "09-05-23",
+                "period": "01-04-23 - 30-04-23",
+                "amount": "₹1416.0",
+                "due_date": "",
+                "status": "void",
+                "is_downloadable": false,
+                "invoice_id": "f806833a-d4dd-400b-89fe-5da910e97993"
+            },
+            {
+                "company": "(3) EVOLVE BUSINESS VENTURES",
+                "invoice_number": "OM-P-A00001-FY24",
+                "invoice_type": "Creditline Invoice",
+                "invoice_date": "11-05-23",
+                "period": "01-04-23 - 08-05-23",
+                "amount": "₹6998.2",
+                "due_date": "",
+                "status": "void",
+                "is_downloadable": false,
+                "invoice_id": "aa0c5b3a-9770-47b5-b7ac-795be610694b"
+            },
+            {
+                "company": "(61) EVOLVE BUSINESS VENTURES",
+                "invoice_number": "",
+                "invoice_type": "Brand Website",
+                "invoice_date": "15-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹271.4",
+                "due_date": "",
+                "status": "void",
+                "is_downloadable": false,
+                "invoice_id": "b560bf60-7b08-4a2a-8bcd-a969a3430ae5"
+            },
+            {
+                "company": "(61) EVOLVE BUSINESS VENTURES",
+                "invoice_number": "",
+                "invoice_type": "Brand Website",
+                "invoice_date": "15-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹271.4",
+                "due_date": "",
+                "status": "void",
+                "is_downloadable": false,
+                "invoice_id": "d139d1ec-1a54-4352-8b4e-a80b12c9a6e9"
+            },
+            {
+                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
+                "invoice_number": "",
+                "invoice_type": "Creditline Invoice",
+                "invoice_date": "16-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹271.4",
+                "due_date": "18-05-23",
+                "status": "unpaid",
+                "is_downloadable": false,
+                "invoice_id": "c27d53e9-7361-4061-9456-28d7628a164e"
+            },
+            {
+                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
+                "invoice_number": "",
+                "invoice_type": "Seller Invoice Fynd",
+                "invoice_date": "16-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹271.4",
+                "due_date": "18-05-23",
+                "status": "unpaid",
+                "is_downloadable": false,
+                "invoice_id": "06b39db3-2da6-462e-823b-c88f524e4c0d"
+            },
+            {
+                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
+                "invoice_number": "",
+                "invoice_type": "Creditline Invoice",
+                "invoice_date": "16-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹271.4",
+                "due_date": "18-05-23",
+                "status": "unpaid",
+                "is_downloadable": false,
+                "invoice_id": "b7a220aa-1354-4928-9180-38461d32eca4"
+            },
+            {
+                "company": "(61) FUCHSIA VINE DESIGNS PRIVATE LIMITED",
+                "invoice_number": "UN-P-A00008-FY24",
+                "invoice_type": "Seller Invoice Uniket",
+                "invoice_date": "17-05-23",
+                "period": "01-05-23 - 31-05-23",
+                "amount": "₹243.08",
+                "due_date": "20-05-23",
+                "status": "unpaid",
+                "is_downloadable": true,
+                "invoice_id": "5b1d13fd-c850-45b1-aaa5-6546a6c5b403"
+            },
+            {
+                "company": "(33) JAIN AMAR CLOTHING PVT LTD",
+                "invoice_number": "FS-P-A00001-FY24",
+                "invoice_type": "Seller Invoice Fynd Store",
+                "invoice_date": "10-05-23",
+                "period": "01-03-23 - 31-03-23",
+                "amount": "₹118.0",
+                "due_date": "",
+                "status": "paid",
+                "is_downloadable": true,
+                "invoice_id": "a3a0b5e4-5567-439f-b6ce-1d75f7df0297"
+            }
+        ],
+        "headers": [
+            "Company",
+            "Invoice No",
+            "Type",
+            "Date",
+            "Period",
+            "Amount",
+            "Due Date",
+            "Status"
+        ],
+        "item_count": 58,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 58
+        }
+    },
+    "companyNames": [
+        {
+            "text": "auto_company_1742023555600 (18513)",
+            "value": "18513"
+        },
+        {
+            "text": "auto_company_1742023551106 (18512)",
+            "value": "18512"
+        },
+        {
+            "text": "auto_company_1742023548369 (18511)",
+            "value": "18511"
+        },
+        {
+            "text": "auto_company_174202354423 (18510)",
+            "value": "18510"
+        },
+        {
+            "text": "automation_fynd (18200)",
+            "value": "18200"
+        },
+        {
+            "text": "NehalTest16Dec2022 (13897)",
+            "value": "13897"
+        },
+        {
+            "text": "vvvvv (18509)",
+            "value": "18509"
+        },
+        {
+            "text": "vsa (18508)",
+            "value": "18508"
+        },
+        {
+            "text": "sdvf (18507)",
+            "value": "18507"
+        },
+        {
+            "text": "vzxv (18506)",
+            "value": "18506"
+        },
+        {
+            "text": "vdvv (18505)",
+            "value": "18505"
+        },
+        {
+            "text": "cret name (18504)",
+            "value": "18504"
+        },
+        {
+            "text": "ZVXCERERE (18503)",
+            "value": "18503"
+        },
+        {
+            "text": "vzc (18502)",
+            "value": "18502"
+        },
+        {
+            "text": "Craat (18501)",
+            "value": "18501"
+        },
+        {
+            "text": "auto_company_174202309335 (18500)",
+            "value": "18500"
+        },
+        {
+            "text": "Daraksha PVT Ltd (18499)",
+            "value": "18499"
+        },
+        {
+            "text": "axe1 (18119)",
+            "value": "18119"
+        },
+        {
+            "text": "Mohammed, Catalogue Testing (18124)",
+            "value": "18124"
+        },
+        {
+            "text": "automation_theme (18202)",
+            "value": "18202"
+        }
+    ],
+    "invoiceFilters": {
+        "success": true,
+        "invoice_type_list": [
+            {
+                "text": "Seller Invoice Fynd Store",
+                "value": "e6d8a752-1691-4b2d-9327-a0a4ea2f7dfd"
+            },
+            {
+                "text": "Seller Invoice Uniket",
+                "value": "8d85b574-17b7-4ddd-8d0a-e3a79cbd0659"
+            },
+            {
+                "text": "Seller Invoice Fynd",
+                "value": "1ec78cf4-2d25-4bba-9d42-6515dfaf1751"
+            },
+            {
+                "text": "Brand Website",
+                "value": "2c959181-f052-4729-a4cf-cd2fef60a3f0"
+            },
+            {
+                "text": "Seller Invoice OpenAPI Ecom",
+                "value": "5ef45de7-388a-460a-a5ba-ab2de8fcc632"
+            },
+            {
+                "text": "Credit Note Invoice",
+                "value": "a8684518-7b58-4968-8e61-ab845fa3aaee"
+            },
+            {
+                "text": "Debit Note Invoice",
+                "value": "65aafce2-a153-40f9-86f3-69b3e9ab399e"
+            },
+            {
+                "text": "Other Services",
+                "value": "9b4305cd-a6fa-4985-9fd2-d3fc366df383"
+            },
+            {
+                "text": "Fynd Platform",
+                "value": "1bfcee06-a908-4149-b4c5-abf08c7f0d68"
+            },
+            {
+                "text": "Creditline Invoice",
+                "value": "1zz78cf4-2d25-4bba-9d42-6515dfaf1751"
+            },
+            {
+                "text": "Creditline Minimum Gaurantee",
+                "value": "1zz78cf4-2d25-4bba-9d42-6515dfaf1752"
+            },
+            {
+                "text": "Platform Subscription",
+                "value": "fc912415-0e32-4de9-9c46-7b21543747c3"
+            },
+            {
+                "text": "Commission on Ecom",
+                "value": "0ebf0c84-2577-4374-a48c-bcbec5afbbd3"
+            }
+        ],
+        "payment_status_list": [
+            {
+                "text": "In Process",
+                "value": "in_process"
+            },
+            {
+                "text": "Paid",
+                "value": "paid"
+            },
+            {
+                "text": "Unpaid",
+                "value": "unpaid"
+            },
+            {
+                "text": "Void",
+                "value": "void"
+            }
+        ]
+    },
+    "downloadInvoice": {
+        "success": true,
+        "data": [
+            "https://fynd-staging-assets-private.s3-accelerate.amazonaws.com/addsale/documents/daytrader/PDFs/33/05-2023/FS/FS-I-A00019-FY24_33_05-2023.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230517%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230517T124746Z&X-Amz-Expires=604800&X-Amz-Signature=9ae4f9b22fa0097de87072066c00fe9c7c63cde63255cb9a6f795fee8fbed6c9&X-Amz-SignedHeaders=host",
+            "https://fynd-staging-assets-private.s3-accelerate.amazonaws.com/addsale/documents/daytrader/PDFs/3/05-2023/FS/FS-I-A00023-FY24_3_05-2023.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230517%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230517T124746Z&X-Amz-Expires=604800&X-Amz-Signature=b2b8e68bdfcb7f72c875b55d4631c8b2f486eeae0d49ed2cf9c4592672c95041&X-Amz-SignedHeaders=host"
+        ],
+        "error": []
+    },
+    "paymentProcess":{
+        "code": 200,
+        "message": "success",
+        "transaction_id":"641d45831052243d29c6b470",
+        "redirect_url": "",
+        "meta": {
+            "cheque_number": ""
+        }
+    },
+    "paymentFailed":{
+        "success": false,
+        "reason": "Invoice Amount is already paid."
+    },
+    "getPresignURL": {
+        "data": {
+            "url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/",
+            "fields": {
+                "key": "invoice//cash/1684376150_Screenshot_2023-05-17_at_4.27.37_PM.png",
+                "x-amz-algorithm": "AWS4-HMAC-SHA256",
+                "x-amz-credential": "AKIAJUADR2WMPQT6ZJ2Q/20230518/us-east-2/s3/aws4_request",
+                "x-amz-date": "20230518T021551Z",
+                "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMDUtMTlUMDI6MTU6NTFaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiZGF5dHJhZGVyLXJlcG9ydGluZy1kYXRhLXByZSJ9LCB7ImtleSI6ICJpbnZvaWNlLy9jYXNoLzE2ODQzNzYxNTBfU2NyZWVuc2hvdF8yMDIzLTA1LTE3X2F0XzQuMjcuMzdfUE0ucG5nIn0sIHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSwgeyJ4LWFtei1jcmVkZW50aWFsIjogIkFLSUFKVUFEUjJXTVBRVDZaSjJRLzIwMjMwNTE4L3VzLWVhc3QtMi9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjMwNTE4VDAyMTU1MVoifV19",
+                "x-amz-signature": "9aba41549803bac1d85e56c0773017878e45e9ecb2d180ba479ec96efc72ef8a"
+            },
+            "presigned_url": "https://daytrader-reporting-data-pre.s3.amazonaws.com/invoice//cash/1684376150_Screenshot_2023-05-17_at_4.27.37_PM.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230518%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230518T021551Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f880579bbdfa3e11a56bfbce710f8b57b577ec949c91676f19cda2c12191cd5c"
+        }
+    }
+}
