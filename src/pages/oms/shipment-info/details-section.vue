@@ -166,6 +166,18 @@
                         {{ shipment.invoice.store_invoice_id }}
                     </div>
                 </div>
+                <div v-if="shipment &&
+                shipment.affiliate_details && 
+                shipment.affiliate_details.affiliate_meta && 
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id">
+                    <div class="header-title">Orignal Invoice ID</div>
+                    <br />
+                    <div class="details-data">
+                        {{ shipment.affiliate_details.affiliate_meta.replacement_details.original_bag_invoice_details.store_invoice_id }}
+                    </div>
+                </div>
 
                 <!-- <div v-if="shipment.invoice.external_invoice_id">
                     <div class="header-title">External Invoice ID</div>
@@ -214,6 +226,12 @@
                     <div class="details-data">{{ deliveryDate }}</div>
                 </div>
 
+                <div v-if="shipment.delivery_slot">
+                    <div class="header-title">Promised Date</div>
+                    <br />
+                    <div class="details-data">{{ promisedDate }}</div>
+                </div>
+
                 <div v-if="shipment.dp_details.name">
                     <div class="header-title">Delivery Partner</div>
                     <br />
@@ -246,6 +264,73 @@
                     <div class="details-data">{{ pickupSlot }}</div>
                 </div>
             </div>
+
+            <div 
+                class="shipment-details" 
+                id="shipping-details"
+                v-if="
+                    shipment.delivery_details && selectedTabValue === 'shipping'
+                "
+            >
+                <div v-if="shipment.delivery_details.address1">
+                    <div class="header-title">Address</div>
+                    <br />
+                    <div class="details-data shipping-address-tab">
+                        <div @click="copyToClipboard($event, shipment.delivery_details.address1)">
+                            {{ shipment.delivery_details.address1 }}
+                        </div>
+
+                        <div v-if="shipment.delivery_details.area">
+                            <span class="shipping-address-label">Area: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.area }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.landmark">
+                            <span class="shipping-address-label">Landmark: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.landmark }}</span> 
+                        </div>
+                        <div v-if="shipment.delivery_details.pincode">
+                            <span class="shipping-address-label">PIN Code: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.pincode }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.city">
+                            <span class="shipping-address-label">City: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.city }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.state">
+                            <span class="shipping-address-label">State: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.state }}</span>
+                        </div>
+                        <div v-if="shipment.delivery_details.country">
+                            <span class="shipping-address-label">Country: </span>
+                            <span class="shipping-address-value">{{ shipment.delivery_details.country }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.name">
+                    <div class="header-title">Name</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.name)">
+                        {{ shipment.delivery_details.name }}
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.phone">
+                    <div class="header-title">Phone</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.phone)">
+                        {{ shipment.delivery_details.phone }}
+                    </div>
+                </div>
+
+                <div v-if="shipment.delivery_details.email">
+                    <div class="header-title">Email ID</div>
+                    <br />
+                    <div class="details-data copy-to-click" @click="copyToClipboard($event, shipment.delivery_details.email)">
+                        {{ shipment.delivery_details.email }}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="extra-info">
@@ -256,6 +341,32 @@
                 <span class="header-title"> Estimated Shipping Charges: </span>
                 <span class="details-data">
                     ₹{{ shipment.order.prices.delivery_charge.toFixed(2) }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment &&
+                 shipment.affiliate_details &&
+                 shipment.affiliate_details.affiliate_meta &&
+                 shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type"
+            >
+                <span class="header-title"> Replacement Type: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.replacement_type }}
+                </span>
+            </div>
+            <div
+                class="extra-info-box"
+                v-if="shipment && 
+                shipment.affiliate_details &&
+                shipment.affiliate_details.affiliate_meta &&
+                shipment.affiliate_details.affiliate_meta.replacement_details &&
+                shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id"
+            >
+                <span class="header-title"> Orignal Order ID: </span>
+                <span class="details-data">
+                    {{  shipment.affiliate_details.affiliate_meta.replacement_details.original_affiliate_order_id }}
                 </span>
             </div>
 
@@ -307,6 +418,51 @@
                 </span>
             </div>
 
+            <div 
+                class="extra-info-box" 
+                v-if="shipment.fulfilling_store && shipment.fulfilling_store.phone">
+                <span class="header-title"> Fulfilling Store Phone: </span>
+                <span 
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.phone)"
+                >
+                    {{ shipment.fulfilling_store.phone }}
+                </span>
+                <span v-if="shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.additional_contact_details &&
+                    shipment.fulfilling_store.meta.additional_contact_details.number">
+                    <span class="details-data copy-to-click"
+                        v-for="(item, index) in shipment.fulfilling_store.meta.additional_contact_details.number"
+                        :key="index"
+                        @click="copyToClipboard($event, shipment.fulfilling_store.meta.additional_contact_details.number[index])">
+                        , {{ item }}
+                    </span>
+                </span>
+            </div>
+
+            <div 
+                class="extra-info-box" 
+                v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
+                <span class="header-title"> Fulfilling Store Email: </span>
+                <span 
+                    v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
+                    :key="index"
+                    class="details-data copy-to-click"
+                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
+                >
+                    <span v-if="index > 0">
+                        ,
+                    </span>
+                    {{ item }}
+                </span>
+            </div>
+
             <div class="extra-info-box" v-if="viewPrescription.length">
                 <span class="header-title"> View Prescription </span>
                 <span class="details-data">
@@ -342,10 +498,11 @@
                 class="extra-info-box"
                 v-if="dunzoOtpCheck()"
             >
-                <span v-if="
+                <span 
+                    v-if="
                     (shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)) ||
                     (shipment.meta.otp_details.pick && dunzoForwardStatuses.includes(shipment.status.status))
-                " 
+                    " 
                     class="header-title"> DP OTP: </span>
                 <span v-if="shipment.meta.otp_details.drop && dunzoBackwardStatuses.includes(shipment.status.status)" class="details-data">
                     {{ shipment.meta.otp_details.drop }}
@@ -504,8 +661,6 @@ import SelectDeliveryPartner from './../fixtures/select-delivery-partner.json';
 /* Payload import */
 import PICKUP_SLOT_PAYLOAD from './../mocks/pickup-slot-payload.json';
 
-/* Helper imports */
-import { convertToOMSDate } from '@/helper/utils.js';
 
 const TABS_OPTIONS = [
     {
@@ -520,6 +675,10 @@ const TABS_OPTIONS = [
         text: 'Delivery Details',
         value: 'delivery',
     },
+    {
+        text: 'Shipping Details',
+        value: 'shipping'
+    }
 ];
 
 export default {
@@ -632,6 +791,16 @@ export default {
             }
             return prescription;
         },
+        promisedDate() {
+            if (
+                !isEmpty(this.shipment) &&
+                !isEmpty(this.shipment.delivery_slot) &&
+                this.shipment.delivery_slot.date
+            ) {
+                let day = moment(this.shipment.delivery_slot.date).add(new Date().getTimezoneOffset(), 'minutes').format('MMM D, YYYY');
+                return `${day}`;
+            }
+        },
     },
     mounted() {
         if (this.shipment.fulfilling_store) {
@@ -675,6 +844,18 @@ export default {
                 let index = this.tabsOptions.length - 1
                 this.$refs.tab.selectTab(index, TABS_OPTIONS[2].text)
             }
+        }
+        if(
+            this.shipment.delivery_details &&
+            (
+                this.shipment.delivery_details.address1 ||
+                this.shipment.delivery_details.address ||
+                this.shipment.delivery_details.city ||
+                this.shipment.delivery_details.email ||
+                this.shipment.delivery_details.phone
+            )
+        ) {
+            this.tabsOptions.push(TABS_OPTIONS[3]);
         }
     },
     methods: {
@@ -1234,6 +1415,22 @@ export default {
         g {
             fill: @RoyalBlue;
         }
+    }
+}
+
+.copy-to-click {
+    cursor: pointer;
+}
+
+.shipping-address-tab {
+    overflow-y: scroll;
+    height: 40px;
+    max-width: 200px;
+    cursor: pointer;
+
+    .shipping-address-label {
+        color: #9b9b9b;
+        font-weight: 300;
     }
 }
 

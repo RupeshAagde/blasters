@@ -203,6 +203,7 @@
                     @close="closeDetails()"
                     :title="`Choose Next Bag State`"
                     :footer="true"
+                    :css="{width: '30%'}"
                 >
                     <change-bag-state-drawer
                         ref="change-bag-state"
@@ -448,7 +449,8 @@ export default {
             statusForCreateS3: [],
             enableCalling: false,
             enableBagStateChange: false,
-            enableAddressUpdation: false
+            enableAddressUpdation: false,
+            remarkOnBagStateChange: ''
         }
     },
     mounted(){
@@ -766,7 +768,7 @@ export default {
                 force_invoicing: true
             }
             OrderService.hitEInvoice(data).then((res)=>{
-                if(res.data.errors[0].msg.error) {
+                if(res && !res.status) {
                     this.$snackbar.global.showError("Failed to generate E-invoice")
                 }
                 else {
@@ -823,8 +825,11 @@ export default {
          */
         onBagChangeState(event) {
             let invoiceRegex = new RegExp(/^([a-zA-Z1-9]{1}[a-zA-Z0-9\/-]{0,15})$/);
-            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 
+                'cancelled_customer', 'return_initiated', 'bag_lost', 
+                'return_bag_lost', 'dead_stock', 'deadstock', 'deadstock_defective'];
             if(event.state.length > 0 && event.remark.length > 9) {
+                this.remarkOnBagStateChange = event.remark;
                 if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
                 } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
@@ -852,7 +857,7 @@ export default {
             /* Check if the selected state's value exists, else throw an error */
             if(changeBagStateDrawer.selectedState === undefined || changeBagStateDrawer.selectedState === null) {
                 this.$snackbar.global.showError(
-                    `Unable to update the status for this shipment: ${this.activeShipmentDetails.shipment_id}`,
+                    `Unable to update the status for this shipment: ${this.activeShipment.shipment_id}`,
                     3000
                 );
                 return;
@@ -864,7 +869,7 @@ export default {
                     {
                         shipments: [
                             {
-                                identifier: this.activeShipmentDetails.shipment_id,
+                                identifier: this.activeShipment.shipment_id,
                                 products: []
                             }
                         ],
@@ -879,7 +884,9 @@ export default {
             };
             
             /* Adding reasons for cancelled states */
-            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 'cancelled_customer'];
+            let reasonStates = ['bag_not_confirmed', 'cancelled_fynd', 'cancelled_seller', 
+                'cancelled_customer', 'return_initiated', 'bag_lost', 
+                'return_bag_lost', 'dead_stock', 'deadstock', 'deadstock_defective'];
             if(reasonStates.includes(changeBagStateDrawer.selectedState)) {
                 let reasonValue = changeBagStateDrawer.selectedReason;
                 let reasonText = '';
@@ -894,11 +901,28 @@ export default {
                             filters: [{}],
                             data: {
                                 reason_id: reasonValue,
-                                reason_text: reasonText
+                                reason_text: this.remarkOnBagStateChange
                             }
                         }
                     ],
                     entities: []
+                }
+            } else {
+                payload.statuses[0].shipments[0]['data_updates'] = {
+                    products: [
+                        {
+                            filters: [{}],
+                            data: {
+                                meta:{comment: this.remarkOnBagStateChange}
+                            }
+                        }
+                    ],
+                    entities: [{
+                            filters: [{}],
+                            data: {
+                                meta:{comment: this.remarkOnBagStateChange}
+                            }
+                        }]
                 }
             }
             /* Adding store_invoice_id incase of updating invoice number */
@@ -906,22 +930,24 @@ export default {
             // if(InvoiceRegex.test(changeBagStateDrawer.invoiceId)){
                 
             // }
-            if(changeBagStateDrawer.selectedState == 'bag_invoiced' && Object.keys(this.activeShipmentDetails.next_possible_states).includes('bag_invoiced')){
+            if(changeBagStateDrawer.selectedState == 'bag_invoiced' && Object.keys(this.activeShipment.next_possible_states).includes('bag_invoiced')) {
                 payload.statuses[0].shipments[0]['data_updates'] = {
-                 products: [{
-                filters: [{}],
-                data: {
-                    store_invoice_id:  changeBagStateDrawer.invoiceId 
+                    products: [{
+                        filters: [{}],
+                        data: {
+                            store_invoice_id:  changeBagStateDrawer.invoiceId,
+                            meta: {
+                                activity_comment: this.remarkOnBagStateChange
+                            }
+                        }
+                    }],
+                    entities: [{
+                        filters: [{}],
+                        data: {
+                            store_invoice_id: changeBagStateDrawer.invoiceId
+                        }
+                    }]
                 }
-                }],
-                entities: [{
-                filters: [{}],
-                data: {
-                    store_invoice_id: changeBagStateDrawer.invoiceId
-                }
-                }]
-            }
-
             }
           
 
@@ -933,30 +959,30 @@ export default {
                     let statusResponse = response.data.statuses[0].shipments[0];
                     if(statusResponse.status === 200) {
                         this.$snackbar.global.showSuccess(
-                            `Successfully updated the status of the shipment: ${this.activeShipmentDetails.shipment_id}`,
+                            `Successfully updated the status of the shipment: ${this.activeShipment.shipment_id}`,
                             3000
                         );
                         this.isChangeBagState = false;
                         setTimeout(() => {
-                            this.$emit('statusUpdated', this.activeShipmentDetails.shipment_id);
+                            this.$emit('statusUpdated', this.activeShipment.shipment_id);
                         }, 500);
                     } else {
-                          if(this.activeShipmentDetails.lock_status){
+                        if(this.activeShipment.lock_status){
                             this.$snackbar.global.showError(
-                            statusResponse.message,
-                            3000);
-
-                          }else{
+                                statusResponse.message,
+                                3000
+                            );
+                        } else {
                             this.$snackbar.global.showError(
-                            `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
-                            3000
-                        );
-                          }
+                                `Failed to update the status of the shipment:  ${this.activeShipment.shipment_id}`,
+                                3000
+                            );
+                        }
                         console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0].message);
                     }
                 } else {
                     this.$snackbar.global.showError(
-                        `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
+                        `Failed to update the status of the shipment:  ${this.activeShipment.shipment_id}`,
                         3000
                     );
                     console.error("Error in updating the status:   ", response.data.statuses[0].shipments[0]);
@@ -964,7 +990,7 @@ export default {
             })
             .catch(error => {
                 this.$snackbar.global.showError(
-                    `Failed to update the status of the shipment:  ${this.activeShipmentDetails.shipment_id}`,
+                    `Failed to update the status of the shipment:  ${this.activeShipment.shipment_id}`,
                     3000
                 );
                 console.error("Error in updating the status:   ", error);
@@ -1026,6 +1052,7 @@ export default {
                             `Address has been successfully updated for the shipment ID: ${this.activeId}`,
                             3000
                         );
+                        this.$emit('reload');
                         this.isChangeAddress = false;
                     } else {
                         console.error(`Error in updating the address:  `, response);

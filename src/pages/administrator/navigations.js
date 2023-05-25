@@ -108,8 +108,8 @@ export const getNavigations = () => {
                 // },
                 {
                     display: 'Orders',
-                    link: '/administrator/orders/',
-                    title: 'list',
+                    link: '/administrator/orders-list/',
+                    title: 'orders-list',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
@@ -117,7 +117,7 @@ export const getNavigations = () => {
                 {
                     display: 'Manifest',
                     link: '/administrator/orders-manifest',
-                    title: 'manifest',
+                    title: 'orders-manifest',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
@@ -125,7 +125,7 @@ export const getNavigations = () => {
                 {
                     display: 'Bulk Actions',
                     link: '/administrator/orders-bulk',
-                    title: 'bulk-actions',
+                    title: 'orders-bulk',
                     icon: 'orders-cart',
                     highlightedIcon: 'orders-cart-highlighted',
                     active: false
@@ -370,6 +370,14 @@ export const getNavigations = () => {
                     icon: 'home',
                     highlightedIcon: 'home-highlighted',
                     active: false
+                },
+                {
+                    display: 'Invoices',
+                    link: '/administrator/finance/invoices',
+                    title: 'invoices',
+                    icon: 'home',
+                    highlightedIcon: 'home-highlighted',
+                    active: false
                 }
             ]
         },
@@ -437,5 +445,15 @@ export const getNavigations = () => {
             permission: 'webhook',
             children: []
         },
+        {
+            display: 'Oauth Clients',
+            link: '/administrator/oauthclient',
+            title: 'Oauth Clients',
+            icon: 'developers',
+            highlightedIcon: 'developers-highlighted',
+            active: false,
+            permission: 'settings',
+            children: []
+        }
     ];
 };

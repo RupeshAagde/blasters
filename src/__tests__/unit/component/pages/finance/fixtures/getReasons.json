@@ -1,0 +1,81 @@
+{
+    "success": true,
+    "void_invoice_reasons_list": [
+        {
+            "text": "unwillingness of seller to pay",
+            "value": "101"
+        },
+        {
+            "text": "dispute in invoice",
+            "value": "102"
+        },
+        {
+            "text": "seller delisted",
+            "value": "103"
+        },
+        {
+            "text": "incorrect values",
+            "value": "104"
+        },
+        {
+            "text": "incorrect invoice details",
+            "value": "105"
+        },
+        {
+            "text": "incorrect invoice notes",
+            "value": "106"
+        },
+        {
+            "text": "multiple created",
+            "value": "107"
+        }
+    ],
+    "cancel_irn_reasons_list": [
+        {
+            "text": "incorrect values",
+            "value": "101"
+        },
+        {
+            "text": "incorrect invoice details",
+            "value": "102"
+        },
+        {
+            "text": "incorrect invoice notes",
+            "value": "103"
+        },
+        {
+            "text": "unable to fetch e-invoice details",
+            "value": "104"
+        },
+        {
+            "text": "multiple created",
+            "value": "105"
+        },
+        {
+            "text": "dummy invoice",
+            "value": "106"
+        }
+    ],
+    "extend_due_date_reasons_list": [
+        {
+            "text": "seller request is genuine",
+            "value": "101"
+        },
+        {
+            "text": "unresolved seller query at our end",
+            "value": "102"
+        },
+        {
+            "text": "correct poc was not communicated",
+            "value": "103"
+        },
+        {
+            "text": "invoice not received",
+            "value": "104"
+        },
+        {
+            "text": "dispute in invoice",
+            "value": "105"
+        }
+    ]
+}

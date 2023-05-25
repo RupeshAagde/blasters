@@ -3,6 +3,8 @@ import PlanCreatorRoutes from './plan-creator';
 import ExtensionRoutes from './extension';
 import FinanceRoutes from './finance';
 import CompanyListVue from './../../pages/company-admin/company-list.vue';
+import OauthClientsVue from './../../pages/oauth-clients/index.vue';
+import OauthClientsDetails from './../../pages/oauth-clients/clients/details.vue';
 import CbsApplicationDetailsVue from './../../pages/company-admin/cbs-application-details.vue';
 import CbsDetailVue from './../../pages/company-admin/cbs-detail.vue';
 import BillingVue from './../../pages/company-admin/billing.vue';
@@ -29,6 +31,7 @@ import Configuration from './../../pages/tickets/configuration/configuration.vue
 import kaptureIndex from './../../pages/tickets/configuration/kapture-integration/index.vue';
 import freshdeskIndex from './../../pages/tickets/configuration/freshdesk-integration/index.vue';
 import fyndPlatformIndex from './../../pages/tickets/configuration/fynd-platform-integration/index.vue';
+import freshchatVue from '@/pages/tickets/configuration/freshchat-integration/index.vue'
 import SettingsVue from './../../pages/settings';
 import SettingsPartnerVue from './../../pages/settings/partner.vue';
 import BasicDetailSettingsVue from './../../pages/settings/basic-details.vue';
@@ -81,7 +84,8 @@ import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
 import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
 import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
 import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
-import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
+import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue';
+import Invoices from './../../pages/finance/invoice/index.vue';
 
 import RMAPage from '@/pages/rma';
 import RMARulesListing from '@/pages/rma/rules-listing';
@@ -522,6 +526,14 @@ export default [
                 name: 'support-configuration-default',
                 path: 'support/configuration/integration/default',
                 component: fyndPlatformIndex,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['support']);
+                }
+            },
+            {
+                name: 'support-configuration-freshchat',
+                path: 'support/configuration/integration/freshchat',
+                component: freshchatVue,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['support']);
                 }
@@ -1116,7 +1128,7 @@ export default [
             /** OMSv2.1 */
             {
                 name: 'company-orders-v2',
-                path: 'orders/',
+                path: 'orders-list/', 
                 permissions: ['order'],
                 beforeEnter: (to, from, next) => {
                     checkUserPermission(to, from, next, 'company', ['order']);
@@ -1275,6 +1287,16 @@ export default [
                 }
             },
             {
+                name: 'invoices',
+                path: 'finance/invoices',
+                component: Invoices,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                }
+            },
+            {
                 name: 'category-config-create',
                 path: 'packaging/category-configuration/create',
                 alias: 'packaging/category-configuration/edit',
@@ -1283,6 +1305,30 @@ export default [
                     return checkUserPermission(to, from, next, [
                         'admin-access'
                     ]);
+                }
+            },
+            {
+                name: 'oauth-clients',
+                path: 'oauthclient',
+                component: OauthClientsVue,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'create-oauth-client',
+                path: 'oauthclient/create',
+                component: OauthClientsDetails,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
+                }
+            },
+            {
+                name: 'edit-oauth-client',
+                path: 'oauthclient/edit/:client_id',
+                component: OauthClientsDetails,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['settings']);
                 }
             },
             //======================== CN DN ========================

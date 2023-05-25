@@ -22,7 +22,7 @@ describe('ShipmentListItem', () => {
         localVue.use(VueRouter);
         router = new VueRouter({
             routes: [
-                { path: '/company/:company_id/orders/', name: 'company-orders-v2', component: ShipmentListItem},
+                { path: '/company/:company_id/orders-list/', name: 'company-orders-v2', component: ShipmentListItem},
                 { path: '/company/:company_id/orders/:orderId/details', component: OrderDetails },
             ]
         })

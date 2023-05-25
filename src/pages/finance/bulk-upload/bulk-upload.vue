@@ -125,11 +125,6 @@
                   <span class="val">{{ this.parsedData.payout_amount}}</span>
                   <span class="val val-words">( {{ this.parsedData.payout_amount_words }} )</span>
               </div>
-              <!-- <div class="payout-sum" ref="payouts" v-if="validationCompleted && payoutsExists">
-                <inline-svg :src="'payout-icon-finance'"></inline-svg>
-                  <span class="txt">Payout Amount Sum (In Words): </span>
-                  <span class="val">{{ this.parsedData.payout_amount_words}}</span>
-              </div> -->
           </div>
           <div class="right-content" v-if="validationCompleted">
             <nitrozen-button
@@ -149,18 +144,18 @@
           </div>
           </div>
           <mirage-alert
-                    :dismissible="true"
-                    ref="intro"
-                    v-if="validationCompleted"
-                    class="info"
-                    type="info"
-                    v-show="true"
-                >
-                    <div class="alert-content">
-                        <span>
-                          Validate and confirm to save your import progress
-                        </span>
-                    </div>
+            :dismissible="true"
+            ref="intro"
+            v-if="validationCompleted"
+            class="info"
+            type="info"
+            v-show="true"
+          >
+            <div class="alert-content">
+                <span>
+                  Validate and confirm to save your import progress
+                </span>
+            </div>
           </mirage-alert>
           <div class="snapshot-table-conatiner" v-if="validationCompleted">
             <table
@@ -177,7 +172,16 @@
                 <tr v-for="(tab, index) in tableData.items"
                     :key="'tab-' + index"> 
                     <td v-for="(tabItem,index) in tab" :key="index">
+                      <span v-if="!isJsonItem(tabItem)">
                         {{ tabItem }}
+                      </span>
+                      <span
+                        class="json-icon"
+                        v-else
+                        @click="openJsonView(tabItem)"
+                      >
+                        <inline-svg :src="'json'"></inline-svg>
+                      </span>
                     </td>
                 </tr>
             </table>
@@ -199,6 +203,11 @@
           </div>
 
         </div>
+        <json-editor-dialog
+          ref="jsonView"
+          @close="$dialogClosed"
+        >
+        </json-editor-dialog>
     </div>
 </template>
 <script>
@@ -209,24 +218,25 @@ import FinanceService from '@/services/finance.service.js';
 import MirageAlert from '@/components/orders/alert.vue';
 import learnDrawer from './learn-drawer.vue';
 import inlineSvgVue from '../../../components/common/adm-inline-svg.vue';
+import jsonEditorDialog from '../common/json-editor-dialog.vue';
 import {
     NitrozenButton,
-    NitrozenRadio,
     NitrozenDropdown,
     flatBtn,
     strokeBtn,
 } from '@gofynd/nitrozen-vue';
+import { isArray } from 'nunjucks/src/lib';
 export default {
     name:'bulk-upload',
     components: {
       'jumbotron': Jumbotron,
       'nitrozen-button': NitrozenButton,
-      'nitrozen-radio' : NitrozenRadio,
       'nitrozen-dropdown':  NitrozenDropdown,
       'no-content' : NoContent,
       'mirage-alert' : MirageAlert,
       'learn-drawer' : learnDrawer,
-      'inline-svg': inlineSvgVue
+      'inline-svg': inlineSvgVue,
+      'json-editor-dialog': jsonEditorDialog,
     },
     directives: {
         flatBtn,
@@ -266,26 +276,7 @@ export default {
         items:[],
 
       },
-      validatedData: {
-          "success": true,
-          "data": {
-              "report_upload_id": 'ad6dd60d-110a-4a53-904c-b9196b4a7008',
-              "status": "PreProcess",
-              "json":{"headers": ["column1", "column1"],
-                          
-                      "rows": {"1": ["cell(1,1)", "cell(2,1)"],
-                              "2": ["cell(1,2)", "cell(2,1)"],   
-                              "3": ["cell(1,3)", "cell(2,3)"]
-                              } 
-                      },
-              "total": 2,
-              "summary":[
-                  {
-                    "payoutsum": 456.6
-                    }
-                ]
-          }
-      }
+      json: {},
     }
   },
   mounted(){
@@ -293,6 +284,27 @@ export default {
 
   },
   methods: {
+    isJsonItem(item){
+      try{
+        var json = JSON.parse(item.replace(/[“”]/g, '"').replace(/[‘’]/g, "'"));
+        return (typeof json === 'object');
+      }
+      catch (error){
+        return false;
+      }
+    },
+    openJsonView(item){
+      this.json = JSON.parse(item.replace(/[“”]/g, '"').replace(/[‘’]/g, "'"));
+      if(isArray(this.json)){
+        this.json = {...this.json};
+      }
+      this.$refs.jsonView.open({
+        customJson: this.json
+      });
+    },
+    $dialogClosed(data) {
+        console.log(data);
+    },
     handleOpenDrawer(){
         this.drawerOpen = true;
     },
@@ -335,39 +347,39 @@ export default {
       },
       getFileType() {
         const params = {
-                        "data": {
-                            "table_name": "report_upload_config",
-                            "filters": {
-                            "listing_enabled": true
-                            },
-                            "project": [
-                                "id",
-                                "display_name",
-                                "preprocess",
-                                "is_gzip",
-                                "description"
-                                ]
-                            }
-                        }
+        "data": {
+            "table_name": "report_upload_config",
+            "filters": {
+            "listing_enabled": true
+            },
+            "project": [
+                "id",
+                "display_name",
+                "preprocess",
+                "is_gzip",
+                "description"
+                ]
+            }
+        }
             
-            const caller = FinanceService.getFileType(params);
-            caller
-                .then(( res ) => {
-                    this.fileType = res.data.items.map((item) => {
-                        return {
-                            text: item.display_name,
-                            value: item.id,
-                        };
-                    });
-                })
-                .catch((err) => {
-                    this.$snackbar.global.showError(
-                        `Failed`
-                    );
-                })
-                .finally(() => {
-                    
+        const caller = FinanceService.getFileType(params);
+        caller
+            .then(( res ) => {
+                this.fileType = res.data.items.map((item) => {
+                    return {
+                        text: item.display_name,
+                        value: item.id,
+                    };
                 });
+            })
+            .catch((err) => {
+                this.$snackbar.global.showError(
+                    `Failed`
+                );
+            })
+            .finally(() => {
+                
+            });
         },
 
         frame() {
@@ -389,7 +401,6 @@ export default {
           this.fileSelected = true;
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
           this.file = file;
-
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`
@@ -537,7 +548,8 @@ export default {
 
         },
 
-        onUploadClick() {
+        onUploadClick(event) {
+          event.target.value = '';
           if(this.selectedFileType){
             this.$refs.fileUpload.click();
         }
@@ -555,7 +567,6 @@ export default {
           this.fileSelected = false;
           this.startLoader = false;
           this.file = new Blob(); 
-
         },
         confirmValidation(){
           const params = {
@@ -964,6 +975,13 @@ svg{
 th,tr{
   font-size: 14px;
   line-height: 19px;
+}
+
+.json-icon {
+  ::v-deep svg{
+    width: 30px;
+    height: 30px;
+  }
 }
 
 

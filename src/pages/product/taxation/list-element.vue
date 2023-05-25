@@ -142,10 +142,12 @@ export default {
                 let taxdict = {};
                 let dateArr = [];
                 let upcomingDateArr = [];
-                let upcomingDate =0;
+                let upcomingDate = 0;
 
                 for (let tax of data.taxes) {
-                    tax.effective_date = new Date(tax.effective_date+"z").toLocaleString('sv').replace(' ', 'T')
+                    tax.effective_date = new Date(tax.effective_date + 'z')
+                        .toLocaleString('sv')
+                        .replace(' ', 'T');
                     let tempdate = this.dateToComparableNumber(
                         tax.effective_date
                     );
@@ -156,7 +158,9 @@ export default {
                 dateArr = dateArr.filter((item) => item <= currentDate);
                 activeDate = dateArr.sort().reverse()[0];
                 upcomingDateArr = [...dateArrSet];
-                upcomingDateArr = upcomingDateArr.filter((item) => item > currentDate);
+                upcomingDateArr = upcomingDateArr.filter(
+                    (item) => item > currentDate
+                );
                 upcomingDate = upcomingDateArr.sort()[0];
 
                 for (let tax of data.taxes) {

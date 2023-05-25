@@ -3,7 +3,7 @@
         <div class="header-position">
             <page-header
                 :title="pageTitle"
-                @backClick="$router.push({ name: 'settings' })"
+                @backClick="$goBack('/administrator/settings/platform')"
                 :noContextMenu="true"
             >
                 <div class="button-box">
@@ -123,6 +123,9 @@ import { NitrozenCheckBox } from '@gofynd/nitrozen-vue';
 import InlineSvg from '@/components/common/ukt-inline-svg';
 import InternalSettings from '@/services/internal-settings.service';
 import safeAccess from 'safe-access';
+import { dirtyCheckMixin } from '@/mixins/dirty-check.mixin';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 const SERVERCONFIGIDENTIFIER = 'location';
 export default {
@@ -141,6 +144,7 @@ export default {
     directives: {
         flatBtn
     },
+    mixins: [dirtyCheckMixin],
 
     data() {
         return {
@@ -150,7 +154,8 @@ export default {
             lineItems: [],
             programTypes: [],
             errors: {},
-            checkboxItem: {}
+            checkboxItem: {},
+            originalData: []
         };
     },
     mounted() {
@@ -174,6 +179,7 @@ export default {
                     this.programTypes = this.programTypes.map((type) => {
                         return { ...type, disabled: true };
                     });
+                    this.originalData = cloneDeep(this.programTypes)
                 })
                 .catch(() => {
                     this.pageLoading = false;
@@ -269,6 +275,10 @@ export default {
                         duration: 2000
                     });
                 });
+        },
+        // dirtyForm check
+        isFormDirty() {
+            return !isEqual(this.originalData, this.programTypes);
         }
     }
 };

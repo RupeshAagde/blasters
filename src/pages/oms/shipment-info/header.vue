@@ -141,7 +141,7 @@
 
         <nitrozen-dialog
             ref="dialog"
-            :title="`Shipment Issue: ${shipment.shipment_id}`"
+            :title="`Shipment Issue History: ${shipment.shipment_id}`"
             class="shipment-issue-list-dialog"
         >
             <template slot="body">
