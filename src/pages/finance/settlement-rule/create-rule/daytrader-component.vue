@@ -255,13 +255,15 @@
                 :theme="'secondary'"
                 class="more-filters"
                 @click="saveRuleForm"
-                >Save
+                >{{saveButtonName}}
             </nitrozen-button>
             <nitrozen-button
                 v-flatBtn
+                v-if="cancelDisableInput"
                 :theme="'secondary'"
                 class="more-filters"
                 @click="cancelRuleForm"
+                id="cancelButton"
                 >Cancel
             </nitrozen-button>
         </div>
@@ -369,6 +371,7 @@ import {
 import { DatePicker } from '@/components/common/date-picker.vue';
 
 import _ from 'lodash';
+import FinanceService from '@/services/finance.service.js';
 
 export default {
     name: 'daytrader-component',
@@ -413,8 +416,14 @@ export default {
         strokeBtn
     },
     mounted() {
-        
+        let params = this.$route.params;
         this.formData.transactional_components = this.form_data; //add condition here for edit
+        if (params.preview == 'verify'){
+            this.saveButtonName = 'Verify';
+            this.cancelDisableInput = false;
+        } else {
+            this.saveButtonName = 'Save';
+        }
     },
     data() {
         return {
@@ -424,6 +433,7 @@ export default {
             selectedSlab: true,
             selectedFlat: false,
             selectedPriority: 'high',
+            cancelDisableInput: true,
             priorityItems:[
                 {
                     text: 'Whichever is higher',
@@ -520,6 +530,7 @@ export default {
             },
             selectedVariable: false,
             variableObj: {},
+            saveButtonName: '',
             formData: {
                 name: '',
                 slug_fields: [],
@@ -586,8 +597,27 @@ export default {
     },
     methods: {
         saveRuleForm(){
-            this.$emit("passData", { form:this.formData, compType:this.component_type}  );
-
+            let url_params = this.$route.params;
+            if (url_params.preview == 'verify'){
+                let params = {
+                    data : {
+                        "id": url_params.ruleId,
+                        status: "verified",
+                        "type_of_request": "modify_status"
+                    }
+                }
+                const caller = FinanceService.deleteRule(params);
+                caller
+                    .then((res) => {
+                        this.$snackbar.global.showSuccess('Rule Verified Successfully');
+                        this.$router.push({ name: 'settlement-rule' });
+                    })
+                    .catch((err) => {
+                        this.$snackbar.global.showError('Failed to delete rule '+ err);
+                    });
+            } else {
+                this.$emit("passData", { form:this.formData, compType:this.component_type}  );
+            }
         },
         cancelRuleForm(){
 

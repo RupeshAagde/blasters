@@ -248,7 +248,6 @@ export default {
     this.fetchFilterData("settlement_type");
     this.fetchRuleData();
     let params = this.$route.params;
-    console.log("111111111111111111", params)
     this.curParams = this.$route.params;
     if (params.preview != undefined){
         switch(params.preview) {
@@ -264,8 +263,6 @@ export default {
             this.editRule(params.ruleId);
             break;
         }
-    } else {
-        console.log("&&&&&&&&&&&&&&")
     }
 
   },
@@ -441,11 +438,9 @@ export default {
         };
         return FinanceService.getRuleData(params)
             .then((res) => {
-                console.log("###########", res)
                 this.dtOptions = res.data.items;
             })
             .catch((err) => {
-                console.log("%%%%%%%%%%%", err)
                 this.$snackbar.global.showError('Failed to load Rule Data');
             });
     },
