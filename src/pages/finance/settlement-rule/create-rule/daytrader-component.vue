@@ -416,6 +416,9 @@ export default {
     },
     mounted() {
         let params = this.$route.params;
+        if((Object.keys(this.form_data.variable_conditional).length) > 0){
+            this.selectedVariable = true;
+        }
         this.formData.transactional_components = this.form_data; //add condition here for edit
         if (params.preview == 'verify'){
             this.saveButtonName = 'Verify';

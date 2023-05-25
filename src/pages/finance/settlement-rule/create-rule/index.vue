@@ -136,6 +136,9 @@
                 >
                 </daytrader-component>
             </div>
+            <nitrozen-error v-if="validationFailed">
+                {{ validationMsg }}
+            </nitrozen-error>
         </div>
     </div>
 </template>
@@ -155,8 +158,10 @@ import {
     NitrozenDropdown,
     NitrozenInput,
     NitrozenCheckBox,
+    NitrozenError,
     flatBtn,
     strokeBtn,
+    
 } from '@gofynd/nitrozen-vue';
 export default {
     name:'create-rule',
@@ -168,6 +173,7 @@ export default {
       'daytrader-component': DaytraderComponent,
       'nitrozen-input': NitrozenInput,
       "nitrozen-checkbox": NitrozenCheckBox,
+      'nitrozen-error':NitrozenError,
 
     },
     directives: {
@@ -185,6 +191,8 @@ export default {
                 moment().subtract(1, 'week').toISOString(),
                 moment().toISOString(),
             ],
+            validationFailed: false,
+            validationMsg: "Please select Settlement Type from Dropdown above",
             companySelected: false,
             filterLists: {
                 channel: [],
@@ -207,7 +215,7 @@ export default {
             formData: {
                 slug_fields: [],
                 slug_values: {
-                    company: [],
+                    company: '',
                     brand: [],
                     channel: [],
                     location_type: [],
@@ -301,7 +309,8 @@ export default {
                 for(let val in data.slug_values){
                     this.formData.slug_values[val] = [data.slug_values[val].id]
                 }
-
+                this.formData.slug_values.company = data.slug_values.company.id;
+                this.formData.settlement_type = data.settlement_type;
                 this.editSlugValues = data.slug_values;
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
@@ -315,6 +324,7 @@ export default {
     filterByCompany(){
         this.fetchRuleData();
         this.fetchBrands();
+        this.fetchAffiliate();
         this.companySelected = true;
     },
     showLocationValue(){
@@ -358,7 +368,13 @@ export default {
                 this.$snackbar.global.showError('Failed to load companies');
             })
             .finally(() => {
-                this.fetchAffiliate();
+                if(this.formData.slug_values.company){
+                    console.log("In fetch company");
+                    console.log(this.formData.slug_values.company);
+                    this.fetchBrands();
+                    this.fetchAffiliate();
+                }
+                
             })
     },
     searchBrand(e) {
@@ -367,6 +383,7 @@ export default {
         }, 1000)(e.text);
     },
     fetchBrands(query='') {
+        console.log(this.formData);
         return FinanceService.getBrandList(this.formData.slug_values.company,query)
             .then((res) => {
                 this.filterLists.brand = res.data.brand_list;
@@ -448,6 +465,17 @@ export default {
 
     },
     createPayload(compData) {
+
+        if(!this.formData.settlement_type){
+            this.validationFailed = true;
+        }
+        else{
+            this.validationFailed = false;
+            this.generatePayload(compData);
+        }
+
+    },
+    generatePayload(){
         let data = compData.form;
         let type = compData.compType;
         if(type === 'edit'){

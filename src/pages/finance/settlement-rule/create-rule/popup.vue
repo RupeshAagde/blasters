@@ -12,7 +12,6 @@
                     <div class="text-decs">
                         {{ infoText }}
                     </div>
-
                     <div class="buttons">
                         <nitrozen-button
                             class="yes_btn"
