@@ -24,6 +24,7 @@
 
                         <nitrozen-toggle-btn
                             v-model="showCommunicationinfo"
+                            @change="setCommunicationInfo()"
                         ></nitrozen-toggle-btn>
                     </div>
                 </div>
@@ -373,6 +374,13 @@ export default {
             supportDecs: ''
         };
     },
+    watch: {
+        supportCommunication(newValue, oldValue) {
+            if(oldValue !== newValue) {
+               this.$emit("checkboxValue",this.supportCommunication);
+            }
+        }
+    },
     mounted() {
         this.getGeneralConfiguration();
     },
@@ -434,6 +442,7 @@ export default {
             this.editContact = false;
             this.enabledToAddContact = false;
             this.save();
+            this.$emit("checkboxValue",this.supportCommunication)
             return this.supportCommunication;
         },
         showSupportPreview() {
@@ -507,6 +516,7 @@ export default {
         },
         deleteCommincationDetail(selectedIndex) {
             this.supportCommunication.splice(selectedIndex, 1);
+            this.$emit("checkboxValue",this.supportCommunication)
             this.save();
         },
 
@@ -606,6 +616,9 @@ export default {
                         'Failed to get configuration data'
                     );
                 });
+        },
+        setCommunicationInfo() {
+            this.$emit("setCommunicationInfo",this.showCommunicationinfo)
         }
     }
 };
@@ -725,6 +738,7 @@ export default {
         .draggable-icon {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
         .contact-container-section {
             margin-left: 24px;

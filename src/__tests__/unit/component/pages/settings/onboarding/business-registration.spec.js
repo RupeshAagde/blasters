@@ -119,5 +119,35 @@ describe('Mounted BusinessRegistration Component', () => {
         postBtn.trigger('click')
         mock.reset();
     });
+    it('should check dirty form', async () => {
+        mock.onGet(URLS.ADMIN_PANEL_CONFIG('business-registration')).reply(
+            200,
+            MOCK_DATA.business_registration
+        );
+        mock.onGet(URLS.GET_CHOICE_TYPES()).reply(
+            200,
+            MOCK_DATA.marketplaces
+        );
+        mock.onGet(EXTENSION_URLS.GET_EXTENSIONS('business-registration'), { params: { page_size: 10, page_no: 1 } }).reply(
+            200,
+            MOCK_DATA.extensions
+        );
+        mock.onGet(EXTENSION_URLS.GET_EXTENSIONS('business-registration')).reply(
+            200,
+            MOCK_DATA.selected_extensions
+        );
+        mock.onGet(URLS.INTERNAL_MARKETPLACES_ADMIN_SERVICE('')).reply(
+            200,
+            MOCK_DATA.applications
+        );
+        wrapper = mount(BusinessRegistration, {
+            localVue,
+            router
+        });
+        await flushPromises();
+        expect(wrapper.vm.isFormDirty()).toBeFalsy();
+        wrapper.vm.$set(wrapper.vm, 'lineItems', []);
+        expect(wrapper.vm.isFormDirty()).toBeTruthy();
+    })
 });
 

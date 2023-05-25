@@ -498,6 +498,35 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
+    //For Invoice
+
+    GET_INVOICE_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+    },
+    GET_INVOICE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-invoice-list`);
+    },
+    GET_INVOICE_PAYMENT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing2`);
+    },
+    GET_INVOICE_DOWNLOAD_URLS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/pdf-view`);
+    },
+    CREDITLINE_PAYMENTS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/payment-process');
+    },
+    VOID_FIN_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/void-invoice');
+    },
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+    },
+    GET_REASONS_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-reasons-list`);
+    },
+    EXTEND_DATE_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/invoice/extend-due-date`);
+    },
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);
