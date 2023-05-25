@@ -6,8 +6,8 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import DOMAIN_URLS from '../../../../../../services/domain.service';
 import flushPromises from "flush-promises";
-import SettlementRule from '../../../../../../pages/finance/bulk-upload/bulk-upload.vue';
-import mocks from '../fixtures/upload-reports.json';
+import SettlementRule from '../../../../../../pages/finance/settlement-rule/index.vue';
+import mocks from '../fixtures/settlement.json';
 import ADMIN_URLS from '@/services/admin-url.service';
 
 let localVue, wrapper, router,store;
@@ -30,12 +30,12 @@ describe('Settlement-Rule', () => {
         mock.reset();
         router = new VueRouter({
             routes: [{
-                path: '/administrator/finance/bulk-upload',
-                name: 'bulk-upload',
+                path: '/administrator/finance/settlement-rule',
+                name: 'settlement-rule',
                 component: SettlementRule
             }]
         });
-        router.push('/administrator/finance/bulk-upload');
+        router.push('/administrator/finance/settlement-rule');
         wrapper = mount(SettlementRule, {
             localVue,
             router,
@@ -43,11 +43,11 @@ describe('Settlement-Rule', () => {
                 'jsonView': RoleModal,
             }
         });
-        mock.onPost(DOMAIN_URLS.GET_FILE_TYPE()).reply(200, mocks.getFileType);
-        mock.onPost(DOMAIN_URLS.GET_DOWNLOAD_FORMAT()).reply(200, mocks.downloadData);
-        mock.onPost(DOMAIN_URLS.GET_PRESIGNED_URL()).reply(200, mocks.getPresigned);
-        mock.onPost(DOMAIN_URLS.GET_UPLOAD_URL()).reply(200, mocks.validatedFile);
-        mock.onPost(DOMAIN_URLS.GET_UPLOAD_URL()).reply(200, mocks.confirmValidation);
+        mock.onPost(DOMAIN_URLS.GET_COMPANY_LIST_FIN()).reply(200, mocks.getCompanyList);
+        // mock.onPost(DOMAIN_URLS.GET_BRAND_LIST_FIN()).reply(200, mocks.downloadData);
+        // mock.onPost(DOMAIN_URLS.GET_AFFILIATE_LIST_FIN()).reply(200, mocks.getPresigned);
+        mock.onPost(DOMAIN_URLS.GET_DATA_FIN()).reply(200, mocks.getRuleList);
+        // mock.onPost(DOMAIN_URLS.GET_UPLOAD_URL()).reply(200, mocks.confirmValidation);
 
         await flushPromises();
     });

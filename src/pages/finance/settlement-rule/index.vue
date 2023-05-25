@@ -285,6 +285,10 @@ export default {
                 })
         },
         updateFilter(){
+            console.log()
+            if(this.selectedStatus == "verified"){
+
+            }
             this.fetchRulesList();
         },
         searchCompany(e) {

@@ -56,8 +56,9 @@
                         :items="filterLists.affiliate"
                         v-model="formData.slug_values.affiliate"
                         label = "Affiliate"
-                        placeholder="Select Affiliate"
+                        :placeholder="formData.slug_values.affiliate.length+ ' Selected'"
                         :multiple="true"
+                        :searchable="true"
                     ></nitrozen-dropdown>
                 </div>
             </div>
@@ -466,6 +467,10 @@ export default {
     },
     createPayload(compData) {
 
+
+        console.log("compdata");
+        console.log(compData);
+
         if(!this.formData.settlement_type){
             this.validationFailed = true;
         }
@@ -475,7 +480,7 @@ export default {
         }
 
     },
-    generatePayload(){
+    generatePayload(compData){
         let data = compData.form;
         let type = compData.compType;
         if(type === 'edit'){

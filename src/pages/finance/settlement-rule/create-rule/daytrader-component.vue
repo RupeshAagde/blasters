@@ -579,18 +579,18 @@ export default {
         },
         variable_data(){
             return this.main_config.variable_conditional;
-        },
-        date_range() {
-            return [this.formData.rule_start_date, this.formData.rule_end_date];
-        },
-        brands() {
-            let regexBrand = new RegExp(this.searchBrand, 'gi');
-            return this.searchBrand
-                ? this.cbs_opts.brands.filter((brand) =>
-                      regexBrand.test(brand.text)
-                  )
-                : this.cbs_opts.brands;
         }
+        // date_range() {
+        //     return [this.formData.rule_start_date, this.formData.rule_end_date];
+        // },
+        // brands() {
+        //     let regexBrand = new RegExp(this.searchBrand, 'gi');
+        //     return this.searchBrand
+        //         ? this.cbs_opts.brands.filter((brand) =>
+        //               regexBrand.test(brand.text)
+        //           )
+        //         : this.cbs_opts.brands;
+        // }
     },
     watch: {
         config() {
@@ -621,60 +621,57 @@ export default {
                 this.$emit("passData", { form:this.formData, compType:this.component_type}  );
             }
         },
-        cancelRuleForm(){
-
-        },
-        searchBrands(evt) {
-            this.searchBrand = evt.text;
-        },
-        validData() {
-            let data = _.cloneDeep(this.formData);
-            for (let key of Object.keys(data.slug_values)) {
-                if (!data.slug_fields.includes(key)) {
-                    delete data.slug_values[key];
-                }
-            }
-            return data;
-        },
-        updateBrands(selected_value) {
-            if (selected_value.length) {
-                if (!this.formData.slug_fields.includes('brand')) {
-                    this.formData.slug_fields.push('brand');
-                }
-            } else {
-                let index = this.formData.slug_fields.indexOf('brand');
-                this.formData.slug_fields.splice(index, 1);
-            }
-            this.formData.slug_values.brand.length = 0;
-            this.formData.slug_values.brand.push(
-                ...this.cbs_opts.brands
-                    .filter((item) => selected_value.includes(item.value))
-                    .map((item) => {
-                        return { id: item.value, name: item.text };
-                    })
-            );
-        },
-        removeBrand(index) {
-            this.formData.slug_values.brand.splice(index, 1);
-        },
-        updateLocations(selected_value) {
-            if (selected_value.length) {
-                if (!this.formData.slug_fields.includes('location')) {
-                    this.formData.slug_fields.push('location');
-                }
-            } else {
-                let index = this.formData.slug_fields.indexOf('location');
-                this.formData.slug_fields.splice(index, 1);
-            }
-            this.formData.slug_values.location.length = 0;
-            this.formData.slug_values.location.push(
-                ...this.cbs_opts.locations
-                    .filter((item) => selected_value.includes(item.value))
-                    .map((item) => {
-                        return { id: item.value, name: item.text };
-                    })
-            );
-        },
+        // searchBrands(evt) {
+        //     this.searchBrand = evt.text;
+        // },
+        // validData() {
+        //     let data = _.cloneDeep(this.formData);
+        //     for (let key of Object.keys(data.slug_values)) {
+        //         if (!data.slug_fields.includes(key)) {
+        //             delete data.slug_values[key];
+        //         }
+        //     }
+        //     return data;
+        // },
+        // updateBrands(selected_value) {
+        //     if (selected_value.length) {
+        //         if (!this.formData.slug_fields.includes('brand')) {
+        //             this.formData.slug_fields.push('brand');
+        //         }
+        //     } else {
+        //         let index = this.formData.slug_fields.indexOf('brand');
+        //         this.formData.slug_fields.splice(index, 1);
+        //     }
+        //     this.formData.slug_values.brand.length = 0;
+        //     this.formData.slug_values.brand.push(
+        //         ...this.cbs_opts.brands
+        //             .filter((item) => selected_value.includes(item.value))
+        //             .map((item) => {
+        //                 return { id: item.value, name: item.text };
+        //             })
+        //     );
+        // },
+        // removeBrand(index) {
+        //     this.formData.slug_values.brand.splice(index, 1);
+        // },
+        // updateLocations(selected_value) {
+        //     if (selected_value.length) {
+        //         if (!this.formData.slug_fields.includes('location')) {
+        //             this.formData.slug_fields.push('location');
+        //         }
+        //     } else {
+        //         let index = this.formData.slug_fields.indexOf('location');
+        //         this.formData.slug_fields.splice(index, 1);
+        //     }
+        //     this.formData.slug_values.location.length = 0;
+        //     this.formData.slug_values.location.push(
+        //         ...this.cbs_opts.locations
+        //             .filter((item) => selected_value.includes(item.value))
+        //             .map((item) => {
+        //                 return { id: item.value, name: item.text };
+        //             })
+        //     );
+        // },
         getCamelCase(str) {
             return str
                 .split('_')
@@ -691,7 +688,6 @@ export default {
             else if((this.selectedFlat == true) && (this.formData.transactional_components.variable_conditional.commission["flat"])){
                 delete this.formData.transactional_components.variable_conditional.commission["flat"]
             }
-
         },
         variableComponent(value, key, type) {
             let obj = this.formData.transactional_components.variable_conditional;
@@ -706,7 +702,6 @@ export default {
             }
         },
         createVariablePayload(){
-
            this.variableObj = {
                 slab: this.slab,
                 condition: {
@@ -714,14 +709,10 @@ export default {
                     "whichever_is_lower": (this.selectedPriority == "low") ? true : false
                 },
             };
-
             this.formData.transactional_components.variable_conditional.commission = this.variableObj;
-
         },
         updateComponent(value, key, type) {
-
             let obj = null;
-
             if (type === 'transaction') {
                 obj = this.tran_comp;
                 if (value) {
@@ -745,42 +736,42 @@ export default {
                 this.$delete(obj, key);
             }
         },
-        validateData() {
-            let is_valid = true;
-            this.errors = {};
-            if (!this.formData.name) {
-                this.errors['name'] = 'Required field';
-                is_valid = false;
-            }
-            for (let key of Object.keys(this.tran_comp)) {
-                for (let user_input of this.options[key].find(
-                    (opt) => opt.id === this.tran_comp[key]
-                ).user_input_fields) {
-                    if (this.default_data[user_input] !== undefined) {
-                        if (
-                            this.default_data[user_input] < 1 ||
-                            this.default_data[user_input] > 1000
-                        ) {
-                            this.errors[user_input] =
-                                'Value must be between 1 to 1000';
-                            is_valid = false;
-                        }
-                    } else if (this.cond_data[user_input] !== undefined) {
-                        if (
-                            !this.cond_data[user_input]['condition'] ||
-                            !this.cond_data[user_input]['on']
-                        ) {
-                            this.errors[user_input] = 'Required';
-                            is_valid = false;
-                        }
-                    } else {
-                        this.errors[user_input] = 'Required';
-                        is_valid = false;
-                    }
-                }
-            }
-            return is_valid;
-        }
+        // validateData() {
+        //     let is_valid = true;
+        //     this.errors = {};
+        //     if (!this.formData.name) {
+        //         this.errors['name'] = 'Required field';
+        //         is_valid = false;
+        //     }
+        //     for (let key of Object.keys(this.tran_comp)) {
+        //         for (let user_input of this.options[key].find(
+        //             (opt) => opt.id === this.tran_comp[key]
+        //         ).user_input_fields) {
+        //             if (this.default_data[user_input] !== undefined) {
+        //                 if (
+        //                     this.default_data[user_input] < 1 ||
+        //                     this.default_data[user_input] > 1000
+        //                 ) {
+        //                     this.errors[user_input] =
+        //                         'Value must be between 1 to 1000';
+        //                     is_valid = false;
+        //                 }
+        //             } else if (this.cond_data[user_input] !== undefined) {
+        //                 if (
+        //                     !this.cond_data[user_input]['condition'] ||
+        //                     !this.cond_data[user_input]['on']
+        //                 ) {
+        //                     this.errors[user_input] = 'Required';
+        //                     is_valid = false;
+        //                 }
+        //             } else {
+        //                 this.errors[user_input] = 'Required';
+        //                 is_valid = false;
+        //             }
+        //         }
+        //     }
+        //     return is_valid;
+        // }
     }
 };
 </script>
