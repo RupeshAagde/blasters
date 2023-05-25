@@ -69,7 +69,7 @@
                     <template>
                         <tr v-for="(item, index) in this.ruleDataList"
                                 :key="'item-' + index">
-                            <td>{{ item.rule_slug }}</td>
+                            <td class="rule_slug" @click="openVerifyRulePage(item.id)">{{ item.rule_slug }}</td>
                             <td>
                                 <div class="comapny-wrap">
                                     <div v-if="item.slug_values.company">
@@ -197,13 +197,14 @@ export default {
             editRuleData:{},
             warningPopUp: false,
             popupData:{
-                heading:'Are you sure you want to delete this rule?',
+                heading:"Are you sure you want to delete this rule?",
                 desc:'',
                 confirm:"Continue",
                 cancel:"Cancel",
-                type:'warning'
+                type:"warning"
             },
-            tempForm: {}
+            tempForm: {},
+            verifyRuleData: {}
         }
     },
     mounted(){
@@ -329,7 +330,10 @@ export default {
             .catch((err) => {
                 this.$snackbar.global.showError('Failed to delete rule '+ err);
             });
-        }
+        },
+        openVerifyRulePage(id){
+            this.$router.push({ name: 'create-rule', params: { ruleId:id, preview:"verify" }});
+        },
     }
 }
 </script>
@@ -408,5 +412,14 @@ export default {
     cursor: pointer;
     font-weight: bold;
  }
+
+.rule_slug {
+    cursor: pointer;
+    font-weight: bolder;
+    color: #5c6bdd;
+    margin: 0;
+    font-family: Poppins;
+    letter-spacing: .05em;
+}
 
 </style>
