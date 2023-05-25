@@ -320,6 +320,23 @@ export const validatePhone = (text) => {
     return false;
 };
 
+export const validateName = (name) => {
+    let reg = /\W|_/g;
+    let valid = reg.test(name);
+    return name.length !== 0 && !valid;
+}
+
+export const validateOtp = (otp, otpLength = 6) => {
+    if (
+        typeof otp === 'string'
+        && otp.length === otpLength
+        && /^\d+$/.test(otp)
+    ) {
+        return true;
+    }
+    return false;
+}
+
 export const validateEmail = (text) => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(text).toLowerCase());
