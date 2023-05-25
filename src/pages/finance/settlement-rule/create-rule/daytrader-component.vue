@@ -263,7 +263,6 @@
                 :theme="'secondary'"
                 class="more-filters"
                 @click="cancelRuleForm"
-                id="cancelButton"
                 >Cancel
             </nitrozen-button>
         </div>
@@ -613,7 +612,7 @@ export default {
                         this.$router.push({ name: 'settlement-rule' });
                     })
                     .catch((err) => {
-                        this.$snackbar.global.showError('Failed to delete rule '+ err);
+                        this.$snackbar.global.showError('Failed to verify rule '+ err);
                     });
             } else {
                 this.$emit("passData", { form:this.formData, compType:this.component_type}  );
