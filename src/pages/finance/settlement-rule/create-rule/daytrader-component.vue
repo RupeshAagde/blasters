@@ -413,7 +413,9 @@ export default {
         strokeBtn
     },
     mounted() {
-        
+        if((Object.keys(this.form_data.variable_conditional).length) > 0){
+            this.selectedVariable = true;
+        }
         this.formData.transactional_components = this.form_data; //add condition here for edit
     },
     data() {
@@ -586,6 +588,7 @@ export default {
     },
     methods: {
         saveRuleForm(){
+
             this.$emit("passData", { form:this.formData, compType:this.component_type}  );
 
         },
