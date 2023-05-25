@@ -226,6 +226,7 @@ export default {
                     is_tp: false,
                     defaults: {},
                     conditional: {},
+                    variable_conditional:{},
                     transaction_component: {}
                 },
             },
@@ -270,7 +271,6 @@ export default {
   },
   methods: {
     editRule(id){
-        console.log(id,"In edit")
              let params = {
             data : {
                 "table_name": "settlement_rule",
@@ -296,15 +296,18 @@ export default {
         caller
             .then((res) => {
                 let data = res.data.items[0];
-                console.log("Edit");
+
                 console.log(res);
+
                 this.companySelected = true;
-                this.formData.slug_values.company = data.slug_values.company.id;
-                this.formData.slug_values.channel = [data.slug_values.channel.id]
+
+                for(let val in data.slug_values){
+                    this.formData.slug_values[val] = [data.slug_values[val].id]
+                }
+
+                this.editSlugValues = data.slug_values;
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
-
-                console.log(this.formData);
                 
             })
             .catch((err) => { 
@@ -376,7 +379,6 @@ export default {
             });
     },
     fetchAffiliate() {
-        console.log("in affiliate");
         var companyId = this.formData.slug_values['company'];
         let params = {
             data:{
@@ -386,7 +388,6 @@ export default {
         const caller = FinanceService.getAffiliateFin(params);
         caller
             .then((res) => {
-                console.log(res);
                 this.filterLists.affiliate = res.data.data.docs.map((item) => {
                         return {
                             text: item.name,
@@ -454,11 +455,19 @@ export default {
     createPayload(compData) {
         let data = compData.form;
         let type = compData.compType;
-        var companyId = this.formData.slug_values['company'];
-        this.formData.slug_values['company'] = [companyId]
-        this.payload = this.formData;
-
-        this.populateSlugs();
+        if(type === 'edit'){
+            this.payload = this.formData;
+            this.payload.slug_values = this.editSlugValues;
+            let slugFields = Object.keys(this.payload.slug_values);
+            this.payload.slug_fields = slugFields;
+        }
+        else{
+            var companyId = this.formData.slug_values['company'];
+            this.formData.slug_values['company'] = [companyId]
+            this.payload = this.formData;
+            this.populateSlugs();
+        }
+        
 
         this.payload.rule_start_date = moment(this.ruleDaterange[0]).format('DD-MM-YYYY');
         this.payload.rule_end_date = moment(this.ruleDaterange[1]).format('DD-MM-YYYY');
@@ -495,8 +504,6 @@ export default {
         this.payload.slug_values[item] = tempObj.map((item) => {
             let id = parseInt(item.value);
             id = (isNaN(id)) ? item.value : id;
-            console.log(id);
-
             return {
                 id: id,
                 name: item.text
@@ -504,28 +511,24 @@ export default {
         })
     },
     sendObj(val, arrItem) {
-        console.log(arrItem)
         return val.value === arrItem;
     },
     actionOnRule(type){
-
-        console.log("In action");
-
         if(type === 'edit'){
-            console.log("Edit");
             this.editRuleData();
         }
         else{
             this.createRule();
         }
+        this.$router.replace({
+            name: 'settlement-rule',
+        });
 
     },
     editRuleData(){
         let payload = this.payload;
         payload['id'] = this.curParams.ruleId;
         payload.type_of_request = 'edit_entity';
-        console.log("Edit Rule API CAll");
-        console.log(payload);
         let params = {
             data: payload
         };
