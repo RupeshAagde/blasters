@@ -1,0 +1,125 @@
+{
+    "success": true,
+    "reasons": [
+        {
+            "id": 104,
+            "display_name": "Product not of good quality",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 105,
+            "display_name": "Improper material",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 106,
+            "display_name": "Stain found on product",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 107,
+            "display_name": "Better price found elsewhere",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 108,
+            "display_name": "Other reason",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 109,
+            "display_name": "Size Issue",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 110,
+            "display_name": "Looks Different",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 111,
+            "display_name": "Change of Mind",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 112,
+            "display_name": "Product not of good quality.",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 113,
+            "display_name": "Damaged",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 114,
+            "display_name": "Others",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 115,
+            "display_name": "Wrong size/colour delivered",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 116,
+            "display_name": "Product doesn't fit me",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 117,
+            "display_name": "Quality of product is not good",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 118,
+            "display_name": "Wrong product delivered",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 119,
+            "display_name": "Damaged product delivered",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 120,
+            "display_name": "Used product delivered",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 121,
+            "display_name": "Found better price elsewhere",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 122,
+            "display_name": "Product looks different from image",
+            "qc_type": [],
+            "question_set": []
+        },
+        {
+            "id": 123,
+            "display_name": "Other issue",
+            "qc_type": [],
+            "question_set": []
+        }
+    ]
+}
