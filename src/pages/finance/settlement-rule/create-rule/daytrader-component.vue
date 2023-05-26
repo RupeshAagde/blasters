@@ -9,6 +9,7 @@
             v-for="comp_key in Object.keys(options)"
             :key="comp_key"
             class="form-row rule-row-cont"
+            :class="`${(component_type == 'verify') ? 'verfify-pointers' : 'form-all-pointers'}`"
         >
             <div class="form-item">
                 <div class="form-row">
@@ -350,6 +351,10 @@
         padding-top: 20px;
     }
 
+    .verfify-pointers{
+        pointer-events: none;
+    }
+
 </style>
 
 <script>
@@ -620,6 +625,9 @@ export default {
             } else {
                 this.$emit("passData", { form:this.formData, compType:this.component_type}  );
             }
+        },
+        cancelRuleForm(){
+
         },
         // searchBrands(evt) {
         //     this.searchBrand = evt.text;
