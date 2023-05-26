@@ -3,7 +3,7 @@
         <div class="item-detail-wrapper" v-for="item in returnItems" :key="item.bag_id" >
             <div class="detail-container">
                 <nitrozen-checkbox
-                :checkboxValue="!item.bag_id"
+                :checkboxValue="item.bag_id"
                 v-model="selectedItem"
                 @change="selectItem"
                 class="checkbox-wrapper"
