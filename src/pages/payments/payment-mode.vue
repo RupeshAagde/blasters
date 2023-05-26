@@ -814,9 +814,14 @@ export default {
                     'Config Duplicated Successfully'
                 );
                 this.$refs['sidePanel'].close();
-            } catch (err) {
+            } catch (error) {
                 this.pageLoading = false;
-                this.$snackbar.global.showError('Failed to Duplicate Config');
+                this.$snackbar.global.showError(error &&
+                        error.response &&
+                        error.response.data &&
+                        error.response.data.message
+                        ? error.response.data.message :
+                        'Failed to Duplicate Config');
                 this.$refs['sidePanel'].close();
             }
         },
