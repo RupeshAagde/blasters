@@ -651,9 +651,14 @@ export default {
                         'Payment mode details updated successfully'
                     );
                 }
-            } catch (err) {
+            } catch (error) {
                 this.inProgress = false;
                 this.$snackbar.global.showError(
+                    error &&
+                    error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                    ? error.response.data.message : 
                     'Failed to update payment mode details'
                 );
             }
@@ -743,6 +748,11 @@ export default {
                     this.inProgress = false;
                     console.error('Error update gateway status: ', error);
                     this.$snackbar.global.showError(
+                        error &&
+                        error.response &&
+                        error.response.data &&
+                        error.response.data.message
+                        ? error.response.data.message :
                         'Payment gateway status update failed'
                     );
                 });
@@ -816,12 +826,13 @@ export default {
                 this.$refs['sidePanel'].close();
             } catch (error) {
                 this.pageLoading = false;
-                this.$snackbar.global.showError(error &&
-                        error.response &&
-                        error.response.data &&
-                        error.response.data.message
-                        ? error.response.data.message :
-                        'Failed to Duplicate Config');
+                this.$snackbar.global.showError(
+                    error &&
+                    error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                    ? error.response.data.message :
+                    'Failed to Duplicate Config');
                 this.$refs['sidePanel'].close();
             }
         },
