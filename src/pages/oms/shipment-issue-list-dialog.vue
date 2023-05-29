@@ -133,7 +133,7 @@ export default {
             });
         },
         navigateToFreshdesk(freshdeskID) {
-            let freshdeskURL = `https://fynd.freshdesk.com/a/tickets/${freshdeskID}`;
+            let freshdeskURL = `https://fyndplatform.freshdesk.com/a/tickets/${freshdeskID}`;
             window.open(freshdeskURL, '_blank');
         },
     }
