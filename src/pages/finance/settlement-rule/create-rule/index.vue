@@ -262,16 +262,26 @@ export default {
         switch(params.preview) {
             case 'edit':
             this.paramType = params.preview;
-            this.editRule(params.ruleId);
+            setTimeout(() => {
+                this.editRule(params.ruleId);
+            }, 1000);
             break;
             case 'clone':
-            // code block
+            this.paramType = params.preview;
+            setTimeout(() => {
+                this.editRule(params.ruleId);
+            }, 1000);
             break;
             case 'verify':
             this.paramType = params.preview;
-            this.editRule(params.ruleId);
+            setTimeout(() => {
+                this.editRule(params.ruleId);
+            }, 1000);
             break;
         }
+        // setTimeout(() => {
+        //     this.editRule(params.ruleId);
+        // }, 1000);
     }
 
   },
@@ -303,18 +313,37 @@ export default {
             .then((res) => {
                 let data = res.data.items[0];
 
-                console.log(res);
-
                 this.companySelected = true;
+                this.formData.slug_values.company = data.slug_values.company.id;
+
+                this.fetchCompany(data.slug_values.company.id);
 
                 for(let val in data.slug_values){
-                    this.formData.slug_values[val] = [data.slug_values[val].id]
+                    this.formData.slug_values[val] = [data.slug_values[val].id.toString()]
                 }
+
                 this.formData.slug_values.company = data.slug_values.company.id;
                 this.formData.settlement_type = data.settlement_type;
+
+                if(data.transactional_components.is_tp == true){
+                    this.formData.transactional_components.is_tp = true;
+                    this.tpExists = true;
+
+                }
+                let settleCycle = data.settle_cycle_period;
+                for(let cycle in settleCycle){
+                    if((settleCycle[cycle]) != 5 ){
+                        this.formData.settle_cycle_period[cycle] = settleCycle[cycle];
+                        this.locationStatus[cycle] = true;
+                    }
+                }
+
                 this.editSlugValues = data.slug_values;
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
+
+                console.log("Edit Rule");
+                console.log(this.formData);
                 
             })
             .catch((err) => { 
@@ -370,8 +399,6 @@ export default {
             })
             .finally(() => {
                 if(this.formData.slug_values.company){
-                    console.log("In fetch company");
-                    console.log(this.formData.slug_values.company);
                     this.fetchBrands();
                     this.fetchAffiliate();
                 }
@@ -384,7 +411,6 @@ export default {
         }, 1000)(e.text);
     },
     fetchBrands(query='') {
-        console.log(this.formData);
         return FinanceService.getBrandList(this.formData.slug_values.company,query)
             .then((res) => {
                 this.filterLists.brand = res.data.brand_list;
@@ -466,11 +492,6 @@ export default {
 
     },
     createPayload(compData) {
-
-
-        console.log("compdata");
-        console.log(compData);
-
         if(!this.formData.settlement_type){
             this.validationFailed = true;
         }
@@ -492,6 +513,7 @@ export default {
         else{
             var companyId = this.formData.slug_values['company'];
             this.formData.slug_values['company'] = [companyId]
+            // this.fetchCompany(companyId);
             this.payload = this.formData;
             this.populateSlugs();
         }
@@ -509,6 +531,7 @@ export default {
 
     },
     populateSlugs(){
+        
         let slugValues = this.payload.slug_values; 
         let slugFieldData = [];
 
@@ -521,6 +544,7 @@ export default {
             }
         }
         this.payload.slug_fields = slugFieldData;
+        
 
         slugFieldData.forEach((item) => {
             this.populateData(item, this.payload.slug_values[item],this.filterLists[item]);
@@ -571,7 +595,6 @@ export default {
 
     },
     createRule(){
-
         let params = {
             data: this.payload
         };

@@ -104,8 +104,17 @@
                                 <div class="date">{{ item.rule_start_date }} - {{ item.rule_end_date }}</div>
                             </td>
                             <td>
-                                <div class="edit-btn" @click="editRule(item.id)">Edit</div>
-                                <div class="delete-btn" @click="openDeletePopup(item.id)">Delete</div>
+                                <div v-if="verifyAction" class="verify-actions">
+                                    <div class="clone-btn" @click="cloneRule(item.id)">Clone</div>
+                                </div>
+                                <div v-else class="unverfiy-actions">
+                                    <div class="edit-btn unverfiy-item" @click="editRule(item.id)">
+                                        <ukt-inline-svg src="edit-blue"></ukt-inline-svg>
+                                        </div>
+                                    <div class="delete-btn unverfiy-item" @click="openDeletePopup(item.id)">
+                                        <ukt-inline-svg src="delete-red"></ukt-inline-svg>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </template>
@@ -141,6 +150,7 @@ import FinanceService from '@/services/finance.service.js';
 import EditComponent from './create-rule/daytrader-component.vue';
 import debounce from 'lodash/debounce';
 import delPopup from './create-rule/popup.vue';
+import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import {
     NitrozenButton,
     NitrozenDropdown,
@@ -158,7 +168,8 @@ export default {
       'edit-rule': EditComponent,
       'nitrozen-input' : NitrozenInput,
       'pop-up': delPopup,
-      NitrozenPagination
+      NitrozenPagination,
+      UktInlineSvg,
     },
     directives: {
         flatBtn,
@@ -172,10 +183,10 @@ export default {
             companyNames: [],
             selectedCompany: [],
             statusNames: [
-                {
-                    text: "None",
-                    value: "none"
-                },
+                // {
+                //     text: "None",
+                //     value: "none"
+                // },
                 {
                     text: "Unverified",
                     value: "unverified"
@@ -194,6 +205,7 @@ export default {
                 current: 1,
                 limit: 10,
             },
+            verifyAction: false,
             editRuleData:{},
             warningPopUp: false,
             popupData:{
@@ -272,6 +284,9 @@ export default {
         editRule(id){
             this.$router.push({ name: 'create-rule', params: { ruleId:id, preview:"edit" }});
         },
+        cloneRule(id){
+            this.$router.push({ name: 'create-rule', params: { ruleId:id, preview:"clone" }});
+        },
         fetchCompany(query='') {
             let params = {
                     search: query
@@ -285,10 +300,7 @@ export default {
                 })
         },
         updateFilter(){
-            console.log()
-            if(this.selectedStatus == "verified"){
-
-            }
+            this.verifyAction = (this.selectedStatus == "verified") ? true : false;
             this.fetchRulesList();
         },
         searchCompany(e) {
@@ -417,6 +429,11 @@ export default {
     font-weight: bold;
  }
 
+ .clone-btn{
+    cursor: pointer;
+    font-weight: bold;
+ }
+
 .rule_slug {
     cursor: pointer;
     font-weight: bolder;
@@ -424,6 +441,15 @@ export default {
     margin: 0;
     font-family: Poppins;
     letter-spacing: .05em;
+}
+
+.unverfiy-actions{
+    display: flex; 
+    align-items: center;
+
+    .unverfiy-item{
+        padding: 10px;
+    }
 }
 
 </style>
