@@ -93,7 +93,8 @@ export default {
             }
             this.$refs['n-dialog'].open({
                 width: config.width ? config.width : '350px',
-                height: config.height ? config.height : '310px'
+                height: config.height ? config.height : '310px',
+                dismissible: config.dismissible
             });
         },
         closeConfirmation(action) {

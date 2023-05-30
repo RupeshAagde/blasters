@@ -195,6 +195,33 @@ export const getNavigations = () => {
                 }
             ]
         },
+        {
+            display: 'Payments',
+            link: '/administrator/payments/gateways',
+            title: 'payments',
+            icon: 'payments',
+            highlightedIcon: 'payments-highlighted',
+            active: false,
+            permission: 'payments',
+            children: [
+                {
+                    display: 'Payment Gateways',
+                    link: '/administrator/payments/gateways',
+                    title: 'gateway',
+                    icon: 'payments',
+                    highlightedIcon: 'payments-highlighted',
+                    active: false
+                },
+                {
+                    display: 'Mode of Payment',
+                    link: '/administrator/payments/mop',
+                    title: 'mop',
+                    icon: 'payments',
+                    highlightedIcon: 'payments-highlighted',
+                    active: false
+                }
+            ]
+        },
         // Packaging related changes for adding navbar element
         {
             display: 'Packaging',

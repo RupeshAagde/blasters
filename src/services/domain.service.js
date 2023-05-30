@@ -742,6 +742,24 @@ const URLS = {
     FETCH_COD_CONFIG: (params)=>{
         return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
     },
+    FETCH_PAYMENT_GATEWAY_LIST: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/all`)
+    },
+    FETCH_BUSINESS_UNIT_DEVICE_LIST: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/all-devices`)
+    },
+    CRUD_PAYMENT_GATEWAY_DETAILS: (id) => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/${id}/`)
+    },
+    COPY_CONFIGURATION_AGGREGATOR: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`/v1.0/config/aggregators/copy-config`)
+    },
+    CRUD_PAYMENT_MODE: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/payment-modes`)
+    },
+    COPY_CONFIGURATION: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`/v1.0/config/payment-modes/copy-config`)
+    },
      //POINTBLANK
      COMMUNICATION_LOG: (params) => {
         return urlJoin(COMMUNICATION_BASE_URL, `v1.0/log`)

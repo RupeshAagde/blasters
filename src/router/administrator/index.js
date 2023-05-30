@@ -99,6 +99,8 @@ import CreateCategory from '@/pages/packaging/create-category-home.vue'
 import BulkExport from '@/pages/product/bulk/export/bulk-export';
 import BulkImport from '@/pages/product/bulk/import/bulk-import';
 import UploadHistory from '@/pages/product/bulk/import/upload-history.vue';
+import PaymentGateways from '../../pages/payments/list-gateways.vue';
+import PaymentMode from '../../pages/payments/payment-mode.vue';
 
 /** OMSv2.1 */
 const Orders = () => import('@/pages/oms/index.vue');
@@ -230,6 +232,38 @@ export default [
                 component: CouponCreateUpdate,
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, ['plans']);
+                }
+            },
+            // Payments
+            {
+                name: 'payment-gateway',
+                path: 'payments/gateways',
+                component: PaymentGateways,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['payments']);
+                }
+            },
+            {
+                name: 'mode-of-payment-gateway',
+                path: 'payments/gateways/edit/:id',
+                component: PaymentMode,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['payments']);
+                },
+                meta: {
+                    name: 'Edit Payment Gateway',
+                    action: 'edit'
+                }
+            },
+            {
+                name: 'mode-of-payment',
+                path: 'payments/mop',
+                component: PaymentMode,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, ['payments']);
+                },
+                meta: {
+                    name: 'Edit Payment Mode',
                 }
             },
             {
