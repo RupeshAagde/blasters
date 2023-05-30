@@ -20,7 +20,7 @@
                             <div class="title-content">{{ safeGet(item, 'item.name') }} </div>
                             <div class="item-content" v-if="item.article.identifiers.sku_code">SKU: {{ safeGet(item, 'article.identifiers.sku_code') }}</div>
                             <div class="item-content" v-if="item.article.identifiers.ean">EAN: {{ safeGet(item, 'article.identifiers.ean') }}</div>
-                            <div class="item-content">Size: {{ safeGet(item, 'article.size') }}</div>
+                            <div class="item-content">Size: {{ safeGet(item, 'article.size') }}</div> 
                             <div class="item-content">Item Code: {{safeGet(item, 'item.code') }}</div>
                             <div class="item-content">Quantity: {{safeGet(item, 'quantity') }}</div>
                             <div class="item-content" v-if="shipment.order.meta.currency.currency_code">Unit Price: {{amountFormat(item.financial_breakup.brand_calculated_amount,shipment.order.meta.currency.currency_code)}}</div>
