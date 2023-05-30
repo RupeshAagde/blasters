@@ -131,7 +131,8 @@ export default {
                 invoice_a6:"A6",
                 invoice_pos:"POS",
                 invoice:"A4",
-                delivery_challan_a4:"DC"
+                delivery_challan_a4:"DC",
+                credit_note:"CN"
             },
             labelMapping: {
                 label_a4:"A4",

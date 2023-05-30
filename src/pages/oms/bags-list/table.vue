@@ -39,7 +39,10 @@
                                     </div>
                                     <div class="item-primary-information" v-if="item.item && item.item.brand && item.item.name">
                                         <div class="item-name-container tooltip-top" :data-tooltip="item.item.name">
-                                            <span class="item-name">{{item.item.brand}} | {{item.item.name}}</span>
+                                            <span class="item-name" @click="copyToClipboard($event, item.item.brand)">
+                                                {{item.item.brand}} | 
+                                                <span @click="copyToClipboard($event, item.item.name)">{{item.item.name}}</span>
+                                            </span>
                                         </div>
                                         <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
                                             <nitrozen-chips 
@@ -66,8 +69,9 @@
                                         v-for="(identifier, key) in item.article.identifiers" 
                                         :key="identifier"
                                         class="identifier"
-                                        :class="{'sku': key === 'sku_code', 'ean': key === 'ean'}">
-                                        {{ snakeCaseToCaps(key) }}: {{ identifier }}
+                                        :class="{'sku': key === 'sku_code', 'ean': key === 'ean'}"
+                                        @click="copyToClipboard($event, identifier)">
+                                        {{ snakeCaseToCaps(key) }}: <span class="pointer">{{ identifier }}</span>
                                     </span>
                                 </div>
                             </td>
@@ -201,7 +205,7 @@ import MoreBagInfo from './more-bag-info.vue';
 import PriceBreakup from '@/pages/oms/bags-list/price-breakup.vue';
 
 /* Helper imports */
-import { convertSnakeCaseToString, formatPrice } from '@/helper/utils';
+import { convertSnakeCaseToString, formatPrice, copyToClipboard } from '@/helper/utils';
 
 export default {
     name: 'bags-list-table',
@@ -297,6 +301,11 @@ export default {
         }
     },
     methods: {  
+        copyToClipboard(e, text) {
+            e.stopPropagation();
+            copyToClipboard(text);
+            this.$snackbar.global.showInfo('Copied to clipboard', 1000); 
+        },
         isEmpty,
         formatPrice,
         isPartOfGroup(item){
@@ -547,6 +556,10 @@ export default {
 
 <style lang="less" scoped>
 @import './../../../less/common.less';
+
+.pointer{
+    cursor: pointer;
+}
 
 .table-container {
     overflow-y: auto;
@@ -920,6 +933,7 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        cursor: pointer;
     }
 
     .nitro-chips {

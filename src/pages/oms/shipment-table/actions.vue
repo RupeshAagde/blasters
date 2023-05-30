@@ -695,7 +695,8 @@ export default {
                 'invoice_a6',
                 'invoice_pos',
                 'invoice',
-                'delivery_challan_a4'
+                'delivery_challan_a4',
+                'credit_note'
             ];
             let pdfLinks = Object.keys(this.shipment.affiliate_details.pdf_links);
             if(this.shipment && this.shipment.affiliate_details && this.shipment.affiliate_details.pdf_links) {
