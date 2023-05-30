@@ -489,12 +489,12 @@ export default {
                 display: flex;
                 align-items: center;
                 cursor: pointer;
-                // margin-bottom: 8px;
 
                 .order-id {
                     color: @RoyalBlue;
                     padding-bottom: 8px;
                     font-weight: 500;
+                    cursor: pointer;
                 }
             }
         }
