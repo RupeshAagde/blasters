@@ -23,12 +23,13 @@
                             <div class="item-content">Size: {{ safeGet(item, 'article.size') }}</div>
                             <div class="item-content">Item Code: {{safeGet(item, 'item.code') }}</div>
                             <div class="item-content">Quantity: {{safeGet(item, 'quantity') }}</div>
-                            <div class="item-content">Unit Price: {{amountFormat(item.financial_breakup.brand_calculated_amount,item.item.attributes.currency)}}</div>
+                            <div class="item-content" v-if="item.item.attributes.currency">Unit Price: {{amountFormat(item.financial_breakup.brand_calculated_amount,item.item.attributes.currency)}}</div>
                             <div class="item-content" v-if="item.entity_type==='set'">Set ID: {{ safeGet(item, 'set_id') }}</div>
                         </div>
                     </div>
                     <div>
                         <rejection-reason-box
+                            v-if="enableRejectionReasonBox"
                             class="nitro-container"
                             :id="item.bag_id"
                             @bagReasonsAdded="bagReasonsAdded"
@@ -98,7 +99,8 @@ export default {
             selectedItem: [],
             uniqueArray:[],
             reasons:[],
-            canBreakEntity:true
+            canBreakEntity:true,
+            enableRejectionReasonBox: false
         };
     },
     mounted(){
@@ -109,7 +111,7 @@ export default {
         canEntityBreak(){
             if(this.shipment && this.shipment.transition_config && this.shipment.transition_config.return_initiated 
             && this.shipment.transition_config.return_initiated.can_break_entity){
-                return this.canBreakEntity=true;
+                this.canBreakEntity=true;
             }
             else {
                 this.returnItems.forEach(item=>{
@@ -118,9 +120,9 @@ export default {
                     }
                 })
                 this.canBreakEntity=false;
-                return this.selectedItem;
+                this.selectedItem;
             }
-            
+            this.enableRejectionReasonBox = true;
         },
         fetchReasons() {
             if(this.shipment && this.shipment.bags.length && this.shipment.status){

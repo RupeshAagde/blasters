@@ -231,6 +231,7 @@
                     <template #footer v-else>
                         <div class="footer-container">
                             <div class="progress" v-if="shipment.status.status!=='delivery_done'">{{ step }}/{{isUserRegistered?2:3}}</div>
+                            <div class="progress" v-else-if="shipment.status.status == 'delivery_done'">1/1</div>
                             <div class="progress" v-else>{{ step }}/{{isUserRegistered?1:2}}</div>
                             <nitrozen-button
                                 theme="secondary"
@@ -244,7 +245,7 @@
                             <nitrozen-button
                                 theme="secondary"
                                 v-flat-btn
-                                v-if="!showItemsToReturn && !activeShipment.user.mobile"
+                                v-if="!showItemsToReturn && !activeShipment.user.mobile && activeShipment.status.status == 'handed_over_to_customer'"
                                 @click="registerUser"
                                 :disabled="!verifiedUser"
                             >
@@ -887,7 +888,8 @@ export default {
                                             {
                                                 "data": {
                                                     "meta": {
-                                                        "refund_to": ""
+                                                        "refund_to": "",
+                                                        "comment": ""
                                                     }
                                                 }
                                             }
@@ -896,7 +898,8 @@ export default {
                                         {
                                             "data": {
                                                 "meta": {
-                                                    "refund_to": ""
+                                                    "refund_to": "",
+                                                    "comment": ""
                                                 }
                                             }
                                         }
@@ -942,8 +945,12 @@ export default {
             payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to = this.selectedModeByCustomer;
             payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.refund_to = this.selectedModeByCustomer;
 
+            payload.statuses[0].shipments[0].data_updates.products[0].data.meta.comment = this.remarkOnBagStateChange;
+            payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.comment = this.remarkOnBagStateChange;
+
             if(this.status == 'delivery_done') {
-                delete payload.statuses[0].shipments[0].data_updates;
+                delete payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to;
+                delete payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.refund_to;
                 this.updateStatus(payload, "delivery_done");
             }
             else {

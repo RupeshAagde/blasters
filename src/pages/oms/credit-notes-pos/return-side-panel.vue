@@ -2,13 +2,13 @@
     <div class="return-side-panel">
         <div class="heading-wrapper">
             <div class="item-count" v-if="showItemsToReturn && shipment && shipment.bags && shipment.bags.length">Number of Item: {{ shipment.bags.length }}</div>
-            <div class="item-count" v-if="!showItemsToReturn && !shipment.user.mobile">Add customer details</div>
-            <div class="item-count contact" v-if="shipment && shipment.user">Contact number: {{ shipment.user.mobile?shipment.user.mobile:'' }}
+            <div class="item-count" v-if="!showItemsToReturn && !shipment.user.mobile && shipment.status.status == 'handed_over_to_customer'">Add customer details</div>
+            <div class="item-count contact" v-if="shipment && shipment.user && shipment.user.mobile">Contact number: {{ shipment.user.mobile?shipment.user.mobile:'' }}
                 <div class="contact-badge">
-                    <div v-if="!shipment.user.mobile" class="badge error-state">
+                    <div v-if="!shipment.user.mobile && shipment.status.status == 'handed_over_to_customer'" class="badge error-state">
                         Unregistered
                     </div>
-                    <div v-else class="badge success-state">
+                    <div v-if="shipment.user.mobile" class="badge success-state">
                         Registered
                     </div>
                 </div>
@@ -17,7 +17,7 @@
         <div v-if="showItemsToReturn">
             <items-to-return :returnItems="shipment.bags" :shipment="shipment" @selectedItems="selectedItems($event)"></items-to-return>
         </div>
-        <div v-if="!showItemsToReturn && !shipment.user.mobile">
+        <div v-if="!showItemsToReturn && !shipment.user.mobile && shipment.status.status == 'handed_over_to_customer'">
             <register-user @getCustomerData="getCustomerData($event)"
             @getFirstName="getFirstName($event)"
             @getLastName="getLastName($event)"
@@ -125,7 +125,7 @@ export default {
             this.showItemsToReturn=false;
             this.returnTitle='Register Customer';
             this.$emit('updateStatusOfFooter', {step: this.step, showItemsToReturn: this.showItemsToReturn});
-            if(!this.showItemsToReturn && this.shipment.user.mobile){
+            if(!this.showItemsToReturn){
                 this.$emit('openRefundModeDrawer', { data: this.dataTopass, status: this.bagStatus });
             }
         },
