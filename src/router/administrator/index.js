@@ -240,7 +240,7 @@ export default [
                 path: 'payments/gateways',
                 component: PaymentGateways,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['payments']);
                 }
             },
             {
@@ -248,7 +248,7 @@ export default [
                 path: 'payments/gateways/edit/:id',
                 component: PaymentMode,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['payments']);
                 },
                 meta: {
                     name: 'Edit Payment Gateway',
@@ -260,7 +260,7 @@ export default [
                 path: 'payments/mop',
                 component: PaymentMode,
                 beforeEnter: (to, from, next) => {
-                    return checkUserPermission(to, from, next, ['settings']);
+                    return checkUserPermission(to, from, next, ['payments']);
                 },
                 meta: {
                     name: 'Edit Payment Mode',
