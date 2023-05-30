@@ -23,7 +23,7 @@
                             <div class="item-content">Size: {{ safeGet(item, 'article.size') }}</div>
                             <div class="item-content">Item Code: {{safeGet(item, 'item.code') }}</div>
                             <div class="item-content">Quantity: {{safeGet(item, 'quantity') }}</div>
-                            <div class="item-content" v-if="item.item.attributes.currency">Unit Price: {{amountFormat(item.financial_breakup.brand_calculated_amount,item.item.attributes.currency)}}</div>
+                            <div class="item-content" v-if="shipment.order.meta.currency.currency_code">Unit Price: {{amountFormat(item.financial_breakup.brand_calculated_amount,shipment.order.meta.currency.currency_code)}}</div>
                             <div class="item-content" v-if="item.entity_type==='set'">Set ID: {{ safeGet(item, 'set_id') }}</div>
                         </div>
                     </div>
@@ -202,9 +202,11 @@ export default {
             return get(obj, path, defaultValue);
         },
         selectItem(item){
-            if(this.uniqueArray.length && item.length){
+            if(this.uniqueArray.length && item.length && this.uniqueArray.length==item.length){
                 let result = this.uniqueArray.filter(obj => item.includes(obj.bag_id));
-                this.$emit('selectedItems', result);
+                if(result.length==item.length){
+                    this.$emit('selectedItems', result);
+                }
             }
             else{
                 this.$emit('selectedItems', []);
