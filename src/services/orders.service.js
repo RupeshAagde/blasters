@@ -607,6 +607,34 @@ const OrderService = {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(), { data });
         return ApiService.post(URLS.GET_SHIPMENT_ACTIVITY_LOGS(), axiosOption);
     },
+    sendOtp(data){
+        let axiosOption = Object.assign({},
+            getCommonHeaderOptions(), {
+                data
+            }
+        );
+        return ApiService.post(URLS.SEND_OTP(), axiosOption);
+    },
+    verifyOtp(data){
+        let axiosOption = Object.assign({},
+            getCommonHeaderOptions(), {
+                data
+            }
+        );
+        return ApiService.post(URLS.VERIFY_OTP(), axiosOption);
+    },
+    createUser(data){
+        let axiosOption = Object.assign({},
+            getCommonHeaderOptions(), {
+                data
+            }
+        );
+        return ApiService.post(URLS.CREATE_USER(), axiosOption);
+    },
+    postRefundModeConfig(data) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(), { data });
+        return ApiService.post(URLS.POST_REFUND_CONFIG(), axiosOption);
+    }, 
     /** OMS v2.1 --END */
 };
 export default OrderService;

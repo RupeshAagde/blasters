@@ -8,7 +8,7 @@
             :helperText="'No states available'" />
 
         <div class="change-bag-state-body" v-else>
-            <div class="dropdowns">
+            <div class="dropdowns" v-if="showRemarkAndBagStateOptions">
                 <nitrozen-dropdown
                     label="Next Bag State"
                     :searchable="true"
@@ -26,6 +26,17 @@
                     @searchInputChange="onSearchReason($event)"
                     v-if="showReasons"
                 />
+                <div class="user-input-first">
+                    <nitrozen-input
+                        v-if="checkForReturnInitiatedState"
+                        :type="'textarea'"
+                        label="Remark"
+                        v-model="note"
+                        placeholder="(Min. 10 characters)"
+                        :disabled="false"
+                        @input="onRemarkChange"
+                    />
+                </div>
             </div>
 
            <div class="invoice-input">
@@ -41,7 +52,7 @@
                 />
 
            </div>
-            <div class="user-input">
+            <div class="user-input" v-if="!checkForReturnInitiatedState">
                 <nitrozen-input
                     :type="'textarea'"
                     label="Remark"
@@ -51,6 +62,17 @@
                     @input="onRemarkChange"
                 />
             </div>
+            <template v-if="checkForReturnInitiatedState">
+                <return-journey-panel 
+                    ref="return-journey-panel"
+                    :status="shipment.status.status" 
+                    @closeReturnPanel="closeReturnPanel" 
+                    @updateStatusOfFooter="updateStatusOfFooter"
+                    @isVerified="isVerified"
+                    @openRefundDrawer="openRefundDrawer"
+                    @callOrderDetails="callOrderDetails"
+                    @isHide="isHide"></return-journey-panel>
+            </template>
         </div>
     </div>
 </template>
@@ -71,6 +93,7 @@ import isEmpty from 'lodash/isEmpty';
 import AdmNoContent from '@/components/common/adm-no-content';
 import InlineSvg from '@/components/common/inline-svg.vue';
 import Loader from '@/components/common/loader.vue';
+import ReturnJourneyPanel from '../credit-notes-pos/index.vue';
 
 /* Service imports */
 import OrdersService from '@/services/orders.service.js';
@@ -96,7 +119,8 @@ export default {
             selectedReason: '',
             selectedState: '',
             inputStates: [],
-            invoiceId: ''
+            invoiceId: '',
+            showRemarkAndBagStateOptions: true
         }
     },
     components: {
@@ -104,25 +128,66 @@ export default {
         InlineSvg,
         Loader,
         NitrozenDropdown,
-        NitrozenInput
+        NitrozenInput,
+        ReturnJourneyPanel
     },
     mounted() {
+        this.$emit('showCreditNoteReturn', false);
+        this.$emit('isHide', true);
+        this.$emit('isVerified', true);
         if(this.shipment && this.shipment.next_possible_states){
             this.inputStates = Object.keys(this.shipment.next_possible_states)
         }
         this.fetchBagStates();
     },
     computed: {
+        checkForReturnInitiatedState() {
+            return this.shipment.status.current_shipment_status == 'delivery_done' && this.selectedState == 'return_initiated';
+            // return ((this.shipment.status.current_shipment_status == 'handed_over_to_customer' || 
+            // this.shipment.status.current_shipment_status == 'delivery_done') && this.selectedState == 'return_initiated');
+        },
         showReasons() {
             let validStates = ['bag_not_confirmed', 'cancelled_fynd', 
                                 'cancelled_seller', 'cancelled_customer', 
                                 'return_initiated', "bag_lost", 
                                 "return_bag_lost", "dead_stock", 
                                 "deadstock","deadstock_defective"];
-            return validStates.includes(this.selectedState);
+            
+            if(this.checkForReturnInitiatedState) {
+                this.$emit('showCreditNoteReturn', true);
+                return false;
+            }
+            else {
+                return validStates.includes(this.selectedState);
+            }
         }
     },
     methods: {
+        isHide(e) {
+            this.$emit('isHide', e);
+        },
+        isVerified(e) {
+            this.$emit('isVerified', e);
+        },
+        updateStatusOfFooter(e) {
+            this.$emit('updateStatusOfFooter', e);
+        },
+        ProceedBtn() {
+            this.showRemarkAndBagStateOptions = false;
+            this.$refs['return-journey-panel'].ProceedBtn();
+        },
+        registerUser() {
+            this.$refs['return-journey-panel'].registerUser();
+        },
+        closeReturnPanel() {
+            this.$emit("closeDrawer", true)
+        },
+        openRefundDrawer(e) {
+            this.$emit('openRefundDrawer', e)
+        },
+        callOrderDetails() {
+            this.$emit('callOrderDetails', false);
+        },
         /**
          * Method to emit changes of the input boxes to the parents.
          * 
@@ -308,7 +373,10 @@ export default {
          * 
          * @author Rushabh Mulraj Shah <rushabhmshah@gofynd.com>
          */
-        onStateChange() {
+        onStateChange(e) {
+            if(e == 'manual_refund'){
+                this.$emit('showCreditNoteReturn', false);
+            }
             this.emitChange();
             this.fetchReasons();
         }
@@ -325,6 +393,13 @@ export default {
 }
 .user-input{
     margin-top: 10px;
+}
+.user-input-first {
+    ::v-deep .n-input-textarea {
+        height: 40px;
+        line-height: 21px;
+        padding-top: 10px;
+    }
 }
 .change-bag-state-container {
     position: relative;

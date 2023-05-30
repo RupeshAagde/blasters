@@ -203,14 +203,21 @@
                     @close="closeDetails()"
                     :title="`Choose Next Bag State`"
                     :footer="true"
-                    :css="{width: '30%'}"
+                    :css="isCreditNoteReturn ? isMobile() ? { width: '100%' } : { width: '60%' } : {width: '30%'}"
                 >
                     <change-bag-state-drawer
                         ref="change-bag-state"
                         :shipment="activeShipment"
                         @change="onBagChangeState"
+                        @showCreditNoteReturn="showCreditNoteReturn"
+                        @updateStatusOfFooter="updateStatusOfFooter"
+                        @isVerified="isVerified"
+                        @isHide="isHide"
+                        @openRefundDrawer="openRefundDrawer"
+                        @callOrderDetails="callOrderDetails"
+                        @closeDrawer="closeDetails()"
                     />
-                    <template #footer>
+                    <template #footer v-if="!isCreditNoteReturn">
                         <nitrozen-button
                             class="button-submit"
                             :disabled="!enableBagStateChange"
@@ -220,6 +227,131 @@
                         >
                             Submit
                         </nitrozen-button>
+                    </template>
+                    <template #footer v-else>
+                        <div class="footer-container">
+                            <div class="progress" v-if="shipment.status.status!=='delivery_done'">{{ step }}/{{isUserRegistered?2:3}}</div>
+                            <div class="progress" v-else-if="shipment.status.status == 'delivery_done'">1/1</div>
+                            <div class="progress" v-else>{{ step }}/{{isUserRegistered?1:2}}</div>
+                            <nitrozen-button
+                                theme="secondary"
+                                v-flat-btn
+                                v-if="showItemsToReturn"
+                                @click="ProceedBtn"
+                                :disabled="hide || remark"
+                            >
+                                Proceed
+                            </nitrozen-button>
+                            <nitrozen-button
+                                theme="secondary"
+                                v-flat-btn
+                                v-if="!showItemsToReturn && !activeShipment.user.mobile && activeShipment.status.status == 'handed_over_to_customer'"
+                                @click="registerUser"
+                                :disabled="!verifiedUser"
+                            >
+                                Register Customer
+                            </nitrozen-button>
+                        </div>
+                    </template>
+                </side-drawer>
+            </template>
+        </transition>
+
+        <!------- Refund Mode Drawer --------> 
+        <transition name="slide">
+            <template v-if="showRefundMode">
+                <div class="refund-mode-selection-drawer">
+                    <side-drawer
+                        :title="'Select Refund Mode'"
+                        :footer="true"
+                        @close="closeRefundMode"
+                        :css="isMobile() ? { width: '100%' } :{ width: '60%' }"
+                    >  
+
+                    <template #header>
+                        <div>
+                            <a class="back-btn" @click="backToPreviousDrawer">
+                                <adm-inline-svg :src="'arrow-nitrozen'" class="details-header-back-arrow"></adm-inline-svg>
+                            </a>
+                        </div>
+                    </template>     
+                    <div class="loader-container">
+                        <shimmer v-if="inProgress" :count="4"></shimmer>
+                    </div>
+                    <div v-if="!inProgress">
+                        <refund-mode-selection-drawer 
+                            ref="refund-mode-selection" 
+                            :shipment="activeShipment" 
+                            :refundModeData="refundModeData" 
+                            :amountToRefund="amountToRefund" 
+                            @selectedValue="valueSelected" />
+                    </div>
+                        <template #footer>
+                            <div class="footer-container">
+                                <div class="progress">{{isUserRegistered ? '2/2' : '3/3'}}</div>
+                                <nitrozen-button
+                                    theme="secondary"
+                                    v-flat-btn
+                                    @click="onRefundProceed"
+                                    :disabled="selectedModeByCustomer==''? true:false"
+                                >
+                                    Process Return
+                                </nitrozen-button>
+                            </div>
+                        </template>
+                    </side-drawer>
+                </div>
+            </template>
+        </transition>
+
+        <div class="refund-proceed-dialog">
+            <nitrozen-dialog ref="refund-dialog" class="refund-dialog-main" @close="closeOpen">
+                <template slot="body">
+                    <div class="refund-dialog-data">
+                        <div class="refund-top">
+                            <adm-inline-svg class="warn-icon" src="warn-icon-yellow"></adm-inline-svg>
+                            <span class="refund-question" v-if="(selectedModeByCustomer == 'credit_note' || selectedModeByCustomer == 'source') && amountToRefund">Are you sure to refund ₹{{amountToRefund.toFixed(2)}} ?</span>
+                            <span class="refund-question" v-if="selectedModeByCustomer == ('bank_transfer') ">Are you sure to refund ?</span>
+                        </div>
+                    </div>
+                </template>
+            </nitrozen-dialog>
+        </div>
+
+        <!------ Confirm summary drawer ------>
+        <transition name="slide">
+            <template v-if="showConfirmationSummary">
+                <side-drawer
+                    :title="'Confirmation Summary'"
+                    :footer="true"
+                    @close="onCloseSummary"
+                    :css="isMobile() ? { width: '100%' } :{ width: '60%' }"
+                >
+                    <confirmation-summary-drawer 
+                        :shipment="shipment" 
+                        :confirmSummaryRequiredData="confirmSummaryRequiredData"
+                        :loadConfirmPage="loadConfirmPage" />
+
+                    <template #footer>
+                        <div class="footer-container confirmation-summary-footer">
+                            <nitrozen-button
+                                theme="secondary"
+                                v-flat-btn
+                                @click="preparePayload"
+                                v-if="showLoaderAndConfirmPage"
+                                :disabled="disableRetry"
+                            >
+                                Retry
+                            </nitrozen-button>
+                            <nitrozen-button
+                                theme="secondary"
+                                v-flat-btn
+                                @click="onConfirmSummary"
+                                v-if="!showLoaderAndConfirmPage"
+                            >
+                                Done
+                            </nitrozen-button>
+                        </div>
                     </template>
                 </side-drawer>
             </template>
@@ -350,7 +482,7 @@
 <script>
 /* Package imports */
 import {
-    NitrozenBadge, NitrozenMenu, NitrozenMenuItem, NitrozenTooltip, flatBtn, NitrozenButton
+    NitrozenBadge, NitrozenMenu, NitrozenMenuItem, NitrozenTooltip, flatBtn, NitrozenButton, NitrozenDialog
 } from '@gofynd/nitrozen-vue';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -366,9 +498,13 @@ import ReassignStoreDrawer from './reassign-store-drawer.vue';
 import ChangeAddressDrawer from './change-address-drawer.vue';
 import AdminActions from '@/pages/oms/shipment-table/admin-actions.vue';
 import invoiceLabelAction from './invoice-label-action.vue';
+import Shimmer from '@/components/common/shimmer';
+import refundModeSelectionDrawer from '../credit-notes-pos/refund-mode-selection-drawer.vue';
+import ConfirmationSummaryDrawer from '../credit-notes-pos/confirmation-summary-drawer.vue'
 
 /* Helper imports */
 import { convertSnakeCaseToString, copyToClipboard, formatPrice } from '@/helper/utils.js';
+import { detectMobile } from '@/helper/utils';
 
 /* Service imports */
 import OrderService from '@/services/orders.service'; 
@@ -407,7 +543,11 @@ export default {
         'reassign-store': ReassignStoreDrawer,
         ChangeAddressDrawer,
         AdminActions,
-        'invoice-label-actions': invoiceLabelAction
+        'invoice-label-actions': invoiceLabelAction,
+        Shimmer,
+        refundModeSelectionDrawer,
+        NitrozenDialog,
+        ConfirmationSummaryDrawer
     },
     directives: {
         flatBtn,
@@ -450,10 +590,28 @@ export default {
             enableCalling: false,
             enableBagStateChange: false,
             enableAddressUpdation: false,
-            remarkOnBagStateChange: ''
+            remarkOnBagStateChange: '',
+            isCreditNoteReturn: false,
+            isUserRegistered: true,
+            step: 1,
+            showItemsToReturn: true,
+            hide: true,
+            verifiedUser: false,
+            remark: true,
+            showRefundMode: false,
+            inProgress:true,
+            selectedModeByCustomer: '',
+            shipment: null,
+            showConfirmationSummary: false,
+            amountToRefund: 0,
+            confirmSummaryRequiredData: {},
+            loadConfirmPage: false,
+            showLoaderAndConfirmPage: true,
+            disableRetry: true
         }
     },
     mounted(){
+        this.callOrderDetails(true);
         this.items.forEach(ele => {
             if(ele.shipment_id == this.activeId){
                 this.activeShipmentDetails = ele;
@@ -483,9 +641,32 @@ export default {
                 this.otherShipments.push(ele);
             }
         });
+        if(this.activeShipment && this.activeShipment.user){
+            this.isUserRegistered=this.activeShipment.user.mobile;
+        }
     },
     methods: {
         formatPrice,
+        isHide(e) {
+            this.hide = e;
+        },
+        isVerified(e) {
+            this.verifiedUser = e;
+        },
+        updateStatusOfFooter(e) {
+            this.showItemsToReturn = e.showItemsToReturn;
+            this.step = e.step;
+        },  
+        showCreditNoteReturn(e) {
+            if(e == true) { this.isCreditNoteReturn = true; }
+            else { this.isCreditNoteReturn = false; }
+        },
+        ProceedBtn() {
+            this.$refs['change-bag-state'].ProceedBtn();
+        },
+        registerUser() {
+            this.$refs['change-bag-state'].registerUser();
+        },
         closeDetails() {
             this.isCreateInvoiceS3 = false;
             this.isCall = false;
@@ -497,6 +678,295 @@ export default {
             this.isReassignStore = false;
             this.isInitiateNdr = false;
             this.isChangeAddress = false;
+        },
+        openRefundDrawer(SelectedItemsData) {
+            if(SelectedItemsData.status == 'delivery_done') {
+                this.showReturnPanel= false;
+                this.selectedProducts = SelectedItemsData.data;
+                this.preparePayload();
+            }
+            else {
+                this.showRefundMode = true;
+                this.showReturnPanel= false;
+                this.selectedProducts = SelectedItemsData.data;
+                this.addPriceQuantity(SelectedItemsData.data);
+                this.getRefundModes();
+            }
+        },
+        closeRefundMode() {
+            this.showRefundMode = false;
+            this.closeReturnPanel();
+            if(!this.isUserRegistered){
+                this.$root.$emit('refreshThePage', true);
+            }
+        },
+        backToPreviousDrawer() {
+            this.showRefundMode = false;
+            this.showReturnPanel = true;
+        },
+        getRefundModes() {
+            let data = {
+                customer_mobile_number: this.activeShipment.user.mobile,
+                seller_id: this.activeShipment.company_id,
+                affiliate_id: this.activeShipment.affiliate_details.affiliate_id,
+                ordering_channel: this.ordering_channel,
+                fynd_order_id: this.activeShipment.order.fynd_order_id
+            }
+            const get_refund_modes = OrderService.postRefundModeConfig(data)
+            return get_refund_modes
+                .then(({data}) => {
+                    if(data) {
+                        this.inProgress=false;
+                        this.refundModeData = data.data;
+                    }
+                })
+                .catch((error) => {
+                    this.showRefundMode = false;
+                    this.$snackbar.global.showError('Unable to fetch refund modes');
+                    console.error("Error in fetching refund modes:   ", error);
+                })
+        },
+        isMobile() {
+            return detectMobile();
+        },
+        addPriceQuantity(itemsData) {
+            let total = 0;
+            for(let index in itemsData) {
+                total += itemsData[index].per_unit_price * itemsData[index].quantity;
+            }
+            this.amountToRefund = total;
+        },
+        closeConfirmationSummary() {
+            this.showConfirmationSummary = false;
+            this.closeReturnPanel();
+        },
+        onRefundProceed() {
+            // this.$refs['refund-mode-selection'].sendTheSelectedValue();
+            this.$refs["refund-dialog"].open({
+                width: "550px",
+                showCloseButton: false,
+                positiveButtonLabel: 'Proceed',
+                negativeButtonLabel: 'Cancel',
+                neutralButtonLabel: "",
+            });
+        },
+        valueSelected(event) {
+            this.selectedModeByCustomer = event.mode;
+        },
+        closeReturnPanel(){
+            this.showReturnPanel = false;
+        },
+        closeOpen(e) {
+            if (e === 'Proceed') {
+                this.preparePayload();
+                this.$emit('proceed');
+                this.showRefundMode = false;
+                this.showConfirmationSummary = true;
+                
+                return;
+            }
+            this.$emit('close', e);
+        },
+        callOrderDetails(ismounted) {
+            const get_order_details_promise = this.isApplicationLevel ? 
+                OrderService.fetchApplicationOrderV2Details(
+                    this.$route.params.company_id,
+                    this.$route.params.applicationId,
+                    {order_id: this.$route.params.orderId}
+                ) :
+                OrderService.fetchOrderV2Details(
+                    this.$route.params.company_id, 
+                    null, 
+                    {
+                        order_id: this.$route.params.orderId
+                    }
+                );
+
+            return get_order_details_promise
+            .then(res => {
+                let response = res.data;
+                this.orderData = cloneDeep(response);
+                
+                if(!ismounted){
+                    this.confirmSummaryData = this.orderData.shipments.find(shipment => shipment.forward_shipment_id === this.shipment.shipment_id);
+                    if(this.confirmSummaryData !== undefined && this.confirmSummaryData) {
+                        this.confirmSummaryRequiredData = {
+                            amountRefund: this.amountToRefund,
+                            selectedMode: this.selectedModeByCustomer
+                        }
+                        if(this.confirmSummaryData.invoice){
+                            this.confirmSummaryRequiredData.credit_note = this.confirmSummaryData.invoice.credit_note_id;
+                        }
+                        if(this.confirmSummaryData.user){
+                            this.confirmSummaryRequiredData.number = this.confirmSummaryData.user.mobile;
+                        }
+                        if(this.confirmSummaryData.meta && this.confirmSummaryData.meta.credit_note_data){
+                            this.confirmSummaryRequiredData.expiry = this.confirmSummaryData.meta.credit_note_data.expiry_date;
+                        }
+                        if(this.confirmSummaryData.affiliate_details && this.confirmSummaryData.affiliate_details.pdf_links){
+                            this.confirmSummaryRequiredData.credit_note_pdf = this.confirmSummaryData.affiliate_details.pdf_links.credit_note;
+                        }
+                        this.showLoaderAndConfirmPage = false;
+                    }
+                    else {
+                        this.loadConfirmPage = true;
+                        this.showLoaderAndConfirmPage = false;
+                    }
+                }
+                else{
+                    this.orderDetails=cloneDeep(response);
+                    this.shipment =this.orderDetails.shipments.find(shipment => shipment.shipment_id === this.shipmentId);
+                    if(this.shipment && this.shipment.user){
+                            this.isUserRegistered=this.shipment.user.mobile ? true : false;
+                        }
+                }
+
+            })
+            .catch(error => {
+                this.loadConfirmPage = true;
+                this.showLoaderAndConfirmPage = false;
+                console.error("Error in fetching shipment data:   ", error);
+                this.$snackbar.global.showError(`Unable to fetch details for the order ID: ${this.$route.params.orderId}`);
+            })
+        },
+        showRetryButton(){
+            this.showLoaderAndConfirmPage = true;
+        },
+        updateStatus(payload, from) {
+            OrderService.updateShipmentStatus(payload)
+            .then(response => {
+                if(response.data && response.data.statuses && response.data.statuses.length) {
+                    let statusResponse = response.data.statuses[0].shipments[0];
+                    if(statusResponse.status === 200) {
+                        if(from == 'credit_note') {
+                            setTimeout(()=>this.callOrderDetails(false), 2000);
+                        }
+                        this.$snackbar.global.showSuccess(
+                            `Shipment ID: ${this.shipment.shipment_id} has been successfully updated.`,
+                            {
+                                duration: 2000
+                            }
+                        );
+                        if(from == 'delivery_done') {
+                            setTimeout(()=>this.$root.$emit('refreshThePage', true), 2000);
+                        }
+                    } else {
+                        if(statusResponse.message) {
+                            this.$snackbar.global.showError(statusResponse.message);
+                        } else {
+                            this.$snackbar.global.showError('Failed to update the shipment status');
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                if(from == 'credit_note') {
+                    this.showRetryButton();
+                    this.updateInProgress = false;
+                }
+                this.disableRetry=false;
+                this.$snackbar.global.showError('Failed to update the shipment status');
+                console.error("Error in updating the status:   ", error);
+            })
+        },
+        preparePayload() {
+            let payload = {
+                "statuses": [
+                    {
+                        "shipments": [
+                            {
+                                "identifier": "",
+                                "products": [
+                                ],
+                                 "reasons": {
+                                    "products": [
+                                        
+                                    ]
+                                },
+                                "data_updates": {
+                                    "products": [
+                                            {
+                                                "data": {
+                                                    "meta": {
+                                                        "refund_to": "",
+                                                        "activity_comment": ""
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                    "entities": [
+                                        {
+                                            "data": {
+                                                "meta": {
+                                                    "refund_to": "",
+                                                    "activity_comment": ""
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "status": "return_initiated",
+                        "exclude_bags_next_state": null
+                    }
+                ],
+                "task": false,
+                "force_transition": false,
+                "lock_after_transition": false,
+                "unlock_before_transition": false
+            }
+            
+            payload.statuses[0].shipments[0].identifier = this.shipment.shipment_id;
+            let shortVar = payload.statuses[0].shipments[0].products;
+            for(let index in this.selectedProducts){
+                shortVar[index] = {
+                    "line_number": this.selectedProducts[index].line_number,
+                    "quantity": this.selectedProducts[index].quantity,
+                    "identifier": this.selectedProducts[index].seller_identifier
+                }
+            }
+            let dataEnteries = payload.statuses[0].shipments[0].reasons.products;
+            for(let index in this.selectedProducts){
+                dataEnteries[index] = {
+                    "filters": [
+                        {
+                            "identifier": this.selectedProducts[index].seller_identifier,
+                            "line_number": this.selectedProducts[index].line_number,
+                            "quantity": this.selectedProducts[index].quantity
+                        }
+                    ],
+                    "data": {
+                        "reason_id": this.selectedProducts[index].reason_id,
+                        "reason_text": this.selectedProducts[index].reason_text
+                    },
+                }
+            }
+            payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to = this.selectedModeByCustomer;
+            payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.refund_to = this.selectedModeByCustomer;
+
+            payload.statuses[0].shipments[0].data_updates.products[0].data.meta.activity_comment = this.remarkOnBagStateChange;
+            payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.activity_comment = this.remarkOnBagStateChange;
+
+            if(this.status == 'delivery_done') {
+                delete payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to;
+                delete payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.refund_to;
+                this.updateStatus(payload, "delivery_done");
+            }
+            else {
+                this.updateStatus(payload, "credit_note");
+            }
+
+        },
+        onCloseSummary() {
+            this.showConfirmationSummary = false;
+            this.closeReturnPanel();
+            this.$root.$emit('refreshThePage', true);
+        },
+        onConfirmSummary() {
+            this.showConfirmationSummary = false;
+            this.closeReturnPanel();
+            this.$root.$emit('refreshThePage', true);
         },
         onRowClick(id) {
             if(id !== this.activeId) {
@@ -602,7 +1072,7 @@ export default {
             this.$snackbar.global.showInfo('Copied to clipboard');
         },
         closeContextMenu(){
-            this.$refs['context-menu'].closeMenu()
+            this.$refs['context-menu'].closeMenu();
         },
         createS3Invoice(){
             let data = {shipment_ids: [this.activeId]}
@@ -830,6 +1300,7 @@ export default {
                 'return_bag_lost', 'dead_stock', 'deadstock', 'deadstock_defective'];
             if(event.state.length > 0 && event.remark.length > 9) {
                 this.remarkOnBagStateChange = event.remark;
+                this.remark = false;
                 if(reasonStates.includes(event.state) && event.reason.toString().length > 0) {
                     this.enableBagStateChange = true;
                 } else if(reasonStates.includes(event.state) && event.reason.toString().length === 0) {
@@ -1253,6 +1724,103 @@ tr.list-table.activeRow:hover{
         min-width: 25%;
     }
 }
+.footer-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .progress{
+        font-weight: 700;
+        font-size: 14px;
+        color: #000;
+    }
+}
+
+.refund-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    .warn-icon {
+        width: 34px;
+    }
+    .refund-question {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 130%;
+        color: #41434C;
+    }
+}
+.refund-bottom {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+    .refund-first-line {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 130%;
+        color: #5C5C5C;
+    }
+}
+::v-deep .nitrozen-dialog {
+    border-radius: 8px;
+}
+.back-btn {
+    cursor: pointer;
+
+    ::v-deep svg {
+        transform: rotate(90deg);
+        height: 30px;
+        width: 30px;
+    }
+}
+.details-header-back-arrow {
+    transform: rotate(-90deg);
+    height: 20px;
+    width: 20px;
+    margin-right: 1rem;
+}
+.refund-mode-selection-drawer {
+    ::v-deep .slide-fade {
+        .sidedrawer-container {
+            .sidedrawer-header{
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 24px;
+                border-bottom: 1px solid #E0E0E0;
+                .sidedrawer-header-title {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .progress{
+        font-weight: 700;
+        font-size: 14px;
+        color: #000000;
+    }
+}
+::v-deep .sidedrawer-content{
+    @media @mobile{
+        padding-bottom: 24px;
+    }
+}
+.footer-container.confirmation-summary-footer{
+        justify-content: end;
+    }
 
 </style>
 

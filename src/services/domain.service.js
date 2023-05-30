@@ -1166,7 +1166,19 @@ const URLS = {
     },
     PLATFORM_DOMAIN: () => {
         return FYND_PLATFORM_DOMAIN
-    }
+    },
+    SEND_OTP: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/send/otp/mobile`)
+    },
+    VERIFY_OTP: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/verify/otp`)
+    },
+    CREATE_USER: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/attach`)
+    },
+    POST_REFUND_CONFIG: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/refund-mode-config`);
+    },
     /** OMSv2.1 -- END */
 };
 
