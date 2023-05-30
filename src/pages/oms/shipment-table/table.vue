@@ -889,7 +889,7 @@ export default {
                                                 "data": {
                                                     "meta": {
                                                         "refund_to": "",
-                                                        "comment": ""
+                                                        "activity_comment": ""
                                                     }
                                                 }
                                             }
@@ -899,7 +899,7 @@ export default {
                                             "data": {
                                                 "meta": {
                                                     "refund_to": "",
-                                                    "comment": ""
+                                                    "activity_comment": ""
                                                 }
                                             }
                                         }
@@ -945,8 +945,8 @@ export default {
             payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to = this.selectedModeByCustomer;
             payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.refund_to = this.selectedModeByCustomer;
 
-            payload.statuses[0].shipments[0].data_updates.products[0].data.meta.comment = this.remarkOnBagStateChange;
-            payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.comment = this.remarkOnBagStateChange;
+            payload.statuses[0].shipments[0].data_updates.products[0].data.meta.activity_comment = this.remarkOnBagStateChange;
+            payload.statuses[0].shipments[0].data_updates.entities[0].data.meta.activity_comment = this.remarkOnBagStateChange;
 
             if(this.status == 'delivery_done') {
                 delete payload.statuses[0].shipments[0].data_updates.products[0].data.meta.refund_to;
