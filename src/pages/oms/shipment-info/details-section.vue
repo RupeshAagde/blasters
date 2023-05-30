@@ -154,7 +154,7 @@
                 <div v-if="shipment.invoice.credit_note_id">
                     <div class="header-title">Credit Note</div>
                     <br />
-                    <div class="details-data">
+                    <div class="details-data pointer" @click="copyToClipboard($event, shipment.invoice.credit_note_id )">
                         {{ shipment.invoice.credit_note_id }}
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                 <div v-if="shipment.invoice.store_invoice_id">
                     <div class="header-title">Invoice ID</div>
                     <br />
-                    <div class="details-data">
+                    <div class="details-data pointer" @click="copyToClipboard($event, shipment.invoice.store_invoice_id)">
                         {{ shipment.invoice.store_invoice_id }}
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                         </nitrozen-tooltip>
                     </div>
                     <br />
-                    <p class="details-data css-flex">
+                    <p class="details-data css-flex pointer" @click="copyToClipboard($event, shipment.dp_details.awb_no)">
                         {{ shipment.dp_details.awb_no }}
                         <a
                             v-if="shipment.dp_details.track_url"
@@ -1143,6 +1143,10 @@ export default {
 ::v-deep .sidedrawer-footer {
     display: flex;
     justify-content: flex-end;
+}
+
+.pointer{
+    cursor: pointer;
 }
 
 .tabs {
