@@ -44,10 +44,10 @@
                                                 <span @click="copyToClipboard($event, item.item.name)">{{item.item.name}}</span>
                                             </span>
                                         </div>
-                                        <div class="nitro-chips tooltip-top" v-if="item.item.size" :data-tooltip="item.item.size">
+                                        <div class="nitro-chips tooltip-top" v-if="item.article.size" :data-tooltip="item.article.size">
                                             <nitrozen-chips 
                                                 class="nitro-chip">
-                                                {{ item.item.size }}
+                                                {{ item.article.size }}
                                             </nitrozen-chips>
                                         </div>
                                     </div>

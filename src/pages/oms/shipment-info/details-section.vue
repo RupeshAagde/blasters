@@ -445,28 +445,34 @@
                 class="extra-info-box" 
                 v-if="
                     shipment.fulfilling_store && 
-                    shipment.fulfilling_store.meta && 
-                    shipment.fulfilling_store.meta.notification_emails &&
-                    shipment.fulfilling_store.meta.notification_emails.length
+                    shipment.fulfilling_store.store_address_json && 
+                    shipment.fulfilling_store.store_address_json.email
                 ">
                 <span class="header-title"> Fulfilling Store Email: </span>
                 <span 
                     class="details-data copy-to-click" 
-                    v-if="shipment.fulfilling_store.store_address_json.email"
                     @click="copyToClipboard($event, shipment.fulfilling_store.store_address_json.email)">
-                        {{ shipment.fulfilling_store.store_address_json.email }},
+                        {{ shipment.fulfilling_store.store_address_json.email }}
                 </span>
-                <span 
-                    v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
-                    :key="index"
-                    class="details-data copy-to-click"
-                    @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
-                >
-                    <span v-if="index > 0">
-                        ,
+                <div v-if="
+                    shipment.fulfilling_store && 
+                    shipment.fulfilling_store.meta && 
+                    shipment.fulfilling_store.meta.notification_emails &&
+                    shipment.fulfilling_store.meta.notification_emails.length
+                ">
+                    <span>,</span>
+                    <span 
+                        v-for="(item, index) in shipment.fulfilling_store.meta.notification_emails"
+                        :key="index"
+                        class="details-data copy-to-click"
+                        @click="copyToClipboard($event, shipment.fulfilling_store.meta.notification_emails[index])"
+                    >
+                        <span v-if="index > 0">
+                            ,
+                        </span>
+                        {{ item }}
                     </span>
-                    {{ item }}
-                </span>
+                </div>
             </div>
 
             <div class="extra-info-box" v-if="viewPrescription.length">
