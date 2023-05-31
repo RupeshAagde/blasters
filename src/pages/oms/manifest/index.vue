@@ -16,7 +16,7 @@
                             :showSearchIcon="true"
                             class="search filter-input-lg"
                             type="search"
-                            :placeholder="'Search by delivery partner, manifest ID, or shipment ID'"
+                            :placeholder="'Search by manifest ID or shipment ID'"
                             v-model="searchText"
                             @keyup.enter="onSearch"
                         ></nitrozen-input>
