@@ -191,8 +191,8 @@ export default {
             affiliateNames: [],
             unique:0,
             ruleDaterange: [
-                moment().subtract(1, 'week').toISOString(),
-                moment().toISOString(),
+                // moment().subtract(1, 'week').toISOString(),
+                // moment().toISOString(),
             ],
             validationFailed: false,
             validationMsg: "Please select Settlement Type from Dropdown above",
@@ -340,8 +340,10 @@ export default {
                 var endDate = data.rule_end_date.split("/").reverse().join('-');
                 const end_date = new Date(endDate).toISOString();
 
-                this.ruleDaterange[0] = start_date;
-                this.ruleDaterange[1] = end_date;
+                this.ruleDaterange = [start_date, end_date];
+
+                // this.ruleDaterange[0] = start_date;
+                // this.ruleDaterange[1] = end_date;
 
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
@@ -422,26 +424,49 @@ export default {
     fetchAffiliate() {
         var companyId = this.formData.slug_values['company'];
         let params = {
-            data:{
-                "company_id" : companyId
-            }
+                group_entity: 'shipments',
+                view: 'my_orders',
+                company_id: companyId
+      
         };
-        const caller = FinanceService.getAffiliateFin(params);
+        const caller = FinanceService.getGlobalAffiliate(params);
         caller
             .then((res) => {
-                this.filterLists.affiliate = res.data.data.docs.map((item) => {
+                this.filterLists.affiliate = res.data.advance['All'][1].options.map((item) => {
                         return {
                             text: item.name,
-                            value: item.id,
-                            id: item.id
+                            value: item.value,
+                            id: item.value
                         };
                     })
             })
             .catch((err) => {
                 this.$snackbar.global.showError('Failed to load '+ err);
             });
-
     },
+    // fetchAffiliate() {
+    //     var companyId = this.formData.slug_values['company'];
+    //     let params = {
+    //         data:{
+    //             "company_id" : companyId
+    //         }
+    //     };
+    //     const caller = FinanceService.getAffiliateFin(params);
+    //     caller
+    //         .then((res) => {
+    //             this.filterLists.affiliate = res.data.data.docs.map((item) => {
+    //                     return {
+    //                         text: item.name,
+    //                         value: item.id,
+    //                         id: item.id
+    //                     };
+    //                 })
+    //         })
+    //         .catch((err) => {
+    //             this.$snackbar.global.showError('Failed to load '+ err);
+    //         });
+
+    // },
     fetchFilterData(val) {
         let params = {
             data:{

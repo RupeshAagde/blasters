@@ -498,7 +498,6 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
-
     //for settlemment-rule
     // GET_COMPANY_LIST_FIN: (query) => {
     //     return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list/?search=${query}`);
@@ -520,6 +519,11 @@ const URLS = {
     },
     GENERATE_RULE: () => {
         return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/settle-rule`);
+    },
+
+    GET_GLOBAL_AFFILIATE: () => {
+        // return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/filter-listing');
     },
    
 

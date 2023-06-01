@@ -167,11 +167,11 @@
                                             '10 if shipment_value > 500 else 50'
                                         "
                                     ></nitrozen-input>
-                                    <nitrozen-error
+                                    <!-- <nitrozen-error
                                         :class="{ visible: errors[user_input] }"
                                     >
                                         {{ errors[user_input] || '-' }}
-                                    </nitrozen-error>
+                                    </nitrozen-error> -->
                                 </div>
                             </div>
 

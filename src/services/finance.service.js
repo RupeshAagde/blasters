@@ -70,10 +70,7 @@ const FinanceService = {
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption);
     },
-    // getCompanyList(query) {
-    //     let axiosOption = Object.assign({}, { });
-    //     return ApiService.get(URLS.GET_COMPANY_LIST_FIN(query), axiosOption);
-    // },
+
     getCompanyList(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params })
         return ApiService.get(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
@@ -109,7 +106,11 @@ const FinanceService = {
     deleteRule(data) {
         let axiosOption = Object.assign({}, { data });
         return ApiService.put(URLS.GENERATE_RULE(), axiosOption);
-    }
+    },
+    getGlobalAffiliate(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params })
+        return ApiService.get(URLS.FILTERS_V2(), axiosOption);
+    },
     
 };
 
