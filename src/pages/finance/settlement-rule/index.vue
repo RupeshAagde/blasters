@@ -69,7 +69,7 @@
                     <template>
                         <tr v-for="(item, index) in this.ruleDataList"
                                 :key="'item-' + index">
-                            <td class="rule_slug" @click="openVerifyRulePage(item.id)">{{ item.rule_slug }}</td>
+                            <td class="rule_slug" v-on="enableClick ? { click: () => openVerifyRulePage(item.id) } : {}">{{ item.rule_slug }}</td>
                             <td>
                                 <div class="comapny-wrap">
                                     <div v-if="item.slug_values.company">
@@ -127,9 +127,6 @@
                 />
             </div>
         </div>
-        <div class="rule-main-wrap" v-else>
-            <create-rule></create-rule>
-        </div>
         <pop-up
             v-if="warningPopUp"
             :infoText="popupData.desc"
@@ -182,11 +179,8 @@ export default {
             searchText: '',
             companyNames: [],
             selectedCompany: [],
+            enableClick: true,
             statusNames: [
-                // {
-                //     text: "None",
-                //     value: "none"
-                // },
                 {
                     text: "Unverified",
                     value: "unverified"
@@ -225,9 +219,7 @@ export default {
     },
     methods: {
         openCreateRulePage(){
-            // this.openCreationPage = false;
             this.$router.push({ name: 'create-rule' });
-            // this.$router.push({ name: 'create-rule', params: { type:"edit" }});
         },
         onPaginationChange(event) {
             this.paginationObj = event
@@ -277,7 +269,7 @@ export default {
                 
             })
             .catch((err) => { 
-                this.$snackbar.global.showError('Failed to load '+ val);
+                this.$snackbar.global.showError('Failed to load');
             });
 
         },
@@ -301,6 +293,7 @@ export default {
         },
         updateFilter(){
             this.verifyAction = (this.selectedStatus == "verified") ? true : false;
+            this.enableClick = (this.selectedStatus == "verified") ? false : true;
             this.fetchRulesList();
         },
         searchCompany(e) {
@@ -355,7 +348,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .create-rule-cta{
     padding: 20px 30px;
     border: 1px solid #e4e5e6;
@@ -433,7 +425,6 @@ export default {
     cursor: pointer;
     font-weight: bold;
  }
-
 .rule_slug {
     cursor: pointer;
     font-weight: bolder;
@@ -442,7 +433,6 @@ export default {
     font-family: Poppins;
     letter-spacing: .05em;
 }
-
 .unverfiy-actions{
     display: flex; 
     align-items: center;

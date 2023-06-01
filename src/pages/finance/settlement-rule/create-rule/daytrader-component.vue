@@ -427,7 +427,7 @@ export default {
         this.formData.transactional_components = this.form_data; //add condition here for edit
         if (params.preview == 'verify'){
             this.saveButtonName = 'Verify';
-            this.cancelDisableInput = false;
+            // this.cancelDisableInput = false;
         } else {
             this.saveButtonName = 'Save';
         }
@@ -627,7 +627,7 @@ export default {
             }
         },
         cancelRuleForm(){
-
+            this.$emit("cancelRule");
         },
         // searchBrands(evt) {
         //     this.searchBrand = evt.text;

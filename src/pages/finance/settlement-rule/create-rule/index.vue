@@ -102,6 +102,7 @@
                             picker_type="date"
                             date_format="MMM Do, YY"
                             v-model="ruleDaterange"
+                            :not_before="new Date(0).toISOString()"
                             :clearable="false"
                             :range="true"
                             :shortcuts="dateRangeShortcuts"
@@ -134,6 +135,7 @@
                     :component_type="paramType"
                     :form_data="formData.transactional_components"
                     @passData="createPayload($event)"
+                    @cancelRule="cancelRule($event)"
                 >
                 </daytrader-component>
             </div>
@@ -240,8 +242,9 @@ export default {
                 },
             },
             curParams: {},
-            paramType: 'create'
-            
+            paramType: 'create',
+            editSlugValues: [],
+            slugFieldFormat: ["company", "brand", "channel", "location_type", "affiliate"]
         }
   },
   watch: {
@@ -279,9 +282,6 @@ export default {
             }, 1000);
             break;
         }
-        // setTimeout(() => {
-        //     this.editRule(params.ruleId);
-        // }, 1000);
     }
 
   },
@@ -321,14 +321,11 @@ export default {
                 for(let val in data.slug_values){
                     this.formData.slug_values[val] = [data.slug_values[val].id.toString()]
                 }
-
                 this.formData.slug_values.company = data.slug_values.company.id;
                 this.formData.settlement_type = data.settlement_type;
-
                 if(data.transactional_components.is_tp == true){
                     this.formData.transactional_components.is_tp = true;
                     this.tpExists = true;
-
                 }
                 let settleCycle = data.settle_cycle_period;
                 for(let cycle in settleCycle){
@@ -337,17 +334,21 @@ export default {
                         this.locationStatus[cycle] = true;
                     }
                 }
-
                 this.editSlugValues = data.slug_values;
+                var strDate = data.rule_start_date.split("/").reverse().join('-');
+                const start_date = new Date(strDate).toISOString();
+                var endDate = data.rule_end_date.split("/").reverse().join('-');
+                const end_date = new Date(endDate).toISOString();
+
+                this.ruleDaterange[0] = start_date;
+                this.ruleDaterange[1] = end_date;
+
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
-
-                console.log("Edit Rule");
-                console.log(this.formData);
                 
             })
             .catch((err) => { 
-                this.$snackbar.global.showError('Failed to load '+ val);
+                this.$snackbar.global.showError('Failed to load');
             });
 
     },
@@ -369,7 +370,6 @@ export default {
     },
     filterByChannel(){
         this.fetchRuleData();
-
         for(let i = 0; i <=this.formData.slug_values.channel.length; i++){
             if((this.formData.slug_values.channel[i] == 'fynd') || (this.formData.slug_values.channel[i] == 'uniket')){
                 this.tpExists = true;
@@ -468,7 +468,7 @@ export default {
                     })
             })
             .catch((err) => {
-                this.$snackbar.global.showError('Failed to load '+ val);
+                this.$snackbar.global.showError('Failed to load');
             });
 
     },
@@ -505,15 +505,21 @@ export default {
         let data = compData.form;
         let type = compData.compType;
         if(type === 'edit'){
+            let tempSlugValues = [];
             this.payload = this.formData;
             this.payload.slug_values = this.editSlugValues;
-            let slugFields = Object.keys(this.payload.slug_values);
-            this.payload.slug_fields = slugFields;
+            let slugValues = this.editSlugValues;
+            let slugFields = this.slugFieldFormat;
+            slugFields.forEach(function (item, index) {
+                if(slugValues[item]){
+                    tempSlugValues.push(item);
+                }
+            });
+            this.payload.slug_fields = tempSlugValues;
         }
         else{
             var companyId = this.formData.slug_values['company'];
             this.formData.slug_values['company'] = [companyId]
-            // this.fetchCompany(companyId);
             this.payload = this.formData;
             this.populateSlugs();
         }
@@ -531,7 +537,6 @@ export default {
 
     },
     populateSlugs(){
-        
         let slugValues = this.payload.slug_values; 
         let slugFieldData = [];
 
@@ -544,20 +549,17 @@ export default {
             }
         }
         this.payload.slug_fields = slugFieldData;
-        
-
         slugFieldData.forEach((item) => {
             this.populateData(item, this.payload.slug_values[item],this.filterLists[item]);
         });
-
+        let compId = this.payload.slug_values['company'][0].id;
+        this.payload.slug_values['company'][0]['id'] = parseInt(compId)
     },
     populateData(item, array, list){
         let tempObj = array.map(item => list.find(obj => obj.value === item));
         this.payload.slug_values[item] = tempObj.map((item) => {
-            let id = parseInt(item.value);
-            id = (isNaN(id)) ? item.value : id;
             return {
-                id: id,
+                id: item.value,
                 name: item.text
             };
         })
@@ -572,10 +574,14 @@ export default {
         else{
             this.createRule();
         }
+        this.cancelRule();
+        this.$emit("loadRuleList");
+
+    },
+    cancelRule(){
         this.$router.replace({
             name: 'settlement-rule',
         });
-
     },
     editRuleData(){
         let payload = this.payload;
