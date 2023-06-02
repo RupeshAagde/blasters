@@ -142,9 +142,8 @@ export default {
     },
     computed: {
         checkForReturnInitiatedState() {
-            return this.shipment.status.current_shipment_status == 'delivery_done' && this.selectedState == 'return_initiated';
-            // return ((this.shipment.status.current_shipment_status == 'handed_over_to_customer' || 
-            // this.shipment.status.current_shipment_status == 'delivery_done') && this.selectedState == 'return_initiated');
+            return ((this.shipment.status.current_shipment_status == 'handed_over_to_customer' || 
+            this.shipment.status.current_shipment_status == 'delivery_done') && this.selectedState == 'return_initiated');
         },
         showReasons() {
             let validStates = ['bag_not_confirmed', 'cancelled_fynd', 

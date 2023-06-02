@@ -25,12 +25,13 @@
                     v-for="(item, index) in items"
                     :key="index">
                         <nitrozen-dropdown
-                            class="nitro-dropdown-container"
+                            class="nitro-dropdown-container advanced-filter-dropdown dropdown-number"
                             label="Select reason"
                             :items="reasons"
                             @change="onAddingReason"
                             v-model="item.reason"
                             placeholder="Select reason"
+                            ref="dropdown-number"
                         ></nitrozen-dropdown>
                     <nitrozen-error class="error" v-if="errorMsg">
                         Please specify the reason for return
@@ -51,6 +52,7 @@ import {
 import CustomInputNumber from '@/components/common/adm-input-number-controls.vue';
 
 /* Helper imports */
+import isEmpty from 'lodash/isEmpty';
 
 export default {
     name: 'rejection-reason-box',
@@ -87,7 +89,53 @@ export default {
             this.selectedOrder();
         }
     },
+    mounted() {
+            if(document){
+                let ele=document.querySelector(".change-bag-state-container");
+                    if(ele){
+                        ele.addEventListener('click', this.checkOutsideClick);
+                    }
+            }
+    },
+    beforeDestroy() {
+        // remove listener
+        document.removeEventListener('click', this.checkOutsideClick);
+    },
     methods: {
+        checkOutsideClick(event) {
+            let parentDropdown = event.target.closest('.advanced-filter-dropdown');
+            if(parentDropdown) {
+                let classList = Array.from(parentDropdown.classList);
+                let selectedRef = null;
+                for(let className of classList) {
+                    if(className.includes('dropdown-number')) {
+                        selectedRef = className;
+                        break;
+                    }
+                }
+                if(selectedRef) {
+                    for(let refId in this.$refs) {
+                        if(refId.includes('dropdown-number') && refId !== selectedRef) {
+                            if(Array.isArray(this.$refs[refId])) {
+                                this.$refs[refId][0].showOptions = false;
+                            } else {
+                                this.$refs[refId].showOptions = false;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for(let refId in this.$refs) {
+                    if(refId.includes('dropdown-number') && !isEmpty(this.$refs[refId])) {
+                        if(Array.isArray(this.$refs[refId]) && this.$refs[refId]) {
+                            this.$refs[refId][0].showOptions = false;
+                        } else if(this.$refs[refId]) {
+                            this.$refs[refId].showOptions = false;
+                        }
+                    }
+                }
+            }
+        },
         decrement(e) {
             let reasonId=this.items.length?this.items[0].reason:false;
             let selectedBag = this.shipmentBags.find(bag => bag.bag_id === e);
@@ -97,7 +145,6 @@ export default {
                     return this.onAddingReason();
                 }
             } else {
-                this.$snackbar.global.showError('Unable to decrement the rejected quantity');
                 console.error("Bag ID not found for decrementing");
             } 
         },
@@ -110,7 +157,6 @@ export default {
                     return this.onAddingReason();
                 }
             } else {
-                this.$snackbar.global.showError('Unable to increment the rejected quantity');
                 console.error("Bag ID not found for incrementing");
             } 
         },

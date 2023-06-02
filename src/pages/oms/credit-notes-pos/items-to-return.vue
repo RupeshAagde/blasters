@@ -18,8 +18,18 @@
                         </div>
                         <div>
                             <div class="title-content" v-if="item.name">{{ safeGet(item, 'item.name') }} </div>
-                            <div class="item-content" v-if="item.article && item.article.identifiers && item.article.identifiers.sku_code">SKU: {{ safeGet(item, 'article.identifiers.sku_code') }}</div>
-                            <div class="item-content" v-if="item.article && item.article.identifiers && item.article.identifiers.ean">EAN: {{ safeGet(item, 'article.identifiers.ean') }}</div>
+                            <template v-if="item && item.article && item.article.identifiers && Object.keys(item.article.identifiers).length > 0">
+                                <div
+                                    v-for="(identifier, key) in item.article.identifiers" 
+                                    :key="identifier"
+                                    class="item-content">
+                                    <span class="common-key-style">{{ snakeCaseToCaps(key) }}: </span>
+                                    <span class="common-value-style">
+                                        {{ identifier }}
+                                    </span>
+                                </div>
+                            </template>
+                            <div class="item-content">Seller identifier: {{ safeGet(item, 'seller_identifier') }}</div>
                             <div class="item-content" v-if="item.article && item.article.size">Size: {{ safeGet(item, 'article.size') }}</div> 
                             <div class="item-content" v-if="item.item && item.item.code">Item Code: {{safeGet(item, 'item.code') }}</div>
                             <div class="item-content" v-if="item.quantity">Quantity: {{safeGet(item, 'quantity') }}</div>
@@ -68,6 +78,7 @@ import OrderService from '@/services/orders.service';
 /* Component imports */
 import UktInlineSvg from '@/components/common/ukt-inline-svg.vue';
 import rejectionReasonBox from './rejection-reason-box.vue';
+import { convertSnakeCaseToString } from '@/helper/utils.js';
 
 /* Helper imports */
 
@@ -113,6 +124,10 @@ export default {
         }
     },
     methods: {
+        convertSnakeCaseToString,
+        snakeCaseToCaps(text) {
+            return convertSnakeCaseToString(text).toUpperCase();
+        },
         canEntityBreak(){
             if(this.shipment && this.shipment.transition_config && this.shipment.transition_config.return_initiated 
             && this.shipment.transition_config.return_initiated.can_break_entity){
