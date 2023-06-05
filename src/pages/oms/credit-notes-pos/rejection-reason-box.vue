@@ -91,10 +91,11 @@ export default {
     },
     mounted() {
             if(document){
-                let ele=document.querySelector(".change-bag-state-container");
-                    if(ele){
-                        ele.addEventListener('click', this.checkOutsideClick);
-                    }
+                let ele=document.querySelector(".cn-return-drawer");
+                if(ele){
+                let child=ele.querySelector(".sidedrawer-container");
+                child.addEventListener('click', this.checkOutsideClick);
+                }
             }
     },
     beforeDestroy() {

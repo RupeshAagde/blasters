@@ -1,5 +1,5 @@
 <template>
-    <div class="return-side-panel cn-return-drawer">
+    <div class="return-side-panel">
         <div class="heading-wrapper">
             <div class="item-count" v-if="showItemsToReturn && shipment && shipment.bags && shipment.bags.length">Number of Item: {{ shipment.bags.length }}</div>
             <div class="item-count" v-if="!showItemsToReturn && !shipment.user.mobile && shipment.status.status == 'handed_over_to_customer'">Add customer details</div>
