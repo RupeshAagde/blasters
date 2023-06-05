@@ -7,15 +7,16 @@
                 @delete="deleteTicket"
                 @backClick="onCancel"
             >
-                <div class="button-box">
-                    <nitrozen-button
-                        :theme="'secondary'"
-                        @click="saveTicket"
-                        :showProgress="saving"
-                        v-flatBtn
-                        >{{ `${isEditOnly ? 'Save' : 'Create'}` }}
-                    </nitrozen-button>
-                </div>
+                        <div class="button-box">
+                            <nitrozen-button
+                                :theme="'secondary'"
+                                @click="saveTicket"
+                                :showProgress="saving"
+                                v-flatBtn
+                                >{{ `${isEditOnly ? 'Save' : 'Create'}` }}
+                            </nitrozen-button>
+                        </div>
+
             </page-header>
         </div>
         <loader v-if="loading"></loader>
@@ -34,7 +35,7 @@
                     :staff="staff"
                     :filters="filters"
                     :ticket="ticket"
-                    @pagination = "reload"
+                    @pagination="reload"
                     @something-changed="sideSectionchanged"
                 />
             </div>
@@ -49,6 +50,9 @@
     ::v-deep .button-box {
         display: flex;
         align-items: center;
+    }
+    .text {
+        margin-right: 12px;
     }
     ::v-deep .pad-right {
         margin-right: 16px;
@@ -124,6 +128,24 @@
         }
     }
 }
+.btn-card-2 {
+    display: flex;
+}
+.btn-tooltip {
+    position: fixed;
+    margin-top: 4px;
+    min-width: 150px;
+    max-width: 300px;
+    background-color: #ebedfb;
+    color: #41434c;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-family: Inter, sans-serif;
+    position: absolute;
+    z-index: 10;
+    font-size: 10px;
+}
 </style>
 
 <script>
@@ -131,6 +153,7 @@ import PageHeader from '@/components/common/layout/page-header';
 import Loader from '@/components/common/loader';
 import mainSection from './form-sections/main.vue';
 import detailSection from './form-sections/side-pane.vue';
+import inlineSvgVue from '../../components/common/inline-svg.vue';
 
 import {
     NitrozenButton,
@@ -138,7 +161,8 @@ import {
     NitrozenMenuItem,
     NitrozenToggleBtn,
     flatBtn,
-    strokeBtn
+    strokeBtn,
+    NitrozenTooltip
 } from '@gofynd/nitrozen-vue';
 
 import _ from 'lodash';
@@ -162,7 +186,9 @@ export default {
         'nitrozen-button': NitrozenButton,
         'nitrozen-menu': NitrozenMenu,
         'nitrozen-menu-item': NitrozenMenuItem,
-        'nitrozen-toggle': NitrozenToggleBtn
+        'nitrozen-toggle': NitrozenToggleBtn,
+        'inline-svg': inlineSvgVue,
+        NitrozenTooltip
     },
     directives: {
         flatBtn,
@@ -190,8 +216,7 @@ export default {
             saving: false,
             filters: undefined,
             feedbackList: [],
-            contextMenu: [
-            ]
+            contextMenu: [],
         };
     },
     computed: {
@@ -203,25 +228,25 @@ export default {
         }
     },
     methods: {
-        reload(){
-            this.loadUserList()
+        reload() {
+            this.loadUserList();
         },
         mainSectionchanged(content) {
             this.ticket.content = Object.assign(this.ticket.content, content);
         },
         base64Encode(rawStr) {
-            var CryptoJS = require("crypto-js");
+            var CryptoJS = require('crypto-js');
             var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
             var base64 = CryptoJS.enc.Base64.stringify(wordArray);
             return base64;
         },
         decode64Encode(base64Str) {
-            var CryptoJS = require("crypto-js");
+            var CryptoJS = require('crypto-js');
             try {
                 var parsedWordArray = CryptoJS.enc.Base64.parse(base64Str);
                 var parsedStr = parsedWordArray.toString(CryptoJS.enc.Utf8);
                 return parsedStr;
-            } catch(err) {
+            } catch (err) {
                 console.log(err);
                 return base64Str;
             }
@@ -257,10 +282,10 @@ export default {
 
             return query;
         },
-        loadUserList(){
+        loadUserList() {
             UserService.getUserList(this.requestQuery())
-            .then((res) => {
-                res.data.docs.forEach((element) => {
+                .then((res) => {
+                    res.data.docs.forEach((element) => {
                         this.staff.push({
                             text:
                                 (element.first_name || 'Team') +
@@ -269,20 +294,20 @@ export default {
                             value: element._id
                         });
                     });
-                        this.ticket.userList = res.data
-                        this.pagination.total = res.data.total;
-                        if(res.data.page <= res.data.pages){
-                            this.pagination.current = this.pagination.current + 1;
-                        }  
-            })
-            .catch((err) => {
+                    this.ticket.userList = res.data;
+                    this.pagination.total = res.data.total;
+                    if (res.data.page <= res.data.pages) {
+                        this.pagination.current = this.pagination.current + 1;
+                    }
+                })
+                .catch((err) => {
                     console.log(err);
                     this.$snackbar.global.showError(
                         `Failed to load ticket${
                             err && err.message ? ' : ' + err.message : ''
                         }`
                     );
-                })
+                });
         },
         loadEverything() {
             let promises = [];
@@ -319,8 +344,13 @@ export default {
                         const ticket = res.data;
                         this.ticketID = ticket._id;
                         this.ticket.content = ticket.content;
-                        if (this.ticket.content && this.ticket.content.description) {
-                            this.ticket.content.description = this.decode64Encode(this.ticket.content.description);
+                        if (
+                            this.ticket.content &&
+                            this.ticket.content.description
+                        ) {
+                            this.ticket.content.description = this.decode64Encode(
+                                this.ticket.content.description
+                            );
                         }
                         this.ticket.status = ticket.status.key;
                         this.ticket.category = ticket.category.key;
@@ -340,11 +370,14 @@ export default {
                         this.ticket.created_on = ticket.created_on;
                         this.ticket.integration = ticket.integration;
                         this.ticket.context = ticket.context;
+                        this.showFreshdeskLink =
+                            ticket.integration.freshdesk_synced;
+                        this.ticket.ticket_link = ticket.ticket_link;
 
                         res = responses[2];
                         this.ticket.history = res.data.items;
                         res = responses[3];
-                        this.feedbackList =  res.data.items || [];
+                        this.feedbackList = res.data.items || [];
                     }
 
                     res = responses[1];
@@ -362,11 +395,11 @@ export default {
                             value: element._id
                         });
                     });
-                        this.ticket.userList = res.data
-                        this.pagination.total = res.data.total;
-                        if(res.data.page <= res.data.pages){
-                            this.pagination.current = this.pagination.current + 1;
-                        }   
+                    this.ticket.userList = res.data;
+                    this.pagination.total = res.data.total;
+                    if (res.data.page <= res.data.pages) {
+                        this.pagination.current = this.pagination.current + 1;
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -463,8 +496,10 @@ export default {
 
             this.ticket.context = undefined;
             var payloadTicket = JSON.parse(JSON.stringify(this.ticket));
-            payloadTicket.content.description = this.base64Encode(payloadTicket.content.description|| '');
-            payloadTicket.history = null
+            payloadTicket.content.description = this.base64Encode(
+                payloadTicket.content.description || ''
+            );
+            payloadTicket.history = null;
             if (this.ticketID) {
                 SupportService.updateTicket(this.ticketID, payloadTicket)
                     .then((res) => {

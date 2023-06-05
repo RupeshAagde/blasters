@@ -1,6 +1,31 @@
 <template>
     <div class="page-container" style="min-height:100%">
-        <div class="cl-Mako bold-md top-headers">Assign</div>
+        <div class="header-container">
+            <div class="cl-Mako bold-md top-headers">Assign</div>
+            <div class="freshdesk-info">
+                <div>
+                    <div
+                        class="button-box text"
+                        v-if="showFreshdeskLink"
+                        @mouseover="mouseover()"
+                        @mouseout="mouseout()"
+                        >
+                            <nitrozen-button
+                                :theme="'secondary'"
+                                @click="openFreshdeskTicket"
+                                v-strokeBtn
+                                >{{ 'Freshdesk' }}
+                                <inline-svg src="open-new-tab"></inline-svg>
+                            </nitrozen-button>    
+                    </div>
+            </div>
+                <div v-if="showTooltip"
+                    class="btn-tooltip">
+                    {{ 'Open freshdesk ticket ID #' + ticket.integration.freshdesk_info.id  }}
+                </div>
+            </div>
+        </div>
+        
         <nitrozen-dropdown
             :searchable="false"
             @searchInputChange="staffSearch"
@@ -190,12 +215,37 @@
         font-size: 12px;
     }
 }
+.btn-tooltip {
+    // position: fixed;
+    margin-top: -12px;
+    word-wrap: break-word;
+    min-width: 80px;
+    max-width: 300px;
+    background-color: #ebedfb;
+    color: #41434c;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-family: Inter, sans-serif;
+    position: absolute;
+    z-index: 10;
+    font-size: 10px;
+    line-height: 1.1;
+}
 .nitrozen-label {
     color: #9b9b9b;
     font-family: Inter, sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 21px;
+}
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.freshdesk-info{
+    position: relative;
 }
 .tags-container {
     margin-top: 8px;
@@ -258,7 +308,8 @@ import {
     NitrozenDropdown,
     NitrozenCheckBox,
     NitrozenChips,
-    NitrozenInline
+    NitrozenInline,
+    NitrozenButton
 } from '@gofynd/nitrozen-vue';
 
 // import mirageimageuploader from '@/components/admin/common/image-uploader/index.vue';
@@ -269,11 +320,14 @@ import attachment from './attachment.vue';
 import RecursiveDropdown from './recursive-dropdown.vue';
 import addAttachmentDialogue from './add-attachment.vue';
 import { display } from '@/auto_gen/admin-svgs.js';
+import inlineSvgVue from '@/components/common/inline-svg.vue';
 
 export default {
     name: 'detail-section',
     components: {
+        'nitrozen-button': NitrozenButton,
         'nitrozen-input': NitrozenInput,
+        'inline-svg': inlineSvgVue,
         'nitrozen-error': NitrozenError,
         'nitrozen-dropdown': NitrozenDropdown,
         'nitrozen-checkbox': NitrozenCheckBox,
@@ -316,6 +370,8 @@ export default {
             allCategories : this.filters.all_categories,
             integration : this.ticket.integration,
             isCategoryEditable : false,
+            showFreshdeskLink: false,
+            showTooltip: false
         };
     },
     computed: {
@@ -333,6 +389,7 @@ export default {
         this.status = this.ticket.status;
         this.category = this.ticket.category;
         this.sub_category = this.ticket.sub_category;
+        this.showFreshdeskLink =this.ticket.integration.freshdesk_synced;
         const selectedCategory = this.filters.categories.find((el) => {
             return (el.key == this.category);
         });
@@ -349,6 +406,15 @@ export default {
         }
     },
     methods: {
+        mouseover() {
+            this.showTooltip = true;
+        },
+        mouseout() {
+            this.showTooltip = false;
+        },
+        openFreshdeskTicket() {
+            window.open(this.ticket.ticket_link);
+        },
         getInitialValue() {
             return {
                 showerror: false,

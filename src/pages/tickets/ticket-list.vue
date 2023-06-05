@@ -25,6 +25,18 @@
                     @searchInputChange="companySearch"
                     @scroll="companyScroll"
                 ></nitrozen-dropdown>
+                <date-picker
+                    class="date-picker filter-input-dr filter-item"
+                    picker_type="date"
+                    date_format="MMM D, YYYY"
+                    v-model="orderDateRange"
+                    :clearable="false"
+                    :range="true"
+                    :not_before="notBefore"
+                    :not_after="new Date().toISOString()"
+                    :useNitrozenTheme="true"
+                    @input="dateRangeChange"
+                />
 
                 <nitrozen-dropdown
                     :searchable="false"
@@ -163,12 +175,12 @@
         border-radius: 4px;
         padding: 12px;
         .search {
-            flex: 1;
+            flex: 0.4;
             // max-width: 409px;
         }
         .dropdown-filters {
             display: flex;
-            flex: 1;
+            flex: 1.6;
             justify-content: flex-end;
             > div {
                 padding-left: 10px;
@@ -256,6 +268,9 @@
 ::v-deep .nitrozen-dropdown-label {
     display: none;
 }
+::v-deep .date-picker {
+  min-width: 230px;
+}
 </style>
 
 <script>
@@ -268,6 +283,7 @@ import admShimmer from '@/components/common/shimmer';
 import SupportService from './../../services/support.service';
 import CompanyService from '@/services/company-admin.service';
 import moment from 'moment';
+import DatePicker from '@/components/common/date-picker.vue';
 
 const PAGINATION = {
     limit: 20,
@@ -296,7 +312,8 @@ export default {
         'nitrozen-pagination': NitrozenPagination,
         'adm-no-content': admNoContent,
         'adm-shimmer': admShimmer,
-        'inline-svg': inlineSvgVue
+        'inline-svg': inlineSvgVue,
+        DatePicker,
     },
     props: {},
     data() {
@@ -338,7 +355,12 @@ export default {
             companySearchText: '',
             isFirstTime: true,
             searchText: '',
-            filteredCategory: []
+            filteredCategory: [],
+            notBefore: moment().subtract(3, 'months').toISOString(),
+            orderDateRange: [
+                moment().subtract(1, 'weeks').toISOString(),
+                moment().toISOString(),
+            ],
         };
     },
     mounted() {
@@ -346,6 +368,9 @@ export default {
         this.loadCompanies();
     },
     methods: {
+        dateRangeChange() {
+            this.fetchTickets()
+        },
         onSearch() {
             this.filter_data.query.title = this.searchText;
             this.filter_data.query.code = this.searchText;
@@ -369,7 +394,9 @@ export default {
 
             const params = {
                 page_size: this.filter_data.pagination.limit,
-                page_no: this.filter_data.pagination.current
+                page_no: this.filter_data.pagination.current,
+                from_date: moment(this.orderDateRange[0]).format('DD-MM-YYYY'),
+                to_date: moment(this.orderDateRange[1]).format('DD-MM-YYYY'),
             };
 
             if (this.searchText != '') {
