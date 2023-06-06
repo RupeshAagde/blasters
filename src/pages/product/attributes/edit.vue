@@ -79,6 +79,7 @@
                         @save="logo = $event"
                         :fileName="attribute.name || 'attribute-logo'"
                         namespace="products-attribute-logo"
+                        class="attributes-custom"
                     ></image-uploader-tile>
                 </form-input>
                 <nitrozen-error v-if="errors.logo">
@@ -290,6 +291,14 @@
 </template>
 
 <style lang="less" scoped>
+.attributes-custom {
+    ::v-deep .image-uploader-meta{
+        padding: 6px 12px;
+    }
+    ::v-deep .image-uploader-container .meta-info{
+        line-height: 18px;
+    }
+}
 .header-position {
     height: 58.5px;
 }

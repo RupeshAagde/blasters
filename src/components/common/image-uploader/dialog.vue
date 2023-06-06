@@ -19,9 +19,11 @@
                             :recommendedResolution="recommendedResolution"
                             :showGallery="showGallery"
                             :value="imageURL"
-                            @input="imageURL = $event"
+                            @input="handlePanelInput($event)"
                             @cropped="$setCropping(false, true)"
                             :isHDNImage="isHDNImage"
+                            :maxCropperWidth="maxCropperWidth"
+                            :maxCropperHeight="maxCropperHeight"
                             ref="imageuploaderpanel"
                         ></image-uploader-panel>
                         <div class="dialog-saperator" v-if="showGallery"></div>
@@ -30,7 +32,7 @@
                             :mediaFolder="mediaFolder"
                             :namespace="namespace"
                             :minimumResolution="minimumResolution"
-                            @imageSelected="$setImage"
+                            @imageSelected="setDefaultImage"
                         ></image-uploader-list>
                     </div>
                 </template>
@@ -71,7 +73,7 @@
                     <div class="footer-saperator"></div>
                     <div class="action-buttons">
                         <nitrozen-button
-                            v-show="(!isHDNImage && !isEmpty) || isCropped"
+                            v-show="((!isHDNImage && !isEmpty) || isCropped ) && !showSelectButton"
                             theme="secondary"
                             :disabled="edit || loading"
                             v-flat-btn
@@ -80,7 +82,7 @@
                             Upload
                         </nitrozen-button>
                         <nitrozen-button
-                            v-show="(isHDNImage || isEmpty) && !isCropped"
+                            v-show="showSelectButton"
                             theme="secondary"
                             :disabled="edit || loading"
                             v-flat-btn
@@ -221,14 +223,67 @@ export default {
             initialImageURL: '',
             edit: false,
             visible: false,
-            isCropped: false
+            isCropped: false,
+             // state to manage the cropper rectangle 
+            maxCropperHeight: 100,
+            maxCropperWidth: 100,
+            showSelectButton: false
         };
     },
     methods: {
+        setDefaultImage(e){
+            this.$setImage(e)
+            this.showSelectButton = true
+        },
+        handlePanelInput($event) {
+            this.imageURL = $event;
+            if(this.imageURL){
+                try{
+                    // only if the input is valid url then try opening cropper
+                    new URL(this.imageURL)
+                    this.autoCropper()
+                }
+                catch(err){
+                    // do nothing
+                }
+            }
+        },
         detectMobileWidth,
+        autoCropper() {
+            this.getMeta(this.imageURL).then((data) => {
+                if (!this.validateMinimumResolution(data)) return;
+                if (this.aspectR && this.getMIMEType != 'image/svg+xml') {
+                    const aspectQ = parseFloat((this.aspectR.x / this.aspectR.y).toFixed(
+                        2
+                    ));
+                    const imageQ = parseFloat((data.width / data.height).toFixed(2));
+                    if (
+                        !(aspectQ <= imageQ + 0.01 && aspectQ >= imageQ - 0.01)
+                    ) {
+                        let croppingWidth, croppingHeight
+                        if (this.maximumResolution) {
+                            croppingWidth = this.maximumResolution.width
+                            croppingHeight = this.maximumResolution.height
+                            // only for case where the width and height are less than 256px resulting in non resizable cropper
+                            if (croppingHeight > 256 && croppingWidth > 256) {
+                                this.maxCropperWidth = (croppingWidth / data.width) * 100
+                                this.maxCropperHeight = (croppingHeight / data.height) * 100
+                            }
+                        }
+                        this.$snackbar.global.showError(
+                            `Aspect ratio not matching with ${this.aspectRatio}, Please crop the image.`
+                        );
+                        this.$setCropping(true)
+
+                    }
+                }
+            })
+        },
         open() {
+            this.$setCropping(false)
             this.visible = true;
             this.imageURL = this.initialImageURL = this.value;
+            this.showSelectButton = false
             this.$refs['dialog'].open({
                 width: this.detectMobileWidth() ? '100%' : '950px',
                 height: this.detectMobileWidth() ? '100%' : '632px',
@@ -290,6 +345,7 @@ export default {
             }
         },
         $uploadImage() {
+            this.showSelectButton = false
             const imagePath =
                 this.$refs.imageuploaderpanel.croppedImageFile || this.imageURL;
             var image = new Image();
@@ -328,6 +384,8 @@ export default {
                     ).then(cdn_url => {
                         this.imageURL = cdn_url;
                         this.isCropped = false;
+                        // Call the function to select the image
+                        this.$selectImage()
                         this.$snackbar.global.showSuccess('Image Uploaded');
                     });
                 } else if (!this.isHDNImage) {
@@ -337,6 +395,8 @@ export default {
                             this.uploadToGrindor(file).then(cdn_url => {
                                 this.imageURL = cdn_url;
                                 this.isCropped = false;
+                                // Call the function to select the image
+                                this.$selectImage()
                                 this.$snackbar.global.showSuccess(
                                     'Image Uploaded'
                                 );
@@ -464,7 +524,7 @@ export default {
             try {
                 // to bypass HDN CORS issue
                 if (GrindorService.isHDNPath(path) || any) {
-                    return `${GrindorService.getProxyURL()}?url=${path}`;
+                    return `${GrindorService.getProxyURL()}?url=${encodeURIComponent(path)}`;
                 }
                 return path;
             } catch (err) {
@@ -475,6 +535,7 @@ export default {
             this.$refs.imageuploaderpanel.cropping = edit;
             this.edit = edit;
             this.isCropped = cropped;
+            this.showSelectButton = false
         },
         $setImage(e) {
             if (this.edit) {
@@ -490,9 +551,11 @@ export default {
             this.imageURL = '';
             this.isCropped = false;
             this.$refs.imageuploaderpanel.croppedImageFile = '';
+            this.showSelectButton = true
         },
         uploadToGrindor(file) {
             if (!this.namespace) return;
+            let host = new URL(this.imageURL).hostname
             if (file) {
                 let body = {
                     file_name: file.name,
