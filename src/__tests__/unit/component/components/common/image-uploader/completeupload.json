@@ -1,0 +1,26 @@
+{
+    "file_name": "theme-image-1681189715018.png",
+    "file_path": "/company/1/applications/5d5c304a4df829372e2ad6d1/theme/pictures/free/original/theme-image-1681189715018.png",
+    "success": true,
+    "namespace": "application-theme-images",
+    "content_type": "image/png",
+    "size": 174026,
+    "operation": "putObject",
+    "tags": [],
+    "cdn": {
+        "url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/addsale/company/1/applications/5d5c304a4df829372e2ad6d1/theme/pictures/free/original/theme-image-1681189715018.png",
+        "absolute_url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/addsale/company/1/applications/5d5c304a4df829372e2ad6d1/theme/pictures/free/original/theme-image-1681189715018.png",
+        "relative_url": "addsale/company/1/applications/5d5c304a4df829372e2ad6d1/theme/pictures/free/original/theme-image-1681189715018.png"
+    },
+    "upload": {
+        "url": "https://fynd-staging-assets.s3-accelerate.amazonaws.com/addsale/company/1/applications/5d5c304a4df829372e2ad6d1/theme/pictures/free/original/theme-image-1681189715018.png?Content-Type=image%2Fpng&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJUADR2WMPQT6ZJ2Q%2F20230411%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230411T051014Z&X-Amz-Expires=1800&X-Amz-Signature=2d53d9e6c1d19fbeb0c8cede0e91b2e868cf62250bd7326ed302e64e4b5d4397&X-Amz-SignedHeaders=host%3Bx-amz-acl&x-amz-acl=public-read",
+        "expiry": 1800
+    },
+    "_id": "6434ebb75bdb4f71eea97b54",
+    "created_by": {
+        "username": "ekatakumari_gofynd_com_46430"
+    },
+    "company_id": 1,
+    "created_on": "2023-04-11T05:10:15.730Z",
+    "modified_on": "2023-04-11T05:10:15.730Z"
+}
