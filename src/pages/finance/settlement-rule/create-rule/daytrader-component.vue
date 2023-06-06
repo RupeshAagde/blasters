@@ -223,6 +223,7 @@
                                         v-model="flat.cycle"
                                         label = "Cycle"
                                         placeholder="Select Cycle"
+                                        @change="changeFlatCycle"
                                         ></nitrozen-dropdown>
                                         </div>
                                         <div class="expression-wrap">
@@ -239,6 +240,7 @@
                                                 v-model="selectedPriority"
                                                 label = "Set Priority"
                                                 placeholder="Select Priority"
+                                                @change="changeCondition"
                                             ></nitrozen-dropdown>
                                         </div>
                                     </div>
@@ -428,8 +430,28 @@ export default {
         if (params.preview == 'verify'){
             this.saveButtonName = 'Verify';
             // this.cancelDisableInput = false;
-        } else {
+        }
+        else {
             this.saveButtonName = 'Save';
+        }
+
+        if(params.preview){
+            let variableCond = this.form_data.variable_conditional.commission; 
+            if(variableCond){
+                if(variableCond.slab){
+                    this.slab = variableCond.slab;
+                }
+                if(variableCond.flat) {
+                    this.selectedFlat = true;
+                    this.flat = variableCond.flat;
+                }
+                if(variableCond.condition.whichever_is_higher == true){
+                    this.selectedPriority = 'high';
+                }
+                if(variableCond.condition.whichever_is_lower == true){
+                    this.selectedPriority = 'low';
+                }
+            }
         }
     },
     data() {
@@ -511,22 +533,21 @@ export default {
             expressionItems:[
                 {
                     text: 'No condition, only digits : 0',
-                    value: 'No condition, only digits : 0'
+                    value: '0'
                 },
                 {
                     text: 'One Condition : 2.5 if net_sales <= 5000000 else 2',
-                    value: 'One Condition : 2.5 if net_sales <= 5000000 else 2'
+                    value: '2.5 if net_sales <= 5000000 else 2'
                 },
                 {
                     text: 'Two Condition : 5 if net_sales <= 5000000 else 3 if net_sales <= 10000000 else 2.5',
-                    value: 'Two Condition : 5 if net_sales <= 5000000 else 3 if net_sales <= 10000000 else 2.5'
+                    value: '5 if net_sales <= 5000000 else 3 if net_sales <= 10000000 else 2.5'
                 },
 
             ],
-            slab: 
-            {
+            slab: {
                 "cycle": "weekly",
-                "expression": "No condition, only digits : 0",
+                "expression": "0",
                 "expression_variable_used": [
                     "net_sales"
                 ]
@@ -535,6 +556,7 @@ export default {
                 "cycle": "weekly",
                 "value": "1000"
             },
+            slabEx: 'No condition, only digits : 0',
             selectedVariable: false,
             variableObj: {},
             saveButtonName: '',
@@ -697,6 +719,9 @@ export default {
                 delete this.formData.transactional_components.variable_conditional.commission["flat"]
             }
         },
+        changeFlatCycle(){
+            this.formData.transactional_components.variable_conditional.commission["flat"].cycle = this.flat.cycle
+        },
         variableComponent(value, key, type) {
             let obj = this.formData.transactional_components.variable_conditional;
             if(value == 0){
@@ -718,6 +743,12 @@ export default {
                 },
             };
             this.formData.transactional_components.variable_conditional.commission = this.variableObj;
+        },
+        changeCondition(){
+            this.formData.transactional_components.variable_conditional.commission.condition.whichever_is_higher =
+            (this.selectedPriority == "high") ? true : false;
+            this.formData.transactional_components.variable_conditional.commission.condition.whichever_is_lower =
+            (this.selectedPriority == "low") ? true : false;
         },
         updateComponent(value, key, type) {
             let obj = null;

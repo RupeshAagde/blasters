@@ -342,11 +342,9 @@ export default {
 
                 this.ruleDaterange = [start_date, end_date];
 
-                // this.ruleDaterange[0] = start_date;
-                // this.ruleDaterange[1] = end_date;
-
                 this.fetchRuleData();
                 this.formData.transactional_components = data.transactional_components;
+
                 
             })
             .catch((err) => { 
