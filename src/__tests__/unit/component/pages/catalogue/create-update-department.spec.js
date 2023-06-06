@@ -89,5 +89,176 @@ describe('Mounted Department', () => {
 		expect(wrapper.vm.synonym.value).toEqual(["text1", "text2"])
 		wrapper.vm.addSearchText()
 	})
+	it('should update showerror property to false when value and showerror are truthy', () => {
+		// Arrange
+		const fieldLabel = 'name';
+		const fieldObj = {
+		  value: 'Some value',
+		  showerror: true
+		};
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
 
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({ [fieldLabel]: fieldObj });
+		// Act
+		wrapper.vm.handleError(fieldLabel);
+		// Assert
+		expect(wrapper.vm[fieldLabel].showerror).toBe(false);
+	  });
+	
+	  it('should not update showerror property when value is falsy', () => {
+		// Arrange
+		const fieldLabel = 'name';
+		const fieldObj = {
+		  value: '',
+		  showerror: true
+		};
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({ [fieldLabel]: fieldObj });
+		// Act
+		wrapper.vm.handleError(fieldLabel);
+		// Assert
+		expect(wrapper.vm[fieldLabel].showerror).toBe(true);
+	  });
+	
+	  it('should not update showerror property when showerror is falsy', () => {
+		// Arrange
+		const fieldLabel = 'name';
+		const fieldObj = {
+		  value: 'Some value',
+		  showerror: false
+		};
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({ [fieldLabel]: fieldObj });
+		// Act
+		wrapper.vm.handleError(fieldLabel);
+		// Assert
+		expect(wrapper.vm[fieldLabel].showerror).toBe(false);
+	  });
+	  it('should update logo.value and set logo.showerror to false when $event is truthy and logo.showerror is true', () => {
+		// Arrange
+		const $event = 'path/to/image.jpg';
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({
+		  logo: {
+			value: '',
+			showerror: true
+		  }
+		});
+	
+		// Act
+		wrapper.vm.saveImage($event);
+	
+		// Assert
+		expect(wrapper.vm.logo.value).toBe($event);
+		expect(wrapper.vm.logo.showerror).toBe(false);
+	  });
+	
+	  it('should update logo.value without changing logo.showerror when $event is truthy and logo.showerror is false', () => {
+		// Arrange
+		const $event = 'path/to/image.jpg';
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({
+		  logo: {
+			value: '',
+			showerror: false
+		  }
+		});
+	
+		// Act
+		wrapper.vm.saveImage($event);
+	
+		// Assert
+		expect(wrapper.vm.logo.value).toBe($event);
+		expect(wrapper.vm.logo.showerror).toBe(false);
+	  });
+	
+	  it('should not update logo.value or logo.showerror when $event is falsy', () => {
+		// Arrange
+		const $event = '';
+		const router = new VueRouter({
+			routes: [
+				{ path: '/administrator/product/department/edit/:deptId', component: DeptComponent }
+			]
+		})
+		router.push('/administrator/product/department/edit/1');
+		mock.onGet(URLS.DEPARTMENT()).reply(200, { items: mocks.departments });
+
+		wrapper = mount(DeptComponent, {
+			localVue,
+			router
+		}
+		);
+		wrapper.setData({
+		  logo: {
+			value: 'path/to/image.jpg',
+			showerror: true
+		  }
+		});
+	
+		// Act
+		wrapper.vm.saveImage($event);
+	
+		// Assert
+		expect(wrapper.vm.logo.value).toBe('');
+		expect(wrapper.vm.logo.showerror).toBe(true);
+	  });
 })

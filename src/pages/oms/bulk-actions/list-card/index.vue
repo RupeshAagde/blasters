@@ -406,7 +406,6 @@ export default {
 .title {
     color: @Black;
     font-weight: 500;
-    text-transform: uppercase;
 }
 
 .file-status-info {

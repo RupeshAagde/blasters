@@ -113,7 +113,7 @@
                         <inline-svg :src="'cross-black'"></inline-svg>
                     </div>
                 </template>
-                <template slot="body" class="desc-dialog">
+                <template slot="body">
                     <div class="b1">
                         <div>
                             <div>
@@ -165,11 +165,11 @@
                             class="mr24"
                             id="approve"
                             :theme="'secondary'"
-                            @click="postReviewedAccept()"
+                            @click="postReviewed(true)"
                             :disabled="false"
                             >Approve</nitrozen-button
                         >
-                        <nitrozen-button v-strokeBtn class="mr24" :theme="'secondary'"
+                        <nitrozen-button @click="postReviewed(false)" v-strokeBtn class="mr24" :theme="'secondary'"
                             >Decline</nitrozen-button
                         >
                     </div>
@@ -188,7 +188,7 @@
                         <inline-svg :src="'cross-black'"></inline-svg>
                     </div>
                 </template>
-                <template slot="body" class="desc-dialog">
+                <template slot="body">
                     <div class="">
                         <div>
                             <div class="filter-type">
@@ -358,7 +358,7 @@ export default {
                 console.log(err);
             })
         },
-        postReviewedAccept: function () {
+        postReviewed: function (isApproved) {
             if(this.comments == ''){
                 return
             }
@@ -372,7 +372,11 @@ export default {
                 password: this.password , 
                 // unicron@admin@fynd#2021
             };
-             
+            
+            if(!isApproved){
+                payload.is_reviewed = 'false'
+                payload.is_active = 'false'
+            }
             const ids = {
                 ...this.param,
                 paymentId: this.modalProps.id,
@@ -383,7 +387,7 @@ export default {
                 .then((data) => {
                    this.getReviewList();
                     this.closeDialog();
-                    this.$snackbar.global.showSuccess('PG cred Approved');
+                    this.$snackbar.global.showSuccess('Review submitted successfully');
                     this.password = '';
                 })
                 .catch((err) => {

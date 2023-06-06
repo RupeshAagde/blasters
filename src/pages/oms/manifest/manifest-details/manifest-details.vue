@@ -72,7 +72,7 @@
                         :showSearchIcon="true"
                         class="search filter-input-lg"
                         type="search"
-                        :placeholder="'Search by Shipment ID'"
+                        :placeholder="'Search by Shipment ID, Order ID or AWB Number'"
                         v-model="shipmentSearchText"
                         @blur="onSearch"
                         @keyup.enter="onSearch"

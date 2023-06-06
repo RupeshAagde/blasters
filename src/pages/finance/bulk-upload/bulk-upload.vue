@@ -286,7 +286,7 @@ export default {
   methods: {
     isJsonItem(item){
       try{
-        var json = JSON.parse(item);
+        var json = JSON.parse(item.replace(/[“”]/g, '"').replace(/[‘’]/g, "'"));
         return (typeof json === 'object');
       }
       catch (error){
@@ -294,7 +294,7 @@ export default {
       }
     },
     openJsonView(item){
-      this.json = JSON.parse(item);
+      this.json = JSON.parse(item.replace(/[“”]/g, '"').replace(/[‘’]/g, "'"));
       if(isArray(this.json)){
         this.json = {...this.json};
       }
@@ -401,7 +401,6 @@ export default {
           this.fileSelected = true;
           let file = (event.dataTransfer) ?  event.dataTransfer.files[0] : event.target.files[0];
           this.file = file;
-
             if(file.size == 0) {
                 this.$snackbar.global.showError(
                     `File is empty, please check the file`
@@ -549,7 +548,8 @@ export default {
 
         },
 
-        onUploadClick() {
+        onUploadClick(event) {
+          event.target.value = '';
           if(this.selectedFileType){
             this.$refs.fileUpload.click();
         }
@@ -567,7 +567,6 @@ export default {
           this.fileSelected = false;
           this.startLoader = false;
           this.file = new Blob(); 
-
         },
         confirmValidation(){
           const params = {

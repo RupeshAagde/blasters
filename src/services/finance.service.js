@@ -48,7 +48,6 @@ const FinanceService = {
 
     uploadToS3(url, data) {
         let axiosOption = Object.assign({}, { data });
-        console.log(axiosOption);
         return ApiService.post(url, axiosOption, {
             withCredentials: true
         });
@@ -71,6 +70,28 @@ const FinanceService = {
         return ApiService.post(URLS.GET_REPORT_LIST(), axiosOption);
     },
 
+    //Invoice 
+
+    getInvoiceList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_LIST(), axiosOption);
+    },
+    getInvoiceType(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_TYPE(), axiosOption);
+    },
+    getPaymentStatus(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_PAYMENT(), axiosOption);
+    },
+    getDownloadUrlList(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_INVOICE_DOWNLOAD_URLS(), axiosOption);
+    },
+    invoiceVoid(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.VOID_FIN_INVOICE(), axiosOption);
+    },
     getCompanyList(params) {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params })
         return ApiService.get(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
@@ -112,6 +133,21 @@ const FinanceService = {
         return ApiService.get(URLS.FILTERS_V2(), axiosOption);
     },
     
+    getReasons(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_REASONS_LIST(), axiosOption);
+    },
+    invoiceExtendDate(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.EXTEND_DATE_INVOICE(), axiosOption);
+    },
+    //Payments
+    updatePaymentInfo(params) {
+        const axiosOptions = Object.assign({}, getCommonHeaderOptions(), {
+          data: params
+        });
+        return ApiService.post(URLS.CREDITLINE_PAYMENTS(), axiosOptions);
+    },
 };
 
 export default FinanceService;

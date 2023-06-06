@@ -97,7 +97,7 @@
 
                 <div id="bag-id" v-if="articleData.bag_id">
                     <span class="common-key-style">Bag ID: </span>
-                    <span class="common-value-style">
+                    <span class="common-value-style pointer" @click="copyData(articleData.bag_id)">
                         {{ articleData.bag_id }}
                     </span>
                 </div>
@@ -111,14 +111,14 @@
 
                 <div id="item-code" v-if="articleData.item.slug_key">
                     <span class="common-key-style">Item Code: </span>
-                    <span class="common-value-style">
+                    <span class="common-value-style pointer" @click="copyData(articleData.item.code)">
                         {{ articleData.item.code }}
                     </span>
                 </div>
 
                 <div id="article-id" v-if="articleData.article.uid">
                     <span class="common-key-style">Article ID: </span>
-                    <span class="common-value-style">
+                    <span class="common-value-style pointer" @click="copyData(articleData.article.uid )">
                         {{ articleData.article.uid }}
                     </span>
                 </div>
@@ -164,7 +164,7 @@ import { NitrozenBadge } from '@gofynd/nitrozen-vue';
 import InlineSvg from '@/components/common/inline-svg.vue';
 
 /* Helper imports */
-import { formatPrice } from '@/helper/utils.js';
+import { formatPrice, copyToClipboard } from '@/helper/utils.js';
 
 export default {
     name: 'more-bag-info',
@@ -185,11 +185,19 @@ export default {
     },
     methods: {
         formatPrice,
+        copyData(text) {
+            copyToClipboard(text);
+            this.$snackbar.global.showInfo('Copied to clipboard');
+        },
     }
 }
 </script>
 
 <style lang="less" scoped>
+.pointer{
+    cursor: pointer;
+}
+
 .header {
     // border-bottom: 1px solid #E1E1E1;
     // margin-top: -2rem;

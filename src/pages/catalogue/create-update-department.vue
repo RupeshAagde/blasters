@@ -57,6 +57,7 @@
                     <nitrozen-input
                         label="Name *"
                         v-model="name.value"
+                        @input="handleError('name')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="name.showerror">{{
                         name.errortext
@@ -68,6 +69,7 @@
                         pattern="[a-z0-9]+(?:--?[a-z0-9]+)*"
                         v-model="slug.value"
                         :disabled="update"
+                        @input="handleError('slug')"
                     ></nitrozen-input>
                     <nitrozen-error v-if="slug.showerror">{{
                         slug.errortext
@@ -88,6 +90,7 @@
                     class="input-box"
                     label="Priority *"
                     v-model="priority.value"
+                    @input="handleError('priority')"
                     type="number"
                 ></nitrozen-input>
                 <nitrozen-error v-if="priority.showerror">{{
@@ -100,7 +103,7 @@
                     label="Logo *"
                     aspectRatio="1:1"
                     @delete="logo.value = ''"
-                    @save="logo.value = $event"
+                    @save="saveImage($event)"
                     v-model="logo.value"
                     fileName="department"
                     :showGallery="true"
@@ -111,7 +114,7 @@
                 }}</nitrozen-error>
             </div>
             <div class="row-3">
-                <div class="n-input-label">Synonyms *</div>
+                <div class="n-input-label">Synonyms</div>
                 <div class="input-text tags" @click="$refs.synonymText.focus()">
                     <nitrozen-chips
                         v-for="(item, index) in synonym.value"
@@ -470,22 +473,36 @@ export default {
                     })
                     .catch((error) => {
                         this.pageLoading = false;
-                        console.error(error);
-                        this.$snackbar.global.showError(
-                            (error &&
-                                error.response &&
-                                error.response.data &&
-                                error.response.data &&
-                                `${error.response.data.error}`) ||
-                                (error &&
-                                    error.response &&
-                                    error.response.data &&
-                                    error.response.data &&
-                                    error.response.data.errors &&
-                                    `${error.response.data.errors.error}`) ||
-                                `Operation Failed !`
-                        );
+                        const response = error && error.response && error.response.data;
+                        const errorMessage = response && (response.error || (response.errors && response.errors.error)) || 'Operation Failed!';
+                        this.$snackbar.global.showError(errorMessage);
                     });
+            }
+        },
+        /**
+        * Handles error for a specific field.
+        * @param {string} fieldLabel - The label of the field to handle the error for.
+        */
+        handleError(fieldLabel) {
+            let fieldObj = this[fieldLabel]
+            const { value, showerror } = fieldObj
+            if (value && showerror) {
+                fieldObj.showerror = false
+                this[fieldLabel] = fieldObj
+                // if the triggered label is name and the mode is not in update mode then set the slug error also as false
+                if (fieldLabel == "name" && !this.update) {
+                    this.slug.showerror = false
+                }
+            }
+        },
+        /**
+        * Handles the saving of an image and updates the logo properties.
+        * @param {string} $event - The event or data representing the image to be saved.
+        */
+        saveImage($event) {
+            this.logo.value = $event
+            if ($event && this.logo.showerror) {
+                this.logo.showerror = false
             }
         }
     }

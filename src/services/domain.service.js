@@ -528,6 +528,35 @@ const URLS = {
    
 
 
+    //For Invoice
+
+    GET_INVOICE_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing`);
+    },
+    GET_INVOICE_TYPE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/get-invoice-list`);
+    },
+    GET_INVOICE_PAYMENT: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/listing2`);
+    },
+    GET_INVOICE_DOWNLOAD_URLS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/invoice/pdf-view`);
+    },
+    CREDITLINE_PAYMENTS: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/payment-process');
+    },
+    VOID_FIN_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, '/v1.0/void-invoice');
+    },
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+    },
+    GET_REASONS_LIST: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-reasons-list`);
+    },
+    EXTEND_DATE_INVOICE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/invoice/extend-due-date`);
+    },
     //#########Tickets########
     FETCH_TICKETS: () => {
         return urlJoin(PLATFORM_LEADS_BASE, `v1.0/ticket`);
@@ -742,6 +771,24 @@ const URLS = {
     },
     FETCH_COD_CONFIG: (params)=>{
         return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/company/${params.companyId}/application/${params.app_id}/cod/delivery/`)
+    },
+    FETCH_PAYMENT_GATEWAY_LIST: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/all`)
+    },
+    FETCH_BUSINESS_UNIT_DEVICE_LIST: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/all-devices`)
+    },
+    CRUD_PAYMENT_GATEWAY_DETAILS: (id) => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/aggregators/${id}/`)
+    },
+    COPY_CONFIGURATION_AGGREGATOR: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`/v1.0/config/aggregators/copy-config`)
+    },
+    CRUD_PAYMENT_MODE: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`v1.0/config/payment-modes`)
+    },
+    COPY_CONFIGURATION: () => {
+        return urlJoin(GRINGOTTS_ADMIN_URL,`/v1.0/config/payment-modes/copy-config`)
     },
      //POINTBLANK
      COMMUNICATION_LOG: (params) => {
@@ -1167,7 +1214,19 @@ const URLS = {
     },
     PLATFORM_DOMAIN: () => {
         return FYND_PLATFORM_DOMAIN
-    }
+    },
+    SEND_OTP: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/send/otp/mobile`)
+    },
+    VERIFY_OTP: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/verify/otp`)
+    },
+    CREATE_USER: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/user/attach`)
+    },
+    POST_REFUND_CONFIG: () => {
+        return urlJoin(AVIS_ADMIN_URL, `/v1.0/company/${getCompInfo()}/refund-mode-config`);
+    },
     /** OMSv2.1 -- END */
 };
 

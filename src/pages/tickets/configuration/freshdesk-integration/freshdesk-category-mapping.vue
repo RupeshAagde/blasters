@@ -511,10 +511,15 @@ export default {
             deleteSelectedCategory:'',
             deletedCategoryFromLevel:'',
             item:{},
+            isGroupPresent:false,
             index:'',        };
     },
     mounted() {
         if (this.categoryList.length) {
+            this.categoryList = this.categoryList.map((item) => { 
+                if (item.group_id === null) { item.group_id = ''; } 
+                return item; 
+            });
             this.categoryList[0].sub_categories.length
                 ? (this.levelTwoCategoryList = this.categoryList[0].sub_categories)
                 : (this.levelTwoCategoryList = []);
@@ -792,6 +797,11 @@ export default {
         async integrate() {
             if (!this.categoryList.length)
                 return this.$snackbar.global.showError('Please provide category');
+            this.isGroupPresent = true
+            this.isGroupPresent = this.categoryList.some(item => !item.group_id);
+            if(!this.isGroupPresent){
+                return this.$snackbar.global.showError('Please provide group ID')
+            }
             let body = {
                 category_data: {
                     list: this.categoryList
@@ -951,7 +961,7 @@ export default {
                         }
                     }
                     .group-input-box {
-                        margin: 0px 40px 0px 32px;
+                        margin: 0px 40px 8px 32px;
                         .groupID-error {
                             margin-top: 4px;
                             display: flex;
