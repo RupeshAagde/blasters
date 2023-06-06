@@ -40,6 +40,20 @@
                             >
                         </div>
 
+                        <div class="ext-order-id"
+                            v-if="detailsData.order && detailsData.order.affiliate_order_id && 
+                            detailsData.order.ordering_channel && detailsData.order.ordering_channel.toLowerCase() == 'marketplace'"
+                        > 
+                            External Order ID:
+                            <span
+                                class="order-id"
+                                @click="
+                                    copyOrderId(detailsData.order.affiliate_order_id)
+                                "
+                                >{{ detailsData.order.affiliate_order_id }}</span
+                            >
+                        </div>
+
                         <div class="sub-info">
                             Placed on {{ created_at }}
                             <p v-if="detailsData.order_source_domain" class="sub-link">
@@ -468,16 +482,19 @@ export default {
 
     .order-info {
         .content {
+            .ext-order-id{
+                font-weight: 500;
+            }
             .order-id-container {
                 display: flex;
                 align-items: center;
                 cursor: pointer;
-                // margin-bottom: 8px;
 
                 .order-id {
                     color: @RoyalBlue;
                     padding-bottom: 8px;
                     font-weight: 500;
+                    cursor: pointer;
                 }
             }
         }

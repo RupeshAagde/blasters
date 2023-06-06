@@ -28,7 +28,8 @@ let jestConfig = {
     'mixins',
     'router',
     'pipes'],
-  bail: true
+  bail: true,
+  testMatch: ['**/?(*.)+(spec).js']
 }
 
 if(!conf.get('local')){

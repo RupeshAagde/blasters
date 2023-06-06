@@ -95,6 +95,10 @@ export default {
         let dropdown = this.$refs[this.seedData.name].$children[1];  //Accessing the second child of collapse
         dropdown.searchInput = '';  //Clearing the search input text
         this.getVals = this.getValues; //Resetting the options list to Default
+      } else if (this.$refs[this.seedData.name]) {
+        let dropdown = this.$refs[this.seedData.name];  //Accessing the second child of collapse
+        dropdown.searchInput = '';  //Clearing the search input text
+        this.getVals = this.getValues; //R
       }
     },
     toggleState(state) {
@@ -155,6 +159,11 @@ export default {
       if(!this.isMultiSelect) {
         this.$refs[this.seedData.name].toggle();
       }
+      if(this.$refs[this.seedData.name].showOptions) {
+            setTimeout(() => {
+              this.$refs[this.seedData.name].showOptions = false;
+            })
+        }
     
     }
   },
@@ -189,7 +198,11 @@ export default {
           : 'Select ' + this.seedData.name
     },
     isDisabled(){
-      return this.isLoading || this.isGlobalLoading;
+        const isDisabled = this.isLoading || this.isGlobalLoading;
+        if(isDisabled) {
+            this.clearSearchSlugs();
+        }
+      return isDisabled;
     }
   },
   mounted() {
