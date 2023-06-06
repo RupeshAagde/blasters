@@ -84,7 +84,9 @@ import CreditDebitHome from './../../pages/finance/credit-debit-note/index.vue';
 import CreditDebitNote from './../../pages/finance/credit-debit-note/create-cn-dn.vue';
 import BulkUpload from './../../pages/finance/bulk-upload/bulk-upload.vue';
 import UploadHistoryFin from '@/pages/finance/bulk-upload/upload-history/index.vue';
-import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue';
+import SettlementRule from '@/pages/finance/settlement-rule/index.vue';
+import CreateRule from '@/pages/finance/settlement-rule/create-rule/index.vue';
+import ReportHistory from './../../pages/webhook/report-history/components/report-history.vue'
 import Invoices from './../../pages/finance/invoice/index.vue';
 
 import RMAPage from '@/pages/rma';
@@ -1286,10 +1288,30 @@ export default [
                     ]);
                 }
             },
-            {
+            {             
                 name: 'invoices',
                 path: 'finance/invoices',
                 component: Invoices,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                }
+            },
+            {
+                name: 'settlement-rule',
+                path: 'finance/settlement-rule',
+                component: SettlementRule,
+                beforeEnter: (to, from, next) => {
+                    return checkUserPermission(to, from, next, [
+                        'finance'
+                    ]);
+                }
+            },
+            {
+                name: 'create-rule',
+                path: 'finance/settlement-rule/create-rule/:ruleId?/:preview?',
+                component: CreateRule,               
                 beforeEnter: (to, from, next) => {
                     return checkUserPermission(to, from, next, [
                         'finance'

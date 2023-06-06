@@ -498,6 +498,36 @@ const URLS = {
         return urlJoin(DAYTRADER_ADMIN_URL, `v1.0/upload-report-info`);
     },
 
+    //for settlemment-rule
+    // GET_COMPANY_LIST_FIN: (query) => {
+    //     return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list/?search=${query}`);
+    // },
+    GET_COMPANY_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+    },
+    GET_BRAND_LIST_FIN: (id, query) => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/company/${id}/get-company-brand-list/?search=${query}`);
+    },
+    GET_AFFILIATE_LIST_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-affiliate-list`);
+    },
+    GET_DATA_FIN: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-data`);
+    },
+    GET_RULE_DATA: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-output-fields-v2`);
+    },
+    GENERATE_RULE: () => {
+        return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/settle-rule`);
+    },
+
+    GET_GLOBAL_AFFILIATE: () => {
+        // return urlJoin(DAYTRADER_ADMIN_URL, `/v1.0/get-company-list`);
+        return urlJoin(ADMIN_ORDER_BASE, '/v1.0/filter-listing');
+    },
+   
+
+
     //For Invoice
 
     GET_INVOICE_LIST: () => {
