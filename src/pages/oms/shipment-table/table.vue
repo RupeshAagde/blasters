@@ -204,6 +204,7 @@
                     :title="`Choose Next Bag State`"
                     :footer="true"
                     :css="isCreditNoteReturn ? isMobile() ? { width: '100%' } : { width: '60%' } : {width: '30%'}"
+                    class="cn-return-drawer"
                 >
                     <change-bag-state-drawer
                         ref="change-bag-state"
