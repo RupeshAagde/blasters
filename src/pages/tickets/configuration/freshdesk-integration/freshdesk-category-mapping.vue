@@ -511,7 +511,7 @@ export default {
             deleteSelectedCategory:'',
             deletedCategoryFromLevel:'',
             item:{},
-            isGroupPresent:false,
+            groupIdAbsent:false,
             index:'',        };
     },
     mounted() {
@@ -797,9 +797,8 @@ export default {
         async integrate() {
             if (!this.categoryList.length)
                 return this.$snackbar.global.showError('Please provide category');
-            this.isGroupPresent = true
-            this.isGroupPresent = this.categoryList.some(item => !item.group_id);
-            if(!this.isGroupPresent){
+            this.groupIdAbsent = this.categoryList.some(item => !item.group_id);
+            if(this.groupIdAbsent){
                 return this.$snackbar.global.showError('Please provide group ID')
             }
             let body = {
