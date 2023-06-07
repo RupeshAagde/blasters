@@ -96,6 +96,43 @@ const FinanceService = {
         let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params })
         return ApiService.get(URLS.GET_COMPANY_LIST_FIN(), axiosOption);
     },
+    getBrandList(id, query) {
+        let axiosOption = Object.assign({}, { });
+        return ApiService.get(URLS.GET_BRAND_LIST_FIN(id, query), axiosOption);
+    },
+    getAffiliateFin(data) {
+        let axiosOption = Object.assign({}, {data});
+        return ApiService.post(URLS.GET_AFFILIATE_LIST_FIN(), axiosOption);
+    },
+    getDataFin(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_DATA_FIN(), axiosOption);
+    },
+    getRuleData(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_RULE_DATA(), axiosOption);
+    },
+    generateRules(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GENERATE_RULE(), axiosOption);
+    },
+    editRules(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.put(URLS.GENERATE_RULE(), axiosOption);
+    },
+    getRulesList(data){
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.post(URLS.GET_DATA_FIN(), axiosOption);
+    },
+    deleteRule(data) {
+        let axiosOption = Object.assign({}, { data });
+        return ApiService.put(URLS.GENERATE_RULE(), axiosOption);
+    },
+    getGlobalAffiliate(params) {
+        let axiosOption = Object.assign({}, getCommonHeaderOptions(false), { params: params })
+        return ApiService.get(URLS.FILTERS_V2(), axiosOption);
+    },
+    
     getReasons(data){
         let axiosOption = Object.assign({}, { data });
         return ApiService.post(URLS.GET_REASONS_LIST(), axiosOption);

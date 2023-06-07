@@ -1,0 +1,2679 @@
+{
+    "getCompanyList": [
+        {
+            "text": "Brunt Test Company - 1685006698798 (18797)",
+            "value": "18797"
+        },
+        {
+            "text": "sfdaff (18796)",
+            "value": "18796"
+        },
+        {
+            "text": "auto_company_2542023753287 (18795)",
+            "value": "18795"
+        },
+        {
+            "text": "auto_company_2542023753307 (18794)",
+            "value": "18794"
+        },
+        {
+            "text": "auto_company_2542023744976 (18793)",
+            "value": "18793"
+        },
+        {
+            "text": "auto_company_2542023744801 (18792)",
+            "value": "18792"
+        },
+        {
+            "text": "auto_company_2542023743443 (18791)",
+            "value": "18791"
+        },
+        {
+            "text": "auto_company_2542023742437 (18790)",
+            "value": "18790"
+        },
+        {
+            "text": "auto_company_2542023742137 (18789)",
+            "value": "18789"
+        },
+        {
+            "text": "auto_company_224202370939 (18685)",
+            "value": "18685"
+        },
+        {
+            "text": "auto_company_2542023720445 (18788)",
+            "value": "18788"
+        },
+        {
+            "text": "auto_company_2542023720941 (18787)",
+            "value": "18787"
+        },
+        {
+            "text": "auto_company_2542023719447 (18786)",
+            "value": "18786"
+        },
+        {
+            "text": "auto_company_25420231232161 (18785)",
+            "value": "18785"
+        },
+        {
+            "text": "auto_company_25420231232437 (18784)",
+            "value": "18784"
+        },
+        {
+            "text": "test-businessadssg (18783)",
+            "value": "18783"
+        },
+        {
+            "text": "auto_company_2542023622981 (18782)",
+            "value": "18782"
+        },
+        {
+            "text": "auto_company_2542023559107 (18781)",
+            "value": "18781"
+        },
+        {
+            "text": "auto_company_2542023558561 (18780)",
+            "value": "18780"
+        },
+        {
+            "text": "test21 (18779)",
+            "value": "18779"
+        }
+    ],
+    "getRuleList":{
+        "success": true,
+        "items": [
+            {
+                "id": "b5524c5d-d5d3-4942-9afd-9706b151e3b9",
+                "created_at": "2023-05-25 12:35:34",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|11348|uniket|high_street|1",
+                "slug_values": {
+                    "brand": {
+                        "id": 11348,
+                        "name": "Generic (11348)"
+                    },
+                    "channel": {
+                        "id": "uniket",
+                        "name": "Uniket"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "affiliate": {
+                        "id": 1,
+                        "name": "Fynd"
+                    },
+                    "location_type": {
+                        "id": "high_street",
+                        "name": "High Street"
+                    }
+                },
+                "rule_start_date": "18/05/2023",
+                "rule_end_date": "25/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-25 12:35:34"
+            },
+            {
+                "id": "a6f82d9f-5a25-4dba-ac19-6d564fbada8b",
+                "created_at": "2023-05-24 19:25:23",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "11348|fynd|18769",
+                "slug_values": {
+                    "brand": {
+                        "id": 11348,
+                        "name": "Generic (11348)"
+                    },
+                    "channel": {
+                        "id": "fynd",
+                        "name": "Fynd"
+                    },
+                    "company": {
+                        "id": 18769,
+                        "name": "auto_company_24420231258631 (18769)"
+                    }
+                },
+                "rule_start_date": "18/05/2023",
+                "rule_end_date": "25/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-25 11:04:10"
+            },
+            {
+                "id": "8a3eceee-2d2a-4f64-b6ee-3518cc981431",
+                "created_at": "2023-05-24 19:16:49",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|8906|fynd_store|5",
+                "slug_values": {
+                    "brand": {
+                        "id": 8906,
+                        "name": "Nike (8906)"
+                    },
+                    "channel": {
+                        "id": "fynd_store",
+                        "name": "Fynd Store"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "affiliate": {
+                        "id": 5,
+                        "name": "mirage-dev"
+                    }
+                },
+                "rule_start_date": "17/05/2023",
+                "rule_end_date": "24/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-24 19:16:49"
+            },
+            {
+                "id": "bdd28cd0-f16f-44a9-b03b-f6abaef2d835",
+                "created_at": "2023-05-24 19:12:06",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|11348|fynd|1",
+                "slug_values": {
+                    "brand": {
+                        "id": 11348,
+                        "name": "Generic (11348)"
+                    },
+                    "channel": {
+                        "id": "fynd",
+                        "name": "Fynd"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "affiliate": {
+                        "id": 1,
+                        "name": "Fynd"
+                    }
+                },
+                "rule_start_date": "17/05/2023",
+                "rule_end_date": "24/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-24 19:12:06"
+            },
+            {
+                "id": "b4b964be-1fd3-4a7e-9e8e-3816611cc4cc",
+                "created_at": "2023-05-24 17:59:24",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "11348|ecomm|18763|5",
+                "slug_values": {
+                    "brand": {
+                        "id": 11348,
+                        "name": "Generic (11348)"
+                    },
+                    "channel": {
+                        "id": "ecomm",
+                        "name": "Ecomm"
+                    },
+                    "company": {
+                        "id": 18763,
+                        "name": "auto_company_24420231113384 (18763)"
+                    },
+                    "affiliate": {
+                        "id": 5,
+                        "name": "mirage-dev"
+                    }
+                },
+                "rule_start_date": "17/05/2023",
+                "rule_end_date": "24/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-24 19:00:22"
+            },
+            {
+                "id": "e484dc75-a74e-4f1e-a0e6-4038a9200f7a",
+                "created_at": "2023-05-24 17:32:06",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|1769|fynd_store|high_street|5",
+                "slug_values": {
+                    "brand": {
+                        "id": 1769,
+                        "name": "TestingBrand-01 (1769)"
+                    },
+                    "channel": {
+                        "id": "fynd_store",
+                        "name": "Fynd Store"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "affiliate": {
+                        "id": 5,
+                        "name": "koiko"
+                    },
+                    "location_type": {
+                        "id": "high_street",
+                        "name": "High Street"
+                    }
+                },
+                "rule_start_date": "17/05/2023",
+                "rule_end_date": "24/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-24 17:32:06"
+            },
+            {
+                "id": "5f568f45-b1e2-4ccc-b5a0-dbc23c31f24b",
+                "created_at": "2023-05-24 17:32:06",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|8906|fynd_store|high_street|5",
+                "slug_values": {
+                    "brand": {
+                        "id": 8906,
+                        "name": "Nike (8906)"
+                    },
+                    "channel": {
+                        "id": "fynd_store",
+                        "name": "Fynd Store"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "affiliate": {
+                        "id": 5,
+                        "name": "koiko"
+                    },
+                    "location_type": {
+                        "id": "high_street",
+                        "name": "High Street"
+                    }
+                },
+                "rule_start_date": "17/05/2023",
+                "rule_end_date": "24/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-24 17:32:06"
+            },
+            {
+                "id": "61575cb2-30a4-4264-b4fb-e4e6aceffdaf",
+                "created_at": "2023-05-23 16:57:23",
+                "created_by": "khushalibaxi_gofynd_com_72196",
+                "rule_slug": "61|fynd|mall",
+                "slug_values": {
+                    "channel": {
+                        "id": "fynd",
+                        "name": "Fynd"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "location_type": {
+                        "id": "mall",
+                        "name": "Mall"
+                    }
+                },
+                "rule_start_date": "16/05/2023",
+                "rule_end_date": "23/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-23 16:57:23"
+            },
+            {
+                "id": "2ab72022-4bf9-40aa-a23b-efe99060ba5c",
+                "created_at": "2023-05-23 12:25:33",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61",
+                "slug_values": {
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    }
+                },
+                "rule_start_date": "16/05/2023",
+                "rule_end_date": "23/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-23 12:25:33"
+            },
+            {
+                "id": "9cce3737-4d90-4810-aea1-2b35d357634d",
+                "created_at": "2023-05-23 11:29:39",
+                "created_by": "opheliatrelawney_gofynd_com_67729",
+                "rule_slug": "61|8906|fynd_store|high_street",
+                "slug_values": {
+                    "brand": {
+                        "id": 8906,
+                        "name": "Nike (8906)"
+                    },
+                    "channel": {
+                        "id": "fynd_store",
+                        "name": "Fynd Store"
+                    },
+                    "company": {
+                        "id": 61,
+                        "name": "FUCHSIA VINE DESIGNS PRIVATE LIMITED (61)"
+                    },
+                    "location_type": {
+                        "id": "high_street",
+                        "name": "High Street"
+                    }
+                },
+                "rule_start_date": "16/05/2023",
+                "rule_end_date": "23/05/2023",
+                "status": "unverified",
+                "updated_at": "2023-05-23 11:29:39"
+            }
+        ],
+        "item_count": 147,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 147
+        }
+    },
+    "getBrands": {
+        "success": true,
+        "items": [
+            {
+                "id": "881fd2bc-ba55-4706-9371-438c06399765",
+                "name": "uniket",
+                "display_name": "Uniket"
+            },
+            {
+                "id": "ba839e34-d4cd-40f1-986e-ef276bc949da",
+                "name": "fynd",
+                "display_name": "Fynd"
+            },
+            {
+                "id": "a945f1b3-1723-4a06-b6d6-a36c9db1e801",
+                "name": "ecomm",
+                "display_name": "Ecomm"
+            },
+            {
+                "id": "c6b07060-2d95-4f51-a9f8-5cd0976209a2",
+                "name": "marketplace",
+                "display_name": "Market Place"
+            },
+            {
+                "id": "53f18a1b-cbce-44a9-b2e0-69a7f144611a",
+                "name": "fynd_store",
+                "display_name": "Fynd Store"
+            },
+            {
+                "id": "9a7d8e1c-4669-4905-9046-2e9518ae2f4b",
+                "name": "affiliate",
+                "display_name": "Affiliate"
+            }
+        ],
+        "item_count": 6,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 6
+        }
+    },
+    "getRuleData": {
+        "success": true,
+        "items": {
+            "aggregate_liability": [
+                {
+                    "id": "189c6b1a-a8a4-4645-aa0f-b2876947f602",
+                    "created_at": "2022-10-18 13:47:01",
+                    "created_by": "imdadhussain",
+                    "name": "aggregate_liability",
+                    "formula_type": "default",
+                    "formula": "aggregate_liability",
+                    "description": "Aggregate Liability",
+                    "display_name": "Aggregate Liability",
+                    "transactional_input_fields": [
+                        "aggregate_liability"
+                    ],
+                    "user_input_fields": [
+                        "aggregate_liability"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "brand_payout": [
+                {
+                    "id": "f6f9bcb8-e50e-489c-87a3-55ecbc07863c",
+                    "created_at": "2022-10-18 12:24:39",
+                    "created_by": "imdadhussain",
+                    "name": "brand_payout",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity)",
+                    "description": "Brand Payout (Unit Price/BCA)",
+                    "display_name": "Brand Payout (Unit Price/BCA)",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "quantity"
+                    ],
+                    "user_input_fields": [],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-04-17 04:50:11"
+                },
+                {
+                    "id": "3fcfcffa-b4fa-4204-b67f-35d3cca96049",
+                    "created_at": "2022-10-18 12:24:41",
+                    "created_by": "imdadhussain",
+                    "name": "brand_payout",
+                    "formula_type": "default",
+                    "formula": "(transfer_price + gst_fee)*quantity",
+                    "description": "Brand Payout for Transfer Price ",
+                    "display_name": "Brand Payout for Transfer Price",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "gst_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-04-17 04:50:11"
+                }
+            ],
+            "cancellation_fee": [
+                {
+                    "id": "8827cfd7-afbe-4f23-b3bc-531f6824eb8d",
+                    "created_at": "2022-10-17 14:55:49",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity)* (cancellation_fee/100)",
+                    "description": "Cancellation Charges on VOG",
+                    "display_name": "Cancellation Fee on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "quantity",
+                        "cancellation_fee"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "79d12f12-0f53-4633-8a62-734ac65a312a",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "cancellation_fee*quantity",
+                    "description": "Flat Cancellation Fee",
+                    "display_name": "Flat Cancellation Fee",
+                    "transactional_input_fields": [
+                        "cancellation_fee",
+                        "quanity"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "7f7c9599-43c9-4cf8-bab9-f7a265d533af",
+                    "created_at": "2022-10-17 14:55:44",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (cancellation_fee/100)",
+                    "description": "Cancellation Charges on BCA",
+                    "display_name": "Cancellation Fee on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "quantity",
+                        "cancellation_fee"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "110b55c0-94eb-4d2c-b805-37aa445e2e31",
+                    "created_at": "2022-10-17 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "transfer_price*quantity*cancellation_fee/100",
+                    "description": "TP Cancellation Fee",
+                    "display_name": "Cancellation Fee on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "quanity",
+                        "cancellation_fee"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "5a36e7b2-1781-40d4-a321-8c138cfba60d",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "price_marked*quantity*cancellation_fee/100",
+                    "description": "Cancellation Fee on MRP",
+                    "display_name": "Cancellation Fee on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "quanity",
+                        "cancellation_fee"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "5986f436-a4a4-44fb-ba71-422d3bcc689b",
+                    "created_at": "2022-10-17 14:57:02",
+                    "created_by": "imdadhussain",
+                    "name": "cancellation_fee",
+                    "formula_type": "default",
+                    "formula": "price_effective *quantity* (cancellation_fee/100)",
+                    "description": "Cancellation Charges on ESP",
+                    "display_name": "Cancellation Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "quantity",
+                        "cancellation_fee"
+                    ],
+                    "user_input_fields": [
+                        "cancellation_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "closing_fee": [
+                {
+                    "id": "d5d459c1-f6e0-4f73-93e2-59c8840217b4",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (closing_fee/100.0)",
+                    "description": "Closing Fee on BCA",
+                    "display_name": "Closing Fee on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "closing_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "25d9929a-4f26-4570-8a8f-f51a60083957",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee",
+                    "formula_type": "default",
+                    "formula": "(price_marked*quantity) * (closing_fee/100.0)",
+                    "description": "Closing Fee on MRP",
+                    "display_name": "Closing Fee on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "closing_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "473e7d6e-10a7-46b4-9d1d-523e1708751b",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity) * (closing_fee/100.0)",
+                    "description": "Closing Fee on VOG",
+                    "display_name": "Closing Fee on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "closing_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "e6f516be-3d7f-4ddc-9468-ed27f3a17468",
+                    "created_at": "2022-10-17 10:15:50",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee",
+                    "formula_type": "default",
+                    "formula": "closing_fee*quantity",
+                    "description": "Flat Closing Fee",
+                    "display_name": "Flat Closing Fee",
+                    "transactional_input_fields": [
+                        "closing_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "1846737c-605d-43eb-b9d4-49f7c28fb86b",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee",
+                    "formula_type": "default",
+                    "formula": "(price_effective*quantity) * (closing_fee/100.0)",
+                    "description": "Closing Fee on ESP",
+                    "display_name": "Closing Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "closing_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "closing_fee_return_charges": [
+                {
+                    "id": "49bd5cbc-9bc7-405a-9260-3b9339ada798",
+                    "created_at": "2022-10-17 10:15:50",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee_return_charges",
+                    "formula_type": "default",
+                    "formula": "closing_fee * quantity * (return_closing_reversal/100.0)",
+                    "description": "Flat Closing Fee in case of return",
+                    "display_name": "Flat Closing Fee for Return order",
+                    "transactional_input_fields": [
+                        "closing_fee",
+                        "quantity",
+                        "return_closing_reversal"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee",
+                        "return_closing_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "closing_fee_rto_charges": [
+                {
+                    "id": "335e8932-2618-421d-a6d0-f2f26219266a",
+                    "created_at": "2022-10-17 10:15:50",
+                    "created_by": "imdadhussain",
+                    "name": "closing_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "closing_fee * quantity * (rto_closing_reversal/100.0)",
+                    "description": "Flat Closing Fee in case of RTO",
+                    "display_name": "Flat Closing Fee for RTO order",
+                    "transactional_input_fields": [
+                        "closing_fee",
+                        "quantity",
+                        "rto_closing_reversal"
+                    ],
+                    "user_input_fields": [
+                        "closing_fee",
+                        "rto_closing_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "cod_fees_from_brand": [
+                {
+                    "id": "6314296c-de50-4fe8-b3ae-93ed4a445c71",
+                    "created_at": "2022-10-18 11:59:12",
+                    "created_by": "imdadhussain",
+                    "name": "cod_fees_from_brand",
+                    "formula_type": "default",
+                    "formula": "cod_charges*quantity",
+                    "description": "Flat COD Fee",
+                    "display_name": "Flat COD Fee",
+                    "transactional_input_fields": [
+                        "cod_charges",
+                        "quantity"
+                    ],
+                    "user_input_fields": [],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-04-17 04:50:11"
+                },
+                {
+                    "id": "0c4711ba-9de2-4c46-9342-1d59bb7e399e",
+                    "created_at": "2022-10-18 11:59:12",
+                    "created_by": "imdadhussain",
+                    "name": "cod_fees_from_brand",
+                    "formula_type": "default",
+                    "formula": "0 if (collectable_by=='COD') and (affiliate_id=='5cea433874daea3ff5e9591d') else (cod_charges/1.18)",
+                    "description": "COD Fee",
+                    "display_name": "COD Fee",
+                    "transactional_input_fields": [
+                        "cod_charges",
+                        "affiliate_id",
+                        "collectable_by"
+                    ],
+                    "user_input_fields": [],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-04-17 04:50:11"
+                },
+                {
+                    "id": "8f06a4ec-b452-42b3-9eb0-7f8694fa91a3",
+                    "created_at": "2022-10-18 11:59:15",
+                    "created_by": "imdadhussain",
+                    "name": "cod_fees_from_brand",
+                    "formula_type": "default",
+                    "formula": "0 if (collectable_by=='COD') and (affiliate_id=='5cea433874daea3ff5e9591d') else (brand_calculated_amount*quantity)*(cod_fees_from_brand/100) ",
+                    "description": "COD Fee on BCA",
+                    "display_name": "COD Fee on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "quantity",
+                        "cod_fees_from_brand",
+                        "affiliate_id",
+                        "collectable_by"
+                    ],
+                    "user_input_fields": [
+                        "cod_fees_from_brand"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-04-17 04:50:11"
+                }
+            ],
+            "commission": [
+                {
+                    "id": "a37b89d7-c55f-40c3-8c85-4623bfb8fb02",
+                    "created_at": "2022-10-13 19:12:05",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity) * (commission/100.0)",
+                    "description": "Transaction Fee on VOG",
+                    "display_name": "Transaction Fee on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "quantity",
+                        "commission"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "6f297eb1-39ef-4170-8357-a994ee0b34a5",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "(price_effective*quantity) * (commission/100.0)",
+                    "description": "Transaction Fee on ESP",
+                    "display_name": "Transaction Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "quantity",
+                        "commission"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "5196ce09-c6d6-4eec-bc51-e32dc4a11d42",
+                    "created_at": "2022-10-17 18:52:26",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "((((brand_calculated_amount - (transfer_price + gst_fee))* quantity)/1.18 - ((brand_calculated_amount*quantity) * (commission/100.0))) if ((brand_calculated_amount*quantity) * (commission/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee))*quantity)/1.18) else (((brand_calculated_amount - (transfer_price + gst_fee))*quantity)/1.18))",
+                    "description": "Transaction Fee in case of TP",
+                    "display_name": "Transaction Fee on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "commission",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "305bf66c-66ab-4e56-98e1-5061bbdc13b9",
+                    "created_at": "2022-10-13 19:06:35",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (commission/100.0)",
+                    "description": "Transaction Fee on BCA",
+                    "display_name": "Transaction Fee on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "quantity",
+                        "commission"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "e74f7b21-cc2d-4c75-b2f8-53c2fd284796",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "(price_marked*quantity) * (commission/100.0)",
+                    "description": "Transaction Fee on MRP",
+                    "display_name": "Transaction Fee on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "quantity",
+                        "commission"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "31ec44a2-9d39-4845-a818-fdad31dd7315",
+                    "created_at": "2022-10-13 19:21:01",
+                    "created_by": "imdadhussain",
+                    "name": "commission",
+                    "formula_type": "default",
+                    "formula": "commission*quantity",
+                    "description": "Flat Transaction Fee ",
+                    "display_name": "Flat Transaction Fee",
+                    "transactional_input_fields": [
+                        "commission",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "commission"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "commission_return_charges": [
+                {
+                    "id": "966532ce-af74-4ab8-8418-565f8c8604ac",
+                    "created_at": "2022-10-17 18:52:26",
+                    "created_by": "Ankita",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "brand_calculated_amount*quantity*(commission/100.0)*(return_comm_reversal/100.0)",
+                    "description": "Transaction Fee Return Charges on BCA",
+                    "display_name": "Transaction Fee for Return order on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "quantity",
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "4ce5a427-3487-4743-9756-53020ae34fad",
+                    "created_at": "2022-10-17 18:52:26",
+                    "created_by": "Ankita",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "((((brand_calculated_amount*quantity - (transfer_price + gst_fee))/1.18) - (brand_calculated_amount * quantity*(commission/100.0))) * ((return_comm_reversal/100.0))) if (((brand_calculated_amount * quantity*(commission/100.0))*((return_comm_reversal/100.0)) < ((brand_calculated_amount*quantity - (transfer_price + gst_fee)*quantity)/1.18))*((return_comm_reversal/100.0))) else (((brand_calculated_amount*quantity- (transfer_price + gst_fee)*quantity)/1.18)* ((return_comm_reversal/100.0)))",
+                    "description": "Transaction Fee Return Charges in case of TP",
+                    "display_name": "Transaction Fee for Return order on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "commission",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "return_comm_reversal",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "2a5a2136-d96e-4149-b59b-59a5198d071d",
+                    "created_at": "2022-10-17 18:52:26",
+                    "created_by": "Ankita",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "value_of_good*quantity * (commission/100) * (return_comm_reversal/100.0)",
+                    "description": "Transaction Fee Return Charges on VOG",
+                    "display_name": "Transaction Fee for Return order on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "commission",
+                        "return_comm_reversal",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "918e8a07-fb3f-45ee-94cb-fbf36b6aaa29",
+                    "created_at": "2022-10-17 18:52:26",
+                    "created_by": "Ankita",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "commission*quantity*(return_comm_reversal/100)",
+                    "description": "Flat Transaction Fee Return Charges",
+                    "display_name": "Flat Transaction Fee for Return order",
+                    "transactional_input_fields": [
+                        "return_comm_reversal",
+                        "commission",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "9851e5ac-6994-4905-a4fb-87babde56b32",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "Imdadhussain",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "price_effective*quantity*(commission/100.0)*(return_comm_reversal/100.0)",
+                    "description": "Transaction Fee Return Charges on ESP",
+                    "display_name": "Transaction Fee Return Charges on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "quantity",
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "Imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "84e38bf3-08d7-4298-849a-2bd030c264f8",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "Imdadhussain",
+                    "name": "commission_return_charges",
+                    "formula_type": "default",
+                    "formula": "price_marked*quantity*(commission/100.0)*(return_comm_reversal/100.0)",
+                    "description": "Transaction Fee Return Charges on MRP",
+                    "display_name": "Transaction Fee Return Charges on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "quantity",
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "return_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "Imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "commission_rto_charges": [
+                {
+                    "id": "8ab18990-601a-4afd-bc62-8f7b24d98380",
+                    "created_at": "2020-02-14 12:19:55",
+                    "created_by": "1",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "brand_calculated_amount *quantity*(commission/100.0)*(rto_comm_reversal/100.0)",
+                    "description": "Transaction Fee RTO Charges on BCA",
+                    "display_name": "Transaction Fee for RTO order on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "commission",
+                        "quantity",
+                        "rto_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": null,
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "e2cde24a-0f9d-477d-9eb5-6f1a564745c9",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "Imdadhussain",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "price_effective *quantity*(commission/100.0)*(rto_comm_reversal/100.0)",
+                    "description": "Transaction Fee for RTO order on ESP",
+                    "display_name": "Transaction Fee for RTO order on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "commission",
+                        "quantity",
+                        "rto_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "Imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "59e779c0-8839-4dde-8fde-6b20118dbcba",
+                    "created_at": "2020-10-28 12:19:55",
+                    "created_by": "tushar",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "((((brand_calculated_amount * quantity - (transfer_price + gst_fee) * quantity)/1.18) - (brand_calculated_amount * quantity * (commission/100.0))) * ((rto_comm_reversal/100.0))) if (((brand_calculated_amount * quantity * (commission/100.0))*((rto_comm_reversal/100.0)) < ((brand_calculated_amount * quantity - (transfer_price + gst_fee) * quantity)/1.18))*((rto_comm_reversal/100.0))) else (((brand_calculated_amount * quantity- (transfer_price + gst_fee) * quantity)/1.18)* ((rto_comm_reversal/100.0)))",
+                    "description": "Transaction Fee RTO Charges in case of TP",
+                    "display_name": "Transaction Fee for RTO order on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "commission",
+                        "quantity",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "rto_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "096ffd03-a297-40a3-a7ac-fb8278864a45",
+                    "created_at": "2020-03-05 07:51:10",
+                    "created_by": "sohilparikh_gofynd_com_59106",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "value_of_good * quantity * (commission/100) * (rto_comm_reversal/100.0)",
+                    "description": "Transaction Fee RTO Charges on VOG",
+                    "display_name": "Transaction Fee for RTO order on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "commission",
+                        "rto_comm_reversal",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": null,
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "a34442d8-e07b-4592-b8ce-219fab440f84",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "Imdadhussain",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "price_marked *quantity*(commission/100.0)*(rto_comm_reversal/100.0)",
+                    "description": "Transaction Fee for RTO order on MRP",
+                    "display_name": "Transaction Fee for RTO order on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "commission",
+                        "quantity",
+                        "rto_comm_reversal"
+                    ],
+                    "user_input_fields": [
+                        "commission",
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "Imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "efae77c2-41f8-421b-8a2e-327944e71e05",
+                    "created_at": "2021-02-12 12:19:55",
+                    "created_by": "tushar",
+                    "name": "commission_rto_charges",
+                    "formula_type": "default",
+                    "formula": "commission*quantity*(rto_comm_reversal/100)",
+                    "description": "Flat Transaction  RTO Charges",
+                    "display_name": "Flat Transaction Fee for RTO order",
+                    "transactional_input_fields": [
+                        "rto_comm_reversal",
+                        "commission",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "rto_comm_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": null,
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "logistics_fee": [
+                {
+                    "id": "126c9afc-cd15-4564-a7c6-13a0d6c36e41",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "logistics_fee",
+                    "formula_type": "default",
+                    "formula": "price_marked*quantity*(logistics_fee/100)",
+                    "description": "Logistics Fee on MRP",
+                    "display_name": "Logistics Fees on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "logistics_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "logistics_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "a6fea294-757f-4250-9234-ee676f1a6af6",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "logistics_fee",
+                    "formula_type": "default",
+                    "formula": "brand_calculated_amount*quantity*(logistics_fee/100)",
+                    "description": "Logistics Fee on BCA",
+                    "display_name": "Logistics Fees on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "logistics_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "logistics_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "f2d19cea-e8cd-4bde-b972-bf74e32c57a0",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "logistics_fee",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity)* (logistics_fee/100)",
+                    "description": "Logistics Fee on VOG",
+                    "display_name": "Logistics Fee on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "logistics_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "logistics_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "933bc2e9-669a-4340-8ecf-0d30ef1f01f1",
+                    "created_at": "2022-10-17 10:47:34",
+                    "created_by": "imdadhussain",
+                    "name": "logistics_fee",
+                    "formula_type": "default",
+                    "formula": "logistics_fee*quantity",
+                    "description": "Flat Logistic Fee",
+                    "display_name": "Flat Logistic Fee",
+                    "transactional_input_fields": [
+                        "logistics_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "logistics_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "84bdc563-c202-410f-881b-5b1201ff6bdd",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "logistics_fee",
+                    "formula_type": "default",
+                    "formula": "price_effective*quantity*(logistics_fee/100)",
+                    "description": "Logistics Fee on ESP",
+                    "display_name": "Logistics Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "logistics_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "logistics_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "packaging_fee": [
+                {
+                    "id": "a4733954-f7e3-4295-aaa6-0b67ff39132e",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "packaging_fee",
+                    "formula_type": "default",
+                    "formula": "(packaging_fee/100)*brand_calculated_amount*quantity",
+                    "description": "Packaging Fee on BCA",
+                    "display_name": "Packaging Fee on BCA",
+                    "transactional_input_fields": [
+                        "packaging_fee",
+                        "brand_calculated_amount",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "da78d4ec-cf0c-4887-90fd-da7a89bac77f",
+                    "created_at": "2022-10-17 10:27:53",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee",
+                    "formula_type": "default",
+                    "formula": "packaging_fee*quantity",
+                    "description": "Flat Packaging Fee",
+                    "display_name": "Flat Packaging Fee",
+                    "transactional_input_fields": [
+                        "packaging_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "ea97012c-df54-479f-a57a-bbccdea88e4b",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "packaging_fee",
+                    "formula_type": "default",
+                    "formula": "value_of_good *quantity*(packaging_fee/100)",
+                    "description": "Packaging Fee on VOG",
+                    "display_name": "Packaging Fees on VOG",
+                    "transactional_input_fields": [
+                        "packaging_fee",
+                        "value_of_good",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "7fa41310-7d3f-49df-9cca-359d94609d93",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee",
+                    "formula_type": "default",
+                    "formula": "price_marked*quantity*(packaging_fee/100)",
+                    "description": "Packaging Fee on MRP",
+                    "display_name": "Packaging Fee on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "packaging_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "0235b6ed-fcf0-4157-8b1f-07e078321aa9",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee",
+                    "formula_type": "default",
+                    "formula": "price_effective *quantity*(packaging_fee/100)",
+                    "description": "Packaging Fee on ESP",
+                    "display_name": "Packaging Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "packaging_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "packaging_fee_return_charges": [
+                {
+                    "id": "eda78db2-9146-416d-863b-3ba4992b3830",
+                    "created_at": "2022-10-17 10:27:53",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee_return_charges",
+                    "formula_type": "default",
+                    "formula": "packaging_fee*quantity*(return_packaging_reversal/100)",
+                    "description": "Flat Packaging Fee in case of Return",
+                    "display_name": "Flat Packaging Fee for Return order",
+                    "transactional_input_fields": [
+                        "packaging_fee",
+                        "quantity",
+                        "return_packaging_reversal"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee",
+                        "return_packaging_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "packaging_fee_rto_charges": [
+                {
+                    "id": "caa99526-dbde-43af-8de3-932d25c3aa64",
+                    "created_at": "2022-10-17 10:27:53",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "packaging_fee_rto_charges",
+                    "description": "Flat Packaging fee RTO Charges",
+                    "display_name": "Flat Packaging fee RTO Charges",
+                    "transactional_input_fields": [
+                        "packaging_fee_rto_charges"
+                    ],
+                    "user_input_fields": [],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2022-10-17 10:27:53"
+                },
+                {
+                    "id": "71446e55-7bf3-422e-80ec-efa0c8f86743",
+                    "created_at": "2022-10-17 10:27:53",
+                    "created_by": "imdadhussain",
+                    "name": "packaging_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "packaging_fee*quantity*(rto_packaging_reversal/100)",
+                    "description": "Flat Packaging Fee RTO Charge",
+                    "display_name": "Flat Packaging Fee for RTO order",
+                    "transactional_input_fields": [
+                        "packaging_fee",
+                        "quantity",
+                        "rto_packaging_reversal"
+                    ],
+                    "user_input_fields": [
+                        "packaging_fee",
+                        "rto_packaging_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                }
+            ],
+            "pg_fee": [
+                {
+                    "id": "de852384-7ac9-47c4-a50a-2341cd9c1443",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "pg_fee",
+                    "formula_type": "default",
+                    "formula": "(pg_fee/100)*amount_paid*quantity",
+                    "description": "PG Fees on Amount Paid",
+                    "display_name": "PG Fees on Amount Paid",
+                    "transactional_input_fields": [
+                        "pg_fee",
+                        "amount_paid",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "pg_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-04-17 04:50:12"
+                },
+                {
+                    "id": "36884bd0-82f2-4b93-9554-3839c3ea6028",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "pg_fee",
+                    "formula_type": "default",
+                    "formula": "pg_fee*quantity",
+                    "description": "Flat PG Fees",
+                    "display_name": "Flat PG Fees",
+                    "transactional_input_fields": [
+                        "pg_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "pg_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-04-17 04:50:12"
+                }
+            ],
+            "processing_fee": [
+                {
+                    "id": "b60dccbe-7f9b-4f24-af84-04bb9bb87b46",
+                    "created_at": "2022-10-17 20:27:21",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount * quantity * (processing_fee/100.0)) if ((brand_calculated_amount * quantity  * (processing_fee/100.0)) < (((brand_calculated_amount - (transfer_price + gst_fee)) * quantity)/1.18)) else 0",
+                    "description": "Processing Fee in case of TP",
+                    "display_name": "Processing Fee on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "processing_fee",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "01587fde-85a1-481c-b477-e3baf11daeaa",
+                    "created_at": "2022-10-14 20:40:28",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity) * (processing_fee/100.0)",
+                    "description": " Processing Fee  on VOG",
+                    "display_name": "Processing Fee on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "quantity",
+                        "processing_fee"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "17cac424-07dc-46b7-a41e-db14065d9ddc",
+                    "created_at": "2022-10-14 20:40:22",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (processing_fee/100.0)",
+                    "description": "Processing Fee on BCA",
+                    "display_name": "Processing Fee on BCA",
+                    "transactional_input_fields": [
+                        "processing_fee",
+                        "brand_calculated_amount",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "processing_fee_return_charges": [
+                {
+                    "id": "410b323b-128d-497c-afd8-3095adc524cc",
+                    "created_at": "2022-10-14 20:40:28",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_return_charges",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity) * (processing_fee/100.0)*(return_processing_fee_reversal/100)",
+                    "description": "Processing Fee Return Charges on VOG",
+                    "display_name": "Processing Fee for Return order on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "quantity",
+                        "processing_fee",
+                        "return_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "return_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "6de4837e-74b2-40b2-a394-90d6bc8b95fa",
+                    "created_at": "2022-10-14 20:40:22",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_return_charges",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (processing_fee/100.0)*(return_processing_fee_reversal/100)",
+                    "description": "Processing Fee Return Charges on BCA",
+                    "display_name": "Processing Fee for Return order on BCA",
+                    "transactional_input_fields": [
+                        "processing_fee",
+                        "brand_calculated_amount",
+                        "quantity",
+                        "return_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "return_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "f590761b-0246-457e-94c9-885c205cac87",
+                    "created_at": "2022-10-17 20:27:21",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_return_charges",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount * quantity * (processing_fee/100.0)*(return_processing_fee_reversal/100)) if ((brand_calculated_amount * quantity  * (processing_fee/100.0)*(return_processing_fee_reversal/100)) < (((brand_calculated_amount - (transfer_price + gst_fee)) * quantity)/1.18*(return_processing_fee_reversal/100))) else 0",
+                    "description": "Processing Fee Return Charges in case of TP",
+                    "display_name": "Processing Fee for Return order on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "processing_fee",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "quantity",
+                        "return_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "return_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "processing_fee_rto_charges": [
+                {
+                    "id": "2ab93bd4-1852-4e88-a322-70b0eae9227a",
+                    "created_at": "2022-10-14 20:40:22",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount*quantity) * (processing_fee/100.0)*(rto_processing_fee_reversal/100)",
+                    "description": "Processing Fee RTO Charges on BCA",
+                    "display_name": "Processing Fee for RTO order on BCA",
+                    "transactional_input_fields": [
+                        "processing_fee",
+                        "brand_calculated_amount",
+                        "quantity",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "5babfe88-0769-4964-8a33-6765f9c8f99a",
+                    "created_at": "2022-10-17 20:27:21",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "(brand_calculated_amount * quantity * (processing_fee/100.0)*(rto_processing_fee_reversal/100)) if ((brand_calculated_amount * quantity  * (processing_fee/100.0)*(rto_processing_fee_reversal/100)) < (((brand_calculated_amount - (transfer_price + gst_fee)) * quantity)/1.18*(rto_processing_fee_reversal/100))) else 0",
+                    "description": "Processing Fee RTO Charges in case of TP",
+                    "display_name": "Processing Fee for RTO order on TP",
+                    "transactional_input_fields": [
+                        "transfer_price",
+                        "processing_fee",
+                        "gst_fee",
+                        "brand_calculated_amount",
+                        "quantity",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:57"
+                },
+                {
+                    "id": "5bdf2baf-665b-438b-85f7-6db64bfd7696",
+                    "created_at": "2022-10-14 20:40:28",
+                    "created_by": "imdadhussain",
+                    "name": "processing_fee_rto_charges",
+                    "formula_type": "default",
+                    "formula": "(value_of_good*quantity) * (processing_fee/100.0)*(rto_processing_fee_reversal/100)",
+                    "description": "Processing Fee RTO Charges on VOG",
+                    "display_name": "Processing Fee for RTO order on VOG",
+                    "transactional_input_fields": [
+                        "value_of_good",
+                        "quantity",
+                        "processing_fee",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "user_input_fields": [
+                        "processing_fee",
+                        "rto_processing_fee_reversal"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ],
+            "txn_fee": [
+                {
+                    "id": "02170e62-4564-4ae1-bb99-92aa3c6b133e",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "txn_fee",
+                    "formula_type": "default",
+                    "formula": "txn_fee*quantity",
+                    "description": "Flat Transaction Fee",
+                    "display_name": "Flat Transaction Fee",
+                    "transactional_input_fields": [
+                        "txn_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "txn_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "5c73f4d0-0d70-4a70-a79c-6e8e786d3187",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "txn_fee",
+                    "formula_type": "default",
+                    "formula": "(txn_fee/100)*value_of_good*quantity",
+                    "description": "Transaction Fee on VOG",
+                    "display_name": "Transaction Fee on VOG",
+                    "transactional_input_fields": [
+                        "txn_fee",
+                        "value_of_good",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "txn_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "9290121e-2c9c-4f70-8622-0fcb9a5478a9",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "txn_fee",
+                    "formula_type": "default",
+                    "formula": "(price_effective*quantity) * (txn_fee/100.0)",
+                    "description": "Transaction Fee on ESP",
+                    "display_name": "Transaction Fee on ESP",
+                    "transactional_input_fields": [
+                        "price_effective",
+                        "quantity",
+                        "txn_fee"
+                    ],
+                    "user_input_fields": [
+                        "txn_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "a072b86e-3bc2-486e-92df-e43d428bbde8",
+                    "created_at": "2022-12-06 19:45:00",
+                    "created_by": "system",
+                    "name": "txn_fee",
+                    "formula_type": "default",
+                    "formula": "brand_calculated_amount * (txn_fee/100) * quantity",
+                    "description": "Transaction Fee on BCA",
+                    "display_name": "Transaction Fee on BCA",
+                    "transactional_input_fields": [
+                        "brand_calculated_amount",
+                        "txn_fee",
+                        "quantity"
+                    ],
+                    "user_input_fields": [
+                        "txn_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "",
+                    "updated_at": "2023-05-16 09:05:58"
+                },
+                {
+                    "id": "a8ed51ad-4162-45a8-8378-6c4d0e9f0dea",
+                    "created_at": "2023-05-05 14:56:03",
+                    "created_by": "imdadhussain",
+                    "name": "txn_fee",
+                    "formula_type": "default",
+                    "formula": "(price_marked*quantity) * (txn_fee/100.0)",
+                    "description": "Transaction Fee on MRP",
+                    "display_name": "Transaction Fee on MRP",
+                    "transactional_input_fields": [
+                        "price_marked",
+                        "quantity",
+                        "txn_fee"
+                    ],
+                    "user_input_fields": [
+                        "txn_fee"
+                    ],
+                    "status": "verified",
+                    "updated_by": "imdadhussain",
+                    "updated_at": "2023-05-16 09:05:58"
+                }
+            ]
+        },
+        "item_count": 66,
+        "page": {
+            "type": "number",
+            "size": 10,
+            "current": 1,
+            "has_next": true,
+            "item_count": 66
+        }
+    },
+    "getBrandList":{
+        "success": true,
+        "brand_list": [
+            {
+                "text": "Generic (11348)",
+                "value": "11348"
+            }
+        ]
+    },
+    "getAffiliate":{
+        "success": true,
+        "data": {
+            "page": {
+                "type": "number",
+                "current": 1,
+                "size": 10,
+                "item_total": 5925,
+                "has_next": true
+            },
+            "docs": [
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5ddb63897cab5146b354e5a5",
+                    "description": "",
+                    "channel_type": "affiliate",
+                    "cache_ttl": -1,
+                    "is_active": true,
+                    "name": "spykar",
+                    "meta": [],
+                    "banner": {
+                        "secure_url": ""
+                    },
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "token": "2tJjO4RB",
+                    "__v": 2,
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac771c62f4fd9e",
+                            "verified": true,
+                            "name": "9hyrgug.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "favicon": {
+                        "secure_url": ""
+                    },
+                    "tokens": [
+                        {
+                            "token": "2tJjO4RB",
+                            "created_at": "2019-11-25T05:15:53.734Z"
+                        }
+                    ],
+                    "created_at": "2019-11-25T05:15:53.734Z",
+                    "modified_at": "2023-05-23T07:02:59.592Z",
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "spykar-gop-55",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac771c62f4fd9e",
+                        "verified": true,
+                        "name": "9hyrgug.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5ddb63897cab5146b354e5a5"
+                },
+                {
+                    "website": {
+                        "enabled": false,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "000000000000000000000001",
+                    "description": "default description",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "name": "Fynd",
+                    "meta": [
+                        {
+                            "name": "fynd",
+                            "value": "true"
+                        }
+                    ],
+                    "token": "f69a8ac0-5a1f-11e9-a1b3-b92650687594",
+                    "__v": 17,
+                    "is_active": true,
+                    "cache_ttl": -1,
+                    "banner": {
+                        "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1566538157/production/media/store/banner/bzedj5cuyulpviyvarwm.png"
+                    },
+                    "channel_type": "fynd",
+                    "logo": {
+                        "secure_url": "https://cdn.pixelbin.io/v2/falling-surf-7c8bb8/fyndnp/wrkr/addsale/company/873/applications/000000000000000000000001/application/pictures/free-logo/original/ywtf-yrTL-rx8gyandvhlvfup619ps.png"
+                    },
+                    "redirections": [],
+                    "company_id": 873,
+                    "internal": true,
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac774df2f4fcbc",
+                            "verified": true,
+                            "name": "fynd.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        },
+                        {
+                            "name": "test.brijeshg.in",
+                            "verified": true,
+                            "is_primary": false,
+                            "is_shortlink": false,
+                            "_id": "6392c3fdeb1811bcc6d19aa4"
+                        },
+                        {
+                            "name": "krunaltest.hostx1.de",
+                            "verified": true,
+                            "is_primary": false,
+                            "is_shortlink": false,
+                            "_id": "6392dca4eb1811bcc6d1d7d7"
+                        },
+                        {
+                            "name": "test123digital.hostx1.de",
+                            "verified": true,
+                            "is_primary": false,
+                            "is_shortlink": false,
+                            "_id": "63c9132abf67bc2220212e7e"
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "f69a8ac0-5a1f-11e9-a1b3-b92650687594",
+                            "created_at": "2019-04-08T17:01:33.931Z"
+                        },
+                        {
+                            "created_by": "60d3623d66a6f059c0ea77c7",
+                            "token": "lPmHdjXtn",
+                            "created_at": "2023-02-06T10:10:53.788Z"
+                        }
+                    ],
+                    "created_at": "2019-04-08T17:01:33.931Z",
+                    "modified_at": "2023-05-24T09:40:43.788Z",
+                    "mobile_logo": {
+                        "secure_url": "https://hdn-1.addsale.com/addsale/company/873/applications/000000000000000000000001/application/pictures/free-logo/original/ywtf-yrTL-rx8gyandvhlvfup619ps.png"
+                    },
+                    "favicon": {
+                        "secure_url": ""
+                    },
+                    "mode": "live",
+                    "slug": "fynd-by7-80",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac774df2f4fcbc",
+                        "verified": true,
+                        "name": "fynd.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "000000000000000000000001"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "000000000000000000000005",
+                    "description": "Jio Guru",
+                    "cache_ttl": -1,
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "name": "Jio Guru",
+                    "token": "5SMOPYart",
+                    "meta": [],
+                    "__v": 2,
+                    "is_active": true,
+                    "channel_type": "fynd",
+                    "banner": {
+                        "secure_url": "https://res.cloudinary.com/dwzm9bysq/image/upload/v1576142665/dev/media/store/banner/irkglibhgusiszmxuijk.jpg"
+                    },
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "company_id": 851,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac771098f4fce3",
+                            "verified": true,
+                            "name": "jio2.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "5SMOPYart",
+                            "created_at": "2019-05-30T13:40:45.598Z"
+                        }
+                    ],
+                    "created_at": "2019-05-30T13:40:45.598Z",
+                    "modified_at": "2021-04-05T14:02:15.172Z",
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "jio-guru-7sf-24",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac771098f4fce3",
+                        "verified": true,
+                        "name": "jio2.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "000000000000000000000005"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c6c6c400b831921d4111818",
+                    "token": "17a4e570-3488-11e9-9881-0daf1fc30f40",
+                    "name": "koiko",
+                    "description": "sdfsdf",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [],
+                    "__v": 3,
+                    "is_active": true,
+                    "cache_ttl": -1,
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac773365f4fc94",
+                            "verified": true,
+                            "name": "heroku.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "banner": {
+                        "secure_url": ""
+                    },
+                    "favicon": {
+                        "secure_url": ""
+                    },
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "tokens": [
+                        {
+                            "token": "17a4e570-3488-11e9-9881-0daf1fc30f40",
+                            "created_at": "2019-02-19T20:51:12.838Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "VDdzTjeRM",
+                            "created_at": "2023-05-05T05:38:28.127Z"
+                        }
+                    ],
+                    "created_at": "2019-02-19T20:51:12.838Z",
+                    "modified_at": "2023-05-23T07:02:52.334Z",
+                    "mobile_logo": {
+                        "secure_url": "https://hdn-1.addsale.com/addsale/company/873/applications/5c6c6c400b831921d4111818/application/pictures/free-logo/original/3_tdk2JU_-koiko.png"
+                    },
+                    "slug": "koiko-won-67",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac773365f4fc94",
+                        "verified": true,
+                        "name": "heroku.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c6c6c400b831921d4111818"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basePath": "/",
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c6cee5c1a02cd19864f26f5",
+                    "token": "a4944690-34d5-11e9-9346-cb5a6b9cbf73",
+                    "name": "mirage-dev",
+                    "description": "For mirage demo",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [],
+                    "__v": 3,
+                    "is_active": true,
+                    "cache_ttl": -1,
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac779bf4f4fc95",
+                            "verified": true,
+                            "name": "mirage.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "a4944690-34d5-11e9-9346-cb5a6b9cbf73",
+                            "created_at": "2019-02-20T06:06:20.536Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "NF_B3_5N7",
+                            "created_at": "2023-05-05T05:38:43.388Z"
+                        }
+                    ],
+                    "created_at": "2019-02-20T06:06:20.536Z",
+                    "modified_at": "2023-05-23T07:02:52.365Z",
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "mirage-dev-l61-6",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac779bf4f4fc95",
+                        "verified": true,
+                        "name": "mirage.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c6cee5c1a02cd19864f26f5"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basePath": "/",
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c6f97e22a50c95538fc09bc",
+                    "token": "dcb99060-366b-11e9-b5e2-b53b3a3f5d3e",
+                    "name": "brandon",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [
+                        {
+                            "name": "user_id",
+                            "value": "10598254",
+                            "_id": "5c6f97e22a50c916e5fc09bd"
+                        }
+                    ],
+                    "__v": 5,
+                    "description": "",
+                    "is_active": true,
+                    "cache_ttl": -1,
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac772e15f4fc96",
+                            "verified": false,
+                            "name": "",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "dcb99060-366b-11e9-b5e2-b53b3a3f5d3e",
+                            "created_at": "2019-02-22T06:34:10.406Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "VKjcKC8pd",
+                            "created_at": "2023-05-05T05:52:10.508Z"
+                        }
+                    ],
+                    "created_at": "2019-02-22T06:34:10.406Z",
+                    "modified_at": "2023-05-23T07:02:52.414Z",
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "brandon-qjc-42",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac772e15f4fc96",
+                        "verified": false,
+                        "name": "",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c6f97e22a50c95538fc09bc"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": true
+                    },
+                    "_id": "5c77f46e335865c067c95340",
+                    "token": "ba1cca30-3b67-11e9-9d27-977cb667aceb",
+                    "name": "Vxzcvzxcv",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [],
+                    "__v": 5,
+                    "description": "",
+                    "is_active": true,
+                    "banner": {
+                        "secure_url": ""
+                    },
+                    "cache_ttl": -1,
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "channel_type": "fynd",
+                    "redirections": [],
+                    "company_id": 873,
+                    "internal": false,
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac773abcf4fc99",
+                            "verified": true,
+                            "name": "poiuoiu.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "ba1cca30-3b67-11e9-9d27-977cb667aceb",
+                            "created_at": "2019-02-28T14:47:10.163Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "dERhaRDIc",
+                            "created_at": "2023-05-05T05:54:37.129Z"
+                        }
+                    ],
+                    "created_at": "2019-02-28T14:47:10.163Z",
+                    "modified_at": "2023-05-23T07:02:52.465Z",
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "vxzcvzxcv-03c-55",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac773abcf4fc99",
+                        "verified": true,
+                        "name": "poiuoiu.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c77f46e335865c067c95340"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c78f5b87c240309b8f3a863",
+                    "token": "15980930-3c01-11e9-be50-5d00979c006f",
+                    "name": "Kd Johar",
+                    "description": "testing app",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [],
+                    "__v": 3,
+                    "cache_ttl": -1,
+                    "is_active": true,
+                    "banner": {
+                        "secure_url": "https://res.cloudinary.com/jkvora/image/upload/v1563960780/media/store/banner/imkqcdpkjmp6muqiacyo.png"
+                    },
+                    "logo": {
+                        "secure_url": "https://hdn-1.addsale.com/addsale/company/873/applications/5c78f5b87c240309b8f3a863/application/pictures/free-logo/original/PfS6AbCsl-Kd-Johar.png"
+                    },
+                    "app_type": "default",
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac7744b5f4fc9a",
+                            "verified": true,
+                            "name": "kdjohar.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "15980930-3c01-11e9-be50-5d00979c006f",
+                            "created_at": "2019-03-01T09:04:56.642Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "2hKNU5UE0",
+                            "created_at": "2023-05-05T05:56:10.627Z"
+                        }
+                    ],
+                    "created_at": "2019-03-01T09:04:56.642Z",
+                    "modified_at": "2023-05-23T07:02:52.483Z",
+                    "mobile_logo": {
+                        "secure_url": "https://hdn-1.addsale.com/addsale/company/873/applications/5c78f5b87c240309b8f3a863/application/pictures/free-logo/original/TRypJvvd0-Kd-Johar.png"
+                    },
+                    "favicon": {
+                        "secure_url": ""
+                    },
+                    "slug": "kd-johar-rbh-44",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac7744b5f4fc9a",
+                        "verified": true,
+                        "name": "kdjohar.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c78f5b87c240309b8f3a863"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c7c230176cf970a33705498",
+                    "token": "d6e57d80-3de5-11e9-b4d8-8d5ef177ee6c",
+                    "name": "993984",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [],
+                    "__v": 3,
+                    "description": "",
+                    "cache_ttl": -1,
+                    "is_active": true,
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac77be3cf4fc9b",
+                            "verified": true,
+                            "name": "d0d35711-d8f0-48fd-8434-40706116638a.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "d6e57d80-3de5-11e9-b4d8-8d5ef177ee6c",
+                            "created_at": "2019-03-03T18:54:57.368Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "CP1mDxYJz",
+                            "created_at": "2023-05-05T05:56:46.434Z"
+                        }
+                    ],
+                    "created_at": "2019-03-03T18:54:57.368Z",
+                    "modified_at": "2023-05-23T07:02:52.497Z",
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "993984-eu4-65",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac77be3cf4fc9b",
+                        "verified": true,
+                        "name": "d0d35711-d8f0-48fd-8434-40706116638a.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c7c230176cf970a33705498"
+                },
+                {
+                    "website": {
+                        "enabled": true,
+                        "basePath": "/",
+                        "basepath": "/"
+                    },
+                    "cors": {
+                        "domains": []
+                    },
+                    "auth": {
+                        "enabled": false
+                    },
+                    "_id": "5c7d102b53495a796b512364",
+                    "token": "337fde90-3e73-11e9-91d9-e50de7e1ea19",
+                    "name": "testapp-pratik",
+                    "description": "test",
+                    "owner": "5ee7770fae42c3c2687884b5",
+                    "meta": [
+                        {
+                            "_id": "5c7d102b53495a31e0512365",
+                            "name": "user_id",
+                            "value": "945"
+                        }
+                    ],
+                    "__v": 4,
+                    "is_active": true,
+                    "cache_ttl": -1,
+                    "channel_type": "fynd",
+                    "company_id": 873,
+                    "internal": false,
+                    "redirections": [],
+                    "domains": [
+                        {
+                            "_id": "5ec2536328ac77332bf4fc9c",
+                            "verified": true,
+                            "name": "433d7022-75e7-4ac1-94f7-ac9579796192.hostx1.de",
+                            "is_primary": true,
+                            "is_default": true,
+                            "is_shortlink": true
+                        }
+                    ],
+                    "tokens": [
+                        {
+                            "token": "337fde90-3e73-11e9-91d9-e50de7e1ea19",
+                            "created_at": "2019-03-04T11:46:51.769Z"
+                        },
+                        {
+                            "created_by": "370bb338bc6e3a02bd8af702",
+                            "token": "h1ZMe62nW",
+                            "created_at": "2023-05-05T06:05:34.102Z"
+                        }
+                    ],
+                    "created_at": "2019-03-04T11:46:51.769Z",
+                    "modified_at": "2023-05-23T07:02:52.520Z",
+                    "logo": {
+                        "secure_url": ""
+                    },
+                    "mobile_logo": {
+                        "secure_url": ""
+                    },
+                    "slug": "testapp-pratik-gxl-93",
+                    "mode": "live",
+                    "status": "active",
+                    "domain": {
+                        "_id": "5ec2536328ac77332bf4fc9c",
+                        "verified": true,
+                        "name": "433d7022-75e7-4ac1-94f7-ac9579796192.hostx1.de",
+                        "is_primary": true,
+                        "is_default": true,
+                        "is_shortlink": true
+                    },
+                    "id": "5c7d102b53495a796b512364"
+                }
+            ],
+            "success": true
+        }
+    },
+    "formData": {
+        "name": "",
+        "slug_fields": [],
+        "slug_values": {
+            "channel": [],
+            "company": [],
+            "brand": [],
+            "location": [],
+            "affiliate": []
+        },
+        "type_of_request": "create_entity",
+        "rule_start_date": null,
+        "rule_end_date": null,
+        "settle_cycle_period": {
+            "mall": 0,
+            "warehouse": 0,
+            "high_street": 0
+        },
+        "settlement_type": "weekly",
+        "transactional_components": {
+            "is_tp": false,
+            "defaults": {
+                "aggregate_liability": 40
+            },
+            "conditional": {
+                "cancellation_fee": {
+                    "on": "Bag",
+                    "condition": "30"
+                }
+            },
+            "source_components": [
+                "quantity",
+                "price_marked",
+                "value_of_good"
+            ],
+            "variable_conditional": {
+                "commission": {
+                    "slab": {
+                        "cycle": "weekly",
+                        "expression": "No condition, only digits : 0",
+                        "expression_variable_used": [
+                            "net_sales"
+                        ]
+                    },
+                    "condition": {
+                        "whichever_is_lower": false,
+                        "whichever_is_higher": true
+                    }
+                }
+            },
+            "transaction_component": {
+                "commission": "e74f7b21-cc2d-4c75-b2f8-53c2fd284796",
+                "cancellation_fee": "8827cfd7-afbe-4f23-b3bc-531f6824eb8d",
+                "aggregate_liability": "189c6b1a-a8a4-4645-aa0f-b2876947f602"
+            }
+        }
+    }
+}

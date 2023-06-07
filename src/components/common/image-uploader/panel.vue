@@ -46,6 +46,8 @@
                 backgroundClassname="image-cropper__background"
                 imageClassname="image-cropper__image"
                 @change="$cropperChange"
+                :maxWidth="maxCropperWidth"
+                :maxHeight="maxCropperHeight"
             ></cropper>
         </div>
         <div
@@ -86,7 +88,7 @@
                 placeholder="Enter image URL"
                 :value="value"
                 @blur="$onInpurURLChange"
-                @keyup.enter="$onInpurURLChange"
+                @keyup.enter="$event.target.blur()"
                 @error="$emit('input', '')"
             ></nitrozen-input>
             <span class="meta-info"
@@ -164,6 +166,15 @@ export default {
         isHDNImage: {
             type: Boolean,
             default: true
+        },
+         // state to manage the cropper rectangle 
+         maxCropperWidth: {
+            type: Number,
+            default: 100
+        },
+        maxCropperHeight: {
+            type: Number,
+            default: 100
         }
     },
     directives: {
@@ -267,14 +278,15 @@ export default {
                         return;
                     }
                     // For external urls to bypass CORS issue
-                    ApiService.get(`${GrindorService.getProxyURL()}?url=${this.value}`,
-                    {},
-                    { responseType: 'arraybuffer' }).then((res) => {
-                        console.log('in response',res, typeof(res.data))
-                        const buffer = Buffer.from(res.data)
-                        const base64String = buffer.toString('base64');
-                        this.src = `data:image/png;base64,${base64String}`;
-                    });
+                    ApiService.get(`${GrindorService.getProxyURL()}`,
+                        {
+                            params: { url: this.value }
+                        },
+                        { responseType: 'arraybuffer' }).then((res) => {
+                            const buffer = Buffer.from(res.data)
+                            const base64String = buffer.toString('base64');
+                            this.src = `data:image/png;base64,${base64String}`;
+                        });
                 } else {
                     this.src = this.value;
                 }
@@ -302,7 +314,6 @@ export default {
                     if (
                         !(aspectQ <= imageQ + 0.01 && aspectQ >= imageQ - 0.01)
                     ) {
-                        console.log(aspectQ, imageQ);
                         this.$snackbar.global.showError(
                             `Aspect ratio not matching with ${this.aspectRatio}`
                         );
@@ -392,8 +403,9 @@ export default {
             }
         },
         $onInpurURLChange(e) {
-            this.imageURL=e.target.value;
-            this.$emit('input', e.target.value);
+            let userInput = e.target.value;
+            this.imageURL = userInput
+            this.$emit('input', userInput);
         },
         $imagePreviewError(e) {
             this.$snackbar.global.showError('Not a valid image URL');
